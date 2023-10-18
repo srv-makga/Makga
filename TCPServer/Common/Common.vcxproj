@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="acceptor_base.h" />
+    <ClInclude Include="command_line.h" />
+    <ClInclude Include="common_const.h" />
+    <ClInclude Include="connector_base.h" />
+    <ClInclude Include="Flatbuffer\ClientToServerPid_generated.h" />
+    <ClInclude Include="Flatbuffer\ClientToServerTable_generated.h" />
+    <ClInclude Include="Flatbuffer\ServerToCommunityPid_generated.h" />
+    <ClInclude Include="Flatbuffer\ServerToCommunityTable_generated.h" />
+    <ClInclude Include="Flatbuffer\ServerToDBAgentPid_generated.h" />
+    <ClInclude Include="Flatbuffer\ServerToDBAgentTable_generated.h" />
+    <ClInclude Include="Flatbuffer\ServerToGlobalPid_generated.h" />
+    <ClInclude Include="Flatbuffer\ServerToGlobalTable_generated.h" />
+    <ClInclude Include="Flatbuffer\ServerToWorldPid_generated.h" />
+    <ClInclude Include="Flatbuffer\ServerToWorldTable_generated.h" />
+    <ClInclude Include="json_saver.h" />
+    <ClInclude Include="manager_base.hpp" />
+    <ClInclude Include="common_type.h" />
+    <ClInclude Include="community_base.h" />
+    <ClInclude Include="community_member_base.h" />
+    <ClInclude Include="data_table.h" />
+    <ClInclude Include="data_struct.h" />
+    <ClInclude Include="event_timer.h" />
+    <ClInclude Include="FlatBuffer.h" />
+    <ClInclude Include="Flatbuffer\CommonEnum_generated.h" />
+    <ClInclude Include="Flatbuffer\CommonTable_generated.h" />
+    <ClInclude Include="Flatbuffer\ResultType_generated.h" />
+    <ClInclude Include="Flatbuffer\Version_generated.h" />
+    <ClInclude Include="inventory_base.h" />
+    <ClInclude Include="inventory_controller.h" />
+    <ClInclude Include="io_buffer.h" />
+    <ClInclude Include="iocp_handler.h" />
+    <ClInclude Include="job_handler.h" />
+    <ClInclude Include="net_actor.h" />
+    <ClInclude Include="net_handler.h" />
+    <ClInclude Include="packet.h" />
+    <ClInclude Include="config_base.h" />
+    <ClInclude Include="common_header.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="common_struct.h" />
+    <ClInclude Include="ranking_manager.h" />
+    <ClInclude Include="server_base.h" />
+    <ClInclude Include="session_base.h" />
+    <ClInclude Include="thread_base.h" />
+    <ClInclude Include="thread_manager.h" />
+    <ClInclude Include="utility.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="acceptor_base.cpp" />
+    <ClCompile Include="config_base.cpp" />
+    <ClCompile Include="connector_base.cpp" />
+    <ClCompile Include="data_table.cpp" />
+    <ClCompile Include="event_timer.cpp" />
+    <ClCompile Include="io_buffer.cpp" />
+    <ClCompile Include="iocp_handler.cpp" />
+    <ClCompile Include="job_handler.cpp" />
+    <ClCompile Include="json_saver.cpp" />
+    <ClCompile Include="packet.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="server_base.cpp" />
+    <ClCompile Include="ranking_manager.cpp" />
+    <ClCompile Include="session_base.cpp" />
+    <ClCompile Include="thread_base.cpp" />
+    <ClCompile Include="thread_manager.cpp" />
+    <ClCompile Include="utility.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{7589475C-0CE8-4BF6-85D8-4A168C3BB67E}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>CommonLib</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Common</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <TargetName>$(ProjectName)_d</TargetName>
+    <OutDir>$(SolutionDir)Bin\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
+    <PublicIncludeDirectories>
+    </PublicIncludeDirectories>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Bin\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <PublicIncludeDirectories>$(SolutionDir)CommonLib</PublicIncludeDirectories>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>_CONSOLE;_CRT_SECURE_NO_WARNINGS;_WIN64;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <SupportJustMyCode>false</SupportJustMyCode>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\mariadb_cpp\include;$(SolutionDir)libs\flatbuffer\include;$(SolutionDir)libs\rapidjson\include;$(SolutionDir)libs\glog\include;$(SolutionDir)libs\cppformat\include;$(SolutionDir)libs\hiredis\include;$(SolutionDir)Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <UseFullPaths>false</UseFullPaths>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <DisableSpecificWarnings>4819;26812</DisableSpecificWarnings>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <AdditionalDependencies>Core_d.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>_CONSOLE;_CRT_SECURE_NO_WARNINGS;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\mariadb_cpp\include;$(SolutionDir)libs\flatbuffer\include;$(SolutionDir)libs\rapidjson\include;$(SolutionDir)libs\glog\include;$(SolutionDir)libs\cppformat\include;$(SolutionDir)libs\hiredis\include;$(SolutionDir)Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <UseFullPaths>false</UseFullPaths>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <DisableSpecificWarnings>4819;26812</DisableSpecificWarnings>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Core.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

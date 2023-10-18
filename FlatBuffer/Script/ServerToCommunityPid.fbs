@@ -1,0 +1,22 @@
+include "CommonTable.fbs";
+
+attribute "priority";
+
+namespace fb.community;
+
+// ######################################################
+enum SendPid : uint32
+{
+	None = 0,
+	Reg,
+	Ping,
+}
+
+
+// ######################################################
+enum RecvPid : uint32
+{
+	None = 0,
+	Reg,
+	Ping,
+}

@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="dbagent.cpp" />
+    <ClCompile Include="setting_dbagent.cpp" />
+    <ClCompile Include="server_dbagent.cpp" />
+    <ClCompile Include="data_manager.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="session_server.cpp">
+      <Filter>network\session</Filter>
+    </ClCompile>
+    <ClCompile Include="acceptor_server.cpp">
+      <Filter>network\acceptor</Filter>
+    </ClCompile>
+    <ClCompile Include="session_server_proc.cpp">
+      <Filter>network\session</Filter>
+    </ClCompile>
+    <ClCompile Include="database_client.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="database_handler.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="proc_database.cpp">
+      <Filter>proc</Filter>
+    </ClCompile>
+    <ClCompile Include="database_thread.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="dbagent_header.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="setting_dbagent.h" />
+    <ClInclude Include="config_dbagent.h" />
+    <ClInclude Include="server_dbagent.h" />
+    <ClInclude Include="data_manager.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="session_server.h">
+      <Filter>network\session</Filter>
+    </ClInclude>
+    <ClInclude Include="acceptor_server.h">
+      <Filter>network\acceptor</Filter>
+    </ClInclude>
+    <ClInclude Include="database_client.h">
+      <Filter>database</Filter>
+    </ClInclude>
+    <ClInclude Include="database_handler.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="database_thread.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{e6c11794-9e74-40df-a543-a2ac9b128760}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network">
+      <UniqueIdentifier>{0ce3b029-7321-4fe9-9fbf-1f272ff1194d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\acceptor">
+      <UniqueIdentifier>{31c7573a-9ba7-45ba-8937-432a52da0427}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\connector">
+      <UniqueIdentifier>{0b2dc8a3-3247-49da-8f33-18f729eb5bc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{e7876ab6-4024-4093-b475-c3a1811900e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\session">
+      <UniqueIdentifier>{c95d4abe-01b6-4679-a9b6-60adef80b1f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="database">
+      <UniqueIdentifier>{4ab2ed25-7cba-4216-a430-e4b4039e4122}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thread">
+      <UniqueIdentifier>{ffed5fb2-0575-4583-89e3-1d94d2709693}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="proc">
+      <UniqueIdentifier>{6f131ccd-75a8-4c9b-b323-a5ae39842c2f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

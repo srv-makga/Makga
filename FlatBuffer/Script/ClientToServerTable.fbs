@@ -1,0 +1,47 @@
+include "CommonTable.fbs";
+
+attribute "priority";
+
+namespace fb.server;
+
+
+// ###########################
+//
+//	FBP = flatbuffer protocol
+//
+//  C = Client
+//	S = Server
+//	WS = World Server
+//	GS = Game Server
+//	DA = DBAgent Server
+//	CS = Community Server
+//	GB = Global Server
+//	LS = Login Server // 웹서버가 없을 경우..... 
+//
+//	data types
+//	8  bit: int8 uint8 bool
+//	16 bit: int16 uint16
+//	32 bit: int32 uint32 float
+//	64 bit: int64 uint64 double
+//
+// ###########################
+
+
+// ######################################################
+// Send
+table Send_LoginAccount
+{
+	accountId:string;
+	connectKey:uint32;	// 서버 이동시 필요한 키
+}
+
+
+// ############################################################################################################
+// ############################################################################################################
+// ############################################################################################################
+// ############################################################################################################
+// Recv
+table Recv_LoginAccount
+{
+	result:eResult;
+}

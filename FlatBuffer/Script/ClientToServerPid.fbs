@@ -1,0 +1,107 @@
+include "CommonTable.fbs";
+
+attribute "priority";
+
+namespace fb.server;
+
+enum SendPid : uint32
+{
+	None = 0,
+	
+	LoginAccount, // Client -> login
+	
+	// -> game
+	LoginAuth,
+	LoginSecurity, // 2차 비밀번호 or OTP
+
+	////////// character //////////
+	CharacterCreate,
+	CharacterDelete,
+	CharacterSelect,
+	CharacterLogout,
+
+	CharacterMove,
+	CharacterAngle,
+
+	CharacterResurrection,
+	
+	////////// actor //////////
+	ActorInteractionStart,
+	ActorInteractionEnd,
+	ActorInteractionCancel,
+
+	////////// item //////////
+	item_destroy,
+	item_use,
+	item_make,
+	item_reinforce,
+	item_enchant,
+	item_disassemble,
+	item_repair,
+	item_skin_change,
+	
+	////////// skill //////////
+	skill_spell_start,
+	skill_spell_end,
+	
+	skill_learn,
+	skill_casting,
+	skill_cancel,			// 
+	
+	////////// shop //////////
+	shop_buy,
+	shop_sell,
+	
+	////////// quest //////////
+	quest_accept,
+	quest_cancel,
+	quest_reward,
+	
+	////////// premium //////////
+	premium_buy,
+	premium_refund,
+	premium_confirm,
+	
+	////////// party //////////
+	party_create,
+	party_join,
+	party_leave,
+	party_invite,
+	party_invite_answer,
+	party_deport,
+	party_update,
+	
+	////////// guild //////////
+	guild_create,
+	guild_leave,
+	guild_deport,
+	guild_option_change,
+	guild_member_invite,
+	guild_member_invite_answer,
+	guild_member_grade_change,
+	guild_warehouse_open,
+	guild_warehouse_close,
+	
+	////////// friend //////////
+	friend_add,
+	friend_accept,
+	friend_remove,
+	
+	////////// instance //////////
+	instance_enter,
+	instance_cutscean_skip,
+}
+
+
+// ######################################################
+// recv pid
+
+/// [ENUM] (C<-GS) Recv Packet id
+enum RecvPid : uint32
+{
+	None = 0,
+	
+	Connect,
+	
+	Login,
+}

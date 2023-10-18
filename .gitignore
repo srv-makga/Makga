@@ -1,0 +1,14 @@
+*.cpp
+x64
+*.exe
+*.bat
+*.pdb
+*.user
+3rdParty/
+ART/
+FlatBuffer/Bin/
+FlatBuffer/Output/
+FlatBuffer/Template/
+TCPServer/Bin/
+TCPServer/libs/
+TCPServer/.vs/

@@ -1,0 +1,28 @@
+include "CommonEnum.fbs";
+include "ResultType.fbs";
+
+attribute "priority";
+
+namespace fb;
+
+table ServerInfo
+{
+	server_id:int32;
+	ip:string;
+	port:[uint16];
+}
+
+table Vector3
+{
+	x:float;
+	y:float;
+	z:float;
+}
+
+table Position
+{
+	x:float;
+	y:float;
+	z:float;
+	direction:float;
+}

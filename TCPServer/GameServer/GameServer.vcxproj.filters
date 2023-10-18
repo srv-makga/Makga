@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="game.cpp" />
+    <ClCompile Include="acceptor_user.cpp">
+      <Filter>network\acceptor</Filter>
+    </ClCompile>
+    <ClCompile Include="server_game.cpp" />
+    <ClCompile Include="actor_character.cpp">
+      <Filter>actor\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="item_equip.cpp">
+      <Filter>system\item\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="item_stack.cpp">
+      <Filter>system\item\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="terrain.cpp">
+      <Filter>system\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="data_manager.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="inventory_account.cpp">
+      <Filter>system\inventory\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="item_property.cpp">
+      <Filter>system\item\property</Filter>
+    </ClCompile>
+    <ClCompile Include="item_base.cpp">
+      <Filter>system\item</Filter>
+    </ClCompile>
+    <ClCompile Include="actor_monster.cpp">
+      <Filter>actor\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="actor_manager.cpp">
+      <Filter>actor</Filter>
+    </ClCompile>
+    <ClCompile Include="actor_npc.cpp">
+      <Filter>actor\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="actor_gadget.cpp">
+      <Filter>actor\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="setting_game.cpp" />
+    <ClCompile Include="user.cpp">
+      <Filter>user</Filter>
+    </ClCompile>
+    <ClCompile Include="connector_community.cpp">
+      <Filter>network\connector</Filter>
+    </ClCompile>
+    <ClCompile Include="connector_dbagent.cpp">
+      <Filter>network\connector</Filter>
+    </ClCompile>
+    <ClCompile Include="connector_world.cpp">
+      <Filter>network\connector</Filter>
+    </ClCompile>
+    <ClCompile Include="session_community.cpp">
+      <Filter>network\session</Filter>
+    </ClCompile>
+    <ClCompile Include="session_dbagent.cpp">
+      <Filter>network\session</Filter>
+    </ClCompile>
+    <ClCompile Include="session_user.cpp">
+      <Filter>network\session</Filter>
+    </ClCompile>
+    <ClCompile Include="session_world.cpp">
+      <Filter>network\session</Filter>
+    </ClCompile>
+    <ClCompile Include="user_proc.cpp">
+      <Filter>user</Filter>
+    </ClCompile>
+    <ClCompile Include="proc_world.cpp">
+      <Filter>proc</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="game_header.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="config_game.h" />
+    <ClInclude Include="actor.h">
+      <Filter>actor</Filter>
+    </ClInclude>
+    <ClInclude Include="base_ai.h">
+      <Filter>actor\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="ai_aggressive.h">
+      <Filter>actor\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="ai_non_aggressive.h">
+      <Filter>actor\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="acceptor_user.h">
+      <Filter>network\acceptor</Filter>
+    </ClInclude>
+    <ClInclude Include="server_game.h" />
+    <ClInclude Include="ai_boss.h">
+      <Filter>actor\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="data_manager.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="actor_gadget.h">
+      <Filter>actor\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="actor_character.h">
+      <Filter>actor\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="actor_monster.h">
+      <Filter>actor\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="actor_npc.h">
+      <Filter>actor\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory_account.h">
+      <Filter>system\inventory\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory_equip.h">
+      <Filter>system\inventory\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="item_base.h">
+      <Filter>system\item</Filter>
+    </ClInclude>
+    <ClInclude Include="item_equip.h">
+      <Filter>system\item\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="item_stack.h">
+      <Filter>system\item\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="terrain.h">
+      <Filter>system\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory_premium.h">
+      <Filter>system\inventory\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory_guild.h">
+      <Filter>system\inventory\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="item_property.h">
+      <Filter>system\item\property</Filter>
+    </ClInclude>
+    <ClInclude Include="item_manager.h">
+      <Filter>system\item\property</Filter>
+    </ClInclude>
+    <ClInclude Include="actor_manager.h">
+      <Filter>actor</Filter>
+    </ClInclude>
+    <ClInclude Include="setting_game.h" />
+    <ClInclude Include="user_manager.h">
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="user.h">
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="connector_community.h">
+      <Filter>network\connector</Filter>
+    </ClInclude>
+    <ClInclude Include="connector_dbagent.h">
+      <Filter>network\connector</Filter>
+    </ClInclude>
+    <ClInclude Include="connector_world.h">
+      <Filter>network\connector</Filter>
+    </ClInclude>
+    <ClInclude Include="session_community.h">
+      <Filter>network\session</Filter>
+    </ClInclude>
+    <ClInclude Include="session_dbagent.h">
+      <Filter>network\session</Filter>
+    </ClInclude>
+    <ClInclude Include="session_user.h">
+      <Filter>network\session</Filter>
+    </ClInclude>
+    <ClInclude Include="session_world.h">
+      <Filter>network\session</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{3fabf4ee-704e-469c-9fd9-a1a4cd2d7a48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="actor">
+      <UniqueIdentifier>{93a2d064-2783-4f15-b366-b805d63d0327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{40724948-95ec-44b1-93a8-f8291b9db643}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="actor\ai">
+      <UniqueIdentifier>{1cd1184a-0e1e-44c3-b8eb-2946b283b808}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="actor\detail">
+      <UniqueIdentifier>{368bf74e-324e-4e93-bad3-22a2f05ff196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system">
+      <UniqueIdentifier>{3113fdd0-335b-4803-841c-7515460ed753}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\item">
+      <UniqueIdentifier>{c80ca8d9-1f88-402b-ab3b-0e9bdcc4c673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\inventory">
+      <UniqueIdentifier>{9f416f24-19cf-4022-aa9b-3429f755b9cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\inventory\detail">
+      <UniqueIdentifier>{9f761eb6-9302-4e03-bbda-be30ea30234d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\item\detail">
+      <UniqueIdentifier>{a82d67a8-9533-4e8d-91aa-e5c13935ed76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\terrain">
+      <UniqueIdentifier>{011292e2-f810-49d1-8135-14313d7cf4df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\quest">
+      <UniqueIdentifier>{cb6a9120-0ee6-4fb6-b682-79585d97ffd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\terrain\grid">
+      <UniqueIdentifier>{32310f5e-fe36-4c8e-82c3-def9377b825b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\item\property">
+      <UniqueIdentifier>{ed360acc-a1db-47eb-acc5-3569430b6310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network">
+      <UniqueIdentifier>{9a9e79a9-d5dc-43d3-8def-7e40db955c74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\acceptor">
+      <UniqueIdentifier>{21cb9cf7-515a-4516-99f1-32a25bce7d36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\connector">
+      <UniqueIdentifier>{c11779a4-0fd3-4bc2-9d97-3653071bf128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="user">
+      <UniqueIdentifier>{e46e772a-1350-4259-b9f6-858b476f9107}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\session">
+      <UniqueIdentifier>{0bd36375-4a67-4659-b125-2a0af7f65de7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="proc">
+      <UniqueIdentifier>{e20b168b-6c51-4d4e-ac0d-b563d8b1d34d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

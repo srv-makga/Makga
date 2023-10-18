@@ -1,0 +1,24 @@
+컨벤션
+
+네이밍
+	기본 : 스네이크
+
+접두어
+	멤버 변수 : 접두어 (m_) + 기본
+		ex) m_member_name
+	정적 변수 : 접두어 (s_) + 기본
+		ex) s_static_name
+	상수 : 접두어 (k_) + 기본
+		ex) k_const_name
+	전역 변수 : 접두어 (g_) + 기본
+		ex) g_global_name
+
+
+헤더와 구현부가 분리 => .h / .cpp
+헤더와 구현부가 하나 => .hpp
+
+
+
+Push <-> Pop
+Initialize <-> Finalize
+Creare <-> Destroy

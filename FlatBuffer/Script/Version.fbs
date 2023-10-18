@@ -1,0 +1,11 @@
+attribute "priority"; 
+namespace Net; 
+
+enum ProtocolVersion : int  
+{  
+PROTOCOL_VER = 1 ,  
+}  
+enum BuildVersion : int  
+{  
+BUILD_VER = 1 ,  
+}  

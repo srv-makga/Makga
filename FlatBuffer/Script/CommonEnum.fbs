@@ -1,0 +1,78 @@
+include "Version.fbs";
+
+attribute "priority";
+
+namespace fb;
+
+enum eServerType : int
+{
+	None = -3,
+	All,
+	User,
+	Global = 0,
+	Login,
+	DBAgent,
+	World,
+	Community,
+	InstancePool,
+	Instance,
+	Game,
+	Web,
+}
+
+enum eDBType : int
+{
+	Account,
+	Game,
+	Mail,
+	Ranking,
+}
+
+enum eRedisType : int
+{
+	Cache,
+	Ranking,
+}
+
+enum eActorType : int
+{
+	None = -1,
+	Character,
+	Monster,
+	Object,
+	Npc,
+}
+
+enum eItemType : int
+{
+	None,
+	Weapon,		// 무기
+	Helm,				// 투구
+	Armor,			// 갑옷
+	Belt,				// 벨트
+	Gloves,			// 장갑
+	Shoes,			// 신발
+	Accessories,	// 악세사리
+}
+
+enum eCoordAttribute : int
+{
+	None = 0,
+	Block,
+}
+
+enum eTerrrainTytpe : int
+{
+	City,
+	Filed,
+	Instance,
+}
+
+// bit flag
+enum eMapAttribute : int
+{
+	None = 0,
+	NotTeleport = 0x0001,
+	NotPvp = 0x0002,
+	NotSkill = 0x0004,
+}

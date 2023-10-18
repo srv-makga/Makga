@@ -1,0 +1,357 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="buffer_ring.cpp">
+      <Filter>buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="string_function.cpp">
+      <Filter>string</Filter>
+    </ClCompile>
+    <ClCompile Include="crypto_rsa.cpp">
+      <Filter>crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="RapidJson.cpp">
+      <Filter>string\json</Filter>
+    </ClCompile>
+    <ClCompile Include="rio_service.cpp">
+      <Filter>network\proactor\rio</Filter>
+    </ClCompile>
+    <ClCompile Include="buffer_pull.cpp">
+      <Filter>buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="db_client_maria.cpp">
+      <Filter>database\maria</Filter>
+    </ClCompile>
+    <ClCompile Include="logger_glog.h">
+      <Filter>logger\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="iocp_service.cpp">
+      <Filter>network\proactor\iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="thread_group.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="thread.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="thread_pool.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="ahocorasick.cpp">
+      <Filter>algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="socket_base.cpp">
+      <Filter>network\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="socket_tcp.cpp">
+      <Filter>network\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="socket_udp.cpp">
+      <Filter>network\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="datetime.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="endpoint.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="type_convert.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="redis_reply.cpp">
+      <Filter>database\redis</Filter>
+    </ClCompile>
+    <ClCompile Include="redis_connector.cpp">
+      <Filter>database\redis</Filter>
+    </ClCompile>
+    <ClCompile Include="db_connector.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="db_connector_maria.cpp">
+      <Filter>database\maria</Filter>
+    </ClCompile>
+    <ClCompile Include="db_statement_maria.cpp">
+      <Filter>database\maria</Filter>
+    </ClCompile>
+    <ClCompile Include="db_connector_mysql.cpp">
+      <Filter>database\mysql</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="thread.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="thread_group.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="thread_pool.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="iocp_service.h">
+      <Filter>network\proactor\iocp</Filter>
+    </ClInclude>
+    <ClInclude Include="net_service.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="net_header.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="observer.hpp">
+      <Filter>pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="socket_base.h">
+      <Filter>network\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="buffer_ring.h">
+      <Filter>buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="singleton.hpp">
+      <Filter>pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="string.hpp">
+      <Filter>string</Filter>
+    </ClInclude>
+    <ClInclude Include="string_function.h">
+      <Filter>string</Filter>
+    </ClInclude>
+    <ClInclude Include="queue_iocp.hpp">
+      <Filter>queue</Filter>
+    </ClInclude>
+    <ClInclude Include="queue_swap.hpp">
+      <Filter>queue</Filter>
+    </ClInclude>
+    <ClInclude Include="queue_safety.hpp">
+      <Filter>queue</Filter>
+    </ClInclude>
+    <ClInclude Include="datetime.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="random.hpp">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="lock.h">
+      <Filter>lock</Filter>
+    </ClInclude>
+    <ClInclude Include="vector2.hpp">
+      <Filter>coord</Filter>
+    </ClInclude>
+    <ClInclude Include="vector3.hpp">
+      <Filter>coord</Filter>
+    </ClInclude>
+    <ClInclude Include="crypto_interface.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="crypto_custom.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="crypto_rsa.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="RapidJson.h">
+      <Filter>string\json</Filter>
+    </ClInclude>
+    <ClInclude Include="event.hpp">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="dispatcher.h" />
+    <ClInclude Include="rio_service.h">
+      <Filter>network\proactor\rio</Filter>
+    </ClInclude>
+    <ClInclude Include="memory_chunk.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="throw_exception.hpp">
+      <Filter>error</Filter>
+    </ClInclude>
+    <ClInclude Include="socket_header.h">
+      <Filter>network\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="socket_tcp.h">
+      <Filter>network\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="core_header.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="core_type.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="core_struct.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="db_connector.h">
+      <Filter>database</Filter>
+    </ClInclude>
+    <ClInclude Include="buffer_pull.h">
+      <Filter>buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="gmp.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="db_statement.h">
+      <Filter>database</Filter>
+    </ClInclude>
+    <ClInclude Include="db_client_maria.h">
+      <Filter>database\maria</Filter>
+    </ClInclude>
+    <ClInclude Include="BrainTree.h">
+      <Filter>ai</Filter>
+    </ClInclude>
+    <ClInclude Include="socket_udp.h">
+      <Filter>network\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="epoll_service.h">
+      <Filter>network\proactor\epoll</Filter>
+    </ClInclude>
+    <ClInclude Include="logger.h">
+      <Filter>logger</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiIndex.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniDump.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="db_query.h">
+      <Filter>database</Filter>
+    </ClInclude>
+    <ClInclude Include="ahocorasick.h">
+      <Filter>algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="io_context.hpp">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="sorted_container.h" />
+    <ClInclude Include="core_error.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="queue_interface.h">
+      <Filter>queue</Filter>
+    </ClInclude>
+    <ClInclude Include="endpoint.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="memory_pool.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="object_pool.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="buffer_base.h">
+      <Filter>buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="json_object.hpp">
+      <Filter>string\json</Filter>
+    </ClInclude>
+    <ClInclude Include="type_convert.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="redis_connector.h">
+      <Filter>database\redis</Filter>
+    </ClInclude>
+    <ClInclude Include="redis_reply.h">
+      <Filter>database\redis</Filter>
+    </ClInclude>
+    <ClInclude Include="db_connector_maria.h">
+      <Filter>database\maria</Filter>
+    </ClInclude>
+    <ClInclude Include="db_statement_maria.h">
+      <Filter>database\maria</Filter>
+    </ClInclude>
+    <ClInclude Include="db_connector_mssql.h">
+      <Filter>database\mssql</Filter>
+    </ClInclude>
+    <ClInclude Include="db_connector_mysql.h">
+      <Filter>database\mysql</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{e280f5b6-25d4-4e9b-a0b3-cd85d59c6414}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="coord">
+      <UniqueIdentifier>{441fb011-9558-41bf-9256-6f0fd89e70d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="crypto">
+      <UniqueIdentifier>{7087e329-4d9c-4692-b1a8-4500f0136b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="database">
+      <UniqueIdentifier>{586085a2-27ad-4bb5-8c06-dda0f7cd97ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="error">
+      <UniqueIdentifier>{c4d383d0-38de-4300-a9aa-362b2363e82c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lock">
+      <UniqueIdentifier>{013219da-aaac-4408-ab60-bd87cd81f739}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="memory">
+      <UniqueIdentifier>{b18b2eef-05fe-4ee0-a3a6-87b117a889fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network">
+      <UniqueIdentifier>{ba64f97f-0484-4e9f-a301-4bb91184f122}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\socket">
+      <UniqueIdentifier>{30e69989-a20d-4c57-b2fe-ae52a472de05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pattern">
+      <UniqueIdentifier>{c4136383-ea94-4198-8355-2295083ea588}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="string">
+      <UniqueIdentifier>{454283f1-dabe-457e-8859-88b45f020492}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thread">
+      <UniqueIdentifier>{579706c1-e37a-40fc-ac2f-63fa3079f5db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="buffer">
+      <UniqueIdentifier>{3f19a87d-88be-4335-ab53-1437838352c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="queue">
+      <UniqueIdentifier>{b86e114d-11f5-409b-abbe-ebef3d2582cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility">
+      <UniqueIdentifier>{2a1284d9-cf45-4ab1-8a8e-12e42ba97a29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="database\maria">
+      <UniqueIdentifier>{40cb0d8c-3a9d-4ed9-98ec-682ba54ef1e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="database\mssql">
+      <UniqueIdentifier>{36c0b073-cf9a-4625-b413-94025194ac52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="database\mysql">
+      <UniqueIdentifier>{5e70f8e8-e50c-4421-8aa2-8e0f645e73b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="database\sqlite3">
+      <UniqueIdentifier>{67ee2431-cd67-4d2d-89c4-d38ea9d0b59f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="database\redis">
+      <UniqueIdentifier>{c12b8f12-cc14-4a6d-a994-b1a026d456d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\proactor">
+      <UniqueIdentifier>{b5e5e112-6011-4c85-851c-c427aaf22f8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\proactor\iocp">
+      <UniqueIdentifier>{a4d62724-c2a6-4932-ae05-cfe0fa3491cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\proactor\epoll">
+      <UniqueIdentifier>{866b17c5-f6df-463e-ae85-bf481456a1c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\proactor\rio">
+      <UniqueIdentifier>{39c1f41f-9558-4dc3-b266-8f0b5b865a28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="logger">
+      <UniqueIdentifier>{f0d46419-0cb4-4cdc-916e-2daadb9b378c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="logger\impl">
+      <UniqueIdentifier>{736fa69e-9c11-4a59-958a-e5efb57bd3f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithm">
+      <UniqueIdentifier>{fa95633c-1ab5-4534-8443-1b6b088e2537}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="string\json">
+      <UniqueIdentifier>{b36d4b5e-faa6-4c33-83f6-00c73107bc8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ai">
+      <UniqueIdentifier>{ae4da3cf-75d1-4358-94d2-a8ce21946902}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
