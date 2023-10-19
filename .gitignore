@@ -1,4 +1,3 @@
-*.cpp
 x64
 *.exe
 *.bat
@@ -9,6 +8,8 @@ ART/
 FlatBuffer/Bin/
 FlatBuffer/Output/
 FlatBuffer/Template/
+TCPServer/Core/*.cpp
+TCPServer/Common/*.cpp
 TCPServer/Bin/
 TCPServer/libs/
 TCPServer/.vs/
