@@ -43,6 +43,8 @@ public:
 	bool PostDisconnect();
 	void OnDisconnect();
 
+	std::size_t Recv();
+	bool PostZeroRecv();
 	bool PostRecv();
 	void OnRecv(DWORD _bytes_transferred, IOContext_t* _context);
 

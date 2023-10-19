@@ -60,6 +60,8 @@ public:
 	// @brief 소켓의 송신, 수신 또는 양쪽 끝을 종료합니다.
 	int Shutdown(Shutdown_e _what);
 
+	virtual unsigned long Recv(char* _buffer, std::size_t _size) = 0;
+	virtual unsigned long Send(char* _buffer, std::size_t _size) = 0;
 	virtual unsigned long AsyncRecv(char* _buffer, std::size_t _size, OVERLAPPED* _overlapped) = 0;
 	virtual unsigned long AsyncSend(char* _buffer, std::size_t _size, OVERLAPPED* _overlapped) = 0;
 

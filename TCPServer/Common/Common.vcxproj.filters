@@ -176,6 +176,15 @@
     <Filter Include="handler\NetHandler\iocp">
       <UniqueIdentifier>{0b4d6033-8ed6-493f-b421-2d1ff021fca4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="system">
+      <UniqueIdentifier>{1734b395-6e27-4dd3-ad01-b4dfc4c9dfd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\Item">
+      <UniqueIdentifier>{04515608-783e-4380-b6b9-ef273d2bf3a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\Inventory">
+      <UniqueIdentifier>{896e0a5e-a358-4e2c-a0d7-9c87a9f9f5cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

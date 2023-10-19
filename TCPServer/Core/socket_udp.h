@@ -26,6 +26,8 @@ public:
 	SocketUdp(int _family) noexcept;
 	~SocketUdp();
 
+	unsigned long Recv(char* _buffer, std::size_t _size) override;
+	unsigned long Send(char* _buffer, std::size_t _size) override;
 	unsigned long AsyncRecv(char* _buffer, std::size_t _size, OVERLAPPED* _overlapped) override;
 	unsigned long AsyncSend(char* _buffer, std::size_t _size, OVERLAPPED* _overlapped) override;
 
