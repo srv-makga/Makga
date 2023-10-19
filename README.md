@@ -3,13 +3,15 @@
 
 예제
 
-[.h]
+.h
 class ServerGame : public ServerBase
 {
   // todo
 };
 
-[.cpp]
+
+
+.cpp
 ServerGame server(&ConfigGame::Instance());
 server.Initialize();
 
