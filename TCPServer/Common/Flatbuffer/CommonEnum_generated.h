@@ -318,6 +318,126 @@ inline const char *EnumNameeTerrrainTytpe(eTerrrainTytpe e) {
   return EnumNameseTerrrainTytpe()[index];
 }
 
+enum eAbilityTYpe : int32_t {
+  eAbilityTYpe_Attack1 = 0,
+  eAbilityTYpe_Attack2 = 1,
+  eAbilityTYpe_Attack3 = 2,
+  eAbilityTYpe_Attack4 = 3,
+  eAbilityTYpe_Attack5 = 4,
+  eAbilityTYpe_Attack6 = 5,
+  eAbilityTYpe_Defense1 = 6,
+  eAbilityTYpe_Defense2 = 7,
+  eAbilityTYpe_Defense3 = 8,
+  eAbilityTYpe_Defense4 = 9,
+  eAbilityTYpe_Defense5 = 10,
+  eAbilityTYpe_Defense6 = 11,
+  eAbilityTYpe_MonsterAttack = 12,
+  eAbilityTYpe_MonsterDefense = 13,
+  eAbilityTYpe_Cri = 14,
+  eAbilityTYpe_CriDef = 15,
+  eAbilityTYpe_CriAttack = 16,
+  eAbilityTYpe_Hit = 17,
+  eAbilityTYpe_HitDef = 18,
+  eAbilityTYpe_MoveSpeed = 19,
+  eAbilityTYpe_Hp = 20,
+  eAbilityTYpe_Mp = 21,
+  eAbilityTYpe_RegenHp = 22,
+  eAbilityTYpe_RegenMp = 23,
+  eAbilityTYpe_DrainHp = 24,
+  eAbilityTYpe_DrainMp = 25,
+  eAbilityTYpe_Str = 26,
+  eAbilityTYpe_Dex = 27,
+  eAbilityTYpe_Int = 28,
+  eAbilityTYpe_Con = 29,
+  eAbilityTYpe_Immovable = 30,
+  eAbilityTYpe_Stun = 31,
+  eAbilityTYpe_MIN = eAbilityTYpe_Attack1,
+  eAbilityTYpe_MAX = eAbilityTYpe_Stun
+};
+
+inline const eAbilityTYpe (&EnumValueseAbilityTYpe())[32] {
+  static const eAbilityTYpe values[] = {
+    eAbilityTYpe_Attack1,
+    eAbilityTYpe_Attack2,
+    eAbilityTYpe_Attack3,
+    eAbilityTYpe_Attack4,
+    eAbilityTYpe_Attack5,
+    eAbilityTYpe_Attack6,
+    eAbilityTYpe_Defense1,
+    eAbilityTYpe_Defense2,
+    eAbilityTYpe_Defense3,
+    eAbilityTYpe_Defense4,
+    eAbilityTYpe_Defense5,
+    eAbilityTYpe_Defense6,
+    eAbilityTYpe_MonsterAttack,
+    eAbilityTYpe_MonsterDefense,
+    eAbilityTYpe_Cri,
+    eAbilityTYpe_CriDef,
+    eAbilityTYpe_CriAttack,
+    eAbilityTYpe_Hit,
+    eAbilityTYpe_HitDef,
+    eAbilityTYpe_MoveSpeed,
+    eAbilityTYpe_Hp,
+    eAbilityTYpe_Mp,
+    eAbilityTYpe_RegenHp,
+    eAbilityTYpe_RegenMp,
+    eAbilityTYpe_DrainHp,
+    eAbilityTYpe_DrainMp,
+    eAbilityTYpe_Str,
+    eAbilityTYpe_Dex,
+    eAbilityTYpe_Int,
+    eAbilityTYpe_Con,
+    eAbilityTYpe_Immovable,
+    eAbilityTYpe_Stun
+  };
+  return values;
+}
+
+inline const char * const *EnumNameseAbilityTYpe() {
+  static const char * const names[33] = {
+    "Attack1",
+    "Attack2",
+    "Attack3",
+    "Attack4",
+    "Attack5",
+    "Attack6",
+    "Defense1",
+    "Defense2",
+    "Defense3",
+    "Defense4",
+    "Defense5",
+    "Defense6",
+    "MonsterAttack",
+    "MonsterDefense",
+    "Cri",
+    "CriDef",
+    "CriAttack",
+    "Hit",
+    "HitDef",
+    "MoveSpeed",
+    "Hp",
+    "Mp",
+    "RegenHp",
+    "RegenMp",
+    "DrainHp",
+    "DrainMp",
+    "Str",
+    "Dex",
+    "Int",
+    "Con",
+    "Immovable",
+    "Stun",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameeAbilityTYpe(eAbilityTYpe e) {
+  if (::flatbuffers::IsOutRange(e, eAbilityTYpe_Attack1, eAbilityTYpe_Stun)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNameseAbilityTYpe()[index];
+}
+
 enum eMapAttribute : int32_t {
   eMapAttribute_None = 0,
   eMapAttribute_NotTeleport = 1,

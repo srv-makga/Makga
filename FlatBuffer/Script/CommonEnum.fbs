@@ -73,6 +73,51 @@ enum eTerrrainTytpe : int
 	Instance,
 }
 
+enum eAbilityTYpe : int
+{
+	Attack1,
+	Attack2,
+	Attack3,
+	Attack4,
+	Attack5,
+	Attack6,
+	Defense1,
+	Defense2,
+	Defense3,
+	Defense4,
+	Defense5,
+	Defense6,
+	
+	MonsterAttack, // 몬스터에게 추가 데미지
+	MonsterDefense, // 몬스터에게 받는 데미지 감소
+
+	Cri	, // 크리티컬 확률 증가
+	CriDef, // 크리티컬 확률 감소
+	CriAttack, // 크리티컬 발동시 추가 데미지
+
+	Hit, // 명중 확률
+	HitDef, // 회피 확률
+
+	MoveSpeed,
+
+	Hp,
+	Mp,
+	RegenHp, // HP 회복량
+	RegenMp, // MP 회복량
+	DrainHp, // 데미지에 따른 HP 흡수
+	DrainMp, // 데미지에 따른 MP 흡수
+
+	// stat
+	Str,
+	Dex,
+	Int,
+	Con,
+
+	// 상태이상
+	Immovable, // 움직일 수 없음(동작 가능)
+	Stun, // 움직일 수 없음(동작 불가)
+}
+
 // bit flag
 enum eMapAttribute : int
 {
