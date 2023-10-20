@@ -3,14 +3,14 @@
 #include <unordered_map>
 
 template<typename Key_t, typename Val_t>
-class CommonItemContainer
+class ItemContainerBase
 {
 public:
 	using Container_t = std::unordered_map<Key_t, Val_t>;
 
 public:
-	CommonItemContainer() = default;
-	virtual CommonItemContainer() = default;
+	ItemContainerBase() = default;
+	virtual ItemContainerBase() = default;
 
 	void Initialize()
 	{

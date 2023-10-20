@@ -1,32 +1,53 @@
 #pragma once
 
-#include "item_base.h"
+#include "common_inventory_owner.h"
+#include "common_item_container.hpp"
 
-class InventoryOwner
-{
-public:
-	InventoryOwner() = default;
-	virtual ~InventoryOwner() = default;
-
-	virtual InventoryCount_t InventoryCount() const = 0;
-};
-
-// @brief 인벤토리 인터페이스격 클래스
+class CommonItemObject;
+class InventoryOwner;
 
 class InventoryBase
 {
 public:
-	InventoryBase() = default;
+	InventoryBase(eInvenType _type, InventoryOwner* _owner)
+		: m_type(_type)
+		, m_owner(_owner)
+	{
+	}
 	virtual ~InventoryBase() = default;
 
-	void Initialize() { m_owner = nullptr; }
-	virtual InventoryCount_t Count() const = 0;
-	InventoryCount_t MaxCount() const { return m_owner ? m_owner->InventoryCount() : 0; }
+	virtual void Initialize() = 0;
+	virtual void Finalize() = 0;
+
+	virtual void LoadDB() = 0;
+	virtual void SaveDB() = 0;
+	virtual void SendClient() = 0;
+
+	virtual Count_t MaxSlot() const = 0;
+	virtual Count_t UsingSlot() const = 0;
+	virtual Count_t FreeSlot() const = 0;
+
+	virtual Result_t CanAddItem(ItemIdx_t _item_index, StackCount_t _item_count) = 0;
+	virtual Result_t AddItem(ItemIdx_t _item_index, StackCount_t _item_count) = 0;
+
+	virtual Result_t CanSubItem(ItemIdx_t _item_index, StackCount_t _item_count) = 0;
+	virtual Result_t SubItem(ItemIdx_t _item_index, StackCount_t _item_count) = 0;
+
+	// @return 삭제된 아이템 Stack 갯수 반환
+	virtual StackCount_t DeleteItem(ItemUid_t _item_uid) = 0;
+	virtual StackCount_t DeleteItem(ItemIdx_t _item_idx) = 0;
+
+	virtual Result_t InsertObject(CommonItemObject* _item_object) = 0;
+	virtual bool EraseObject(CommonItemObject* _item_object) = 0;
+	virtual CommonItemObject* FindObject(ItemUid_t _item_uid) = 0;
+	virtual CommonItemObject* FindObject(ItemIdx_t _item_idx) = 0;
+
+public:
+	eInvenType InvenType() const { return m_type; }
+	InventoryOwner* Owner() const { return m_owner; }
 
 protected:
-	InventoryOwner* Owner() const { return m_owner; }
-	void SetOwner(InventoryOwner* _owner) { m_owner = _owner; }
-
-private:
+	eInvenType m_type;
 	InventoryOwner* m_owner;
+	ItemContainerBase<ItemUid_t, CommonItemObject*> m_items;
 };
