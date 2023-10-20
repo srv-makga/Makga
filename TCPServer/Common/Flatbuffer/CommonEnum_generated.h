@@ -180,6 +180,33 @@ inline const char *EnumNameeActorType(eActorType e) {
   return EnumNameseActorType()[index];
 }
 
+enum eInvenType : int32_t {
+  eInvenType_UserItem = 0,
+  eInvenType_MIN = eInvenType_UserItem,
+  eInvenType_MAX = eInvenType_UserItem
+};
+
+inline const eInvenType (&EnumValueseInvenType())[1] {
+  static const eInvenType values[] = {
+    eInvenType_UserItem
+  };
+  return values;
+}
+
+inline const char * const *EnumNameseInvenType() {
+  static const char * const names[2] = {
+    "UserItem",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameeInvenType(eInvenType e) {
+  if (::flatbuffers::IsOutRange(e, eInvenType_UserItem, eInvenType_UserItem)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNameseInvenType()[index];
+}
+
 enum eItemType : int32_t {
   eItemType_None = 0,
   eItemType_Weapon = 1,

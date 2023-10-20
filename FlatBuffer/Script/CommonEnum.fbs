@@ -43,6 +43,11 @@ enum eActorType : int
 	Npc,
 }
 
+enum eInvenType : int
+{
+	UserItem,
+}
+
 enum eItemType : int
 {
 	None,

@@ -53,6 +53,7 @@ using WorldId_t = uint32_t;
 using ServerId_t = int32_t;
 using ServerType_t = fb::eServerType;
 using TableIdx_t = uint32_t;
+using Count_t = int32_t;
 
 // User
 using Account_t = String8;

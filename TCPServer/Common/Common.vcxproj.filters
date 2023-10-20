@@ -60,7 +60,7 @@
       <Filter>content_base\community</Filter>
     </ClInclude>
     <ClInclude Include="ranking_manager.h">
-      <Filter>ranking</Filter>
+      <Filter>system\ranking</Filter>
     </ClInclude>
     <ClInclude Include="event_timer.h">
       <Filter>utility</Filter>
@@ -126,6 +126,15 @@
     <ClInclude Include="iocp_handler.h">
       <Filter>handler\NetHandler\iocp</Filter>
     </ClInclude>
+    <ClInclude Include="common_inventory.h">
+      <Filter>system\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="common_item_container.hpp">
+      <Filter>system\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="common_inventory_owner.h">
+      <Filter>system\Inventory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -142,9 +151,6 @@
     </Filter>
     <Filter Include="handler\JobHandler">
       <UniqueIdentifier>{23e9ca6a-d3aa-4d6b-9960-a3c743c0167a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ranking">
-      <UniqueIdentifier>{53ee5708-28b3-4cda-8c42-43acb7b2be9b}</UniqueIdentifier>
     </Filter>
     <Filter Include="flatbuffer">
       <UniqueIdentifier>{217b9f2b-ca43-463c-9dfd-7a027dc046dd}</UniqueIdentifier>
@@ -185,6 +191,9 @@
     <Filter Include="system\Inventory">
       <UniqueIdentifier>{896e0a5e-a358-4e2c-a0d7-9c87a9f9f5cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="system\ranking">
+      <UniqueIdentifier>{53ee5708-28b3-4cda-8c42-43acb7b2be9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -199,7 +208,7 @@
       <Filter>datatable</Filter>
     </ClCompile>
     <ClCompile Include="ranking_manager.cpp">
-      <Filter>ranking</Filter>
+      <Filter>system\ranking</Filter>
     </ClCompile>
     <ClCompile Include="event_timer.cpp">
       <Filter>utility</Filter>
