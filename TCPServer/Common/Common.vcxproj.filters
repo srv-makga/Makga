@@ -19,16 +19,16 @@
     </ClInclude>
     <ClInclude Include="manager_base.hpp" />
     <ClInclude Include="Flatbuffer\CommonEnum_generated.h">
-      <Filter>flatbuffer\Output</Filter>
+      <Filter>flatbuffer\output</Filter>
     </ClInclude>
     <ClInclude Include="Flatbuffer\CommonTable_generated.h">
-      <Filter>flatbuffer\Output</Filter>
+      <Filter>flatbuffer\output</Filter>
     </ClInclude>
     <ClInclude Include="Flatbuffer\ResultType_generated.h">
-      <Filter>flatbuffer\Output</Filter>
+      <Filter>flatbuffer\output</Filter>
     </ClInclude>
     <ClInclude Include="Flatbuffer\Version_generated.h">
-      <Filter>flatbuffer\Output</Filter>
+      <Filter>flatbuffer\output</Filter>
     </ClInclude>
     <ClInclude Include="FlatBuffer.h">
       <Filter>flatbuffer</Filter>
@@ -37,27 +37,21 @@
       <Filter>network\actor</Filter>
     </ClInclude>
     <ClInclude Include="job_handler.h">
-      <Filter>handler\JobHandler</Filter>
+      <Filter>handler\job_handler</Filter>
     </ClInclude>
     <ClInclude Include="net_handler.h">
-      <Filter>handler\NetHandler</Filter>
+      <Filter>handler\net_handler</Filter>
     </ClInclude>
     <ClInclude Include="packet.h" />
     <ClInclude Include="config_base.h" />
     <ClInclude Include="data_table.h">
       <Filter>datatable</Filter>
     </ClInclude>
-    <ClInclude Include="inventory_controller.h">
-      <Filter>content_base\inventory</Filter>
-    </ClInclude>
-    <ClInclude Include="inventory_base.h">
-      <Filter>content_base\inventory</Filter>
-    </ClInclude>
     <ClInclude Include="community_member_base.h">
-      <Filter>content_base\community</Filter>
+      <Filter>system\community</Filter>
     </ClInclude>
     <ClInclude Include="community_base.h">
-      <Filter>content_base\community</Filter>
+      <Filter>system\community</Filter>
     </ClInclude>
     <ClInclude Include="ranking_manager.h">
       <Filter>system\ranking</Filter>
@@ -76,37 +70,37 @@
     </ClInclude>
     <ClInclude Include="command_line.h" />
     <ClInclude Include="Flatbuffer\ServerToWorldPid_generated.h">
-      <Filter>flatbuffer\Output</Filter>
+      <Filter>flatbuffer\output</Filter>
     </ClInclude>
     <ClInclude Include="Flatbuffer\ServerToWorldTable_generated.h">
-      <Filter>flatbuffer\Output</Filter>
+      <Filter>flatbuffer\output</Filter>
     </ClInclude>
     <ClInclude Include="Flatbuffer\ClientToServerTable_generated.h">
-      <Filter>flatbuffer\Output</Filter>
+      <Filter>flatbuffer\output</Filter>
     </ClInclude>
     <ClInclude Include="Flatbuffer\ServerToCommunityPid_generated.h">
-      <Filter>flatbuffer\Output</Filter>
+      <Filter>flatbuffer\output</Filter>
     </ClInclude>
     <ClInclude Include="Flatbuffer\ServerToCommunityTable_generated.h">
-      <Filter>flatbuffer\Output</Filter>
+      <Filter>flatbuffer\output</Filter>
     </ClInclude>
     <ClInclude Include="Flatbuffer\ServerToDBAgentPid_generated.h">
-      <Filter>flatbuffer\Output</Filter>
+      <Filter>flatbuffer\output</Filter>
     </ClInclude>
     <ClInclude Include="Flatbuffer\ServerToDBAgentTable_generated.h">
-      <Filter>flatbuffer\Output</Filter>
+      <Filter>flatbuffer\output</Filter>
     </ClInclude>
     <ClInclude Include="Flatbuffer\ClientToServerPid_generated.h">
-      <Filter>flatbuffer\Output</Filter>
+      <Filter>flatbuffer\output</Filter>
     </ClInclude>
     <ClInclude Include="Flatbuffer\ServerToGlobalPid_generated.h">
-      <Filter>flatbuffer\Output</Filter>
+      <Filter>flatbuffer\output</Filter>
     </ClInclude>
     <ClInclude Include="Flatbuffer\ServerToGlobalTable_generated.h">
-      <Filter>flatbuffer\Output</Filter>
+      <Filter>flatbuffer\output</Filter>
     </ClInclude>
     <ClInclude Include="thread_manager.h">
-      <Filter>handler\JobHandler\thread</Filter>
+      <Filter>handler\job_handler\thread</Filter>
     </ClInclude>
     <ClInclude Include="connector_base.h">
       <Filter>network\actor</Filter>
@@ -121,19 +115,22 @@
       <Filter>network</Filter>
     </ClInclude>
     <ClInclude Include="thread_base.h">
-      <Filter>handler\JobHandler\thread</Filter>
+      <Filter>handler\job_handler\thread</Filter>
     </ClInclude>
     <ClInclude Include="iocp_handler.h">
-      <Filter>handler\NetHandler\iocp</Filter>
+      <Filter>handler\net_handler\iocp</Filter>
     </ClInclude>
-    <ClInclude Include="common_inventory.h">
+    <ClInclude Include="inventory_base.h">
       <Filter>system\Inventory</Filter>
     </ClInclude>
-    <ClInclude Include="common_item_container.hpp">
+    <ClInclude Include="item_container_base.hpp">
       <Filter>system\Inventory</Filter>
     </ClInclude>
-    <ClInclude Include="common_inventory_owner.h">
+    <ClInclude Include="inventory_owner.h">
       <Filter>system\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_base.h">
+      <Filter>system\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -146,41 +143,17 @@
     <Filter Include="handler">
       <UniqueIdentifier>{a5326bd2-7483-4c59-82f9-2bfa9041d2ee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="handler\NetHandler">
-      <UniqueIdentifier>{2aca54c5-c133-4992-952c-e8a087f98dfe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="handler\JobHandler">
-      <UniqueIdentifier>{23e9ca6a-d3aa-4d6b-9960-a3c743c0167a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="flatbuffer">
       <UniqueIdentifier>{217b9f2b-ca43-463c-9dfd-7a027dc046dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="flatbuffer\Output">
-      <UniqueIdentifier>{96015d67-eb30-4ef3-9156-717ac6305b2a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="datatable">
       <UniqueIdentifier>{6851bd29-38fb-4db3-8ba4-4281c94dfba4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="content_base">
-      <UniqueIdentifier>{ef240453-fe57-413b-9964-51626a496334}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="content_base\inventory">
-      <UniqueIdentifier>{0e3144cf-b6a8-4159-b92f-d0807374853f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="content_base\community">
-      <UniqueIdentifier>{c226c382-93a6-4e88-bd4f-20503cf24af0}</UniqueIdentifier>
     </Filter>
     <Filter Include="network">
       <UniqueIdentifier>{d5d0ae15-3a22-43eb-81ec-99b4501d55b1}</UniqueIdentifier>
     </Filter>
     <Filter Include="network\actor">
       <UniqueIdentifier>{d6233ea3-231a-4d33-9203-1c8aecdb0f6d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="handler\JobHandler\thread">
-      <UniqueIdentifier>{a469e04d-1f9c-438c-9696-33c088e0da6c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="handler\NetHandler\iocp">
-      <UniqueIdentifier>{0b4d6033-8ed6-493f-b421-2d1ff021fca4}</UniqueIdentifier>
     </Filter>
     <Filter Include="system">
       <UniqueIdentifier>{1734b395-6e27-4dd3-ad01-b4dfc4c9dfd4}</UniqueIdentifier>
@@ -193,6 +166,24 @@
     </Filter>
     <Filter Include="system\ranking">
       <UniqueIdentifier>{53ee5708-28b3-4cda-8c42-43acb7b2be9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="handler\net_handler">
+      <UniqueIdentifier>{2aca54c5-c133-4992-952c-e8a087f98dfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="handler\net_handler\iocp">
+      <UniqueIdentifier>{0b4d6033-8ed6-493f-b421-2d1ff021fca4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="handler\job_handler">
+      <UniqueIdentifier>{23e9ca6a-d3aa-4d6b-9960-a3c743c0167a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="handler\job_handler\thread">
+      <UniqueIdentifier>{a469e04d-1f9c-438c-9696-33c088e0da6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="flatbuffer\output">
+      <UniqueIdentifier>{96015d67-eb30-4ef3-9156-717ac6305b2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\community">
+      <UniqueIdentifier>{c226c382-93a6-4e88-bd4f-20503cf24af0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -218,10 +209,10 @@
       <Filter>utility</Filter>
     </ClCompile>
     <ClCompile Include="job_handler.cpp">
-      <Filter>handler\JobHandler</Filter>
+      <Filter>handler\job_handler</Filter>
     </ClCompile>
     <ClCompile Include="thread_manager.cpp">
-      <Filter>handler\JobHandler\thread</Filter>
+      <Filter>handler\job_handler\thread</Filter>
     </ClCompile>
     <ClCompile Include="connector_base.cpp">
       <Filter>network\actor</Filter>
@@ -236,10 +227,10 @@
       <Filter>network</Filter>
     </ClCompile>
     <ClCompile Include="thread_base.cpp">
-      <Filter>handler\JobHandler\thread</Filter>
+      <Filter>handler\job_handler\thread</Filter>
     </ClCompile>
     <ClCompile Include="iocp_handler.cpp">
-      <Filter>handler\NetHandler\iocp</Filter>
+      <Filter>handler\net_handler\iocp</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

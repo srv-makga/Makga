@@ -3,7 +3,7 @@
 #include "common_inventory_owner.h"
 #include "common_item_container.hpp"
 
-class CommonItemObject;
+class ItemObjectBase;
 class InventoryOwner;
 
 class InventoryBase
@@ -37,10 +37,10 @@ public:
 	virtual StackCount_t DeleteItem(ItemUid_t _item_uid) = 0;
 	virtual StackCount_t DeleteItem(ItemIdx_t _item_idx) = 0;
 
-	virtual Result_t InsertObject(CommonItemObject* _item_object) = 0;
-	virtual bool EraseObject(CommonItemObject* _item_object) = 0;
-	virtual CommonItemObject* FindObject(ItemUid_t _item_uid) = 0;
-	virtual CommonItemObject* FindObject(ItemIdx_t _item_idx) = 0;
+	virtual Result_t InsertObject(ItemObjectBase* _item_object) = 0;
+	virtual bool EraseObject(ItemObjectBase* _item_object) = 0;
+	virtual ItemObjectBase* FindObject(ItemUid_t _item_uid) = 0;
+	virtual ItemObjectBase* FindObject(ItemIdx_t _item_idx) = 0;
 
 public:
 	eInvenType InvenType() const { return m_type; }
@@ -49,5 +49,5 @@ public:
 protected:
 	eInvenType m_type;
 	InventoryOwner* m_owner;
-	ItemContainerBase<ItemUid_t, CommonItemObject*> m_items;
+	ItemContainerBase<ItemUid_t, ItemObjectBase*> m_items;
 };

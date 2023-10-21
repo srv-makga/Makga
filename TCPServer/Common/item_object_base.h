@@ -2,11 +2,11 @@
 
 #include "common_header.h"
 
-class CommonItemObject
+class ItemObjectBase
 {
 public:
-	CommonItemObject() = default;
-	virtual ~CommonItemObject() = default;
+	ItemObjectBase() = default;
+	virtual ~ItemObjectBase() = default;
 
 	virtual void Initialize() = 0;
 	virtual void Finalize() = 0;
