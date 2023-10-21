@@ -2,8 +2,10 @@
 #include "inventory_account.h"
 #include "item_manager.h"
 #include "item_property.h"
+#include "user.h"
 
-InventoryAccount::InventoryAccount()
+InventoryAccount::InventoryAccount(eInvenType _type, User* _owner)
+	: InventoryBase(_type, _owner)
 {
 }
 
@@ -13,118 +15,85 @@ InventoryAccount::~InventoryAccount()
 
 void InventoryAccount::Initialize()
 {
-	InventoryBase::Initialize();
-}
-
-void InventoryAccount::InitOwner(InventoryOwner* _owner)
-{
-	SetOwner(_owner);
 }
 
 void InventoryAccount::Finalize()
 {
 }
 
-Result_t InventoryAccount::Add(ItemIdx_t _item_idx, StackCount_t _stack_count)
+void InventoryAccount::LoadDB()
 {
-	ItemProperty* item_property = ITEM_MANAGER.Find(_item_idx);
-	if (nullptr == item_property)
-	{
-		return eResult_InvalidIndex;
-	}
-
-	if (true == item_property->IsStack())
-	{
-		StackCount_t fill_count = CanFillStackCount(*item_property);
-		InventoryCount_t need_count = (_stack_count - fill_count) / item_property->StackCount();
-		if (need_count * item_property->StackCount() != (_stack_count - fill_count))
-		{
-			++need_count;
-		}
-
-		if (MaxCount() - Count() < need_count)
-		{
-			return eResult_InvenFull;
-		}
-
-		StackCount_t remain_stack_count = FillStackCount(*item_property, _stack_count);
-		if (0 < remain_stack_count)
-		{
-			// @todo
-		}
-	}
-	else
-	{
-		if (MaxCount() - Count() < _stack_count)
-		{
-			return eResult_InvenFull;
-		}
-	}
-
-	// @todo 추가 작업
-	
-	return eResult_Success;
 }
 
-Result_t InventoryAccount::Add(ItemObject* _itemObject)
+void InventoryAccount::SaveDB()
 {
-    return Result_t();
 }
 
-Result_t InventoryAccount::Add(std::unordered_map<ItemIdx_t, StackCount_t>& _in_out)
+void InventoryAccount::SendClient()
 {
-    return Result_t();
 }
 
-ItemObject* InventoryAccount::Find(ItemUid_t _item_uid) const
+Count_t InventoryAccount::MaxSlot() const
 {
-    return nullptr;
+	return Count_t();
 }
 
-ItemObject* InventoryAccount::Find(ItemIdx_t _item_idx) const
+Count_t InventoryAccount::UsingSlot() const
 {
-    return nullptr;
+	return m_items.Size();
 }
 
-Result_t InventoryAccount::Remove(ItemUid_t _item_uid)
+Count_t InventoryAccount::FreeSlot() const
 {
-    return Result_t();
+	return MaxSlot() - UsingSlot();
 }
 
-Result_t InventoryAccount::Remove(ItemIdx_t _item_idx, StackCount_t _count)
+Result_t InventoryAccount::CanAddItem(ItemIdx_t _item_index, StackCount_t _item_count)
 {
-    return Result_t();
+	return Result_t();
 }
 
-InventoryCount_t InventoryAccount::Count() const
+Result_t InventoryAccount::AddItem(ItemIdx_t _item_index, StackCount_t _item_count)
 {
-	return m_container.size();
+	return Result_t();
 }
 
-StackCount_t InventoryAccount::CanFillStackCount(const ItemProperty& _item_property) const
+Result_t InventoryAccount::CanSubItem(ItemIdx_t _item_index, StackCount_t _item_count)
 {
-	if (false == _item_property.IsStack())
-	{
-		return 0;
-	}
-
-	auto [start, end] = m_container_by_index.equal_range(_item_property.ItemIndex());
-	if (m_container_by_index.end() == start)
-	{
-		return 0;
-	}
-
-	StackCount_t stack_sum = 0;
-
-	for (auto iter = start; end != start; ++start)
-	{
-		stack_sum += (_item_property.StackCount() - start->second->StackCount());
-	}
-
-	return stack_sum;
+	return Result_t();
 }
 
-StackCount_t InventoryAccount::FillStackCount(const ItemProperty& _item_property, StackCount_t _stack_count) const
+Result_t InventoryAccount::SubItem(ItemIdx_t _item_index, StackCount_t _item_count)
+{
+	return Result_t();
+}
+
+StackCount_t InventoryAccount::DeleteItem(ItemUid_t _item_uid)
 {
 	return StackCount_t();
+}
+
+StackCount_t InventoryAccount::DeleteItem(ItemIdx_t _item_idx)
+{
+	return StackCount_t();
+}
+
+Result_t InventoryAccount::InsertObject(ItemObjectBase* _item_object)
+{
+	return Result_t();
+}
+
+bool InventoryAccount::EraseObject(ItemObjectBase* _item_object)
+{
+	return false;
+}
+
+ItemObjectBase* InventoryAccount::FindObject(ItemUid_t _item_uid)
+{
+	return nullptr;
+}
+
+ItemObjectBase* InventoryAccount::FindObject(ItemIdx_t _item_idx)
+{
+	return nullptr;
 }

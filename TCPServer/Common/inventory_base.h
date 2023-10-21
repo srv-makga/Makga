@@ -1,13 +1,16 @@
 #pragma once
 
-#include "common_inventory_owner.h"
-#include "common_item_container.hpp"
+#include "inventory_owner.h"
+#include "item_container_base.hpp"
 
 class ItemObjectBase;
 class InventoryOwner;
 
 class InventoryBase
 {
+public:
+	using Items = ItemContainerBase<ItemUid_t, ItemObjectBase*>;
+
 public:
 	InventoryBase(eInvenType _type, InventoryOwner* _owner)
 		: m_type(_type)
@@ -49,5 +52,5 @@ public:
 protected:
 	eInvenType m_type;
 	InventoryOwner* m_owner;
-	ItemContainerBase<ItemUid_t, ItemObjectBase*> m_items;
+	Items m_items;
 };

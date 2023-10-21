@@ -1,45 +1,50 @@
 #pragma once
 
 #include "inventory_base.h"
-#include "inventory_controller.h"
-#include <unordered_map>
 
-class InventoryAccount : public InventoryBase, public InventoryController
+class User;
+
+class InventoryAccount : public InventoryBase
 {
 public:
-	using Container_t = std::unordered_map<ItemUid_t, ItemBase*>;
-	using CacheContainer_t = std::unordered_multimap<ItemIdx_t, ItemBase*>;
+	using CacheContainer_t = std::unordered_multimap<ItemIdx_t, ItemObjectBase*>;
 
 public:
-	InventoryAccount();
+	InventoryAccount(eInvenType _type, User* _owner);
 	virtual ~InventoryAccount();
 
-	void Initialize();
-	void InitOwner(InventoryOwner* _owner);
-	void Finalize();
+	void Initialize() override;
+	void Finalize() override;
 
-	Result_t Add(ItemIdx_t _item_idx, StackCount_t _stack_count) override;
-	Result_t Add(ItemObject* _itemObject) override;
-	Result_t Add(std::unordered_map<ItemIdx_t, StackCount_t>& _in_out) override;
+	void LoadDB() override;
+	void SaveDB() override;
+	void SendClient() override;
 
-	ItemObject* Find(ItemUid_t _item_uid) const override;
-	ItemObject* Find(ItemIdx_t _item_idx) const override;
+	Count_t MaxSlot() const override;
+	Count_t UsingSlot() const override;
+	Count_t FreeSlot() const override;
 
-	Result_t Remove(ItemUid_t _item_uid) override;
-	Result_t Remove(ItemIdx_t _item_idx, StackCount_t _count = 1) override;
+	Result_t CanAddItem(ItemIdx_t _item_index, StackCount_t _item_count) override;
+	Result_t AddItem(ItemIdx_t _item_index, StackCount_t _item_count) override;
 
-	InventoryCount_t Count() const override;
+	Result_t CanSubItem(ItemIdx_t _item_index, StackCount_t _item_count) override;
+	Result_t SubItem(ItemIdx_t _item_index, StackCount_t _item_count) override;
+
+	// @return 삭제된 아이템 Stack 갯수 반환
+	StackCount_t DeleteItem(ItemUid_t _item_uid) override;
+	StackCount_t DeleteItem(ItemIdx_t _item_idx) override;
+
+	Result_t InsertObject(ItemObjectBase* _item_object) override;
+	bool EraseObject(ItemObjectBase* _item_object) override;
+	ItemObjectBase* FindObject(ItemUid_t _item_uid) override;
+	ItemObjectBase* FindObject(ItemIdx_t _item_idx) override;
 
 public: // 자체 기능
-	// @brief 추가 인벤 사용 없이 중첩 가능한 갯수
-	StackCount_t CanFillStackCount(const ItemProperty& _item_property) const;
 
-	// @brief 추가 인벤 사용 없이 중첩 처리
-	// @return 남은 중첩 수
-	StackCount_t FillStackCount(const ItemProperty& _item_property, StackCount_t _stack_count) const;
+protected:
+	User* GetUser() const { return m_user; }
 	
-public:
-	Container_t m_container;
-	// 캐시 데이터
+private:
 	CacheContainer_t m_container_by_index;
+	User* m_user;
 };

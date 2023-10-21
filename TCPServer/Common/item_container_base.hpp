@@ -10,7 +10,7 @@ public:
 
 public:
 	ItemContainerBase() = default;
-	virtual ItemContainerBase() = default;
+	~ItemContainerBase() = default;
 
 	void Initialize()
 	{
@@ -19,7 +19,7 @@ public:
 
 	bool Insert(Key_t _key, Val_t _val)
 	{
-		return m_items.insert({ _key, val }).second;
+		return m_items.insert({ _key, _val }).second;
 	}
 
 	bool Erase(Key_t _key)

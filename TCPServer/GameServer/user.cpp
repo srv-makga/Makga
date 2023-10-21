@@ -12,10 +12,12 @@ User::~User()
 
 void User::Initialize()
 {
+	m_user_uid = 0;
 }
 
 void User::Finalize()
 {
+	m_user_uid = 0;
 }
 
 const String8& User::Account() const

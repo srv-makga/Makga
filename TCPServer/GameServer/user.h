@@ -3,11 +3,12 @@
 #include "game_header.h"
 #include "../Core/object_pool.h"
 #include "../Common/session_base.h"
+#include "../Common/inventory_owner.h"
 #include "../Core/dispatcher.h"
 
 class SessionUser;
 
-class User : public core::ObjectPool<User*>, public JobOwner
+class User : public core::ObjectPool<User*>, public JobOwner, public InventoryOwner
 {
 public:
 	using Pid_t = fb::server::SendPid;
@@ -42,9 +43,14 @@ public:
 	bool OnCharacterSelect(NetPacket* _packet);
 	bool OnCharacterLogout(NetPacket* _packet);
 
+public:
+	uint64_t OwnerUid() const { return m_user_uid; }
+
 private:
 	String8 m_account;
 	String8 m_auth_key;
 
 	SessionUser* m_session;
+
+	UserUid_t m_user_uid;
 }; 
