@@ -23,13 +23,14 @@ enum eResult : int32_t {
   eResult_BufferFailRead = 4,
   eResult_InvalidParameter = 5,
   eResult_NotFoundServer = 6,
-  eResult_InvalidIndex = 7,
-  eResult_InvenFull = 8,
+  eResult_ItemStackFull = 7,
+  eResult_InvalidIndex = 8,
+  eResult_InvenFull = 9,
   eResult_MIN = eResult_Success,
   eResult_MAX = eResult_InvenFull
 };
 
-inline const eResult (&EnumValueseResult())[9] {
+inline const eResult (&EnumValueseResult())[10] {
   static const eResult values[] = {
     eResult_Success,
     eResult_Fail,
@@ -38,6 +39,7 @@ inline const eResult (&EnumValueseResult())[9] {
     eResult_BufferFailRead,
     eResult_InvalidParameter,
     eResult_NotFoundServer,
+    eResult_ItemStackFull,
     eResult_InvalidIndex,
     eResult_InvenFull
   };
@@ -45,7 +47,7 @@ inline const eResult (&EnumValueseResult())[9] {
 }
 
 inline const char * const *EnumNameseResult() {
-  static const char * const names[10] = {
+  static const char * const names[11] = {
     "Success",
     "Fail",
     "BufferLackSpace",
@@ -53,6 +55,7 @@ inline const char * const *EnumNameseResult() {
     "BufferFailRead",
     "InvalidParameter",
     "NotFoundServer",
+    "ItemStackFull",
     "InvalidIndex",
     "InvenFull",
     nullptr

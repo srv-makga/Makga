@@ -138,10 +138,8 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="server_game.cpp" />
     <ClCompile Include="inventory_account.cpp" />
-    <ClCompile Include="item_base.cpp" />
-    <ClCompile Include="item_equip.cpp" />
-    <ClCompile Include="item_property.cpp" />
-    <ClCompile Include="item_stack.cpp" />
+    <ClCompile Include="item_object_equip.cpp" />
+    <ClCompile Include="item_object_stack.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -169,21 +167,18 @@
     <ClInclude Include="inventory_equip.h" />
     <ClInclude Include="inventory_guild.h" />
     <ClInclude Include="inventory_premium.h" />
-    <ClInclude Include="item_equip.h" />
+    <ClInclude Include="item_object_equip.h" />
     <ClInclude Include="server_game.h" />
     <ClInclude Include="config_game.h" />
     <ClInclude Include="game_header.h" />
     <ClInclude Include="actor.h" />
     <ClInclude Include="ai_aggressive.h" />
-    <ClInclude Include="item_base.h" />
     <ClInclude Include="inventory_account.h" />
     <ClInclude Include="actor_monster.h" />
     <ClInclude Include="actor_npc.h" />
     <ClInclude Include="actor_gadget.h" />
-    <ClInclude Include="item_manager.h" />
-    <ClInclude Include="item_property.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="item_stack.h" />
+    <ClInclude Include="item_object_stack.h" />
     <ClInclude Include="setting_game.h" />
     <ClInclude Include="terrain.h" />
     <ClInclude Include="user.h" />

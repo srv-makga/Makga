@@ -10,26 +10,11 @@
     <ClCompile Include="actor_character.cpp">
       <Filter>actor\detail</Filter>
     </ClCompile>
-    <ClCompile Include="item_equip.cpp">
-      <Filter>system\item\detail</Filter>
-    </ClCompile>
-    <ClCompile Include="item_stack.cpp">
-      <Filter>system\item\detail</Filter>
-    </ClCompile>
     <ClCompile Include="terrain.cpp">
       <Filter>system\terrain</Filter>
     </ClCompile>
     <ClCompile Include="data_manager.cpp">
       <Filter>data</Filter>
-    </ClCompile>
-    <ClCompile Include="inventory_account.cpp">
-      <Filter>system\inventory\detail</Filter>
-    </ClCompile>
-    <ClCompile Include="item_property.cpp">
-      <Filter>system\item\property</Filter>
-    </ClCompile>
-    <ClCompile Include="item_base.cpp">
-      <Filter>system\item</Filter>
     </ClCompile>
     <ClCompile Include="actor_monster.cpp">
       <Filter>actor\detail</Filter>
@@ -74,6 +59,15 @@
     <ClCompile Include="proc_world.cpp">
       <Filter>proc</Filter>
     </ClCompile>
+    <ClCompile Include="inventory_account.cpp">
+      <Filter>system\inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_equip.cpp">
+      <Filter>system\item</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_stack.cpp">
+      <Filter>system\item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -115,35 +109,8 @@
     <ClInclude Include="actor_npc.h">
       <Filter>actor\detail</Filter>
     </ClInclude>
-    <ClInclude Include="inventory_account.h">
-      <Filter>system\inventory\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="inventory_equip.h">
-      <Filter>system\inventory\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="item_base.h">
-      <Filter>system\item</Filter>
-    </ClInclude>
-    <ClInclude Include="item_equip.h">
-      <Filter>system\item\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="item_stack.h">
-      <Filter>system\item\detail</Filter>
-    </ClInclude>
     <ClInclude Include="terrain.h">
       <Filter>system\terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="inventory_premium.h">
-      <Filter>system\inventory\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="inventory_guild.h">
-      <Filter>system\inventory\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="item_property.h">
-      <Filter>system\item\property</Filter>
-    </ClInclude>
-    <ClInclude Include="item_manager.h">
-      <Filter>system\item\property</Filter>
     </ClInclude>
     <ClInclude Include="actor_manager.h">
       <Filter>actor</Filter>
@@ -176,6 +143,24 @@
     <ClInclude Include="session_world.h">
       <Filter>network\session</Filter>
     </ClInclude>
+    <ClInclude Include="inventory_account.h">
+      <Filter>system\inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory_equip.h">
+      <Filter>system\inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory_guild.h">
+      <Filter>system\inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory_premium.h">
+      <Filter>system\inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_stack.h">
+      <Filter>system\item</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_equip.h">
+      <Filter>system\item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -202,12 +187,6 @@
     <Filter Include="system\inventory">
       <UniqueIdentifier>{9f416f24-19cf-4022-aa9b-3429f755b9cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="system\inventory\detail">
-      <UniqueIdentifier>{9f761eb6-9302-4e03-bbda-be30ea30234d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="system\item\detail">
-      <UniqueIdentifier>{a82d67a8-9533-4e8d-91aa-e5c13935ed76}</UniqueIdentifier>
-    </Filter>
     <Filter Include="system\terrain">
       <UniqueIdentifier>{011292e2-f810-49d1-8135-14313d7cf4df}</UniqueIdentifier>
     </Filter>
@@ -216,9 +195,6 @@
     </Filter>
     <Filter Include="system\terrain\grid">
       <UniqueIdentifier>{32310f5e-fe36-4c8e-82c3-def9377b825b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="system\item\property">
-      <UniqueIdentifier>{ed360acc-a1db-47eb-acc5-3569430b6310}</UniqueIdentifier>
     </Filter>
     <Filter Include="network">
       <UniqueIdentifier>{9a9e79a9-d5dc-43d3-8def-7e40db955c74}</UniqueIdentifier>
@@ -237,6 +213,9 @@
     </Filter>
     <Filter Include="proc">
       <UniqueIdentifier>{e20b168b-6c51-4d4e-ac0d-b563d8b1d34d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="function">
+      <UniqueIdentifier>{85bc49b6-a4d4-4ad8-b720-51d82436d2c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -102,15 +102,3 @@ struct DBInfo
 	std::string db;
 	std::string encoding;
 };
-
-struct st_item
-{
-	ItemUid_t uid;
-	ItemIdx_t idx;
-
-	void Initialize()
-	{
-		uid = 0;
-		idx = 0;
-	}
-};

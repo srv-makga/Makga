@@ -132,6 +132,12 @@
     <ClInclude Include="item_object_base.h">
       <Filter>system\Item</Filter>
     </ClInclude>
+    <ClInclude Include="item_property.h">
+      <Filter>system\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="item_manager.h">
+      <Filter>system\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -231,6 +237,9 @@
     </ClCompile>
     <ClCompile Include="iocp_handler.cpp">
       <Filter>handler\net_handler\iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="item_property.cpp">
+      <Filter>system\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

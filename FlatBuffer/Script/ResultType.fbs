@@ -6,17 +6,18 @@ enum eResult : int32
 {
 	Success = 0,
 	Fail,
-	
+
 	BufferLackSpace,
 	BufferFailWrite,
 	BufferFailRead,
 
 	InvalidParameter,					// 유효하지 않은 파라메터 값
-	
+
 	NotFoundServer,					// 접속할 서버를 찾지 못함
 	
-	
-	
+	// item
+	ItemStackFull,						// 아이템 오브젝트에 중첩이 최대치
+
 	InvalidIndex,
 	InvenFull,
 }

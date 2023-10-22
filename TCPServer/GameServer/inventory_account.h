@@ -25,7 +25,11 @@ public:
 	Count_t FreeSlot() const override;
 
 	Result_t CanAddItem(ItemIdx_t _item_index, StackCount_t _item_count) override;
-	Result_t AddItem(ItemIdx_t _item_index, StackCount_t _item_count) override;
+	Result_t CanAddItem(const ItemProperty& _item_property, StackCount_t _item_count) override;
+
+	Result_t AddItem(ItemIdx_t _item_index, StackCount_t _item_count, bool _client_send) override;
+	Result_t AddItem(const ItemProperty& _item_property, StackCount_t _item_count, bool _client_send) override;
+	Result_t AddItem(ItemObjectBase* _item_object, bool _client_send) override;
 
 	Result_t CanSubItem(ItemIdx_t _item_index, StackCount_t _item_count) override;
 	Result_t SubItem(ItemIdx_t _item_index, StackCount_t _item_count) override;

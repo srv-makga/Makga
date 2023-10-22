@@ -16,6 +16,7 @@
     <ClInclude Include="common_const.h" />
     <ClInclude Include="inventory_owner.h" />
     <ClInclude Include="item_container_base.hpp" />
+    <ClInclude Include="item_manager.h" />
     <ClInclude Include="item_object_base.h" />
     <ClInclude Include="connector_base.h" />
     <ClInclude Include="Flatbuffer\ClientToServerPid_generated.h" />
@@ -29,6 +30,7 @@
     <ClInclude Include="Flatbuffer\ServerToWorldPid_generated.h" />
     <ClInclude Include="Flatbuffer\ServerToWorldTable_generated.h" />
     <ClInclude Include="inventory_base.h" />
+    <ClInclude Include="item_property.h" />
     <ClInclude Include="json_saver.h" />
     <ClInclude Include="manager_base.hpp" />
     <ClInclude Include="common_type.h" />
@@ -67,6 +69,7 @@
     <ClCompile Include="event_timer.cpp" />
     <ClCompile Include="io_buffer.cpp" />
     <ClCompile Include="iocp_handler.cpp" />
+    <ClCompile Include="item_property.cpp" />
     <ClCompile Include="job_handler.cpp" />
     <ClCompile Include="json_saver.cpp" />
     <ClCompile Include="packet.cpp" />

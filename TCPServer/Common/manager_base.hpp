@@ -32,7 +32,7 @@ public:
 		return 0 < m_objects.erase(_identity);
 	}
 
-	virtual Object_t Find(Identity_t _identity) const
+	virtual const Object_t Find(Identity_t _identity) const
 	{
 		core::ReadLock lock(m_mutex);
 		auto iter = m_objects.find(_identity);
