@@ -7,19 +7,41 @@
 
 InventoryAccount::InventoryAccount(eInvenType _type, User* _owner)
 	: InventoryBase(_type, _owner)
+	, m_user(nullptr)
 {
 }
 
 InventoryAccount::~InventoryAccount()
 {
+	Finalize();
 }
 
 void InventoryAccount::Initialize()
 {
+	std::vector<ItemObjectBase*> temp;
+	m_items.FetchAll(temp);
+
+	for (auto object : temp)
+	{
+		object->Finalize();
+	}
+
+	m_items.Initialize();
+	m_container_by_index.clear();
 }
 
 void InventoryAccount::Finalize()
 {
+	std::vector<ItemObjectBase*> temp;
+	m_items.FetchAll(temp);
+
+	for (auto object : temp)
+	{
+		object->Finalize();
+	}
+
+	m_items.Initialize();
+	m_container_by_index.clear();
 }
 
 void InventoryAccount::LoadDB()
@@ -36,7 +58,7 @@ void InventoryAccount::SendClient()
 
 Count_t InventoryAccount::MaxSlot() const
 {
-	return Count_t();
+	return Owner()->MaxInvenSlot();
 }
 
 Count_t InventoryAccount::UsingSlot() const
@@ -118,46 +140,183 @@ Result_t InventoryAccount::AddItem(const ItemProperty& _item_property, StackCoun
 
 Result_t InventoryAccount::AddItem(ItemObjectBase* _item_object, bool _client_send)
 {
-	return Result_t();
+	if (nullptr == _item_object)
+	{
+		return eResult_InvalidParameter;
+	}
+
+	Result_t result = CanAddItem(*_item_object->Property(), _item_object->Stack());
+	if (eResult_Success != result)
+	{
+		return result;
+	}
+
+	// 우선 동일한 인덱스는 단일 오브젝트룰
+	if (nullptr != FindObject(_item_object->Index()))
+	{
+		return eResult_ItemIdxDuplicate;
+	}
+
+	result = InsertObject(_item_object);
+	if (eResult_Success != result)
+	{
+		return result;
+	}
+
+	ReflectionObject(ReflectType::Insert, _item_object);
+
+	return eResult_Success;
 }
 
 Result_t InventoryAccount::CanSubItem(ItemIdx_t _item_index, StackCount_t _item_count)
 {
-	return Result_t();
+	auto item_property = ITEM_MANAGER.Find(_item_index);
+	if (nullptr == item_property)
+	{
+		return eResult_InvalidIndex;
+	}
+
+	return CanSubItem(*item_property, _item_count);
+}
+
+Result_t InventoryAccount::CanSubItem(const ItemProperty& _item_property, StackCount_t _item_count)
+{
+	auto item_object = FindObject(_item_property.ItemIndex());
+	if (nullptr == item_object)
+	{
+		return eResult_ItemNotFound;
+	}
+
+	if (item_object->Stack() < _item_count)
+	{
+		return eResult_ItemNotEnough;
+	}
+
+	return eResult_Success;
 }
 
 Result_t InventoryAccount::SubItem(ItemIdx_t _item_index, StackCount_t _item_count)
 {
-	return Result_t();
+	auto item_property = ITEM_MANAGER.Find(_item_index);
+	if (nullptr == item_property)
+	{
+		return eResult_InvalidIndex;
+	}
+
+	return SubItem(*item_property, _item_count);
+}
+
+Result_t InventoryAccount::SubItem(const ItemProperty& _item_property, StackCount_t _item_count)
+{
+	Result_t result = CanSubItem(_item_property, _item_count);
+	if (eResult_Success != result)
+	{
+		return result;
+	}
+
+	auto item_object = FindObject(_item_property.ItemIndex());
+	if (nullptr == item_object)
+	{
+		return eResult_ItemNotFound;
+	}
+
+	item_object->SubStack(_item_count);
+
+	ReflectionObject(ReflectType::UpdateStack, item_object);
+
+	return eResult_Success;
 }
 
 StackCount_t InventoryAccount::DeleteItem(ItemUid_t _item_uid)
 {
 	ItemObjectBase* item_object = FindObject(_item_uid);
-	return item_object ? item_object->Stack() : 0;
+	if (nullptr == item_object)
+	{
+		return 0;
+	}
+
+	StackCount_t deleteCount = item_object->Stack();
+	if (true == EraseObject(item_object))
+	{
+		item_object->Finalize();
+	}
+
+	return deleteCount;
 }
 
 StackCount_t InventoryAccount::DeleteItem(ItemIdx_t _item_idx)
 {
-	return StackCount_t();
+	ItemObjectBase* item_object = FindObject(_item_idx);
+	if (nullptr == item_object)
+	{
+		return 0;
+	}
+
+	StackCount_t deleteCount = item_object->Stack();
+	if (true == EraseObject(item_object))
+	{
+		item_object->Finalize();
+	}
+
+	return deleteCount;
 }
 
 Result_t InventoryAccount::InsertObject(ItemObjectBase* _item_object)
 {
-	return Result_t();
+	if (nullptr == _item_object)
+	{
+		return eResult_InvalidParameter;
+	}
+
+	if (true == m_items.Has(_item_object->Uid()))
+	{
+		return eResult_ItemUidDuplicate;
+	}
+
+	if (false == m_items.Insert(_item_object->Uid(), _item_object))
+	{
+		return eResult_ItemUidDuplicate;
+	}
+
+	m_container_by_index[_item_object->Index()].insert(_item_object);
+
+	return eResult_Success;
 }
 
 bool InventoryAccount::EraseObject(ItemObjectBase* _item_object)
 {
-	return false;
+	if (nullptr == _item_object)
+	{
+		return eResult_InvalidParameter;
+	}
+
+	if (false == m_items.Has(_item_object->Uid()))
+	{
+		return eResult_ItemNotFound;
+	}
+
+	if (false == m_items.Erase(_item_object->Uid()))
+	{
+		return eResult_ItemNotFound;
+	}
+
+	m_container_by_index[_item_object->Index()].erase(_item_object);
+
+	return eResult_Success();
 }
 
 ItemObjectBase* InventoryAccount::FindObject(ItemUid_t _item_uid)
 {
-	return nullptr;
+	return m_items.Find(_item_uid);
 }
 
 ItemObjectBase* InventoryAccount::FindObject(ItemIdx_t _item_idx)
 {
-	return nullptr;
+	auto iter = m_container_by_index.find(_item_idx);
+	if (m_container_by_index.end() == iter)
+	{
+		return nullptr;
+	}
+
+	return *iter->second.begin();
 }

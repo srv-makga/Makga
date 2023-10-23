@@ -27,7 +27,7 @@ public:
 		return 0 < m_items.erase(_key);
 	}
 
-	bool Find(Key_t _key) const
+	Val_t Find(Key_t _key) const
 	{
 		auto iter = m_items.find(_key);
 		if (m_items.end() == iter)

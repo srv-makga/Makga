@@ -33,6 +33,7 @@ public:
 	SessionUser* Session() const;
 	void SetSession(SessionUser* _session);
 
+public: // JobOwner
 	bool ProcPacket(NetPacket* _packet) override;
 	ThreadId_t ThreadId() const override { return 0; }
 
@@ -43,14 +44,17 @@ public:
 	bool OnCharacterSelect(NetPacket* _packet);
 	bool OnCharacterLogout(NetPacket* _packet);
 
-public:
+public: // InventoryOwner
 	uint64_t OwnerUid() const { return m_user_uid; }
+	int32_t MaxInvenSlot() const { return m_max_inventory; }
 
 private:
 	String8 m_account;
 	String8 m_auth_key;
 
 	SessionUser* m_session;
+
+	Count_t m_max_inventory;
 
 	UserUid_t m_user_uid;
 }; 

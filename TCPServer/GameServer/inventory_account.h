@@ -1,13 +1,14 @@
 #pragma once
 
 #include "inventory_base.h"
+#include <unordered_set>
 
 class User;
 
 class InventoryAccount : public InventoryBase
 {
 public:
-	using CacheContainer_t = std::unordered_multimap<ItemIdx_t, ItemObjectBase*>;
+	using CacheContainer_t = std::unordered_map<ItemIdx_t, std::unordered_set<ItemObjectBase*>>;
 
 public:
 	InventoryAccount(eInvenType _type, User* _owner);
@@ -32,7 +33,10 @@ public:
 	Result_t AddItem(ItemObjectBase* _item_object, bool _client_send) override;
 
 	Result_t CanSubItem(ItemIdx_t _item_index, StackCount_t _item_count) override;
+	Result_t CanSubItem(const ItemProperty& _item_property, StackCount_t _item_count) override;
+
 	Result_t SubItem(ItemIdx_t _item_index, StackCount_t _item_count) override;
+	Result_t SubItem(const ItemProperty& _item_property, StackCount_t _item_count) override;
 
 	// @return 삭제된 아이템 Stack 갯수 반환
 	StackCount_t DeleteItem(ItemUid_t _item_uid) override;

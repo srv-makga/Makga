@@ -4,6 +4,7 @@
 
 enum class ReflectType;
 class InventoryBase;
+class ItemProperty;
 
 class ItemObjectBase
 {
@@ -28,4 +29,6 @@ public:
 	virtual void SubStack(StackCount_t _stack) const = 0;
 
 	virtual void Reflection(ReflectType _type, InventoryBase* _inven) = 0;
+
+	virtual const ItemProperty* Property() const = 0;
 };

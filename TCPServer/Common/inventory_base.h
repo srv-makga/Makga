@@ -50,7 +50,6 @@ public:
 
 	virtual Result_t SubItem(ItemIdx_t _item_index, StackCount_t _item_count) = 0;
 	virtual Result_t SubItem(const ItemProperty& _item_property, StackCount_t _item_count) = 0;
-	virtual Result_t SubItem(ItemObjectBase* _item_object, bool _client_send) = 0;
 
 	// @return 삭제된 아이템 Stack 갯수 반환
 	virtual StackCount_t DeleteItem(ItemUid_t _item_uid) = 0;

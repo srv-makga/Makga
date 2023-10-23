@@ -9,4 +9,5 @@ public:
 	virtual ~InventoryOwner() = default;
 
 	virtual uint64_t OwnerUid() const = 0;
+	virtual int32_t MaxInvenSlot() const = 0;
 };
