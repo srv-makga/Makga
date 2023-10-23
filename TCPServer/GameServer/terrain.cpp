@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "terrain.h"
+#include "terrain_grid.h"
 
 Terrain::Terrain(TerrainUid_t _uid, const TerrainInfo& _table)
 	: m_uid(_uid)
@@ -9,6 +10,22 @@ Terrain::Terrain(TerrainUid_t _uid, const TerrainInfo& _table)
 
 void Terrain::Initialize()
 {
+}
+
+void Terrain::Finalize()
+{
+	m_grid.clear();
+}
+
+void Terrain::OnUpdate()
+{
+	for (auto& x : m_grid)
+	{
+		for (auto& y : x)
+		{
+			y->OnUpdate();
+		}
+	}
 }
 
 bool Terrain::IsInside(const Vector_t& _vector)

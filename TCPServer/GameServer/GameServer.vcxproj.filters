@@ -68,6 +68,9 @@
     <ClCompile Include="item_object_stack.cpp">
       <Filter>system\item</Filter>
     </ClCompile>
+    <ClCompile Include="terrain_grid.cpp">
+      <Filter>system\terrain\grid</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -149,9 +152,6 @@
     <ClInclude Include="inventory_equip.h">
       <Filter>system\inventory</Filter>
     </ClInclude>
-    <ClInclude Include="inventory_guild.h">
-      <Filter>system\inventory</Filter>
-    </ClInclude>
     <ClInclude Include="inventory_premium.h">
       <Filter>system\inventory</Filter>
     </ClInclude>
@@ -160,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="item_object_equip.h">
       <Filter>system\item</Filter>
+    </ClInclude>
+    <ClInclude Include="function.h">
+      <Filter>function</Filter>
+    </ClInclude>
+    <ClInclude Include="terrain_grid.h">
+      <Filter>system\terrain\grid</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

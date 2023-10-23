@@ -232,3 +232,13 @@ bool ServerGame::InitAcceptor()
 
 	return true;
 }
+
+ConnectorBase* ServerGame::Connector(fb::eServerType _server_type) const
+{
+	return m_connectors.Find(_server_type);
+}
+
+AcceptorBase* ServerGame::Acceptor(fb::eServerType _server_type) const
+{
+	return m_acceptors.Find(_server_type);
+}

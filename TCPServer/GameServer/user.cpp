@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "user.h"
 #include "session_user.h"
+#include "server_game.h"
 
 User::User()
 {
@@ -12,12 +13,21 @@ User::~User()
 
 void User::Initialize()
 {
+	m_account.Clear();
+	m_auth_key.Clear();
+	m_session = nullptr;
+	m_max_inventory = 0;
 	m_user_uid = 0;
 }
 
 void User::Finalize()
 {
-	m_user_uid = 0;
+	if (nullptr != m_session)
+	{
+		 // @todo 반환구현
+	}
+
+	m_session = nullptr;
 }
 
 const String8& User::Account() const

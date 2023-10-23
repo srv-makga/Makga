@@ -20,9 +20,12 @@ public:
 	bool StartUp() override;
 	bool StartEnd() override;
 
-public:
 	bool InitConnector();
 	bool InitAcceptor();
+
+public:
+	ConnectorBase* Connector(fb::eServerType _server_type) const;
+	AcceptorBase* Acceptor(fb::eServerType _server_type) const;
 
 private:
 	JobHandler* m_job_handler;
