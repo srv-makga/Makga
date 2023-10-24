@@ -1,16 +1,18 @@
 #pragma once
 #include "game_header.h"
 
+constexpr Coord_t GridX = 30;
+constexpr Coord_t GridY = 30;
+
 class Actor;
 
 class TerrainGrid
 {
 public:
 	using Actors = std::unordered_map<ActorId_t, Actor*>;
-	using Point = std::pair<Coord_t, Coord_t>;
 
 public:
-	TerrainGrid(Point& _lefttop, Point& _rightbottom, Coord_t _height);
+	TerrainGrid(CoordPoint_t& _lefttop, CoordPoint_t& _rightbottom, Coord_t _height);
 	~TerrainGrid();
 
 	void Initialize();
@@ -27,7 +29,7 @@ public:
 
 private:
 	Actors m_actors;
-	Point m_lefttop; // 좌상단
-	Point m_rightbottom; // 우하단
+	CoordPoint_t m_lefttop; // 좌상단
+	CoordPoint_t m_rightbottom; // 우하단
 	Coord_t m_height; // 높이
 };

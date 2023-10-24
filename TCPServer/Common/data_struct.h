@@ -15,8 +15,8 @@ struct TerrainInfo
 	TerrainIdx_t idx = 0;
 	String8 name;
 
-	Vector_t left_top;
-	Vector_t right_bottom;
+	CoordPoint_t left_top;
+	CoordPoint_t right_bottom;
 };
 
 struct ItemTableInfo

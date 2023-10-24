@@ -2,7 +2,7 @@
 #include "terrain_grid.h"
 #include "actor.h"
 
-TerrainGrid::TerrainGrid(Point& _lefttop, Point& _rightbottom, Coord_t _height)
+TerrainGrid::TerrainGrid(CoordPoint_t& _lefttop, CoordPoint_t& _rightbottom, Coord_t _height)
 	: m_lefttop(_lefttop)
 	, m_rightbottom(_rightbottom)
 	, m_height(_height)

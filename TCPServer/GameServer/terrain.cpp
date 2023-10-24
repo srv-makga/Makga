@@ -10,6 +10,30 @@ Terrain::Terrain(TerrainUid_t _uid, const TerrainInfo& _table)
 
 void Terrain::Initialize()
 {
+	Count_t grid_x_count = (m_table->right_bottom.first - m_table->left_top.first) / GridX + 1;
+	Count_t grid_y_count = (m_table->left_top.second - m_table->right_bottom.second) / GridY + 1;
+
+	m_grid.reserve(grid_x_count);
+
+	// x
+	for (Count_t i = 0; i < grid_x_count; ++i)
+	{
+		std::vector<std::shared_ptr<TerrainGrid>> grids;
+		grids.reserve(grid_y_count);
+
+		Coord_t base_x = m_table->left_top.first;
+
+		// y
+		for (Count_t j = 0; j < grid_y_count; ++j)
+		{
+			CoordPoint_t lefttop = { m_table->left_top.first + (i * GridX), m_table->left_top.second + (j * GridY) };
+			CoordPoint_t rightbottom = { lefttop.first + GridX - 1, lefttop.second + GridY - 1 };
+
+			grids.push_back(std::make_shared<TerrainGrid>(lefttop, rightbottom, 0));
+		}
+
+		m_grid.push_back(grids);
+	}
 }
 
 void Terrain::Finalize()
@@ -30,22 +54,22 @@ void Terrain::OnUpdate()
 
 bool Terrain::IsInside(const Vector_t& _vector)
 {
-	if (m_table->left_top.X() < _vector.X())
+	if (m_table->left_top.first < _vector.X())
 	{
 		return false;
 	}
 
-	if (m_table->left_top.Y() < _vector.Y())
+	if (m_table->left_top.second < _vector.Y())
 	{
 		return false;
 	}
 
-	if (m_table->right_bottom.X() > _vector.X())
+	if (m_table->right_bottom.first > _vector.X())
 	{
 		return false;
 	}
 
-	if (m_table->right_bottom.Y() > _vector.Y())
+	if (m_table->right_bottom.second > _vector.Y())
 	{
 		return false;
 	}
