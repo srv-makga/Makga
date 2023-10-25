@@ -27,9 +27,14 @@ public:
 	bool Erasector(ActorId_t _actor_id);
 	bool Erasector(Actor* _actor);
 
+
+	TerrainGrid& PushAround(TerrainGrid* _terrain_grid);
+
 private:
 	Actors m_actors;
 	CoordPoint_t m_lefttop; // 좌상단
 	CoordPoint_t m_rightbottom; // 우하단
 	Coord_t m_height; // 높이
+
+	std::vector<TerrainGrid*> m_around;
 };

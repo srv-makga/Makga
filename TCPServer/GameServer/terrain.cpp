@@ -21,18 +21,32 @@ void Terrain::Initialize()
 		std::vector<std::shared_ptr<TerrainGrid>> grids;
 		grids.reserve(grid_y_count);
 
-		Coord_t base_x = m_table->left_top.first;
+		Coord_t base_x = m_table->left_top.first + (i * GridX);
+		Coord_t base_y = m_table->left_top.second;
 
 		// y
 		for (Count_t j = 0; j < grid_y_count; ++j)
 		{
-			CoordPoint_t lefttop = { m_table->left_top.first + (i * GridX), m_table->left_top.second + (j * GridY) };
-			CoordPoint_t rightbottom = { lefttop.first + GridX - 1, lefttop.second + GridY - 1 };
+			CoordPoint_t lefttop = { base_x, base_y + (j * GridY) };
+			CoordPoint_t rightbottom = { base_x + GridX, lefttop.second + GridY };
 
 			grids.push_back(std::make_shared<TerrainGrid>(lefttop, rightbottom, 0));
 		}
 
 		m_grid.push_back(grids);
+	}
+
+	for (std::size_t i = 0; m_grid.size(); ++i)
+	{
+		for (std::size_t j = 0; j < m_grid[i].size(); ++j)
+		{
+			auto grid = m_grid[i][j];
+
+			if (0 < i)						grid->PushAround(m_grid[i-1][j].get());
+			if (m_grid.size() > i + 1)		grid->PushAround(m_grid[i+1][j].get());
+			if (0 < j)						grid->PushAround(m_grid[i][j-1].get());
+			if (0 < m_grid[i].size())		grid->PushAround(m_grid[i][j + 1].get());
+		}
 	}
 }
 

@@ -76,3 +76,9 @@ bool TerrainGrid::Erasector(Actor* _actor)
 
 	return Erasector(_actor->Id());
 }
+
+TerrainGrid& TerrainGrid::PushAround(TerrainGrid* _terrain_grid)
+{
+	m_around.push_back(_terrain_grid);
+	return *this;
+}
