@@ -69,7 +69,10 @@
       <Filter>system\item</Filter>
     </ClCompile>
     <ClCompile Include="terrain_grid.cpp">
-      <Filter>system\terrain\grid</Filter>
+      <Filter>system\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="ai_aggressive.cpp">
+      <Filter>actor\ai</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +168,7 @@
       <Filter>function</Filter>
     </ClInclude>
     <ClInclude Include="terrain_grid.h">
-      <Filter>system\terrain\grid</Filter>
+      <Filter>system\terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -198,9 +201,6 @@
     </Filter>
     <Filter Include="system\quest">
       <UniqueIdentifier>{cb6a9120-0ee6-4fb6-b682-79585d97ffd7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="system\terrain\grid">
-      <UniqueIdentifier>{32310f5e-fe36-4c8e-82c3-def9377b825b}</UniqueIdentifier>
     </Filter>
     <Filter Include="network">
       <UniqueIdentifier>{9a9e79a9-d5dc-43d3-8def-7e40db955c74}</UniqueIdentifier>

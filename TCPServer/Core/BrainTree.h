@@ -26,13 +26,13 @@ public:
 	virtual ~Node() {}
 
 	virtual Status update() = 0;
-	virtual void Initialize() {}
+	virtual void initialize() {}
 	virtual void terminate(Status s) {}
 
 	Status tick()
 	{
 		if (status != Status::Running) {
-			Initialize();
+			initialize();
 		}
 
 		status = update();
@@ -326,7 +326,7 @@ private:
 class Selector : public Composite
 {
 public:
-	void Initialize() override
+	void initialize() override
 	{
 		it = children.begin();
 	}
@@ -358,7 +358,7 @@ public:
 class Sequence : public Composite
 {
 public:
-	void Initialize() override
+	void initialize() override
 	{
 		it = children.begin();
 	}
@@ -545,7 +545,7 @@ class Repeater : public Decorator
 public:
 	Repeater(int limit = 0) : limit(limit) {}
 
-	void Initialize() override
+	void initialize() override
 	{
 		counter = 0;
 	}
