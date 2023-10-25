@@ -42,10 +42,14 @@ void Terrain::Initialize()
 		{
 			auto grid = m_grid[i][j];
 
-			if (0 < i)						grid->PushAround(m_grid[i-1][j].get());
-			if (m_grid.size() > i + 1)		grid->PushAround(m_grid[i+1][j].get());
-			if (0 < j)						grid->PushAround(m_grid[i][j-1].get());
-			if (0 < m_grid[i].size())		grid->PushAround(m_grid[i][j + 1].get());
+			if (0 < i)
+				grid->PushAround(m_grid[i-1][j].get());
+			if (m_grid.size() > i + 1)
+				grid->PushAround(m_grid[i+1][j].get());
+			if (0 < j)
+				grid->PushAround(m_grid[i][j-1].get());
+			if (0 < m_grid[i].size())
+				grid->PushAround(m_grid[i][j + 1].get());
 		}
 	}
 }
