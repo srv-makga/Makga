@@ -180,10 +180,10 @@ private:
 	Blackboard::Ptr blackboard = nullptr;
 };
 
-export template <class Parent>
+template <class Parent>
 class DecoratorBuilder;
 
-export template <class Parent>
+template <class Parent>
 class CompositeBuilder
 {
 public:
@@ -223,7 +223,7 @@ private:
 	Composite* node;
 };
 
-export template <class Parent>
+template <class Parent>
 class DecoratorBuilder
 {
 public:

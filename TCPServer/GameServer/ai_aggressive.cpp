@@ -32,4 +32,6 @@ void AIAggressive::terminate(Status s)
 AIAggressive::Status AIAggressive::update()
 {
 	m_root->tick();
+
+	return Status::Success;
 }

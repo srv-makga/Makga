@@ -45,6 +45,10 @@ public:
 	// @brief 누가 주변에 올 때 appear 정보를 줄지
 	virtual bool IsAppear() const { return false; }
 
+	virtual bool HasTarget() const { return false; }
+	virtual Actor* Target() const { return nullptr; }
+	virtual bool IsDie() const { return true; }
+
 	virtual Coord_t X() const { return Coord_t(); }
 	virtual Coord_t Y() const { return Coord_t(); }
 	virtual Coord_t Z() const { return Coord_t(); }
