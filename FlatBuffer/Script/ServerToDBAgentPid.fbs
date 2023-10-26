@@ -9,7 +9,8 @@ enum SendPid : uint32
 	None = 0,
 	Reg,
 	Ping,
-	LoginAuth // GameServer
+	LoginAuth, // GameServer
+	LoginSecurity, // GameServer
 }
 
 
@@ -22,5 +23,6 @@ enum RecvPid : uint32
 	None = 0,
 	Reg,
 	Ping,
-	LoginAuth // GameServer
+	LoginAuth, // GameServer
+	LoginSecurity, // GameServer
 }

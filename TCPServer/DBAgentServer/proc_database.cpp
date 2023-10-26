@@ -60,7 +60,8 @@ bool DatabaseClient::OnLoginAuth(SessionBase* _session, NetPacket* _packet)
 	}
 
 	CREATE_FBB(fbb);
-	fbb.Finish(fb::dbagent::CreateRecv_LoginAuth(fbb
+	fbb.Finish(fb::dbagent::CreateRecv_LoginAuth(fbb,
+		fb::dbagent::CreateHeader(fbb, recv_data->header()->uid())
 		, fbb.CreateString(recv_data->account())
 		, fbb.CreateString(recv_data->auth_key())
 		, result

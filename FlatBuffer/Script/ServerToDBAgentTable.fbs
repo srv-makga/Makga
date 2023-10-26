@@ -26,22 +26,36 @@ namespace fb.dbagent;
 //
 // ###########################
 
+table Header (csharp_partial)
+{
+	uid:uint64;
+}
 
 // ######################################################
 table Send_Reg (csharp_partial)
 {
+	header:Header;
 	type:eServerType;
 }
 
 table Send_Ping (csharp_partial)
 {
+	header:Header;
 	time:int64;
 }
 
 table Send_LoginAuth (csharp_partial)
 {
+	header:Header;
 	account:string;
 	auth_key:string;
+}
+
+table Send_LoginSecurity (csharp_partial)
+{
+	header:Header;
+	account:string;
+	security_number:int32;
 }
 
 
@@ -51,17 +65,26 @@ table Send_LoginAuth (csharp_partial)
 // ############################################################################################################
 table Recv_Reg (csharp_partial)
 {
+	header:Header;
 	result:eResult;
 }
 
 table Recv_Ping (csharp_partial)
 {
+	header:Header;
 	time:int64;
 }
 
 table Recv_LoginAuth (csharp_partial)
 {
+	header:Header;
 	account:string;
 	auth_key:string;
+	result:eResult;
+}
+
+table Recv_LoginSecurity (csharp_partial)
+{
+	header:Header;
 	result:eResult;
 }

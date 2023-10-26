@@ -21,33 +21,36 @@ enum SendPid : uint32_t {
   SendPid_Reg = 1,
   SendPid_Ping = 2,
   SendPid_LoginAuth = 3,
+  SendPid_LoginSecurity = 4,
   SendPid_MIN = SendPid_None,
-  SendPid_MAX = SendPid_LoginAuth
+  SendPid_MAX = SendPid_LoginSecurity
 };
 
-inline const SendPid (&EnumValuesSendPid())[4] {
+inline const SendPid (&EnumValuesSendPid())[5] {
   static const SendPid values[] = {
     SendPid_None,
     SendPid_Reg,
     SendPid_Ping,
-    SendPid_LoginAuth
+    SendPid_LoginAuth,
+    SendPid_LoginSecurity
   };
   return values;
 }
 
 inline const char * const *EnumNamesSendPid() {
-  static const char * const names[5] = {
+  static const char * const names[6] = {
     "None",
     "Reg",
     "Ping",
     "LoginAuth",
+    "LoginSecurity",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameSendPid(SendPid e) {
-  if (::flatbuffers::IsOutRange(e, SendPid_None, SendPid_LoginAuth)) return "";
+  if (::flatbuffers::IsOutRange(e, SendPid_None, SendPid_LoginSecurity)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesSendPid()[index];
 }
@@ -58,33 +61,36 @@ enum RecvPid : uint32_t {
   RecvPid_Reg = 1,
   RecvPid_Ping = 2,
   RecvPid_LoginAuth = 3,
+  RecvPid_LoginSecurity = 4,
   RecvPid_MIN = RecvPid_None,
-  RecvPid_MAX = RecvPid_LoginAuth
+  RecvPid_MAX = RecvPid_LoginSecurity
 };
 
-inline const RecvPid (&EnumValuesRecvPid())[4] {
+inline const RecvPid (&EnumValuesRecvPid())[5] {
   static const RecvPid values[] = {
     RecvPid_None,
     RecvPid_Reg,
     RecvPid_Ping,
-    RecvPid_LoginAuth
+    RecvPid_LoginAuth,
+    RecvPid_LoginSecurity
   };
   return values;
 }
 
 inline const char * const *EnumNamesRecvPid() {
-  static const char * const names[5] = {
+  static const char * const names[6] = {
     "None",
     "Reg",
     "Ping",
     "LoginAuth",
+    "LoginSecurity",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameRecvPid(RecvPid e) {
-  if (::flatbuffers::IsOutRange(e, RecvPid_None, RecvPid_LoginAuth)) return "";
+  if (::flatbuffers::IsOutRange(e, RecvPid_None, RecvPid_LoginSecurity)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesRecvPid()[index];
 }

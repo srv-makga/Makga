@@ -152,7 +152,7 @@
     <ClCompile Include="user.cpp" />
     <ClCompile Include="acceptor_user.cpp" />
     <ClCompile Include="session_world.cpp" />
-    <ClCompile Include="user_proc.cpp" />
+    <ClCompile Include="proc_user.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actor_manager.h" />

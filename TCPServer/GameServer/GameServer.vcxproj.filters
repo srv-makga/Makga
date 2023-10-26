@@ -53,9 +53,6 @@
     <ClCompile Include="session_world.cpp">
       <Filter>network\session</Filter>
     </ClCompile>
-    <ClCompile Include="user_proc.cpp">
-      <Filter>user</Filter>
-    </ClCompile>
     <ClCompile Include="proc_world.cpp">
       <Filter>proc</Filter>
     </ClCompile>
@@ -73,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="ai_aggressive.cpp">
       <Filter>actor\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="proc_user.cpp">
+      <Filter>proc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

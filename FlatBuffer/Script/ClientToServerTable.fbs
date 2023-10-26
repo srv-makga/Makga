@@ -32,9 +32,14 @@ namespace fb.server;
 table Send_LoginAccount
 {
 	accountId:string;
-	connectKey:uint32;	// 서버 이동시 필요한 키
+	connect_key:uint32;	// 서버 이동시 필요한 키
 }
 
+table Send_LoginSecurity
+{
+	accountId:string;
+	security_number:int32;
+}
 
 // ############################################################################################################
 // ############################################################################################################
@@ -42,6 +47,11 @@ table Send_LoginAccount
 // ############################################################################################################
 // Recv
 table Recv_LoginAccount
+{
+	result:eResult;
+}
+
+table Recv_LoginSecurity
 {
 	result:eResult;
 }

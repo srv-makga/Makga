@@ -15,7 +15,7 @@ public:
 	static bool InitDispatcher();
 
 public:
-	SessionDBAgent(std::size_t _buffer_size);
+	SessionDBAgent(std::size_t _buffer_size = 8192);
 	virtual ~SessionDBAgent();
 
 	// @brief 패킷 수신시

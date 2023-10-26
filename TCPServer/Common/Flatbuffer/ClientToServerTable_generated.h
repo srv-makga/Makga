@@ -20,14 +20,22 @@ struct Send_LoginAccount;
 struct Send_LoginAccountBuilder;
 struct Send_LoginAccountT;
 
+struct Send_LoginSecurity;
+struct Send_LoginSecurityBuilder;
+struct Send_LoginSecurityT;
+
 struct Recv_LoginAccount;
 struct Recv_LoginAccountBuilder;
 struct Recv_LoginAccountT;
 
+struct Recv_LoginSecurity;
+struct Recv_LoginSecurityBuilder;
+struct Recv_LoginSecurityT;
+
 struct Send_LoginAccountT : public ::flatbuffers::NativeTable {
   typedef Send_LoginAccount TableType;
   std::string accountId{};
-  uint32_t connectKey = 0;
+  uint32_t connect_key = 0;
 };
 
 struct Send_LoginAccount FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
@@ -35,7 +43,7 @@ struct Send_LoginAccount FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table 
   typedef Send_LoginAccountBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_ACCOUNTID = 4,
-    VT_CONNECTKEY = 6
+    VT_CONNECT_KEY = 6
   };
   const ::flatbuffers::String *accountId() const {
     return GetPointer<const ::flatbuffers::String *>(VT_ACCOUNTID);
@@ -43,17 +51,17 @@ struct Send_LoginAccount FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table 
   ::flatbuffers::String *mutable_accountId() {
     return GetPointer<::flatbuffers::String *>(VT_ACCOUNTID);
   }
-  uint32_t connectKey() const {
-    return GetField<uint32_t>(VT_CONNECTKEY, 0);
+  uint32_t connect_key() const {
+    return GetField<uint32_t>(VT_CONNECT_KEY, 0);
   }
-  bool mutate_connectKey(uint32_t _connectKey = 0) {
-    return SetField<uint32_t>(VT_CONNECTKEY, _connectKey, 0);
+  bool mutate_connect_key(uint32_t _connect_key = 0) {
+    return SetField<uint32_t>(VT_CONNECT_KEY, _connect_key, 0);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_ACCOUNTID) &&
            verifier.VerifyString(accountId()) &&
-           VerifyField<uint32_t>(verifier, VT_CONNECTKEY, 4) &&
+           VerifyField<uint32_t>(verifier, VT_CONNECT_KEY, 4) &&
            verifier.EndTable();
   }
   Send_LoginAccountT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -68,8 +76,8 @@ struct Send_LoginAccountBuilder {
   void add_accountId(::flatbuffers::Offset<::flatbuffers::String> accountId) {
     fbb_.AddOffset(Send_LoginAccount::VT_ACCOUNTID, accountId);
   }
-  void add_connectKey(uint32_t connectKey) {
-    fbb_.AddElement<uint32_t>(Send_LoginAccount::VT_CONNECTKEY, connectKey, 0);
+  void add_connect_key(uint32_t connect_key) {
+    fbb_.AddElement<uint32_t>(Send_LoginAccount::VT_CONNECT_KEY, connect_key, 0);
   }
   explicit Send_LoginAccountBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -85,9 +93,9 @@ struct Send_LoginAccountBuilder {
 inline ::flatbuffers::Offset<Send_LoginAccount> CreateSend_LoginAccount(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<::flatbuffers::String> accountId = 0,
-    uint32_t connectKey = 0) {
+    uint32_t connect_key = 0) {
   Send_LoginAccountBuilder builder_(_fbb);
-  builder_.add_connectKey(connectKey);
+  builder_.add_connect_key(connect_key);
   builder_.add_accountId(accountId);
   return builder_.Finish();
 }
@@ -95,15 +103,96 @@ inline ::flatbuffers::Offset<Send_LoginAccount> CreateSend_LoginAccount(
 inline ::flatbuffers::Offset<Send_LoginAccount> CreateSend_LoginAccountDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     const char *accountId = nullptr,
-    uint32_t connectKey = 0) {
+    uint32_t connect_key = 0) {
   auto accountId__ = accountId ? _fbb.CreateString(accountId) : 0;
   return fb::server::CreateSend_LoginAccount(
       _fbb,
       accountId__,
-      connectKey);
+      connect_key);
 }
 
 ::flatbuffers::Offset<Send_LoginAccount> CreateSend_LoginAccount(::flatbuffers::FlatBufferBuilder &_fbb, const Send_LoginAccountT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct Send_LoginSecurityT : public ::flatbuffers::NativeTable {
+  typedef Send_LoginSecurity TableType;
+  std::string accountId{};
+  int32_t security_number = 0;
+};
+
+struct Send_LoginSecurity FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Send_LoginSecurityT NativeTableType;
+  typedef Send_LoginSecurityBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ACCOUNTID = 4,
+    VT_SECURITY_NUMBER = 6
+  };
+  const ::flatbuffers::String *accountId() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_ACCOUNTID);
+  }
+  ::flatbuffers::String *mutable_accountId() {
+    return GetPointer<::flatbuffers::String *>(VT_ACCOUNTID);
+  }
+  int32_t security_number() const {
+    return GetField<int32_t>(VT_SECURITY_NUMBER, 0);
+  }
+  bool mutate_security_number(int32_t _security_number = 0) {
+    return SetField<int32_t>(VT_SECURITY_NUMBER, _security_number, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_ACCOUNTID) &&
+           verifier.VerifyString(accountId()) &&
+           VerifyField<int32_t>(verifier, VT_SECURITY_NUMBER, 4) &&
+           verifier.EndTable();
+  }
+  Send_LoginSecurityT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Send_LoginSecurityT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Send_LoginSecurity> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_LoginSecurityT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Send_LoginSecurityBuilder {
+  typedef Send_LoginSecurity Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_accountId(::flatbuffers::Offset<::flatbuffers::String> accountId) {
+    fbb_.AddOffset(Send_LoginSecurity::VT_ACCOUNTID, accountId);
+  }
+  void add_security_number(int32_t security_number) {
+    fbb_.AddElement<int32_t>(Send_LoginSecurity::VT_SECURITY_NUMBER, security_number, 0);
+  }
+  explicit Send_LoginSecurityBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Send_LoginSecurity> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Send_LoginSecurity>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Send_LoginSecurity> CreateSend_LoginSecurity(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::String> accountId = 0,
+    int32_t security_number = 0) {
+  Send_LoginSecurityBuilder builder_(_fbb);
+  builder_.add_security_number(security_number);
+  builder_.add_accountId(accountId);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Send_LoginSecurity> CreateSend_LoginSecurityDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const char *accountId = nullptr,
+    int32_t security_number = 0) {
+  auto accountId__ = accountId ? _fbb.CreateString(accountId) : 0;
+  return fb::server::CreateSend_LoginSecurity(
+      _fbb,
+      accountId__,
+      security_number);
+}
+
+::flatbuffers::Offset<Send_LoginSecurity> CreateSend_LoginSecurity(::flatbuffers::FlatBufferBuilder &_fbb, const Send_LoginSecurityT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct Recv_LoginAccountT : public ::flatbuffers::NativeTable {
   typedef Recv_LoginAccount TableType;
@@ -160,6 +249,61 @@ inline ::flatbuffers::Offset<Recv_LoginAccount> CreateRecv_LoginAccount(
 
 ::flatbuffers::Offset<Recv_LoginAccount> CreateRecv_LoginAccount(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_LoginAccountT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct Recv_LoginSecurityT : public ::flatbuffers::NativeTable {
+  typedef Recv_LoginSecurity TableType;
+  fb::eResult result = fb::eResult_Success;
+};
+
+struct Recv_LoginSecurity FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Recv_LoginSecurityT NativeTableType;
+  typedef Recv_LoginSecurityBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_RESULT = 4
+  };
+  fb::eResult result() const {
+    return static_cast<fb::eResult>(GetField<int32_t>(VT_RESULT, 0));
+  }
+  bool mutate_result(fb::eResult _result = static_cast<fb::eResult>(0)) {
+    return SetField<int32_t>(VT_RESULT, static_cast<int32_t>(_result), 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_RESULT, 4) &&
+           verifier.EndTable();
+  }
+  Recv_LoginSecurityT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Recv_LoginSecurityT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Recv_LoginSecurity> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_LoginSecurityT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Recv_LoginSecurityBuilder {
+  typedef Recv_LoginSecurity Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_result(fb::eResult result) {
+    fbb_.AddElement<int32_t>(Recv_LoginSecurity::VT_RESULT, static_cast<int32_t>(result), 0);
+  }
+  explicit Recv_LoginSecurityBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Recv_LoginSecurity> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Recv_LoginSecurity>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    fb::eResult result = fb::eResult_Success) {
+  Recv_LoginSecurityBuilder builder_(_fbb);
+  builder_.add_result(result);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_LoginSecurityT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 inline Send_LoginAccountT *Send_LoginAccount::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::unique_ptr<Send_LoginAccountT>(new Send_LoginAccountT());
   UnPackTo(_o.get(), _resolver);
@@ -170,7 +314,7 @@ inline void Send_LoginAccount::UnPackTo(Send_LoginAccountT *_o, const ::flatbuff
   (void)_o;
   (void)_resolver;
   { auto _e = accountId(); if (_e) _o->accountId = _e->str(); }
-  { auto _e = connectKey(); _o->connectKey = _e; }
+  { auto _e = connect_key(); _o->connect_key = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_LoginAccount> Send_LoginAccount::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_LoginAccountT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -182,11 +326,40 @@ inline ::flatbuffers::Offset<Send_LoginAccount> CreateSend_LoginAccount(::flatbu
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_LoginAccountT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _accountId = _o->accountId.empty() ? 0 : _fbb.CreateString(_o->accountId);
-  auto _connectKey = _o->connectKey;
+  auto _connect_key = _o->connect_key;
   return fb::server::CreateSend_LoginAccount(
       _fbb,
       _accountId,
-      _connectKey);
+      _connect_key);
+}
+
+inline Send_LoginSecurityT *Send_LoginSecurity::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<Send_LoginSecurityT>(new Send_LoginSecurityT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Send_LoginSecurity::UnPackTo(Send_LoginSecurityT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = accountId(); if (_e) _o->accountId = _e->str(); }
+  { auto _e = security_number(); _o->security_number = _e; }
+}
+
+inline ::flatbuffers::Offset<Send_LoginSecurity> Send_LoginSecurity::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_LoginSecurityT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateSend_LoginSecurity(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Send_LoginSecurity> CreateSend_LoginSecurity(::flatbuffers::FlatBufferBuilder &_fbb, const Send_LoginSecurityT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_LoginSecurityT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _accountId = _o->accountId.empty() ? 0 : _fbb.CreateString(_o->accountId);
+  auto _security_number = _o->security_number;
+  return fb::server::CreateSend_LoginSecurity(
+      _fbb,
+      _accountId,
+      _security_number);
 }
 
 inline Recv_LoginAccountT *Recv_LoginAccount::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -211,6 +384,32 @@ inline ::flatbuffers::Offset<Recv_LoginAccount> CreateRecv_LoginAccount(::flatbu
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_LoginAccountT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _result = _o->result;
   return fb::server::CreateRecv_LoginAccount(
+      _fbb,
+      _result);
+}
+
+inline Recv_LoginSecurityT *Recv_LoginSecurity::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<Recv_LoginSecurityT>(new Recv_LoginSecurityT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Recv_LoginSecurity::UnPackTo(Recv_LoginSecurityT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = result(); _o->result = _e; }
+}
+
+inline ::flatbuffers::Offset<Recv_LoginSecurity> Recv_LoginSecurity::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_LoginSecurityT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateRecv_LoginSecurity(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_LoginSecurityT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_LoginSecurityT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _result = _o->result;
+  return fb::server::CreateRecv_LoginSecurity(
       _fbb,
       _result);
 }

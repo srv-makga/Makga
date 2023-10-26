@@ -30,6 +30,8 @@ public:
 public:
 	const String8& Account() const;
 
+	UserUid_t UserUid() const { return m_user_uid; }
+
 	SessionUser* Session() const;
 	void SetSession(SessionUser* _session);
 

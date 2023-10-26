@@ -16,6 +16,10 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 23 &&
 namespace fb {
 namespace dbagent {
 
+struct Header;
+struct HeaderBuilder;
+struct HeaderT;
+
 struct Send_Reg;
 struct Send_RegBuilder;
 struct Send_RegT;
@@ -27,6 +31,10 @@ struct Send_PingT;
 struct Send_LoginAuth;
 struct Send_LoginAuthBuilder;
 struct Send_LoginAuthT;
+
+struct Send_LoginSecurity;
+struct Send_LoginSecurityBuilder;
+struct Send_LoginSecurityT;
 
 struct Recv_Reg;
 struct Recv_RegBuilder;
@@ -40,17 +48,88 @@ struct Recv_LoginAuth;
 struct Recv_LoginAuthBuilder;
 struct Recv_LoginAuthT;
 
+struct Recv_LoginSecurity;
+struct Recv_LoginSecurityBuilder;
+struct Recv_LoginSecurityT;
+
+struct HeaderT : public ::flatbuffers::NativeTable {
+  typedef Header TableType;
+  uint64_t uid = 0;
+};
+
+struct Header FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef HeaderT NativeTableType;
+  typedef HeaderBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
+           verifier.EndTable();
+  }
+  HeaderT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(HeaderT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Header> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const HeaderT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct HeaderBuilder {
+  typedef Header Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(Header::VT_UID, uid, 0);
+  }
+  explicit HeaderBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Header> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Header>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Header> CreateHeader(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0) {
+  HeaderBuilder builder_(_fbb);
+  builder_.add_uid(uid);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Header> CreateHeader(::flatbuffers::FlatBufferBuilder &_fbb, const HeaderT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 struct Send_RegT : public ::flatbuffers::NativeTable {
   typedef Send_Reg TableType;
+  std::unique_ptr<fb::dbagent::HeaderT> header{};
   fb::eServerType type = fb::eServerType_Global;
+  Send_RegT() = default;
+  Send_RegT(const Send_RegT &o);
+  Send_RegT(Send_RegT&&) FLATBUFFERS_NOEXCEPT = default;
+  Send_RegT &operator=(Send_RegT o) FLATBUFFERS_NOEXCEPT;
 };
 
 struct Send_Reg FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_RegT NativeTableType;
   typedef Send_RegBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_TYPE = 4
+    VT_HEADER = 4,
+    VT_TYPE = 6
   };
+  const fb::dbagent::Header *header() const {
+    return GetPointer<const fb::dbagent::Header *>(VT_HEADER);
+  }
+  fb::dbagent::Header *mutable_header() {
+    return GetPointer<fb::dbagent::Header *>(VT_HEADER);
+  }
   fb::eServerType type() const {
     return static_cast<fb::eServerType>(GetField<int32_t>(VT_TYPE, 0));
   }
@@ -59,6 +138,8 @@ struct Send_Reg FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_HEADER) &&
+           verifier.VerifyTable(header()) &&
            VerifyField<int32_t>(verifier, VT_TYPE, 4) &&
            verifier.EndTable();
   }
@@ -71,6 +152,9 @@ struct Send_RegBuilder {
   typedef Send_Reg Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_header(::flatbuffers::Offset<fb::dbagent::Header> header) {
+    fbb_.AddOffset(Send_Reg::VT_HEADER, header);
+  }
   void add_type(fb::eServerType type) {
     fbb_.AddElement<int32_t>(Send_Reg::VT_TYPE, static_cast<int32_t>(type), 0);
   }
@@ -87,9 +171,11 @@ struct Send_RegBuilder {
 
 inline ::flatbuffers::Offset<Send_Reg> CreateSend_Reg(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::dbagent::Header> header = 0,
     fb::eServerType type = fb::eServerType_Global) {
   Send_RegBuilder builder_(_fbb);
   builder_.add_type(type);
+  builder_.add_header(header);
   return builder_.Finish();
 }
 
@@ -97,15 +183,27 @@ inline ::flatbuffers::Offset<Send_Reg> CreateSend_Reg(
 
 struct Send_PingT : public ::flatbuffers::NativeTable {
   typedef Send_Ping TableType;
+  std::unique_ptr<fb::dbagent::HeaderT> header{};
   int64_t time = 0;
+  Send_PingT() = default;
+  Send_PingT(const Send_PingT &o);
+  Send_PingT(Send_PingT&&) FLATBUFFERS_NOEXCEPT = default;
+  Send_PingT &operator=(Send_PingT o) FLATBUFFERS_NOEXCEPT;
 };
 
 struct Send_Ping FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_PingT NativeTableType;
   typedef Send_PingBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_TIME = 4
+    VT_HEADER = 4,
+    VT_TIME = 6
   };
+  const fb::dbagent::Header *header() const {
+    return GetPointer<const fb::dbagent::Header *>(VT_HEADER);
+  }
+  fb::dbagent::Header *mutable_header() {
+    return GetPointer<fb::dbagent::Header *>(VT_HEADER);
+  }
   int64_t time() const {
     return GetField<int64_t>(VT_TIME, 0);
   }
@@ -114,6 +212,8 @@ struct Send_Ping FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_HEADER) &&
+           verifier.VerifyTable(header()) &&
            VerifyField<int64_t>(verifier, VT_TIME, 8) &&
            verifier.EndTable();
   }
@@ -126,6 +226,9 @@ struct Send_PingBuilder {
   typedef Send_Ping Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_header(::flatbuffers::Offset<fb::dbagent::Header> header) {
+    fbb_.AddOffset(Send_Ping::VT_HEADER, header);
+  }
   void add_time(int64_t time) {
     fbb_.AddElement<int64_t>(Send_Ping::VT_TIME, time, 0);
   }
@@ -142,9 +245,11 @@ struct Send_PingBuilder {
 
 inline ::flatbuffers::Offset<Send_Ping> CreateSend_Ping(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::dbagent::Header> header = 0,
     int64_t time = 0) {
   Send_PingBuilder builder_(_fbb);
   builder_.add_time(time);
+  builder_.add_header(header);
   return builder_.Finish();
 }
 
@@ -152,17 +257,29 @@ inline ::flatbuffers::Offset<Send_Ping> CreateSend_Ping(
 
 struct Send_LoginAuthT : public ::flatbuffers::NativeTable {
   typedef Send_LoginAuth TableType;
+  std::unique_ptr<fb::dbagent::HeaderT> header{};
   std::string account{};
   std::string auth_key{};
+  Send_LoginAuthT() = default;
+  Send_LoginAuthT(const Send_LoginAuthT &o);
+  Send_LoginAuthT(Send_LoginAuthT&&) FLATBUFFERS_NOEXCEPT = default;
+  Send_LoginAuthT &operator=(Send_LoginAuthT o) FLATBUFFERS_NOEXCEPT;
 };
 
 struct Send_LoginAuth FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_LoginAuthT NativeTableType;
   typedef Send_LoginAuthBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_ACCOUNT = 4,
-    VT_AUTH_KEY = 6
+    VT_HEADER = 4,
+    VT_ACCOUNT = 6,
+    VT_AUTH_KEY = 8
   };
+  const fb::dbagent::Header *header() const {
+    return GetPointer<const fb::dbagent::Header *>(VT_HEADER);
+  }
+  fb::dbagent::Header *mutable_header() {
+    return GetPointer<fb::dbagent::Header *>(VT_HEADER);
+  }
   const ::flatbuffers::String *account() const {
     return GetPointer<const ::flatbuffers::String *>(VT_ACCOUNT);
   }
@@ -177,6 +294,8 @@ struct Send_LoginAuth FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_HEADER) &&
+           verifier.VerifyTable(header()) &&
            VerifyOffset(verifier, VT_ACCOUNT) &&
            verifier.VerifyString(account()) &&
            VerifyOffset(verifier, VT_AUTH_KEY) &&
@@ -192,6 +311,9 @@ struct Send_LoginAuthBuilder {
   typedef Send_LoginAuth Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_header(::flatbuffers::Offset<fb::dbagent::Header> header) {
+    fbb_.AddOffset(Send_LoginAuth::VT_HEADER, header);
+  }
   void add_account(::flatbuffers::Offset<::flatbuffers::String> account) {
     fbb_.AddOffset(Send_LoginAuth::VT_ACCOUNT, account);
   }
@@ -211,39 +333,157 @@ struct Send_LoginAuthBuilder {
 
 inline ::flatbuffers::Offset<Send_LoginAuth> CreateSend_LoginAuth(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::dbagent::Header> header = 0,
     ::flatbuffers::Offset<::flatbuffers::String> account = 0,
     ::flatbuffers::Offset<::flatbuffers::String> auth_key = 0) {
   Send_LoginAuthBuilder builder_(_fbb);
   builder_.add_auth_key(auth_key);
   builder_.add_account(account);
+  builder_.add_header(header);
   return builder_.Finish();
 }
 
 inline ::flatbuffers::Offset<Send_LoginAuth> CreateSend_LoginAuthDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::dbagent::Header> header = 0,
     const char *account = nullptr,
     const char *auth_key = nullptr) {
   auto account__ = account ? _fbb.CreateString(account) : 0;
   auto auth_key__ = auth_key ? _fbb.CreateString(auth_key) : 0;
   return fb::dbagent::CreateSend_LoginAuth(
       _fbb,
+      header,
       account__,
       auth_key__);
 }
 
 ::flatbuffers::Offset<Send_LoginAuth> CreateSend_LoginAuth(::flatbuffers::FlatBufferBuilder &_fbb, const Send_LoginAuthT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct Send_LoginSecurityT : public ::flatbuffers::NativeTable {
+  typedef Send_LoginSecurity TableType;
+  std::unique_ptr<fb::dbagent::HeaderT> header{};
+  std::string account{};
+  int32_t security_number = 0;
+  Send_LoginSecurityT() = default;
+  Send_LoginSecurityT(const Send_LoginSecurityT &o);
+  Send_LoginSecurityT(Send_LoginSecurityT&&) FLATBUFFERS_NOEXCEPT = default;
+  Send_LoginSecurityT &operator=(Send_LoginSecurityT o) FLATBUFFERS_NOEXCEPT;
+};
+
+struct Send_LoginSecurity FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Send_LoginSecurityT NativeTableType;
+  typedef Send_LoginSecurityBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_HEADER = 4,
+    VT_ACCOUNT = 6,
+    VT_SECURITY_NUMBER = 8
+  };
+  const fb::dbagent::Header *header() const {
+    return GetPointer<const fb::dbagent::Header *>(VT_HEADER);
+  }
+  fb::dbagent::Header *mutable_header() {
+    return GetPointer<fb::dbagent::Header *>(VT_HEADER);
+  }
+  const ::flatbuffers::String *account() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_ACCOUNT);
+  }
+  ::flatbuffers::String *mutable_account() {
+    return GetPointer<::flatbuffers::String *>(VT_ACCOUNT);
+  }
+  int32_t security_number() const {
+    return GetField<int32_t>(VT_SECURITY_NUMBER, 0);
+  }
+  bool mutate_security_number(int32_t _security_number = 0) {
+    return SetField<int32_t>(VT_SECURITY_NUMBER, _security_number, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_HEADER) &&
+           verifier.VerifyTable(header()) &&
+           VerifyOffset(verifier, VT_ACCOUNT) &&
+           verifier.VerifyString(account()) &&
+           VerifyField<int32_t>(verifier, VT_SECURITY_NUMBER, 4) &&
+           verifier.EndTable();
+  }
+  Send_LoginSecurityT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Send_LoginSecurityT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Send_LoginSecurity> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_LoginSecurityT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Send_LoginSecurityBuilder {
+  typedef Send_LoginSecurity Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_header(::flatbuffers::Offset<fb::dbagent::Header> header) {
+    fbb_.AddOffset(Send_LoginSecurity::VT_HEADER, header);
+  }
+  void add_account(::flatbuffers::Offset<::flatbuffers::String> account) {
+    fbb_.AddOffset(Send_LoginSecurity::VT_ACCOUNT, account);
+  }
+  void add_security_number(int32_t security_number) {
+    fbb_.AddElement<int32_t>(Send_LoginSecurity::VT_SECURITY_NUMBER, security_number, 0);
+  }
+  explicit Send_LoginSecurityBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Send_LoginSecurity> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Send_LoginSecurity>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Send_LoginSecurity> CreateSend_LoginSecurity(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::dbagent::Header> header = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> account = 0,
+    int32_t security_number = 0) {
+  Send_LoginSecurityBuilder builder_(_fbb);
+  builder_.add_security_number(security_number);
+  builder_.add_account(account);
+  builder_.add_header(header);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Send_LoginSecurity> CreateSend_LoginSecurityDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::dbagent::Header> header = 0,
+    const char *account = nullptr,
+    int32_t security_number = 0) {
+  auto account__ = account ? _fbb.CreateString(account) : 0;
+  return fb::dbagent::CreateSend_LoginSecurity(
+      _fbb,
+      header,
+      account__,
+      security_number);
+}
+
+::flatbuffers::Offset<Send_LoginSecurity> CreateSend_LoginSecurity(::flatbuffers::FlatBufferBuilder &_fbb, const Send_LoginSecurityT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 struct Recv_RegT : public ::flatbuffers::NativeTable {
   typedef Recv_Reg TableType;
+  std::unique_ptr<fb::dbagent::HeaderT> header{};
   fb::eResult result = fb::eResult_Success;
+  Recv_RegT() = default;
+  Recv_RegT(const Recv_RegT &o);
+  Recv_RegT(Recv_RegT&&) FLATBUFFERS_NOEXCEPT = default;
+  Recv_RegT &operator=(Recv_RegT o) FLATBUFFERS_NOEXCEPT;
 };
 
 struct Recv_Reg FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Recv_RegT NativeTableType;
   typedef Recv_RegBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_RESULT = 4
+    VT_HEADER = 4,
+    VT_RESULT = 6
   };
+  const fb::dbagent::Header *header() const {
+    return GetPointer<const fb::dbagent::Header *>(VT_HEADER);
+  }
+  fb::dbagent::Header *mutable_header() {
+    return GetPointer<fb::dbagent::Header *>(VT_HEADER);
+  }
   fb::eResult result() const {
     return static_cast<fb::eResult>(GetField<int32_t>(VT_RESULT, 0));
   }
@@ -252,6 +492,8 @@ struct Recv_Reg FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_HEADER) &&
+           verifier.VerifyTable(header()) &&
            VerifyField<int32_t>(verifier, VT_RESULT, 4) &&
            verifier.EndTable();
   }
@@ -264,6 +506,9 @@ struct Recv_RegBuilder {
   typedef Recv_Reg Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_header(::flatbuffers::Offset<fb::dbagent::Header> header) {
+    fbb_.AddOffset(Recv_Reg::VT_HEADER, header);
+  }
   void add_result(fb::eResult result) {
     fbb_.AddElement<int32_t>(Recv_Reg::VT_RESULT, static_cast<int32_t>(result), 0);
   }
@@ -280,9 +525,11 @@ struct Recv_RegBuilder {
 
 inline ::flatbuffers::Offset<Recv_Reg> CreateRecv_Reg(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::dbagent::Header> header = 0,
     fb::eResult result = fb::eResult_Success) {
   Recv_RegBuilder builder_(_fbb);
   builder_.add_result(result);
+  builder_.add_header(header);
   return builder_.Finish();
 }
 
@@ -290,15 +537,27 @@ inline ::flatbuffers::Offset<Recv_Reg> CreateRecv_Reg(
 
 struct Recv_PingT : public ::flatbuffers::NativeTable {
   typedef Recv_Ping TableType;
+  std::unique_ptr<fb::dbagent::HeaderT> header{};
   int64_t time = 0;
+  Recv_PingT() = default;
+  Recv_PingT(const Recv_PingT &o);
+  Recv_PingT(Recv_PingT&&) FLATBUFFERS_NOEXCEPT = default;
+  Recv_PingT &operator=(Recv_PingT o) FLATBUFFERS_NOEXCEPT;
 };
 
 struct Recv_Ping FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Recv_PingT NativeTableType;
   typedef Recv_PingBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_TIME = 4
+    VT_HEADER = 4,
+    VT_TIME = 6
   };
+  const fb::dbagent::Header *header() const {
+    return GetPointer<const fb::dbagent::Header *>(VT_HEADER);
+  }
+  fb::dbagent::Header *mutable_header() {
+    return GetPointer<fb::dbagent::Header *>(VT_HEADER);
+  }
   int64_t time() const {
     return GetField<int64_t>(VT_TIME, 0);
   }
@@ -307,6 +566,8 @@ struct Recv_Ping FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_HEADER) &&
+           verifier.VerifyTable(header()) &&
            VerifyField<int64_t>(verifier, VT_TIME, 8) &&
            verifier.EndTable();
   }
@@ -319,6 +580,9 @@ struct Recv_PingBuilder {
   typedef Recv_Ping Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_header(::flatbuffers::Offset<fb::dbagent::Header> header) {
+    fbb_.AddOffset(Recv_Ping::VT_HEADER, header);
+  }
   void add_time(int64_t time) {
     fbb_.AddElement<int64_t>(Recv_Ping::VT_TIME, time, 0);
   }
@@ -335,9 +599,11 @@ struct Recv_PingBuilder {
 
 inline ::flatbuffers::Offset<Recv_Ping> CreateRecv_Ping(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::dbagent::Header> header = 0,
     int64_t time = 0) {
   Recv_PingBuilder builder_(_fbb);
   builder_.add_time(time);
+  builder_.add_header(header);
   return builder_.Finish();
 }
 
@@ -345,19 +611,31 @@ inline ::flatbuffers::Offset<Recv_Ping> CreateRecv_Ping(
 
 struct Recv_LoginAuthT : public ::flatbuffers::NativeTable {
   typedef Recv_LoginAuth TableType;
+  std::unique_ptr<fb::dbagent::HeaderT> header{};
   std::string account{};
   std::string auth_key{};
   fb::eResult result = fb::eResult_Success;
+  Recv_LoginAuthT() = default;
+  Recv_LoginAuthT(const Recv_LoginAuthT &o);
+  Recv_LoginAuthT(Recv_LoginAuthT&&) FLATBUFFERS_NOEXCEPT = default;
+  Recv_LoginAuthT &operator=(Recv_LoginAuthT o) FLATBUFFERS_NOEXCEPT;
 };
 
 struct Recv_LoginAuth FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Recv_LoginAuthT NativeTableType;
   typedef Recv_LoginAuthBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_ACCOUNT = 4,
-    VT_AUTH_KEY = 6,
-    VT_RESULT = 8
+    VT_HEADER = 4,
+    VT_ACCOUNT = 6,
+    VT_AUTH_KEY = 8,
+    VT_RESULT = 10
   };
+  const fb::dbagent::Header *header() const {
+    return GetPointer<const fb::dbagent::Header *>(VT_HEADER);
+  }
+  fb::dbagent::Header *mutable_header() {
+    return GetPointer<fb::dbagent::Header *>(VT_HEADER);
+  }
   const ::flatbuffers::String *account() const {
     return GetPointer<const ::flatbuffers::String *>(VT_ACCOUNT);
   }
@@ -378,6 +656,8 @@ struct Recv_LoginAuth FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_HEADER) &&
+           verifier.VerifyTable(header()) &&
            VerifyOffset(verifier, VT_ACCOUNT) &&
            verifier.VerifyString(account()) &&
            VerifyOffset(verifier, VT_AUTH_KEY) &&
@@ -394,6 +674,9 @@ struct Recv_LoginAuthBuilder {
   typedef Recv_LoginAuth Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_header(::flatbuffers::Offset<fb::dbagent::Header> header) {
+    fbb_.AddOffset(Recv_LoginAuth::VT_HEADER, header);
+  }
   void add_account(::flatbuffers::Offset<::flatbuffers::String> account) {
     fbb_.AddOffset(Recv_LoginAuth::VT_ACCOUNT, account);
   }
@@ -416,6 +699,7 @@ struct Recv_LoginAuthBuilder {
 
 inline ::flatbuffers::Offset<Recv_LoginAuth> CreateRecv_LoginAuth(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::dbagent::Header> header = 0,
     ::flatbuffers::Offset<::flatbuffers::String> account = 0,
     ::flatbuffers::Offset<::flatbuffers::String> auth_key = 0,
     fb::eResult result = fb::eResult_Success) {
@@ -423,11 +707,13 @@ inline ::flatbuffers::Offset<Recv_LoginAuth> CreateRecv_LoginAuth(
   builder_.add_result(result);
   builder_.add_auth_key(auth_key);
   builder_.add_account(account);
+  builder_.add_header(header);
   return builder_.Finish();
 }
 
 inline ::flatbuffers::Offset<Recv_LoginAuth> CreateRecv_LoginAuthDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::dbagent::Header> header = 0,
     const char *account = nullptr,
     const char *auth_key = nullptr,
     fb::eResult result = fb::eResult_Success) {
@@ -435,12 +721,124 @@ inline ::flatbuffers::Offset<Recv_LoginAuth> CreateRecv_LoginAuthDirect(
   auto auth_key__ = auth_key ? _fbb.CreateString(auth_key) : 0;
   return fb::dbagent::CreateRecv_LoginAuth(
       _fbb,
+      header,
       account__,
       auth_key__,
       result);
 }
 
 ::flatbuffers::Offset<Recv_LoginAuth> CreateRecv_LoginAuth(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_LoginAuthT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct Recv_LoginSecurityT : public ::flatbuffers::NativeTable {
+  typedef Recv_LoginSecurity TableType;
+  std::unique_ptr<fb::dbagent::HeaderT> header{};
+  fb::eResult result = fb::eResult_Success;
+  Recv_LoginSecurityT() = default;
+  Recv_LoginSecurityT(const Recv_LoginSecurityT &o);
+  Recv_LoginSecurityT(Recv_LoginSecurityT&&) FLATBUFFERS_NOEXCEPT = default;
+  Recv_LoginSecurityT &operator=(Recv_LoginSecurityT o) FLATBUFFERS_NOEXCEPT;
+};
+
+struct Recv_LoginSecurity FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Recv_LoginSecurityT NativeTableType;
+  typedef Recv_LoginSecurityBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_HEADER = 4,
+    VT_RESULT = 6
+  };
+  const fb::dbagent::Header *header() const {
+    return GetPointer<const fb::dbagent::Header *>(VT_HEADER);
+  }
+  fb::dbagent::Header *mutable_header() {
+    return GetPointer<fb::dbagent::Header *>(VT_HEADER);
+  }
+  fb::eResult result() const {
+    return static_cast<fb::eResult>(GetField<int32_t>(VT_RESULT, 0));
+  }
+  bool mutate_result(fb::eResult _result = static_cast<fb::eResult>(0)) {
+    return SetField<int32_t>(VT_RESULT, static_cast<int32_t>(_result), 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_HEADER) &&
+           verifier.VerifyTable(header()) &&
+           VerifyField<int32_t>(verifier, VT_RESULT, 4) &&
+           verifier.EndTable();
+  }
+  Recv_LoginSecurityT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Recv_LoginSecurityT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Recv_LoginSecurity> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_LoginSecurityT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Recv_LoginSecurityBuilder {
+  typedef Recv_LoginSecurity Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_header(::flatbuffers::Offset<fb::dbagent::Header> header) {
+    fbb_.AddOffset(Recv_LoginSecurity::VT_HEADER, header);
+  }
+  void add_result(fb::eResult result) {
+    fbb_.AddElement<int32_t>(Recv_LoginSecurity::VT_RESULT, static_cast<int32_t>(result), 0);
+  }
+  explicit Recv_LoginSecurityBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Recv_LoginSecurity> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Recv_LoginSecurity>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::dbagent::Header> header = 0,
+    fb::eResult result = fb::eResult_Success) {
+  Recv_LoginSecurityBuilder builder_(_fbb);
+  builder_.add_result(result);
+  builder_.add_header(header);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_LoginSecurityT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+inline HeaderT *Header::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<HeaderT>(new HeaderT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Header::UnPackTo(HeaderT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = uid(); _o->uid = _e; }
+}
+
+inline ::flatbuffers::Offset<Header> Header::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const HeaderT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateHeader(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Header> CreateHeader(::flatbuffers::FlatBufferBuilder &_fbb, const HeaderT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const HeaderT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _uid = _o->uid;
+  return fb::dbagent::CreateHeader(
+      _fbb,
+      _uid);
+}
+
+inline Send_RegT::Send_RegT(const Send_RegT &o)
+      : header((o.header) ? new fb::dbagent::HeaderT(*o.header) : nullptr),
+        type(o.type) {
+}
+
+inline Send_RegT &Send_RegT::operator=(Send_RegT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(header, o.header);
+  std::swap(type, o.type);
+  return *this;
+}
 
 inline Send_RegT *Send_Reg::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::unique_ptr<Send_RegT>(new Send_RegT());
@@ -451,6 +849,7 @@ inline Send_RegT *Send_Reg::UnPack(const ::flatbuffers::resolver_function_t *_re
 inline void Send_Reg::UnPackTo(Send_RegT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = header(); if (_e) { if(_o->header) { _e->UnPackTo(_o->header.get(), _resolver); } else { _o->header = std::unique_ptr<fb::dbagent::HeaderT>(_e->UnPack(_resolver)); } } else if (_o->header) { _o->header.reset(); } }
   { auto _e = type(); _o->type = _e; }
 }
 
@@ -462,10 +861,23 @@ inline ::flatbuffers::Offset<Send_Reg> CreateSend_Reg(::flatbuffers::FlatBufferB
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_RegT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _header = _o->header ? CreateHeader(_fbb, _o->header.get(), _rehasher) : 0;
   auto _type = _o->type;
   return fb::dbagent::CreateSend_Reg(
       _fbb,
+      _header,
       _type);
+}
+
+inline Send_PingT::Send_PingT(const Send_PingT &o)
+      : header((o.header) ? new fb::dbagent::HeaderT(*o.header) : nullptr),
+        time(o.time) {
+}
+
+inline Send_PingT &Send_PingT::operator=(Send_PingT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(header, o.header);
+  std::swap(time, o.time);
+  return *this;
 }
 
 inline Send_PingT *Send_Ping::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -477,6 +889,7 @@ inline Send_PingT *Send_Ping::UnPack(const ::flatbuffers::resolver_function_t *_
 inline void Send_Ping::UnPackTo(Send_PingT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = header(); if (_e) { if(_o->header) { _e->UnPackTo(_o->header.get(), _resolver); } else { _o->header = std::unique_ptr<fb::dbagent::HeaderT>(_e->UnPack(_resolver)); } } else if (_o->header) { _o->header.reset(); } }
   { auto _e = time(); _o->time = _e; }
 }
 
@@ -488,10 +901,25 @@ inline ::flatbuffers::Offset<Send_Ping> CreateSend_Ping(::flatbuffers::FlatBuffe
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_PingT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _header = _o->header ? CreateHeader(_fbb, _o->header.get(), _rehasher) : 0;
   auto _time = _o->time;
   return fb::dbagent::CreateSend_Ping(
       _fbb,
+      _header,
       _time);
+}
+
+inline Send_LoginAuthT::Send_LoginAuthT(const Send_LoginAuthT &o)
+      : header((o.header) ? new fb::dbagent::HeaderT(*o.header) : nullptr),
+        account(o.account),
+        auth_key(o.auth_key) {
+}
+
+inline Send_LoginAuthT &Send_LoginAuthT::operator=(Send_LoginAuthT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(header, o.header);
+  std::swap(account, o.account);
+  std::swap(auth_key, o.auth_key);
+  return *this;
 }
 
 inline Send_LoginAuthT *Send_LoginAuth::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -503,6 +931,7 @@ inline Send_LoginAuthT *Send_LoginAuth::UnPack(const ::flatbuffers::resolver_fun
 inline void Send_LoginAuth::UnPackTo(Send_LoginAuthT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = header(); if (_e) { if(_o->header) { _e->UnPackTo(_o->header.get(), _resolver); } else { _o->header = std::unique_ptr<fb::dbagent::HeaderT>(_e->UnPack(_resolver)); } } else if (_o->header) { _o->header.reset(); } }
   { auto _e = account(); if (_e) _o->account = _e->str(); }
   { auto _e = auth_key(); if (_e) _o->auth_key = _e->str(); }
 }
@@ -515,12 +944,70 @@ inline ::flatbuffers::Offset<Send_LoginAuth> CreateSend_LoginAuth(::flatbuffers:
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_LoginAuthT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _header = _o->header ? CreateHeader(_fbb, _o->header.get(), _rehasher) : 0;
   auto _account = _o->account.empty() ? 0 : _fbb.CreateString(_o->account);
   auto _auth_key = _o->auth_key.empty() ? 0 : _fbb.CreateString(_o->auth_key);
   return fb::dbagent::CreateSend_LoginAuth(
       _fbb,
+      _header,
       _account,
       _auth_key);
+}
+
+inline Send_LoginSecurityT::Send_LoginSecurityT(const Send_LoginSecurityT &o)
+      : header((o.header) ? new fb::dbagent::HeaderT(*o.header) : nullptr),
+        account(o.account),
+        security_number(o.security_number) {
+}
+
+inline Send_LoginSecurityT &Send_LoginSecurityT::operator=(Send_LoginSecurityT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(header, o.header);
+  std::swap(account, o.account);
+  std::swap(security_number, o.security_number);
+  return *this;
+}
+
+inline Send_LoginSecurityT *Send_LoginSecurity::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<Send_LoginSecurityT>(new Send_LoginSecurityT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Send_LoginSecurity::UnPackTo(Send_LoginSecurityT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = header(); if (_e) { if(_o->header) { _e->UnPackTo(_o->header.get(), _resolver); } else { _o->header = std::unique_ptr<fb::dbagent::HeaderT>(_e->UnPack(_resolver)); } } else if (_o->header) { _o->header.reset(); } }
+  { auto _e = account(); if (_e) _o->account = _e->str(); }
+  { auto _e = security_number(); _o->security_number = _e; }
+}
+
+inline ::flatbuffers::Offset<Send_LoginSecurity> Send_LoginSecurity::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_LoginSecurityT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateSend_LoginSecurity(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Send_LoginSecurity> CreateSend_LoginSecurity(::flatbuffers::FlatBufferBuilder &_fbb, const Send_LoginSecurityT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_LoginSecurityT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _header = _o->header ? CreateHeader(_fbb, _o->header.get(), _rehasher) : 0;
+  auto _account = _o->account.empty() ? 0 : _fbb.CreateString(_o->account);
+  auto _security_number = _o->security_number;
+  return fb::dbagent::CreateSend_LoginSecurity(
+      _fbb,
+      _header,
+      _account,
+      _security_number);
+}
+
+inline Recv_RegT::Recv_RegT(const Recv_RegT &o)
+      : header((o.header) ? new fb::dbagent::HeaderT(*o.header) : nullptr),
+        result(o.result) {
+}
+
+inline Recv_RegT &Recv_RegT::operator=(Recv_RegT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(header, o.header);
+  std::swap(result, o.result);
+  return *this;
 }
 
 inline Recv_RegT *Recv_Reg::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -532,6 +1019,7 @@ inline Recv_RegT *Recv_Reg::UnPack(const ::flatbuffers::resolver_function_t *_re
 inline void Recv_Reg::UnPackTo(Recv_RegT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = header(); if (_e) { if(_o->header) { _e->UnPackTo(_o->header.get(), _resolver); } else { _o->header = std::unique_ptr<fb::dbagent::HeaderT>(_e->UnPack(_resolver)); } } else if (_o->header) { _o->header.reset(); } }
   { auto _e = result(); _o->result = _e; }
 }
 
@@ -543,10 +1031,23 @@ inline ::flatbuffers::Offset<Recv_Reg> CreateRecv_Reg(::flatbuffers::FlatBufferB
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_RegT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _header = _o->header ? CreateHeader(_fbb, _o->header.get(), _rehasher) : 0;
   auto _result = _o->result;
   return fb::dbagent::CreateRecv_Reg(
       _fbb,
+      _header,
       _result);
+}
+
+inline Recv_PingT::Recv_PingT(const Recv_PingT &o)
+      : header((o.header) ? new fb::dbagent::HeaderT(*o.header) : nullptr),
+        time(o.time) {
+}
+
+inline Recv_PingT &Recv_PingT::operator=(Recv_PingT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(header, o.header);
+  std::swap(time, o.time);
+  return *this;
 }
 
 inline Recv_PingT *Recv_Ping::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -558,6 +1059,7 @@ inline Recv_PingT *Recv_Ping::UnPack(const ::flatbuffers::resolver_function_t *_
 inline void Recv_Ping::UnPackTo(Recv_PingT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = header(); if (_e) { if(_o->header) { _e->UnPackTo(_o->header.get(), _resolver); } else { _o->header = std::unique_ptr<fb::dbagent::HeaderT>(_e->UnPack(_resolver)); } } else if (_o->header) { _o->header.reset(); } }
   { auto _e = time(); _o->time = _e; }
 }
 
@@ -569,10 +1071,27 @@ inline ::flatbuffers::Offset<Recv_Ping> CreateRecv_Ping(::flatbuffers::FlatBuffe
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_PingT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _header = _o->header ? CreateHeader(_fbb, _o->header.get(), _rehasher) : 0;
   auto _time = _o->time;
   return fb::dbagent::CreateRecv_Ping(
       _fbb,
+      _header,
       _time);
+}
+
+inline Recv_LoginAuthT::Recv_LoginAuthT(const Recv_LoginAuthT &o)
+      : header((o.header) ? new fb::dbagent::HeaderT(*o.header) : nullptr),
+        account(o.account),
+        auth_key(o.auth_key),
+        result(o.result) {
+}
+
+inline Recv_LoginAuthT &Recv_LoginAuthT::operator=(Recv_LoginAuthT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(header, o.header);
+  std::swap(account, o.account);
+  std::swap(auth_key, o.auth_key);
+  std::swap(result, o.result);
+  return *this;
 }
 
 inline Recv_LoginAuthT *Recv_LoginAuth::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -584,6 +1103,7 @@ inline Recv_LoginAuthT *Recv_LoginAuth::UnPack(const ::flatbuffers::resolver_fun
 inline void Recv_LoginAuth::UnPackTo(Recv_LoginAuthT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = header(); if (_e) { if(_o->header) { _e->UnPackTo(_o->header.get(), _resolver); } else { _o->header = std::unique_ptr<fb::dbagent::HeaderT>(_e->UnPack(_resolver)); } } else if (_o->header) { _o->header.reset(); } }
   { auto _e = account(); if (_e) _o->account = _e->str(); }
   { auto _e = auth_key(); if (_e) _o->auth_key = _e->str(); }
   { auto _e = result(); _o->result = _e; }
@@ -597,13 +1117,55 @@ inline ::flatbuffers::Offset<Recv_LoginAuth> CreateRecv_LoginAuth(::flatbuffers:
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_LoginAuthT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _header = _o->header ? CreateHeader(_fbb, _o->header.get(), _rehasher) : 0;
   auto _account = _o->account.empty() ? 0 : _fbb.CreateString(_o->account);
   auto _auth_key = _o->auth_key.empty() ? 0 : _fbb.CreateString(_o->auth_key);
   auto _result = _o->result;
   return fb::dbagent::CreateRecv_LoginAuth(
       _fbb,
+      _header,
       _account,
       _auth_key,
+      _result);
+}
+
+inline Recv_LoginSecurityT::Recv_LoginSecurityT(const Recv_LoginSecurityT &o)
+      : header((o.header) ? new fb::dbagent::HeaderT(*o.header) : nullptr),
+        result(o.result) {
+}
+
+inline Recv_LoginSecurityT &Recv_LoginSecurityT::operator=(Recv_LoginSecurityT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(header, o.header);
+  std::swap(result, o.result);
+  return *this;
+}
+
+inline Recv_LoginSecurityT *Recv_LoginSecurity::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<Recv_LoginSecurityT>(new Recv_LoginSecurityT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Recv_LoginSecurity::UnPackTo(Recv_LoginSecurityT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = header(); if (_e) { if(_o->header) { _e->UnPackTo(_o->header.get(), _resolver); } else { _o->header = std::unique_ptr<fb::dbagent::HeaderT>(_e->UnPack(_resolver)); } } else if (_o->header) { _o->header.reset(); } }
+  { auto _e = result(); _o->result = _e; }
+}
+
+inline ::flatbuffers::Offset<Recv_LoginSecurity> Recv_LoginSecurity::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_LoginSecurityT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateRecv_LoginSecurity(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_LoginSecurityT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_LoginSecurityT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _header = _o->header ? CreateHeader(_fbb, _o->header.get(), _rehasher) : 0;
+  auto _result = _o->result;
+  return fb::dbagent::CreateRecv_LoginSecurity(
+      _fbb,
+      _header,
       _result);
 }
 

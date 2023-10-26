@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "user.h"
+#include "session_dbagent.h"
 
 #define REG_DISPATCHER(pid)	s_dispatcher.Add(fb::server::SendPid_##pid, &User::On##pid);
 
@@ -18,7 +19,25 @@ bool User::InitDispatcher()
 
 bool User::OnLoginSecurity(NetPacket* _packet)
 {
-	return false;
+	if (nullptr == _packet)
+	{
+		LOG_ERROR << fb::EnumNameeResult(eResult_InvalidParameter);
+		return false;
+	}
+
+	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_LoginSecurity);
+	if (nullptr == recv_data)
+	{
+		return false;
+	}
+
+	CREATE_FBB(fbb);
+	fbb.Finish(fb::dbagent::CreateSend_LoginSecurity(fbb,
+		fb::dbagent::CreateHeader(fbb, UserUid()),
+		recv_data->security_number()
+	));
+
+	return SESSION_DBAGENT.Send(fb::dbagent::SendPid_LoginSecurity, fbb);
 }
 
 bool User::OnCharacterCreate(NetPacket* _packet)
