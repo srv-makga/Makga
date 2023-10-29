@@ -31,14 +31,244 @@ namespace fb.server;
 // Send
 table Send_LoginAccount
 {
-	accountId:string;
+	account:string;
+	connect_key:uint32;	// 서버 이동시 필요한 키
+}
+
+table Send_LoginAuth
+{
+	account:string;
 	connect_key:uint32;	// 서버 이동시 필요한 키
 }
 
 table Send_LoginSecurity
 {
-	accountId:string;
+	account:string;
 	security_number:int32;
+}
+
+table Send_CharacterCreate
+{
+	name:string;
+	// 커스터마이징 옵션?
+}
+
+table Send_CharacterDelete
+{
+	uid:uint64;
+}
+
+table Send_CharacterSelect
+{
+}
+
+table Send_CharacterLogout
+{
+}
+
+table Send_CharacterMove
+{
+}
+
+table Send_CharacterAngle
+{
+}
+
+table Send_CharacterResurrection
+{
+}
+
+table Send_ActorInteractionStart
+{
+}
+
+table Send_ActorInteractionEnd
+{
+}
+
+table Send_ActorInteractionCancel
+{
+}
+
+table Send_ItemDestroy
+{
+}
+
+table Send_ItemUse
+{
+}
+
+table Send_ItemMake
+{
+}
+
+table Send_ItemReinforce
+{
+}
+
+table Send_ItemEnchant
+{
+}
+
+table Send_ItemDisassemble
+{
+	count:int32;
+	uid:uint64;
+}
+
+table Send_ItemRepair
+{
+	uid:uint64;
+}
+
+table Send_ItemSkinChange
+{
+	uid:uint64;
+}
+
+table Send_SkillSpellStart
+{
+	index:uint32;
+}
+
+table Send_SkillSpellEnd
+{
+	index:uint32;
+}
+
+table Send_SkillLearn
+{
+	index:uint32;
+}
+
+table Send_SkillCasting
+{
+	index:uint32;
+}
+
+table Send_SkillCancel
+{
+	index:uint32;
+}
+
+table Send_ShopBuy
+{
+	index:uint32;
+	count:int32;
+}
+
+table Send_ShopSell
+{
+	index:uint32;
+	count:int32;
+}
+
+table Send_QuestAccept
+{
+	index:uint32;
+}
+
+table Send_QuestCancel
+{
+	index:uint32;
+}
+
+table Send_QuestReward
+{
+	index:uint32;
+}
+
+
+table Send_PremiumBuy
+{
+}
+
+table Send_PremiumRefund
+{
+}
+
+table Send_PremiumConfirm
+{
+}
+
+table Send_PartyCreate
+{
+}
+
+table Send_PartyJoin
+{
+}
+
+table Send_PartyLeave
+{
+}
+
+table Send_PartyInvite
+{
+}
+
+table Send_PartyInviteAnswer
+{
+}
+
+table Send_PartyDeport
+{
+}
+
+table Send_PartyUpdate
+{
+}
+
+table Send_GuildCreate
+{
+}
+
+table Send_GuildLeave
+{
+}
+
+table Send_GuildDeport
+{
+}
+
+table Send_GuildOptionChange
+{
+}
+
+table Send_GuildMemberInvite
+{
+}
+
+table Send_GuildMemberInviteAnswer
+{
+}
+
+table Send_GuildMemberGradeChange
+{
+}
+
+table Send_FriendAdd
+{
+}
+
+table Send_FriendAccept
+{
+}
+
+table Send_FriendRemove
+{
+}
+
+table Send_InstanceEnter
+{
+}
+
+table Send_InstanceLeave
+{
+}
+
+table Send_InstanceSkip
+{
 }
 
 // ############################################################################################################

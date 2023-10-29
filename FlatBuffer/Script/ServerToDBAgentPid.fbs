@@ -11,6 +11,13 @@ enum SendPid : uint32
 	Ping,
 	LoginAuth, // GameServer
 	LoginSecurity, // GameServer
+	
+	GuildCreate,
+	GuildEnter,
+	GuildLeave,
+	
+	NationEnter, // GameServer
+	NationLeave, // GameServer
 }
 
 

@@ -30,8 +30,8 @@ public:
 	bool SendPing();
 
 protected:
-	bool OnReg(SessionBase* _session, NetPacket* _packet);
-	bool OnLoginAuth(SessionBase* _session, NetPacket* _packet);
+	DECLARE_RECV_DBA(Reg);
+	DECLARE_RECV_DBA(LoginAuth);
 
 private:
 	core::db::DBConnector* m_connector;

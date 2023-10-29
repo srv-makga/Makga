@@ -22,35 +22,50 @@ enum SendPid : uint32_t {
   SendPid_Ping = 2,
   SendPid_LoginAuth = 3,
   SendPid_LoginSecurity = 4,
+  SendPid_GuildCreate = 5,
+  SendPid_GuildEnter = 6,
+  SendPid_GuildLeave = 7,
+  SendPid_NationEnter = 8,
+  SendPid_NationLeave = 9,
   SendPid_MIN = SendPid_None,
-  SendPid_MAX = SendPid_LoginSecurity
+  SendPid_MAX = SendPid_NationLeave
 };
 
-inline const SendPid (&EnumValuesSendPid())[5] {
+inline const SendPid (&EnumValuesSendPid())[10] {
   static const SendPid values[] = {
     SendPid_None,
     SendPid_Reg,
     SendPid_Ping,
     SendPid_LoginAuth,
-    SendPid_LoginSecurity
+    SendPid_LoginSecurity,
+    SendPid_GuildCreate,
+    SendPid_GuildEnter,
+    SendPid_GuildLeave,
+    SendPid_NationEnter,
+    SendPid_NationLeave
   };
   return values;
 }
 
 inline const char * const *EnumNamesSendPid() {
-  static const char * const names[6] = {
+  static const char * const names[11] = {
     "None",
     "Reg",
     "Ping",
     "LoginAuth",
     "LoginSecurity",
+    "GuildCreate",
+    "GuildEnter",
+    "GuildLeave",
+    "NationEnter",
+    "NationLeave",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameSendPid(SendPid e) {
-  if (::flatbuffers::IsOutRange(e, SendPid_None, SendPid_LoginSecurity)) return "";
+  if (::flatbuffers::IsOutRange(e, SendPid_None, SendPid_NationLeave)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesSendPid()[index];
 }

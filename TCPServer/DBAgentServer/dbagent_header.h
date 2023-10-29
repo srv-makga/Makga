@@ -13,6 +13,12 @@
 #define DF_DEF_VERSION				1.000
 #define __DEBUG_PACKET
 
+#define DECLARE_RECV_DBA(TableName) \
+	bool Verify##TableName(const BYTE* _buffer, DWORD _len); \
+	bool OnRecv##TableName(SessionBase* _session, NetPacket* _packet)
+
+#define ADD_RECV_DBA(Pid, TableName)	s_dispatcher.Add(fb::dbagent::SendPid_##Pid, &DatabaseClient::OnRecv##Pid);
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // eunm

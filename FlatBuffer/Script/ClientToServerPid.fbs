@@ -7,9 +7,9 @@ namespace fb.server;
 enum SendPid : uint32
 {
 	None = 0,
-	
+
 	LoginAccount, // Client -> login
-	
+
 	// -> game
 	LoginAuth,
 	LoginSecurity, // 2차 비밀번호 or OTP
@@ -22,74 +22,71 @@ enum SendPid : uint32
 
 	CharacterMove,
 	CharacterAngle,
-
 	CharacterResurrection,
-	
+
 	////////// actor //////////
 	ActorInteractionStart,
 	ActorInteractionEnd,
 	ActorInteractionCancel,
 
 	////////// item //////////
-	item_destroy,
-	item_use,
-	item_make,
-	item_reinforce,
-	item_enchant,
-	item_disassemble,
-	item_repair,
-	item_skin_change,
-	
+	ItemDestroy,
+	ItemUse,
+	ItemMake,
+	ItemReinforce,
+	ItemEnchant,
+	ItemDisassemble,
+	ItemRepair,
+	ItemSkinChange,
+
 	////////// skill //////////
-	skill_spell_start,
-	skill_spell_end,
-	
-	skill_learn,
-	skill_casting,
-	skill_cancel,			// 
-	
+	SkillSpellStart,
+	SkillSpellEnd,
+	SkillLearn,
+	SkillCasting,
+	SkillCancel,
+
 	////////// shop //////////
-	shop_buy,
-	shop_sell,
-	
+	ShopBuy,
+	ShopSell,
+
 	////////// quest //////////
-	quest_accept,
-	quest_cancel,
-	quest_reward,
-	
+	QuestAccept,
+	QuestCancel,
+	QuestReward,
+
 	////////// premium //////////
-	premium_buy,
-	premium_refund,
-	premium_confirm,
-	
+	PremiumBuy,
+	PremiumRefund,
+	PremiumConfirm,
+
 	////////// party //////////
-	party_create,
-	party_join,
-	party_leave,
-	party_invite,
-	party_invite_answer,
-	party_deport,
-	party_update,
-	
+	PartyCreate,
+	PartyJoin,
+	PartyLeave,
+	PartyInvite,
+	PartyInviteAnswer,
+	PartyDeport,
+	PartyUpdate,
+
 	////////// guild //////////
-	guild_create,
-	guild_leave,
-	guild_deport,
-	guild_option_change,
-	guild_member_invite,
-	guild_member_invite_answer,
-	guild_member_grade_change,
-	guild_warehouse_open,
-	guild_warehouse_close,
-	
+	GuildCreate,
+	GuildLeave,
+	GuildDeport,
+	GuildOptionChange,
+	GuildMemberInvite,
+	GuildMemberInviteAnswer,
+	GuildMemberGradeChange,
+
 	////////// friend //////////
-	friend_add,
-	friend_accept,
-	friend_remove,
-	
+	FriendAdd,
+	FriendAccept,
+	FriendRemove,
+
 	////////// instance //////////
-	instance_enter,
-	instance_cutscean_skip,
+	InstanceEnter,
+	InstanceLeave,
+	InstanceSkip,
 }
 
 
@@ -100,8 +97,84 @@ enum SendPid : uint32
 enum RecvPid : uint32
 {
 	None = 0,
-	
-	Connect,
-	
-	Login,
+
+	LoginAccount, // Client -> login
+
+	// -> game
+	LoginAuth,
+	LoginSecurity, // 2차 비밀번호 or OTP
+
+	////////// character //////////
+	CharacterCreate,
+	CharacterDelete,
+	CharacterSelect,
+	CharacterLogout,
+
+	CharacterMove,
+	CharacterAngle,
+	CharacterResurrection,
+
+	////////// actor //////////
+	ActorInteractionStart,
+	ActorInteractionEnd,
+	ActorInteractionCancel,
+
+	////////// item //////////
+	ItemDestroy,
+	ItemUse,
+	ItemMake,
+	ItemReinforce,
+	ItemEnchant,
+	ItemDisassemble,
+	ItemRepair,
+	ItemSkinChange,
+
+	////////// skill //////////
+	SkillSpellStart,
+	SkillSpellEnd,
+	SkillLearn,
+	SkillCasting,
+	SkillCancel,
+
+	////////// shop //////////
+	ShopBuy,
+	ShopSell,
+
+	////////// quest //////////
+	QuestAccept,
+	QuestCancel,
+	QuestReward,
+
+	////////// premium //////////
+	PremiumBuy,
+	PremiumRefund,
+	PremiumConfirm,
+
+	////////// party //////////
+	PartyCreate,
+	PartyJoin,
+	PartyLeave,
+	PartyInvite,
+	PartyInviteAnswer,
+	PartyDeport,
+	PartyUpdate,
+
+	////////// guild //////////
+	GuildCreate,
+	GuildLeave,
+	GuildDeport,
+	GuildOptionChange,
+	GuildMemberInvite,
+	GuildMemberInviteAnswer,
+	GuildMemberGradeChange,
+
+	////////// friend //////////
+	FriendAdd,
+	FriendAccept,
+	FriendRemove,
+
+	////////// instance //////////
+	InstanceEnter,
+	InstanceLeave,
+	InstanceSkip,
 }

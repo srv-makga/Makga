@@ -3,28 +3,28 @@
 #include "config_dbagent.h"
 #include "session_server.h"
 
-#define REG_DISPATCHER(pid)	s_dispatcher.Add(fb::dbagent::SendPid_##pid, &DatabaseClient::On##pid);
-
 bool DatabaseClient::InitDispatcher()
 {
-	REG_DISPATCHER(Reg);
-	REG_DISPATCHER(LoginAuth);
+	ADD_RECV_DBA(Reg);
+	ADD_RECV_DBA(LoginAuth);
 
 	return true;
 }
 
-bool DatabaseClient::OnReg(SessionBase* _session, NetPacket* _packet)
+bool DatabaseClient::OnRecvReg(SessionBase* _session, NetPacket* _packet)
 {
+	// server
 	return true;
 }
 
-bool DatabaseClient::OnLoginAuth(SessionBase* _session, NetPacket* _packet)
+bool DatabaseClient::OnRecvLoginAuth(SessionBase* _session, NetPacket* _packet)
 {
 	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::dbagent::Recv_LoginAuth);
 
 	eResult result = eResult_Success;
 
-	auto iter = m_stmts.find(dbagent::SendPid_LoginAuth);
+	// auto iter = m_stmts.find(dbagent::SendPid_LoginAuth);
+	auto iter = m_stmts.find(static_cast<dbagent::SendPid>(_packet->Id()));
 	if (m_stmts.end() == iter)
 	{
 		return false;
