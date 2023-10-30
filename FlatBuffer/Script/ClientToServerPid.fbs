@@ -76,7 +76,7 @@ enum SendPid : uint32
 	GuildOptionChange,
 	GuildMemberInvite,
 	GuildMemberInviteAnswer,
-	GuildMemberGradeChange,
+	GuildMemberChangeGrade,
 
 	////////// friend //////////
 	FriendAdd,
@@ -166,7 +166,7 @@ enum RecvPid : uint32
 	GuildOptionChange,
 	GuildMemberInvite,
 	GuildMemberInviteAnswer,
-	GuildMemberGradeChange,
+	GuildMemberChangeGrade,
 
 	////////// friend //////////
 	FriendAdd,

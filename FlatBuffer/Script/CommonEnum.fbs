@@ -126,3 +126,11 @@ enum eMapAttribute : int
 	NotPvp = 0x0002,
 	NotSkill = 0x0004,
 }
+
+enum eGuildMemberGrade : int
+{
+	None = 0,
+	Normal,
+	SubMaster,
+	Master = 99,
+}

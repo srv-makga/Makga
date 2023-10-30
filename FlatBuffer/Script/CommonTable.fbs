@@ -26,3 +26,15 @@ table Position
 	z:float;
 	direction:float;
 }
+
+table PartyCreateOption
+{
+	notice:string;
+}
+
+table GuildCreateOption
+{
+	name:string;
+	mark:uint64;
+	notice:string;
+}

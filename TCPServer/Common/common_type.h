@@ -44,13 +44,13 @@ using Result_t = fb::eResult;
 
 
 // Network
-using Port_t = int32_t;
-using SessionId_t = uint32_t;
+using Port_t = int16_t;
+using SessionId_t = uint64_t;
 using ThreadId_t = std::size_t;
 
 // System
 using WorldId_t = uint32_t;
-using ServerId_t = int32_t;
+using ServerId_t = uint32_t;
 using ServerType_t = fb::eServerType;
 using TableIdx_t = uint32_t;
 using Count_t = int32_t;

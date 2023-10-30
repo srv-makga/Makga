@@ -27,6 +27,14 @@ struct Position;
 struct PositionBuilder;
 struct PositionT;
 
+struct PartyCreateOption;
+struct PartyCreateOptionBuilder;
+struct PartyCreateOptionT;
+
+struct GuildCreateOption;
+struct GuildCreateOptionBuilder;
+struct GuildCreateOptionT;
+
 struct ServerInfoT : public ::flatbuffers::NativeTable {
   typedef ServerInfo TableType;
   int32_t server_id = 0;
@@ -306,6 +314,170 @@ inline ::flatbuffers::Offset<Position> CreatePosition(
 
 ::flatbuffers::Offset<Position> CreatePosition(::flatbuffers::FlatBufferBuilder &_fbb, const PositionT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct PartyCreateOptionT : public ::flatbuffers::NativeTable {
+  typedef PartyCreateOption TableType;
+  std::string notice{};
+};
+
+struct PartyCreateOption FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef PartyCreateOptionT NativeTableType;
+  typedef PartyCreateOptionBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_NOTICE = 4
+  };
+  const ::flatbuffers::String *notice() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_NOTICE);
+  }
+  ::flatbuffers::String *mutable_notice() {
+    return GetPointer<::flatbuffers::String *>(VT_NOTICE);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_NOTICE) &&
+           verifier.VerifyString(notice()) &&
+           verifier.EndTable();
+  }
+  PartyCreateOptionT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(PartyCreateOptionT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<PartyCreateOption> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PartyCreateOptionT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct PartyCreateOptionBuilder {
+  typedef PartyCreateOption Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_notice(::flatbuffers::Offset<::flatbuffers::String> notice) {
+    fbb_.AddOffset(PartyCreateOption::VT_NOTICE, notice);
+  }
+  explicit PartyCreateOptionBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<PartyCreateOption> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<PartyCreateOption>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<PartyCreateOption> CreatePartyCreateOption(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::String> notice = 0) {
+  PartyCreateOptionBuilder builder_(_fbb);
+  builder_.add_notice(notice);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<PartyCreateOption> CreatePartyCreateOptionDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const char *notice = nullptr) {
+  auto notice__ = notice ? _fbb.CreateString(notice) : 0;
+  return fb::CreatePartyCreateOption(
+      _fbb,
+      notice__);
+}
+
+::flatbuffers::Offset<PartyCreateOption> CreatePartyCreateOption(::flatbuffers::FlatBufferBuilder &_fbb, const PartyCreateOptionT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct GuildCreateOptionT : public ::flatbuffers::NativeTable {
+  typedef GuildCreateOption TableType;
+  std::string name{};
+  uint64_t mark = 0;
+  std::string notice{};
+};
+
+struct GuildCreateOption FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef GuildCreateOptionT NativeTableType;
+  typedef GuildCreateOptionBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_NAME = 4,
+    VT_MARK = 6,
+    VT_NOTICE = 8
+  };
+  const ::flatbuffers::String *name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_NAME);
+  }
+  ::flatbuffers::String *mutable_name() {
+    return GetPointer<::flatbuffers::String *>(VT_NAME);
+  }
+  uint64_t mark() const {
+    return GetField<uint64_t>(VT_MARK, 0);
+  }
+  bool mutate_mark(uint64_t _mark = 0) {
+    return SetField<uint64_t>(VT_MARK, _mark, 0);
+  }
+  const ::flatbuffers::String *notice() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_NOTICE);
+  }
+  ::flatbuffers::String *mutable_notice() {
+    return GetPointer<::flatbuffers::String *>(VT_NOTICE);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_NAME) &&
+           verifier.VerifyString(name()) &&
+           VerifyField<uint64_t>(verifier, VT_MARK, 8) &&
+           VerifyOffset(verifier, VT_NOTICE) &&
+           verifier.VerifyString(notice()) &&
+           verifier.EndTable();
+  }
+  GuildCreateOptionT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(GuildCreateOptionT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<GuildCreateOption> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const GuildCreateOptionT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct GuildCreateOptionBuilder {
+  typedef GuildCreateOption Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
+    fbb_.AddOffset(GuildCreateOption::VT_NAME, name);
+  }
+  void add_mark(uint64_t mark) {
+    fbb_.AddElement<uint64_t>(GuildCreateOption::VT_MARK, mark, 0);
+  }
+  void add_notice(::flatbuffers::Offset<::flatbuffers::String> notice) {
+    fbb_.AddOffset(GuildCreateOption::VT_NOTICE, notice);
+  }
+  explicit GuildCreateOptionBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<GuildCreateOption> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<GuildCreateOption>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<GuildCreateOption> CreateGuildCreateOption(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::String> name = 0,
+    uint64_t mark = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> notice = 0) {
+  GuildCreateOptionBuilder builder_(_fbb);
+  builder_.add_mark(mark);
+  builder_.add_notice(notice);
+  builder_.add_name(name);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<GuildCreateOption> CreateGuildCreateOptionDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const char *name = nullptr,
+    uint64_t mark = 0,
+    const char *notice = nullptr) {
+  auto name__ = name ? _fbb.CreateString(name) : 0;
+  auto notice__ = notice ? _fbb.CreateString(notice) : 0;
+  return fb::CreateGuildCreateOption(
+      _fbb,
+      name__,
+      mark,
+      notice__);
+}
+
+::flatbuffers::Offset<GuildCreateOption> CreateGuildCreateOption(::flatbuffers::FlatBufferBuilder &_fbb, const GuildCreateOptionT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 inline ServerInfoT *ServerInfo::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::unique_ptr<ServerInfoT>(new ServerInfoT());
   UnPackTo(_o.get(), _resolver);
@@ -403,6 +575,64 @@ inline ::flatbuffers::Offset<Position> CreatePosition(::flatbuffers::FlatBufferB
       _y,
       _z,
       _direction);
+}
+
+inline PartyCreateOptionT *PartyCreateOption::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<PartyCreateOptionT>(new PartyCreateOptionT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void PartyCreateOption::UnPackTo(PartyCreateOptionT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = notice(); if (_e) _o->notice = _e->str(); }
+}
+
+inline ::flatbuffers::Offset<PartyCreateOption> PartyCreateOption::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PartyCreateOptionT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatePartyCreateOption(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<PartyCreateOption> CreatePartyCreateOption(::flatbuffers::FlatBufferBuilder &_fbb, const PartyCreateOptionT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const PartyCreateOptionT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _notice = _o->notice.empty() ? 0 : _fbb.CreateString(_o->notice);
+  return fb::CreatePartyCreateOption(
+      _fbb,
+      _notice);
+}
+
+inline GuildCreateOptionT *GuildCreateOption::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<GuildCreateOptionT>(new GuildCreateOptionT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void GuildCreateOption::UnPackTo(GuildCreateOptionT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = name(); if (_e) _o->name = _e->str(); }
+  { auto _e = mark(); _o->mark = _e; }
+  { auto _e = notice(); if (_e) _o->notice = _e->str(); }
+}
+
+inline ::flatbuffers::Offset<GuildCreateOption> GuildCreateOption::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const GuildCreateOptionT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateGuildCreateOption(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<GuildCreateOption> CreateGuildCreateOption(::flatbuffers::FlatBufferBuilder &_fbb, const GuildCreateOptionT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const GuildCreateOptionT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _name = _o->name.empty() ? 0 : _fbb.CreateString(_o->name);
+  auto _mark = _o->mark;
+  auto _notice = _o->notice.empty() ? 0 : _fbb.CreateString(_o->notice);
+  return fb::CreateGuildCreateOption(
+      _fbb,
+      _name,
+      _mark,
+      _notice);
 }
 
 }  // namespace fb

@@ -475,6 +475,35 @@ inline const char *EnumNameeMapAttribute(eMapAttribute e) {
   return EnumNameseMapAttribute()[index];
 }
 
+enum eGuildMemberGrade : int32_t {
+  eGuildMemberGrade_None = 0,
+  eGuildMemberGrade_Normal = 1,
+  eGuildMemberGrade_SubMaster = 2,
+  eGuildMemberGrade_Master = 99,
+  eGuildMemberGrade_MIN = eGuildMemberGrade_None,
+  eGuildMemberGrade_MAX = eGuildMemberGrade_Master
+};
+
+inline const eGuildMemberGrade (&EnumValueseGuildMemberGrade())[4] {
+  static const eGuildMemberGrade values[] = {
+    eGuildMemberGrade_None,
+    eGuildMemberGrade_Normal,
+    eGuildMemberGrade_SubMaster,
+    eGuildMemberGrade_Master
+  };
+  return values;
+}
+
+inline const char *EnumNameeGuildMemberGrade(eGuildMemberGrade e) {
+  switch (e) {
+    case eGuildMemberGrade_None: return "None";
+    case eGuildMemberGrade_Normal: return "Normal";
+    case eGuildMemberGrade_SubMaster: return "SubMaster";
+    case eGuildMemberGrade_Master: return "Master";
+    default: return "";
+  }
+}
+
 }  // namespace fb
 
 #endif  // FLATBUFFERS_GENERATED_COMMONENUM_FB_H_

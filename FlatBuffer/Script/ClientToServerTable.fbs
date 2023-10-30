@@ -178,25 +178,29 @@ table Send_QuestReward
 	index:uint32;
 }
 
-
 table Send_PremiumBuy
 {
+	premium_idx:init64;
 }
 
 table Send_PremiumRefund
 {
+	premium_uid:uint64;
 }
 
 table Send_PremiumConfirm
 {
+	premium_uid:uint64;
 }
 
 table Send_PartyCreate
 {
+	option:PartyCreateOption;
 }
 
 table Send_PartyJoin
 {
+	party_uid:uint64;
 }
 
 table Send_PartyLeave
@@ -205,14 +209,17 @@ table Send_PartyLeave
 
 table Send_PartyInvite
 {
+	name:string;
 }
 
 table Send_PartyInviteAnswer
 {
+	agree:bool;
 }
 
 table Send_PartyDeport
 {
+	uid:uint64;
 }
 
 table Send_PartyUpdate
@@ -221,6 +228,7 @@ table Send_PartyUpdate
 
 table Send_GuildCreate
 {
+	option:GuildCreateOption;
 }
 
 table Send_GuildLeave
@@ -229,34 +237,44 @@ table Send_GuildLeave
 
 table Send_GuildDeport
 {
+	member_uid:uint64;
 }
 
 table Send_GuildOptionChange
 {
+	name:string;
 }
 
 table Send_GuildMemberInvite
 {
+	name:string;
 }
 
 table Send_GuildMemberInviteAnswer
 {
+	guild_uid:uint64;
+	agree:bool;
 }
 
-table Send_GuildMemberGradeChange
+table Send_GuildMemberChangeGrade
 {
+	member_uid:uint64;
+	grade:eGuildMemberGrade;
 }
 
 table Send_FriendAdd
 {
+	name:string;
 }
 
 table Send_FriendAccept
 {
+	agree:bool;
 }
 
 table Send_FriendRemove
 {
+	uid:uint64;
 }
 
 table Send_InstanceEnter

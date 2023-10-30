@@ -204,9 +204,9 @@ struct Send_GuildMemberInviteAnswer;
 struct Send_GuildMemberInviteAnswerBuilder;
 struct Send_GuildMemberInviteAnswerT;
 
-struct Send_GuildMemberGradeChange;
-struct Send_GuildMemberGradeChangeBuilder;
-struct Send_GuildMemberGradeChangeT;
+struct Send_GuildMemberChangeGrade;
+struct Send_GuildMemberChangeGradeBuilder;
+struct Send_GuildMemberChangeGradeT;
 
 struct Send_FriendAdd;
 struct Send_FriendAddBuilder;
@@ -1112,13 +1112,33 @@ inline ::flatbuffers::Offset<Send_ItemEnchant> CreateSend_ItemEnchant(
 
 struct Send_ItemDisassembleT : public ::flatbuffers::NativeTable {
   typedef Send_ItemDisassemble TableType;
+  int32_t count = 0;
+  uint64_t uid = 0;
 };
 
 struct Send_ItemDisassemble FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_ItemDisassembleT NativeTableType;
   typedef Send_ItemDisassembleBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_COUNT = 4,
+    VT_UID = 6
+  };
+  int32_t count() const {
+    return GetField<int32_t>(VT_COUNT, 0);
+  }
+  bool mutate_count(int32_t _count = 0) {
+    return SetField<int32_t>(VT_COUNT, _count, 0);
+  }
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_COUNT, 4) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
            verifier.EndTable();
   }
   Send_ItemDisassembleT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -1130,6 +1150,12 @@ struct Send_ItemDisassembleBuilder {
   typedef Send_ItemDisassemble Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_count(int32_t count) {
+    fbb_.AddElement<int32_t>(Send_ItemDisassemble::VT_COUNT, count, 0);
+  }
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(Send_ItemDisassemble::VT_UID, uid, 0);
+  }
   explicit Send_ItemDisassembleBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -1142,8 +1168,12 @@ struct Send_ItemDisassembleBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_ItemDisassemble> CreateSend_ItemDisassemble(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    int32_t count = 0,
+    uint64_t uid = 0) {
   Send_ItemDisassembleBuilder builder_(_fbb);
+  builder_.add_uid(uid);
+  builder_.add_count(count);
   return builder_.Finish();
 }
 
@@ -1151,13 +1181,24 @@ inline ::flatbuffers::Offset<Send_ItemDisassemble> CreateSend_ItemDisassemble(
 
 struct Send_ItemRepairT : public ::flatbuffers::NativeTable {
   typedef Send_ItemRepair TableType;
+  uint64_t uid = 0;
 };
 
 struct Send_ItemRepair FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_ItemRepairT NativeTableType;
   typedef Send_ItemRepairBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
            verifier.EndTable();
   }
   Send_ItemRepairT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -1169,6 +1210,9 @@ struct Send_ItemRepairBuilder {
   typedef Send_ItemRepair Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(Send_ItemRepair::VT_UID, uid, 0);
+  }
   explicit Send_ItemRepairBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -1181,8 +1225,10 @@ struct Send_ItemRepairBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_ItemRepair> CreateSend_ItemRepair(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0) {
   Send_ItemRepairBuilder builder_(_fbb);
+  builder_.add_uid(uid);
   return builder_.Finish();
 }
 
@@ -1190,13 +1236,24 @@ inline ::flatbuffers::Offset<Send_ItemRepair> CreateSend_ItemRepair(
 
 struct Send_ItemSkinChangeT : public ::flatbuffers::NativeTable {
   typedef Send_ItemSkinChange TableType;
+  uint64_t uid = 0;
 };
 
 struct Send_ItemSkinChange FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_ItemSkinChangeT NativeTableType;
   typedef Send_ItemSkinChangeBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
            verifier.EndTable();
   }
   Send_ItemSkinChangeT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -1208,6 +1265,9 @@ struct Send_ItemSkinChangeBuilder {
   typedef Send_ItemSkinChange Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(Send_ItemSkinChange::VT_UID, uid, 0);
+  }
   explicit Send_ItemSkinChangeBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -1220,8 +1280,10 @@ struct Send_ItemSkinChangeBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_ItemSkinChange> CreateSend_ItemSkinChange(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0) {
   Send_ItemSkinChangeBuilder builder_(_fbb);
+  builder_.add_uid(uid);
   return builder_.Finish();
 }
 
@@ -1229,246 +1291,12 @@ inline ::flatbuffers::Offset<Send_ItemSkinChange> CreateSend_ItemSkinChange(
 
 struct Send_SkillSpellStartT : public ::flatbuffers::NativeTable {
   typedef Send_SkillSpellStart TableType;
+  uint32_t index = 0;
 };
 
 struct Send_SkillSpellStart FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_SkillSpellStartT NativeTableType;
   typedef Send_SkillSpellStartBuilder Builder;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           verifier.EndTable();
-  }
-  Send_SkillSpellStartT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(Send_SkillSpellStartT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Send_SkillSpellStart> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillSpellStartT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
-};
-
-struct Send_SkillSpellStartBuilder {
-  typedef Send_SkillSpellStart Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit Send_SkillSpellStartBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  ::flatbuffers::Offset<Send_SkillSpellStart> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Send_SkillSpellStart>(end);
-    return o;
-  }
-};
-
-inline ::flatbuffers::Offset<Send_SkillSpellStart> CreateSend_SkillSpellStart(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
-  Send_SkillSpellStartBuilder builder_(_fbb);
-  return builder_.Finish();
-}
-
-::flatbuffers::Offset<Send_SkillSpellStart> CreateSend_SkillSpellStart(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillSpellStartT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
-
-struct Send_SkillSpellEndT : public ::flatbuffers::NativeTable {
-  typedef Send_SkillSpellEnd TableType;
-};
-
-struct Send_SkillSpellEnd FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef Send_SkillSpellEndT NativeTableType;
-  typedef Send_SkillSpellEndBuilder Builder;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           verifier.EndTable();
-  }
-  Send_SkillSpellEndT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(Send_SkillSpellEndT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Send_SkillSpellEnd> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillSpellEndT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
-};
-
-struct Send_SkillSpellEndBuilder {
-  typedef Send_SkillSpellEnd Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit Send_SkillSpellEndBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  ::flatbuffers::Offset<Send_SkillSpellEnd> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Send_SkillSpellEnd>(end);
-    return o;
-  }
-};
-
-inline ::flatbuffers::Offset<Send_SkillSpellEnd> CreateSend_SkillSpellEnd(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
-  Send_SkillSpellEndBuilder builder_(_fbb);
-  return builder_.Finish();
-}
-
-::flatbuffers::Offset<Send_SkillSpellEnd> CreateSend_SkillSpellEnd(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillSpellEndT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
-
-struct Send_SkillLearnT : public ::flatbuffers::NativeTable {
-  typedef Send_SkillLearn TableType;
-};
-
-struct Send_SkillLearn FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef Send_SkillLearnT NativeTableType;
-  typedef Send_SkillLearnBuilder Builder;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           verifier.EndTable();
-  }
-  Send_SkillLearnT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(Send_SkillLearnT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Send_SkillLearn> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillLearnT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
-};
-
-struct Send_SkillLearnBuilder {
-  typedef Send_SkillLearn Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit Send_SkillLearnBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  ::flatbuffers::Offset<Send_SkillLearn> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Send_SkillLearn>(end);
-    return o;
-  }
-};
-
-inline ::flatbuffers::Offset<Send_SkillLearn> CreateSend_SkillLearn(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
-  Send_SkillLearnBuilder builder_(_fbb);
-  return builder_.Finish();
-}
-
-::flatbuffers::Offset<Send_SkillLearn> CreateSend_SkillLearn(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillLearnT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
-
-struct Send_SkillCastingT : public ::flatbuffers::NativeTable {
-  typedef Send_SkillCasting TableType;
-};
-
-struct Send_SkillCasting FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef Send_SkillCastingT NativeTableType;
-  typedef Send_SkillCastingBuilder Builder;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           verifier.EndTable();
-  }
-  Send_SkillCastingT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(Send_SkillCastingT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Send_SkillCasting> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillCastingT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
-};
-
-struct Send_SkillCastingBuilder {
-  typedef Send_SkillCasting Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit Send_SkillCastingBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  ::flatbuffers::Offset<Send_SkillCasting> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Send_SkillCasting>(end);
-    return o;
-  }
-};
-
-inline ::flatbuffers::Offset<Send_SkillCasting> CreateSend_SkillCasting(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
-  Send_SkillCastingBuilder builder_(_fbb);
-  return builder_.Finish();
-}
-
-::flatbuffers::Offset<Send_SkillCasting> CreateSend_SkillCasting(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillCastingT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
-
-struct Send_SkillCancelT : public ::flatbuffers::NativeTable {
-  typedef Send_SkillCancel TableType;
-};
-
-struct Send_SkillCancel FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef Send_SkillCancelT NativeTableType;
-  typedef Send_SkillCancelBuilder Builder;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           verifier.EndTable();
-  }
-  Send_SkillCancelT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(Send_SkillCancelT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Send_SkillCancel> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillCancelT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
-};
-
-struct Send_SkillCancelBuilder {
-  typedef Send_SkillCancel Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit Send_SkillCancelBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  ::flatbuffers::Offset<Send_SkillCancel> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Send_SkillCancel>(end);
-    return o;
-  }
-};
-
-inline ::flatbuffers::Offset<Send_SkillCancel> CreateSend_SkillCancel(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
-  Send_SkillCancelBuilder builder_(_fbb);
-  return builder_.Finish();
-}
-
-::flatbuffers::Offset<Send_SkillCancel> CreateSend_SkillCancel(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillCancelT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
-
-struct Send_ShopBuyT : public ::flatbuffers::NativeTable {
-  typedef Send_ShopBuy TableType;
-};
-
-struct Send_ShopBuy FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef Send_ShopBuyT NativeTableType;
-  typedef Send_ShopBuyBuilder Builder;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           verifier.EndTable();
-  }
-  Send_ShopBuyT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(Send_ShopBuyT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Send_ShopBuy> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ShopBuyT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
-};
-
-struct Send_ShopBuyBuilder {
-  typedef Send_ShopBuy Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit Send_ShopBuyBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  ::flatbuffers::Offset<Send_ShopBuy> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Send_ShopBuy>(end);
-    return o;
-  }
-};
-
-inline ::flatbuffers::Offset<Send_ShopBuy> CreateSend_ShopBuy(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
-  Send_ShopBuyBuilder builder_(_fbb);
-  return builder_.Finish();
-}
-
-::flatbuffers::Offset<Send_ShopBuy> CreateSend_ShopBuy(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ShopBuyT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
-
-struct Send_ShopSellT : public ::flatbuffers::NativeTable {
-  typedef Send_ShopSell TableType;
-  uint32_t index = 0;
-};
-
-struct Send_ShopSell FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef Send_ShopSellT NativeTableType;
-  typedef Send_ShopSellBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_INDEX = 4
   };
@@ -1483,6 +1311,359 @@ struct Send_ShopSell FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
            VerifyField<uint32_t>(verifier, VT_INDEX, 4) &&
            verifier.EndTable();
   }
+  Send_SkillSpellStartT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Send_SkillSpellStartT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Send_SkillSpellStart> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillSpellStartT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Send_SkillSpellStartBuilder {
+  typedef Send_SkillSpellStart Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_index(uint32_t index) {
+    fbb_.AddElement<uint32_t>(Send_SkillSpellStart::VT_INDEX, index, 0);
+  }
+  explicit Send_SkillSpellStartBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Send_SkillSpellStart> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Send_SkillSpellStart>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Send_SkillSpellStart> CreateSend_SkillSpellStart(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t index = 0) {
+  Send_SkillSpellStartBuilder builder_(_fbb);
+  builder_.add_index(index);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Send_SkillSpellStart> CreateSend_SkillSpellStart(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillSpellStartT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct Send_SkillSpellEndT : public ::flatbuffers::NativeTable {
+  typedef Send_SkillSpellEnd TableType;
+  uint32_t index = 0;
+};
+
+struct Send_SkillSpellEnd FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Send_SkillSpellEndT NativeTableType;
+  typedef Send_SkillSpellEndBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_INDEX = 4
+  };
+  uint32_t index() const {
+    return GetField<uint32_t>(VT_INDEX, 0);
+  }
+  bool mutate_index(uint32_t _index = 0) {
+    return SetField<uint32_t>(VT_INDEX, _index, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_INDEX, 4) &&
+           verifier.EndTable();
+  }
+  Send_SkillSpellEndT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Send_SkillSpellEndT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Send_SkillSpellEnd> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillSpellEndT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Send_SkillSpellEndBuilder {
+  typedef Send_SkillSpellEnd Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_index(uint32_t index) {
+    fbb_.AddElement<uint32_t>(Send_SkillSpellEnd::VT_INDEX, index, 0);
+  }
+  explicit Send_SkillSpellEndBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Send_SkillSpellEnd> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Send_SkillSpellEnd>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Send_SkillSpellEnd> CreateSend_SkillSpellEnd(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t index = 0) {
+  Send_SkillSpellEndBuilder builder_(_fbb);
+  builder_.add_index(index);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Send_SkillSpellEnd> CreateSend_SkillSpellEnd(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillSpellEndT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct Send_SkillLearnT : public ::flatbuffers::NativeTable {
+  typedef Send_SkillLearn TableType;
+  uint32_t index = 0;
+};
+
+struct Send_SkillLearn FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Send_SkillLearnT NativeTableType;
+  typedef Send_SkillLearnBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_INDEX = 4
+  };
+  uint32_t index() const {
+    return GetField<uint32_t>(VT_INDEX, 0);
+  }
+  bool mutate_index(uint32_t _index = 0) {
+    return SetField<uint32_t>(VT_INDEX, _index, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_INDEX, 4) &&
+           verifier.EndTable();
+  }
+  Send_SkillLearnT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Send_SkillLearnT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Send_SkillLearn> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillLearnT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Send_SkillLearnBuilder {
+  typedef Send_SkillLearn Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_index(uint32_t index) {
+    fbb_.AddElement<uint32_t>(Send_SkillLearn::VT_INDEX, index, 0);
+  }
+  explicit Send_SkillLearnBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Send_SkillLearn> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Send_SkillLearn>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Send_SkillLearn> CreateSend_SkillLearn(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t index = 0) {
+  Send_SkillLearnBuilder builder_(_fbb);
+  builder_.add_index(index);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Send_SkillLearn> CreateSend_SkillLearn(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillLearnT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct Send_SkillCastingT : public ::flatbuffers::NativeTable {
+  typedef Send_SkillCasting TableType;
+  uint32_t index = 0;
+};
+
+struct Send_SkillCasting FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Send_SkillCastingT NativeTableType;
+  typedef Send_SkillCastingBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_INDEX = 4
+  };
+  uint32_t index() const {
+    return GetField<uint32_t>(VT_INDEX, 0);
+  }
+  bool mutate_index(uint32_t _index = 0) {
+    return SetField<uint32_t>(VT_INDEX, _index, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_INDEX, 4) &&
+           verifier.EndTable();
+  }
+  Send_SkillCastingT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Send_SkillCastingT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Send_SkillCasting> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillCastingT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Send_SkillCastingBuilder {
+  typedef Send_SkillCasting Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_index(uint32_t index) {
+    fbb_.AddElement<uint32_t>(Send_SkillCasting::VT_INDEX, index, 0);
+  }
+  explicit Send_SkillCastingBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Send_SkillCasting> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Send_SkillCasting>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Send_SkillCasting> CreateSend_SkillCasting(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t index = 0) {
+  Send_SkillCastingBuilder builder_(_fbb);
+  builder_.add_index(index);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Send_SkillCasting> CreateSend_SkillCasting(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillCastingT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct Send_SkillCancelT : public ::flatbuffers::NativeTable {
+  typedef Send_SkillCancel TableType;
+  uint32_t index = 0;
+};
+
+struct Send_SkillCancel FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Send_SkillCancelT NativeTableType;
+  typedef Send_SkillCancelBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_INDEX = 4
+  };
+  uint32_t index() const {
+    return GetField<uint32_t>(VT_INDEX, 0);
+  }
+  bool mutate_index(uint32_t _index = 0) {
+    return SetField<uint32_t>(VT_INDEX, _index, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_INDEX, 4) &&
+           verifier.EndTable();
+  }
+  Send_SkillCancelT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Send_SkillCancelT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Send_SkillCancel> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillCancelT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Send_SkillCancelBuilder {
+  typedef Send_SkillCancel Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_index(uint32_t index) {
+    fbb_.AddElement<uint32_t>(Send_SkillCancel::VT_INDEX, index, 0);
+  }
+  explicit Send_SkillCancelBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Send_SkillCancel> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Send_SkillCancel>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Send_SkillCancel> CreateSend_SkillCancel(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t index = 0) {
+  Send_SkillCancelBuilder builder_(_fbb);
+  builder_.add_index(index);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Send_SkillCancel> CreateSend_SkillCancel(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillCancelT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct Send_ShopBuyT : public ::flatbuffers::NativeTable {
+  typedef Send_ShopBuy TableType;
+  uint32_t index = 0;
+  int32_t count = 0;
+};
+
+struct Send_ShopBuy FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Send_ShopBuyT NativeTableType;
+  typedef Send_ShopBuyBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_INDEX = 4,
+    VT_COUNT = 6
+  };
+  uint32_t index() const {
+    return GetField<uint32_t>(VT_INDEX, 0);
+  }
+  bool mutate_index(uint32_t _index = 0) {
+    return SetField<uint32_t>(VT_INDEX, _index, 0);
+  }
+  int32_t count() const {
+    return GetField<int32_t>(VT_COUNT, 0);
+  }
+  bool mutate_count(int32_t _count = 0) {
+    return SetField<int32_t>(VT_COUNT, _count, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_INDEX, 4) &&
+           VerifyField<int32_t>(verifier, VT_COUNT, 4) &&
+           verifier.EndTable();
+  }
+  Send_ShopBuyT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Send_ShopBuyT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Send_ShopBuy> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ShopBuyT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Send_ShopBuyBuilder {
+  typedef Send_ShopBuy Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_index(uint32_t index) {
+    fbb_.AddElement<uint32_t>(Send_ShopBuy::VT_INDEX, index, 0);
+  }
+  void add_count(int32_t count) {
+    fbb_.AddElement<int32_t>(Send_ShopBuy::VT_COUNT, count, 0);
+  }
+  explicit Send_ShopBuyBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Send_ShopBuy> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Send_ShopBuy>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Send_ShopBuy> CreateSend_ShopBuy(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t index = 0,
+    int32_t count = 0) {
+  Send_ShopBuyBuilder builder_(_fbb);
+  builder_.add_count(count);
+  builder_.add_index(index);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Send_ShopBuy> CreateSend_ShopBuy(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ShopBuyT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct Send_ShopSellT : public ::flatbuffers::NativeTable {
+  typedef Send_ShopSell TableType;
+  uint32_t index = 0;
+  int32_t count = 0;
+};
+
+struct Send_ShopSell FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Send_ShopSellT NativeTableType;
+  typedef Send_ShopSellBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_INDEX = 4,
+    VT_COUNT = 6
+  };
+  uint32_t index() const {
+    return GetField<uint32_t>(VT_INDEX, 0);
+  }
+  bool mutate_index(uint32_t _index = 0) {
+    return SetField<uint32_t>(VT_INDEX, _index, 0);
+  }
+  int32_t count() const {
+    return GetField<int32_t>(VT_COUNT, 0);
+  }
+  bool mutate_count(int32_t _count = 0) {
+    return SetField<int32_t>(VT_COUNT, _count, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_INDEX, 4) &&
+           VerifyField<int32_t>(verifier, VT_COUNT, 4) &&
+           verifier.EndTable();
+  }
   Send_ShopSellT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
   void UnPackTo(Send_ShopSellT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
   static ::flatbuffers::Offset<Send_ShopSell> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ShopSellT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
@@ -1494,6 +1675,9 @@ struct Send_ShopSellBuilder {
   ::flatbuffers::uoffset_t start_;
   void add_index(uint32_t index) {
     fbb_.AddElement<uint32_t>(Send_ShopSell::VT_INDEX, index, 0);
+  }
+  void add_count(int32_t count) {
+    fbb_.AddElement<int32_t>(Send_ShopSell::VT_COUNT, count, 0);
   }
   explicit Send_ShopSellBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -1508,8 +1692,10 @@ struct Send_ShopSellBuilder {
 
 inline ::flatbuffers::Offset<Send_ShopSell> CreateSend_ShopSell(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    uint32_t index = 0) {
+    uint32_t index = 0,
+    int32_t count = 0) {
   Send_ShopSellBuilder builder_(_fbb);
+  builder_.add_count(count);
   builder_.add_index(index);
   return builder_.Finish();
 }
@@ -1761,13 +1947,24 @@ inline ::flatbuffers::Offset<Send_PremiumRefund> CreateSend_PremiumRefund(
 
 struct Send_PremiumConfirmT : public ::flatbuffers::NativeTable {
   typedef Send_PremiumConfirm TableType;
+  uint64_t premium_uid = 0;
 };
 
 struct Send_PremiumConfirm FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_PremiumConfirmT NativeTableType;
   typedef Send_PremiumConfirmBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_PREMIUM_UID = 4
+  };
+  uint64_t premium_uid() const {
+    return GetField<uint64_t>(VT_PREMIUM_UID, 0);
+  }
+  bool mutate_premium_uid(uint64_t _premium_uid = 0) {
+    return SetField<uint64_t>(VT_PREMIUM_UID, _premium_uid, 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_PREMIUM_UID, 8) &&
            verifier.EndTable();
   }
   Send_PremiumConfirmT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -1779,6 +1976,9 @@ struct Send_PremiumConfirmBuilder {
   typedef Send_PremiumConfirm Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_premium_uid(uint64_t premium_uid) {
+    fbb_.AddElement<uint64_t>(Send_PremiumConfirm::VT_PREMIUM_UID, premium_uid, 0);
+  }
   explicit Send_PremiumConfirmBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -1791,8 +1991,10 @@ struct Send_PremiumConfirmBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_PremiumConfirm> CreateSend_PremiumConfirm(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t premium_uid = 0) {
   Send_PremiumConfirmBuilder builder_(_fbb);
+  builder_.add_premium_uid(premium_uid);
   return builder_.Finish();
 }
 
@@ -1800,13 +2002,29 @@ inline ::flatbuffers::Offset<Send_PremiumConfirm> CreateSend_PremiumConfirm(
 
 struct Send_PartyCreateT : public ::flatbuffers::NativeTable {
   typedef Send_PartyCreate TableType;
+  std::unique_ptr<fb::PartyCreateOptionT> option{};
+  Send_PartyCreateT() = default;
+  Send_PartyCreateT(const Send_PartyCreateT &o);
+  Send_PartyCreateT(Send_PartyCreateT&&) FLATBUFFERS_NOEXCEPT = default;
+  Send_PartyCreateT &operator=(Send_PartyCreateT o) FLATBUFFERS_NOEXCEPT;
 };
 
 struct Send_PartyCreate FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_PartyCreateT NativeTableType;
   typedef Send_PartyCreateBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_OPTION = 4
+  };
+  const fb::PartyCreateOption *option() const {
+    return GetPointer<const fb::PartyCreateOption *>(VT_OPTION);
+  }
+  fb::PartyCreateOption *mutable_option() {
+    return GetPointer<fb::PartyCreateOption *>(VT_OPTION);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_OPTION) &&
+           verifier.VerifyTable(option()) &&
            verifier.EndTable();
   }
   Send_PartyCreateT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -1818,6 +2036,9 @@ struct Send_PartyCreateBuilder {
   typedef Send_PartyCreate Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_option(::flatbuffers::Offset<fb::PartyCreateOption> option) {
+    fbb_.AddOffset(Send_PartyCreate::VT_OPTION, option);
+  }
   explicit Send_PartyCreateBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -1830,8 +2051,10 @@ struct Send_PartyCreateBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_PartyCreate> CreateSend_PartyCreate(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::PartyCreateOption> option = 0) {
   Send_PartyCreateBuilder builder_(_fbb);
+  builder_.add_option(option);
   return builder_.Finish();
 }
 
@@ -1839,13 +2062,24 @@ inline ::flatbuffers::Offset<Send_PartyCreate> CreateSend_PartyCreate(
 
 struct Send_PartyJoinT : public ::flatbuffers::NativeTable {
   typedef Send_PartyJoin TableType;
+  uint64_t party_uid = 0;
 };
 
 struct Send_PartyJoin FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_PartyJoinT NativeTableType;
   typedef Send_PartyJoinBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_PARTY_UID = 4
+  };
+  uint64_t party_uid() const {
+    return GetField<uint64_t>(VT_PARTY_UID, 0);
+  }
+  bool mutate_party_uid(uint64_t _party_uid = 0) {
+    return SetField<uint64_t>(VT_PARTY_UID, _party_uid, 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_PARTY_UID, 8) &&
            verifier.EndTable();
   }
   Send_PartyJoinT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -1857,6 +2091,9 @@ struct Send_PartyJoinBuilder {
   typedef Send_PartyJoin Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_party_uid(uint64_t party_uid) {
+    fbb_.AddElement<uint64_t>(Send_PartyJoin::VT_PARTY_UID, party_uid, 0);
+  }
   explicit Send_PartyJoinBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -1869,8 +2106,10 @@ struct Send_PartyJoinBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_PartyJoin> CreateSend_PartyJoin(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t party_uid = 0) {
   Send_PartyJoinBuilder builder_(_fbb);
+  builder_.add_party_uid(party_uid);
   return builder_.Finish();
 }
 
@@ -1917,13 +2156,25 @@ inline ::flatbuffers::Offset<Send_PartyLeave> CreateSend_PartyLeave(
 
 struct Send_PartyInviteT : public ::flatbuffers::NativeTable {
   typedef Send_PartyInvite TableType;
+  std::string name{};
 };
 
 struct Send_PartyInvite FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_PartyInviteT NativeTableType;
   typedef Send_PartyInviteBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_NAME = 4
+  };
+  const ::flatbuffers::String *name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_NAME);
+  }
+  ::flatbuffers::String *mutable_name() {
+    return GetPointer<::flatbuffers::String *>(VT_NAME);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_NAME) &&
+           verifier.VerifyString(name()) &&
            verifier.EndTable();
   }
   Send_PartyInviteT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -1935,6 +2186,9 @@ struct Send_PartyInviteBuilder {
   typedef Send_PartyInvite Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
+    fbb_.AddOffset(Send_PartyInvite::VT_NAME, name);
+  }
   explicit Send_PartyInviteBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -1947,22 +2201,44 @@ struct Send_PartyInviteBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_PartyInvite> CreateSend_PartyInvite(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::String> name = 0) {
   Send_PartyInviteBuilder builder_(_fbb);
+  builder_.add_name(name);
   return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Send_PartyInvite> CreateSend_PartyInviteDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const char *name = nullptr) {
+  auto name__ = name ? _fbb.CreateString(name) : 0;
+  return fb::server::CreateSend_PartyInvite(
+      _fbb,
+      name__);
 }
 
 ::flatbuffers::Offset<Send_PartyInvite> CreateSend_PartyInvite(::flatbuffers::FlatBufferBuilder &_fbb, const Send_PartyInviteT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct Send_PartyInviteAnswerT : public ::flatbuffers::NativeTable {
   typedef Send_PartyInviteAnswer TableType;
+  bool agree = false;
 };
 
 struct Send_PartyInviteAnswer FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_PartyInviteAnswerT NativeTableType;
   typedef Send_PartyInviteAnswerBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_AGREE = 4
+  };
+  bool agree() const {
+    return GetField<uint8_t>(VT_AGREE, 0) != 0;
+  }
+  bool mutate_agree(bool _agree = 0) {
+    return SetField<uint8_t>(VT_AGREE, static_cast<uint8_t>(_agree), 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint8_t>(verifier, VT_AGREE, 1) &&
            verifier.EndTable();
   }
   Send_PartyInviteAnswerT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -1974,6 +2250,9 @@ struct Send_PartyInviteAnswerBuilder {
   typedef Send_PartyInviteAnswer Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_agree(bool agree) {
+    fbb_.AddElement<uint8_t>(Send_PartyInviteAnswer::VT_AGREE, static_cast<uint8_t>(agree), 0);
+  }
   explicit Send_PartyInviteAnswerBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -1986,8 +2265,10 @@ struct Send_PartyInviteAnswerBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_PartyInviteAnswer> CreateSend_PartyInviteAnswer(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    bool agree = false) {
   Send_PartyInviteAnswerBuilder builder_(_fbb);
+  builder_.add_agree(agree);
   return builder_.Finish();
 }
 
@@ -1995,13 +2276,24 @@ inline ::flatbuffers::Offset<Send_PartyInviteAnswer> CreateSend_PartyInviteAnswe
 
 struct Send_PartyDeportT : public ::flatbuffers::NativeTable {
   typedef Send_PartyDeport TableType;
+  uint64_t uid = 0;
 };
 
 struct Send_PartyDeport FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_PartyDeportT NativeTableType;
   typedef Send_PartyDeportBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
            verifier.EndTable();
   }
   Send_PartyDeportT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -2013,6 +2305,9 @@ struct Send_PartyDeportBuilder {
   typedef Send_PartyDeport Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(Send_PartyDeport::VT_UID, uid, 0);
+  }
   explicit Send_PartyDeportBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -2025,8 +2320,10 @@ struct Send_PartyDeportBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_PartyDeport> CreateSend_PartyDeport(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0) {
   Send_PartyDeportBuilder builder_(_fbb);
+  builder_.add_uid(uid);
   return builder_.Finish();
 }
 
@@ -2073,13 +2370,29 @@ inline ::flatbuffers::Offset<Send_PartyUpdate> CreateSend_PartyUpdate(
 
 struct Send_GuildCreateT : public ::flatbuffers::NativeTable {
   typedef Send_GuildCreate TableType;
+  std::unique_ptr<fb::GuildCreateOptionT> option{};
+  Send_GuildCreateT() = default;
+  Send_GuildCreateT(const Send_GuildCreateT &o);
+  Send_GuildCreateT(Send_GuildCreateT&&) FLATBUFFERS_NOEXCEPT = default;
+  Send_GuildCreateT &operator=(Send_GuildCreateT o) FLATBUFFERS_NOEXCEPT;
 };
 
 struct Send_GuildCreate FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_GuildCreateT NativeTableType;
   typedef Send_GuildCreateBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_OPTION = 4
+  };
+  const fb::GuildCreateOption *option() const {
+    return GetPointer<const fb::GuildCreateOption *>(VT_OPTION);
+  }
+  fb::GuildCreateOption *mutable_option() {
+    return GetPointer<fb::GuildCreateOption *>(VT_OPTION);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_OPTION) &&
+           verifier.VerifyTable(option()) &&
            verifier.EndTable();
   }
   Send_GuildCreateT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -2091,6 +2404,9 @@ struct Send_GuildCreateBuilder {
   typedef Send_GuildCreate Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_option(::flatbuffers::Offset<fb::GuildCreateOption> option) {
+    fbb_.AddOffset(Send_GuildCreate::VT_OPTION, option);
+  }
   explicit Send_GuildCreateBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -2103,8 +2419,10 @@ struct Send_GuildCreateBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_GuildCreate> CreateSend_GuildCreate(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::GuildCreateOption> option = 0) {
   Send_GuildCreateBuilder builder_(_fbb);
+  builder_.add_option(option);
   return builder_.Finish();
 }
 
@@ -2151,13 +2469,24 @@ inline ::flatbuffers::Offset<Send_GuildLeave> CreateSend_GuildLeave(
 
 struct Send_GuildDeportT : public ::flatbuffers::NativeTable {
   typedef Send_GuildDeport TableType;
+  uint64_t member_uid = 0;
 };
 
 struct Send_GuildDeport FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_GuildDeportT NativeTableType;
   typedef Send_GuildDeportBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_MEMBER_UID = 4
+  };
+  uint64_t member_uid() const {
+    return GetField<uint64_t>(VT_MEMBER_UID, 0);
+  }
+  bool mutate_member_uid(uint64_t _member_uid = 0) {
+    return SetField<uint64_t>(VT_MEMBER_UID, _member_uid, 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_MEMBER_UID, 8) &&
            verifier.EndTable();
   }
   Send_GuildDeportT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -2169,6 +2498,9 @@ struct Send_GuildDeportBuilder {
   typedef Send_GuildDeport Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_member_uid(uint64_t member_uid) {
+    fbb_.AddElement<uint64_t>(Send_GuildDeport::VT_MEMBER_UID, member_uid, 0);
+  }
   explicit Send_GuildDeportBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -2181,8 +2513,10 @@ struct Send_GuildDeportBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_GuildDeport> CreateSend_GuildDeport(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t member_uid = 0) {
   Send_GuildDeportBuilder builder_(_fbb);
+  builder_.add_member_uid(member_uid);
   return builder_.Finish();
 }
 
@@ -2190,13 +2524,25 @@ inline ::flatbuffers::Offset<Send_GuildDeport> CreateSend_GuildDeport(
 
 struct Send_GuildOptionChangeT : public ::flatbuffers::NativeTable {
   typedef Send_GuildOptionChange TableType;
+  std::string name{};
 };
 
 struct Send_GuildOptionChange FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_GuildOptionChangeT NativeTableType;
   typedef Send_GuildOptionChangeBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_NAME = 4
+  };
+  const ::flatbuffers::String *name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_NAME);
+  }
+  ::flatbuffers::String *mutable_name() {
+    return GetPointer<::flatbuffers::String *>(VT_NAME);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_NAME) &&
+           verifier.VerifyString(name()) &&
            verifier.EndTable();
   }
   Send_GuildOptionChangeT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -2208,6 +2554,9 @@ struct Send_GuildOptionChangeBuilder {
   typedef Send_GuildOptionChange Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
+    fbb_.AddOffset(Send_GuildOptionChange::VT_NAME, name);
+  }
   explicit Send_GuildOptionChangeBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -2220,22 +2569,45 @@ struct Send_GuildOptionChangeBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_GuildOptionChange> CreateSend_GuildOptionChange(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::String> name = 0) {
   Send_GuildOptionChangeBuilder builder_(_fbb);
+  builder_.add_name(name);
   return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Send_GuildOptionChange> CreateSend_GuildOptionChangeDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const char *name = nullptr) {
+  auto name__ = name ? _fbb.CreateString(name) : 0;
+  return fb::server::CreateSend_GuildOptionChange(
+      _fbb,
+      name__);
 }
 
 ::flatbuffers::Offset<Send_GuildOptionChange> CreateSend_GuildOptionChange(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildOptionChangeT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct Send_GuildMemberInviteT : public ::flatbuffers::NativeTable {
   typedef Send_GuildMemberInvite TableType;
+  std::string name{};
 };
 
 struct Send_GuildMemberInvite FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_GuildMemberInviteT NativeTableType;
   typedef Send_GuildMemberInviteBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_NAME = 4
+  };
+  const ::flatbuffers::String *name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_NAME);
+  }
+  ::flatbuffers::String *mutable_name() {
+    return GetPointer<::flatbuffers::String *>(VT_NAME);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_NAME) &&
+           verifier.VerifyString(name()) &&
            verifier.EndTable();
   }
   Send_GuildMemberInviteT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -2247,6 +2619,9 @@ struct Send_GuildMemberInviteBuilder {
   typedef Send_GuildMemberInvite Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
+    fbb_.AddOffset(Send_GuildMemberInvite::VT_NAME, name);
+  }
   explicit Send_GuildMemberInviteBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -2259,22 +2634,53 @@ struct Send_GuildMemberInviteBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_GuildMemberInvite> CreateSend_GuildMemberInvite(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::String> name = 0) {
   Send_GuildMemberInviteBuilder builder_(_fbb);
+  builder_.add_name(name);
   return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Send_GuildMemberInvite> CreateSend_GuildMemberInviteDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const char *name = nullptr) {
+  auto name__ = name ? _fbb.CreateString(name) : 0;
+  return fb::server::CreateSend_GuildMemberInvite(
+      _fbb,
+      name__);
 }
 
 ::flatbuffers::Offset<Send_GuildMemberInvite> CreateSend_GuildMemberInvite(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildMemberInviteT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct Send_GuildMemberInviteAnswerT : public ::flatbuffers::NativeTable {
   typedef Send_GuildMemberInviteAnswer TableType;
+  uint64_t guild_uid = 0;
+  bool agree = false;
 };
 
 struct Send_GuildMemberInviteAnswer FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_GuildMemberInviteAnswerT NativeTableType;
   typedef Send_GuildMemberInviteAnswerBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_GUILD_UID = 4,
+    VT_AGREE = 6
+  };
+  uint64_t guild_uid() const {
+    return GetField<uint64_t>(VT_GUILD_UID, 0);
+  }
+  bool mutate_guild_uid(uint64_t _guild_uid = 0) {
+    return SetField<uint64_t>(VT_GUILD_UID, _guild_uid, 0);
+  }
+  bool agree() const {
+    return GetField<uint8_t>(VT_AGREE, 0) != 0;
+  }
+  bool mutate_agree(bool _agree = 0) {
+    return SetField<uint8_t>(VT_AGREE, static_cast<uint8_t>(_agree), 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_GUILD_UID, 8) &&
+           VerifyField<uint8_t>(verifier, VT_AGREE, 1) &&
            verifier.EndTable();
   }
   Send_GuildMemberInviteAnswerT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -2286,6 +2692,12 @@ struct Send_GuildMemberInviteAnswerBuilder {
   typedef Send_GuildMemberInviteAnswer Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_guild_uid(uint64_t guild_uid) {
+    fbb_.AddElement<uint64_t>(Send_GuildMemberInviteAnswer::VT_GUILD_UID, guild_uid, 0);
+  }
+  void add_agree(bool agree) {
+    fbb_.AddElement<uint8_t>(Send_GuildMemberInviteAnswer::VT_AGREE, static_cast<uint8_t>(agree), 0);
+  }
   explicit Send_GuildMemberInviteAnswerBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -2298,61 +2710,107 @@ struct Send_GuildMemberInviteAnswerBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_GuildMemberInviteAnswer> CreateSend_GuildMemberInviteAnswer(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t guild_uid = 0,
+    bool agree = false) {
   Send_GuildMemberInviteAnswerBuilder builder_(_fbb);
+  builder_.add_guild_uid(guild_uid);
+  builder_.add_agree(agree);
   return builder_.Finish();
 }
 
 ::flatbuffers::Offset<Send_GuildMemberInviteAnswer> CreateSend_GuildMemberInviteAnswer(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildMemberInviteAnswerT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct Send_GuildMemberGradeChangeT : public ::flatbuffers::NativeTable {
-  typedef Send_GuildMemberGradeChange TableType;
+struct Send_GuildMemberChangeGradeT : public ::flatbuffers::NativeTable {
+  typedef Send_GuildMemberChangeGrade TableType;
+  uint64_t member_uid = 0;
+  fb::eGuildMemberGrade grade = fb::eGuildMemberGrade_None;
 };
 
-struct Send_GuildMemberGradeChange FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef Send_GuildMemberGradeChangeT NativeTableType;
-  typedef Send_GuildMemberGradeChangeBuilder Builder;
+struct Send_GuildMemberChangeGrade FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Send_GuildMemberChangeGradeT NativeTableType;
+  typedef Send_GuildMemberChangeGradeBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_MEMBER_UID = 4,
+    VT_GRADE = 6
+  };
+  uint64_t member_uid() const {
+    return GetField<uint64_t>(VT_MEMBER_UID, 0);
+  }
+  bool mutate_member_uid(uint64_t _member_uid = 0) {
+    return SetField<uint64_t>(VT_MEMBER_UID, _member_uid, 0);
+  }
+  fb::eGuildMemberGrade grade() const {
+    return static_cast<fb::eGuildMemberGrade>(GetField<int32_t>(VT_GRADE, 0));
+  }
+  bool mutate_grade(fb::eGuildMemberGrade _grade = static_cast<fb::eGuildMemberGrade>(0)) {
+    return SetField<int32_t>(VT_GRADE, static_cast<int32_t>(_grade), 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_MEMBER_UID, 8) &&
+           VerifyField<int32_t>(verifier, VT_GRADE, 4) &&
            verifier.EndTable();
   }
-  Send_GuildMemberGradeChangeT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(Send_GuildMemberGradeChangeT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Send_GuildMemberGradeChange> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildMemberGradeChangeT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  Send_GuildMemberChangeGradeT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Send_GuildMemberChangeGradeT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Send_GuildMemberChangeGrade> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildMemberChangeGradeT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
-struct Send_GuildMemberGradeChangeBuilder {
-  typedef Send_GuildMemberGradeChange Table;
+struct Send_GuildMemberChangeGradeBuilder {
+  typedef Send_GuildMemberChangeGrade Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  explicit Send_GuildMemberGradeChangeBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  void add_member_uid(uint64_t member_uid) {
+    fbb_.AddElement<uint64_t>(Send_GuildMemberChangeGrade::VT_MEMBER_UID, member_uid, 0);
+  }
+  void add_grade(fb::eGuildMemberGrade grade) {
+    fbb_.AddElement<int32_t>(Send_GuildMemberChangeGrade::VT_GRADE, static_cast<int32_t>(grade), 0);
+  }
+  explicit Send_GuildMemberChangeGradeBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Send_GuildMemberGradeChange> Finish() {
+  ::flatbuffers::Offset<Send_GuildMemberChangeGrade> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Send_GuildMemberGradeChange>(end);
+    auto o = ::flatbuffers::Offset<Send_GuildMemberChangeGrade>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Send_GuildMemberGradeChange> CreateSend_GuildMemberGradeChange(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
-  Send_GuildMemberGradeChangeBuilder builder_(_fbb);
+inline ::flatbuffers::Offset<Send_GuildMemberChangeGrade> CreateSend_GuildMemberChangeGrade(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t member_uid = 0,
+    fb::eGuildMemberGrade grade = fb::eGuildMemberGrade_None) {
+  Send_GuildMemberChangeGradeBuilder builder_(_fbb);
+  builder_.add_member_uid(member_uid);
+  builder_.add_grade(grade);
   return builder_.Finish();
 }
 
-::flatbuffers::Offset<Send_GuildMemberGradeChange> CreateSend_GuildMemberGradeChange(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildMemberGradeChangeT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+::flatbuffers::Offset<Send_GuildMemberChangeGrade> CreateSend_GuildMemberChangeGrade(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildMemberChangeGradeT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct Send_FriendAddT : public ::flatbuffers::NativeTable {
   typedef Send_FriendAdd TableType;
+  std::string name{};
 };
 
 struct Send_FriendAdd FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_FriendAddT NativeTableType;
   typedef Send_FriendAddBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_NAME = 4
+  };
+  const ::flatbuffers::String *name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_NAME);
+  }
+  ::flatbuffers::String *mutable_name() {
+    return GetPointer<::flatbuffers::String *>(VT_NAME);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_NAME) &&
+           verifier.VerifyString(name()) &&
            verifier.EndTable();
   }
   Send_FriendAddT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -2364,6 +2822,9 @@ struct Send_FriendAddBuilder {
   typedef Send_FriendAdd Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
+    fbb_.AddOffset(Send_FriendAdd::VT_NAME, name);
+  }
   explicit Send_FriendAddBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -2376,22 +2837,44 @@ struct Send_FriendAddBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_FriendAdd> CreateSend_FriendAdd(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::String> name = 0) {
   Send_FriendAddBuilder builder_(_fbb);
+  builder_.add_name(name);
   return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Send_FriendAdd> CreateSend_FriendAddDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const char *name = nullptr) {
+  auto name__ = name ? _fbb.CreateString(name) : 0;
+  return fb::server::CreateSend_FriendAdd(
+      _fbb,
+      name__);
 }
 
 ::flatbuffers::Offset<Send_FriendAdd> CreateSend_FriendAdd(::flatbuffers::FlatBufferBuilder &_fbb, const Send_FriendAddT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct Send_FriendAcceptT : public ::flatbuffers::NativeTable {
   typedef Send_FriendAccept TableType;
+  bool agree = false;
 };
 
 struct Send_FriendAccept FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_FriendAcceptT NativeTableType;
   typedef Send_FriendAcceptBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_AGREE = 4
+  };
+  bool agree() const {
+    return GetField<uint8_t>(VT_AGREE, 0) != 0;
+  }
+  bool mutate_agree(bool _agree = 0) {
+    return SetField<uint8_t>(VT_AGREE, static_cast<uint8_t>(_agree), 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint8_t>(verifier, VT_AGREE, 1) &&
            verifier.EndTable();
   }
   Send_FriendAcceptT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -2403,6 +2886,9 @@ struct Send_FriendAcceptBuilder {
   typedef Send_FriendAccept Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_agree(bool agree) {
+    fbb_.AddElement<uint8_t>(Send_FriendAccept::VT_AGREE, static_cast<uint8_t>(agree), 0);
+  }
   explicit Send_FriendAcceptBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -2415,8 +2901,10 @@ struct Send_FriendAcceptBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_FriendAccept> CreateSend_FriendAccept(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    bool agree = false) {
   Send_FriendAcceptBuilder builder_(_fbb);
+  builder_.add_agree(agree);
   return builder_.Finish();
 }
 
@@ -2424,13 +2912,24 @@ inline ::flatbuffers::Offset<Send_FriendAccept> CreateSend_FriendAccept(
 
 struct Send_FriendRemoveT : public ::flatbuffers::NativeTable {
   typedef Send_FriendRemove TableType;
+  uint64_t uid = 0;
 };
 
 struct Send_FriendRemove FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_FriendRemoveT NativeTableType;
   typedef Send_FriendRemoveBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
            verifier.EndTable();
   }
   Send_FriendRemoveT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -2442,6 +2941,9 @@ struct Send_FriendRemoveBuilder {
   typedef Send_FriendRemove Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(Send_FriendRemove::VT_UID, uid, 0);
+  }
   explicit Send_FriendRemoveBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -2454,8 +2956,10 @@ struct Send_FriendRemoveBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_FriendRemove> CreateSend_FriendRemove(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0) {
   Send_FriendRemoveBuilder builder_(_fbb);
+  builder_.add_uid(uid);
   return builder_.Finish();
 }
 
@@ -3135,6 +3639,8 @@ inline Send_ItemDisassembleT *Send_ItemDisassemble::UnPack(const ::flatbuffers::
 inline void Send_ItemDisassemble::UnPackTo(Send_ItemDisassembleT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = count(); _o->count = _e; }
+  { auto _e = uid(); _o->uid = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_ItemDisassemble> Send_ItemDisassemble::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ItemDisassembleT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3145,8 +3651,12 @@ inline ::flatbuffers::Offset<Send_ItemDisassemble> CreateSend_ItemDisassemble(::
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_ItemDisassembleT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _count = _o->count;
+  auto _uid = _o->uid;
   return fb::server::CreateSend_ItemDisassemble(
-      _fbb);
+      _fbb,
+      _count,
+      _uid);
 }
 
 inline Send_ItemRepairT *Send_ItemRepair::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3158,6 +3668,7 @@ inline Send_ItemRepairT *Send_ItemRepair::UnPack(const ::flatbuffers::resolver_f
 inline void Send_ItemRepair::UnPackTo(Send_ItemRepairT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = uid(); _o->uid = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_ItemRepair> Send_ItemRepair::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ItemRepairT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3168,8 +3679,10 @@ inline ::flatbuffers::Offset<Send_ItemRepair> CreateSend_ItemRepair(::flatbuffer
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_ItemRepairT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _uid = _o->uid;
   return fb::server::CreateSend_ItemRepair(
-      _fbb);
+      _fbb,
+      _uid);
 }
 
 inline Send_ItemSkinChangeT *Send_ItemSkinChange::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3181,6 +3694,7 @@ inline Send_ItemSkinChangeT *Send_ItemSkinChange::UnPack(const ::flatbuffers::re
 inline void Send_ItemSkinChange::UnPackTo(Send_ItemSkinChangeT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = uid(); _o->uid = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_ItemSkinChange> Send_ItemSkinChange::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ItemSkinChangeT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3191,8 +3705,10 @@ inline ::flatbuffers::Offset<Send_ItemSkinChange> CreateSend_ItemSkinChange(::fl
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_ItemSkinChangeT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _uid = _o->uid;
   return fb::server::CreateSend_ItemSkinChange(
-      _fbb);
+      _fbb,
+      _uid);
 }
 
 inline Send_SkillSpellStartT *Send_SkillSpellStart::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3204,6 +3720,7 @@ inline Send_SkillSpellStartT *Send_SkillSpellStart::UnPack(const ::flatbuffers::
 inline void Send_SkillSpellStart::UnPackTo(Send_SkillSpellStartT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = index(); _o->index = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_SkillSpellStart> Send_SkillSpellStart::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillSpellStartT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3214,8 +3731,10 @@ inline ::flatbuffers::Offset<Send_SkillSpellStart> CreateSend_SkillSpellStart(::
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_SkillSpellStartT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _index = _o->index;
   return fb::server::CreateSend_SkillSpellStart(
-      _fbb);
+      _fbb,
+      _index);
 }
 
 inline Send_SkillSpellEndT *Send_SkillSpellEnd::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3227,6 +3746,7 @@ inline Send_SkillSpellEndT *Send_SkillSpellEnd::UnPack(const ::flatbuffers::reso
 inline void Send_SkillSpellEnd::UnPackTo(Send_SkillSpellEndT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = index(); _o->index = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_SkillSpellEnd> Send_SkillSpellEnd::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillSpellEndT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3237,8 +3757,10 @@ inline ::flatbuffers::Offset<Send_SkillSpellEnd> CreateSend_SkillSpellEnd(::flat
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_SkillSpellEndT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _index = _o->index;
   return fb::server::CreateSend_SkillSpellEnd(
-      _fbb);
+      _fbb,
+      _index);
 }
 
 inline Send_SkillLearnT *Send_SkillLearn::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3250,6 +3772,7 @@ inline Send_SkillLearnT *Send_SkillLearn::UnPack(const ::flatbuffers::resolver_f
 inline void Send_SkillLearn::UnPackTo(Send_SkillLearnT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = index(); _o->index = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_SkillLearn> Send_SkillLearn::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillLearnT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3260,8 +3783,10 @@ inline ::flatbuffers::Offset<Send_SkillLearn> CreateSend_SkillLearn(::flatbuffer
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_SkillLearnT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _index = _o->index;
   return fb::server::CreateSend_SkillLearn(
-      _fbb);
+      _fbb,
+      _index);
 }
 
 inline Send_SkillCastingT *Send_SkillCasting::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3273,6 +3798,7 @@ inline Send_SkillCastingT *Send_SkillCasting::UnPack(const ::flatbuffers::resolv
 inline void Send_SkillCasting::UnPackTo(Send_SkillCastingT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = index(); _o->index = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_SkillCasting> Send_SkillCasting::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillCastingT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3283,8 +3809,10 @@ inline ::flatbuffers::Offset<Send_SkillCasting> CreateSend_SkillCasting(::flatbu
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_SkillCastingT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _index = _o->index;
   return fb::server::CreateSend_SkillCasting(
-      _fbb);
+      _fbb,
+      _index);
 }
 
 inline Send_SkillCancelT *Send_SkillCancel::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3296,6 +3824,7 @@ inline Send_SkillCancelT *Send_SkillCancel::UnPack(const ::flatbuffers::resolver
 inline void Send_SkillCancel::UnPackTo(Send_SkillCancelT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = index(); _o->index = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_SkillCancel> Send_SkillCancel::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_SkillCancelT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3306,8 +3835,10 @@ inline ::flatbuffers::Offset<Send_SkillCancel> CreateSend_SkillCancel(::flatbuff
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_SkillCancelT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _index = _o->index;
   return fb::server::CreateSend_SkillCancel(
-      _fbb);
+      _fbb,
+      _index);
 }
 
 inline Send_ShopBuyT *Send_ShopBuy::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3319,6 +3850,8 @@ inline Send_ShopBuyT *Send_ShopBuy::UnPack(const ::flatbuffers::resolver_functio
 inline void Send_ShopBuy::UnPackTo(Send_ShopBuyT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = index(); _o->index = _e; }
+  { auto _e = count(); _o->count = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_ShopBuy> Send_ShopBuy::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ShopBuyT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3329,8 +3862,12 @@ inline ::flatbuffers::Offset<Send_ShopBuy> CreateSend_ShopBuy(::flatbuffers::Fla
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_ShopBuyT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _index = _o->index;
+  auto _count = _o->count;
   return fb::server::CreateSend_ShopBuy(
-      _fbb);
+      _fbb,
+      _index,
+      _count);
 }
 
 inline Send_ShopSellT *Send_ShopSell::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3343,6 +3880,7 @@ inline void Send_ShopSell::UnPackTo(Send_ShopSellT *_o, const ::flatbuffers::res
   (void)_o;
   (void)_resolver;
   { auto _e = index(); _o->index = _e; }
+  { auto _e = count(); _o->count = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_ShopSell> Send_ShopSell::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ShopSellT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3354,9 +3892,11 @@ inline ::flatbuffers::Offset<Send_ShopSell> CreateSend_ShopSell(::flatbuffers::F
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_ShopSellT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _index = _o->index;
+  auto _count = _o->count;
   return fb::server::CreateSend_ShopSell(
       _fbb,
-      _index);
+      _index,
+      _count);
 }
 
 inline Send_QuestAcceptT *Send_QuestAccept::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3492,6 +4032,7 @@ inline Send_PremiumConfirmT *Send_PremiumConfirm::UnPack(const ::flatbuffers::re
 inline void Send_PremiumConfirm::UnPackTo(Send_PremiumConfirmT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = premium_uid(); _o->premium_uid = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_PremiumConfirm> Send_PremiumConfirm::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_PremiumConfirmT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3502,8 +4043,19 @@ inline ::flatbuffers::Offset<Send_PremiumConfirm> CreateSend_PremiumConfirm(::fl
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_PremiumConfirmT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _premium_uid = _o->premium_uid;
   return fb::server::CreateSend_PremiumConfirm(
-      _fbb);
+      _fbb,
+      _premium_uid);
+}
+
+inline Send_PartyCreateT::Send_PartyCreateT(const Send_PartyCreateT &o)
+      : option((o.option) ? new fb::PartyCreateOptionT(*o.option) : nullptr) {
+}
+
+inline Send_PartyCreateT &Send_PartyCreateT::operator=(Send_PartyCreateT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(option, o.option);
+  return *this;
 }
 
 inline Send_PartyCreateT *Send_PartyCreate::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3515,6 +4067,7 @@ inline Send_PartyCreateT *Send_PartyCreate::UnPack(const ::flatbuffers::resolver
 inline void Send_PartyCreate::UnPackTo(Send_PartyCreateT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = option(); if (_e) { if(_o->option) { _e->UnPackTo(_o->option.get(), _resolver); } else { _o->option = std::unique_ptr<fb::PartyCreateOptionT>(_e->UnPack(_resolver)); } } else if (_o->option) { _o->option.reset(); } }
 }
 
 inline ::flatbuffers::Offset<Send_PartyCreate> Send_PartyCreate::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_PartyCreateT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3525,8 +4078,10 @@ inline ::flatbuffers::Offset<Send_PartyCreate> CreateSend_PartyCreate(::flatbuff
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_PartyCreateT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _option = _o->option ? CreatePartyCreateOption(_fbb, _o->option.get(), _rehasher) : 0;
   return fb::server::CreateSend_PartyCreate(
-      _fbb);
+      _fbb,
+      _option);
 }
 
 inline Send_PartyJoinT *Send_PartyJoin::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3538,6 +4093,7 @@ inline Send_PartyJoinT *Send_PartyJoin::UnPack(const ::flatbuffers::resolver_fun
 inline void Send_PartyJoin::UnPackTo(Send_PartyJoinT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = party_uid(); _o->party_uid = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_PartyJoin> Send_PartyJoin::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_PartyJoinT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3548,8 +4104,10 @@ inline ::flatbuffers::Offset<Send_PartyJoin> CreateSend_PartyJoin(::flatbuffers:
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_PartyJoinT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _party_uid = _o->party_uid;
   return fb::server::CreateSend_PartyJoin(
-      _fbb);
+      _fbb,
+      _party_uid);
 }
 
 inline Send_PartyLeaveT *Send_PartyLeave::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3584,6 +4142,7 @@ inline Send_PartyInviteT *Send_PartyInvite::UnPack(const ::flatbuffers::resolver
 inline void Send_PartyInvite::UnPackTo(Send_PartyInviteT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = name(); if (_e) _o->name = _e->str(); }
 }
 
 inline ::flatbuffers::Offset<Send_PartyInvite> Send_PartyInvite::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_PartyInviteT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3594,8 +4153,10 @@ inline ::flatbuffers::Offset<Send_PartyInvite> CreateSend_PartyInvite(::flatbuff
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_PartyInviteT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _name = _o->name.empty() ? 0 : _fbb.CreateString(_o->name);
   return fb::server::CreateSend_PartyInvite(
-      _fbb);
+      _fbb,
+      _name);
 }
 
 inline Send_PartyInviteAnswerT *Send_PartyInviteAnswer::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3607,6 +4168,7 @@ inline Send_PartyInviteAnswerT *Send_PartyInviteAnswer::UnPack(const ::flatbuffe
 inline void Send_PartyInviteAnswer::UnPackTo(Send_PartyInviteAnswerT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = agree(); _o->agree = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_PartyInviteAnswer> Send_PartyInviteAnswer::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_PartyInviteAnswerT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3617,8 +4179,10 @@ inline ::flatbuffers::Offset<Send_PartyInviteAnswer> CreateSend_PartyInviteAnswe
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_PartyInviteAnswerT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _agree = _o->agree;
   return fb::server::CreateSend_PartyInviteAnswer(
-      _fbb);
+      _fbb,
+      _agree);
 }
 
 inline Send_PartyDeportT *Send_PartyDeport::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3630,6 +4194,7 @@ inline Send_PartyDeportT *Send_PartyDeport::UnPack(const ::flatbuffers::resolver
 inline void Send_PartyDeport::UnPackTo(Send_PartyDeportT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = uid(); _o->uid = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_PartyDeport> Send_PartyDeport::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_PartyDeportT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3640,8 +4205,10 @@ inline ::flatbuffers::Offset<Send_PartyDeport> CreateSend_PartyDeport(::flatbuff
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_PartyDeportT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _uid = _o->uid;
   return fb::server::CreateSend_PartyDeport(
-      _fbb);
+      _fbb,
+      _uid);
 }
 
 inline Send_PartyUpdateT *Send_PartyUpdate::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3667,6 +4234,15 @@ inline ::flatbuffers::Offset<Send_PartyUpdate> CreateSend_PartyUpdate(::flatbuff
       _fbb);
 }
 
+inline Send_GuildCreateT::Send_GuildCreateT(const Send_GuildCreateT &o)
+      : option((o.option) ? new fb::GuildCreateOptionT(*o.option) : nullptr) {
+}
+
+inline Send_GuildCreateT &Send_GuildCreateT::operator=(Send_GuildCreateT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(option, o.option);
+  return *this;
+}
+
 inline Send_GuildCreateT *Send_GuildCreate::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::unique_ptr<Send_GuildCreateT>(new Send_GuildCreateT());
   UnPackTo(_o.get(), _resolver);
@@ -3676,6 +4252,7 @@ inline Send_GuildCreateT *Send_GuildCreate::UnPack(const ::flatbuffers::resolver
 inline void Send_GuildCreate::UnPackTo(Send_GuildCreateT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = option(); if (_e) { if(_o->option) { _e->UnPackTo(_o->option.get(), _resolver); } else { _o->option = std::unique_ptr<fb::GuildCreateOptionT>(_e->UnPack(_resolver)); } } else if (_o->option) { _o->option.reset(); } }
 }
 
 inline ::flatbuffers::Offset<Send_GuildCreate> Send_GuildCreate::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildCreateT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3686,8 +4263,10 @@ inline ::flatbuffers::Offset<Send_GuildCreate> CreateSend_GuildCreate(::flatbuff
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_GuildCreateT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _option = _o->option ? CreateGuildCreateOption(_fbb, _o->option.get(), _rehasher) : 0;
   return fb::server::CreateSend_GuildCreate(
-      _fbb);
+      _fbb,
+      _option);
 }
 
 inline Send_GuildLeaveT *Send_GuildLeave::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3722,6 +4301,7 @@ inline Send_GuildDeportT *Send_GuildDeport::UnPack(const ::flatbuffers::resolver
 inline void Send_GuildDeport::UnPackTo(Send_GuildDeportT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = member_uid(); _o->member_uid = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_GuildDeport> Send_GuildDeport::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildDeportT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3732,8 +4312,10 @@ inline ::flatbuffers::Offset<Send_GuildDeport> CreateSend_GuildDeport(::flatbuff
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_GuildDeportT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _member_uid = _o->member_uid;
   return fb::server::CreateSend_GuildDeport(
-      _fbb);
+      _fbb,
+      _member_uid);
 }
 
 inline Send_GuildOptionChangeT *Send_GuildOptionChange::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3745,6 +4327,7 @@ inline Send_GuildOptionChangeT *Send_GuildOptionChange::UnPack(const ::flatbuffe
 inline void Send_GuildOptionChange::UnPackTo(Send_GuildOptionChangeT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = name(); if (_e) _o->name = _e->str(); }
 }
 
 inline ::flatbuffers::Offset<Send_GuildOptionChange> Send_GuildOptionChange::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildOptionChangeT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3755,8 +4338,10 @@ inline ::flatbuffers::Offset<Send_GuildOptionChange> CreateSend_GuildOptionChang
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_GuildOptionChangeT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _name = _o->name.empty() ? 0 : _fbb.CreateString(_o->name);
   return fb::server::CreateSend_GuildOptionChange(
-      _fbb);
+      _fbb,
+      _name);
 }
 
 inline Send_GuildMemberInviteT *Send_GuildMemberInvite::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3768,6 +4353,7 @@ inline Send_GuildMemberInviteT *Send_GuildMemberInvite::UnPack(const ::flatbuffe
 inline void Send_GuildMemberInvite::UnPackTo(Send_GuildMemberInviteT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = name(); if (_e) _o->name = _e->str(); }
 }
 
 inline ::flatbuffers::Offset<Send_GuildMemberInvite> Send_GuildMemberInvite::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildMemberInviteT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3778,8 +4364,10 @@ inline ::flatbuffers::Offset<Send_GuildMemberInvite> CreateSend_GuildMemberInvit
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_GuildMemberInviteT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _name = _o->name.empty() ? 0 : _fbb.CreateString(_o->name);
   return fb::server::CreateSend_GuildMemberInvite(
-      _fbb);
+      _fbb,
+      _name);
 }
 
 inline Send_GuildMemberInviteAnswerT *Send_GuildMemberInviteAnswer::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3791,6 +4379,8 @@ inline Send_GuildMemberInviteAnswerT *Send_GuildMemberInviteAnswer::UnPack(const
 inline void Send_GuildMemberInviteAnswer::UnPackTo(Send_GuildMemberInviteAnswerT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = guild_uid(); _o->guild_uid = _e; }
+  { auto _e = agree(); _o->agree = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_GuildMemberInviteAnswer> Send_GuildMemberInviteAnswer::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildMemberInviteAnswerT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3801,31 +4391,41 @@ inline ::flatbuffers::Offset<Send_GuildMemberInviteAnswer> CreateSend_GuildMembe
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_GuildMemberInviteAnswerT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _guild_uid = _o->guild_uid;
+  auto _agree = _o->agree;
   return fb::server::CreateSend_GuildMemberInviteAnswer(
-      _fbb);
+      _fbb,
+      _guild_uid,
+      _agree);
 }
 
-inline Send_GuildMemberGradeChangeT *Send_GuildMemberGradeChange::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
-  auto _o = std::unique_ptr<Send_GuildMemberGradeChangeT>(new Send_GuildMemberGradeChangeT());
+inline Send_GuildMemberChangeGradeT *Send_GuildMemberChangeGrade::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<Send_GuildMemberChangeGradeT>(new Send_GuildMemberChangeGradeT());
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void Send_GuildMemberGradeChange::UnPackTo(Send_GuildMemberGradeChangeT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void Send_GuildMemberChangeGrade::UnPackTo(Send_GuildMemberChangeGradeT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = member_uid(); _o->member_uid = _e; }
+  { auto _e = grade(); _o->grade = _e; }
 }
 
-inline ::flatbuffers::Offset<Send_GuildMemberGradeChange> Send_GuildMemberGradeChange::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildMemberGradeChangeT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
-  return CreateSend_GuildMemberGradeChange(_fbb, _o, _rehasher);
+inline ::flatbuffers::Offset<Send_GuildMemberChangeGrade> Send_GuildMemberChangeGrade::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildMemberChangeGradeT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateSend_GuildMemberChangeGrade(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<Send_GuildMemberGradeChange> CreateSend_GuildMemberGradeChange(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildMemberGradeChangeT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline ::flatbuffers::Offset<Send_GuildMemberChangeGrade> CreateSend_GuildMemberChangeGrade(::flatbuffers::FlatBufferBuilder &_fbb, const Send_GuildMemberChangeGradeT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_GuildMemberGradeChangeT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  return fb::server::CreateSend_GuildMemberGradeChange(
-      _fbb);
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_GuildMemberChangeGradeT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _member_uid = _o->member_uid;
+  auto _grade = _o->grade;
+  return fb::server::CreateSend_GuildMemberChangeGrade(
+      _fbb,
+      _member_uid,
+      _grade);
 }
 
 inline Send_FriendAddT *Send_FriendAdd::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3837,6 +4437,7 @@ inline Send_FriendAddT *Send_FriendAdd::UnPack(const ::flatbuffers::resolver_fun
 inline void Send_FriendAdd::UnPackTo(Send_FriendAddT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = name(); if (_e) _o->name = _e->str(); }
 }
 
 inline ::flatbuffers::Offset<Send_FriendAdd> Send_FriendAdd::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_FriendAddT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3847,8 +4448,10 @@ inline ::flatbuffers::Offset<Send_FriendAdd> CreateSend_FriendAdd(::flatbuffers:
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_FriendAddT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _name = _o->name.empty() ? 0 : _fbb.CreateString(_o->name);
   return fb::server::CreateSend_FriendAdd(
-      _fbb);
+      _fbb,
+      _name);
 }
 
 inline Send_FriendAcceptT *Send_FriendAccept::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3860,6 +4463,7 @@ inline Send_FriendAcceptT *Send_FriendAccept::UnPack(const ::flatbuffers::resolv
 inline void Send_FriendAccept::UnPackTo(Send_FriendAcceptT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = agree(); _o->agree = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_FriendAccept> Send_FriendAccept::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_FriendAcceptT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3870,8 +4474,10 @@ inline ::flatbuffers::Offset<Send_FriendAccept> CreateSend_FriendAccept(::flatbu
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_FriendAcceptT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _agree = _o->agree;
   return fb::server::CreateSend_FriendAccept(
-      _fbb);
+      _fbb,
+      _agree);
 }
 
 inline Send_FriendRemoveT *Send_FriendRemove::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3883,6 +4489,7 @@ inline Send_FriendRemoveT *Send_FriendRemove::UnPack(const ::flatbuffers::resolv
 inline void Send_FriendRemove::UnPackTo(Send_FriendRemoveT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = uid(); _o->uid = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_FriendRemove> Send_FriendRemove::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_FriendRemoveT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3893,8 +4500,10 @@ inline ::flatbuffers::Offset<Send_FriendRemove> CreateSend_FriendRemove(::flatbu
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_FriendRemoveT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _uid = _o->uid;
   return fb::server::CreateSend_FriendRemove(
-      _fbb);
+      _fbb,
+      _uid);
 }
 
 inline Send_InstanceEnterT *Send_InstanceEnter::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
