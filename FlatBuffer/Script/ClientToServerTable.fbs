@@ -60,6 +60,7 @@ table Send_CharacterDelete
 
 table Send_CharacterSelect
 {
+	uid:uint64;
 }
 
 table Send_CharacterLogout
@@ -68,52 +69,70 @@ table Send_CharacterLogout
 
 table Send_CharacterMove
 {
+	uid:uint64;
+	pos:Position;
 }
 
 table Send_CharacterAngle
 {
+	uid:uint64;
+	angle:float;
 }
 
 table Send_CharacterResurrection
 {
+	uid:uint64;
 }
 
 table Send_ActorInteractionStart
 {
+	target_uid:uint64;
 }
 
 table Send_ActorInteractionEnd
 {
+	target_uid:uint64;
 }
 
 table Send_ActorInteractionCancel
 {
+	target_uid:uint64;
 }
 
 table Send_ItemDestroy
 {
+	uid:uint64;
 }
 
 table Send_ItemUse
 {
+	uid:uint64;
+	stack:int64;
 }
 
 table Send_ItemMake
 {
+	idx:uint32;
 }
 
 table Send_ItemReinforce
 {
+	uid:uint64;
+	main:uint64;
+	sub:uint64;
 }
 
 table Send_ItemEnchant
 {
+	uid:uint64;
+	main:uint64;
+	sub:uint64;
 }
 
 table Send_ItemDisassemble
 {
-	count:int32;
 	uid:uint64;
+	stack:int64;
 }
 
 table Send_ItemRepair
@@ -124,6 +143,7 @@ table Send_ItemRepair
 table Send_ItemSkinChange
 {
 	uid:uint64;
+	skin_item_idx:uint32;
 }
 
 table Send_SkillSpellStart
@@ -154,13 +174,13 @@ table Send_SkillCancel
 table Send_ShopBuy
 {
 	index:uint32;
-	count:int32;
+	stack:int64;
 }
 
 table Send_ShopSell
 {
-	index:uint32;
-	count:int32;
+	uid:uint64;
+	stack:int64;
 }
 
 table Send_QuestAccept
@@ -180,7 +200,7 @@ table Send_QuestReward
 
 table Send_PremiumBuy
 {
-	premium_idx:init64;
+	premium_index:uint32;
 }
 
 table Send_PremiumRefund

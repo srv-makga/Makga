@@ -44,7 +44,7 @@ using Result_t = fb::eResult;
 
 
 // Network
-using Port_t = int16_t;
+using Port_t = uint16_t;
 using SessionId_t = uint64_t;
 using ThreadId_t = std::size_t;
 
@@ -69,12 +69,13 @@ using CoordPoint_t = std::pair<Coord_t, Coord_t>;
 using Vector_t = core::coord::Vector3<Coord_t>;
 
 // Money
-using Gold_t = int64_t;
+using Currency_t = int64_t;
+using Gold_t = Currency_t;
 
 // Actor
 using ActorId_t = uint64_t;
-using Hp_t = int32_t;
-using Mp_t = int32_t;
+using Hp_t = int64_t;
+using Mp_t = int64_t;
 using Level_t = int32_t;
 using Exp_t = int64_t;
 
@@ -93,16 +94,16 @@ using MonsterIdx_t = TableIdx_t;
 // Object
 using ObjectIdx_t = TableIdx_t;
 
-using ability_t = TableIdx_t;
-using ability = int32_t;
+using AbilityIdx_t = TableIdx_t;
+using AbilityValue_t = int32_t;
 
 // Item
 using InventoryCount_t = std::size_t;
 using ItemUid_t = uint64_t;
 using ItemIdx_t = TableIdx_t;
-using StackCount_t = int32_t;
-using Reinforce_t = int8_t; // 강화
-using Durability_t = int16_t; // 내구도
+using StackCount_t = int64_t;
+using Reinforce_t = int32_t; // 강화
+using Durability_t = int32_t; // 내구도
 
 // Guild
 using GuildUid_t = uint64_t;
