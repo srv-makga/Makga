@@ -7,7 +7,7 @@
 
 struct SystemValueInfo
 {
-
+	Gold_t resurrection_need_currency;
 };
 
 struct TerrainInfo

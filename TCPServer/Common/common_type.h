@@ -54,6 +54,7 @@ using ServerId_t = uint32_t;
 using ServerType_t = fb::eServerType;
 using TableIdx_t = uint32_t;
 using Count_t = int32_t;
+using Time_t = std::time_t;
 
 // User
 using Account_t = String8;

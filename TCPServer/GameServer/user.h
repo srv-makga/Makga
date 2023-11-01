@@ -7,6 +7,8 @@
 #include "../Core/dispatcher.h"
 
 class SessionUser;
+class Character;
+class InventoryAccount;
 
 class User : public core::ObjectPool<User*>, public JobOwner, public InventoryOwner
 {
@@ -45,10 +47,26 @@ public:
 	bool OnCharacterDelete(NetPacket* _packet);
 	bool OnCharacterSelect(NetPacket* _packet);
 	bool OnCharacterLogout(NetPacket* _packet);
+	bool OnCharacterMove(NetPacket* _packet);
+	bool OnCharacterAngle(NetPacket* _packet);
+	bool OnCharacterResurrection(NetPacket* _packet);
+	bool OnActorInteractionStart(NetPacket* _packet);
+	bool OnActorInteractionEnd(NetPacket* _packet);
+	bool OnActorInteractionCancel(NetPacket* _packet);
+	bool OnItemDestroy(NetPacket* _packet);
+	bool OnItemUse(NetPacket* _packet);
+	bool OnItemMake(NetPacket* _packet);
+	bool OnItemReinforce(NetPacket* _packet);
+	bool OnItemDisassemble(NetPacket* _packet);
+	bool OnItemEnchant(NetPacket* _packet);
+	bool OnItemSkinChange(NetPacket* _packet);
 
 public: // InventoryOwner
 	uint64_t OwnerUid() const { return m_user_uid; }
 	int32_t MaxInvenSlot() const { return m_max_inventory; }
+
+	Character* GetCharacter() const;
+	void SetCharacter(Character* _character);
 
 private:
 	String8 m_account;
@@ -59,4 +77,12 @@ private:
 	Count_t m_max_inventory;
 
 	UserUid_t m_user_uid;
+
+	Character* m_character;
+
+	// interaction
+	ActorId_t m_interaction_id;
+	Time_t m_interaction_expire;
+
+	InventoryAccount* m_inventory;
 }; 

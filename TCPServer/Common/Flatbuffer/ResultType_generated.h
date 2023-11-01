@@ -24,17 +24,19 @@ enum eResult : int32_t {
   eResult_InvalidParameter = 5,
   eResult_InvalidIndex = 6,
   eResult_NotFoundServer = 7,
-  eResult_ItemNotFound = 8,
-  eResult_ItemStackFull = 9,
-  eResult_ItemNotEnough = 10,
-  eResult_ItemUidDuplicate = 11,
-  eResult_ItemIdxDuplicate = 12,
-  eResult_InvenFull = 13,
+  eResult_ActorNotFound = 8,
+  eResult_ItemNotFound = 9,
+  eResult_ItemStackFull = 10,
+  eResult_ItemNotEnough = 11,
+  eResult_ItemUidDuplicate = 12,
+  eResult_ItemIdxDuplicate = 13,
+  eResult_InvenFull = 14,
+  eResult_CurrencyLackGold = 15,
   eResult_MIN = eResult_Success,
-  eResult_MAX = eResult_InvenFull
+  eResult_MAX = eResult_CurrencyLackGold
 };
 
-inline const eResult (&EnumValueseResult())[14] {
+inline const eResult (&EnumValueseResult())[16] {
   static const eResult values[] = {
     eResult_Success,
     eResult_Fail,
@@ -44,18 +46,20 @@ inline const eResult (&EnumValueseResult())[14] {
     eResult_InvalidParameter,
     eResult_InvalidIndex,
     eResult_NotFoundServer,
+    eResult_ActorNotFound,
     eResult_ItemNotFound,
     eResult_ItemStackFull,
     eResult_ItemNotEnough,
     eResult_ItemUidDuplicate,
     eResult_ItemIdxDuplicate,
-    eResult_InvenFull
+    eResult_InvenFull,
+    eResult_CurrencyLackGold
   };
   return values;
 }
 
 inline const char * const *EnumNameseResult() {
-  static const char * const names[15] = {
+  static const char * const names[17] = {
     "Success",
     "Fail",
     "BufferLackSpace",
@@ -64,19 +68,21 @@ inline const char * const *EnumNameseResult() {
     "InvalidParameter",
     "InvalidIndex",
     "NotFoundServer",
+    "ActorNotFound",
     "ItemNotFound",
     "ItemStackFull",
     "ItemNotEnough",
     "ItemUidDuplicate",
     "ItemIdxDuplicate",
     "InvenFull",
+    "CurrencyLackGold",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameeResult(eResult e) {
-  if (::flatbuffers::IsOutRange(e, eResult_Success, eResult_InvenFull)) return "";
+  if (::flatbuffers::IsOutRange(e, eResult_Success, eResult_CurrencyLackGold)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNameseResult()[index];
 }

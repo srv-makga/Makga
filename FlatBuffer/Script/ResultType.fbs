@@ -15,6 +15,9 @@ enum eResult : int32
 	InvalidIndex,
 
 	NotFoundServer,					// 접속할 서버를 찾지 못함
+	
+	// actor
+	ActorNotFound,
 
 	// item
 	ItemNotFound,						// 아이템을 찾을 수 없음
@@ -25,4 +28,7 @@ enum eResult : int32
 
 	// Inventory
 	InvenFull,
+	
+	// currency
+	CurrencyLackGold,
 }

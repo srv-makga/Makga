@@ -24,7 +24,7 @@ table Position
 	x:float;
 	y:float;
 	z:float;
-	direction:float;
+	angle:float;
 }
 
 table PartyCreateOption

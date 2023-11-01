@@ -55,3 +55,21 @@ Mp_t Character::CurMp() const
 {
 	return m_hp_mp.cur_mp;
 }
+
+void Character::SetPos(const fb::Position* _pos)
+{
+	m_pos.SetX(_pos->x());
+	m_pos.SetY(_pos->y());
+	m_pos.SetZ(_pos->z());
+	m_angle = _pos->angle();
+}
+
+void Character::SetPos(const Vector_t& _pos)
+{
+	m_pos = _pos;
+}
+
+void Character::SetAngle(Coord_t _angle)
+{
+	m_angle = _angle;
+}

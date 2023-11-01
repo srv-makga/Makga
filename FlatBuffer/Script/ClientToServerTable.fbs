@@ -86,17 +86,16 @@ table Send_CharacterResurrection
 
 table Send_ActorInteractionStart
 {
-	target_uid:uint64;
+	target_actor_id:uint64;
 }
 
 table Send_ActorInteractionEnd
 {
-	target_uid:uint64;
+	target_actor_id:uint64;
 }
 
 table Send_ActorInteractionCancel
 {
-	target_uid:uint64;
 }
 
 table Send_ItemDestroy

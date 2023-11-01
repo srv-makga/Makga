@@ -222,7 +222,7 @@ struct PositionT : public ::flatbuffers::NativeTable {
   float x = 0.0f;
   float y = 0.0f;
   float z = 0.0f;
-  float direction = 0.0f;
+  float angle = 0.0f;
 };
 
 struct Position FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
@@ -232,7 +232,7 @@ struct Position FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
     VT_X = 4,
     VT_Y = 6,
     VT_Z = 8,
-    VT_DIRECTION = 10
+    VT_ANGLE = 10
   };
   float x() const {
     return GetField<float>(VT_X, 0.0f);
@@ -252,18 +252,18 @@ struct Position FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   bool mutate_z(float _z = 0.0f) {
     return SetField<float>(VT_Z, _z, 0.0f);
   }
-  float direction() const {
-    return GetField<float>(VT_DIRECTION, 0.0f);
+  float angle() const {
+    return GetField<float>(VT_ANGLE, 0.0f);
   }
-  bool mutate_direction(float _direction = 0.0f) {
-    return SetField<float>(VT_DIRECTION, _direction, 0.0f);
+  bool mutate_angle(float _angle = 0.0f) {
+    return SetField<float>(VT_ANGLE, _angle, 0.0f);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<float>(verifier, VT_X, 4) &&
            VerifyField<float>(verifier, VT_Y, 4) &&
            VerifyField<float>(verifier, VT_Z, 4) &&
-           VerifyField<float>(verifier, VT_DIRECTION, 4) &&
+           VerifyField<float>(verifier, VT_ANGLE, 4) &&
            verifier.EndTable();
   }
   PositionT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -284,8 +284,8 @@ struct PositionBuilder {
   void add_z(float z) {
     fbb_.AddElement<float>(Position::VT_Z, z, 0.0f);
   }
-  void add_direction(float direction) {
-    fbb_.AddElement<float>(Position::VT_DIRECTION, direction, 0.0f);
+  void add_angle(float angle) {
+    fbb_.AddElement<float>(Position::VT_ANGLE, angle, 0.0f);
   }
   explicit PositionBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -303,9 +303,9 @@ inline ::flatbuffers::Offset<Position> CreatePosition(
     float x = 0.0f,
     float y = 0.0f,
     float z = 0.0f,
-    float direction = 0.0f) {
+    float angle = 0.0f) {
   PositionBuilder builder_(_fbb);
-  builder_.add_direction(direction);
+  builder_.add_angle(angle);
   builder_.add_z(z);
   builder_.add_y(y);
   builder_.add_x(x);
@@ -554,7 +554,7 @@ inline void Position::UnPackTo(PositionT *_o, const ::flatbuffers::resolver_func
   { auto _e = x(); _o->x = _e; }
   { auto _e = y(); _o->y = _e; }
   { auto _e = z(); _o->z = _e; }
-  { auto _e = direction(); _o->direction = _e; }
+  { auto _e = angle(); _o->angle = _e; }
 }
 
 inline ::flatbuffers::Offset<Position> Position::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PositionT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -568,13 +568,13 @@ inline ::flatbuffers::Offset<Position> CreatePosition(::flatbuffers::FlatBufferB
   auto _x = _o->x;
   auto _y = _o->y;
   auto _z = _o->z;
-  auto _direction = _o->direction;
+  auto _angle = _o->angle;
   return fb::CreatePosition(
       _fbb,
       _x,
       _y,
       _z,
-      _direction);
+      _angle);
 }
 
 inline PartyCreateOptionT *PartyCreateOption::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {

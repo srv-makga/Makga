@@ -16,7 +16,10 @@ public:
 	bool Initialize(String8&& _path);
 	virtual bool Load();
 
+	const SystemValueInfo& SystemValue() const { return m_system_default_value; }
+
 protected:
+
 
 private:
 	String8 m_path;

@@ -897,24 +897,24 @@ inline ::flatbuffers::Offset<Send_CharacterResurrection> CreateSend_CharacterRes
 
 struct Send_ActorInteractionStartT : public ::flatbuffers::NativeTable {
   typedef Send_ActorInteractionStart TableType;
-  uint64_t target_uid = 0;
+  uint64_t target_actor_id = 0;
 };
 
 struct Send_ActorInteractionStart FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_ActorInteractionStartT NativeTableType;
   typedef Send_ActorInteractionStartBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_TARGET_UID = 4
+    VT_TARGET_ACTOR_ID = 4
   };
-  uint64_t target_uid() const {
-    return GetField<uint64_t>(VT_TARGET_UID, 0);
+  uint64_t target_actor_id() const {
+    return GetField<uint64_t>(VT_TARGET_ACTOR_ID, 0);
   }
-  bool mutate_target_uid(uint64_t _target_uid = 0) {
-    return SetField<uint64_t>(VT_TARGET_UID, _target_uid, 0);
+  bool mutate_target_actor_id(uint64_t _target_actor_id = 0) {
+    return SetField<uint64_t>(VT_TARGET_ACTOR_ID, _target_actor_id, 0);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<uint64_t>(verifier, VT_TARGET_UID, 8) &&
+           VerifyField<uint64_t>(verifier, VT_TARGET_ACTOR_ID, 8) &&
            verifier.EndTable();
   }
   Send_ActorInteractionStartT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -926,8 +926,8 @@ struct Send_ActorInteractionStartBuilder {
   typedef Send_ActorInteractionStart Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_target_uid(uint64_t target_uid) {
-    fbb_.AddElement<uint64_t>(Send_ActorInteractionStart::VT_TARGET_UID, target_uid, 0);
+  void add_target_actor_id(uint64_t target_actor_id) {
+    fbb_.AddElement<uint64_t>(Send_ActorInteractionStart::VT_TARGET_ACTOR_ID, target_actor_id, 0);
   }
   explicit Send_ActorInteractionStartBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -942,9 +942,9 @@ struct Send_ActorInteractionStartBuilder {
 
 inline ::flatbuffers::Offset<Send_ActorInteractionStart> CreateSend_ActorInteractionStart(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    uint64_t target_uid = 0) {
+    uint64_t target_actor_id = 0) {
   Send_ActorInteractionStartBuilder builder_(_fbb);
-  builder_.add_target_uid(target_uid);
+  builder_.add_target_actor_id(target_actor_id);
   return builder_.Finish();
 }
 
@@ -952,24 +952,24 @@ inline ::flatbuffers::Offset<Send_ActorInteractionStart> CreateSend_ActorInterac
 
 struct Send_ActorInteractionEndT : public ::flatbuffers::NativeTable {
   typedef Send_ActorInteractionEnd TableType;
-  uint64_t target_uid = 0;
+  uint64_t target_actor_id = 0;
 };
 
 struct Send_ActorInteractionEnd FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_ActorInteractionEndT NativeTableType;
   typedef Send_ActorInteractionEndBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_TARGET_UID = 4
+    VT_TARGET_ACTOR_ID = 4
   };
-  uint64_t target_uid() const {
-    return GetField<uint64_t>(VT_TARGET_UID, 0);
+  uint64_t target_actor_id() const {
+    return GetField<uint64_t>(VT_TARGET_ACTOR_ID, 0);
   }
-  bool mutate_target_uid(uint64_t _target_uid = 0) {
-    return SetField<uint64_t>(VT_TARGET_UID, _target_uid, 0);
+  bool mutate_target_actor_id(uint64_t _target_actor_id = 0) {
+    return SetField<uint64_t>(VT_TARGET_ACTOR_ID, _target_actor_id, 0);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<uint64_t>(verifier, VT_TARGET_UID, 8) &&
+           VerifyField<uint64_t>(verifier, VT_TARGET_ACTOR_ID, 8) &&
            verifier.EndTable();
   }
   Send_ActorInteractionEndT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -981,8 +981,8 @@ struct Send_ActorInteractionEndBuilder {
   typedef Send_ActorInteractionEnd Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_target_uid(uint64_t target_uid) {
-    fbb_.AddElement<uint64_t>(Send_ActorInteractionEnd::VT_TARGET_UID, target_uid, 0);
+  void add_target_actor_id(uint64_t target_actor_id) {
+    fbb_.AddElement<uint64_t>(Send_ActorInteractionEnd::VT_TARGET_ACTOR_ID, target_actor_id, 0);
   }
   explicit Send_ActorInteractionEndBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -997,9 +997,9 @@ struct Send_ActorInteractionEndBuilder {
 
 inline ::flatbuffers::Offset<Send_ActorInteractionEnd> CreateSend_ActorInteractionEnd(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    uint64_t target_uid = 0) {
+    uint64_t target_actor_id = 0) {
   Send_ActorInteractionEndBuilder builder_(_fbb);
-  builder_.add_target_uid(target_uid);
+  builder_.add_target_actor_id(target_actor_id);
   return builder_.Finish();
 }
 
@@ -1007,24 +1007,13 @@ inline ::flatbuffers::Offset<Send_ActorInteractionEnd> CreateSend_ActorInteracti
 
 struct Send_ActorInteractionCancelT : public ::flatbuffers::NativeTable {
   typedef Send_ActorInteractionCancel TableType;
-  uint64_t target_uid = 0;
 };
 
 struct Send_ActorInteractionCancel FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_ActorInteractionCancelT NativeTableType;
   typedef Send_ActorInteractionCancelBuilder Builder;
-  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_TARGET_UID = 4
-  };
-  uint64_t target_uid() const {
-    return GetField<uint64_t>(VT_TARGET_UID, 0);
-  }
-  bool mutate_target_uid(uint64_t _target_uid = 0) {
-    return SetField<uint64_t>(VT_TARGET_UID, _target_uid, 0);
-  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<uint64_t>(verifier, VT_TARGET_UID, 8) &&
            verifier.EndTable();
   }
   Send_ActorInteractionCancelT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -1036,9 +1025,6 @@ struct Send_ActorInteractionCancelBuilder {
   typedef Send_ActorInteractionCancel Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_target_uid(uint64_t target_uid) {
-    fbb_.AddElement<uint64_t>(Send_ActorInteractionCancel::VT_TARGET_UID, target_uid, 0);
-  }
   explicit Send_ActorInteractionCancelBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -1051,10 +1037,8 @@ struct Send_ActorInteractionCancelBuilder {
 };
 
 inline ::flatbuffers::Offset<Send_ActorInteractionCancel> CreateSend_ActorInteractionCancel(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    uint64_t target_uid = 0) {
+    ::flatbuffers::FlatBufferBuilder &_fbb) {
   Send_ActorInteractionCancelBuilder builder_(_fbb);
-  builder_.add_target_uid(target_uid);
   return builder_.Finish();
 }
 
@@ -3825,7 +3809,7 @@ inline Send_ActorInteractionStartT *Send_ActorInteractionStart::UnPack(const ::f
 inline void Send_ActorInteractionStart::UnPackTo(Send_ActorInteractionStartT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
-  { auto _e = target_uid(); _o->target_uid = _e; }
+  { auto _e = target_actor_id(); _o->target_actor_id = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_ActorInteractionStart> Send_ActorInteractionStart::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ActorInteractionStartT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3836,10 +3820,10 @@ inline ::flatbuffers::Offset<Send_ActorInteractionStart> CreateSend_ActorInterac
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_ActorInteractionStartT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _target_uid = _o->target_uid;
+  auto _target_actor_id = _o->target_actor_id;
   return fb::server::CreateSend_ActorInteractionStart(
       _fbb,
-      _target_uid);
+      _target_actor_id);
 }
 
 inline Send_ActorInteractionEndT *Send_ActorInteractionEnd::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3851,7 +3835,7 @@ inline Send_ActorInteractionEndT *Send_ActorInteractionEnd::UnPack(const ::flatb
 inline void Send_ActorInteractionEnd::UnPackTo(Send_ActorInteractionEndT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
-  { auto _e = target_uid(); _o->target_uid = _e; }
+  { auto _e = target_actor_id(); _o->target_actor_id = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_ActorInteractionEnd> Send_ActorInteractionEnd::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ActorInteractionEndT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3862,10 +3846,10 @@ inline ::flatbuffers::Offset<Send_ActorInteractionEnd> CreateSend_ActorInteracti
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_ActorInteractionEndT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _target_uid = _o->target_uid;
+  auto _target_actor_id = _o->target_actor_id;
   return fb::server::CreateSend_ActorInteractionEnd(
       _fbb,
-      _target_uid);
+      _target_actor_id);
 }
 
 inline Send_ActorInteractionCancelT *Send_ActorInteractionCancel::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -3877,7 +3861,6 @@ inline Send_ActorInteractionCancelT *Send_ActorInteractionCancel::UnPack(const :
 inline void Send_ActorInteractionCancel::UnPackTo(Send_ActorInteractionCancelT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
-  { auto _e = target_uid(); _o->target_uid = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_ActorInteractionCancel> Send_ActorInteractionCancel::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ActorInteractionCancelT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3888,10 +3871,8 @@ inline ::flatbuffers::Offset<Send_ActorInteractionCancel> CreateSend_ActorIntera
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_ActorInteractionCancelT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _target_uid = _o->target_uid;
   return fb::server::CreateSend_ActorInteractionCancel(
-      _fbb,
-      _target_uid);
+      _fbb);
 }
 
 inline Send_ItemDestroyT *Send_ItemDestroy::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {

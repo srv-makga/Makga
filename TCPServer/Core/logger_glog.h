@@ -9,6 +9,7 @@
 #include "logger.h"
 #include "glog/logging.h"
 #include <filesystem>
+#include "Flatbuffer/ResultType_generated.h"
 
 /* glog 플래그
 * logtostderr		            (bool  , default = false     ) 로그 파일이 아닌 stderr로 메시지를 남긴다.
@@ -53,6 +54,8 @@
 #define DLOG_WARN_IF(cond)			DLOG_IF(WARNING, cond) << LOG_FILE_INFO_FORMAT
 #define DLOG_ERROR_IF(cond)			DLOG_IF(ERROR, cond) << LOG_FILE_INFO_FORMAT
 #define DLOG_FATAL_IF(cond)			DLOG_IF(FATAL, cond) << LOG_FILE_INFO_FORMAT
+
+#define LOG_RESULT(result)			fb::EnumNameeResult(fb::eResult_##result)
 
 namespace core {
 namespace logger {

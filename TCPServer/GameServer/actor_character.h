@@ -30,7 +30,12 @@ public:
 	Mp_t MaxMp() const override;
 	Mp_t CurMp() const override;
 
+	void SetPos(const fb::Position* _pos);
+	void SetPos(const Vector_t& _pos);
+	void SetAngle(Coord_t _angle);
+
 private:
 	Vector_t m_pos;
+	Coord_t m_angle;
 	stHpMp m_hp_mp;
 };
