@@ -7,6 +7,8 @@
 
 #include <map>
 
+class ItemProperty;
+
 class ServerInfo
 {
 public:
@@ -102,3 +104,6 @@ struct DBInfo
 	std::string db;
 	std::string encoding;
 };
+
+using UmapItemList = std::unordered_map<ItemIdx_t, StackCount_t>;
+using UmapItemPropertyList = std::unordered_map<const ItemProperty*, StackCount_t>;

@@ -23,12 +23,6 @@ void User::Initialize()
 
 void User::Finalize()
 {
-	if (nullptr != m_session)
-	{
-		 // @todo 반환구현
-	}
-
-	m_session = nullptr;
 }
 
 const String8& User::Account() const
@@ -56,4 +50,46 @@ bool User::ProcPacket(NetPacket* _packet)
 	LOG_ERROR_IF(false == ret) << "Fail to dispatcher exec. Pid:" << fb::server::EnumNameSendPid(pid);
 
 	return ret;
+}
+
+bool User::Send(fb::server::RecvPid _pid, fbb& _fbb)
+{
+	if (nullptr == m_session)
+	{
+		LOG_ERROR << "m_session is nullptr" << LOG_USER(this);
+		return false;
+	}
+
+	return m_session->Send(_pid, _fbb);
+}
+
+Character* User::GetCharacter() const
+{
+	return m_character;
+}
+
+void User::SetCharacter(Character* _character)
+{
+	m_character = _character;
+}
+
+ItemObjectBase* User::FindItemObject(ItemUid_t _item_uid)
+{
+	return Inventory(_item_uid)->FindObject(_item_uid);
+}
+
+ItemObjectBase* User::FindItemObject(ItemIdx_t _item_idx)
+{
+	return Inventory(_item_idx)->FindObject(_item_idx);
+}
+
+InventoryBase* User::Inventory(ItemUid_t _item_uid) const
+{
+	return m_inventory;
+}
+
+InventoryBase* User::Inventory(ItemIdx_t _item_idx) const
+{
+	// @todo 아이템별 인벤토리 반환
+	return m_inventory;
 }

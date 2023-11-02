@@ -116,8 +116,6 @@ using Rate_t = float;
 using Percent_t = int32_t;
 
 
-
-
 class StringToEnumException : public std::exception
 {
 public:

@@ -240,6 +240,10 @@ struct Recv_LoginSecurity;
 struct Recv_LoginSecurityBuilder;
 struct Recv_LoginSecurityT;
 
+struct Recv_ItemSkinChange;
+struct Recv_ItemSkinChangeBuilder;
+struct Recv_ItemSkinChangeT;
+
 struct Send_LoginAccountT : public ::flatbuffers::NativeTable {
   typedef Send_LoginAccount TableType;
   std::string account{};
@@ -3517,6 +3521,89 @@ inline ::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(
 
 ::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_LoginSecurityT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct Recv_ItemSkinChangeT : public ::flatbuffers::NativeTable {
+  typedef Recv_ItemSkinChange TableType;
+  fb::eResult result = fb::eResult_Success;
+  uint64_t uid = 0;
+  uint32_t skin_item_idx = 0;
+};
+
+struct Recv_ItemSkinChange FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Recv_ItemSkinChangeT NativeTableType;
+  typedef Recv_ItemSkinChangeBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_RESULT = 4,
+    VT_UID = 6,
+    VT_SKIN_ITEM_IDX = 8
+  };
+  fb::eResult result() const {
+    return static_cast<fb::eResult>(GetField<int32_t>(VT_RESULT, 0));
+  }
+  bool mutate_result(fb::eResult _result = static_cast<fb::eResult>(0)) {
+    return SetField<int32_t>(VT_RESULT, static_cast<int32_t>(_result), 0);
+  }
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
+  uint32_t skin_item_idx() const {
+    return GetField<uint32_t>(VT_SKIN_ITEM_IDX, 0);
+  }
+  bool mutate_skin_item_idx(uint32_t _skin_item_idx = 0) {
+    return SetField<uint32_t>(VT_SKIN_ITEM_IDX, _skin_item_idx, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_RESULT, 4) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
+           VerifyField<uint32_t>(verifier, VT_SKIN_ITEM_IDX, 4) &&
+           verifier.EndTable();
+  }
+  Recv_ItemSkinChangeT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Recv_ItemSkinChangeT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Recv_ItemSkinChange> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemSkinChangeT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Recv_ItemSkinChangeBuilder {
+  typedef Recv_ItemSkinChange Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_result(fb::eResult result) {
+    fbb_.AddElement<int32_t>(Recv_ItemSkinChange::VT_RESULT, static_cast<int32_t>(result), 0);
+  }
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(Recv_ItemSkinChange::VT_UID, uid, 0);
+  }
+  void add_skin_item_idx(uint32_t skin_item_idx) {
+    fbb_.AddElement<uint32_t>(Recv_ItemSkinChange::VT_SKIN_ITEM_IDX, skin_item_idx, 0);
+  }
+  explicit Recv_ItemSkinChangeBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Recv_ItemSkinChange> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Recv_ItemSkinChange>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Recv_ItemSkinChange> CreateRecv_ItemSkinChange(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    fb::eResult result = fb::eResult_Success,
+    uint64_t uid = 0,
+    uint32_t skin_item_idx = 0) {
+  Recv_ItemSkinChangeBuilder builder_(_fbb);
+  builder_.add_uid(uid);
+  builder_.add_skin_item_idx(skin_item_idx);
+  builder_.add_result(result);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Recv_ItemSkinChange> CreateRecv_ItemSkinChange(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemSkinChangeT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 inline Send_LoginAccountT *Send_LoginAccount::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::unique_ptr<Send_LoginAccountT>(new Send_LoginAccountT());
   UnPackTo(_o.get(), _resolver);
@@ -5024,6 +5111,38 @@ inline ::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(::flat
   return fb::server::CreateRecv_LoginSecurity(
       _fbb,
       _result);
+}
+
+inline Recv_ItemSkinChangeT *Recv_ItemSkinChange::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<Recv_ItemSkinChangeT>(new Recv_ItemSkinChangeT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Recv_ItemSkinChange::UnPackTo(Recv_ItemSkinChangeT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = result(); _o->result = _e; }
+  { auto _e = uid(); _o->uid = _e; }
+  { auto _e = skin_item_idx(); _o->skin_item_idx = _e; }
+}
+
+inline ::flatbuffers::Offset<Recv_ItemSkinChange> Recv_ItemSkinChange::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemSkinChangeT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateRecv_ItemSkinChange(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Recv_ItemSkinChange> CreateRecv_ItemSkinChange(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemSkinChangeT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_ItemSkinChangeT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _result = _o->result;
+  auto _uid = _o->uid;
+  auto _skin_item_idx = _o->skin_item_idx;
+  return fb::server::CreateRecv_ItemSkinChange(
+      _fbb,
+      _result,
+      _uid,
+      _skin_item_idx);
 }
 
 }  // namespace server

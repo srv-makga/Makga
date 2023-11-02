@@ -28,6 +28,9 @@ public:
 	virtual void AddStack(StackCount_t _stack) const = 0;
 	virtual void SubStack(StackCount_t _stack) const = 0;
 
+	virtual ItemIdx_t SkinIndex() const = 0;
+	virtual void SetSkinIndex(ItemIdx_t _index) const = 0;
+
 	virtual void Reflection(ReflectType _type, InventoryBase* _inven) = 0;
 
 	virtual const ItemProperty* Property() const = 0;

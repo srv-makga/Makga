@@ -25,6 +25,7 @@ enum eResult : int32
 	ItemNotEnough,					// 아이템이 충분하지 않음
 	ItemUidDuplicate,					// 아이템 UID 중복
 	ItemIdxDuplicate,					// 아이템 IDX 중복
+	ItemSameSkinIndex,
 
 	// Inventory
 	InvenFull,

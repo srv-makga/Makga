@@ -322,3 +322,10 @@ table Recv_LoginSecurity
 {
 	result:eResult;
 }
+
+table Recv_ItemSkinChange
+{
+	result:eResult;
+	uid:uint64;
+	skin_item_idx:uint32;
+}

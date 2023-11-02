@@ -55,7 +55,8 @@
 #define DLOG_ERROR_IF(cond)			DLOG_IF(ERROR, cond) << LOG_FILE_INFO_FORMAT
 #define DLOG_FATAL_IF(cond)			DLOG_IF(FATAL, cond) << LOG_FILE_INFO_FORMAT
 
-#define LOG_RESULT(result)			fb::EnumNameeResult(fb::eResult_##result)
+#define LOG_USER(user)				" user_uid:" << user->UserUid()
+#define LOG_RESULT(result)			" " << fb::EnumNameeResult(result)
 
 namespace core {
 namespace logger {

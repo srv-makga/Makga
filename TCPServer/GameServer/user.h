@@ -8,6 +8,7 @@
 
 class SessionUser;
 class Character;
+class InventoryBase;
 class InventoryAccount;
 
 class User : public core::ObjectPool<User*>, public JobOwner, public InventoryOwner
@@ -15,6 +16,7 @@ class User : public core::ObjectPool<User*>, public JobOwner, public InventoryOw
 public:
 	using Pid_t = fb::server::SendPid;
 	using Function_t = bool (User::*)(NetPacket*);
+	using InventoryCache = std::unordered_map<ItemUid_t, InventoryBase*>;
 
 public:
 	static bool InitDispatcher();
@@ -41,6 +43,10 @@ public: // JobOwner
 	bool ProcPacket(NetPacket* _packet) override;
 	ThreadId_t ThreadId() const override { return 0; }
 
+public: // Session ·¦ÇÎ ÇÔ¼ö
+	bool Send(fb::server::RecvPid _pid, fbb& _fbb);
+
+
 public:
 	bool OnLoginSecurity(NetPacket* _packet);
 	bool OnCharacterCreate(NetPacket* _packet);
@@ -62,11 +68,25 @@ public:
 	bool OnItemSkinChange(NetPacket* _packet);
 
 public: // InventoryOwner
-	uint64_t OwnerUid() const { return m_user_uid; }
-	int32_t MaxInvenSlot() const { return m_max_inventory; }
+	uint64_t OwnerUid() const override { return m_user_uid; }
+	int32_t MaxInvenSlot() const override { return m_max_inventory; }
+
+	virtual eResult GiveItem(ItemIdx_t _item_idx, StackCount_t _item_stack, bool _is_send_client) = 0;
+	virtual eResult GiveItem(const ItemProperty& _item_property, StackCount_t _item_stack, bool _is_send_client) = 0;
+	virtual eResult GiveItem(UmapItemList& _item_list, bool _is_send_client) = 0;
+	virtual eResult GiveItem(UmapItemPropertyList& _item_list, bool _is_send_client) = 0;
+
+public:
 
 	Character* GetCharacter() const;
 	void SetCharacter(Character* _character);
+
+	ItemObjectBase* FindItemObject(ItemUid_t _item_uid);
+	ItemObjectBase* FindItemObject(ItemIdx_t _item_idx);
+
+protected:
+	InventoryBase* Inventory(ItemUid_t _item_uid) const;
+	InventoryBase* Inventory(ItemIdx_t _item_idx) const;
 
 private:
 	String8 m_account;
@@ -84,5 +104,6 @@ private:
 	ActorId_t m_interaction_id;
 	Time_t m_interaction_expire;
 
+	InventoryCache m_inventory_cache;
 	InventoryAccount* m_inventory;
 }; 
