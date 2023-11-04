@@ -85,8 +85,7 @@ public:
 	ItemObjectBase* FindItemObject(ItemIdx_t _item_idx);
 
 protected:
-	InventoryBase* Inventory(ItemUid_t _item_uid) const;
-	InventoryBase* Inventory(ItemIdx_t _item_idx) const;
+	InventoryBase* Inventory(const ItemProperty& _property) const;
 
 private:
 	String8 m_account;

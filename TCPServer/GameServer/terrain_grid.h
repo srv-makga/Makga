@@ -23,6 +23,7 @@ public:
 	void OnUpdate();
 
 	bool AddActor(Actor* _actor);
+	Actor* FindActor(Actor* _actor);
 	Actor* FindActor(ActorId_t _actor_id);
 	bool Erasector(ActorId_t _actor_id);
 	bool Erasector(Actor* _actor);

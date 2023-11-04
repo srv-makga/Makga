@@ -75,21 +75,15 @@ void User::SetCharacter(Character* _character)
 
 ItemObjectBase* User::FindItemObject(ItemUid_t _item_uid)
 {
-	return Inventory(_item_uid)->FindObject(_item_uid);
+	return m_inventory->FindObject(_item_uid);
 }
 
 ItemObjectBase* User::FindItemObject(ItemIdx_t _item_idx)
 {
-	return Inventory(_item_idx)->FindObject(_item_idx);
+	return m_inventory->FindObject(_item_idx);
 }
 
-InventoryBase* User::Inventory(ItemUid_t _item_uid) const
+InventoryBase* User::Inventory(const ItemProperty& _property) const
 {
-	return m_inventory;
-}
-
-InventoryBase* User::Inventory(ItemIdx_t _item_idx) const
-{
-	// @todo 아이템별 인벤토리 반환
 	return m_inventory;
 }

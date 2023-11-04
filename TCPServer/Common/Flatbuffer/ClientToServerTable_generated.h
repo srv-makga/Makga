@@ -240,6 +240,10 @@ struct Recv_LoginSecurity;
 struct Recv_LoginSecurityBuilder;
 struct Recv_LoginSecurityT;
 
+struct Recv_ItemDestroy;
+struct Recv_ItemDestroyBuilder;
+struct Recv_ItemDestroyT;
+
 struct Recv_ItemSkinChange;
 struct Recv_ItemSkinChangeBuilder;
 struct Recv_ItemSkinChangeT;
@@ -1051,13 +1055,15 @@ inline ::flatbuffers::Offset<Send_ActorInteractionCancel> CreateSend_ActorIntera
 struct Send_ItemDestroyT : public ::flatbuffers::NativeTable {
   typedef Send_ItemDestroy TableType;
   uint64_t uid = 0;
+  int64_t stack = 0;
 };
 
 struct Send_ItemDestroy FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Send_ItemDestroyT NativeTableType;
   typedef Send_ItemDestroyBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_UID = 4
+    VT_UID = 4,
+    VT_STACK = 6
   };
   uint64_t uid() const {
     return GetField<uint64_t>(VT_UID, 0);
@@ -1065,9 +1071,16 @@ struct Send_ItemDestroy FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   bool mutate_uid(uint64_t _uid = 0) {
     return SetField<uint64_t>(VT_UID, _uid, 0);
   }
+  int64_t stack() const {
+    return GetField<int64_t>(VT_STACK, 0);
+  }
+  bool mutate_stack(int64_t _stack = 0) {
+    return SetField<int64_t>(VT_STACK, _stack, 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint64_t>(verifier, VT_UID, 8) &&
+           VerifyField<int64_t>(verifier, VT_STACK, 8) &&
            verifier.EndTable();
   }
   Send_ItemDestroyT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -1082,6 +1095,9 @@ struct Send_ItemDestroyBuilder {
   void add_uid(uint64_t uid) {
     fbb_.AddElement<uint64_t>(Send_ItemDestroy::VT_UID, uid, 0);
   }
+  void add_stack(int64_t stack) {
+    fbb_.AddElement<int64_t>(Send_ItemDestroy::VT_STACK, stack, 0);
+  }
   explicit Send_ItemDestroyBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -1095,8 +1111,10 @@ struct Send_ItemDestroyBuilder {
 
 inline ::flatbuffers::Offset<Send_ItemDestroy> CreateSend_ItemDestroy(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    uint64_t uid = 0) {
+    uint64_t uid = 0,
+    int64_t stack = 0) {
   Send_ItemDestroyBuilder builder_(_fbb);
+  builder_.add_stack(stack);
   builder_.add_uid(uid);
   return builder_.Finish();
 }
@@ -3521,6 +3539,89 @@ inline ::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(
 
 ::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_LoginSecurityT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct Recv_ItemDestroyT : public ::flatbuffers::NativeTable {
+  typedef Recv_ItemDestroy TableType;
+  fb::eResult result = fb::eResult_Success;
+  uint64_t uid = 0;
+  int64_t stack = 0;
+};
+
+struct Recv_ItemDestroy FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Recv_ItemDestroyT NativeTableType;
+  typedef Recv_ItemDestroyBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_RESULT = 4,
+    VT_UID = 6,
+    VT_STACK = 8
+  };
+  fb::eResult result() const {
+    return static_cast<fb::eResult>(GetField<int32_t>(VT_RESULT, 0));
+  }
+  bool mutate_result(fb::eResult _result = static_cast<fb::eResult>(0)) {
+    return SetField<int32_t>(VT_RESULT, static_cast<int32_t>(_result), 0);
+  }
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
+  int64_t stack() const {
+    return GetField<int64_t>(VT_STACK, 0);
+  }
+  bool mutate_stack(int64_t _stack = 0) {
+    return SetField<int64_t>(VT_STACK, _stack, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_RESULT, 4) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
+           VerifyField<int64_t>(verifier, VT_STACK, 8) &&
+           verifier.EndTable();
+  }
+  Recv_ItemDestroyT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Recv_ItemDestroyT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Recv_ItemDestroy> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemDestroyT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Recv_ItemDestroyBuilder {
+  typedef Recv_ItemDestroy Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_result(fb::eResult result) {
+    fbb_.AddElement<int32_t>(Recv_ItemDestroy::VT_RESULT, static_cast<int32_t>(result), 0);
+  }
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(Recv_ItemDestroy::VT_UID, uid, 0);
+  }
+  void add_stack(int64_t stack) {
+    fbb_.AddElement<int64_t>(Recv_ItemDestroy::VT_STACK, stack, 0);
+  }
+  explicit Recv_ItemDestroyBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Recv_ItemDestroy> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Recv_ItemDestroy>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Recv_ItemDestroy> CreateRecv_ItemDestroy(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    fb::eResult result = fb::eResult_Success,
+    uint64_t uid = 0,
+    int64_t stack = 0) {
+  Recv_ItemDestroyBuilder builder_(_fbb);
+  builder_.add_stack(stack);
+  builder_.add_uid(uid);
+  builder_.add_result(result);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Recv_ItemDestroy> CreateRecv_ItemDestroy(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemDestroyT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 struct Recv_ItemSkinChangeT : public ::flatbuffers::NativeTable {
   typedef Recv_ItemSkinChange TableType;
   fb::eResult result = fb::eResult_Success;
@@ -3972,6 +4073,7 @@ inline void Send_ItemDestroy::UnPackTo(Send_ItemDestroyT *_o, const ::flatbuffer
   (void)_o;
   (void)_resolver;
   { auto _e = uid(); _o->uid = _e; }
+  { auto _e = stack(); _o->stack = _e; }
 }
 
 inline ::flatbuffers::Offset<Send_ItemDestroy> Send_ItemDestroy::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ItemDestroyT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -3983,9 +4085,11 @@ inline ::flatbuffers::Offset<Send_ItemDestroy> CreateSend_ItemDestroy(::flatbuff
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_ItemDestroyT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _uid = _o->uid;
+  auto _stack = _o->stack;
   return fb::server::CreateSend_ItemDestroy(
       _fbb,
-      _uid);
+      _uid,
+      _stack);
 }
 
 inline Send_ItemUseT *Send_ItemUse::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -5111,6 +5215,38 @@ inline ::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(::flat
   return fb::server::CreateRecv_LoginSecurity(
       _fbb,
       _result);
+}
+
+inline Recv_ItemDestroyT *Recv_ItemDestroy::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<Recv_ItemDestroyT>(new Recv_ItemDestroyT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Recv_ItemDestroy::UnPackTo(Recv_ItemDestroyT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = result(); _o->result = _e; }
+  { auto _e = uid(); _o->uid = _e; }
+  { auto _e = stack(); _o->stack = _e; }
+}
+
+inline ::flatbuffers::Offset<Recv_ItemDestroy> Recv_ItemDestroy::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemDestroyT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateRecv_ItemDestroy(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Recv_ItemDestroy> CreateRecv_ItemDestroy(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemDestroyT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_ItemDestroyT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _result = _o->result;
+  auto _uid = _o->uid;
+  auto _stack = _o->stack;
+  return fb::server::CreateRecv_ItemDestroy(
+      _fbb,
+      _result,
+      _uid,
+      _stack);
 }
 
 inline Recv_ItemSkinChangeT *Recv_ItemSkinChange::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {

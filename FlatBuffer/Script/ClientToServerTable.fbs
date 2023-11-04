@@ -101,6 +101,7 @@ table Send_ActorInteractionCancel
 table Send_ItemDestroy
 {
 	uid:uint64;
+	stack:int64;
 }
 
 table Send_ItemUse
@@ -321,6 +322,13 @@ table Recv_LoginAccount
 table Recv_LoginSecurity
 {
 	result:eResult;
+}
+
+table Recv_ItemDestroy
+{
+	result:eResult;
+	uid:uint64;
+	stack:int64;
 }
 
 table Recv_ItemSkinChange

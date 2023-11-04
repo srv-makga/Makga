@@ -7,7 +7,9 @@
 
 struct SystemValueInfo
 {
-	Gold_t resurrection_need_currency;
+	Time_t interraction_wait_time = 30;
+
+	Gold_t resurrection_need_currency = 1000;
 };
 
 struct TerrainInfo

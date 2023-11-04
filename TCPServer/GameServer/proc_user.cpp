@@ -2,6 +2,7 @@
 #include "user.h"
 #include "data_manager.h"
 #include "session_dbagent.h"
+#include "../Common/utility.h"
 #include "inventory_account.h"
 #include "actor_character.h"
 #include "actor_manager.h"
@@ -102,8 +103,7 @@ bool User::OnCharacterResurrection(NetPacket* _packet)
 	}
 
 	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_CharacterResurrection);
-
-	eResult result = eResult::eResult_Success;
+	eResult result = eResult_Success;
 
 	do
 	{
@@ -129,16 +129,23 @@ bool User::OnActorInteractionStart(NetPacket* _packet)
 	}
 
 	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_ActorInteractionStart);
+	Result_t result = eResult_Success;
 
-	auto target = ACTOR_MANAGER.Find(recv_data->target_actor_id());
-	if (nullptr == target)
+	do
 	{
-		LOG_ERROR << LOG_RESULT(ActorNotFound) << "actor_id:" << recv_data->target_actor_id();
-		return false;
-	}
-	
-	m_interaction_id = recv_data->target_actor_id();
-	m_interaction_expire = ::time(nullptr) + 30;
+		auto target = ACTOR_MANAGER.Find(recv_data->target_actor_id());
+		if (nullptr == target)
+		{
+			result = eResult_ActorNotFound;
+			break;
+		}
+
+		m_interaction_id = recv_data->target_actor_id();
+		m_interaction_expire = UTIL.CurrentTime() + DATA_MANAGER.SystemValue().interraction_wait_time;
+		target->set_interaction_id(actor_id());
+	} while (false);
+
+	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result) << "actor_id:" << recv_data->target_actor_id();
 
 	return true;
 }
@@ -152,21 +159,92 @@ bool User::OnActorInteractionEnd(NetPacket* _packet)
 	}
 
 	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_ActorInteractionEnd);
+	Result_t result = eResult_Success;
 
-	m_interaction_id = 0;
-	m_interaction_expire = 0;
+	do
+	{
+		if (m_interaction_id != recv_data->target_actor_id())
+		{
+			result = 상호작용을 한 상대방이 아니다;
+			break;
+		}
+
+		if (m_interaction_expire)
+
+		Actor* target = ACTOR_MANAGER.Find(recv_data->target_actor_id());
+		if (nullptr == target)
+		{
+			result = 액터를 찾을 수 없다;
+			break;
+		}
+
+		if (actor_id() != target->interaction_id())
+		{
+			result = 상호작용을 한 상대방이 아니다;
+			break;
+		}
+
+		m_interaction_id = 0;
+		m_interaction_expire = 0;
+	} while (false);
+	
+	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result) << "actor_id:" << recv_data->target_actor_id();
 
 	return true;
 }
 
 bool User::OnActorInteractionCancel(NetPacket* _packet)
 {
-	return false;
+	if (nullptr == _packet)
+	{
+		LOG_ERROR << LOG_RESULT(eResult_InvalidParameter);
+		return false;
+	}
+
+	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_ActorInteractionEnd);
+	Result_t result = eResult_Success;
+
+	do
+	{
+		m_interaction_id = 0;
+		m_interaction_expire = 0;
+	} while (false);
+
+	return true;
 }
 
 bool User::OnItemDestroy(NetPacket* _packet)
 {
-	return true;
+	if (nullptr == _packet)
+	{
+		LOG_ERROR << LOG_RESULT(eResult_InvalidParameter);
+		return false;
+	}
+
+	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_ItemDestroy);
+	Result_t result = eResult_Success;
+
+	do
+	{
+		auto item_object = FindItemObject(recv_data->uid());
+		if (nullptr == item_object)
+		{
+			result = eResult_ItemNotFound;
+			break;
+		}
+
+		result = Inventory(*item_object->Property())->SubItem(recv_data->uid(), recv_data->stack());
+	} while (false);
+
+	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result) << " item_uid:" << recv_data->uid();
+
+	CREATE_FBB(fbb);
+	fbb.Finish(fb::server::CreateRecv_ItemDestroy(fbb,
+		result,
+		recv_data->uid(),
+		recv_data->stack()
+	));
+	return Send(fb::server::RecvPid_ItemDestroy, fbb);
 }
 
 bool User::OnItemUse(NetPacket* _packet)
@@ -230,7 +308,7 @@ bool User::OnItemSkinChange(NetPacket* _packet)
 	CREATE_FBB(fbb);
 	fbb.Finish(fb::server::CreateRecv_ItemSkinChange(fbb,
 		result,
-		recv_data->uid()
+		recv_data->uid(),
 		recv_data->skin_item_idx()
 	));
 	Send(fb::server::RecvPid_ItemSkinChange, fbb);

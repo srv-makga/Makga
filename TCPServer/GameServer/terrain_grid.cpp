@@ -51,6 +51,16 @@ bool TerrainGrid::AddActor(Actor* _actor)
 	return m_actors.insert({ _actor->Id(), _actor }).second;
 }
 
+Actor* TerrainGrid::FindActor(Actor* _actor)
+{
+	if (nullptr == _actor)
+	{
+		return nullptr;
+	}
+
+	return FindActor(_actor->Id());
+}
+
 Actor* TerrainGrid::FindActor(ActorId_t _actor_id)
 {
 	auto iter = m_actors.find(_actor_id);
