@@ -31,6 +31,10 @@ public:
 	virtual ItemIdx_t SkinIndex() const = 0;
 	virtual void SetSkinIndex(ItemIdx_t _index) const = 0;
 
+	virtual Reinforce_t Reinforce() const = 0;
+	virtual void SetReinforce(Reinforce_t _reinforce) = 0;
+
+
 	virtual void Reflection(ReflectType _type, InventoryBase* _inven) = 0;
 
 	virtual const ItemProperty* Property() const = 0;

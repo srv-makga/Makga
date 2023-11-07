@@ -259,7 +259,39 @@ bool User::OnItemMake(NetPacket* _packet)
 
 bool User::OnItemReinforce(NetPacket* _packet)
 {
-	return false;
+	if (nullptr == _packet)
+	{
+		LOG_ERROR << LOG_RESULT(eResult_InvalidParameter);
+		return false;
+	}
+
+	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_ItemEnchant);
+	Result_t result = eResult_Success;
+
+	do
+	{
+		auto item_object = FindItemObject(recv_data->uid());
+		if (nullptr == item_object)
+		{
+			result = eResult_ItemNotFound;
+			break;
+		}
+
+		if (Gold() < DATA_MANAGER.ItemReinforce().need_money)
+		{
+			result = eResult_CurrencyLackGold;
+			break;
+		}
+
+		result = ITEM_SYSTEM.Reinforce(*this, recv_data->uid());
+
+		item_object->SetReinforce();
+		item_object->Reflection(ReflectType::UpdateReinforce, );
+	} while (false);
+
+	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result) << " item_uid:" << recv_data->uid();
+
+	return true;
 }
 
 bool User::OnItemDisassemble(NetPacket* _packet)
@@ -269,7 +301,29 @@ bool User::OnItemDisassemble(NetPacket* _packet)
 
 bool User::OnItemEnchant(NetPacket* _packet)
 {
-	return false;
+	if (nullptr == _packet)
+	{
+		LOG_ERROR << LOG_RESULT(eResult_InvalidParameter);
+		return false;
+	}
+
+	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_ItemEnchant);
+	Result_t result = eResult_Success;
+
+	do
+	{
+		auto item_object = FindItemObject(recv_data->uid());
+		if (nullptr == item_object)
+		{
+			result = eResult_ItemNotFound;
+			break;
+		}
+
+		item_object->SetReinforce();
+		item_object->Reflection(ReflectType::UpdateReinforce, );
+	} while (false);
+
+	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result) << " item_uid:" << recv_data->uid();
 }
 
 bool User::OnItemSkinChange(NetPacket* _packet)

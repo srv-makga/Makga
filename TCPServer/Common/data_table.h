@@ -17,6 +17,7 @@ public:
 	virtual bool Load();
 
 	const SystemValueInfo& SystemValue() const { return m_system_default_value; }
+	const ItemRefineInfo& ItemReinforce() const { return m_item_reinforce; }
 
 protected:
 
@@ -27,4 +28,5 @@ private:
 
 	SystemValueInfo m_system_default_value;
 	TerrainContainer__t m_terrain_table;
+	ItemRefineInfo m_item_reinforce;
 };

@@ -51,14 +51,40 @@ enum eInvenType : int
 enum eItemType : int
 {
 	None,
-	Weapon,		// 무기
-	Helm,				// 투구
-	Armor,			// 갑옷
-	Belt,				// 벨트
-	Gloves,			// 장갑
-	Shoes,			// 신발
-	Accessories,	// 악세사리
+	Equip,			// 장비류
+	Currency,		// 재화류
+	Consum,		// 소모류
+	Invisible,			// 인벤토리에 쌓이지 않는
 }
+
+// eItemType * 65535 + n
+enum eItemSubType : int
+{
+	None,
+	
+	// Equips
+	Weapon = 65535,		// 무기
+	Helm,							// 투구
+	Armor,						// 갑옷
+	Belt,							// 벨트
+	Gloves,						// 장갑
+	Shoes,						// 신발
+	Accessories,				// 악세사리
+	
+	// Currency
+	Bronze = 131070,
+	Silver,
+	Gold,
+	Platinum,
+	
+	// Consum
+	HPPotion = 196605,
+	MPPotion,
+	
+	// Invisible
+	Quest,
+}
+
 
 enum eCoordAttribute : int
 {

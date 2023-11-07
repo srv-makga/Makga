@@ -12,6 +12,7 @@ enum class ReflectType
 	Insert,
 	UpdateStack,
 	UpdateSkin,
+	UpdateReinforce,
 	Delete
 };
 

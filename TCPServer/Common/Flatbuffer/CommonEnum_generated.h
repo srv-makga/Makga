@@ -209,50 +209,103 @@ inline const char *EnumNameeInvenType(eInvenType e) {
 
 enum eItemType : int32_t {
   eItemType_None = 0,
-  eItemType_Weapon = 1,
-  eItemType_Helm = 2,
-  eItemType_Armor = 3,
-  eItemType_Belt = 4,
-  eItemType_Gloves = 5,
-  eItemType_Shoes = 6,
-  eItemType_Accessories = 7,
+  eItemType_Equip = 1,
+  eItemType_Currency = 2,
+  eItemType_Consum = 3,
+  eItemType_Invisible = 4,
   eItemType_MIN = eItemType_None,
-  eItemType_MAX = eItemType_Accessories
+  eItemType_MAX = eItemType_Invisible
 };
 
-inline const eItemType (&EnumValueseItemType())[8] {
+inline const eItemType (&EnumValueseItemType())[5] {
   static const eItemType values[] = {
     eItemType_None,
-    eItemType_Weapon,
-    eItemType_Helm,
-    eItemType_Armor,
-    eItemType_Belt,
-    eItemType_Gloves,
-    eItemType_Shoes,
-    eItemType_Accessories
+    eItemType_Equip,
+    eItemType_Currency,
+    eItemType_Consum,
+    eItemType_Invisible
   };
   return values;
 }
 
 inline const char * const *EnumNameseItemType() {
-  static const char * const names[9] = {
+  static const char * const names[6] = {
     "None",
-    "Weapon",
-    "Helm",
-    "Armor",
-    "Belt",
-    "Gloves",
-    "Shoes",
-    "Accessories",
+    "Equip",
+    "Currency",
+    "Consum",
+    "Invisible",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameeItemType(eItemType e) {
-  if (::flatbuffers::IsOutRange(e, eItemType_None, eItemType_Accessories)) return "";
+  if (::flatbuffers::IsOutRange(e, eItemType_None, eItemType_Invisible)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNameseItemType()[index];
+}
+
+enum eItemSubType : int32_t {
+  eItemSubType_None = 0,
+  eItemSubType_Weapon = 65535,
+  eItemSubType_Helm = 65536,
+  eItemSubType_Armor = 65537,
+  eItemSubType_Belt = 65538,
+  eItemSubType_Gloves = 65539,
+  eItemSubType_Shoes = 65540,
+  eItemSubType_Accessories = 65541,
+  eItemSubType_Bronze = 131070,
+  eItemSubType_Silver = 131071,
+  eItemSubType_Gold = 131072,
+  eItemSubType_Platinum = 131073,
+  eItemSubType_HPPotion = 196605,
+  eItemSubType_MPPotion = 196606,
+  eItemSubType_Quest = 196607,
+  eItemSubType_MIN = eItemSubType_None,
+  eItemSubType_MAX = eItemSubType_Quest
+};
+
+inline const eItemSubType (&EnumValueseItemSubType())[15] {
+  static const eItemSubType values[] = {
+    eItemSubType_None,
+    eItemSubType_Weapon,
+    eItemSubType_Helm,
+    eItemSubType_Armor,
+    eItemSubType_Belt,
+    eItemSubType_Gloves,
+    eItemSubType_Shoes,
+    eItemSubType_Accessories,
+    eItemSubType_Bronze,
+    eItemSubType_Silver,
+    eItemSubType_Gold,
+    eItemSubType_Platinum,
+    eItemSubType_HPPotion,
+    eItemSubType_MPPotion,
+    eItemSubType_Quest
+  };
+  return values;
+}
+
+inline const char *EnumNameeItemSubType(eItemSubType e) {
+  switch (e) {
+    case eItemSubType_None: return "None";
+    case eItemSubType_Weapon: return "Weapon";
+    case eItemSubType_Helm: return "Helm";
+    case eItemSubType_Armor: return "Armor";
+    case eItemSubType_Belt: return "Belt";
+    case eItemSubType_Gloves: return "Gloves";
+    case eItemSubType_Shoes: return "Shoes";
+    case eItemSubType_Accessories: return "Accessories";
+    case eItemSubType_Bronze: return "Bronze";
+    case eItemSubType_Silver: return "Silver";
+    case eItemSubType_Gold: return "Gold";
+    case eItemSubType_Platinum: return "Platinum";
+    case eItemSubType_HPPotion: return "HPPotion";
+    case eItemSubType_MPPotion: return "MPPotion";
+    case eItemSubType_Quest: return "Quest";
+    default: return "";
+  }
 }
 
 enum eCoordAttribute : int32_t {

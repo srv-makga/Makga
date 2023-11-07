@@ -27,3 +27,9 @@ struct ItemTableInfo
 	StackCount_t stack_count;
 	fb::eItemType item_type;
 };
+
+struct ItemRefineInfo
+{
+	Reinforce_t max_reinforce = 15;
+	StackCount_t need_money = 100000;
+};
