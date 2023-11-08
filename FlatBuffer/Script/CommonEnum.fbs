@@ -85,6 +85,27 @@ enum eItemSubType : int
 	Quest,
 }
 
+enum eItemRank : int
+{
+	E,
+	EE,
+	EEE,
+	D,
+	DD,
+	DDD,
+	C,
+	CC,
+	CCC,
+	B,
+	BB,
+	BBB,
+	A,
+	AA,
+	AAA,
+	S,
+	SS,
+	SSS,
+}
 
 enum eCoordAttribute : int
 {

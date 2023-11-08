@@ -331,6 +331,13 @@ table Recv_ItemDestroy
 	stack:int64;
 }
 
+table Recv_ItemReinforce
+{
+	result:eResult;
+	uid:uint64;
+	reinforce:int;
+}
+
 table Recv_ItemSkinChange
 {
 	result:eResult;

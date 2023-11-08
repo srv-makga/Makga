@@ -1,6 +1,5 @@
 #pragma once
 
-#include "common_const.h"
 #include "FlatBuffer.h"
 #include "packet.h"
 

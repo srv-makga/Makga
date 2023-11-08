@@ -59,12 +59,6 @@
     <ClCompile Include="inventory_account.cpp">
       <Filter>system\inventory</Filter>
     </ClCompile>
-    <ClCompile Include="item_object_equip.cpp">
-      <Filter>system\item</Filter>
-    </ClCompile>
-    <ClCompile Include="item_object_stack.cpp">
-      <Filter>system\item</Filter>
-    </ClCompile>
     <ClCompile Include="terrain_grid.cpp">
       <Filter>system\terrain</Filter>
     </ClCompile>
@@ -73,6 +67,15 @@
     </ClCompile>
     <ClCompile Include="proc_user.cpp">
       <Filter>proc</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_equip.cpp">
+      <Filter>system\item\object</Filter>
+    </ClCompile>
+    <ClCompile Include="item_object_stack.cpp">
+      <Filter>system\item\object</Filter>
+    </ClCompile>
+    <ClCompile Include="ReinforceManager.cpp">
+      <Filter>system\item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,17 +161,20 @@
     <ClInclude Include="inventory_premium.h">
       <Filter>system\inventory</Filter>
     </ClInclude>
-    <ClInclude Include="item_object_stack.h">
-      <Filter>system\item</Filter>
-    </ClInclude>
-    <ClInclude Include="item_object_equip.h">
-      <Filter>system\item</Filter>
-    </ClInclude>
     <ClInclude Include="function.h">
       <Filter>function</Filter>
     </ClInclude>
     <ClInclude Include="terrain_grid.h">
       <Filter>system\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_stack.h">
+      <Filter>system\item\object</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object_equip.h">
+      <Filter>system\item\object</Filter>
+    </ClInclude>
+    <ClInclude Include="ReinforceManager.h">
+      <Filter>system\item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +228,12 @@
     </Filter>
     <Filter Include="function">
       <UniqueIdentifier>{85bc49b6-a4d4-4ad8-b720-51d82436d2c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\item\object">
+      <UniqueIdentifier>{c47e153c-14c9-4c4f-9212-e3c065ac7081}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\item\NewFilter1">
+      <UniqueIdentifier>{94b4ceda-db47-4cc6-b1e7-dae6f4bfef88}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

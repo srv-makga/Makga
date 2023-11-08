@@ -3,6 +3,7 @@
 #include "session_user.h"
 #include "server_game.h"
 #include "inventory_account.h"
+#include "item_object_base.h"
 
 User::User()
 {
@@ -61,6 +62,27 @@ bool User::Send(fb::server::RecvPid _pid, fbb& _fbb)
 	}
 
 	return m_session->Send(_pid, _fbb);
+}
+
+StackCount_t User::ItemCount(ItemIdx_t _item_idx) const
+{
+	auto item_object = m_inventory->FindObject(g_gold_idx);
+	return item_object ? item_object->Stack() : 0;
+}
+
+Currency_t User::Bronze() const
+{
+	return ItemCount(g_bronze_idx);
+}
+
+Currency_t User::Silver() const
+{
+	return ItemCount(g_silver_idx);
+}
+
+Currency_t User::Gold() const
+{
+	return ItemCount(g_gold_idx);
 }
 
 Character* User::GetCharacter() const

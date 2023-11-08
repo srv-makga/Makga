@@ -130,6 +130,7 @@
     <ClCompile Include="actor_gadget.cpp" />
     <ClCompile Include="ai_aggressive.cpp" />
     <ClCompile Include="proc_world.cpp" />
+    <ClCompile Include="ReinforceManager.cpp" />
     <ClCompile Include="session_community.cpp" />
     <ClCompile Include="connector_community.cpp" />
     <ClCompile Include="connector_dbagent.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="base_ai.h" />
     <ClInclude Include="actor_character.h" />
     <ClInclude Include="function.h" />
+    <ClInclude Include="ReinforceManager.h" />
     <ClInclude Include="session_community.h" />
     <ClInclude Include="connector_community.h" />
     <ClInclude Include="connector_dbagent.h" />

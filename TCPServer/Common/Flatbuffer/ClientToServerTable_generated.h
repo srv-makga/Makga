@@ -244,6 +244,10 @@ struct Recv_ItemDestroy;
 struct Recv_ItemDestroyBuilder;
 struct Recv_ItemDestroyT;
 
+struct Recv_ItemReinforce;
+struct Recv_ItemReinforceBuilder;
+struct Recv_ItemReinforceT;
+
 struct Recv_ItemSkinChange;
 struct Recv_ItemSkinChangeBuilder;
 struct Recv_ItemSkinChangeT;
@@ -3622,6 +3626,89 @@ inline ::flatbuffers::Offset<Recv_ItemDestroy> CreateRecv_ItemDestroy(
 
 ::flatbuffers::Offset<Recv_ItemDestroy> CreateRecv_ItemDestroy(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemDestroyT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct Recv_ItemReinforceT : public ::flatbuffers::NativeTable {
+  typedef Recv_ItemReinforce TableType;
+  fb::eResult result = fb::eResult_Success;
+  uint64_t uid = 0;
+  int32_t reinforce = 0;
+};
+
+struct Recv_ItemReinforce FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Recv_ItemReinforceT NativeTableType;
+  typedef Recv_ItemReinforceBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_RESULT = 4,
+    VT_UID = 6,
+    VT_REINFORCE = 8
+  };
+  fb::eResult result() const {
+    return static_cast<fb::eResult>(GetField<int32_t>(VT_RESULT, 0));
+  }
+  bool mutate_result(fb::eResult _result = static_cast<fb::eResult>(0)) {
+    return SetField<int32_t>(VT_RESULT, static_cast<int32_t>(_result), 0);
+  }
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
+  int32_t reinforce() const {
+    return GetField<int32_t>(VT_REINFORCE, 0);
+  }
+  bool mutate_reinforce(int32_t _reinforce = 0) {
+    return SetField<int32_t>(VT_REINFORCE, _reinforce, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_RESULT, 4) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
+           VerifyField<int32_t>(verifier, VT_REINFORCE, 4) &&
+           verifier.EndTable();
+  }
+  Recv_ItemReinforceT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Recv_ItemReinforceT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Recv_ItemReinforce> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemReinforceT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Recv_ItemReinforceBuilder {
+  typedef Recv_ItemReinforce Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_result(fb::eResult result) {
+    fbb_.AddElement<int32_t>(Recv_ItemReinforce::VT_RESULT, static_cast<int32_t>(result), 0);
+  }
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(Recv_ItemReinforce::VT_UID, uid, 0);
+  }
+  void add_reinforce(int32_t reinforce) {
+    fbb_.AddElement<int32_t>(Recv_ItemReinforce::VT_REINFORCE, reinforce, 0);
+  }
+  explicit Recv_ItemReinforceBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Recv_ItemReinforce> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Recv_ItemReinforce>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Recv_ItemReinforce> CreateRecv_ItemReinforce(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    fb::eResult result = fb::eResult_Success,
+    uint64_t uid = 0,
+    int32_t reinforce = 0) {
+  Recv_ItemReinforceBuilder builder_(_fbb);
+  builder_.add_uid(uid);
+  builder_.add_reinforce(reinforce);
+  builder_.add_result(result);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Recv_ItemReinforce> CreateRecv_ItemReinforce(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemReinforceT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 struct Recv_ItemSkinChangeT : public ::flatbuffers::NativeTable {
   typedef Recv_ItemSkinChange TableType;
   fb::eResult result = fb::eResult_Success;
@@ -5247,6 +5334,38 @@ inline ::flatbuffers::Offset<Recv_ItemDestroy> CreateRecv_ItemDestroy(::flatbuff
       _result,
       _uid,
       _stack);
+}
+
+inline Recv_ItemReinforceT *Recv_ItemReinforce::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<Recv_ItemReinforceT>(new Recv_ItemReinforceT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Recv_ItemReinforce::UnPackTo(Recv_ItemReinforceT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = result(); _o->result = _e; }
+  { auto _e = uid(); _o->uid = _e; }
+  { auto _e = reinforce(); _o->reinforce = _e; }
+}
+
+inline ::flatbuffers::Offset<Recv_ItemReinforce> Recv_ItemReinforce::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemReinforceT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateRecv_ItemReinforce(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Recv_ItemReinforce> CreateRecv_ItemReinforce(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemReinforceT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_ItemReinforceT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _result = _o->result;
+  auto _uid = _o->uid;
+  auto _reinforce = _o->reinforce;
+  return fb::server::CreateRecv_ItemReinforce(
+      _fbb,
+      _result,
+      _uid,
+      _reinforce);
 }
 
 inline Recv_ItemSkinChangeT *Recv_ItemSkinChange::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {

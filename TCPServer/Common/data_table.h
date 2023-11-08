@@ -7,7 +7,8 @@
 class DataTable
 {
 public:
-	using TerrainContainer__t = std::map<TerrainIdx_t, TerrainInfo>;
+	using Terrains = std::map<TerrainIdx_t, TerrainInfo>;
+	using ItemReinforces = std::map<TableIdx_t, ItemRefineInfo>;
 
 public:
 	DataTable() = default;
@@ -16,17 +17,17 @@ public:
 	bool Initialize(String8&& _path);
 	virtual bool Load();
 
+public:
+	const ItemRefineInfo* ItemRefineInfo(TableIdx_t _idx) const;
+
+public:
 	const SystemValueInfo& SystemValue() const { return m_system_default_value; }
-	const ItemRefineInfo& ItemReinforce() const { return m_item_reinforce; }
-
-protected:
-
 
 private:
 	String8 m_path;
 	std::fstream m_stream;
 
 	SystemValueInfo m_system_default_value;
-	TerrainContainer__t m_terrain_table;
-	ItemRefineInfo m_item_reinforce;
+	Terrains m_terrain_table;
+	ItemReinforces m_item_reinforce;
 };

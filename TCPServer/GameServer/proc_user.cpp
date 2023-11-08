@@ -6,6 +6,7 @@
 #include "inventory_account.h"
 #include "actor_character.h"
 #include "actor_manager.h"
+#include "ReinforceManager.h"
 
 #define REG_DISPATCHER(pid)	s_dispatcher.Add(fb::server::SendPid_##pid, &User::On##pid);
 
@@ -265,33 +266,34 @@ bool User::OnItemReinforce(NetPacket* _packet)
 		return false;
 	}
 
-	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_ItemEnchant);
+	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_ItemReinforce);
 	Result_t result = eResult_Success;
+	Reinforce_t reinforce = 0;
 
 	do
 	{
-		auto item_object = FindItemObject(recv_data->uid());
-		if (nullptr == item_object)
+		auto main_item = FindItemObject(recv_data->uid());
+		auto sub_item = FindItemObject(recv_data->sub());
+
+		reinforce = main_item->Reinforce();
+
+		result = REINFORCE_MANAGER.Run(main_item, sub_item);
+		if (eResult_Success != result)
 		{
-			result = eResult_ItemNotFound;
 			break;
 		}
 
-		if (Gold() < DATA_MANAGER.ItemReinforce().need_money)
-		{
-			result = eResult_CurrencyLackGold;
-			break;
-		}
+		reinforce = main_item->Reinforce() - reinforce;
 
-		result = ITEM_SYSTEM.Reinforce(*this, recv_data->uid());
-
-		item_object->SetReinforce();
-		item_object->Reflection(ReflectType::UpdateReinforce, );
+		Reflection(main_item, ReflectType::UpdateReinforce);
+		Reflection(sub_item, ReflectType::UpdateStack);
 	} while (false);
 
 	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result) << " item_uid:" << recv_data->uid();
 
-	return true;
+	CREATE_FBB(fbb);
+	fbb.Finish(fb::server::CreateRecv_ItemReinforce(fbb, result, recv_data->uid(), reinforce));
+	return Send(fb::server::RecvPid_ItemReinforce, fbb);
 }
 
 bool User::OnItemDisassemble(NetPacket* _packet)

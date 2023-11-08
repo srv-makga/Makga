@@ -11,21 +11,23 @@ enum eResult : int32
 	BufferFailWrite,
 	BufferFailRead,
 
-	InvalidParameter,					// 유효하지 않은 파라메터 값
+	InvalidParameter,						// 유효하지 않은 파라메터 값
 	InvalidIndex,
 
-	NotFoundServer,					// 접속할 서버를 찾지 못함
+	NotFoundServer,						// 접속할 서버를 찾지 못함
 	
 	// actor
 	ActorNotFound,
 
 	// item
-	ItemNotFound,						// 아이템을 찾을 수 없음
-	ItemStackFull,						// 아이템 오브젝트에 중첩이 최대치
-	ItemNotEnough,					// 아이템이 충분하지 않음
-	ItemUidDuplicate,					// 아이템 UID 중복
-	ItemIdxDuplicate,					// 아이템 IDX 중복
-	ItemSameSkinIndex,
+	ItemNotFound,							// 아이템을 찾을 수 없음
+	ItemStackFull,							// 아이템 오브젝트에 중첩이 최대치
+	ItemNotEnough,						// 아이템이 충분하지 않음
+	ItemUidDuplicate,						// 아이템 UID 중복
+	ItemIdxDuplicate,						// 아이템 IDX 중복
+	ItemSameSkinIndex,					// 동일한 아이템 스킨 인덱스
+	
+	ItemAlreadyMaxReinforce,			// 아이템 강화치가 최대
 
 	// Inventory
 	InvenFull,

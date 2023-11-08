@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common_type.h"
+#include "common_const.h"
 #include "../Core/RapidJson.h"
 #include "../Core/core_struct.h"
 #include "../Core/logger_glog.h"

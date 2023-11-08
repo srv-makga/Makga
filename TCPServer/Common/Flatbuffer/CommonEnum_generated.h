@@ -308,6 +308,84 @@ inline const char *EnumNameeItemSubType(eItemSubType e) {
   }
 }
 
+enum eItemRank : int32_t {
+  eItemRank_E = 0,
+  eItemRank_EE = 1,
+  eItemRank_EEE = 2,
+  eItemRank_D = 3,
+  eItemRank_DD = 4,
+  eItemRank_DDD = 5,
+  eItemRank_C = 6,
+  eItemRank_CC = 7,
+  eItemRank_CCC = 8,
+  eItemRank_B = 9,
+  eItemRank_BB = 10,
+  eItemRank_BBB = 11,
+  eItemRank_A = 12,
+  eItemRank_AA = 13,
+  eItemRank_AAA = 14,
+  eItemRank_S = 15,
+  eItemRank_SS = 16,
+  eItemRank_SSS = 17,
+  eItemRank_MIN = eItemRank_E,
+  eItemRank_MAX = eItemRank_SSS
+};
+
+inline const eItemRank (&EnumValueseItemRank())[18] {
+  static const eItemRank values[] = {
+    eItemRank_E,
+    eItemRank_EE,
+    eItemRank_EEE,
+    eItemRank_D,
+    eItemRank_DD,
+    eItemRank_DDD,
+    eItemRank_C,
+    eItemRank_CC,
+    eItemRank_CCC,
+    eItemRank_B,
+    eItemRank_BB,
+    eItemRank_BBB,
+    eItemRank_A,
+    eItemRank_AA,
+    eItemRank_AAA,
+    eItemRank_S,
+    eItemRank_SS,
+    eItemRank_SSS
+  };
+  return values;
+}
+
+inline const char * const *EnumNameseItemRank() {
+  static const char * const names[19] = {
+    "E",
+    "EE",
+    "EEE",
+    "D",
+    "DD",
+    "DDD",
+    "C",
+    "CC",
+    "CCC",
+    "B",
+    "BB",
+    "BBB",
+    "A",
+    "AA",
+    "AAA",
+    "S",
+    "SS",
+    "SSS",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameeItemRank(eItemRank e) {
+  if (::flatbuffers::IsOutRange(e, eItemRank_E, eItemRank_SSS)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNameseItemRank()[index];
+}
+
 enum eCoordAttribute : int32_t {
   eCoordAttribute_None = 0,
   eCoordAttribute_Block = 1,

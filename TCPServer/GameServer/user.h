@@ -46,7 +46,6 @@ public: // JobOwner
 public: // Session ·¦ÇÎ ÇÔ¼ö
 	bool Send(fb::server::RecvPid _pid, fbb& _fbb);
 
-
 public:
 	bool OnLoginSecurity(NetPacket* _packet);
 	bool OnCharacterCreate(NetPacket* _packet);
@@ -76,8 +75,14 @@ public: // InventoryOwner
 	virtual eResult GiveItem(UmapItemList& _item_list, bool _is_send_client) = 0;
 	virtual eResult GiveItem(UmapItemPropertyList& _item_list, bool _is_send_client) = 0;
 
-public:
+	StackCount_t ItemCount(ItemIdx_t _item_idx) const;
 
+public:
+	Currency_t Bronze() const;
+	Currency_t Silver() const;
+	Currency_t Gold() const;
+
+public:
 	Character* GetCharacter() const;
 	void SetCharacter(Character* _character);
 

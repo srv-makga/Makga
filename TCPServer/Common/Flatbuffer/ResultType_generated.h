@@ -31,13 +31,14 @@ enum eResult : int32_t {
   eResult_ItemUidDuplicate = 12,
   eResult_ItemIdxDuplicate = 13,
   eResult_ItemSameSkinIndex = 14,
-  eResult_InvenFull = 15,
-  eResult_CurrencyLackGold = 16,
+  eResult_ItemAlreadyMaxReinforce = 15,
+  eResult_InvenFull = 16,
+  eResult_CurrencyLackGold = 17,
   eResult_MIN = eResult_Success,
   eResult_MAX = eResult_CurrencyLackGold
 };
 
-inline const eResult (&EnumValueseResult())[17] {
+inline const eResult (&EnumValueseResult())[18] {
   static const eResult values[] = {
     eResult_Success,
     eResult_Fail,
@@ -54,6 +55,7 @@ inline const eResult (&EnumValueseResult())[17] {
     eResult_ItemUidDuplicate,
     eResult_ItemIdxDuplicate,
     eResult_ItemSameSkinIndex,
+    eResult_ItemAlreadyMaxReinforce,
     eResult_InvenFull,
     eResult_CurrencyLackGold
   };
@@ -61,7 +63,7 @@ inline const eResult (&EnumValueseResult())[17] {
 }
 
 inline const char * const *EnumNameseResult() {
-  static const char * const names[18] = {
+  static const char * const names[19] = {
     "Success",
     "Fail",
     "BufferLackSpace",
@@ -77,6 +79,7 @@ inline const char * const *EnumNameseResult() {
     "ItemUidDuplicate",
     "ItemIdxDuplicate",
     "ItemSameSkinIndex",
+    "ItemAlreadyMaxReinforce",
     "InvenFull",
     "CurrencyLackGold",
     nullptr

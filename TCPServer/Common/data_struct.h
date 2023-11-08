@@ -10,6 +10,8 @@ struct SystemValueInfo
 	Time_t interraction_wait_time = 30;
 
 	Gold_t resurrection_need_currency = 1000;
+
+	Reinforce_t max_reinforce = 15;
 };
 
 struct TerrainInfo
@@ -30,6 +32,6 @@ struct ItemTableInfo
 
 struct ItemRefineInfo
 {
-	Reinforce_t max_reinforce = 15;
 	StackCount_t need_money = 100000;
+	Rate_t success_rate = 1.0f;
 };
