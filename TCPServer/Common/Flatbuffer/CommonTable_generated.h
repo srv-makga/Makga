@@ -27,6 +27,18 @@ struct Position;
 struct PositionBuilder;
 struct PositionT;
 
+struct ItemAbility;
+struct ItemAbilityBuilder;
+struct ItemAbilityT;
+
+struct ItemBase;
+struct ItemBaseBuilder;
+struct ItemBaseT;
+
+struct ItemEquip;
+struct ItemEquipBuilder;
+struct ItemEquipT;
+
 struct PartyCreateOption;
 struct PartyCreateOptionBuilder;
 struct PartyCreateOptionT;
@@ -314,6 +326,296 @@ inline ::flatbuffers::Offset<Position> CreatePosition(
 
 ::flatbuffers::Offset<Position> CreatePosition(::flatbuffers::FlatBufferBuilder &_fbb, const PositionT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct ItemAbilityT : public ::flatbuffers::NativeTable {
+  typedef ItemAbility TableType;
+  fb::eAbilityTYpe type = fb::eAbilityTYpe_Attack1;
+  int32_t value = 0;
+};
+
+struct ItemAbility FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef ItemAbilityT NativeTableType;
+  typedef ItemAbilityBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_TYPE = 4,
+    VT_VALUE = 6
+  };
+  fb::eAbilityTYpe type() const {
+    return static_cast<fb::eAbilityTYpe>(GetField<int32_t>(VT_TYPE, 0));
+  }
+  bool mutate_type(fb::eAbilityTYpe _type = static_cast<fb::eAbilityTYpe>(0)) {
+    return SetField<int32_t>(VT_TYPE, static_cast<int32_t>(_type), 0);
+  }
+  int32_t value() const {
+    return GetField<int32_t>(VT_VALUE, 0);
+  }
+  bool mutate_value(int32_t _value = 0) {
+    return SetField<int32_t>(VT_VALUE, _value, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_TYPE, 4) &&
+           VerifyField<int32_t>(verifier, VT_VALUE, 4) &&
+           verifier.EndTable();
+  }
+  ItemAbilityT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ItemAbilityT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<ItemAbility> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ItemAbilityT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct ItemAbilityBuilder {
+  typedef ItemAbility Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_type(fb::eAbilityTYpe type) {
+    fbb_.AddElement<int32_t>(ItemAbility::VT_TYPE, static_cast<int32_t>(type), 0);
+  }
+  void add_value(int32_t value) {
+    fbb_.AddElement<int32_t>(ItemAbility::VT_VALUE, value, 0);
+  }
+  explicit ItemAbilityBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<ItemAbility> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<ItemAbility>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<ItemAbility> CreateItemAbility(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    fb::eAbilityTYpe type = fb::eAbilityTYpe_Attack1,
+    int32_t value = 0) {
+  ItemAbilityBuilder builder_(_fbb);
+  builder_.add_value(value);
+  builder_.add_type(type);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<ItemAbility> CreateItemAbility(::flatbuffers::FlatBufferBuilder &_fbb, const ItemAbilityT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct ItemBaseT : public ::flatbuffers::NativeTable {
+  typedef ItemBase TableType;
+  uint64_t uid = 0;
+  uint32_t idx = 0;
+  int32_t stack = 0;
+};
+
+struct ItemBase FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef ItemBaseT NativeTableType;
+  typedef ItemBaseBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4,
+    VT_IDX = 6,
+    VT_STACK = 8
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
+  uint32_t idx() const {
+    return GetField<uint32_t>(VT_IDX, 0);
+  }
+  bool mutate_idx(uint32_t _idx = 0) {
+    return SetField<uint32_t>(VT_IDX, _idx, 0);
+  }
+  int32_t stack() const {
+    return GetField<int32_t>(VT_STACK, 0);
+  }
+  bool mutate_stack(int32_t _stack = 0) {
+    return SetField<int32_t>(VT_STACK, _stack, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
+           VerifyField<uint32_t>(verifier, VT_IDX, 4) &&
+           VerifyField<int32_t>(verifier, VT_STACK, 4) &&
+           verifier.EndTable();
+  }
+  ItemBaseT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ItemBaseT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<ItemBase> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ItemBaseT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct ItemBaseBuilder {
+  typedef ItemBase Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(ItemBase::VT_UID, uid, 0);
+  }
+  void add_idx(uint32_t idx) {
+    fbb_.AddElement<uint32_t>(ItemBase::VT_IDX, idx, 0);
+  }
+  void add_stack(int32_t stack) {
+    fbb_.AddElement<int32_t>(ItemBase::VT_STACK, stack, 0);
+  }
+  explicit ItemBaseBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<ItemBase> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<ItemBase>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<ItemBase> CreateItemBase(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0,
+    uint32_t idx = 0,
+    int32_t stack = 0) {
+  ItemBaseBuilder builder_(_fbb);
+  builder_.add_uid(uid);
+  builder_.add_stack(stack);
+  builder_.add_idx(idx);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<ItemBase> CreateItemBase(::flatbuffers::FlatBufferBuilder &_fbb, const ItemBaseT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct ItemEquipT : public ::flatbuffers::NativeTable {
+  typedef ItemEquip TableType;
+  std::unique_ptr<fb::ItemBaseT> base{};
+  uint32_t skin_index = 0;
+  int32_t reinforce = 0;
+  std::vector<std::unique_ptr<fb::ItemAbilityT>> reinforce_abilitys{};
+  std::vector<std::unique_ptr<fb::ItemAbilityT>> enchant_abilitys{};
+  ItemEquipT() = default;
+  ItemEquipT(const ItemEquipT &o);
+  ItemEquipT(ItemEquipT&&) FLATBUFFERS_NOEXCEPT = default;
+  ItemEquipT &operator=(ItemEquipT o) FLATBUFFERS_NOEXCEPT;
+};
+
+struct ItemEquip FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef ItemEquipT NativeTableType;
+  typedef ItemEquipBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_BASE = 4,
+    VT_SKIN_INDEX = 6,
+    VT_REINFORCE = 8,
+    VT_REINFORCE_ABILITYS = 10,
+    VT_ENCHANT_ABILITYS = 12
+  };
+  const fb::ItemBase *base() const {
+    return GetPointer<const fb::ItemBase *>(VT_BASE);
+  }
+  fb::ItemBase *mutable_base() {
+    return GetPointer<fb::ItemBase *>(VT_BASE);
+  }
+  uint32_t skin_index() const {
+    return GetField<uint32_t>(VT_SKIN_INDEX, 0);
+  }
+  bool mutate_skin_index(uint32_t _skin_index = 0) {
+    return SetField<uint32_t>(VT_SKIN_INDEX, _skin_index, 0);
+  }
+  int32_t reinforce() const {
+    return GetField<int32_t>(VT_REINFORCE, 0);
+  }
+  bool mutate_reinforce(int32_t _reinforce = 0) {
+    return SetField<int32_t>(VT_REINFORCE, _reinforce, 0);
+  }
+  const ::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>> *reinforce_abilitys() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>> *>(VT_REINFORCE_ABILITYS);
+  }
+  ::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>> *mutable_reinforce_abilitys() {
+    return GetPointer<::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>> *>(VT_REINFORCE_ABILITYS);
+  }
+  const ::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>> *enchant_abilitys() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>> *>(VT_ENCHANT_ABILITYS);
+  }
+  ::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>> *mutable_enchant_abilitys() {
+    return GetPointer<::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>> *>(VT_ENCHANT_ABILITYS);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_BASE) &&
+           verifier.VerifyTable(base()) &&
+           VerifyField<uint32_t>(verifier, VT_SKIN_INDEX, 4) &&
+           VerifyField<int32_t>(verifier, VT_REINFORCE, 4) &&
+           VerifyOffset(verifier, VT_REINFORCE_ABILITYS) &&
+           verifier.VerifyVector(reinforce_abilitys()) &&
+           verifier.VerifyVectorOfTables(reinforce_abilitys()) &&
+           VerifyOffset(verifier, VT_ENCHANT_ABILITYS) &&
+           verifier.VerifyVector(enchant_abilitys()) &&
+           verifier.VerifyVectorOfTables(enchant_abilitys()) &&
+           verifier.EndTable();
+  }
+  ItemEquipT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ItemEquipT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<ItemEquip> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ItemEquipT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct ItemEquipBuilder {
+  typedef ItemEquip Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_base(::flatbuffers::Offset<fb::ItemBase> base) {
+    fbb_.AddOffset(ItemEquip::VT_BASE, base);
+  }
+  void add_skin_index(uint32_t skin_index) {
+    fbb_.AddElement<uint32_t>(ItemEquip::VT_SKIN_INDEX, skin_index, 0);
+  }
+  void add_reinforce(int32_t reinforce) {
+    fbb_.AddElement<int32_t>(ItemEquip::VT_REINFORCE, reinforce, 0);
+  }
+  void add_reinforce_abilitys(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>>> reinforce_abilitys) {
+    fbb_.AddOffset(ItemEquip::VT_REINFORCE_ABILITYS, reinforce_abilitys);
+  }
+  void add_enchant_abilitys(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>>> enchant_abilitys) {
+    fbb_.AddOffset(ItemEquip::VT_ENCHANT_ABILITYS, enchant_abilitys);
+  }
+  explicit ItemEquipBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<ItemEquip> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<ItemEquip>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<ItemEquip> CreateItemEquip(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::ItemBase> base = 0,
+    uint32_t skin_index = 0,
+    int32_t reinforce = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>>> reinforce_abilitys = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>>> enchant_abilitys = 0) {
+  ItemEquipBuilder builder_(_fbb);
+  builder_.add_enchant_abilitys(enchant_abilitys);
+  builder_.add_reinforce_abilitys(reinforce_abilitys);
+  builder_.add_reinforce(reinforce);
+  builder_.add_skin_index(skin_index);
+  builder_.add_base(base);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<ItemEquip> CreateItemEquipDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::ItemBase> base = 0,
+    uint32_t skin_index = 0,
+    int32_t reinforce = 0,
+    const std::vector<::flatbuffers::Offset<fb::ItemAbility>> *reinforce_abilitys = nullptr,
+    const std::vector<::flatbuffers::Offset<fb::ItemAbility>> *enchant_abilitys = nullptr) {
+  auto reinforce_abilitys__ = reinforce_abilitys ? _fbb.CreateVector<::flatbuffers::Offset<fb::ItemAbility>>(*reinforce_abilitys) : 0;
+  auto enchant_abilitys__ = enchant_abilitys ? _fbb.CreateVector<::flatbuffers::Offset<fb::ItemAbility>>(*enchant_abilitys) : 0;
+  return fb::CreateItemEquip(
+      _fbb,
+      base,
+      skin_index,
+      reinforce,
+      reinforce_abilitys__,
+      enchant_abilitys__);
+}
+
+::flatbuffers::Offset<ItemEquip> CreateItemEquip(::flatbuffers::FlatBufferBuilder &_fbb, const ItemEquipT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 struct PartyCreateOptionT : public ::flatbuffers::NativeTable {
   typedef PartyCreateOption TableType;
   std::string notice{};
@@ -575,6 +877,124 @@ inline ::flatbuffers::Offset<Position> CreatePosition(::flatbuffers::FlatBufferB
       _y,
       _z,
       _angle);
+}
+
+inline ItemAbilityT *ItemAbility::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<ItemAbilityT>(new ItemAbilityT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void ItemAbility::UnPackTo(ItemAbilityT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = type(); _o->type = _e; }
+  { auto _e = value(); _o->value = _e; }
+}
+
+inline ::flatbuffers::Offset<ItemAbility> ItemAbility::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ItemAbilityT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateItemAbility(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<ItemAbility> CreateItemAbility(::flatbuffers::FlatBufferBuilder &_fbb, const ItemAbilityT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ItemAbilityT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _type = _o->type;
+  auto _value = _o->value;
+  return fb::CreateItemAbility(
+      _fbb,
+      _type,
+      _value);
+}
+
+inline ItemBaseT *ItemBase::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<ItemBaseT>(new ItemBaseT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void ItemBase::UnPackTo(ItemBaseT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = uid(); _o->uid = _e; }
+  { auto _e = idx(); _o->idx = _e; }
+  { auto _e = stack(); _o->stack = _e; }
+}
+
+inline ::flatbuffers::Offset<ItemBase> ItemBase::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ItemBaseT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateItemBase(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<ItemBase> CreateItemBase(::flatbuffers::FlatBufferBuilder &_fbb, const ItemBaseT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ItemBaseT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _uid = _o->uid;
+  auto _idx = _o->idx;
+  auto _stack = _o->stack;
+  return fb::CreateItemBase(
+      _fbb,
+      _uid,
+      _idx,
+      _stack);
+}
+
+inline ItemEquipT::ItemEquipT(const ItemEquipT &o)
+      : base((o.base) ? new fb::ItemBaseT(*o.base) : nullptr),
+        skin_index(o.skin_index),
+        reinforce(o.reinforce) {
+  reinforce_abilitys.reserve(o.reinforce_abilitys.size());
+  for (const auto &reinforce_abilitys_ : o.reinforce_abilitys) { reinforce_abilitys.emplace_back((reinforce_abilitys_) ? new fb::ItemAbilityT(*reinforce_abilitys_) : nullptr); }
+  enchant_abilitys.reserve(o.enchant_abilitys.size());
+  for (const auto &enchant_abilitys_ : o.enchant_abilitys) { enchant_abilitys.emplace_back((enchant_abilitys_) ? new fb::ItemAbilityT(*enchant_abilitys_) : nullptr); }
+}
+
+inline ItemEquipT &ItemEquipT::operator=(ItemEquipT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(base, o.base);
+  std::swap(skin_index, o.skin_index);
+  std::swap(reinforce, o.reinforce);
+  std::swap(reinforce_abilitys, o.reinforce_abilitys);
+  std::swap(enchant_abilitys, o.enchant_abilitys);
+  return *this;
+}
+
+inline ItemEquipT *ItemEquip::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<ItemEquipT>(new ItemEquipT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void ItemEquip::UnPackTo(ItemEquipT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = base(); if (_e) { if(_o->base) { _e->UnPackTo(_o->base.get(), _resolver); } else { _o->base = std::unique_ptr<fb::ItemBaseT>(_e->UnPack(_resolver)); } } else if (_o->base) { _o->base.reset(); } }
+  { auto _e = skin_index(); _o->skin_index = _e; }
+  { auto _e = reinforce(); _o->reinforce = _e; }
+  { auto _e = reinforce_abilitys(); if (_e) { _o->reinforce_abilitys.resize(_e->size()); for (::flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { if(_o->reinforce_abilitys[_i]) { _e->Get(_i)->UnPackTo(_o->reinforce_abilitys[_i].get(), _resolver); } else { _o->reinforce_abilitys[_i] = std::unique_ptr<fb::ItemAbilityT>(_e->Get(_i)->UnPack(_resolver)); }; } } else { _o->reinforce_abilitys.resize(0); } }
+  { auto _e = enchant_abilitys(); if (_e) { _o->enchant_abilitys.resize(_e->size()); for (::flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { if(_o->enchant_abilitys[_i]) { _e->Get(_i)->UnPackTo(_o->enchant_abilitys[_i].get(), _resolver); } else { _o->enchant_abilitys[_i] = std::unique_ptr<fb::ItemAbilityT>(_e->Get(_i)->UnPack(_resolver)); }; } } else { _o->enchant_abilitys.resize(0); } }
+}
+
+inline ::flatbuffers::Offset<ItemEquip> ItemEquip::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ItemEquipT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateItemEquip(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<ItemEquip> CreateItemEquip(::flatbuffers::FlatBufferBuilder &_fbb, const ItemEquipT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ItemEquipT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _base = _o->base ? CreateItemBase(_fbb, _o->base.get(), _rehasher) : 0;
+  auto _skin_index = _o->skin_index;
+  auto _reinforce = _o->reinforce;
+  auto _reinforce_abilitys = _o->reinforce_abilitys.size() ? _fbb.CreateVector<::flatbuffers::Offset<fb::ItemAbility>> (_o->reinforce_abilitys.size(), [](size_t i, _VectorArgs *__va) { return CreateItemAbility(*__va->__fbb, __va->__o->reinforce_abilitys[i].get(), __va->__rehasher); }, &_va ) : 0;
+  auto _enchant_abilitys = _o->enchant_abilitys.size() ? _fbb.CreateVector<::flatbuffers::Offset<fb::ItemAbility>> (_o->enchant_abilitys.size(), [](size_t i, _VectorArgs *__va) { return CreateItemAbility(*__va->__fbb, __va->__o->enchant_abilitys[i].get(), __va->__rehasher); }, &_va ) : 0;
+  return fb::CreateItemEquip(
+      _fbb,
+      _base,
+      _skin_index,
+      _reinforce,
+      _reinforce_abilitys,
+      _enchant_abilitys);
 }
 
 inline PartyCreateOptionT *PartyCreateOption::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {

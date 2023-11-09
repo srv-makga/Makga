@@ -27,6 +27,28 @@ table Position
 	angle:float;
 }
 
+table ItemAbility
+{
+	type:eAbilityTYpe;
+	value:int32;
+}
+
+table ItemBase
+{
+	uid:uint64;
+	idx:uint32;
+	stack:int32;
+}
+
+table ItemEquip
+{
+	base:ItemBase;
+	skin_index:uint32;
+	reinforce:int32;
+	reinforce_abilitys:[ItemAbility];
+	enchant_abilitys:[ItemAbility];
+}
+
 table PartyCreateOption
 {
 	notice:string;

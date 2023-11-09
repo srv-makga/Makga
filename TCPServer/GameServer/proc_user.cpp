@@ -273,7 +273,18 @@ bool User::OnItemReinforce(NetPacket* _packet)
 	do
 	{
 		auto main_item = FindItemObject(recv_data->uid());
+		if (nullptr == main_item)
+		{
+			result = eResult_ItemNotFound;
+			break;
+		}
+
 		auto sub_item = FindItemObject(recv_data->sub());
+		if (nullptr == sub_item)
+		{
+			result = eResult_ItemNotFound;
+			break;
+		}
 
 		reinforce = main_item->Reinforce();
 
@@ -283,10 +294,11 @@ bool User::OnItemReinforce(NetPacket* _packet)
 			break;
 		}
 
+		// 변동된 강화 수치
 		reinforce = main_item->Reinforce() - reinforce;
 
-		Reflection(main_item, ReflectType::UpdateReinforce);
-		Reflection(sub_item, ReflectType::UpdateStack);
+		Reflection(recv_data->uid(), ReflectType::UpdateReinforce, true);
+		Reflection(recv_data->sub(), ReflectType::UpdateStack, true);
 	} while (false);
 
 	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result) << " item_uid:" << recv_data->uid();

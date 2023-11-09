@@ -105,6 +105,10 @@ ItemObjectBase* User::FindItemObject(ItemIdx_t _item_idx)
 	return m_inventory->FindObject(_item_idx);
 }
 
+void User::Reflection(ItemUid_t _item_uid, ReflectType _type, bool _is_send_client)
+{
+}
+
 InventoryBase* User::Inventory(const ItemProperty& _property) const
 {
 	return m_inventory;
