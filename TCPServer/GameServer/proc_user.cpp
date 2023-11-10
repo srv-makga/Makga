@@ -234,7 +234,7 @@ bool User::OnItemDestroy(NetPacket* _packet)
 			break;
 		}
 
-		result = Inventory(*item_object->Property())->SubItem(recv_data->uid(), recv_data->stack());
+		result = Inventory()->SubItem(recv_data->uid(), recv_data->stack());
 	} while (false);
 
 	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result) << " item_uid:" << recv_data->uid();

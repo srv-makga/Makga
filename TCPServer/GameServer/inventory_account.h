@@ -38,9 +38,8 @@ public:
 	Result_t SubItem(ItemIdx_t _item_index, StackCount_t _item_count) override;
 	Result_t SubItem(const ItemProperty& _item_property, StackCount_t _item_count) override;
 
-	// @return 삭제된 아이템 Stack 갯수 반환
-	StackCount_t DeleteItem(ItemUid_t _item_uid) override;
-	StackCount_t DeleteItem(ItemIdx_t _item_idx) override;
+	Count_t ObjectCount(ItemIdx_t _item_index) override;
+	bool HasItemIdx(ItemIdx_t _item_index) override;
 
 	Result_t InsertObject(ItemObjectBase* _item_object) override;
 	bool EraseObject(ItemObjectBase* _item_object) override;
@@ -55,4 +54,6 @@ protected:
 private:
 	CacheContainer_t m_container_by_index;
 	User* m_user;
+
+	std::unordered_map<ItemObjectBase*, ReflectType> m_delay_reflection;
 };

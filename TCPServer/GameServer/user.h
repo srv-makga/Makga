@@ -8,6 +8,7 @@
 
 class SessionUser;
 class Character;
+class ItemObjectBase;
 class InventoryBase;
 class InventoryAccount;
 
@@ -92,7 +93,7 @@ public:
 	void Reflection(ItemUid_t _item_uid, ReflectType _type, bool _is_send_client);
 
 protected:
-	InventoryBase* Inventory(const ItemProperty& _property) const;
+	InventoryBase* Inventory() const;
 
 private:
 	String8 m_account;

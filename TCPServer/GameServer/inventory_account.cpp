@@ -28,6 +28,7 @@ void InventoryAccount::Initialize()
 
 	m_items.Initialize();
 	m_container_by_index.clear();
+	m_delay_reflection.clear();
 }
 
 void InventoryAccount::Finalize()
@@ -208,57 +209,58 @@ Result_t InventoryAccount::SubItem(ItemIdx_t _item_index, StackCount_t _item_cou
 
 Result_t InventoryAccount::SubItem(const ItemProperty& _item_property, StackCount_t _item_count)
 {
-	Result_t result = CanSubItem(_item_property, _item_count);
-	if (eResult_Success != result)
+	if (0 == ObjectCount(_item_property.ItemIndex()))
 	{
-		return result;
+		return eResult_ItemNotEnough;
 	}
 
-	auto item_object = FindObject(_item_property.ItemIndex());
-	if (nullptr == item_object)
+	if (true == _item_property.IsStack())
 	{
-		return eResult_ItemNotFound;
+		auto item_object = FindObject(_item_property.ItemIndex());
+		if (item_object->Stack() < _item_count)
+		{
+			return eResult_ItemNotEnough;
+		}
+
+		if (item_object->Stack() == _item_count)
+		{
+			EraseObject(item_object);
+			ReflectionObject(ReflectType::Delete, item_object);
+			item_object->Finalize();
+		}
+		else
+		{
+			item_object->SubStack(_item_count);
+			ReflectionObject(ReflectType::UpdateStack, item_object);
+		}
 	}
+	else
+	{
+		auto iter = m_container_by_index.find(_item_property.ItemIndex());
+		auto s = iter->second.begin();
 
-	item_object->SubStack(_item_count);
-
-	ReflectionObject(ReflectType::UpdateStack, item_object);
+		for (StackCount_t i = 0; i < _item_count; ++i)
+		{
+		}
+	}
 
 	return eResult_Success;
 }
 
-StackCount_t InventoryAccount::DeleteItem(ItemUid_t _item_uid)
+Count_t InventoryAccount::ObjectCount(ItemIdx_t _item_index)
 {
-	ItemObjectBase* item_object = FindObject(_item_uid);
-	if (nullptr == item_object)
+	auto iter = m_container_by_index.find(_item_index);
+	if (m_container_by_index.end() == iter)
 	{
 		return 0;
 	}
 
-	StackCount_t deleteCount = item_object->Stack();
-	if (true == EraseObject(item_object))
-	{
-		item_object->Finalize();
-	}
-
-	return deleteCount;
+	return iter->second.size();
 }
 
-StackCount_t InventoryAccount::DeleteItem(ItemIdx_t _item_idx)
+bool InventoryAccount::HasItemIdx(ItemIdx_t _item_index)
 {
-	ItemObjectBase* item_object = FindObject(_item_idx);
-	if (nullptr == item_object)
-	{
-		return 0;
-	}
-
-	StackCount_t deleteCount = item_object->Stack();
-	if (true == EraseObject(item_object))
-	{
-		item_object->Finalize();
-	}
-
-	return deleteCount;
+	return 0 != ObjectCount(_item_index);
 }
 
 Result_t InventoryAccount::InsertObject(ItemObjectBase* _item_object)
@@ -302,7 +304,7 @@ bool InventoryAccount::EraseObject(ItemObjectBase* _item_object)
 
 	m_container_by_index[_item_object->Index()].erase(_item_object);
 
-	return eResult_Success();
+	return eResult_Success;
 }
 
 ItemObjectBase* InventoryAccount::FindObject(ItemUid_t _item_uid)

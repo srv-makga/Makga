@@ -109,7 +109,7 @@ void User::Reflection(ItemUid_t _item_uid, ReflectType _type, bool _is_send_clie
 {
 }
 
-InventoryBase* User::Inventory(const ItemProperty& _property) const
+InventoryBase* User::Inventory() const
 {
 	return m_inventory;
 }

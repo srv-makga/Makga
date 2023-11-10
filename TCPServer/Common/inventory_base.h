@@ -53,9 +53,8 @@ public:
 	virtual Result_t SubItem(ItemIdx_t _item_index, StackCount_t _item_count) = 0;
 	virtual Result_t SubItem(const ItemProperty& _item_property, StackCount_t _item_count) = 0;
 
-	// @return 삭제된 아이템 Stack 갯수 반환
-	virtual StackCount_t DeleteItem(ItemUid_t _item_uid) = 0;
-	virtual StackCount_t DeleteItem(ItemIdx_t _item_idx) = 0;
+	virtual Count_t ObjectCount(ItemIdx_t _item_index) = 0;
+	virtual bool HasItemIdx(ItemIdx_t _item_index) = 0;
 
 	virtual Result_t InsertObject(ItemObjectBase* _item_object) = 0;
 	virtual bool EraseObject(ItemObjectBase* _item_object) = 0;
