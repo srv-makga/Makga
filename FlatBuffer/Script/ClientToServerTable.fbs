@@ -21,7 +21,7 @@ namespace fb.server;
 //	data types
 //	8  bit: int8 uint8 bool
 //	16 bit: int16 uint16
-//	32 bit: int32 uint32 float
+//	32 bit: int32 uint32 floatd
 //	64 bit: int64 uint64 double
 //
 // ###########################
@@ -33,6 +33,13 @@ table Send_LoginAccount
 {
 	account:string;
 	connect_key:uint32;	// 서버 이동시 필요한 키
+}
+
+table Send_Chatting
+{
+	name:string;
+	auth_key:string;
+	content:string;
 }
 
 table Send_LoginAuth
@@ -322,6 +329,19 @@ table Recv_LoginAccount
 table Recv_LoginSecurity
 {
 	result:eResult;
+}
+
+table Recv_ActorAppear
+{
+	id:uint64;
+}
+
+table Recv_ActorDisappear
+{
+}
+
+table Recv_ActorMove
+{
 }
 
 table Recv_ItemDestroy

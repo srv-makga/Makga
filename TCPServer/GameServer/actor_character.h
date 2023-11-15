@@ -12,7 +12,9 @@ public:
 	void Finallize() override;
 
 	void OnUpdate() override;
+	Result_t Move(Coord_t _x, Coord_t _y, Coord_t _z, Coord_t _angle) override;
 
+public:
 	fb::eActorType Type() const override { return fb::eActorType_Character; }
 	bool IsCharacter() const  override { return true; }
 
@@ -32,10 +34,15 @@ public:
 
 	void SetPos(const fb::Position* _pos);
 	void SetPos(const Vector_t& _pos);
+	void SetPos(Coord_t _x, Coord_t _y, Coord_t _z);
 	void SetAngle(Coord_t _angle);
+	
+	Speed_t Speed() const override;
 
 private:
 	Vector_t m_pos;
 	Coord_t m_angle;
 	stHpMp m_hp_mp;
+
+	Speed_t m_speed;
 };

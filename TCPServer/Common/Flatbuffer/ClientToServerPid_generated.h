@@ -19,78 +19,80 @@ namespace server {
 enum SendPid : uint32_t {
   SendPid_None = 0,
   SendPid_LoginAccount = 1,
-  SendPid_LoginAuth = 2,
-  SendPid_LoginSecurity = 3,
+  SendPid_Chatting = 2,
+  SendPid_LoginAuth = 3,
+  SendPid_LoginSecurity = 4,
   ////////// character //////////
-  SendPid_CharacterCreate = 4,
-  SendPid_CharacterDelete = 5,
-  SendPid_CharacterSelect = 6,
-  SendPid_CharacterLogout = 7,
-  SendPid_CharacterMove = 8,
-  SendPid_CharacterAngle = 9,
-  SendPid_CharacterResurrection = 10,
+  SendPid_CharacterCreate = 5,
+  SendPid_CharacterDelete = 6,
+  SendPid_CharacterSelect = 7,
+  SendPid_CharacterLogout = 8,
+  SendPid_CharacterMove = 9,
+  SendPid_CharacterAngle = 10,
+  SendPid_CharacterResurrection = 11,
   ////////// actor //////////
-  SendPid_ActorInteractionStart = 11,
-  SendPid_ActorInteractionEnd = 12,
-  SendPid_ActorInteractionCancel = 13,
+  SendPid_ActorInteractionStart = 12,
+  SendPid_ActorInteractionEnd = 13,
+  SendPid_ActorInteractionCancel = 14,
   ////////// item //////////
-  SendPid_ItemDestroy = 14,
-  SendPid_ItemUse = 15,
-  SendPid_ItemMake = 16,
-  SendPid_ItemReinforce = 17,
-  SendPid_ItemEnchant = 18,
-  SendPid_ItemDisassemble = 19,
-  SendPid_ItemRepair = 20,
-  SendPid_ItemSkinChange = 21,
+  SendPid_ItemDestroy = 15,
+  SendPid_ItemUse = 16,
+  SendPid_ItemMake = 17,
+  SendPid_ItemReinforce = 18,
+  SendPid_ItemEnchant = 19,
+  SendPid_ItemDisassemble = 20,
+  SendPid_ItemRepair = 21,
+  SendPid_ItemSkinChange = 22,
   ////////// skill //////////
-  SendPid_SkillSpellStart = 22,
-  SendPid_SkillSpellEnd = 23,
-  SendPid_SkillLearn = 24,
-  SendPid_SkillCasting = 25,
-  SendPid_SkillCancel = 26,
+  SendPid_SkillSpellStart = 23,
+  SendPid_SkillSpellEnd = 24,
+  SendPid_SkillLearn = 25,
+  SendPid_SkillCasting = 26,
+  SendPid_SkillCancel = 27,
   ////////// shop //////////
-  SendPid_ShopBuy = 27,
-  SendPid_ShopSell = 28,
+  SendPid_ShopBuy = 28,
+  SendPid_ShopSell = 29,
   ////////// quest //////////
-  SendPid_QuestAccept = 29,
-  SendPid_QuestCancel = 30,
-  SendPid_QuestReward = 31,
+  SendPid_QuestAccept = 30,
+  SendPid_QuestCancel = 31,
+  SendPid_QuestReward = 32,
   ////////// premium //////////
-  SendPid_PremiumBuy = 32,
-  SendPid_PremiumRefund = 33,
-  SendPid_PremiumConfirm = 34,
+  SendPid_PremiumBuy = 33,
+  SendPid_PremiumRefund = 34,
+  SendPid_PremiumConfirm = 35,
   ////////// party //////////
-  SendPid_PartyCreate = 35,
-  SendPid_PartyJoin = 36,
-  SendPid_PartyLeave = 37,
-  SendPid_PartyInvite = 38,
-  SendPid_PartyInviteAnswer = 39,
-  SendPid_PartyDeport = 40,
-  SendPid_PartyUpdate = 41,
+  SendPid_PartyCreate = 36,
+  SendPid_PartyJoin = 37,
+  SendPid_PartyLeave = 38,
+  SendPid_PartyInvite = 39,
+  SendPid_PartyInviteAnswer = 40,
+  SendPid_PartyDeport = 41,
+  SendPid_PartyUpdate = 42,
   ////////// guild //////////
-  SendPid_GuildCreate = 42,
-  SendPid_GuildLeave = 43,
-  SendPid_GuildDeport = 44,
-  SendPid_GuildOptionChange = 45,
-  SendPid_GuildMemberInvite = 46,
-  SendPid_GuildMemberInviteAnswer = 47,
-  SendPid_GuildMemberChangeGrade = 48,
+  SendPid_GuildCreate = 43,
+  SendPid_GuildLeave = 44,
+  SendPid_GuildDeport = 45,
+  SendPid_GuildOptionChange = 46,
+  SendPid_GuildMemberInvite = 47,
+  SendPid_GuildMemberInviteAnswer = 48,
+  SendPid_GuildMemberChangeGrade = 49,
   ////////// friend //////////
-  SendPid_FriendAdd = 49,
-  SendPid_FriendAccept = 50,
-  SendPid_FriendRemove = 51,
+  SendPid_FriendAdd = 50,
+  SendPid_FriendAccept = 51,
+  SendPid_FriendRemove = 52,
   ////////// instance //////////
-  SendPid_InstanceEnter = 52,
-  SendPid_InstanceLeave = 53,
-  SendPid_InstanceSkip = 54,
+  SendPid_InstanceEnter = 53,
+  SendPid_InstanceLeave = 54,
+  SendPid_InstanceSkip = 55,
   SendPid_MIN = SendPid_None,
   SendPid_MAX = SendPid_InstanceSkip
 };
 
-inline const SendPid (&EnumValuesSendPid())[55] {
+inline const SendPid (&EnumValuesSendPid())[56] {
   static const SendPid values[] = {
     SendPid_None,
     SendPid_LoginAccount,
+    SendPid_Chatting,
     SendPid_LoginAuth,
     SendPid_LoginSecurity,
     SendPid_CharacterCreate,
@@ -149,9 +151,10 @@ inline const SendPid (&EnumValuesSendPid())[55] {
 }
 
 inline const char * const *EnumNamesSendPid() {
-  static const char * const names[56] = {
+  static const char * const names[57] = {
     "None",
     "LoginAccount",
+    "Chatting",
     "LoginAuth",
     "LoginSecurity",
     "CharacterCreate",
@@ -216,7 +219,6 @@ inline const char *EnumNameSendPid(SendPid e) {
   return EnumNamesSendPid()[index];
 }
 
-/// [ENUM] (C<-GS) Recv Packet id
 enum RecvPid : uint32_t {
   RecvPid_None = 0,
   RecvPid_LoginAccount = 1,

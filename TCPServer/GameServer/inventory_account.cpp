@@ -241,6 +241,7 @@ Result_t InventoryAccount::SubItem(const ItemProperty& _item_property, StackCoun
 
 		for (StackCount_t i = 0; i < _item_count; ++i)
 		{
+			s = iter->second.erase(s);
 		}
 	}
 

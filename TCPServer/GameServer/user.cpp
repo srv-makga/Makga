@@ -26,6 +26,10 @@ void User::Finalize()
 {
 }
 
+void User::Move(const Vector_t& _vec, Speed_t _speed, int _effect, int _animation)
+{
+}
+
 const String8& User::Account() const
 {
 	return m_account;
@@ -64,52 +68,12 @@ bool User::Send(fb::server::RecvPid _pid, fbb& _fbb)
 	return m_session->Send(_pid, _fbb);
 }
 
-StackCount_t User::ItemCount(ItemIdx_t _item_idx) const
-{
-	auto item_object = m_inventory->FindObject(g_gold_idx);
-	return item_object ? item_object->Stack() : 0;
-}
-
-Currency_t User::Bronze() const
-{
-	return ItemCount(g_bronze_idx);
-}
-
-Currency_t User::Silver() const
-{
-	return ItemCount(g_silver_idx);
-}
-
-Currency_t User::Gold() const
-{
-	return ItemCount(g_gold_idx);
-}
-
-Character* User::GetCharacter() const
+Character* User::ActiveCharacter() const
 {
 	return m_character;
 }
 
-void User::SetCharacter(Character* _character)
+void User::SetActiveCharacter(Character* _character)
 {
 	m_character = _character;
-}
-
-ItemObjectBase* User::FindItemObject(ItemUid_t _item_uid)
-{
-	return m_inventory->FindObject(_item_uid);
-}
-
-ItemObjectBase* User::FindItemObject(ItemIdx_t _item_idx)
-{
-	return m_inventory->FindObject(_item_idx);
-}
-
-void User::Reflection(ItemUid_t _item_uid, ReflectType _type, bool _is_send_client)
-{
-}
-
-InventoryBase* User::Inventory() const
-{
-	return m_inventory;
 }

@@ -9,8 +9,10 @@ enum SendPid : uint32
 	None = 0,
 
 	LoginAccount, // Client -> login
+	
+	Chatting, // Client -> chatting
 
-	// -> game
+	// 이하 game
 	LoginAuth,
 	LoginSecurity, // 2차 비밀번호 or OTP
 
@@ -93,7 +95,6 @@ enum SendPid : uint32
 // ######################################################
 // recv pid
 
-/// [ENUM] (C<-GS) Recv Packet id
 enum RecvPid : uint32
 {
 	None = 0,
@@ -118,6 +119,10 @@ enum RecvPid : uint32
 	ActorInteractionStart,
 	ActorInteractionEnd,
 	ActorInteractionCancel,
+	
+	ActorAppear, // 알림
+	ActorDisappear, // 알림
+	ActorMove, // 알림
 
 	////////// item //////////
 	ItemDestroy,

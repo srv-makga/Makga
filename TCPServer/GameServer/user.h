@@ -12,7 +12,7 @@ class ItemObjectBase;
 class InventoryBase;
 class InventoryAccount;
 
-class User : public core::ObjectPool<User*>, public JobOwner, public InventoryOwner
+class User : public core::ObjectPool<User*>, public JobOwner//, public InventoryOwner
 {
 public:
 	using Pid_t = fb::server::SendPid;
@@ -33,12 +33,7 @@ public:
 	void Finalize();
 
 public:
-	const String8& Account() const;
-
-	UserUid_t UserUid() const { return m_user_uid; }
-
-	SessionUser* Session() const;
-	void SetSession(SessionUser* _session);
+	void Move(const Vector_t& _vec, Speed_t _speed, int _effect, int _animation);
 
 public: // JobOwner
 	bool ProcPacket(NetPacket* _packet) override;
@@ -47,7 +42,19 @@ public: // JobOwner
 public: // Session 랩핑 함수
 	bool Send(fb::server::RecvPid _pid, fbb& _fbb);
 
-public:
+public: // 멤버 변수 get/set
+	const String8& Account() const;
+
+	UserUid_t UserUid() const { return m_user_uid; }
+
+	SessionUser* Session() const;
+	void SetSession(SessionUser* _session);
+
+	Character* ActiveCharacter() const;
+	void SetActiveCharacter(Character* _character);
+
+public: // 패킷 처리 함수
+	bool OnChatting(NetPacket* _packet);
 	bool OnLoginSecurity(NetPacket* _packet);
 	bool OnCharacterCreate(NetPacket* _packet);
 	bool OnCharacterDelete(NetPacket* _packet);
@@ -55,45 +62,6 @@ public:
 	bool OnCharacterLogout(NetPacket* _packet);
 	bool OnCharacterMove(NetPacket* _packet);
 	bool OnCharacterAngle(NetPacket* _packet);
-	bool OnCharacterResurrection(NetPacket* _packet);
-	bool OnActorInteractionStart(NetPacket* _packet);
-	bool OnActorInteractionEnd(NetPacket* _packet);
-	bool OnActorInteractionCancel(NetPacket* _packet);
-	bool OnItemDestroy(NetPacket* _packet);
-	bool OnItemUse(NetPacket* _packet);
-	bool OnItemMake(NetPacket* _packet);
-	bool OnItemReinforce(NetPacket* _packet);
-	bool OnItemDisassemble(NetPacket* _packet);
-	bool OnItemEnchant(NetPacket* _packet);
-	bool OnItemSkinChange(NetPacket* _packet);
-
-public: // InventoryOwner
-	uint64_t OwnerUid() const override { return m_user_uid; }
-	int32_t MaxInvenSlot() const override { return m_max_inventory; }
-
-	virtual eResult GiveItem(ItemIdx_t _item_idx, StackCount_t _item_stack, bool _is_send_client) = 0;
-	virtual eResult GiveItem(const ItemProperty& _item_property, StackCount_t _item_stack, bool _is_send_client) = 0;
-	virtual eResult GiveItem(UmapItemList& _item_list, bool _is_send_client) = 0;
-	virtual eResult GiveItem(UmapItemPropertyList& _item_list, bool _is_send_client) = 0;
-
-	StackCount_t ItemCount(ItemIdx_t _item_idx) const;
-
-public:
-	Currency_t Bronze() const;
-	Currency_t Silver() const;
-	Currency_t Gold() const;
-
-public:
-	Character* GetCharacter() const;
-	void SetCharacter(Character* _character);
-
-	ItemObjectBase* FindItemObject(ItemUid_t _item_uid);
-	ItemObjectBase* FindItemObject(ItemIdx_t _item_idx);
-
-	void Reflection(ItemUid_t _item_uid, ReflectType _type, bool _is_send_client);
-
-protected:
-	InventoryBase* Inventory() const;
 
 private:
 	String8 m_account;

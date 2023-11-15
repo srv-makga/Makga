@@ -14,6 +14,7 @@ core::Dispatcher<User::Pid_t, User::Function_t> User::s_dispatcher;
 
 bool User::InitDispatcher()
 {
+	REG_DISPATCHER(Chatting);
 	REG_DISPATCHER(LoginSecurity);
 	REG_DISPATCHER(CharacterCreate);
 	REG_DISPATCHER(CharacterDelete);
@@ -21,19 +22,19 @@ bool User::InitDispatcher()
 	REG_DISPATCHER(CharacterLogout);
 	REG_DISPATCHER(CharacterMove);
 	REG_DISPATCHER(CharacterAngle);
-	REG_DISPATCHER(CharacterResurrection);
 
-	REG_DISPATCHER(ActorInteractionStart);
-	REG_DISPATCHER(ActorInteractionEnd);
-	REG_DISPATCHER(ActorInteractionCancel);
+	return true;
+}
 
-	REG_DISPATCHER(ItemDestroy);
-	REG_DISPATCHER(ItemUse);
-	REG_DISPATCHER(ItemMake);
-	REG_DISPATCHER(ItemReinforce);
-	REG_DISPATCHER(ItemDisassemble);
-	REG_DISPATCHER(ItemEnchant);
-	REG_DISPATCHER(ItemSkinChange);
+bool User::OnChatting(NetPacket* _packet)
+{
+	if (nullptr == _packet)
+	{
+		LOG_ERROR << LOG_RESULT(eResult_InvalidParameter);
+		return false;
+	}
+
+	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_Chatting);
 
 	return true;
 }
@@ -79,7 +80,33 @@ bool User::OnCharacterLogout(NetPacket* _packet)
 
 bool User::OnCharacterMove(NetPacket* _packet)
 {
-	return false;
+	if (nullptr == _packet)
+	{
+		LOG_ERROR << LOG_RESULT(eResult_InvalidParameter);
+		return false;
+	}
+
+	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_CharacterMove);
+	Result_t result = eResult_Success;
+
+	do
+	{
+		if (nullptr == recv_data->pos())
+		{
+			result = eResult_InvalidParameter;
+			break;
+		}
+
+		result = ActiveCharacter()->Move(recv_data->pos()->x(),
+			recv_data->pos()->y(),
+			recv_data->pos()->z(),
+			recv_data->pos()->angle()
+		);
+	} while (false);
+
+	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result);
+
+	return true;
 }
 
 bool User::OnCharacterAngle(NetPacket* _packet)
@@ -92,294 +119,7 @@ bool User::OnCharacterAngle(NetPacket* _packet)
 
 	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_CharacterAngle);
 
-	GetCharacter()->SetAngle(recv_data->angle());
-}
-
-bool User::OnCharacterResurrection(NetPacket* _packet)
-{
-	if (nullptr == _packet)
-	{
-		LOG_ERROR << LOG_RESULT(eResult_InvalidParameter);
-		return false;
-	}
-
-	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_CharacterResurrection);
-	eResult result = eResult_Success;
-
-	do
-	{
-		if (0 < GetCharacter()->CurHp())
-		{
-			result = fb::eResult_CurrencyLackGold;
-			break;
-		}
-
-		Gold_t need_gold = DATA_MANAGER.SystemValue().resurrection_need_currency;
-
-	} while (false);
-
-	return true;
-}
-
-bool User::OnActorInteractionStart(NetPacket* _packet)
-{
-	if (nullptr == _packet)
-	{
-		LOG_ERROR << LOG_RESULT(eResult_InvalidParameter);
-		return false;
-	}
-
-	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_ActorInteractionStart);
-	Result_t result = eResult_Success;
-
-	do
-	{
-		auto target = ACTOR_MANAGER.Find(recv_data->target_actor_id());
-		if (nullptr == target)
-		{
-			result = eResult_ActorNotFound;
-			break;
-		}
-
-		m_interaction_id = recv_data->target_actor_id();
-		m_interaction_expire = UTIL.CurrentTime() + DATA_MANAGER.SystemValue().interraction_wait_time;
-		target->set_interaction_id(actor_id());
-	} while (false);
-
-	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result) << "actor_id:" << recv_data->target_actor_id();
-
-	return true;
-}
-
-bool User::OnActorInteractionEnd(NetPacket* _packet)
-{
-	if (nullptr == _packet)
-	{
-		LOG_ERROR << LOG_RESULT(eResult_InvalidParameter);
-		return false;
-	}
-
-	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_ActorInteractionEnd);
-	Result_t result = eResult_Success;
-
-	do
-	{
-		if (m_interaction_id != recv_data->target_actor_id())
-		{
-			result = 상호작용을 한 상대방이 아니다;
-			break;
-		}
-
-		if (m_interaction_expire)
-
-		Actor* target = ACTOR_MANAGER.Find(recv_data->target_actor_id());
-		if (nullptr == target)
-		{
-			result = 액터를 찾을 수 없다;
-			break;
-		}
-
-		if (actor_id() != target->interaction_id())
-		{
-			result = 상호작용을 한 상대방이 아니다;
-			break;
-		}
-
-		m_interaction_id = 0;
-		m_interaction_expire = 0;
-	} while (false);
-	
-	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result) << "actor_id:" << recv_data->target_actor_id();
-
-	return true;
-}
-
-bool User::OnActorInteractionCancel(NetPacket* _packet)
-{
-	if (nullptr == _packet)
-	{
-		LOG_ERROR << LOG_RESULT(eResult_InvalidParameter);
-		return false;
-	}
-
-	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_ActorInteractionEnd);
-	Result_t result = eResult_Success;
-
-	do
-	{
-		m_interaction_id = 0;
-		m_interaction_expire = 0;
-	} while (false);
-
-	return true;
-}
-
-bool User::OnItemDestroy(NetPacket* _packet)
-{
-	if (nullptr == _packet)
-	{
-		LOG_ERROR << LOG_RESULT(eResult_InvalidParameter);
-		return false;
-	}
-
-	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_ItemDestroy);
-	Result_t result = eResult_Success;
-
-	do
-	{
-		auto item_object = FindItemObject(recv_data->uid());
-		if (nullptr == item_object)
-		{
-			result = eResult_ItemNotFound;
-			break;
-		}
-
-		result = Inventory()->SubItem(recv_data->uid(), recv_data->stack());
-	} while (false);
-
-	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result) << " item_uid:" << recv_data->uid();
-
-	CREATE_FBB(fbb);
-	fbb.Finish(fb::server::CreateRecv_ItemDestroy(fbb,
-		result,
-		recv_data->uid(),
-		recv_data->stack()
-	));
-	return Send(fb::server::RecvPid_ItemDestroy, fbb);
-}
-
-bool User::OnItemUse(NetPacket* _packet)
-{
-	return false;
-}
-
-bool User::OnItemMake(NetPacket* _packet)
-{
-	return false;
-}
-
-bool User::OnItemReinforce(NetPacket* _packet)
-{
-	if (nullptr == _packet)
-	{
-		LOG_ERROR << LOG_RESULT(eResult_InvalidParameter);
-		return false;
-	}
-
-	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_ItemReinforce);
-	Result_t result = eResult_Success;
-	Reinforce_t reinforce = 0;
-
-	do
-	{
-		auto main_item = FindItemObject(recv_data->uid());
-		if (nullptr == main_item)
-		{
-			result = eResult_ItemNotFound;
-			break;
-		}
-
-		auto sub_item = FindItemObject(recv_data->sub());
-		if (nullptr == sub_item)
-		{
-			result = eResult_ItemNotFound;
-			break;
-		}
-
-		reinforce = main_item->Reinforce();
-
-		result = REINFORCE_MANAGER.Run(main_item, sub_item);
-		if (eResult_Success != result)
-		{
-			break;
-		}
-
-		// 변동된 강화 수치
-		reinforce = main_item->Reinforce() - reinforce;
-
-		Reflection(recv_data->uid(), ReflectType::UpdateReinforce, true);
-		Reflection(recv_data->sub(), ReflectType::UpdateStack, true);
-	} while (false);
-
-	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result) << " item_uid:" << recv_data->uid();
-
-	CREATE_FBB(fbb);
-	fbb.Finish(fb::server::CreateRecv_ItemReinforce(fbb, result, recv_data->uid(), reinforce));
-	return Send(fb::server::RecvPid_ItemReinforce, fbb);
-}
-
-bool User::OnItemDisassemble(NetPacket* _packet)
-{
-	return false;
-}
-
-bool User::OnItemEnchant(NetPacket* _packet)
-{
-	if (nullptr == _packet)
-	{
-		LOG_ERROR << LOG_RESULT(eResult_InvalidParameter);
-		return false;
-	}
-
-	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_ItemEnchant);
-	Result_t result = eResult_Success;
-
-	do
-	{
-		auto item_object = FindItemObject(recv_data->uid());
-		if (nullptr == item_object)
-		{
-			result = eResult_ItemNotFound;
-			break;
-		}
-
-		item_object->SetReinforce();
-		item_object->Reflection(ReflectType::UpdateReinforce, );
-	} while (false);
-
-	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result) << " item_uid:" << recv_data->uid();
-}
-
-bool User::OnItemSkinChange(NetPacket* _packet)
-{
-	if (nullptr == _packet)
-	{
-		LOG_ERROR << LOG_USER(this) << LOG_RESULT(eResult_InvalidParameter);
-		return false;
-	}
-
-	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_ItemSkinChange);
-	eResult result = eResult_Success;
-
-	do
-	{
-		auto item_object = FindItemObject(recv_data->uid());
-		if (nullptr == item_object)
-		{
-			result = eResult_ItemNotFound;
-			break;
-		}
-
-		if (item_object->SkinIndex() == recv_data->skin_item_idx())
-		{
-			result = eResult_ItemSameSkinIndex;
-			break;
-		}
-
-		item_object->SetSkinIndex(recv_data->skin_item_idx());
-		item_object->Reflection(ReflectType::UpdateSkin, m_inventory);
-
-	} while (false);
-
-	LOG_ERROR_IF(eResult_Success != result) << LOG_USER(this) << LOG_RESULT(result) << " item_uid:" << recv_data->uid();
-
-	CREATE_FBB(fbb);
-	fbb.Finish(fb::server::CreateRecv_ItemSkinChange(fbb,
-		result,
-		recv_data->uid(),
-		recv_data->skin_item_idx()
-	));
-	Send(fb::server::RecvPid_ItemSkinChange, fbb);
+	ActiveCharacter()->SetAngle(recv_data->angle());
 
 	return true;
 }

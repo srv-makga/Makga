@@ -27,6 +27,15 @@ table Position
 	angle:float;
 }
 
+table ActorInfoBase
+{
+	idx:uint32;
+}
+
+table ActorInfoDetail
+{
+}
+
 table ItemAbility
 {
 	type:eAbilityTYpe;

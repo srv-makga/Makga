@@ -18,6 +18,9 @@ enum eResult : int32
 	
 	// actor
 	ActorNotFound,
+	ActorNotMovePos,					// 이동할 수 없는 위치
+	ActorNotMoveState,					// 이동할 수 없는 상태
+	
 
 	// item
 	ItemNotFound,							// 아이템을 찾을 수 없음

@@ -25,20 +25,22 @@ enum eResult : int32_t {
   eResult_InvalidIndex = 6,
   eResult_NotFoundServer = 7,
   eResult_ActorNotFound = 8,
-  eResult_ItemNotFound = 9,
-  eResult_ItemStackFull = 10,
-  eResult_ItemNotEnough = 11,
-  eResult_ItemUidDuplicate = 12,
-  eResult_ItemIdxDuplicate = 13,
-  eResult_ItemSameSkinIndex = 14,
-  eResult_ItemAlreadyMaxReinforce = 15,
-  eResult_InvenFull = 16,
-  eResult_CurrencyLackGold = 17,
+  eResult_ActorNotMovePos = 9,
+  eResult_ActorNotMoveState = 10,
+  eResult_ItemNotFound = 11,
+  eResult_ItemStackFull = 12,
+  eResult_ItemNotEnough = 13,
+  eResult_ItemUidDuplicate = 14,
+  eResult_ItemIdxDuplicate = 15,
+  eResult_ItemSameSkinIndex = 16,
+  eResult_ItemAlreadyMaxReinforce = 17,
+  eResult_InvenFull = 18,
+  eResult_CurrencyLackGold = 19,
   eResult_MIN = eResult_Success,
   eResult_MAX = eResult_CurrencyLackGold
 };
 
-inline const eResult (&EnumValueseResult())[18] {
+inline const eResult (&EnumValueseResult())[20] {
   static const eResult values[] = {
     eResult_Success,
     eResult_Fail,
@@ -49,6 +51,8 @@ inline const eResult (&EnumValueseResult())[18] {
     eResult_InvalidIndex,
     eResult_NotFoundServer,
     eResult_ActorNotFound,
+    eResult_ActorNotMovePos,
+    eResult_ActorNotMoveState,
     eResult_ItemNotFound,
     eResult_ItemStackFull,
     eResult_ItemNotEnough,
@@ -63,7 +67,7 @@ inline const eResult (&EnumValueseResult())[18] {
 }
 
 inline const char * const *EnumNameseResult() {
-  static const char * const names[19] = {
+  static const char * const names[21] = {
     "Success",
     "Fail",
     "BufferLackSpace",
@@ -73,6 +77,8 @@ inline const char * const *EnumNameseResult() {
     "InvalidIndex",
     "NotFoundServer",
     "ActorNotFound",
+    "ActorNotMovePos",
+    "ActorNotMoveState",
     "ItemNotFound",
     "ItemStackFull",
     "ItemNotEnough",

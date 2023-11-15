@@ -21,6 +21,46 @@ void Character::OnUpdate()
 {
 }
 
+Result_t Character::Move(Coord_t _x, Coord_t _y, Coord_t _z, Coord_t _angle)
+{
+	// @todo 해당 좌표에 이동가능한 지역인지 확인
+	if ()
+	{
+		// 이동할 수 없는 지역입니다.
+		return eResult_ActorNotMovePos;
+	}
+
+	if (false == IsMovable())
+	{
+		return eResult_ActorNotMoveState;
+	}
+
+	Coord_t new_x = _x;
+	Coord_t new_y = _y;
+	Coord_t new_z = _z;
+	Coord_t new_angle = _angle;
+
+	SetPos(_x, _y, _z);
+	SetAngle(_angle);
+
+	// 내 정보 데이터
+	CREATE_FBB(fbb_my);
+	fbb_my.Finish(fb::server::CreateRecv_Disapear()
+
+	// 내 주변을 탐색하며 정보를 가져오거나 전달한다.
+
+	// 내 주변 유저들에게 내 정보를 전달한다
+
+	// 내 주변 액터 목록을 가져온다
+
+	// 좌표 기준 주변 알림
+	GridMultiCast(this, new_x, new_y, new_z, new_angle);
+	// 파티원등 알림 받아야할 대상에게 알림
+	NtfyMultiCast(this, new_x, new_y, new_z, new_angle);
+
+    return Result_t();
+}
+
 Coord_t Character::X() const
 {
 	return m_pos.X();
@@ -69,7 +109,19 @@ void Character::SetPos(const Vector_t& _pos)
 	m_pos = _pos;
 }
 
+void Character::SetPos(Coord_t _x, Coord_t _y, Coord_t _z)
+{
+	m_pos.SetX(_x);
+	m_pos.SetY(_y);
+	m_pos.SetZ(_z);
+}
+
 void Character::SetAngle(Coord_t _angle)
 {
 	m_angle = _angle;
+}
+
+Speed_t Character::Speed() const
+{
+	return m_speed;
 }

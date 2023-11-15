@@ -20,6 +20,10 @@ struct Send_LoginAccount;
 struct Send_LoginAccountBuilder;
 struct Send_LoginAccountT;
 
+struct Send_Chatting;
+struct Send_ChattingBuilder;
+struct Send_ChattingT;
+
 struct Send_LoginAuth;
 struct Send_LoginAuthBuilder;
 struct Send_LoginAuthT;
@@ -332,6 +336,107 @@ inline ::flatbuffers::Offset<Send_LoginAccount> CreateSend_LoginAccountDirect(
 }
 
 ::flatbuffers::Offset<Send_LoginAccount> CreateSend_LoginAccount(::flatbuffers::FlatBufferBuilder &_fbb, const Send_LoginAccountT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct Send_ChattingT : public ::flatbuffers::NativeTable {
+  typedef Send_Chatting TableType;
+  std::string name{};
+  std::string auth_key{};
+  std::string content{};
+};
+
+struct Send_Chatting FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Send_ChattingT NativeTableType;
+  typedef Send_ChattingBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_NAME = 4,
+    VT_AUTH_KEY = 6,
+    VT_CONTENT = 8
+  };
+  const ::flatbuffers::String *name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_NAME);
+  }
+  ::flatbuffers::String *mutable_name() {
+    return GetPointer<::flatbuffers::String *>(VT_NAME);
+  }
+  const ::flatbuffers::String *auth_key() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_AUTH_KEY);
+  }
+  ::flatbuffers::String *mutable_auth_key() {
+    return GetPointer<::flatbuffers::String *>(VT_AUTH_KEY);
+  }
+  const ::flatbuffers::String *content() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_CONTENT);
+  }
+  ::flatbuffers::String *mutable_content() {
+    return GetPointer<::flatbuffers::String *>(VT_CONTENT);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_NAME) &&
+           verifier.VerifyString(name()) &&
+           VerifyOffset(verifier, VT_AUTH_KEY) &&
+           verifier.VerifyString(auth_key()) &&
+           VerifyOffset(verifier, VT_CONTENT) &&
+           verifier.VerifyString(content()) &&
+           verifier.EndTable();
+  }
+  Send_ChattingT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Send_ChattingT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Send_Chatting> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ChattingT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Send_ChattingBuilder {
+  typedef Send_Chatting Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
+    fbb_.AddOffset(Send_Chatting::VT_NAME, name);
+  }
+  void add_auth_key(::flatbuffers::Offset<::flatbuffers::String> auth_key) {
+    fbb_.AddOffset(Send_Chatting::VT_AUTH_KEY, auth_key);
+  }
+  void add_content(::flatbuffers::Offset<::flatbuffers::String> content) {
+    fbb_.AddOffset(Send_Chatting::VT_CONTENT, content);
+  }
+  explicit Send_ChattingBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Send_Chatting> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Send_Chatting>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Send_Chatting> CreateSend_Chatting(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::String> name = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> auth_key = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> content = 0) {
+  Send_ChattingBuilder builder_(_fbb);
+  builder_.add_content(content);
+  builder_.add_auth_key(auth_key);
+  builder_.add_name(name);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Send_Chatting> CreateSend_ChattingDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const char *name = nullptr,
+    const char *auth_key = nullptr,
+    const char *content = nullptr) {
+  auto name__ = name ? _fbb.CreateString(name) : 0;
+  auto auth_key__ = auth_key ? _fbb.CreateString(auth_key) : 0;
+  auto content__ = content ? _fbb.CreateString(content) : 0;
+  return fb::server::CreateSend_Chatting(
+      _fbb,
+      name__,
+      auth_key__,
+      content__);
+}
+
+::flatbuffers::Offset<Send_Chatting> CreateSend_Chatting(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ChattingT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct Send_LoginAuthT : public ::flatbuffers::NativeTable {
   typedef Send_LoginAuth TableType;
@@ -3819,6 +3924,38 @@ inline ::flatbuffers::Offset<Send_LoginAccount> CreateSend_LoginAccount(::flatbu
       _fbb,
       _account,
       _connect_key);
+}
+
+inline Send_ChattingT *Send_Chatting::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<Send_ChattingT>(new Send_ChattingT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Send_Chatting::UnPackTo(Send_ChattingT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = name(); if (_e) _o->name = _e->str(); }
+  { auto _e = auth_key(); if (_e) _o->auth_key = _e->str(); }
+  { auto _e = content(); if (_e) _o->content = _e->str(); }
+}
+
+inline ::flatbuffers::Offset<Send_Chatting> Send_Chatting::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ChattingT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateSend_Chatting(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Send_Chatting> CreateSend_Chatting(::flatbuffers::FlatBufferBuilder &_fbb, const Send_ChattingT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Send_ChattingT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _name = _o->name.empty() ? 0 : _fbb.CreateString(_o->name);
+  auto _auth_key = _o->auth_key.empty() ? 0 : _fbb.CreateString(_o->auth_key);
+  auto _content = _o->content.empty() ? 0 : _fbb.CreateString(_o->content);
+  return fb::server::CreateSend_Chatting(
+      _fbb,
+      _name,
+      _auth_key,
+      _content);
 }
 
 inline Send_LoginAuthT *Send_LoginAuth::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
