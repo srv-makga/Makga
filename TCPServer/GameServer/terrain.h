@@ -8,9 +8,9 @@ class TerrainGrid;
 class Terrain
 {
 public:
-	Terrain(TerrainUid_t _uid, const TerrainInfo& _table);
+	Terrain(TerrainUid_t _uid);
 
-	void Initialize();
+	void Initialize(const TerrainInfo& _table);
 	void Finalize();
 
 	void OnUpdate();
@@ -25,7 +25,7 @@ private:
 	// 지형 타입
 	// 속성(pvp 텔레포트 등)
 	// actor 관련 처리
-	std::vector<std::vector<std::shared_ptr<TerrainGrid>>> m_grid;
+	std::vector<std::vector<TerrainGrid*>> m_grid;
 
 	const TerrainInfo* m_table;
 };

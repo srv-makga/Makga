@@ -35,6 +35,10 @@ Result_t Character::Move(Coord_t _x, Coord_t _y, Coord_t _z, Coord_t _angle)
 		return eResult_ActorNotMoveState;
 	}
 
+	Coord_t old_x = X();
+	Coord_t old_y = Y();
+	Coord_t old_z = Z();
+
 	Coord_t new_x = _x;
 	Coord_t new_y = _y;
 	Coord_t new_z = _z;
@@ -44,8 +48,6 @@ Result_t Character::Move(Coord_t _x, Coord_t _y, Coord_t _z, Coord_t _angle)
 	SetAngle(_angle);
 
 	// 내 정보 데이터
-	CREATE_FBB(fbb_my);
-	fbb_my.Finish(fb::server::CreateRecv_Disapear()
 
 	// 내 주변을 탐색하며 정보를 가져오거나 전달한다.
 

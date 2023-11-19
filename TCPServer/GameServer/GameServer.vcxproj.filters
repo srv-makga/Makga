@@ -77,6 +77,27 @@
     <ClCompile Include="ReinforceManager.cpp">
       <Filter>system\item</Filter>
     </ClCompile>
+    <ClCompile Include="DetourAlloc.cpp">
+      <Filter>detour</Filter>
+    </ClCompile>
+    <ClCompile Include="DetourAssert.cpp">
+      <Filter>detour</Filter>
+    </ClCompile>
+    <ClCompile Include="DetourCommon.cpp">
+      <Filter>detour</Filter>
+    </ClCompile>
+    <ClCompile Include="DetourNavMesh.cpp">
+      <Filter>detour</Filter>
+    </ClCompile>
+    <ClCompile Include="DetourNavMeshBuilder.cpp">
+      <Filter>detour</Filter>
+    </ClCompile>
+    <ClCompile Include="DetourNavMeshQuery.cpp">
+      <Filter>detour</Filter>
+    </ClCompile>
+    <ClCompile Include="DetourNode.cpp">
+      <Filter>detour</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -176,6 +197,33 @@
     <ClInclude Include="ReinforceManager.h">
       <Filter>system\item</Filter>
     </ClInclude>
+    <ClInclude Include="DetourAlloc.h">
+      <Filter>detour</Filter>
+    </ClInclude>
+    <ClInclude Include="DetourAssert.h">
+      <Filter>detour</Filter>
+    </ClInclude>
+    <ClInclude Include="DetourCommon.h">
+      <Filter>detour</Filter>
+    </ClInclude>
+    <ClInclude Include="DetourMath.h">
+      <Filter>detour</Filter>
+    </ClInclude>
+    <ClInclude Include="DetourNavMesh.h">
+      <Filter>detour</Filter>
+    </ClInclude>
+    <ClInclude Include="DetourNavMeshBuilder.h">
+      <Filter>detour</Filter>
+    </ClInclude>
+    <ClInclude Include="DetourNavMeshQuery.h">
+      <Filter>detour</Filter>
+    </ClInclude>
+    <ClInclude Include="DetourNode.h">
+      <Filter>detour</Filter>
+    </ClInclude>
+    <ClInclude Include="DetourStatus.h">
+      <Filter>detour</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -234,6 +282,9 @@
     </Filter>
     <Filter Include="system\item\NewFilter1">
       <UniqueIdentifier>{94b4ceda-db47-4cc6-b1e7-dae6f4bfef88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="detour">
+      <UniqueIdentifier>{35f0808f-81a7-459c-b986-ea90e148e316}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
