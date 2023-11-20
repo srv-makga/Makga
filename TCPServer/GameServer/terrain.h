@@ -2,6 +2,7 @@
 
 #include "game_header.h"
 #include "actor.h"
+#include "detour.h"
 
 class TerrainGrid;
 
