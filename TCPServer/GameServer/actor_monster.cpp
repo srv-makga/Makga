@@ -2,6 +2,7 @@
 #include "actor_monster.h"
 
 Monster::Monster()
+	: m_ai(this)
 {
 }
 
@@ -19,4 +20,5 @@ void Monster::Finallize()
 
 void Monster::OnUpdate()
 {
+	m_ai->update();
 }

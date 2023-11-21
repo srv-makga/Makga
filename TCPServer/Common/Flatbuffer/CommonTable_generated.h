@@ -27,6 +27,14 @@ struct Position;
 struct PositionBuilder;
 struct PositionT;
 
+struct ActorInfoBase;
+struct ActorInfoBaseBuilder;
+struct ActorInfoBaseT;
+
+struct ActorInfoDetail;
+struct ActorInfoDetailBuilder;
+struct ActorInfoDetailT;
+
 struct ItemAbility;
 struct ItemAbilityBuilder;
 struct ItemAbilityT;
@@ -325,6 +333,100 @@ inline ::flatbuffers::Offset<Position> CreatePosition(
 }
 
 ::flatbuffers::Offset<Position> CreatePosition(::flatbuffers::FlatBufferBuilder &_fbb, const PositionT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct ActorInfoBaseT : public ::flatbuffers::NativeTable {
+  typedef ActorInfoBase TableType;
+  uint32_t idx = 0;
+};
+
+struct ActorInfoBase FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef ActorInfoBaseT NativeTableType;
+  typedef ActorInfoBaseBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_IDX = 4
+  };
+  uint32_t idx() const {
+    return GetField<uint32_t>(VT_IDX, 0);
+  }
+  bool mutate_idx(uint32_t _idx = 0) {
+    return SetField<uint32_t>(VT_IDX, _idx, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_IDX, 4) &&
+           verifier.EndTable();
+  }
+  ActorInfoBaseT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ActorInfoBaseT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<ActorInfoBase> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ActorInfoBaseT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct ActorInfoBaseBuilder {
+  typedef ActorInfoBase Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_idx(uint32_t idx) {
+    fbb_.AddElement<uint32_t>(ActorInfoBase::VT_IDX, idx, 0);
+  }
+  explicit ActorInfoBaseBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<ActorInfoBase> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<ActorInfoBase>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<ActorInfoBase> CreateActorInfoBase(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t idx = 0) {
+  ActorInfoBaseBuilder builder_(_fbb);
+  builder_.add_idx(idx);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<ActorInfoBase> CreateActorInfoBase(::flatbuffers::FlatBufferBuilder &_fbb, const ActorInfoBaseT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct ActorInfoDetailT : public ::flatbuffers::NativeTable {
+  typedef ActorInfoDetail TableType;
+};
+
+struct ActorInfoDetail FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef ActorInfoDetailT NativeTableType;
+  typedef ActorInfoDetailBuilder Builder;
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           verifier.EndTable();
+  }
+  ActorInfoDetailT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ActorInfoDetailT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<ActorInfoDetail> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ActorInfoDetailT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct ActorInfoDetailBuilder {
+  typedef ActorInfoDetail Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  explicit ActorInfoDetailBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<ActorInfoDetail> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<ActorInfoDetail>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<ActorInfoDetail> CreateActorInfoDetail(
+    ::flatbuffers::FlatBufferBuilder &_fbb) {
+  ActorInfoDetailBuilder builder_(_fbb);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<ActorInfoDetail> CreateActorInfoDetail(::flatbuffers::FlatBufferBuilder &_fbb, const ActorInfoDetailT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct ItemAbilityT : public ::flatbuffers::NativeTable {
   typedef ItemAbility TableType;
@@ -877,6 +979,55 @@ inline ::flatbuffers::Offset<Position> CreatePosition(::flatbuffers::FlatBufferB
       _y,
       _z,
       _angle);
+}
+
+inline ActorInfoBaseT *ActorInfoBase::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<ActorInfoBaseT>(new ActorInfoBaseT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void ActorInfoBase::UnPackTo(ActorInfoBaseT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = idx(); _o->idx = _e; }
+}
+
+inline ::flatbuffers::Offset<ActorInfoBase> ActorInfoBase::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ActorInfoBaseT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateActorInfoBase(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<ActorInfoBase> CreateActorInfoBase(::flatbuffers::FlatBufferBuilder &_fbb, const ActorInfoBaseT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ActorInfoBaseT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _idx = _o->idx;
+  return fb::CreateActorInfoBase(
+      _fbb,
+      _idx);
+}
+
+inline ActorInfoDetailT *ActorInfoDetail::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<ActorInfoDetailT>(new ActorInfoDetailT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void ActorInfoDetail::UnPackTo(ActorInfoDetailT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+}
+
+inline ::flatbuffers::Offset<ActorInfoDetail> ActorInfoDetail::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ActorInfoDetailT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateActorInfoDetail(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<ActorInfoDetail> CreateActorInfoDetail(::flatbuffers::FlatBufferBuilder &_fbb, const ActorInfoDetailT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ActorInfoDetailT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  return fb::CreateActorInfoDetail(
+      _fbb);
 }
 
 inline ItemAbilityT *ItemAbility::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {

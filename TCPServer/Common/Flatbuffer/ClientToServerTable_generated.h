@@ -244,6 +244,18 @@ struct Recv_LoginSecurity;
 struct Recv_LoginSecurityBuilder;
 struct Recv_LoginSecurityT;
 
+struct Recv_ActorAppear;
+struct Recv_ActorAppearBuilder;
+struct Recv_ActorAppearT;
+
+struct Recv_ActorDisappear;
+struct Recv_ActorDisappearBuilder;
+struct Recv_ActorDisappearT;
+
+struct Recv_ActorMove;
+struct Recv_ActorMoveBuilder;
+struct Recv_ActorMoveT;
+
 struct Recv_ItemDestroy;
 struct Recv_ItemDestroyBuilder;
 struct Recv_ItemDestroyT;
@@ -3648,6 +3660,139 @@ inline ::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(
 
 ::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_LoginSecurityT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct Recv_ActorAppearT : public ::flatbuffers::NativeTable {
+  typedef Recv_ActorAppear TableType;
+  uint64_t id = 0;
+};
+
+struct Recv_ActorAppear FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Recv_ActorAppearT NativeTableType;
+  typedef Recv_ActorAppearBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ID = 4
+  };
+  uint64_t id() const {
+    return GetField<uint64_t>(VT_ID, 0);
+  }
+  bool mutate_id(uint64_t _id = 0) {
+    return SetField<uint64_t>(VT_ID, _id, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_ID, 8) &&
+           verifier.EndTable();
+  }
+  Recv_ActorAppearT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Recv_ActorAppearT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Recv_ActorAppear> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorAppearT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Recv_ActorAppearBuilder {
+  typedef Recv_ActorAppear Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_id(uint64_t id) {
+    fbb_.AddElement<uint64_t>(Recv_ActorAppear::VT_ID, id, 0);
+  }
+  explicit Recv_ActorAppearBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Recv_ActorAppear> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Recv_ActorAppear>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Recv_ActorAppear> CreateRecv_ActorAppear(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t id = 0) {
+  Recv_ActorAppearBuilder builder_(_fbb);
+  builder_.add_id(id);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Recv_ActorAppear> CreateRecv_ActorAppear(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorAppearT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct Recv_ActorDisappearT : public ::flatbuffers::NativeTable {
+  typedef Recv_ActorDisappear TableType;
+};
+
+struct Recv_ActorDisappear FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Recv_ActorDisappearT NativeTableType;
+  typedef Recv_ActorDisappearBuilder Builder;
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           verifier.EndTable();
+  }
+  Recv_ActorDisappearT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Recv_ActorDisappearT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Recv_ActorDisappear> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorDisappearT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Recv_ActorDisappearBuilder {
+  typedef Recv_ActorDisappear Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  explicit Recv_ActorDisappearBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Recv_ActorDisappear> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Recv_ActorDisappear>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Recv_ActorDisappear> CreateRecv_ActorDisappear(
+    ::flatbuffers::FlatBufferBuilder &_fbb) {
+  Recv_ActorDisappearBuilder builder_(_fbb);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Recv_ActorDisappear> CreateRecv_ActorDisappear(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorDisappearT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct Recv_ActorMoveT : public ::flatbuffers::NativeTable {
+  typedef Recv_ActorMove TableType;
+};
+
+struct Recv_ActorMove FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Recv_ActorMoveT NativeTableType;
+  typedef Recv_ActorMoveBuilder Builder;
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           verifier.EndTable();
+  }
+  Recv_ActorMoveT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Recv_ActorMoveT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Recv_ActorMove> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorMoveT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Recv_ActorMoveBuilder {
+  typedef Recv_ActorMove Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  explicit Recv_ActorMoveBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Recv_ActorMove> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Recv_ActorMove>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Recv_ActorMove> CreateRecv_ActorMove(
+    ::flatbuffers::FlatBufferBuilder &_fbb) {
+  Recv_ActorMoveBuilder builder_(_fbb);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Recv_ActorMove> CreateRecv_ActorMove(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorMoveT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 struct Recv_ItemDestroyT : public ::flatbuffers::NativeTable {
   typedef Recv_ItemDestroy TableType;
   fb::eResult result = fb::eResult_Success;
@@ -5439,6 +5584,78 @@ inline ::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(::flat
   return fb::server::CreateRecv_LoginSecurity(
       _fbb,
       _result);
+}
+
+inline Recv_ActorAppearT *Recv_ActorAppear::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<Recv_ActorAppearT>(new Recv_ActorAppearT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Recv_ActorAppear::UnPackTo(Recv_ActorAppearT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = id(); _o->id = _e; }
+}
+
+inline ::flatbuffers::Offset<Recv_ActorAppear> Recv_ActorAppear::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorAppearT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateRecv_ActorAppear(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Recv_ActorAppear> CreateRecv_ActorAppear(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorAppearT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_ActorAppearT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _id = _o->id;
+  return fb::server::CreateRecv_ActorAppear(
+      _fbb,
+      _id);
+}
+
+inline Recv_ActorDisappearT *Recv_ActorDisappear::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<Recv_ActorDisappearT>(new Recv_ActorDisappearT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Recv_ActorDisappear::UnPackTo(Recv_ActorDisappearT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+}
+
+inline ::flatbuffers::Offset<Recv_ActorDisappear> Recv_ActorDisappear::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorDisappearT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateRecv_ActorDisappear(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Recv_ActorDisappear> CreateRecv_ActorDisappear(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorDisappearT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_ActorDisappearT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  return fb::server::CreateRecv_ActorDisappear(
+      _fbb);
+}
+
+inline Recv_ActorMoveT *Recv_ActorMove::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<Recv_ActorMoveT>(new Recv_ActorMoveT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Recv_ActorMove::UnPackTo(Recv_ActorMoveT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+}
+
+inline ::flatbuffers::Offset<Recv_ActorMove> Recv_ActorMove::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorMoveT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateRecv_ActorMove(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Recv_ActorMove> CreateRecv_ActorMove(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorMoveT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_ActorMoveT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  return fb::server::CreateRecv_ActorMove(
+      _fbb);
 }
 
 inline Recv_ItemDestroyT *Recv_ItemDestroy::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {

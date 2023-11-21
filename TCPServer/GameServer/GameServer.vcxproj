@@ -168,6 +168,7 @@
     <ClInclude Include="ai_non_aggressive.h" />
     <ClInclude Include="base_ai.h" />
     <ClInclude Include="actor_character.h" />
+    <ClInclude Include="detour.h" />
     <ClInclude Include="DetourAlloc.h" />
     <ClInclude Include="DetourAssert.h" />
     <ClInclude Include="DetourCommon.h" />

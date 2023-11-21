@@ -105,5 +105,18 @@ struct DBInfo
 	std::string encoding;
 };
 
+struct Position
+{
+	Coord_t x;
+	Coord_t y;
+	Coord_t z;
+};
+
+struct PositionXY
+{
+	Coord_t x;
+	Coord_t y;
+};
+
 using UmapItemList = std::unordered_map<ItemIdx_t, StackCount_t>;
 using UmapItemPropertyList = std::unordered_map<const ItemProperty*, StackCount_t>;
