@@ -98,6 +98,9 @@
     <ClCompile Include="DetourNode.cpp">
       <Filter>system\terrain\detour</Filter>
     </ClCompile>
+    <ClCompile Include="ai_base.cpp">
+      <Filter>actor\ai</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -226,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="detour.h">
       <Filter>system\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="ai_base.h">
+      <Filter>actor\ai</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

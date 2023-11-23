@@ -129,6 +129,7 @@
     <ClCompile Include="actor_npc.cpp" />
     <ClCompile Include="actor_gadget.cpp" />
     <ClCompile Include="ai_aggressive.cpp" />
+    <ClCompile Include="ai_base.cpp" />
     <ClCompile Include="DetourAlloc.cpp" />
     <ClCompile Include="DetourAssert.cpp" />
     <ClCompile Include="DetourCommon.cpp" />
@@ -164,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actor_manager.h" />
+    <ClInclude Include="ai_base.h" />
     <ClInclude Include="ai_boss.h" />
     <ClInclude Include="ai_non_aggressive.h" />
     <ClInclude Include="base_ai.h" />
