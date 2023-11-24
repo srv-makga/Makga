@@ -15,6 +15,7 @@ class Character;
 class Monster;
 class Npc;
 class Gadget;
+class ActorAI;
 
 /*
 * @brief 맵에서 보일 객체의 인터페이스
@@ -67,4 +68,5 @@ public:
 
 protected:
 	ActorId_t m_id;
+	ActorAI* m_ai;
 };
