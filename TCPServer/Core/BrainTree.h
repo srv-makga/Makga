@@ -57,6 +57,8 @@ protected:
 	Status status = Status::Invalid;
 };
 
+// @brief Composite Node
+// @detail: 분기의 루트와 그 분기가 실행되는 바탕 규칙을 정의
 class Composite : public Node
 {
 public:
@@ -321,8 +323,10 @@ private:
 // If a child succeeds or runs, the selector returns the same status.
 // In the next tick, it will try to run each child in order again.
 // If all children fails, only then does the selector fail.
-// Selector는 순서대로 각 자식 노드를 검사한다.
-// 자식 노드들 중 하나라도 성공하면 거기에서 멈춘다.
+// Selector 복합 노드는 각 하위 노드를 순서대로 실행합니다.
+// 하위 노드 중 하나가 성공하거나 실행 중이면, Selector는 동일한 상태를 반환합니다.
+// 다음 틱에서는 각 하위 노드를 다시 순서대로 실행하려고 시도합니다.
+// 모든 하위 노드가 실패한 경우에만 Selector가 실패합니다.
 class Selector : public Composite
 {
 public:
@@ -353,8 +357,10 @@ public:
 // If a child fails or runs, the sequence returns the same status.
 // In the next tick, it will try to run each child in order again.
 // If all children succeeds, only then does the sequence succeed.
-// Sequence는 순서대로 각 자식 노드를 검사한다.
-// 자식 노드들 중 하나라도 실패하면 거기에서 멈춘다.
+// Sequence 복합 노드는 각 하위 노드를 순서대로 실행합니다.
+// 하위 노드 중 하나가 실패하거나 실행 중이면, 시퀀스는 동일한 상태를 반환합니다.
+// 다음 틱에서는 각 하위 노드를 다시 순서대로 실행하려고 시도합니다.
+// 모든 하위 노드가 성공한 경우에만 Sequence가 성공합니다.
 class Sequence : public Composite
 {
 public:
@@ -385,8 +391,10 @@ public:
 // If a child succeeds or runs, the stateful selector returns the same status.
 // In the next tick, it will try to run the next child or start from the beginning again.
 // If all children fails, only then does the stateful selector fail.
-// StatefulSelector는 순서대로 각 자식 노드를 검사한다.
-// 이전에 검사한 자식 노드의 인덱스를 가져와서 검사하고, 검사가 성공하면 종료된다.
+// StatefulSelector 복합 노드는 각 하위 노드를 순서대로 실행하고, 이전에 시도한 하위 노드를 기억합니다.
+// 하위 노드 중 하나가 성공하거나 실행 중이면, StatefulSelector는 동일한 상태를 반환합니다.
+// 다음 틱에서는 다음 하위 노드를 실행하거나 처음부터 다시 시작하려고 시도합니다.
+// 모든 하위 노드가 실패한 경우에만 StatefulSelector가 실패합니다.
 class StatefulSelector : public Composite
 {
 public:
@@ -498,6 +506,7 @@ private:
 };
 
 // The Succeeder decorator returns success, regardless of what happens to the child.
+// Succeeder decorator는 하위 노드의 결과에 관계없이 항상 성공을 반환합니다.
 class Succeeder : public Decorator
 {
 public:
@@ -508,7 +517,7 @@ public:
 	}
 };
 
-// The Failer decorator returns failure, regardless of what happens to the child.
+// Failer decorator는 하위 노드의 결과에 관계없이 항상 실패를 반환합니다.
 class Failer : public Decorator
 {
 public:
@@ -521,6 +530,8 @@ public:
 
 // The Inverter decorator inverts the child node's status, i.e. failure becomes success and success becomes failure.
 // If the child runs, the Inverter returns the status that it is running too.
+// Inverter decorator는 하위 노드의 상태를 반전시킵니다. 즉, 실패는 성공으로, 성공은 실패로 변합니다.
+// 만약 하위 노드가 실행 중이면, Inverter는 실행 중인 상태를 반환합니다.
 class Inverter : public Decorator
 {
 public:
@@ -540,6 +551,7 @@ public:
 };
 
 // The Repeater decorator repeats infinitely or to a limit until the child returns success.
+// Repeater decorator는 하위 노드가 성공을 반환할 때까지 무한하게 또는 한계까지 반복합니다.
 class Repeater : public Decorator
 {
 public:
@@ -567,6 +579,7 @@ protected:
 };
 
 // The UntilSuccess decorator repeats until the child returns success and then returns success.
+// UntilSuccess decorator는 하위 노드가 성공을 반환할 때까지 반복하고, 그 후에 성공을 반환합니다.
 class UntilSuccess : public Decorator
 {
 public:
@@ -583,6 +596,7 @@ public:
 };
 
 // The UntilFailure decorator repeats until the child returns fail and then returns success.
+// UntilFailure decorator는 하위 노드가 실패를 반환할 때까지 반복하고, 그 후에 성공을 반환합니다.
 class UntilFailure : public Decorator
 {
 public:

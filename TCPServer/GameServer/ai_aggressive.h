@@ -1,8 +1,6 @@
 #pragma once
 
-#include "base_ai.h"
-
-class Actor;
+#include "ai_base.h"
 
 class AIAggressive : public core::ai::Node
 {

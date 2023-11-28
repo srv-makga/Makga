@@ -1,31 +1,71 @@
 #pragma once
 
 #include "../Core/BrainTree.h"
-#include "ai_aggressive.h"
-#include "ai_non_aggressive.h"
-#include "ai_boss.h"
+#include "actor.h"
 
-class Actor;
+// 각 행위 클래스들을 아래에 정리
 
-// @brief ai 인터페이스 클래스
-
-#include <functional>
-
-template<typename T = std::function<core::ai::Node::Status(void)>>
-class ActionNode : public core::ai::Leaf
+class IsMoveAbleNode : public core::ai::Node
 {
 public:
-	ActionNode(T&& _action)
-		: m_action(std::move(_action))
-	{}
-	~ActionNode()
-	{}
+	IsMoveAbleNode(Actor* _actor)
+		: m_actor(_actor) {}
+	~IsMoveAbleNode() = default;
 
 	Status update() override
 	{
-		return m_action();
+		if (false == m_actor->IsMovable())
+		{
+			return Status::Failure;
+		}
+
+		return Status::Success;
 	}
 
 private:
-	T m_action;
+	Actor* m_actor;
 };
+class HasTargetNode : public core::ai::Node
+{
+public:
+	HasTargetNode(Actor* _actor)
+		: m_actor(_actor) {}
+	~HasTargetNode() = default;
+
+	Status update() override
+	{
+		if (false == m_actor->HasTarget())
+		{
+			return Status::Failure;
+		}
+
+		return Status::Success;
+	}
+
+private:
+	Actor* m_actor;
+};
+class MoveNextPos : public core::ai::Node
+{
+public:
+	MoveNextPos(Actor* _actor)
+		: m_actor(_actor) {}
+	~MoveNextPos() = default;
+
+	Status update() override
+	{
+		m_actor->CalculateNextPos();
+
+		m_actor->Move(m_actor->NextPos());
+
+		return Status::Success;
+	}
+
+private:
+	Actor* m_actor;
+};
+
+class CanAttackNode : public core::ai::Node
+{};
+class AttackNode : public core::ai::Node
+{};

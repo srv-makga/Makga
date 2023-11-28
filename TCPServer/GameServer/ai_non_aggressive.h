@@ -1,14 +1,12 @@
 #pragma once
 
-#include "base_ai.h"
-
-class Actor;
+#include "ai_base.h"
 
 class AINonAggressive : public core::ai::Node
 {
 public:
 	AINonAggressive(Actor* _actor);
-	~AINonAggressive() {}
+	~AINonAggressive();
 
 	void initialize() override;
 	void terminate(Status s) override;
