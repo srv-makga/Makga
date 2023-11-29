@@ -3,14 +3,6 @@
 #include "game_header.h"
 #include "../Core/object_pool.h"
 
-struct stHpMp
-{
-	Hp_t max_hp;
-	Hp_t cur_hp;
-	Mp_t max_mp;
-	Mp_t cur_mp;
-};
-
 class Character;
 class Monster;
 class Npc;
@@ -29,8 +21,11 @@ public:
 	virtual void Initialize() = 0;
 	virtual void Finallize() = 0;
 
+	virtual bool SetTable(ActorBasicTable* _table) = 0;
+
 	virtual void OnUpdate() = 0;
-	virtual Result_t Move(Coord_t _x, Coord_t _y, Coord_t _z, Coord_t _angle) = 0;
+	virtual Result_t Move(Coord_t _x, Coord_t _y, Coord_t _z) = 0;
+	virtual Result_t Move(Vector_t _vec) = 0;
 
 	virtual fb::eActorType Type() const { return fb::eActorType_None; }
 	virtual bool IsCharacter() const { return false; }

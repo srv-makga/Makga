@@ -35,3 +35,13 @@ struct ItemRefineInfo
 	StackCount_t need_money = 100000;
 	Rate_t success_rate = 1.0f;
 };
+
+struct ActorBasicTable
+{
+	eActorType actor_type = eActorType_None;
+	std::string ai_type;
+};
+
+struct MonsterBasicTable : public ActorBasicTable
+{
+};

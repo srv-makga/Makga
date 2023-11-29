@@ -131,6 +131,7 @@
     <ClCompile Include="actor_gadget.cpp" />
     <ClCompile Include="ai_aggressive.cpp" />
     <ClCompile Include="ai_base.cpp" />
+    <ClCompile Include="ai_non_aggressive.cpp" />
     <ClCompile Include="DetourAlloc.cpp" />
     <ClCompile Include="DetourAssert.cpp" />
     <ClCompile Include="DetourCommon.cpp" />

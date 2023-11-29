@@ -104,6 +104,9 @@
     <ClCompile Include="actor_ai.cpp">
       <Filter>actor</Filter>
     </ClCompile>
+    <ClCompile Include="ai_non_aggressive.cpp">
+      <Filter>actor\ai</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

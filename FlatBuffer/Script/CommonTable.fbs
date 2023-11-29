@@ -27,13 +27,23 @@ table Position
 	angle:float;
 }
 
+table HpMp
+{
+	cur_hp:int64;
+	max_hp:int64;
+	cur_mp:int64;
+	max_mp:int64;
+}
+
 table ActorInfoBase
 {
 	idx:uint32;
+	hpmp:HpMp;
 }
 
 table ActorInfoDetail
 {
+	base:ActorInfoBase;
 }
 
 table ItemAbility

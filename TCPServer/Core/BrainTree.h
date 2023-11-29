@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 // BrainTree - A C++ behavior tree single header library.
 // Copyright 2015-2018 Par Arvidsson. All rights reserved.
@@ -58,7 +58,7 @@ protected:
 };
 
 // @brief Composite Node
-// @detail: ºĞ±âÀÇ ·çÆ®¿Í ±× ºĞ±â°¡ ½ÇÇàµÇ´Â ¹ÙÅÁ ±ÔÄ¢À» Á¤ÀÇ
+// @detail: ë¶„ê¸°ì˜ ë£¨íŠ¸ì™€ ê·¸ ë¶„ê¸°ê°€ ì‹¤í–‰ë˜ëŠ” ë°”íƒ• ê·œì¹™ì„ ì •ì˜
 class Composite : public Node
 {
 public:
@@ -86,9 +86,9 @@ protected:
 };
 
 /*
-* Task(Node)ÀÇ ÀÇ»ç°áÁ¤À» À§ÇÑ Á¤º¸ ÀúÀå
-* ´Ù¼öÀÇ AI°¡ ÇÏ³ªÀÇ Blackboard °øÀ¯ °¡´É (Åë½Å)
-* Task¿Í Data¸¦ ºĞ¸®
+* Task(Node)ì˜ ì˜ì‚¬ê²°ì •ì„ ìœ„í•œ ì •ë³´ ì €ì¥
+* ë‹¤ìˆ˜ì˜ AIê°€ í•˜ë‚˜ì˜ Blackboard ê³µìœ  ê°€ëŠ¥ (í†µì‹ )
+* Taskì™€ Dataë¥¼ ë¶„ë¦¬
 */
 class Blackboard
 {
@@ -266,22 +266,22 @@ private:
 };
 
 /*
-Builder Å¬·¡½º´Â Çàµ¿ Æ®¸® »ı¼º °úÁ¤À» ´Ü¼øÈ­ÇÕ´Ï´Ù.Æ®¸®¸¦ »ı¼ºÇÏ±â À§ÇØ ¼¼ °¡Áö ¹æ¹ıÀ» »ç¿ëÇÕ´Ï´Ù.
+Builder í´ë˜ìŠ¤ëŠ” í–‰ë™ íŠ¸ë¦¬ ìƒì„± ê³¼ì •ì„ ë‹¨ìˆœí™”í•©ë‹ˆë‹¤.íŠ¸ë¦¬ë¥¼ ìƒì„±í•˜ê¸° ìœ„í•´ ì„¸ ê°€ì§€ ë°©ë²•ì„ ì‚¬ìš©í•©ë‹ˆë‹¤.
 
 leaf<NodeType>()
 composite<CompositeType>()
 decorator<DecoratorType>()
 
-composite()¿Í decorator()´Â end()¸¦ È£ÃâÇØ¾ß ÇÕ´Ï´Ù.ÀÌ´Â º¹ÇÕÃ¼¿¡ ÀÚ½ÄÀ» Ãß°¡ÇÏ°Å³ª µ¥ÄÚ·¹ÀÌÅÍ¿¡ ÀÚ½ÄÀ» Ãß°¡ÇÏ´Â ÀÛ¾÷ÀÌ ¿Ï·áµÇ¾úÀ½À» ³ªÅ¸³À´Ï´Ù.¸¶Áö¸·À¸·Î build()¸¦ È£ÃâÇÏ¸é ¿Ï¼ºµÈ Çàµ¿ Æ®¸®¸¦ ¾òÀ» ¼ö ÀÖ½À´Ï´Ù.
+composite()ì™€ decorator()ëŠ” end()ë¥¼ í˜¸ì¶œí•´ì•¼ í•©ë‹ˆë‹¤.ì´ëŠ” ë³µí•©ì²´ì— ìì‹ì„ ì¶”ê°€í•˜ê±°ë‚˜ ë°ì½”ë ˆì´í„°ì— ìì‹ì„ ì¶”ê°€í•˜ëŠ” ì‘ì—…ì´ ì™„ë£Œë˜ì—ˆìŒì„ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤.ë§ˆì§€ë§‰ìœ¼ë¡œ build()ë¥¼ í˜¸ì¶œí•˜ë©´ ì™„ì„±ëœ í–‰ë™ íŠ¸ë¦¬ë¥¼ ì–»ì„ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 leaf()
-leaf()´Â ´Ü¼øÈ÷ ³ëµåÀÇ Á¾·ù¸¦ ÁöÁ¤ÇÕ´Ï´Ù.¿¹¸¦ µé¾î, leaf<Seek>()´Â Seek ³ëµå¸¦ »ı¼ºÇÕ´Ï´Ù.
+leaf()ëŠ” ë‹¨ìˆœíˆ ë…¸ë“œì˜ ì¢…ë¥˜ë¥¼ ì§€ì •í•©ë‹ˆë‹¤.ì˜ˆë¥¼ ë“¤ì–´, leaf<Seek>()ëŠ” Seek ë…¸ë“œë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
 
 composite()
-composite()´Â º¹ÇÕ ³ëµå¸¦ »ı¼ºÇÕ´Ï´Ù.º¹ÇÕ ³ëµå´Â ÀÚ½Ä ³ëµåÀÇ ÁıÇÕÀÔ´Ï´Ù.°¡Àå ÀÏ¹İÀûÀÎ À¯ÇüÀÇ º¹ÇÕ ³ëµå´Â SEQUENCE, ALTERNATE, PRIORITYÀÔ´Ï´Ù.
+composite()ëŠ” ë³µí•© ë…¸ë“œë¥¼ ìƒì„±í•©ë‹ˆë‹¤.ë³µí•© ë…¸ë“œëŠ” ìì‹ ë…¸ë“œì˜ ì§‘í•©ì…ë‹ˆë‹¤.ê°€ì¥ ì¼ë°˜ì ì¸ ìœ í˜•ì˜ ë³µí•© ë…¸ë“œëŠ” SEQUENCE, ALTERNATE, PRIORITYì…ë‹ˆë‹¤.
 
 build()
-build()´Â Çàµ¿ Æ®¸®¸¦ »ı¼ºÇÕ´Ï´Ù. build()¸¦ È£ÃâÇÏ±â Àü¿¡ ¸ğµç ³ëµå¸¦ »ı¼ºÇÏ°í ¿¬°áÇØ¾ß ÇÕ´Ï´Ù. build()´Â Æ®¸®ÀÇ ¸ğµç ³ëµå¸¦ ¼øÈ¸ÇÏ°í °¢ ³ëµåÀÇ µ¿ÀÛÀ» ½ÇÇàÇÕ´Ï´Ù.
+build()ëŠ” í–‰ë™ íŠ¸ë¦¬ë¥¼ ìƒì„±í•©ë‹ˆë‹¤. build()ë¥¼ í˜¸ì¶œí•˜ê¸° ì „ì— ëª¨ë“  ë…¸ë“œë¥¼ ìƒì„±í•˜ê³  ì—°ê²°í•´ì•¼ í•©ë‹ˆë‹¤. build()ëŠ” íŠ¸ë¦¬ì˜ ëª¨ë“  ë…¸ë“œë¥¼ ìˆœíšŒí•˜ê³  ê° ë…¸ë“œì˜ ë™ì‘ì„ ì‹¤í–‰í•©ë‹ˆë‹¤.
 */
 class Builder
 {
@@ -323,10 +323,8 @@ private:
 // If a child succeeds or runs, the selector returns the same status.
 // In the next tick, it will try to run each child in order again.
 // If all children fails, only then does the selector fail.
-// Selector º¹ÇÕ ³ëµå´Â °¢ ÇÏÀ§ ³ëµå¸¦ ¼ø¼­´ë·Î ½ÇÇàÇÕ´Ï´Ù.
-// ÇÏÀ§ ³ëµå Áß ÇÏ³ª°¡ ¼º°øÇÏ°Å³ª ½ÇÇà ÁßÀÌ¸é, Selector´Â µ¿ÀÏÇÑ »óÅÂ¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
-// ´ÙÀ½ Æ½¿¡¼­´Â °¢ ÇÏÀ§ ³ëµå¸¦ ´Ù½Ã ¼ø¼­´ë·Î ½ÇÇàÇÏ·Á°í ½ÃµµÇÕ´Ï´Ù.
-// ¸ğµç ÇÏÀ§ ³ëµå°¡ ½ÇÆĞÇÑ °æ¿ì¿¡¸¸ Selector°¡ ½ÇÆĞÇÕ´Ï´Ù.
+// Selector compositeëŠ” ìì‹ ë…¸ë“œê°€ Successë¥¼ ë°˜í™˜í•  ë•Œê¹Œì§€ ìì‹ ë…¸ë“œë¥¼ ì‹¤í–‰í•œë‹¤.
+// ìì‹ ë…¸ë“œ ì¤‘ 1ê°œë§Œ ì„ íƒí•˜ëŠ” ê²ƒ
 class Selector : public Composite
 {
 public:
@@ -357,10 +355,8 @@ public:
 // If a child fails or runs, the sequence returns the same status.
 // In the next tick, it will try to run each child in order again.
 // If all children succeeds, only then does the sequence succeed.
-// Sequence º¹ÇÕ ³ëµå´Â °¢ ÇÏÀ§ ³ëµå¸¦ ¼ø¼­´ë·Î ½ÇÇàÇÕ´Ï´Ù.
-// ÇÏÀ§ ³ëµå Áß ÇÏ³ª°¡ ½ÇÆĞÇÏ°Å³ª ½ÇÇà ÁßÀÌ¸é, ½ÃÄö½º´Â µ¿ÀÏÇÑ »óÅÂ¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
-// ´ÙÀ½ Æ½¿¡¼­´Â °¢ ÇÏÀ§ ³ëµå¸¦ ´Ù½Ã ¼ø¼­´ë·Î ½ÇÇàÇÏ·Á°í ½ÃµµÇÕ´Ï´Ù.
-// ¸ğµç ÇÏÀ§ ³ëµå°¡ ¼º°øÇÑ °æ¿ì¿¡¸¸ Sequence°¡ ¼º°øÇÕ´Ï´Ù.
+// Sequence compositeëŠ” ìì‹ ë…¸ë“œê°€Â FailÂ ë¥¼ ë°˜í™˜í•  ë•Œê¹Œì§€ ìì‹ ë…¸ë“œë“¤ì„ ì‹¤í–‰í•œë‹¤.
+// ëª¨ë“  ìì‹ ë…¸ë“œë¥¼ ì‹¤í–‰í•œë‹¤
 class Sequence : public Composite
 {
 public:
@@ -391,10 +387,10 @@ public:
 // If a child succeeds or runs, the stateful selector returns the same status.
 // In the next tick, it will try to run the next child or start from the beginning again.
 // If all children fails, only then does the stateful selector fail.
-// StatefulSelector º¹ÇÕ ³ëµå´Â °¢ ÇÏÀ§ ³ëµå¸¦ ¼ø¼­´ë·Î ½ÇÇàÇÏ°í, ÀÌÀü¿¡ ½ÃµµÇÑ ÇÏÀ§ ³ëµå¸¦ ±â¾ïÇÕ´Ï´Ù.
-// ÇÏÀ§ ³ëµå Áß ÇÏ³ª°¡ ¼º°øÇÏ°Å³ª ½ÇÇà ÁßÀÌ¸é, StatefulSelector´Â µ¿ÀÏÇÑ »óÅÂ¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
-// ´ÙÀ½ Æ½¿¡¼­´Â ´ÙÀ½ ÇÏÀ§ ³ëµå¸¦ ½ÇÇàÇÏ°Å³ª Ã³À½ºÎÅÍ ´Ù½Ã ½ÃÀÛÇÏ·Á°í ½ÃµµÇÕ´Ï´Ù.
-// ¸ğµç ÇÏÀ§ ³ëµå°¡ ½ÇÆĞÇÑ °æ¿ì¿¡¸¸ StatefulSelector°¡ ½ÇÆĞÇÕ´Ï´Ù.
+// StatefulSelector ë³µí•© ë…¸ë“œëŠ” ê° í•˜ìœ„ ë…¸ë“œë¥¼ ìˆœì„œëŒ€ë¡œ ì‹¤í–‰í•˜ê³ , ì´ì „ì— ì‹œë„í•œ í•˜ìœ„ ë…¸ë“œë¥¼ ê¸°ì–µí•©ë‹ˆë‹¤.
+// í•˜ìœ„ ë…¸ë“œ ì¤‘ í•˜ë‚˜ê°€ ì„±ê³µí•˜ê±°ë‚˜ ì‹¤í–‰ ì¤‘ì´ë©´, StatefulSelectorëŠ” ë™ì¼í•œ ìƒíƒœë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
+// ë‹¤ìŒ í‹±ì—ì„œëŠ” ë‹¤ìŒ í•˜ìœ„ ë…¸ë“œë¥¼ ì‹¤í–‰í•˜ê±°ë‚˜ ì²˜ìŒë¶€í„° ë‹¤ì‹œ ì‹œì‘í•˜ë ¤ê³  ì‹œë„í•©ë‹ˆë‹¤.
+// ëª¨ë“  í•˜ìœ„ ë…¸ë“œê°€ ì‹¤íŒ¨í•œ ê²½ìš°ì—ë§Œ StatefulSelectorê°€ ì‹¤íŒ¨í•©ë‹ˆë‹¤.
 class StatefulSelector : public Composite
 {
 public:
@@ -421,8 +417,8 @@ public:
 // If a child fails or runs, the stateful sequence returns the same status.
 // In the next tick, it will try to run the next child or start from the beginning again.
 // If all children succeeds, only then does the stateful sequence succeed.
-// MemSequence´Â ¼ø¼­´ë·Î °¢ ÀÚ½Ä ³ëµå¸¦ °Ë»çÇÑ´Ù.
-// ÀÌÀü¿¡ °Ë»çÇÑ ÀÚ½Ä ³ëµåÀÇ ÀÎµ¦½º¸¦ °¡Á®¿Í¼­ °Ë»çÇÏ°í, °Ë»ç°¡ ½ÇÆĞÇÏ¸é Á¾·áµÈ´Ù.
+// MemSequenceëŠ” ìˆœì„œëŒ€ë¡œ ê° ìì‹ ë…¸ë“œë¥¼ ê²€ì‚¬í•œë‹¤.
+// ì´ì „ì— ê²€ì‚¬í•œ ìì‹ ë…¸ë“œì˜ ì¸ë±ìŠ¤ë¥¼ ê°€ì ¸ì™€ì„œ ê²€ì‚¬í•˜ê³ , ê²€ì‚¬ê°€ ì‹¤íŒ¨í•˜ë©´ ì¢…ë£Œëœë‹¤.
 class MemSequence : public Composite
 {
 public:
@@ -506,7 +502,7 @@ private:
 };
 
 // The Succeeder decorator returns success, regardless of what happens to the child.
-// Succeeder decorator´Â ÇÏÀ§ ³ëµåÀÇ °á°ú¿¡ °ü°è¾øÀÌ Ç×»ó ¼º°øÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+// Succeeder decoratorëŠ” í•˜ìœ„ ë…¸ë“œì˜ ê²°ê³¼ì— ê´€ê³„ì—†ì´ í•­ìƒ ì„±ê³µì„ ë°˜í™˜í•©ë‹ˆë‹¤.
 class Succeeder : public Decorator
 {
 public:
@@ -517,7 +513,7 @@ public:
 	}
 };
 
-// Failer decorator´Â ÇÏÀ§ ³ëµåÀÇ °á°ú¿¡ °ü°è¾øÀÌ Ç×»ó ½ÇÆĞ¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+// Failer decoratorëŠ” í•˜ìœ„ ë…¸ë“œì˜ ê²°ê³¼ì— ê´€ê³„ì—†ì´ í•­ìƒ ì‹¤íŒ¨ë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 class Failer : public Decorator
 {
 public:
@@ -530,8 +526,8 @@ public:
 
 // The Inverter decorator inverts the child node's status, i.e. failure becomes success and success becomes failure.
 // If the child runs, the Inverter returns the status that it is running too.
-// Inverter decorator´Â ÇÏÀ§ ³ëµåÀÇ »óÅÂ¸¦ ¹İÀü½ÃÅµ´Ï´Ù. Áï, ½ÇÆĞ´Â ¼º°øÀ¸·Î, ¼º°øÀº ½ÇÆĞ·Î º¯ÇÕ´Ï´Ù.
-// ¸¸¾à ÇÏÀ§ ³ëµå°¡ ½ÇÇà ÁßÀÌ¸é, Inverter´Â ½ÇÇà ÁßÀÎ »óÅÂ¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+// Inverter decoratorëŠ” í•˜ìœ„ ë…¸ë“œì˜ ìƒíƒœë¥¼ ë°˜ì „ì‹œí‚µë‹ˆë‹¤. ì¦‰, ì‹¤íŒ¨ëŠ” ì„±ê³µìœ¼ë¡œ, ì„±ê³µì€ ì‹¤íŒ¨ë¡œ ë³€í•©ë‹ˆë‹¤.
+// ë§Œì•½ í•˜ìœ„ ë…¸ë“œê°€ ì‹¤í–‰ ì¤‘ì´ë©´, InverterëŠ” ì‹¤í–‰ ì¤‘ì¸ ìƒíƒœë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 class Inverter : public Decorator
 {
 public:
@@ -551,7 +547,7 @@ public:
 };
 
 // The Repeater decorator repeats infinitely or to a limit until the child returns success.
-// Repeater decorator´Â ÇÏÀ§ ³ëµå°¡ ¼º°øÀ» ¹İÈ¯ÇÒ ¶§±îÁö ¹«ÇÑÇÏ°Ô ¶Ç´Â ÇÑ°è±îÁö ¹İº¹ÇÕ´Ï´Ù.
+// Repeater decoratorëŠ” í•˜ìœ„ ë…¸ë“œê°€ ì„±ê³µì„ ë°˜í™˜í•  ë•Œê¹Œì§€ ë¬´í•œí•˜ê²Œ ë˜ëŠ” í•œê³„ê¹Œì§€ ë°˜ë³µí•©ë‹ˆë‹¤.
 class Repeater : public Decorator
 {
 public:
@@ -579,7 +575,7 @@ protected:
 };
 
 // The UntilSuccess decorator repeats until the child returns success and then returns success.
-// UntilSuccess decorator´Â ÇÏÀ§ ³ëµå°¡ ¼º°øÀ» ¹İÈ¯ÇÒ ¶§±îÁö ¹İº¹ÇÏ°í, ±× ÈÄ¿¡ ¼º°øÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+// UntilSuccess decoratorëŠ” í•˜ìœ„ ë…¸ë“œê°€ ì„±ê³µì„ ë°˜í™˜í•  ë•Œê¹Œì§€ ë°˜ë³µí•˜ê³ , ê·¸ í›„ì— ì„±ê³µì„ ë°˜í™˜í•©ë‹ˆë‹¤.
 class UntilSuccess : public Decorator
 {
 public:
@@ -596,7 +592,7 @@ public:
 };
 
 // The UntilFailure decorator repeats until the child returns fail and then returns success.
-// UntilFailure decorator´Â ÇÏÀ§ ³ëµå°¡ ½ÇÆĞ¸¦ ¹İÈ¯ÇÒ ¶§±îÁö ¹İº¹ÇÏ°í, ±× ÈÄ¿¡ ¼º°øÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+// UntilFailure decoratorëŠ” í•˜ìœ„ ë…¸ë“œê°€ ì‹¤íŒ¨ë¥¼ ë°˜í™˜í•  ë•Œê¹Œì§€ ë°˜ë³µí•˜ê³ , ê·¸ í›„ì— ì„±ê³µì„ ë°˜í™˜í•©ë‹ˆë‹¤.
 class UntilFailure : public Decorator
 {
 public:

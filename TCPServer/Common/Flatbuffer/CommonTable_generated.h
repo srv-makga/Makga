@@ -9,8 +9,8 @@
 // Ensure the included flatbuffers.h is the same version as when this file was
 // generated, otherwise it may not be compatible.
 static_assert(FLATBUFFERS_VERSION_MAJOR == 23 &&
-              FLATBUFFERS_VERSION_MINOR == 1 &&
-              FLATBUFFERS_VERSION_REVISION == 21,
+              FLATBUFFERS_VERSION_MINOR == 5 &&
+              FLATBUFFERS_VERSION_REVISION == 26,
              "Non-compatible flatbuffers version included");
 
 namespace fb {
@@ -26,6 +26,10 @@ struct Vector3T;
 struct Position;
 struct PositionBuilder;
 struct PositionT;
+
+struct HpMp;
+struct HpMpBuilder;
+struct HpMpT;
 
 struct ActorInfoBase;
 struct ActorInfoBaseBuilder;
@@ -334,16 +338,119 @@ inline ::flatbuffers::Offset<Position> CreatePosition(
 
 ::flatbuffers::Offset<Position> CreatePosition(::flatbuffers::FlatBufferBuilder &_fbb, const PositionT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct HpMpT : public ::flatbuffers::NativeTable {
+  typedef HpMp TableType;
+  int64_t cur_hp = 0;
+  int64_t max_hp = 0;
+  int64_t cur_mp = 0;
+  int64_t max_mp = 0;
+};
+
+struct HpMp FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef HpMpT NativeTableType;
+  typedef HpMpBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_CUR_HP = 4,
+    VT_MAX_HP = 6,
+    VT_CUR_MP = 8,
+    VT_MAX_MP = 10
+  };
+  int64_t cur_hp() const {
+    return GetField<int64_t>(VT_CUR_HP, 0);
+  }
+  bool mutate_cur_hp(int64_t _cur_hp = 0) {
+    return SetField<int64_t>(VT_CUR_HP, _cur_hp, 0);
+  }
+  int64_t max_hp() const {
+    return GetField<int64_t>(VT_MAX_HP, 0);
+  }
+  bool mutate_max_hp(int64_t _max_hp = 0) {
+    return SetField<int64_t>(VT_MAX_HP, _max_hp, 0);
+  }
+  int64_t cur_mp() const {
+    return GetField<int64_t>(VT_CUR_MP, 0);
+  }
+  bool mutate_cur_mp(int64_t _cur_mp = 0) {
+    return SetField<int64_t>(VT_CUR_MP, _cur_mp, 0);
+  }
+  int64_t max_mp() const {
+    return GetField<int64_t>(VT_MAX_MP, 0);
+  }
+  bool mutate_max_mp(int64_t _max_mp = 0) {
+    return SetField<int64_t>(VT_MAX_MP, _max_mp, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int64_t>(verifier, VT_CUR_HP, 8) &&
+           VerifyField<int64_t>(verifier, VT_MAX_HP, 8) &&
+           VerifyField<int64_t>(verifier, VT_CUR_MP, 8) &&
+           VerifyField<int64_t>(verifier, VT_MAX_MP, 8) &&
+           verifier.EndTable();
+  }
+  HpMpT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(HpMpT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<HpMp> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const HpMpT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct HpMpBuilder {
+  typedef HpMp Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_cur_hp(int64_t cur_hp) {
+    fbb_.AddElement<int64_t>(HpMp::VT_CUR_HP, cur_hp, 0);
+  }
+  void add_max_hp(int64_t max_hp) {
+    fbb_.AddElement<int64_t>(HpMp::VT_MAX_HP, max_hp, 0);
+  }
+  void add_cur_mp(int64_t cur_mp) {
+    fbb_.AddElement<int64_t>(HpMp::VT_CUR_MP, cur_mp, 0);
+  }
+  void add_max_mp(int64_t max_mp) {
+    fbb_.AddElement<int64_t>(HpMp::VT_MAX_MP, max_mp, 0);
+  }
+  explicit HpMpBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<HpMp> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<HpMp>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<HpMp> CreateHpMp(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    int64_t cur_hp = 0,
+    int64_t max_hp = 0,
+    int64_t cur_mp = 0,
+    int64_t max_mp = 0) {
+  HpMpBuilder builder_(_fbb);
+  builder_.add_max_mp(max_mp);
+  builder_.add_cur_mp(cur_mp);
+  builder_.add_max_hp(max_hp);
+  builder_.add_cur_hp(cur_hp);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<HpMp> CreateHpMp(::flatbuffers::FlatBufferBuilder &_fbb, const HpMpT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 struct ActorInfoBaseT : public ::flatbuffers::NativeTable {
   typedef ActorInfoBase TableType;
   uint32_t idx = 0;
+  std::unique_ptr<fb::HpMpT> hpmp{};
+  ActorInfoBaseT() = default;
+  ActorInfoBaseT(const ActorInfoBaseT &o);
+  ActorInfoBaseT(ActorInfoBaseT&&) FLATBUFFERS_NOEXCEPT = default;
+  ActorInfoBaseT &operator=(ActorInfoBaseT o) FLATBUFFERS_NOEXCEPT;
 };
 
 struct ActorInfoBase FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef ActorInfoBaseT NativeTableType;
   typedef ActorInfoBaseBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_IDX = 4
+    VT_IDX = 4,
+    VT_HPMP = 6
   };
   uint32_t idx() const {
     return GetField<uint32_t>(VT_IDX, 0);
@@ -351,9 +458,17 @@ struct ActorInfoBase FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   bool mutate_idx(uint32_t _idx = 0) {
     return SetField<uint32_t>(VT_IDX, _idx, 0);
   }
+  const fb::HpMp *hpmp() const {
+    return GetPointer<const fb::HpMp *>(VT_HPMP);
+  }
+  fb::HpMp *mutable_hpmp() {
+    return GetPointer<fb::HpMp *>(VT_HPMP);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint32_t>(verifier, VT_IDX, 4) &&
+           VerifyOffset(verifier, VT_HPMP) &&
+           verifier.VerifyTable(hpmp()) &&
            verifier.EndTable();
   }
   ActorInfoBaseT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -368,6 +483,9 @@ struct ActorInfoBaseBuilder {
   void add_idx(uint32_t idx) {
     fbb_.AddElement<uint32_t>(ActorInfoBase::VT_IDX, idx, 0);
   }
+  void add_hpmp(::flatbuffers::Offset<fb::HpMp> hpmp) {
+    fbb_.AddOffset(ActorInfoBase::VT_HPMP, hpmp);
+  }
   explicit ActorInfoBaseBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -381,8 +499,10 @@ struct ActorInfoBaseBuilder {
 
 inline ::flatbuffers::Offset<ActorInfoBase> CreateActorInfoBase(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    uint32_t idx = 0) {
+    uint32_t idx = 0,
+    ::flatbuffers::Offset<fb::HpMp> hpmp = 0) {
   ActorInfoBaseBuilder builder_(_fbb);
+  builder_.add_hpmp(hpmp);
   builder_.add_idx(idx);
   return builder_.Finish();
 }
@@ -391,13 +511,29 @@ inline ::flatbuffers::Offset<ActorInfoBase> CreateActorInfoBase(
 
 struct ActorInfoDetailT : public ::flatbuffers::NativeTable {
   typedef ActorInfoDetail TableType;
+  std::unique_ptr<fb::ActorInfoBaseT> base{};
+  ActorInfoDetailT() = default;
+  ActorInfoDetailT(const ActorInfoDetailT &o);
+  ActorInfoDetailT(ActorInfoDetailT&&) FLATBUFFERS_NOEXCEPT = default;
+  ActorInfoDetailT &operator=(ActorInfoDetailT o) FLATBUFFERS_NOEXCEPT;
 };
 
 struct ActorInfoDetail FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef ActorInfoDetailT NativeTableType;
   typedef ActorInfoDetailBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_BASE = 4
+  };
+  const fb::ActorInfoBase *base() const {
+    return GetPointer<const fb::ActorInfoBase *>(VT_BASE);
+  }
+  fb::ActorInfoBase *mutable_base() {
+    return GetPointer<fb::ActorInfoBase *>(VT_BASE);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_BASE) &&
+           verifier.VerifyTable(base()) &&
            verifier.EndTable();
   }
   ActorInfoDetailT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -409,6 +545,9 @@ struct ActorInfoDetailBuilder {
   typedef ActorInfoDetail Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_base(::flatbuffers::Offset<fb::ActorInfoBase> base) {
+    fbb_.AddOffset(ActorInfoDetail::VT_BASE, base);
+  }
   explicit ActorInfoDetailBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -421,8 +560,10 @@ struct ActorInfoDetailBuilder {
 };
 
 inline ::flatbuffers::Offset<ActorInfoDetail> CreateActorInfoDetail(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::ActorInfoBase> base = 0) {
   ActorInfoDetailBuilder builder_(_fbb);
+  builder_.add_base(base);
   return builder_.Finish();
 }
 
@@ -981,6 +1122,52 @@ inline ::flatbuffers::Offset<Position> CreatePosition(::flatbuffers::FlatBufferB
       _angle);
 }
 
+inline HpMpT *HpMp::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<HpMpT>(new HpMpT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void HpMp::UnPackTo(HpMpT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = cur_hp(); _o->cur_hp = _e; }
+  { auto _e = max_hp(); _o->max_hp = _e; }
+  { auto _e = cur_mp(); _o->cur_mp = _e; }
+  { auto _e = max_mp(); _o->max_mp = _e; }
+}
+
+inline ::flatbuffers::Offset<HpMp> HpMp::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const HpMpT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateHpMp(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<HpMp> CreateHpMp(::flatbuffers::FlatBufferBuilder &_fbb, const HpMpT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const HpMpT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _cur_hp = _o->cur_hp;
+  auto _max_hp = _o->max_hp;
+  auto _cur_mp = _o->cur_mp;
+  auto _max_mp = _o->max_mp;
+  return fb::CreateHpMp(
+      _fbb,
+      _cur_hp,
+      _max_hp,
+      _cur_mp,
+      _max_mp);
+}
+
+inline ActorInfoBaseT::ActorInfoBaseT(const ActorInfoBaseT &o)
+      : idx(o.idx),
+        hpmp((o.hpmp) ? new fb::HpMpT(*o.hpmp) : nullptr) {
+}
+
+inline ActorInfoBaseT &ActorInfoBaseT::operator=(ActorInfoBaseT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(idx, o.idx);
+  std::swap(hpmp, o.hpmp);
+  return *this;
+}
+
 inline ActorInfoBaseT *ActorInfoBase::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::unique_ptr<ActorInfoBaseT>(new ActorInfoBaseT());
   UnPackTo(_o.get(), _resolver);
@@ -991,6 +1178,7 @@ inline void ActorInfoBase::UnPackTo(ActorInfoBaseT *_o, const ::flatbuffers::res
   (void)_o;
   (void)_resolver;
   { auto _e = idx(); _o->idx = _e; }
+  { auto _e = hpmp(); if (_e) { if(_o->hpmp) { _e->UnPackTo(_o->hpmp.get(), _resolver); } else { _o->hpmp = std::unique_ptr<fb::HpMpT>(_e->UnPack(_resolver)); } } else if (_o->hpmp) { _o->hpmp.reset(); } }
 }
 
 inline ::flatbuffers::Offset<ActorInfoBase> ActorInfoBase::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ActorInfoBaseT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -1002,9 +1190,20 @@ inline ::flatbuffers::Offset<ActorInfoBase> CreateActorInfoBase(::flatbuffers::F
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ActorInfoBaseT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _idx = _o->idx;
+  auto _hpmp = _o->hpmp ? CreateHpMp(_fbb, _o->hpmp.get(), _rehasher) : 0;
   return fb::CreateActorInfoBase(
       _fbb,
-      _idx);
+      _idx,
+      _hpmp);
+}
+
+inline ActorInfoDetailT::ActorInfoDetailT(const ActorInfoDetailT &o)
+      : base((o.base) ? new fb::ActorInfoBaseT(*o.base) : nullptr) {
+}
+
+inline ActorInfoDetailT &ActorInfoDetailT::operator=(ActorInfoDetailT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(base, o.base);
+  return *this;
 }
 
 inline ActorInfoDetailT *ActorInfoDetail::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -1016,6 +1215,7 @@ inline ActorInfoDetailT *ActorInfoDetail::UnPack(const ::flatbuffers::resolver_f
 inline void ActorInfoDetail::UnPackTo(ActorInfoDetailT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = base(); if (_e) { if(_o->base) { _e->UnPackTo(_o->base.get(), _resolver); } else { _o->base = std::unique_ptr<fb::ActorInfoBaseT>(_e->UnPack(_resolver)); } } else if (_o->base) { _o->base.reset(); } }
 }
 
 inline ::flatbuffers::Offset<ActorInfoDetail> ActorInfoDetail::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ActorInfoDetailT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -1026,8 +1226,10 @@ inline ::flatbuffers::Offset<ActorInfoDetail> CreateActorInfoDetail(::flatbuffer
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ActorInfoDetailT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _base = _o->base ? CreateActorInfoBase(_fbb, _o->base.get(), _rehasher) : 0;
   return fb::CreateActorInfoDetail(
-      _fbb);
+      _fbb,
+      _base);
 }
 
 inline ItemAbilityT *ItemAbility::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
