@@ -20,7 +20,10 @@ enum eResult : int32
 	ActorNotFound,
 	ActorNotMovePos,					// 이동할 수 없는 위치
 	ActorNotMoveState,					// 이동할 수 없는 상태
-	
+
+	// Terrain
+	TerrainNotIn,						// 터레인에 속해있지 않음
+	TerrainNotInThis,					// 해당 터레인에 속해있지 않음
 
 	// item
 	ItemNotFound,							// 아이템을 찾을 수 없음

@@ -570,15 +570,17 @@ inline const char *EnumNameeAbilityTYpe(eAbilityTYpe e) {
 }
 
 enum eAiType : int32_t {
+  eAiType_None = -1,
   eAiType_Aggressive = 0,
   eAiType_NonAggressive = 1,
   eAiType_Boss = 2,
-  eAiType_MIN = eAiType_Aggressive,
+  eAiType_MIN = eAiType_None,
   eAiType_MAX = eAiType_Boss
 };
 
-inline const eAiType (&EnumValueseAiType())[3] {
+inline const eAiType (&EnumValueseAiType())[4] {
   static const eAiType values[] = {
+    eAiType_None,
     eAiType_Aggressive,
     eAiType_NonAggressive,
     eAiType_Boss
@@ -587,7 +589,8 @@ inline const eAiType (&EnumValueseAiType())[3] {
 }
 
 inline const char * const *EnumNameseAiType() {
-  static const char * const names[4] = {
+  static const char * const names[5] = {
+    "None",
     "Aggressive",
     "NonAggressive",
     "Boss",
@@ -597,8 +600,8 @@ inline const char * const *EnumNameseAiType() {
 }
 
 inline const char *EnumNameeAiType(eAiType e) {
-  if (::flatbuffers::IsOutRange(e, eAiType_Aggressive, eAiType_Boss)) return "";
-  const size_t index = static_cast<size_t>(e);
+  if (::flatbuffers::IsOutRange(e, eAiType_None, eAiType_Boss)) return "";
+  const size_t index = static_cast<size_t>(e) - static_cast<size_t>(eAiType_None);
   return EnumNameseAiType()[index];
 }
 

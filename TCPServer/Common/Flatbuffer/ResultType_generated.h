@@ -27,20 +27,22 @@ enum eResult : int32_t {
   eResult_ActorNotFound = 8,
   eResult_ActorNotMovePos = 9,
   eResult_ActorNotMoveState = 10,
-  eResult_ItemNotFound = 11,
-  eResult_ItemStackFull = 12,
-  eResult_ItemNotEnough = 13,
-  eResult_ItemUidDuplicate = 14,
-  eResult_ItemIdxDuplicate = 15,
-  eResult_ItemSameSkinIndex = 16,
-  eResult_ItemAlreadyMaxReinforce = 17,
-  eResult_InvenFull = 18,
-  eResult_CurrencyLackGold = 19,
+  eResult_TerrainNotIn = 11,
+  eResult_TerrainNotInThis = 12,
+  eResult_ItemNotFound = 13,
+  eResult_ItemStackFull = 14,
+  eResult_ItemNotEnough = 15,
+  eResult_ItemUidDuplicate = 16,
+  eResult_ItemIdxDuplicate = 17,
+  eResult_ItemSameSkinIndex = 18,
+  eResult_ItemAlreadyMaxReinforce = 19,
+  eResult_InvenFull = 20,
+  eResult_CurrencyLackGold = 21,
   eResult_MIN = eResult_Success,
   eResult_MAX = eResult_CurrencyLackGold
 };
 
-inline const eResult (&EnumValueseResult())[20] {
+inline const eResult (&EnumValueseResult())[22] {
   static const eResult values[] = {
     eResult_Success,
     eResult_Fail,
@@ -53,6 +55,8 @@ inline const eResult (&EnumValueseResult())[20] {
     eResult_ActorNotFound,
     eResult_ActorNotMovePos,
     eResult_ActorNotMoveState,
+    eResult_TerrainNotIn,
+    eResult_TerrainNotInThis,
     eResult_ItemNotFound,
     eResult_ItemStackFull,
     eResult_ItemNotEnough,
@@ -67,7 +71,7 @@ inline const eResult (&EnumValueseResult())[20] {
 }
 
 inline const char * const *EnumNameseResult() {
-  static const char * const names[21] = {
+  static const char * const names[23] = {
     "Success",
     "Fail",
     "BufferLackSpace",
@@ -79,6 +83,8 @@ inline const char * const *EnumNameseResult() {
     "ActorNotFound",
     "ActorNotMovePos",
     "ActorNotMoveState",
+    "TerrainNotIn",
+    "TerrainNotInThis",
     "ItemNotFound",
     "ItemStackFull",
     "ItemNotEnough",

@@ -9,7 +9,7 @@
 #include "logger.h"
 #include "glog/logging.h"
 #include <filesystem>
-#include "Flatbuffer/ResultType_generated.h"
+#include "../Common/Flatbuffer/ResultType_generated.h"
 
 /* glog 플래그
 * logtostderr		            (bool  , default = false     ) 로그 파일이 아닌 stderr로 메시지를 남긴다.

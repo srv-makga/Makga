@@ -167,6 +167,7 @@ enum eAbilityTYpe : int
 
 enum eAiType : int
 {
+	None = -1,
 	Aggressive,
 	NonAggressive,
 	Boss,

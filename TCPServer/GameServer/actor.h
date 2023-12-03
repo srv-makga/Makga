@@ -3,11 +3,12 @@
 #include "game_header.h"
 #include "../Core/object_pool.h"
 
+class Terrain;
+class ActorAI;
 class Character;
 class Monster;
 class Npc;
 class Gadget;
-class ActorAI;
 
 /*
 * @brief 맵에서 보일 객체의 인터페이스
@@ -23,23 +24,27 @@ public: // 가상 & 기능
 	virtual void Finallize() = 0;
 
 	virtual bool SetTable(ActorBasicTable* _table) = 0;
-
 	virtual void OnUpdate() = 0;
+
 	virtual Result_t Move(Coord_t _x, Coord_t _y, Coord_t _z) = 0;
 	virtual Result_t Move(Vector_t _vec) = 0;
+
+	virtual Actor* FindTarget() = 0;
+	// @brief 해당 액터를 인지할 수 있는 상태인지
+	virtual bool CanSeeActor(Actor* _actor) = 0;
 
 	// @brief 특정 좌표 리스트를 반복적으로 이동하기 위한 설정
 	virtual void SetRoute(Sequence_t _seq, const Vector_t& _vec) {}
 
 	// @brief 특정 모습으로 변경
-	virtual Result_t Change(TableIdx_t _index);
-	virtual Result_t ChangeRollback();
+	virtual Result_t Change(TableIdx_t _index) = 0;
+	virtual Result_t ChangeRollback() = 0;
 
 	virtual flatbuffers::Offset<fb::ActorInfoBase> OffsetActorInfoBase(FB_BUILDER& _fbb) = 0;
 	virtual flatbuffers::Offset<fb::ActorInfoDetail> OffsetActorInfoDetail(FB_BUILDER& _fbb) = 0;
 	
 public: // 가상 & get set
-	virtual fb::eActorType Type() = 0;
+	virtual fb::eActorType Type() const = 0;
 	virtual bool IsCharacter() const { return false; }
 	virtual bool IsMonster() const { return false; }
 	virtual bool IsNpc() const { return false; }
@@ -61,6 +66,9 @@ public: // 가상 & get set
 	virtual Coord_t X() const { return Coord_t(); }
 	virtual Coord_t Y() const { return Coord_t(); }
 	virtual Coord_t Z() const { return Coord_t(); }
+	virtual const PositionT& Position() const { static const PositionT empty; return empty; }
+
+	virtual fb::eAiType AIType() const { return eAiType_None; }
 
 	virtual Hp_t MaxHp() const { return 0; }
 	virtual Hp_t CurHp() const { return 0; }
@@ -68,6 +76,8 @@ public: // 가상 & get set
 	virtual Mp_t CurMp() const { return 0; }
 
 	virtual Speed_t Speed() const { return 0; }
+
+	virtual Terrain* Terrain() const { return nullptr; }
 
 public: // 기능
 	ActorUid_t Uid() const { return m_uid; }
