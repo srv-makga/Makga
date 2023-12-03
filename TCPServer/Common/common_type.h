@@ -54,6 +54,7 @@ using ServerType_t = fb::eServerType;
 using TableIdx_t = uint32_t;
 using Count_t = int32_t;
 using Time_t = std::time_t;
+using Sequence_t = uint32_t;
 
 // User
 using Account_t = String8;
@@ -73,7 +74,7 @@ using Currency_t = int64_t;
 using Gold_t = Currency_t;
 
 // Actor
-using ActorId_t = uint64_t;
+using ActorUid_t = uint64_t;
 using Hp_t = int64_t;
 using Mp_t = int64_t;
 using Level_t = int32_t;

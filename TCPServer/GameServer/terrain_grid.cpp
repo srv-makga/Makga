@@ -61,7 +61,7 @@ Actor* TerrainGrid::FindActor(Actor* _actor)
 	return FindActor(_actor->Id());
 }
 
-Actor* TerrainGrid::FindActor(ActorId_t _actor_id)
+Actor* TerrainGrid::FindActor(ActorUid_t _actor_id)
 {
 	auto iter = m_actors.find(_actor_id);
 	if (m_actors.end() == iter)
@@ -72,7 +72,7 @@ Actor* TerrainGrid::FindActor(ActorId_t _actor_id)
 	return iter->second;
 }
 
-bool TerrainGrid::Erasector(ActorId_t _actor_id)
+bool TerrainGrid::Erasector(ActorUid_t _actor_id)
 {
 	return 0 < m_actors.erase(_actor_id);
 }

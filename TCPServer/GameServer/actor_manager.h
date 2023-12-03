@@ -4,10 +4,10 @@
 #include "../Common/manager_base.hpp"
 #include "../Core/singleton.hpp"
 
-class ActorManager : public ManagerBase<ActorId_t, Actor*>, public core::pattern::Singleton<ActorManager>
+class ActorManager : public ManagerBase<ActorUid_t, Actor*>, public core::pattern::Singleton<ActorManager>
 {
 public:
-	using Actors_t = std::unordered_map<ActorId_t, Actor*>;
+	using Actors_t = std::unordered_map<ActorUid_t, Actor*>;
 public:
 	ActorManager();
 	virtual ~ActorManager();
@@ -32,12 +32,12 @@ public:
 
 private:
 	// @detail 사용중인 액터 목록
-	std::unordered_map<ActorId_t, Character*> m_characters;
-	std::unordered_map<ActorId_t, Monster*> m_monsters;
-	std::unordered_map<ActorId_t, Npc*> m_npcs;
-	std::unordered_map<ActorId_t, Gadget*> m_gadgets;
+	std::unordered_map<ActorUid_t, Character*> m_characters;
+	std::unordered_map<ActorUid_t, Monster*> m_monsters;
+	std::unordered_map<ActorUid_t, Npc*> m_npcs;
+	std::unordered_map<ActorUid_t, Gadget*> m_gadgets;
 
-	ActorId_t m_actor_id;
+	ActorUid_t m_actor_id;
 };
 
 #define ACTOR_MANAGER	ActorManager::Instance()

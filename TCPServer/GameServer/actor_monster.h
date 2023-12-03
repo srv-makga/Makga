@@ -1,7 +1,9 @@
 #pragma once
 
 #include "actor.h"
-#include "ai_base.h"
+#include "actor_ai.h"
+
+class ActorAI;
 
 class Monster : public Actor, public core::ObjectPool<Monster*>
 {
@@ -23,5 +25,5 @@ private:
 
 	PositionXY m_target_position;
 
-	core::ai::Node* m_ai;
+	ActorAI* m_ai;
 };

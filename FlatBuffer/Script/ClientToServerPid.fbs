@@ -123,8 +123,10 @@ enum RecvPid : uint32
 	ActorAppear, // 알림
 	ActorDisappear, // 알림
 	ActorMove, // 알림
+	ActorChange, // 알림
 
 	////////// item //////////
+	ItemCreate, // 알림
 	ItemDestroy,
 	ItemUse,
 	ItemMake,

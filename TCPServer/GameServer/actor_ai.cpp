@@ -1,8 +1,11 @@
 #include "pch.h"
 #include "actor_ai.h"
+#include "ai_aggressive.h"
+#include "ai_non_aggressive.h"
+#include "ai_boss.h"
 #include "actor.h"
 
-ActorAI::ActorAI(Actor* _actor)
+ActorAI::ActorAI(Actor* _actor, fb::eAiType _type)
 	: m_actor(_actor)
 	, m_node(nullptr)
 {
@@ -15,7 +18,6 @@ ActorAI::~ActorAI()
 
 void ActorAI::Initialize()
 {
-	ChangeType(m_actor->AIType());
 }
 
 void ActorAI::OnUpdate()
@@ -26,21 +28,9 @@ void ActorAI::OnUpdate()
 	}
 }
 
-eAiType ActorAI::Type() const
+bool ActorAI::Create()
 {
-	return eAiType();
-}
-
-void ActorAI::ChangeType(eAiType _type)
-{
-	if (Type() == _type)
-	{
-		return;
-	}
-
-	delete m_node;
-
-	switch (_type)
+	switch (Type())
 	{
 	case eAiType_Aggressive:
 		m_node = new AIAggressive(m_actor);
@@ -51,5 +41,14 @@ void ActorAI::ChangeType(eAiType _type)
 	case eAiType_Boss:
 		m_node = new AIBoss(m_actor);
 		break;
+	default:
+		return false;
 	}
+
+	return true;
+}
+
+eAiType ActorAI::Type() const
+{
+	return m_actor->AIType();
 }

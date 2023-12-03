@@ -256,6 +256,14 @@ struct Recv_ActorMove;
 struct Recv_ActorMoveBuilder;
 struct Recv_ActorMoveT;
 
+struct Recv_ActorChange;
+struct Recv_ActorChangeBuilder;
+struct Recv_ActorChangeT;
+
+struct Recv_ItemCreate;
+struct Recv_ItemCreateBuilder;
+struct Recv_ItemCreateT;
+
 struct Recv_ItemDestroy;
 struct Recv_ItemDestroyBuilder;
 struct Recv_ItemDestroyT;
@@ -3662,24 +3670,47 @@ inline ::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(
 
 struct Recv_ActorAppearT : public ::flatbuffers::NativeTable {
   typedef Recv_ActorAppear TableType;
-  uint64_t id = 0;
+  uint64_t uid = 0;
+  std::unique_ptr<fb::ActorInfoBaseT> info{};
+  uint32_t effect = 0;
+  Recv_ActorAppearT() = default;
+  Recv_ActorAppearT(const Recv_ActorAppearT &o);
+  Recv_ActorAppearT(Recv_ActorAppearT&&) FLATBUFFERS_NOEXCEPT = default;
+  Recv_ActorAppearT &operator=(Recv_ActorAppearT o) FLATBUFFERS_NOEXCEPT;
 };
 
 struct Recv_ActorAppear FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Recv_ActorAppearT NativeTableType;
   typedef Recv_ActorAppearBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_ID = 4
+    VT_UID = 4,
+    VT_INFO = 6,
+    VT_EFFECT = 8
   };
-  uint64_t id() const {
-    return GetField<uint64_t>(VT_ID, 0);
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
   }
-  bool mutate_id(uint64_t _id = 0) {
-    return SetField<uint64_t>(VT_ID, _id, 0);
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
+  const fb::ActorInfoBase *info() const {
+    return GetPointer<const fb::ActorInfoBase *>(VT_INFO);
+  }
+  fb::ActorInfoBase *mutable_info() {
+    return GetPointer<fb::ActorInfoBase *>(VT_INFO);
+  }
+  uint32_t effect() const {
+    return GetField<uint32_t>(VT_EFFECT, 0);
+  }
+  bool mutate_effect(uint32_t _effect = 0) {
+    return SetField<uint32_t>(VT_EFFECT, _effect, 0);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<uint64_t>(verifier, VT_ID, 8) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
+           VerifyOffset(verifier, VT_INFO) &&
+           verifier.VerifyTable(info()) &&
+           VerifyField<uint32_t>(verifier, VT_EFFECT, 4) &&
            verifier.EndTable();
   }
   Recv_ActorAppearT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -3691,8 +3722,14 @@ struct Recv_ActorAppearBuilder {
   typedef Recv_ActorAppear Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_id(uint64_t id) {
-    fbb_.AddElement<uint64_t>(Recv_ActorAppear::VT_ID, id, 0);
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(Recv_ActorAppear::VT_UID, uid, 0);
+  }
+  void add_info(::flatbuffers::Offset<fb::ActorInfoBase> info) {
+    fbb_.AddOffset(Recv_ActorAppear::VT_INFO, info);
+  }
+  void add_effect(uint32_t effect) {
+    fbb_.AddElement<uint32_t>(Recv_ActorAppear::VT_EFFECT, effect, 0);
   }
   explicit Recv_ActorAppearBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -3707,9 +3744,13 @@ struct Recv_ActorAppearBuilder {
 
 inline ::flatbuffers::Offset<Recv_ActorAppear> CreateRecv_ActorAppear(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    uint64_t id = 0) {
+    uint64_t uid = 0,
+    ::flatbuffers::Offset<fb::ActorInfoBase> info = 0,
+    uint32_t effect = 0) {
   Recv_ActorAppearBuilder builder_(_fbb);
-  builder_.add_id(id);
+  builder_.add_uid(uid);
+  builder_.add_effect(effect);
+  builder_.add_info(info);
   return builder_.Finish();
 }
 
@@ -3717,13 +3758,33 @@ inline ::flatbuffers::Offset<Recv_ActorAppear> CreateRecv_ActorAppear(
 
 struct Recv_ActorDisappearT : public ::flatbuffers::NativeTable {
   typedef Recv_ActorDisappear TableType;
+  uint64_t uid = 0;
+  uint32_t effect = 0;
 };
 
 struct Recv_ActorDisappear FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Recv_ActorDisappearT NativeTableType;
   typedef Recv_ActorDisappearBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4,
+    VT_EFFECT = 6
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
+  uint32_t effect() const {
+    return GetField<uint32_t>(VT_EFFECT, 0);
+  }
+  bool mutate_effect(uint32_t _effect = 0) {
+    return SetField<uint32_t>(VT_EFFECT, _effect, 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
+           VerifyField<uint32_t>(verifier, VT_EFFECT, 4) &&
            verifier.EndTable();
   }
   Recv_ActorDisappearT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -3735,6 +3796,12 @@ struct Recv_ActorDisappearBuilder {
   typedef Recv_ActorDisappear Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(Recv_ActorDisappear::VT_UID, uid, 0);
+  }
+  void add_effect(uint32_t effect) {
+    fbb_.AddElement<uint32_t>(Recv_ActorDisappear::VT_EFFECT, effect, 0);
+  }
   explicit Recv_ActorDisappearBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -3747,8 +3814,12 @@ struct Recv_ActorDisappearBuilder {
 };
 
 inline ::flatbuffers::Offset<Recv_ActorDisappear> CreateRecv_ActorDisappear(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0,
+    uint32_t effect = 0) {
   Recv_ActorDisappearBuilder builder_(_fbb);
+  builder_.add_uid(uid);
+  builder_.add_effect(effect);
   return builder_.Finish();
 }
 
@@ -3756,13 +3827,47 @@ inline ::flatbuffers::Offset<Recv_ActorDisappear> CreateRecv_ActorDisappear(
 
 struct Recv_ActorMoveT : public ::flatbuffers::NativeTable {
   typedef Recv_ActorMove TableType;
+  uint64_t uid = 0;
+  std::unique_ptr<fb::PositionT> pos{};
+  int32_t speed = 0;
+  Recv_ActorMoveT() = default;
+  Recv_ActorMoveT(const Recv_ActorMoveT &o);
+  Recv_ActorMoveT(Recv_ActorMoveT&&) FLATBUFFERS_NOEXCEPT = default;
+  Recv_ActorMoveT &operator=(Recv_ActorMoveT o) FLATBUFFERS_NOEXCEPT;
 };
 
 struct Recv_ActorMove FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef Recv_ActorMoveT NativeTableType;
   typedef Recv_ActorMoveBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4,
+    VT_POS = 6,
+    VT_SPEED = 8
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
+  const fb::Position *pos() const {
+    return GetPointer<const fb::Position *>(VT_POS);
+  }
+  fb::Position *mutable_pos() {
+    return GetPointer<fb::Position *>(VT_POS);
+  }
+  int32_t speed() const {
+    return GetField<int32_t>(VT_SPEED, 0);
+  }
+  bool mutate_speed(int32_t _speed = 0) {
+    return SetField<int32_t>(VT_SPEED, _speed, 0);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
+           VerifyOffset(verifier, VT_POS) &&
+           verifier.VerifyTable(pos()) &&
+           VerifyField<int32_t>(verifier, VT_SPEED, 4) &&
            verifier.EndTable();
   }
   Recv_ActorMoveT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -3774,6 +3879,15 @@ struct Recv_ActorMoveBuilder {
   typedef Recv_ActorMove Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(Recv_ActorMove::VT_UID, uid, 0);
+  }
+  void add_pos(::flatbuffers::Offset<fb::Position> pos) {
+    fbb_.AddOffset(Recv_ActorMove::VT_POS, pos);
+  }
+  void add_speed(int32_t speed) {
+    fbb_.AddElement<int32_t>(Recv_ActorMove::VT_SPEED, speed, 0);
+  }
   explicit Recv_ActorMoveBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -3786,12 +3900,152 @@ struct Recv_ActorMoveBuilder {
 };
 
 inline ::flatbuffers::Offset<Recv_ActorMove> CreateRecv_ActorMove(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0,
+    ::flatbuffers::Offset<fb::Position> pos = 0,
+    int32_t speed = 0) {
   Recv_ActorMoveBuilder builder_(_fbb);
+  builder_.add_uid(uid);
+  builder_.add_speed(speed);
+  builder_.add_pos(pos);
   return builder_.Finish();
 }
 
 ::flatbuffers::Offset<Recv_ActorMove> CreateRecv_ActorMove(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorMoveT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct Recv_ActorChangeT : public ::flatbuffers::NativeTable {
+  typedef Recv_ActorChange TableType;
+  uint64_t uid = 0;
+  std::unique_ptr<fb::ActorInfoBaseT> info{};
+  Recv_ActorChangeT() = default;
+  Recv_ActorChangeT(const Recv_ActorChangeT &o);
+  Recv_ActorChangeT(Recv_ActorChangeT&&) FLATBUFFERS_NOEXCEPT = default;
+  Recv_ActorChangeT &operator=(Recv_ActorChangeT o) FLATBUFFERS_NOEXCEPT;
+};
+
+struct Recv_ActorChange FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Recv_ActorChangeT NativeTableType;
+  typedef Recv_ActorChangeBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4,
+    VT_INFO = 6
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
+  const fb::ActorInfoBase *info() const {
+    return GetPointer<const fb::ActorInfoBase *>(VT_INFO);
+  }
+  fb::ActorInfoBase *mutable_info() {
+    return GetPointer<fb::ActorInfoBase *>(VT_INFO);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
+           VerifyOffset(verifier, VT_INFO) &&
+           verifier.VerifyTable(info()) &&
+           verifier.EndTable();
+  }
+  Recv_ActorChangeT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Recv_ActorChangeT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Recv_ActorChange> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorChangeT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Recv_ActorChangeBuilder {
+  typedef Recv_ActorChange Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(Recv_ActorChange::VT_UID, uid, 0);
+  }
+  void add_info(::flatbuffers::Offset<fb::ActorInfoBase> info) {
+    fbb_.AddOffset(Recv_ActorChange::VT_INFO, info);
+  }
+  explicit Recv_ActorChangeBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Recv_ActorChange> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Recv_ActorChange>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Recv_ActorChange> CreateRecv_ActorChange(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0,
+    ::flatbuffers::Offset<fb::ActorInfoBase> info = 0) {
+  Recv_ActorChangeBuilder builder_(_fbb);
+  builder_.add_uid(uid);
+  builder_.add_info(info);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Recv_ActorChange> CreateRecv_ActorChange(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorChangeT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct Recv_ItemCreateT : public ::flatbuffers::NativeTable {
+  typedef Recv_ItemCreate TableType;
+  std::unique_ptr<fb::ItemDetailT> info{};
+  Recv_ItemCreateT() = default;
+  Recv_ItemCreateT(const Recv_ItemCreateT &o);
+  Recv_ItemCreateT(Recv_ItemCreateT&&) FLATBUFFERS_NOEXCEPT = default;
+  Recv_ItemCreateT &operator=(Recv_ItemCreateT o) FLATBUFFERS_NOEXCEPT;
+};
+
+struct Recv_ItemCreate FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Recv_ItemCreateT NativeTableType;
+  typedef Recv_ItemCreateBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_INFO = 4
+  };
+  const fb::ItemDetail *info() const {
+    return GetPointer<const fb::ItemDetail *>(VT_INFO);
+  }
+  fb::ItemDetail *mutable_info() {
+    return GetPointer<fb::ItemDetail *>(VT_INFO);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_INFO) &&
+           verifier.VerifyTable(info()) &&
+           verifier.EndTable();
+  }
+  Recv_ItemCreateT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Recv_ItemCreateT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Recv_ItemCreate> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemCreateT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Recv_ItemCreateBuilder {
+  typedef Recv_ItemCreate Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_info(::flatbuffers::Offset<fb::ItemDetail> info) {
+    fbb_.AddOffset(Recv_ItemCreate::VT_INFO, info);
+  }
+  explicit Recv_ItemCreateBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Recv_ItemCreate> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Recv_ItemCreate>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Recv_ItemCreate> CreateRecv_ItemCreate(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::ItemDetail> info = 0) {
+  Recv_ItemCreateBuilder builder_(_fbb);
+  builder_.add_info(info);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Recv_ItemCreate> CreateRecv_ItemCreate(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemCreateT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct Recv_ItemDestroyT : public ::flatbuffers::NativeTable {
   typedef Recv_ItemDestroy TableType;
@@ -5586,6 +5840,19 @@ inline ::flatbuffers::Offset<Recv_LoginSecurity> CreateRecv_LoginSecurity(::flat
       _result);
 }
 
+inline Recv_ActorAppearT::Recv_ActorAppearT(const Recv_ActorAppearT &o)
+      : uid(o.uid),
+        info((o.info) ? new fb::ActorInfoBaseT(*o.info) : nullptr),
+        effect(o.effect) {
+}
+
+inline Recv_ActorAppearT &Recv_ActorAppearT::operator=(Recv_ActorAppearT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(uid, o.uid);
+  std::swap(info, o.info);
+  std::swap(effect, o.effect);
+  return *this;
+}
+
 inline Recv_ActorAppearT *Recv_ActorAppear::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::unique_ptr<Recv_ActorAppearT>(new Recv_ActorAppearT());
   UnPackTo(_o.get(), _resolver);
@@ -5595,7 +5862,9 @@ inline Recv_ActorAppearT *Recv_ActorAppear::UnPack(const ::flatbuffers::resolver
 inline void Recv_ActorAppear::UnPackTo(Recv_ActorAppearT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
-  { auto _e = id(); _o->id = _e; }
+  { auto _e = uid(); _o->uid = _e; }
+  { auto _e = info(); if (_e) { if(_o->info) { _e->UnPackTo(_o->info.get(), _resolver); } else { _o->info = std::unique_ptr<fb::ActorInfoBaseT>(_e->UnPack(_resolver)); } } else if (_o->info) { _o->info.reset(); } }
+  { auto _e = effect(); _o->effect = _e; }
 }
 
 inline ::flatbuffers::Offset<Recv_ActorAppear> Recv_ActorAppear::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorAppearT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -5606,10 +5875,14 @@ inline ::flatbuffers::Offset<Recv_ActorAppear> CreateRecv_ActorAppear(::flatbuff
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_ActorAppearT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _id = _o->id;
+  auto _uid = _o->uid;
+  auto _info = _o->info ? CreateActorInfoBase(_fbb, _o->info.get(), _rehasher) : 0;
+  auto _effect = _o->effect;
   return fb::server::CreateRecv_ActorAppear(
       _fbb,
-      _id);
+      _uid,
+      _info,
+      _effect);
 }
 
 inline Recv_ActorDisappearT *Recv_ActorDisappear::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -5621,6 +5894,8 @@ inline Recv_ActorDisappearT *Recv_ActorDisappear::UnPack(const ::flatbuffers::re
 inline void Recv_ActorDisappear::UnPackTo(Recv_ActorDisappearT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = uid(); _o->uid = _e; }
+  { auto _e = effect(); _o->effect = _e; }
 }
 
 inline ::flatbuffers::Offset<Recv_ActorDisappear> Recv_ActorDisappear::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorDisappearT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -5631,8 +5906,25 @@ inline ::flatbuffers::Offset<Recv_ActorDisappear> CreateRecv_ActorDisappear(::fl
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_ActorDisappearT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _uid = _o->uid;
+  auto _effect = _o->effect;
   return fb::server::CreateRecv_ActorDisappear(
-      _fbb);
+      _fbb,
+      _uid,
+      _effect);
+}
+
+inline Recv_ActorMoveT::Recv_ActorMoveT(const Recv_ActorMoveT &o)
+      : uid(o.uid),
+        pos((o.pos) ? new fb::PositionT(*o.pos) : nullptr),
+        speed(o.speed) {
+}
+
+inline Recv_ActorMoveT &Recv_ActorMoveT::operator=(Recv_ActorMoveT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(uid, o.uid);
+  std::swap(pos, o.pos);
+  std::swap(speed, o.speed);
+  return *this;
 }
 
 inline Recv_ActorMoveT *Recv_ActorMove::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -5644,6 +5936,9 @@ inline Recv_ActorMoveT *Recv_ActorMove::UnPack(const ::flatbuffers::resolver_fun
 inline void Recv_ActorMove::UnPackTo(Recv_ActorMoveT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = uid(); _o->uid = _e; }
+  { auto _e = pos(); if (_e) { if(_o->pos) { _e->UnPackTo(_o->pos.get(), _resolver); } else { _o->pos = std::unique_ptr<fb::PositionT>(_e->UnPack(_resolver)); } } else if (_o->pos) { _o->pos.reset(); } }
+  { auto _e = speed(); _o->speed = _e; }
 }
 
 inline ::flatbuffers::Offset<Recv_ActorMove> Recv_ActorMove::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorMoveT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -5654,8 +5949,89 @@ inline ::flatbuffers::Offset<Recv_ActorMove> CreateRecv_ActorMove(::flatbuffers:
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_ActorMoveT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _uid = _o->uid;
+  auto _pos = _o->pos ? CreatePosition(_fbb, _o->pos.get(), _rehasher) : 0;
+  auto _speed = _o->speed;
   return fb::server::CreateRecv_ActorMove(
-      _fbb);
+      _fbb,
+      _uid,
+      _pos,
+      _speed);
+}
+
+inline Recv_ActorChangeT::Recv_ActorChangeT(const Recv_ActorChangeT &o)
+      : uid(o.uid),
+        info((o.info) ? new fb::ActorInfoBaseT(*o.info) : nullptr) {
+}
+
+inline Recv_ActorChangeT &Recv_ActorChangeT::operator=(Recv_ActorChangeT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(uid, o.uid);
+  std::swap(info, o.info);
+  return *this;
+}
+
+inline Recv_ActorChangeT *Recv_ActorChange::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<Recv_ActorChangeT>(new Recv_ActorChangeT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Recv_ActorChange::UnPackTo(Recv_ActorChangeT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = uid(); _o->uid = _e; }
+  { auto _e = info(); if (_e) { if(_o->info) { _e->UnPackTo(_o->info.get(), _resolver); } else { _o->info = std::unique_ptr<fb::ActorInfoBaseT>(_e->UnPack(_resolver)); } } else if (_o->info) { _o->info.reset(); } }
+}
+
+inline ::flatbuffers::Offset<Recv_ActorChange> Recv_ActorChange::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorChangeT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateRecv_ActorChange(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Recv_ActorChange> CreateRecv_ActorChange(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorChangeT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_ActorChangeT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _uid = _o->uid;
+  auto _info = _o->info ? CreateActorInfoBase(_fbb, _o->info.get(), _rehasher) : 0;
+  return fb::server::CreateRecv_ActorChange(
+      _fbb,
+      _uid,
+      _info);
+}
+
+inline Recv_ItemCreateT::Recv_ItemCreateT(const Recv_ItemCreateT &o)
+      : info((o.info) ? new fb::ItemDetailT(*o.info) : nullptr) {
+}
+
+inline Recv_ItemCreateT &Recv_ItemCreateT::operator=(Recv_ItemCreateT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(info, o.info);
+  return *this;
+}
+
+inline Recv_ItemCreateT *Recv_ItemCreate::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<Recv_ItemCreateT>(new Recv_ItemCreateT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Recv_ItemCreate::UnPackTo(Recv_ItemCreateT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = info(); if (_e) { if(_o->info) { _e->UnPackTo(_o->info.get(), _resolver); } else { _o->info = std::unique_ptr<fb::ItemDetailT>(_e->UnPack(_resolver)); } } else if (_o->info) { _o->info.reset(); } }
+}
+
+inline ::flatbuffers::Offset<Recv_ItemCreate> Recv_ItemCreate::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemCreateT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateRecv_ItemCreate(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Recv_ItemCreate> CreateRecv_ItemCreate(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ItemCreateT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_ItemCreateT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _info = _o->info ? CreateItemDetail(_fbb, _o->info.get(), _rehasher) : 0;
+  return fb::server::CreateRecv_ItemCreate(
+      _fbb,
+      _info);
 }
 
 inline Recv_ItemDestroyT *Recv_ItemDestroy::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {

@@ -8,15 +8,24 @@ Monster::Monster()
 
 Monster::~Monster()
 {
+	delete m_ai;
 }
 
 void Monster::Initialize()
 {
 	m_basic_table = nullptr;
+
+	if (nullptr != m_ai)
+	{
+		m_ai->Initialize();
+	}
+
+	Actor::Initialize();
 }
 
 void Monster::Finallize()
 {
+	Actor::Finallize();
 }
 
 bool Monster::SetTable(ActorBasicTable* _table)
@@ -29,26 +38,29 @@ bool Monster::SetTable(ActorBasicTable* _table)
 
 	if (Type() != _table->actor_type)
 	{
-		LOG_ERROR << "Mismatch ActorBasicTable. My:" << EnumNameeActorType(Type()) << " Table:" << EnumNameeActorType(_table->actor_type);
+		LOG_ERROR << "Mismatch actor type. My:" << EnumNameeActorType(Type()) << " Table:" << EnumNameeActorType(_table->actor_type);
 		return false;
+	}
+
+	if (m_basic_table == _table)
+	{
+		return true;
 	}
 
 	m_basic_table = _table;
 
+	delete m_ai;
 
-	switch (strhash(m_basic_table->ai_type.c_str()))
-	{
-	case strhash("Aggressive"):
-		m_ai = new AIAggressive(this);
-		break;
-	}
-
-	m_ai->initialize();
+	m_ai = new ActorAI(this, m_basic_table->ai_type);
+	m_ai->Initialize();
 
 	return true;
 }
 
 void Monster::OnUpdate()
 {
-	m_ai->update();
+	if (nullptr != m_ai)
+	{
+		m_ai->OnUpdate();
+	}
 }

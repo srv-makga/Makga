@@ -18,6 +18,7 @@ public:
 	Actor() = default;
 	virtual ~Actor() = default;
 
+public: // 가상 & 기능
 	virtual void Initialize() = 0;
 	virtual void Finallize() = 0;
 
@@ -27,7 +28,18 @@ public:
 	virtual Result_t Move(Coord_t _x, Coord_t _y, Coord_t _z) = 0;
 	virtual Result_t Move(Vector_t _vec) = 0;
 
-	virtual fb::eActorType Type() const { return fb::eActorType_None; }
+	// @brief 특정 좌표 리스트를 반복적으로 이동하기 위한 설정
+	virtual void SetRoute(Sequence_t _seq, const Vector_t& _vec) {}
+
+	// @brief 특정 모습으로 변경
+	virtual Result_t Change(TableIdx_t _index);
+	virtual Result_t ChangeRollback();
+
+	virtual flatbuffers::Offset<fb::ActorInfoBase> OffsetActorInfoBase(FB_BUILDER& _fbb) = 0;
+	virtual flatbuffers::Offset<fb::ActorInfoDetail> OffsetActorInfoDetail(FB_BUILDER& _fbb) = 0;
+	
+public: // 가상 & get set
+	virtual fb::eActorType Type() = 0;
 	virtual bool IsCharacter() const { return false; }
 	virtual bool IsMonster() const { return false; }
 	virtual bool IsNpc() const { return false; }
@@ -57,11 +69,11 @@ public:
 
 	virtual Speed_t Speed() const { return 0; }
 
-public:
-	ActorId_t Id() const { return m_id; }
-	void SetId(ActorId_t _id) { m_id = _id; }
+public: // 기능
+	ActorUid_t Uid() const { return m_uid; }
+	void SetUId(ActorUid_t _uid) { m_uid = _uid; }
 
 protected:
-	ActorId_t m_id;
+	ActorUid_t m_uid;
 	ActorAI* m_ai;
 };

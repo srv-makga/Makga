@@ -35,15 +35,26 @@ table HpMp
 	max_mp:int64;
 }
 
+table BuffInfo
+{
+	idx:uint32;
+	expire:int64;
+}
+
 table ActorInfoBase
 {
 	idx:uint32;
+	name:string;
+	pos:Position;
 	hpmp:HpMp;
+	// 장착중인 장비
 }
 
 table ActorInfoDetail
 {
 	base:ActorInfoBase;
+	speed:int32;
+	buff:[BuffInfo];
 }
 
 table ItemAbility
@@ -59,7 +70,7 @@ table ItemBase
 	stack:int32;
 }
 
-table ItemEquip
+table ItemDetail
 {
 	base:ItemBase;
 	skin_index:uint32;

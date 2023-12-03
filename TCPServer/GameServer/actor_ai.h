@@ -7,14 +7,15 @@ class Actor;
 class ActorAI
 {
 public:
-	ActorAI(Actor* _actor);
+	ActorAI(Actor* _actor, fb::eAiType _type);
 	virtual ~ActorAI();
 
 	void Initialize();
 	void OnUpdate();
 
+	bool Create();
+
 	eAiType Type() const;
-	void ChangeType(eAiType _type);
 
 private:
 	Actor* m_actor;

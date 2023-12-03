@@ -333,15 +333,33 @@ table Recv_LoginSecurity
 
 table Recv_ActorAppear
 {
-	id:uint64;
+	uid:uint64;
+	info:ActorInfoBase;
+	effect:uint32; // 나타나는 효과
 }
 
 table Recv_ActorDisappear
 {
+	uid:uint64;
+	effect:uint32; // 사라지는 효과
 }
 
 table Recv_ActorMove
 {
+	uid:uint64;
+	pos:Position;
+	speed:int32;
+}
+
+table Recv_ActorChange
+{
+	uid:uint64;
+	info:ActorInfoBase;
+}
+
+table Recv_ItemCreate
+{
+	info:ItemDetail;
 }
 
 table Recv_ItemDestroy

@@ -76,7 +76,7 @@ private:
 	Character* m_character;
 
 	// interaction
-	ActorId_t m_interaction_id;
+	ActorUid_t m_interaction_id;
 	Time_t m_interaction_expire;
 
 	InventoryCache m_inventory_cache;

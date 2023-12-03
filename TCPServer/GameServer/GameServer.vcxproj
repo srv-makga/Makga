@@ -123,6 +123,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="actor.cpp" />
     <ClCompile Include="actor_ai.cpp" />
     <ClCompile Include="actor_character.cpp" />
     <ClCompile Include="actor_manager.cpp" />

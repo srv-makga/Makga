@@ -39,7 +39,7 @@ struct ItemRefineInfo
 struct ActorBasicTable
 {
 	eActorType actor_type = eActorType_None;
-	std::string ai_type;
+	eAiType ai_type;
 };
 
 struct MonsterBasicTable : public ActorBasicTable

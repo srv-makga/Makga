@@ -31,6 +31,10 @@ struct HpMp;
 struct HpMpBuilder;
 struct HpMpT;
 
+struct BuffInfo;
+struct BuffInfoBuilder;
+struct BuffInfoT;
+
 struct ActorInfoBase;
 struct ActorInfoBaseBuilder;
 struct ActorInfoBaseT;
@@ -47,9 +51,9 @@ struct ItemBase;
 struct ItemBaseBuilder;
 struct ItemBaseT;
 
-struct ItemEquip;
-struct ItemEquipBuilder;
-struct ItemEquipT;
+struct ItemDetail;
+struct ItemDetailBuilder;
+struct ItemDetailT;
 
 struct PartyCreateOption;
 struct PartyCreateOptionBuilder;
@@ -435,9 +439,80 @@ inline ::flatbuffers::Offset<HpMp> CreateHpMp(
 
 ::flatbuffers::Offset<HpMp> CreateHpMp(::flatbuffers::FlatBufferBuilder &_fbb, const HpMpT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct BuffInfoT : public ::flatbuffers::NativeTable {
+  typedef BuffInfo TableType;
+  uint32_t idx = 0;
+  int64_t expire = 0;
+};
+
+struct BuffInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef BuffInfoT NativeTableType;
+  typedef BuffInfoBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_IDX = 4,
+    VT_EXPIRE = 6
+  };
+  uint32_t idx() const {
+    return GetField<uint32_t>(VT_IDX, 0);
+  }
+  bool mutate_idx(uint32_t _idx = 0) {
+    return SetField<uint32_t>(VT_IDX, _idx, 0);
+  }
+  int64_t expire() const {
+    return GetField<int64_t>(VT_EXPIRE, 0);
+  }
+  bool mutate_expire(int64_t _expire = 0) {
+    return SetField<int64_t>(VT_EXPIRE, _expire, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_IDX, 4) &&
+           VerifyField<int64_t>(verifier, VT_EXPIRE, 8) &&
+           verifier.EndTable();
+  }
+  BuffInfoT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(BuffInfoT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<BuffInfo> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const BuffInfoT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct BuffInfoBuilder {
+  typedef BuffInfo Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_idx(uint32_t idx) {
+    fbb_.AddElement<uint32_t>(BuffInfo::VT_IDX, idx, 0);
+  }
+  void add_expire(int64_t expire) {
+    fbb_.AddElement<int64_t>(BuffInfo::VT_EXPIRE, expire, 0);
+  }
+  explicit BuffInfoBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<BuffInfo> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<BuffInfo>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<BuffInfo> CreateBuffInfo(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t idx = 0,
+    int64_t expire = 0) {
+  BuffInfoBuilder builder_(_fbb);
+  builder_.add_expire(expire);
+  builder_.add_idx(idx);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<BuffInfo> CreateBuffInfo(::flatbuffers::FlatBufferBuilder &_fbb, const BuffInfoT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 struct ActorInfoBaseT : public ::flatbuffers::NativeTable {
   typedef ActorInfoBase TableType;
   uint32_t idx = 0;
+  std::string name{};
+  std::unique_ptr<fb::PositionT> pos{};
   std::unique_ptr<fb::HpMpT> hpmp{};
   ActorInfoBaseT() = default;
   ActorInfoBaseT(const ActorInfoBaseT &o);
@@ -450,13 +525,27 @@ struct ActorInfoBase FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef ActorInfoBaseBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_IDX = 4,
-    VT_HPMP = 6
+    VT_NAME = 6,
+    VT_POS = 8,
+    VT_HPMP = 10
   };
   uint32_t idx() const {
     return GetField<uint32_t>(VT_IDX, 0);
   }
   bool mutate_idx(uint32_t _idx = 0) {
     return SetField<uint32_t>(VT_IDX, _idx, 0);
+  }
+  const ::flatbuffers::String *name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_NAME);
+  }
+  ::flatbuffers::String *mutable_name() {
+    return GetPointer<::flatbuffers::String *>(VT_NAME);
+  }
+  const fb::Position *pos() const {
+    return GetPointer<const fb::Position *>(VT_POS);
+  }
+  fb::Position *mutable_pos() {
+    return GetPointer<fb::Position *>(VT_POS);
   }
   const fb::HpMp *hpmp() const {
     return GetPointer<const fb::HpMp *>(VT_HPMP);
@@ -467,6 +556,10 @@ struct ActorInfoBase FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint32_t>(verifier, VT_IDX, 4) &&
+           VerifyOffset(verifier, VT_NAME) &&
+           verifier.VerifyString(name()) &&
+           VerifyOffset(verifier, VT_POS) &&
+           verifier.VerifyTable(pos()) &&
            VerifyOffset(verifier, VT_HPMP) &&
            verifier.VerifyTable(hpmp()) &&
            verifier.EndTable();
@@ -482,6 +575,12 @@ struct ActorInfoBaseBuilder {
   ::flatbuffers::uoffset_t start_;
   void add_idx(uint32_t idx) {
     fbb_.AddElement<uint32_t>(ActorInfoBase::VT_IDX, idx, 0);
+  }
+  void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
+    fbb_.AddOffset(ActorInfoBase::VT_NAME, name);
+  }
+  void add_pos(::flatbuffers::Offset<fb::Position> pos) {
+    fbb_.AddOffset(ActorInfoBase::VT_POS, pos);
   }
   void add_hpmp(::flatbuffers::Offset<fb::HpMp> hpmp) {
     fbb_.AddOffset(ActorInfoBase::VT_HPMP, hpmp);
@@ -500,11 +599,30 @@ struct ActorInfoBaseBuilder {
 inline ::flatbuffers::Offset<ActorInfoBase> CreateActorInfoBase(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint32_t idx = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> name = 0,
+    ::flatbuffers::Offset<fb::Position> pos = 0,
     ::flatbuffers::Offset<fb::HpMp> hpmp = 0) {
   ActorInfoBaseBuilder builder_(_fbb);
   builder_.add_hpmp(hpmp);
+  builder_.add_pos(pos);
+  builder_.add_name(name);
   builder_.add_idx(idx);
   return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<ActorInfoBase> CreateActorInfoBaseDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t idx = 0,
+    const char *name = nullptr,
+    ::flatbuffers::Offset<fb::Position> pos = 0,
+    ::flatbuffers::Offset<fb::HpMp> hpmp = 0) {
+  auto name__ = name ? _fbb.CreateString(name) : 0;
+  return fb::CreateActorInfoBase(
+      _fbb,
+      idx,
+      name__,
+      pos,
+      hpmp);
 }
 
 ::flatbuffers::Offset<ActorInfoBase> CreateActorInfoBase(::flatbuffers::FlatBufferBuilder &_fbb, const ActorInfoBaseT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
@@ -512,6 +630,8 @@ inline ::flatbuffers::Offset<ActorInfoBase> CreateActorInfoBase(
 struct ActorInfoDetailT : public ::flatbuffers::NativeTable {
   typedef ActorInfoDetail TableType;
   std::unique_ptr<fb::ActorInfoBaseT> base{};
+  int32_t speed = 0;
+  std::vector<std::unique_ptr<fb::BuffInfoT>> buff{};
   ActorInfoDetailT() = default;
   ActorInfoDetailT(const ActorInfoDetailT &o);
   ActorInfoDetailT(ActorInfoDetailT&&) FLATBUFFERS_NOEXCEPT = default;
@@ -522,7 +642,9 @@ struct ActorInfoDetail FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef ActorInfoDetailT NativeTableType;
   typedef ActorInfoDetailBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_BASE = 4
+    VT_BASE = 4,
+    VT_SPEED = 6,
+    VT_BUFF = 8
   };
   const fb::ActorInfoBase *base() const {
     return GetPointer<const fb::ActorInfoBase *>(VT_BASE);
@@ -530,10 +652,26 @@ struct ActorInfoDetail FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   fb::ActorInfoBase *mutable_base() {
     return GetPointer<fb::ActorInfoBase *>(VT_BASE);
   }
+  int32_t speed() const {
+    return GetField<int32_t>(VT_SPEED, 0);
+  }
+  bool mutate_speed(int32_t _speed = 0) {
+    return SetField<int32_t>(VT_SPEED, _speed, 0);
+  }
+  const ::flatbuffers::Vector<::flatbuffers::Offset<fb::BuffInfo>> *buff() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<fb::BuffInfo>> *>(VT_BUFF);
+  }
+  ::flatbuffers::Vector<::flatbuffers::Offset<fb::BuffInfo>> *mutable_buff() {
+    return GetPointer<::flatbuffers::Vector<::flatbuffers::Offset<fb::BuffInfo>> *>(VT_BUFF);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_BASE) &&
            verifier.VerifyTable(base()) &&
+           VerifyField<int32_t>(verifier, VT_SPEED, 4) &&
+           VerifyOffset(verifier, VT_BUFF) &&
+           verifier.VerifyVector(buff()) &&
+           verifier.VerifyVectorOfTables(buff()) &&
            verifier.EndTable();
   }
   ActorInfoDetailT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -548,6 +686,12 @@ struct ActorInfoDetailBuilder {
   void add_base(::flatbuffers::Offset<fb::ActorInfoBase> base) {
     fbb_.AddOffset(ActorInfoDetail::VT_BASE, base);
   }
+  void add_speed(int32_t speed) {
+    fbb_.AddElement<int32_t>(ActorInfoDetail::VT_SPEED, speed, 0);
+  }
+  void add_buff(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<fb::BuffInfo>>> buff) {
+    fbb_.AddOffset(ActorInfoDetail::VT_BUFF, buff);
+  }
   explicit ActorInfoDetailBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -561,10 +705,27 @@ struct ActorInfoDetailBuilder {
 
 inline ::flatbuffers::Offset<ActorInfoDetail> CreateActorInfoDetail(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    ::flatbuffers::Offset<fb::ActorInfoBase> base = 0) {
+    ::flatbuffers::Offset<fb::ActorInfoBase> base = 0,
+    int32_t speed = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<fb::BuffInfo>>> buff = 0) {
   ActorInfoDetailBuilder builder_(_fbb);
+  builder_.add_buff(buff);
+  builder_.add_speed(speed);
   builder_.add_base(base);
   return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<ActorInfoDetail> CreateActorInfoDetailDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<fb::ActorInfoBase> base = 0,
+    int32_t speed = 0,
+    const std::vector<::flatbuffers::Offset<fb::BuffInfo>> *buff = nullptr) {
+  auto buff__ = buff ? _fbb.CreateVector<::flatbuffers::Offset<fb::BuffInfo>>(*buff) : 0;
+  return fb::CreateActorInfoDetail(
+      _fbb,
+      base,
+      speed,
+      buff__);
 }
 
 ::flatbuffers::Offset<ActorInfoDetail> CreateActorInfoDetail(::flatbuffers::FlatBufferBuilder &_fbb, const ActorInfoDetailT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
@@ -721,22 +882,22 @@ inline ::flatbuffers::Offset<ItemBase> CreateItemBase(
 
 ::flatbuffers::Offset<ItemBase> CreateItemBase(::flatbuffers::FlatBufferBuilder &_fbb, const ItemBaseT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct ItemEquipT : public ::flatbuffers::NativeTable {
-  typedef ItemEquip TableType;
+struct ItemDetailT : public ::flatbuffers::NativeTable {
+  typedef ItemDetail TableType;
   std::unique_ptr<fb::ItemBaseT> base{};
   uint32_t skin_index = 0;
   int32_t reinforce = 0;
   std::vector<std::unique_ptr<fb::ItemAbilityT>> reinforce_abilitys{};
   std::vector<std::unique_ptr<fb::ItemAbilityT>> enchant_abilitys{};
-  ItemEquipT() = default;
-  ItemEquipT(const ItemEquipT &o);
-  ItemEquipT(ItemEquipT&&) FLATBUFFERS_NOEXCEPT = default;
-  ItemEquipT &operator=(ItemEquipT o) FLATBUFFERS_NOEXCEPT;
+  ItemDetailT() = default;
+  ItemDetailT(const ItemDetailT &o);
+  ItemDetailT(ItemDetailT&&) FLATBUFFERS_NOEXCEPT = default;
+  ItemDetailT &operator=(ItemDetailT o) FLATBUFFERS_NOEXCEPT;
 };
 
-struct ItemEquip FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef ItemEquipT NativeTableType;
-  typedef ItemEquipBuilder Builder;
+struct ItemDetail FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef ItemDetailT NativeTableType;
+  typedef ItemDetailBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_BASE = 4,
     VT_SKIN_INDEX = 6,
@@ -788,49 +949,49 @@ struct ItemEquip FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
            verifier.VerifyVectorOfTables(enchant_abilitys()) &&
            verifier.EndTable();
   }
-  ItemEquipT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(ItemEquipT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<ItemEquip> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ItemEquipT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  ItemDetailT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ItemDetailT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<ItemDetail> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ItemDetailT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
-struct ItemEquipBuilder {
-  typedef ItemEquip Table;
+struct ItemDetailBuilder {
+  typedef ItemDetail Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
   void add_base(::flatbuffers::Offset<fb::ItemBase> base) {
-    fbb_.AddOffset(ItemEquip::VT_BASE, base);
+    fbb_.AddOffset(ItemDetail::VT_BASE, base);
   }
   void add_skin_index(uint32_t skin_index) {
-    fbb_.AddElement<uint32_t>(ItemEquip::VT_SKIN_INDEX, skin_index, 0);
+    fbb_.AddElement<uint32_t>(ItemDetail::VT_SKIN_INDEX, skin_index, 0);
   }
   void add_reinforce(int32_t reinforce) {
-    fbb_.AddElement<int32_t>(ItemEquip::VT_REINFORCE, reinforce, 0);
+    fbb_.AddElement<int32_t>(ItemDetail::VT_REINFORCE, reinforce, 0);
   }
   void add_reinforce_abilitys(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>>> reinforce_abilitys) {
-    fbb_.AddOffset(ItemEquip::VT_REINFORCE_ABILITYS, reinforce_abilitys);
+    fbb_.AddOffset(ItemDetail::VT_REINFORCE_ABILITYS, reinforce_abilitys);
   }
   void add_enchant_abilitys(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>>> enchant_abilitys) {
-    fbb_.AddOffset(ItemEquip::VT_ENCHANT_ABILITYS, enchant_abilitys);
+    fbb_.AddOffset(ItemDetail::VT_ENCHANT_ABILITYS, enchant_abilitys);
   }
-  explicit ItemEquipBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit ItemDetailBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<ItemEquip> Finish() {
+  ::flatbuffers::Offset<ItemDetail> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<ItemEquip>(end);
+    auto o = ::flatbuffers::Offset<ItemDetail>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<ItemEquip> CreateItemEquip(
+inline ::flatbuffers::Offset<ItemDetail> CreateItemDetail(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<fb::ItemBase> base = 0,
     uint32_t skin_index = 0,
     int32_t reinforce = 0,
     ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>>> reinforce_abilitys = 0,
     ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<fb::ItemAbility>>> enchant_abilitys = 0) {
-  ItemEquipBuilder builder_(_fbb);
+  ItemDetailBuilder builder_(_fbb);
   builder_.add_enchant_abilitys(enchant_abilitys);
   builder_.add_reinforce_abilitys(reinforce_abilitys);
   builder_.add_reinforce(reinforce);
@@ -839,7 +1000,7 @@ inline ::flatbuffers::Offset<ItemEquip> CreateItemEquip(
   return builder_.Finish();
 }
 
-inline ::flatbuffers::Offset<ItemEquip> CreateItemEquipDirect(
+inline ::flatbuffers::Offset<ItemDetail> CreateItemDetailDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<fb::ItemBase> base = 0,
     uint32_t skin_index = 0,
@@ -848,7 +1009,7 @@ inline ::flatbuffers::Offset<ItemEquip> CreateItemEquipDirect(
     const std::vector<::flatbuffers::Offset<fb::ItemAbility>> *enchant_abilitys = nullptr) {
   auto reinforce_abilitys__ = reinforce_abilitys ? _fbb.CreateVector<::flatbuffers::Offset<fb::ItemAbility>>(*reinforce_abilitys) : 0;
   auto enchant_abilitys__ = enchant_abilitys ? _fbb.CreateVector<::flatbuffers::Offset<fb::ItemAbility>>(*enchant_abilitys) : 0;
-  return fb::CreateItemEquip(
+  return fb::CreateItemDetail(
       _fbb,
       base,
       skin_index,
@@ -857,7 +1018,7 @@ inline ::flatbuffers::Offset<ItemEquip> CreateItemEquipDirect(
       enchant_abilitys__);
 }
 
-::flatbuffers::Offset<ItemEquip> CreateItemEquip(::flatbuffers::FlatBufferBuilder &_fbb, const ItemEquipT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+::flatbuffers::Offset<ItemDetail> CreateItemDetail(::flatbuffers::FlatBufferBuilder &_fbb, const ItemDetailT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct PartyCreateOptionT : public ::flatbuffers::NativeTable {
   typedef PartyCreateOption TableType;
@@ -1157,13 +1318,46 @@ inline ::flatbuffers::Offset<HpMp> CreateHpMp(::flatbuffers::FlatBufferBuilder &
       _max_mp);
 }
 
+inline BuffInfoT *BuffInfo::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<BuffInfoT>(new BuffInfoT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void BuffInfo::UnPackTo(BuffInfoT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = idx(); _o->idx = _e; }
+  { auto _e = expire(); _o->expire = _e; }
+}
+
+inline ::flatbuffers::Offset<BuffInfo> BuffInfo::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const BuffInfoT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateBuffInfo(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<BuffInfo> CreateBuffInfo(::flatbuffers::FlatBufferBuilder &_fbb, const BuffInfoT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const BuffInfoT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _idx = _o->idx;
+  auto _expire = _o->expire;
+  return fb::CreateBuffInfo(
+      _fbb,
+      _idx,
+      _expire);
+}
+
 inline ActorInfoBaseT::ActorInfoBaseT(const ActorInfoBaseT &o)
       : idx(o.idx),
+        name(o.name),
+        pos((o.pos) ? new fb::PositionT(*o.pos) : nullptr),
         hpmp((o.hpmp) ? new fb::HpMpT(*o.hpmp) : nullptr) {
 }
 
 inline ActorInfoBaseT &ActorInfoBaseT::operator=(ActorInfoBaseT o) FLATBUFFERS_NOEXCEPT {
   std::swap(idx, o.idx);
+  std::swap(name, o.name);
+  std::swap(pos, o.pos);
   std::swap(hpmp, o.hpmp);
   return *this;
 }
@@ -1178,6 +1372,8 @@ inline void ActorInfoBase::UnPackTo(ActorInfoBaseT *_o, const ::flatbuffers::res
   (void)_o;
   (void)_resolver;
   { auto _e = idx(); _o->idx = _e; }
+  { auto _e = name(); if (_e) _o->name = _e->str(); }
+  { auto _e = pos(); if (_e) { if(_o->pos) { _e->UnPackTo(_o->pos.get(), _resolver); } else { _o->pos = std::unique_ptr<fb::PositionT>(_e->UnPack(_resolver)); } } else if (_o->pos) { _o->pos.reset(); } }
   { auto _e = hpmp(); if (_e) { if(_o->hpmp) { _e->UnPackTo(_o->hpmp.get(), _resolver); } else { _o->hpmp = std::unique_ptr<fb::HpMpT>(_e->UnPack(_resolver)); } } else if (_o->hpmp) { _o->hpmp.reset(); } }
 }
 
@@ -1190,19 +1386,28 @@ inline ::flatbuffers::Offset<ActorInfoBase> CreateActorInfoBase(::flatbuffers::F
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ActorInfoBaseT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _idx = _o->idx;
+  auto _name = _o->name.empty() ? 0 : _fbb.CreateString(_o->name);
+  auto _pos = _o->pos ? CreatePosition(_fbb, _o->pos.get(), _rehasher) : 0;
   auto _hpmp = _o->hpmp ? CreateHpMp(_fbb, _o->hpmp.get(), _rehasher) : 0;
   return fb::CreateActorInfoBase(
       _fbb,
       _idx,
+      _name,
+      _pos,
       _hpmp);
 }
 
 inline ActorInfoDetailT::ActorInfoDetailT(const ActorInfoDetailT &o)
-      : base((o.base) ? new fb::ActorInfoBaseT(*o.base) : nullptr) {
+      : base((o.base) ? new fb::ActorInfoBaseT(*o.base) : nullptr),
+        speed(o.speed) {
+  buff.reserve(o.buff.size());
+  for (const auto &buff_ : o.buff) { buff.emplace_back((buff_) ? new fb::BuffInfoT(*buff_) : nullptr); }
 }
 
 inline ActorInfoDetailT &ActorInfoDetailT::operator=(ActorInfoDetailT o) FLATBUFFERS_NOEXCEPT {
   std::swap(base, o.base);
+  std::swap(speed, o.speed);
+  std::swap(buff, o.buff);
   return *this;
 }
 
@@ -1216,6 +1421,8 @@ inline void ActorInfoDetail::UnPackTo(ActorInfoDetailT *_o, const ::flatbuffers:
   (void)_o;
   (void)_resolver;
   { auto _e = base(); if (_e) { if(_o->base) { _e->UnPackTo(_o->base.get(), _resolver); } else { _o->base = std::unique_ptr<fb::ActorInfoBaseT>(_e->UnPack(_resolver)); } } else if (_o->base) { _o->base.reset(); } }
+  { auto _e = speed(); _o->speed = _e; }
+  { auto _e = buff(); if (_e) { _o->buff.resize(_e->size()); for (::flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { if(_o->buff[_i]) { _e->Get(_i)->UnPackTo(_o->buff[_i].get(), _resolver); } else { _o->buff[_i] = std::unique_ptr<fb::BuffInfoT>(_e->Get(_i)->UnPack(_resolver)); }; } } else { _o->buff.resize(0); } }
 }
 
 inline ::flatbuffers::Offset<ActorInfoDetail> ActorInfoDetail::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ActorInfoDetailT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -1227,9 +1434,13 @@ inline ::flatbuffers::Offset<ActorInfoDetail> CreateActorInfoDetail(::flatbuffer
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ActorInfoDetailT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _base = _o->base ? CreateActorInfoBase(_fbb, _o->base.get(), _rehasher) : 0;
+  auto _speed = _o->speed;
+  auto _buff = _o->buff.size() ? _fbb.CreateVector<::flatbuffers::Offset<fb::BuffInfo>> (_o->buff.size(), [](size_t i, _VectorArgs *__va) { return CreateBuffInfo(*__va->__fbb, __va->__o->buff[i].get(), __va->__rehasher); }, &_va ) : 0;
   return fb::CreateActorInfoDetail(
       _fbb,
-      _base);
+      _base,
+      _speed,
+      _buff);
 }
 
 inline ItemAbilityT *ItemAbility::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
@@ -1293,7 +1504,7 @@ inline ::flatbuffers::Offset<ItemBase> CreateItemBase(::flatbuffers::FlatBufferB
       _stack);
 }
 
-inline ItemEquipT::ItemEquipT(const ItemEquipT &o)
+inline ItemDetailT::ItemDetailT(const ItemDetailT &o)
       : base((o.base) ? new fb::ItemBaseT(*o.base) : nullptr),
         skin_index(o.skin_index),
         reinforce(o.reinforce) {
@@ -1303,7 +1514,7 @@ inline ItemEquipT::ItemEquipT(const ItemEquipT &o)
   for (const auto &enchant_abilitys_ : o.enchant_abilitys) { enchant_abilitys.emplace_back((enchant_abilitys_) ? new fb::ItemAbilityT(*enchant_abilitys_) : nullptr); }
 }
 
-inline ItemEquipT &ItemEquipT::operator=(ItemEquipT o) FLATBUFFERS_NOEXCEPT {
+inline ItemDetailT &ItemDetailT::operator=(ItemDetailT o) FLATBUFFERS_NOEXCEPT {
   std::swap(base, o.base);
   std::swap(skin_index, o.skin_index);
   std::swap(reinforce, o.reinforce);
@@ -1312,13 +1523,13 @@ inline ItemEquipT &ItemEquipT::operator=(ItemEquipT o) FLATBUFFERS_NOEXCEPT {
   return *this;
 }
 
-inline ItemEquipT *ItemEquip::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
-  auto _o = std::unique_ptr<ItemEquipT>(new ItemEquipT());
+inline ItemDetailT *ItemDetail::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<ItemDetailT>(new ItemDetailT());
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void ItemEquip::UnPackTo(ItemEquipT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void ItemDetail::UnPackTo(ItemDetailT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = base(); if (_e) { if(_o->base) { _e->UnPackTo(_o->base.get(), _resolver); } else { _o->base = std::unique_ptr<fb::ItemBaseT>(_e->UnPack(_resolver)); } } else if (_o->base) { _o->base.reset(); } }
@@ -1328,20 +1539,20 @@ inline void ItemEquip::UnPackTo(ItemEquipT *_o, const ::flatbuffers::resolver_fu
   { auto _e = enchant_abilitys(); if (_e) { _o->enchant_abilitys.resize(_e->size()); for (::flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { if(_o->enchant_abilitys[_i]) { _e->Get(_i)->UnPackTo(_o->enchant_abilitys[_i].get(), _resolver); } else { _o->enchant_abilitys[_i] = std::unique_ptr<fb::ItemAbilityT>(_e->Get(_i)->UnPack(_resolver)); }; } } else { _o->enchant_abilitys.resize(0); } }
 }
 
-inline ::flatbuffers::Offset<ItemEquip> ItemEquip::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ItemEquipT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
-  return CreateItemEquip(_fbb, _o, _rehasher);
+inline ::flatbuffers::Offset<ItemDetail> ItemDetail::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ItemDetailT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateItemDetail(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<ItemEquip> CreateItemEquip(::flatbuffers::FlatBufferBuilder &_fbb, const ItemEquipT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline ::flatbuffers::Offset<ItemDetail> CreateItemDetail(::flatbuffers::FlatBufferBuilder &_fbb, const ItemDetailT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ItemEquipT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ItemDetailT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _base = _o->base ? CreateItemBase(_fbb, _o->base.get(), _rehasher) : 0;
   auto _skin_index = _o->skin_index;
   auto _reinforce = _o->reinforce;
   auto _reinforce_abilitys = _o->reinforce_abilitys.size() ? _fbb.CreateVector<::flatbuffers::Offset<fb::ItemAbility>> (_o->reinforce_abilitys.size(), [](size_t i, _VectorArgs *__va) { return CreateItemAbility(*__va->__fbb, __va->__o->reinforce_abilitys[i].get(), __va->__rehasher); }, &_va ) : 0;
   auto _enchant_abilitys = _o->enchant_abilitys.size() ? _fbb.CreateVector<::flatbuffers::Offset<fb::ItemAbility>> (_o->enchant_abilitys.size(), [](size_t i, _VectorArgs *__va) { return CreateItemAbility(*__va->__fbb, __va->__o->enchant_abilitys[i].get(), __va->__rehasher); }, &_va ) : 0;
-  return fb::CreateItemEquip(
+  return fb::CreateItemDetail(
       _fbb,
       _base,
       _skin_index,

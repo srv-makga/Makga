@@ -9,7 +9,7 @@ class Actor;
 class TerrainGrid
 {
 public:
-	using Actors = std::unordered_map<ActorId_t, Actor*>;
+	using Actors = std::unordered_map<ActorUid_t, Actor*>;
 
 public:
 	TerrainGrid(CoordPoint_t& _lefttop, CoordPoint_t& _rightbottom, Coord_t _height);
@@ -24,8 +24,8 @@ public:
 
 	bool AddActor(Actor* _actor);
 	Actor* FindActor(Actor* _actor);
-	Actor* FindActor(ActorId_t _actor_id);
-	bool Erasector(ActorId_t _actor_id);
+	Actor* FindActor(ActorUid_t _actor_id);
+	bool Erasector(ActorUid_t _actor_id);
 	bool Erasector(Actor* _actor);
 
 
