@@ -14,13 +14,16 @@ void AIAggressive::initialize()
 	// MemSequence
 	m_root = core::ai::Builder()
 		.composite<core::ai::Sequence>()
-			.leaf<IsMoveAbleNode>(m_actor)
-			.leaf<HasTargetNode>(m_actor)
-			//.leaf<ActionNode<>>([this]()->core::ai::Node::Status { return m_actor->HasTarget() ? Status::Success : Status::Failure; })
-			//.leaf<ActionNode<>>([this]()->core::ai::Node::Status { return m_actor->Target() ? Status::Success : Status::Failure; })
-			//.leaf<ActionNode<>>([this]()->core::ai::Node::Status { return m_actor->Target()->IsDie() ? Status::Success : Status::Failure; })
-		.end()
-		.build();
+			.leaf<ActionNode>(m_actor, Actor::IsMovable())
+	//m_root = core::ai::Builder()
+	//	.composite<core::ai::Sequence>()
+	//		.leaf<IsMoveAbleNode>(m_actor)
+	//		.composite<core::ai::Selector>()
+	//			.leaf<HasTargetNode>(m_actor)
+	//			.leaf<FindTargetNode>(m_actor)
+	//		.end()
+	//	.end()
+	//	.build();
 }
 
 void AIAggressive::terminate(Status s)
