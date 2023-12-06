@@ -83,6 +83,8 @@ public: // ±â´É
 	ActorUid_t Uid() const { return m_uid; }
 	void SetUId(ActorUid_t _uid) { m_uid = _uid; }
 
+	ActorAI* AI() const { return m_ai; }
+
 protected:
 	ActorUid_t m_uid;
 	ActorAI* m_ai;

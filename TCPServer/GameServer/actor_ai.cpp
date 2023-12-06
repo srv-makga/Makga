@@ -48,6 +48,37 @@ bool ActorAI::Create()
 	return true;
 }
 
+ActionNode::Status ActorAI::IsMoveable()
+{
+	if (false == m_actor->IsMovable())
+	{
+		return ActionNode::Status::Failure;
+	}
+
+	return ActionNode::Status::Success;
+}
+
+ActionNode::Status ActorAI::HasTarget()
+{
+	if (false == m_actor->HasTarget())
+	{
+		return ActionNode::Status::Failure;
+	}
+
+	return ActionNode::Status::Success;
+}
+
+ActionNode::Status ActorAI::FindTarget()
+{
+	Actor* target = m_actor->FindTarget();
+	if (nullptr == target)
+	{
+		return ActionNode::Status::Failure;
+	}
+
+	return ActionNode::Status::Success;
+}
+
 eAiType ActorAI::Type() const
 {
 	return m_actor->AIType();
