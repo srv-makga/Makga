@@ -35,9 +35,13 @@ public:
 
 	bool Create();
 
+	ActionNode::Status HasDefaultAggro();
+
 	ActionNode::Status IsMoveable();
 	ActionNode::Status HasTarget();
 	ActionNode::Status FindTarget();
+
+	ActionNode::Status MoveNextPos();
 
 	eAiType Type() const;
 

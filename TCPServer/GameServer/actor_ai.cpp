@@ -48,6 +48,11 @@ bool ActorAI::Create()
 	return true;
 }
 
+ActionNode::Status ActorAI::HasDefaultAggro()
+{
+	return ActionNode::Status::Failure;
+}
+
 ActionNode::Status ActorAI::IsMoveable()
 {
 	if (false == m_actor->IsMovable())
@@ -76,6 +81,11 @@ ActionNode::Status ActorAI::FindTarget()
 		return ActionNode::Status::Failure;
 	}
 
+	return ActionNode::Status::Success;
+}
+
+ActionNode::Status ActorAI::MoveNextPos()
+{
 	return ActionNode::Status::Success;
 }
 
