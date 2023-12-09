@@ -48,14 +48,14 @@ bool ActorAI::Create()
 	return true;
 }
 
-ActionNode::Status ActorAI::HasDefaultAggro()
+ActionNode::Status ActorAI::CheckSearchProcess()
 {
-	return ActionNode::Status::Failure;
-}
+	if (0 == m_actor->SpawnAggro())
+	{
+		return ActionNode::Status::Failure;
+	}
 
-ActionNode::Status ActorAI::IsMoveable()
-{
-	if (false == m_actor->IsMovable())
+	if (eAiType_NonAggressive == m_actor->AIType())
 	{
 		return ActionNode::Status::Failure;
 	}
@@ -63,30 +63,39 @@ ActionNode::Status ActorAI::IsMoveable()
 	return ActionNode::Status::Success;
 }
 
-ActionNode::Status ActorAI::HasTarget()
+ActionNode::Status ActorAI::RunSearchProcess()
 {
-	if (false == m_actor->HasTarget())
-	{
-		return ActionNode::Status::Failure;
-	}
-
-	return ActionNode::Status::Success;
+	return ActionNode::Status();
 }
 
-ActionNode::Status ActorAI::FindTarget()
+ActionNode::Status ActorAI::CheckGuardProcess()
 {
-	Actor* target = m_actor->FindTarget();
-	if (nullptr == target)
-	{
-		return ActionNode::Status::Failure;
-	}
-
-	return ActionNode::Status::Success;
+	return ActionNode::Status();
 }
 
-ActionNode::Status ActorAI::MoveNextPos()
+ActionNode::Status ActorAI::RunGuardProcess()
 {
-	return ActionNode::Status::Success;
+	return ActionNode::Status();
+}
+
+ActionNode::Status ActorAI::CheckFollowProcess()
+{
+	return ActionNode::Status();
+}
+
+ActionNode::Status ActorAI::RunFollowProcess()
+{
+	return ActionNode::Status();
+}
+
+ActionNode::Status ActorAI::CheckMoveProcess()
+{
+	return ActionNode::Status();
+}
+
+ActionNode::Status ActorAI::RunMoveProcess()
+{
+	return ActionNode::Status();
 }
 
 eAiType ActorAI::Type() const

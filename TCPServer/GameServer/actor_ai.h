@@ -35,13 +35,14 @@ public:
 
 	bool Create();
 
-	ActionNode::Status HasDefaultAggro();
-
-	ActionNode::Status IsMoveable();
-	ActionNode::Status HasTarget();
-	ActionNode::Status FindTarget();
-
-	ActionNode::Status MoveNextPos();
+	ActionNode::Status CheckSearchProcess(); // 탐색모드
+	ActionNode::Status RunSearchProcess();
+	ActionNode::Status CheckGuardProcess(); // 경계모드
+	ActionNode::Status RunGuardProcess();
+	ActionNode::Status CheckFollowProcess(); // 팔로우
+	ActionNode::Status RunFollowProcess();
+	ActionNode::Status CheckMoveProcess();
+	ActionNode::Status RunMoveProcess();
 
 	eAiType Type() const;
 
