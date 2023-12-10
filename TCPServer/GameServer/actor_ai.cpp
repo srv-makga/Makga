@@ -65,7 +65,18 @@ ActionNode::Status ActorAI::CheckSearchProcess()
 
 ActionNode::Status ActorAI::RunSearchProcess()
 {
-	return ActionNode::Status();
+	if (0 == m_actor->SpawnAggro())
+	{
+		// 일정 시간 틱 대기
+		// 멤버변수로 대기할 틱을 저장해놓고 그전까진 대기..?
+	}
+	else
+	{
+		m_actor->AddAggroList(m_actor->SpawnAggro());
+
+	}
+
+	return ActionNode::Status::Success;
 }
 
 ActionNode::Status ActorAI::CheckGuardProcess()
