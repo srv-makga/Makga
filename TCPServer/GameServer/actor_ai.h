@@ -35,6 +35,14 @@ public:
 
 	bool Create();
 
+	ActionNode::Status CheckResurrection();
+	ActionNode::Status Resurrection();
+
+	ActionNode::Status HasTarget();
+	ActionNode::Status IsInsideAttackRange();
+
+	ActionNode::Status NextRoute();
+
 	ActionNode::Status CheckSearchProcess(); // 탐색모드
 	ActionNode::Status RunSearchProcess();
 	ActionNode::Status CheckGuardProcess(); // 경계모드

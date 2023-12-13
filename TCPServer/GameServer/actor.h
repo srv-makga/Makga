@@ -61,12 +61,20 @@ public: // °¡»ó & get set
 
 	virtual bool HasTarget() const { return false; }
 	virtual Actor* Target() const { return nullptr; }
-	virtual bool IsDie() const { return true; }
+	virtual bool IsDead() const { return true; }
+
+	virtual bool CanResurrecton() const { return false; }
+	virtual Result_t Resurrecton() const { return eResult_Success; }
+
+	virtual void SetDefaultPosition() { }
+	virtual Result_t SetPosition(const PositionT& _pos) { return eResult_Success; }
+	virtual const PositionT& Position() const { static const PositionT empty; return empty; }
 
 	virtual Coord_t X() const { return Coord_t(); }
 	virtual Coord_t Y() const { return Coord_t(); }
 	virtual Coord_t Z() const { return Coord_t(); }
-	virtual const PositionT& Position() const { static const PositionT empty; return empty; }
+
+	virtual Coord_t AttackRange() const { return 0; }
 
 	virtual fb::eAiType AIType() const { return eAiType_None; }
 
