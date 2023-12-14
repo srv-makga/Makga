@@ -68,7 +68,9 @@ public: // 가상 & get set
 
 	virtual void SetDefaultPosition() { }
 	virtual Result_t SetPosition(const PositionT& _pos) { return eResult_Success; }
-	virtual const PositionT& Position() const { static const PositionT empty; return empty; }
+	virtual const PositionT& Position() const { return s_empty_position; }
+	virtual const PositionT& LastRoutePosition() const { return s_empty_position; }
+	virtual const PositionT& NextRoutePosition() const { return s_empty_position; }
 
 	virtual Coord_t X() const { return Coord_t(); }
 	virtual Coord_t Y() const { return Coord_t(); }
@@ -96,4 +98,6 @@ public: // 기능
 protected:
 	ActorUid_t m_uid;
 	ActorAI* m_ai;
+
+	inline static const PositionT s_empty_position;
 };

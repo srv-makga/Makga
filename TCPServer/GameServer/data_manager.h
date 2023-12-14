@@ -12,3 +12,4 @@ public:
 };
 
 #define DATA_MANAGER	DataManager::Instance()
+#define SYSTEM			DataManager::Instance().SystemValue()

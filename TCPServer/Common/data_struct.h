@@ -5,8 +5,15 @@
 #include <vector>
 #include <map>
 
+struct SystemValue_Actor
+{
+	Coord_t max_around_distance = 30.f;
+};
+
 struct SystemValueInfo
 {
+	SystemValue_Actor actor;
+
 	Time_t interraction_wait_time = 30;
 
 	Gold_t resurrection_need_currency = 1000;

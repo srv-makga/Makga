@@ -5,7 +5,8 @@
 #include "ai_boss.h"
 #include "actor.h"
 #include "actor_manager.h"
-#include "../Core/math.h"
+#include "data_manager.h"
+#include "utility.h"
 
 ActorAI::ActorAI(Actor* _actor, fb::eAiType _type)
 	: m_actor(_actor)
@@ -90,15 +91,8 @@ ActionNode::Status ActorAI::IsInsideAttackRange()
 		return ActionNode::Status::Failure;
 	}
 
-	Coord_t distance_square = MATH.DistanceSquare(m_actor->Position().x,
-		m_actor->Position().y,
-		m_actor->Position().z,
-		target->Position().x,
-		target->Position().y,
-		target->Position().z
-	);
-
-	if (m_actor->AttackRange() < distance_square)
+	Coord_t distance = UTIL.CalcDistance(m_actor->Position(), target->Position());
+	if (m_actor->AttackRange() < distance)
 	{
 		return ActionNode::Status::Failure;
 	}
@@ -106,9 +100,75 @@ ActionNode::Status ActorAI::IsInsideAttackRange()
 	return ActionNode::Status::Success;
 }
 
+ActionNode::Status ActorAI::AttackTarget()
+{
+	Actor* target = m_actor->Target();
+	if (nullptr == target)
+	{
+		return ActionNode::Status::Failure;
+	}
+
+	// 내가 공격할 수 없는 상태
+	if (false == m_actor->IsAttackable())
+	{
+		return ActionNode::Status::Failure;
+	}
+
+	// 상대방이 공격 당할 수 없는 상태
+	if (false == target->IsAttacked())
+	{
+		return ActionNode::Status::Failure;
+	}
+
+	Result_t result = target->Attacked(m_actor);
+	if (eResult_Success != result)
+	{
+		DLOG_DEBUG << LOG_RESULT(result) << " " << m_actor->Uid() << " is attack " << target->Uid();
+		return ActionNode::Status::Failure;
+	}
+
+	return ActionNode::Status::Success;
+}
+
+ActionNode::Status ActorAI::CheckFarSpawnPoistion()
+{
+	// 일정 거리이상 스폰 위치에서 벗어날 수 없다
+	if (SYSTEM.actor.max_around_distance < UTIL.CalcDistance(m_actor->Position(), m_actor->LastRoutePosition()))
+	{
+		return ActionNode::Status::Failure;
+	}
+
+	return ActionNode::Status::Success;
+}
+
+ActionNode::Status ActorAI::MoveToTarget()
+{
+	Actor* target = m_actor->Target();
+	if (nullptr == target)
+	{
+		return ActionNode::Status::Failure;
+	}
+
+	return ActionNode::Status();
+}
+
+ActionNode::Status ActorAI::ReturnRoutePosition()
+{
+	m_actor->SetPosition(m_actor->LastRoutePosition());
+
+	return ActionNode::Status::Success;
+}
+
 ActionNode::Status ActorAI::NextRoute()
 {
-	return ActionNode::Status();
+	if (false == m_actor->HasNextRoutePosition())
+	{
+		return ActionNode::Status::Failure;
+	}
+
+	m_actor->SetPosition(m_actor->NextRoutePosition());
+
+	return ActionNode::Status::Success;
 }
 
 ActionNode::Status ActorAI::CheckSearchProcess()

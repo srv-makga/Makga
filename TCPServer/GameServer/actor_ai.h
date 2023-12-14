@@ -40,6 +40,13 @@ public:
 
 	ActionNode::Status HasTarget();
 	ActionNode::Status IsInsideAttackRange();
+	ActionNode::Status AttackTarget();
+	// @brief 타겟 발견전 위치와 거리 체크
+	ActionNode::Status CheckFarSpawnPoistion();
+	ActionNode::Status MoveToTarget();
+
+	// @brief 마지막 
+	ActionNode::Status ReturnRoutePosition();
 
 	ActionNode::Status NextRoute();
 
