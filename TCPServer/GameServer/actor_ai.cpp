@@ -51,7 +51,17 @@ bool ActorAI::Create()
 	return true;
 }
 
-ActionNode::Status ActorAI::CheckResurrection()
+ActionNode::Status ActorAI::IsDead()
+{
+	if (false == m_actor->IsDead())
+	{
+		return ActionNode::Status::Failure;
+	}
+
+	return ActionNode::Status::Success;
+}
+
+ActionNode::Status ActorAI::TryResurrection()
 {
 	if (false == m_actor->IsDead())
 	{
@@ -63,13 +73,9 @@ ActionNode::Status ActorAI::CheckResurrection()
 		return ActionNode::Status::Failure;
 	}
 
-	return ActionNode::Status::Success;
-}
-
-ActionNode::Status ActorAI::Resurrection()
-{
 	m_actor->SetDefaultPosition();
 	m_actor->Resurrecton();
+
 	return ActionNode::Status::Success;
 }
 
@@ -120,8 +126,12 @@ ActionNode::Status ActorAI::AttackTarget()
 		return ActionNode::Status::Failure;
 	}
 
-	Result_t result = target->Attacked(m_actor);
-	if (eResult_Success != result)
+	Result_t result = m_actor->DoAttack(target, m_actor->SkillIndex());
+	if (eResult_Success == result)
+	{
+		
+	}
+	else
 	{
 		DLOG_DEBUG << LOG_RESULT(result) << " " << m_actor->Uid() << " is attack " << target->Uid();
 		return ActionNode::Status::Failure;
@@ -154,12 +164,46 @@ ActionNode::Status ActorAI::MoveToTarget()
 
 ActionNode::Status ActorAI::ReturnRoutePosition()
 {
+	// @todo 무적 상태로 설정해줘야 한다
 	m_actor->SetPosition(m_actor->LastRoutePosition());
 
 	return ActionNode::Status::Success;
 }
 
-ActionNode::Status ActorAI::NextRoute()
+ActionNode::Status ActorAI::FindTarget()
+{
+	Terrain* terrain = m_actor->Terrain();
+	if (nullptr == terrain)
+	{
+		ActionNode::Status::Failure;
+	}
+
+	ActorList actor_list;
+	terrain->AroundList(m_actor->Position(), m_actor->Sight(), actor_list);
+
+	if (true == actor_list.empty())
+	{
+		return ActionNode::Status::Failure;
+	}
+
+	m_actor->AddAggroList(actor_list);
+
+	return ActionNode::Status::Success;
+}
+
+ActionNode::Status ActorAI::SetTarget()
+{
+	if (false == m_actor->HasAggroList())
+	{
+		return ActionNode::Status::Failure;
+	}
+
+	m_actor->SetTargetInAggroList();
+
+	return ActionNode::Status::Success;
+}
+
+ActionNode::Status ActorAI::Idle()
 {
 	if (false == m_actor->HasNextRoutePosition())
 	{
@@ -169,78 +213,6 @@ ActionNode::Status ActorAI::NextRoute()
 	m_actor->SetPosition(m_actor->NextRoutePosition());
 
 	return ActionNode::Status::Success;
-}
-
-ActionNode::Status ActorAI::CheckSearchProcess()
-{
-	if (0 == m_actor->SpawnAggro())
-	{
-		return ActionNode::Status::Failure;
-	}
-
-	if (eAiType_NonAggressive == m_actor->AIType())
-	{
-		return ActionNode::Status::Failure;
-	}
-
-	return ActionNode::Status::Success;
-}
-
-ActionNode::Status ActorAI::RunSearchProcess()
-{
-	if (0 < m_actor->SpawnAggro())
-	{
-		// 주변에 있는가 & 공격 가능한 상태인가
-		// 어그로 목록에 등록
-		// 아니라면 주변 탐색
-
-		do
-		{
-			Actor* target = ACTOR_MANAGER.Find(m_actor->SpawnAggro()->ActorId());
-			if (nullptr == target)
-			{
-
-			}
-
-			m_actor->AddAggroList(m_actor->SpawnAggro());
-		}
-	}
-	else
-	{
-		Actor* target = m_actor->FindEnermy();
-	}
-
-	return ActionNode::Status::Success;
-}
-
-ActionNode::Status ActorAI::CheckGuardProcess()
-{
-	return ActionNode::Status();
-}
-
-ActionNode::Status ActorAI::RunGuardProcess()
-{
-	return ActionNode::Status();
-}
-
-ActionNode::Status ActorAI::CheckFollowProcess()
-{
-	return ActionNode::Status();
-}
-
-ActionNode::Status ActorAI::RunFollowProcess()
-{
-	return ActionNode::Status();
-}
-
-ActionNode::Status ActorAI::CheckMoveProcess()
-{
-	return ActionNode::Status();
-}
-
-ActionNode::Status ActorAI::RunMoveProcess()
-{
-	return ActionNode::Status();
 }
 
 eAiType ActorAI::Type() const

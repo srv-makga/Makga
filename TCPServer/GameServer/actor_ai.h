@@ -35,8 +35,8 @@ public:
 
 	bool Create();
 
-	ActionNode::Status CheckResurrection();
-	ActionNode::Status Resurrection();
+	ActionNode::Status IsDead();
+	ActionNode::Status TryResurrection();
 
 	ActionNode::Status HasTarget();
 	ActionNode::Status IsInsideAttackRange();
@@ -48,16 +48,10 @@ public:
 	// @brief 마지막 
 	ActionNode::Status ReturnRoutePosition();
 
-	ActionNode::Status NextRoute();
+	ActionNode::Status FindTarget();
+	ActionNode::Status SetTarget();
 
-	ActionNode::Status CheckSearchProcess(); // 탐색모드
-	ActionNode::Status RunSearchProcess();
-	ActionNode::Status CheckGuardProcess(); // 경계모드
-	ActionNode::Status RunGuardProcess();
-	ActionNode::Status CheckFollowProcess(); // 팔로우
-	ActionNode::Status RunFollowProcess();
-	ActionNode::Status CheckMoveProcess();
-	ActionNode::Status RunMoveProcess();
+	ActionNode::Status Idle();
 
 	eAiType Type() const;
 

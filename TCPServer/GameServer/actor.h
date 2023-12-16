@@ -26,6 +26,8 @@ public: // 가상 & 기능
 	virtual bool SetTable(ActorBasicTable* _table) = 0;
 	virtual void OnUpdate() = 0;
 
+	virtual Result_t DoMove(Vector_t _vec) = 0;
+
 	virtual Result_t Move(Coord_t _x, Coord_t _y, Coord_t _z) = 0;
 	virtual Result_t Move(Vector_t _vec) = 0;
 
@@ -40,8 +42,17 @@ public: // 가상 & 기능
 	virtual Result_t Change(TableIdx_t _index) = 0;
 	virtual Result_t ChangeRollback() = 0;
 
+	virtual bool CanResurrecton() const { return false; }
+	virtual Result_t Resurrecton() const { return eResult_Success; }
+
+	virtual Result_t DoAttack(Actor* _target, SkillIdx_t _skill_idx) = 0;
+
 	virtual flatbuffers::Offset<fb::ActorInfoBase> OffsetActorInfoBase(FB_BUILDER& _fbb) = 0;
 	virtual flatbuffers::Offset<fb::ActorInfoDetail> OffsetActorInfoDetail(FB_BUILDER& _fbb) = 0;
+
+protected:
+	// @brief 이동할 목표 지점 설정
+	virtual Result_t SetMoveTarget(Vector_t _vec) = 0;
 	
 public: // 가상 & get set
 	virtual fb::eActorType Type() const = 0;
@@ -63,13 +74,13 @@ public: // 가상 & get set
 	virtual Actor* Target() const { return nullptr; }
 	virtual bool IsDead() const { return true; }
 
-	virtual bool CanResurrecton() const { return false; }
-	virtual Result_t Resurrecton() const { return eResult_Success; }
+	virtual SkillIdx_t SkillIndex() const { return 0; }
 
 	virtual void SetDefaultPosition() { }
 	virtual Result_t SetPosition(const PositionT& _pos) { return eResult_Success; }
 	virtual const PositionT& Position() const { return s_empty_position; }
 	virtual const PositionT& LastRoutePosition() const { return s_empty_position; }
+	virtual bool HasNextRoutePosition() const { return false; }
 	virtual const PositionT& NextRoutePosition() const { return s_empty_position; }
 
 	virtual Coord_t X() const { return Coord_t(); }
@@ -88,6 +99,8 @@ public: // 가상 & get set
 	virtual Speed_t Speed() const { return 0; }
 
 	virtual Terrain* Terrain() const { return nullptr; }
+
+	virtual Actor* Owner() const { return nullptr; }
 
 public: // 기능
 	ActorUid_t Uid() const { return m_uid; }
