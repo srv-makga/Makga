@@ -100,6 +100,12 @@ bool Terrain::IsInside(const Vector_t& _vector)
 	return true;
 }
 
+bool Terrain::AroundList(const PositionT& _position, Distance_t _range, OUT ActorList& _actor_list)
+{
+	// @todo ±¸Çö
+	return !_actor_list.empty();
+}
+
 TerrainIdx_t Terrain::Idx() const
 {
 	return nullptr == m_table

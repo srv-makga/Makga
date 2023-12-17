@@ -26,7 +26,7 @@ public: // 가상 & 기능
 	virtual bool SetTable(ActorBasicTable* _table) = 0;
 	virtual void OnUpdate() = 0;
 
-	virtual Result_t DoMove(Vector_t _vec) = 0;
+	virtual Result_t DoMove(const PositionT& _position) = 0;
 
 	virtual Result_t Move(Coord_t _x, Coord_t _y, Coord_t _z) = 0;
 	virtual Result_t Move(Vector_t _vec) = 0;
@@ -46,6 +46,10 @@ public: // 가상 & 기능
 	virtual Result_t Resurrecton() const { return eResult_Success; }
 
 	virtual Result_t DoAttack(Actor* _target, SkillIdx_t _skill_idx) = 0;
+
+	virtual void AddAggroList(Actor* _actor) = 0;
+	virtual void AddAggroList(const ActorList& _actor) = 0;
+	virtual void SelectTarget() = 0;
 
 	virtual flatbuffers::Offset<fb::ActorInfoBase> OffsetActorInfoBase(FB_BUILDER& _fbb) = 0;
 	virtual flatbuffers::Offset<fb::ActorInfoDetail> OffsetActorInfoDetail(FB_BUILDER& _fbb) = 0;
@@ -87,7 +91,10 @@ public: // 가상 & get set
 	virtual Coord_t Y() const { return Coord_t(); }
 	virtual Coord_t Z() const { return Coord_t(); }
 
+	virtual Coord_t MaxAroundDistance() const { return 0; }
 	virtual Coord_t AttackRange() const { return 0; }
+
+	virtual Distance_t MySight() const { return 0.f; };
 
 	virtual fb::eAiType AIType() const { return eAiType_None; }
 
@@ -102,10 +109,9 @@ public: // 가상 & get set
 
 	virtual Actor* Owner() const { return nullptr; }
 
-public: // 기능
+public: // actor 자체
 	ActorUid_t Uid() const { return m_uid; }
 	void SetUId(ActorUid_t _uid) { m_uid = _uid; }
-
 	ActorAI* AI() const { return m_ai; }
 
 protected:

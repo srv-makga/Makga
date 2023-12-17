@@ -18,6 +18,9 @@ public:
 
 	bool IsInside(const Vector_t& _vector);
 
+	bool AroundList(const PositionT& _position, Distance_t _range, OUT ActorList& _actor_list);
+
+
 	TerrainIdx_t Idx() const;
 
 private:

@@ -66,6 +66,7 @@ using TerrainUid_t = uint32_t;
 
 // Coord
 using Coord_t = float;
+using Distance_t = Coord_t;
 using CoordPoint_t = std::pair<Coord_t, Coord_t>;
 using Vector_t = core::coord::Vector3<Coord_t>;
 

@@ -6,6 +6,7 @@
 #include "actor.h"
 #include "actor_manager.h"
 #include "data_manager.h"
+#include "terrain.h"
 #include "utility.h"
 
 ActorAI::ActorAI(Actor* _actor, fb::eAiType _type)
@@ -143,7 +144,8 @@ ActionNode::Status ActorAI::AttackTarget()
 ActionNode::Status ActorAI::CheckFarSpawnPoistion()
 {
 	// 일정 거리이상 스폰 위치에서 벗어날 수 없다
-	if (SYSTEM.actor.max_around_distance < UTIL.CalcDistance(m_actor->Position(), m_actor->LastRoutePosition()))
+	// @todo 몬스터별로 거리를 갖자
+	if (m_actor->MaxAroundDistance() < UTIL.CalcDistance(m_actor->Position(), m_actor->LastRoutePosition()))
 	{
 		return ActionNode::Status::Failure;
 	}
@@ -159,7 +161,14 @@ ActionNode::Status ActorAI::MoveToTarget()
 		return ActionNode::Status::Failure;
 	}
 
-	return ActionNode::Status();
+	Result_t result = m_actor->DoMove(target->Position());
+	if (eResult_Success != result)
+	{
+		LOG_ERROR << LOG_ACTOR(m_actor) << LOG_RESULT(result);
+		return ActionNode::Status::Failure;
+	}
+
+	return ActionNode::Status::Success;
 }
 
 ActionNode::Status ActorAI::ReturnRoutePosition()
@@ -175,13 +184,11 @@ ActionNode::Status ActorAI::FindTarget()
 	Terrain* terrain = m_actor->Terrain();
 	if (nullptr == terrain)
 	{
-		ActionNode::Status::Failure;
+		return ActionNode::Status::Failure;
 	}
 
 	ActorList actor_list;
-	terrain->AroundList(m_actor->Position(), m_actor->Sight(), actor_list);
-
-	if (true == actor_list.empty())
+	if (false == terrain->AroundList(m_actor->Position(), m_actor->MySight(), actor_list))
 	{
 		return ActionNode::Status::Failure;
 	}
@@ -193,12 +200,7 @@ ActionNode::Status ActorAI::FindTarget()
 
 ActionNode::Status ActorAI::SetTarget()
 {
-	if (false == m_actor->HasAggroList())
-	{
-		return ActionNode::Status::Failure;
-	}
-
-	m_actor->SetTargetInAggroList();
+	m_actor->SelectTarget();
 
 	return ActionNode::Status::Success;
 }
