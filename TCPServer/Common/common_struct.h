@@ -49,7 +49,8 @@ public:
 			for (auto iter = port_obj.MemberBegin(); port_obj.MemberEnd() != iter; ++iter)
 			{
 				ServerType_t server_type = STR_TO_ENUM(eServerType, iter->name.GetString());
-				Port_t port = iter->value.Get<Port_t>();
+				
+				Port_t port = iter->value.GetInt();
 				if (1000 > port)
 				{
 					LOG_ERROR << "Port is invalid. port:" << port;

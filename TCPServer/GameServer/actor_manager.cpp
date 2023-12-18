@@ -92,8 +92,8 @@ Character* ActorManager::AllocCharacter()
 {
 	Character* actor = POOL(Character)::Pop();
 
-	m_characters.insert({ actor->Id(), actor });
-	Add(actor->Id(), actor);
+	m_characters.insert({ actor->Uid(), actor });
+	Add(actor->Uid(), actor);
 
 	return actor;
 }
@@ -105,8 +105,8 @@ void ActorManager::ReallocCharacter(Character* _actor)
 		return;
 	}
 
-	m_characters.erase(_actor->Id());
-	Remove(_actor->Id());
+	m_characters.erase(_actor->Uid());
+	Remove(_actor->Uid());
 
 	POOL(Character)::Push(_actor);
 }
@@ -115,8 +115,8 @@ Monster* ActorManager::AllocMonster()
 {
 	Monster* actor = POOL(Monster)::Pop();
 
-	m_monsters.insert({ actor->Id(), actor });
-	Add(actor->Id(), actor);
+	m_monsters.insert({ actor->Uid(), actor });
+	Add(actor->Uid(), actor);
 
 	return actor;
 }
@@ -128,8 +128,8 @@ void ActorManager::ReallocMonster(Monster* _actor)
 		return;
 	}
 
-	m_monsters.erase(_actor->Id());
-	Remove(_actor->Id());
+	m_monsters.erase(_actor->Uid());
+	Remove(_actor->Uid());
 
 	POOL(Monster)::Push(_actor);
 }
@@ -138,8 +138,8 @@ Npc* ActorManager::AllocNpc()
 {
 	Npc* actor = POOL(Npc)::Pop();
 
-	m_npcs.insert({ actor->Id(), actor });
-	Add(actor->Id(), actor);
+	m_npcs.insert({ actor->Uid(), actor });
+	Add(actor->Uid(), actor);
 
 	return actor;
 }
@@ -151,8 +151,8 @@ void ActorManager::ReallocNpc(Npc* _actor)
 		return;
 	}
 
-	m_npcs.erase(_actor->Id());
-	Remove(_actor->Id());
+	m_npcs.erase(_actor->Uid());
+	Remove(_actor->Uid());
 
 	POOL(Npc)::Push(_actor);
 }
@@ -161,8 +161,8 @@ Gadget* ActorManager::AllocGadget()
 {
 	Gadget* actor = POOL(Gadget)::Pop();
 
-	m_objects.insert({ actor->Id(), actor });
-	Add(actor->Id(), actor);
+	m_objects.insert({ actor->Uid(), actor });
+	Add(actor->Uid(), actor);
 
 	return actor;
 }
@@ -174,8 +174,8 @@ void ActorManager::ReallocGadget(Gadget* _actor)
 		return;
 	}
 
-	m_objects.erase(_actor->Id());
-	Remove(_actor->Id());
+	m_objects.erase(_actor->Uid());
+	Remove(_actor->Uid());
 
 	POOL(Gadget)::Push(_actor);
 }

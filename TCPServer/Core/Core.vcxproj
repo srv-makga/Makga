@@ -150,7 +150,6 @@
     <ClInclude Include="json_object.hpp" />
     <ClInclude Include="buffer_pull.h" />
     <ClInclude Include="db_query.h" />
-    <ClInclude Include="math.h" />
     <ClInclude Include="object_pool.h" />
     <ClInclude Include="queue_interface.h" />
     <ClInclude Include="redis_connector.h" />
@@ -205,7 +204,6 @@
     <ClCompile Include="db_connector_mysql.cpp" />
     <ClCompile Include="db_statement_maria.cpp" />
     <ClCompile Include="endpoint.cpp" />
-    <ClCompile Include="math.cpp" />
     <ClCompile Include="redis_connector.cpp" />
     <ClCompile Include="redis_reply.cpp" />
     <ClCompile Include="socket_base.cpp" />

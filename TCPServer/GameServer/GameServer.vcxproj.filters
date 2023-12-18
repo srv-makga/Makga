@@ -62,9 +62,6 @@
     <ClCompile Include="terrain_grid.cpp">
       <Filter>system\terrain</Filter>
     </ClCompile>
-    <ClCompile Include="ai_aggressive.cpp">
-      <Filter>ai</Filter>
-    </ClCompile>
     <ClCompile Include="proc_user.cpp">
       <Filter>proc</Filter>
     </ClCompile>
@@ -104,14 +101,17 @@
     <ClCompile Include="actor_ai.cpp">
       <Filter>actor</Filter>
     </ClCompile>
-    <ClCompile Include="ai_non_aggressive.cpp">
-      <Filter>ai</Filter>
-    </ClCompile>
     <ClCompile Include="actor.cpp">
       <Filter>actor</Filter>
     </ClCompile>
     <ClCompile Include="aggro_list.cpp">
       <Filter>system</Filter>
+    </ClCompile>
+    <ClCompile Include="ai_aggressive.cpp">
+      <Filter>ai\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="ai_non_aggressive.cpp">
+      <Filter>ai\detail</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,19 +123,10 @@
     <ClInclude Include="actor.h">
       <Filter>actor</Filter>
     </ClInclude>
-    <ClInclude Include="ai_aggressive.h">
-      <Filter>ai</Filter>
-    </ClInclude>
-    <ClInclude Include="ai_non_aggressive.h">
-      <Filter>ai</Filter>
-    </ClInclude>
     <ClInclude Include="acceptor_user.h">
       <Filter>network\acceptor</Filter>
     </ClInclude>
     <ClInclude Include="server_game.h" />
-    <ClInclude Include="ai_boss.h">
-      <Filter>ai</Filter>
-    </ClInclude>
     <ClInclude Include="data_manager.h">
       <Filter>data</Filter>
     </ClInclude>
@@ -250,6 +241,15 @@
     </ClInclude>
     <ClInclude Include="game_type.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="ai_aggressive.h">
+      <Filter>ai\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="ai_non_aggressive.h">
+      <Filter>ai\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="ai_boss.h">
+      <Filter>ai\detail</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

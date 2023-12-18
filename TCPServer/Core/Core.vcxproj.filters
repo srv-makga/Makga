@@ -76,9 +76,6 @@
     <ClCompile Include="db_connector_mysql.cpp">
       <Filter>database\mysql</Filter>
     </ClCompile>
-    <ClCompile Include="math.cpp">
-      <Filter>math</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -267,9 +264,6 @@
     <ClInclude Include="db_connector_mysql.h">
       <Filter>database\mysql</Filter>
     </ClInclude>
-    <ClInclude Include="math.h">
-      <Filter>math</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -358,9 +352,6 @@
     </Filter>
     <Filter Include="ai">
       <UniqueIdentifier>{ae4da3cf-75d1-4358-94d2-a8ce21946902}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="math">
-      <UniqueIdentifier>{5a31df7f-ad11-4dd4-9cb2-b30272333ab3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
