@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "actor_character.h"
+#include "data_manager.h"
+#include "terrain.h"
 
 Character::Character()
 {
@@ -23,17 +25,19 @@ void Character::OnUpdate()
 
 Result_t Character::Move(Coord_t _x, Coord_t _y, Coord_t _z, Coord_t _angle)
 {
-	// @todo 해당 좌표에 이동가능한 지역인지 확인
-	if ()
-	{
-		// 이동할 수 없는 지역입니다.
-		return eResult_ActorNotMovePos;
-	}
-
 	if (false == IsMovable())
 	{
 		return eResult_ActorNotMoveState;
 	}
+
+	Terrain* terrain = CurTerrain();
+	if (nullptr == terrain)
+	{
+		return eResult_ActorNotMovePos;
+	}
+
+	// @todo 해당 좌표에 이동가능한 지역인지 확인
+	// 이동할 수 없는 지역입니다.
 
 	Coord_t old_x = X();
 	Coord_t old_y = Y();
@@ -54,6 +58,10 @@ Result_t Character::Move(Coord_t _x, Coord_t _y, Coord_t _z, Coord_t _angle)
 	// 내 주변 유저들에게 내 정보를 전달한다
 
 	// 내 주변 액터 목록을 가져온다
+	ActorList actor_list;
+	if (true == terrain->AroundList(Position(), SYSTEM.actor.max_around_distance, actor_list))
+	{
+	}
 
 	// 좌표 기준 주변 알림
 	GridMultiCast(this, new_x, new_y, new_z, new_angle);

@@ -42,7 +42,7 @@ public:
 private:
 	Vector_t m_pos;
 	Coord_t m_angle;
-	stHpMp m_hp_mp;
+	fb::HpMpT m_hp_mp;
 
 	Speed_t m_speed;
 };

@@ -48,7 +48,7 @@ bool TerrainGrid::AddActor(Actor* _actor)
 		return false;
 	}
 
-	return m_actors.insert({ _actor->Id(), _actor }).second;
+	return m_actors.insert({ _actor->Uid(), _actor }).second;
 }
 
 Actor* TerrainGrid::FindActor(Actor* _actor)
@@ -58,7 +58,7 @@ Actor* TerrainGrid::FindActor(Actor* _actor)
 		return nullptr;
 	}
 
-	return FindActor(_actor->Id());
+	return FindActor(_actor->Uid());
 }
 
 Actor* TerrainGrid::FindActor(ActorUid_t _actor_id)
@@ -84,7 +84,7 @@ bool TerrainGrid::Erasector(Actor* _actor)
 		return false;
 	}
 
-	return Erasector(_actor->Id());
+	return Erasector(_actor->Uid());
 }
 
 TerrainGrid& TerrainGrid::PushAround(TerrainGrid* _terrain_grid)

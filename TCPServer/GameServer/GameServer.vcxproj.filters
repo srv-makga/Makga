@@ -71,9 +71,6 @@
     <ClCompile Include="item_object_stack.cpp">
       <Filter>system\item\object</Filter>
     </ClCompile>
-    <ClCompile Include="ReinforceManager.cpp">
-      <Filter>system\item</Filter>
-    </ClCompile>
     <ClCompile Include="DetourAlloc.cpp">
       <Filter>system\terrain\detour</Filter>
     </ClCompile>
@@ -197,9 +194,6 @@
     <ClInclude Include="item_object_equip.h">
       <Filter>system\item\object</Filter>
     </ClInclude>
-    <ClInclude Include="ReinforceManager.h">
-      <Filter>system\item</Filter>
-    </ClInclude>
     <ClInclude Include="DetourAlloc.h">
       <Filter>system\terrain\detour</Filter>
     </ClInclude>
@@ -303,9 +297,6 @@
     </Filter>
     <Filter Include="system\item\object">
       <UniqueIdentifier>{c47e153c-14c9-4c4f-9212-e3c065ac7081}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="system\item\NewFilter1">
-      <UniqueIdentifier>{94b4ceda-db47-4cc6-b1e7-dae6f4bfef88}</UniqueIdentifier>
     </Filter>
     <Filter Include="system\terrain\detour">
       <UniqueIdentifier>{35f0808f-81a7-459c-b986-ea90e148e316}</UniqueIdentifier>

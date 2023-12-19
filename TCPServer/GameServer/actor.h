@@ -105,7 +105,7 @@ public: // °¡»ó & get set
 
 	virtual Speed_t Speed() const { return 0; }
 
-	virtual Terrain* Terrain() const { return nullptr; }
+	virtual Terrain* CurTerrain() const { return nullptr; }
 
 	virtual Actor* Owner() const { return nullptr; }
 

@@ -55,7 +55,7 @@ void ActorManager::CreateActor(std::size_t _create_character, std::size_t _creat
 	{
 		Character* character = new Character();
 		character->Initialize();
-		character->SetId(++m_actor_id);
+		character->SetUId(++m_actor_id);
 
 		POOL(Character)::Push(character);
 	}
@@ -64,7 +64,7 @@ void ActorManager::CreateActor(std::size_t _create_character, std::size_t _creat
 	{
 		Npc* npc = new Npc();
 		npc->Initialize();
-		npc->SetId(++m_actor_id);
+		npc->SetUId(++m_actor_id);
 
 		POOL(Npc)::Push(npc);
 	}
@@ -73,7 +73,7 @@ void ActorManager::CreateActor(std::size_t _create_character, std::size_t _creat
 	{
 		Monster* monster = new Monster();
 		monster->Initialize();
-		monster->SetId(++m_actor_id);
+		monster->SetUId(++m_actor_id);
 
 		POOL(Monster)::Push(monster);
 	}
@@ -82,7 +82,7 @@ void ActorManager::CreateActor(std::size_t _create_character, std::size_t _creat
 	{
 		Gadget* object = new Gadget();
 		object->Initialize();
-		object->SetId(++m_actor_id);
+		object->SetUId(++m_actor_id);
 
 		POOL(Gadget)::Push(object);
 	}

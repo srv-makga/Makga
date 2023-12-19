@@ -142,7 +142,6 @@
     <ClCompile Include="DetourNavMeshQuery.cpp" />
     <ClCompile Include="DetourNode.cpp" />
     <ClCompile Include="proc_world.cpp" />
-    <ClCompile Include="ReinforceManager.cpp" />
     <ClCompile Include="session_community.cpp" />
     <ClCompile Include="connector_community.cpp" />
     <ClCompile Include="connector_dbagent.cpp" />
@@ -187,7 +186,6 @@
     <ClInclude Include="DetourStatus.h" />
     <ClInclude Include="function.h" />
     <ClInclude Include="game_type.h" />
-    <ClInclude Include="ReinforceManager.h" />
     <ClInclude Include="session_community.h" />
     <ClInclude Include="connector_community.h" />
     <ClInclude Include="connector_dbagent.h" />
