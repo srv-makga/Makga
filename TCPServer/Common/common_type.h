@@ -54,6 +54,7 @@ using ServerType_t = fb::eServerType;
 using TableIdx_t = uint32_t;
 using Count_t = int32_t;
 using Time_t = std::time_t;
+using Tick_t = std::time_t;
 using Sequence_t = uint32_t;
 
 // User

@@ -2,6 +2,7 @@
 #include "actor_character.h"
 #include "data_manager.h"
 #include "terrain.h"
+#include "../Common/utility.h"
 
 Character::Character()
 {
@@ -23,7 +24,7 @@ void Character::OnUpdate()
 {
 }
 
-Result_t Character::Move(Coord_t _x, Coord_t _y, Coord_t _z, Coord_t _angle)
+Result_t Character::DoMove(const PositionT& _position)
 {
 	if (false == IsMovable())
 	{
@@ -36,8 +37,26 @@ Result_t Character::Move(Coord_t _x, Coord_t _y, Coord_t _z, Coord_t _angle)
 		return eResult_ActorNotMovePos;
 	}
 
-	// @todo 해당 좌표에 이동가능한 지역인지 확인
-	// 이동할 수 없는 지역입니다.
+	// 이동 시간 체크
+	Tick_t diff_tick = 0;
+
+	// 이동 거리 체크
+	Distance_t distance = UTIL.CalcDistance(Position(), _position);
+	// 시간 * 속도 < 
+	if (MoveSpeed() * diff_tick < distance)
+	{
+		LOG_ERROR << LOG_USER(User()) << " Speed:" << MoveSpeed() << " DiffTick:" << diff_tick;
+		return eResult_InvalidSpeed;
+	}
+
+	// @todo 이동시 취소해야 될 것들.. 상호작용 등등
+
+	// 해당 좌표가 이동가능한 지역인지 확인
+	eResult result = terrain->DoMove(_position);
+	if (eResult_Success != result)
+	{
+		return result;
+	}
 
 	Coord_t old_x = X();
 	Coord_t old_y = Y();
