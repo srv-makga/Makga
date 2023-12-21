@@ -20,6 +20,8 @@ enum eResult : int32
 	ActorNotFound,
 	ActorNotMovePos,					// 이동할 수 없는 위치
 	ActorNotMoveState,					// 이동할 수 없는 상태
+	
+	ActorInvalidSpeed,					// 잘못된 속도
 
 	// Terrain
 	TerrainNotIn,						// 터레인에 속해있지 않음

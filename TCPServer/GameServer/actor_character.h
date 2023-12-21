@@ -12,7 +12,7 @@ public:
 	void Finallize() override;
 
 	void OnUpdate() override;
-	Result_t DoMove(const PositionT& _position) override
+	Result_t DoMove(const PositionT& _position) override;
 
 public:
 	fb::eActorType Type() const override { return fb::eActorType_Character; }

@@ -95,6 +95,7 @@ public: // °¡»ó & get set
 	virtual Coord_t AttackRange() const { return 0; }
 
 	virtual Distance_t MySight() const { return 0.f; };
+	virtual Speed_t MoveSpeed() const { return 0; }
 
 	virtual fb::eAiType AIType() const { return eAiType_None; }
 

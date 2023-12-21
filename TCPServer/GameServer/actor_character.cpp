@@ -43,44 +43,39 @@ Result_t Character::DoMove(const PositionT& _position)
 	// 이동 거리 체크
 	Distance_t distance = UTIL.CalcDistance(Position(), _position);
 	// 시간 * 속도 < 
-	if (MoveSpeed() * diff_tick < distance)
+	if ((diff_tick / 1000) * MoveSpeed() < distance)
 	{
 		LOG_ERROR << LOG_USER(User()) << " Speed:" << MoveSpeed() << " DiffTick:" << diff_tick;
-		return eResult_InvalidSpeed;
+		return eResult_ActorInvalidSpeed;
 	}
 
-	// @todo 이동시 취소해야 될 것들.. 상호작용 등등
-
 	// 해당 좌표가 이동가능한 지역인지 확인
-	eResult result = terrain->DoMove(_position);
+	Result_t result = terrain->DoMove(this, _position);
 	if (eResult_Success != result)
 	{
 		return result;
 	}
 
+	// @todo 이동시 취소해야 될 것들.. 상호작용 등등
+
 	Coord_t old_x = X();
 	Coord_t old_y = Y();
 	Coord_t old_z = Z();
 
-	Coord_t new_x = _x;
-	Coord_t new_y = _y;
-	Coord_t new_z = _z;
-	Coord_t new_angle = _angle;
+	Coord_t new_x = _position.x;
+	Coord_t new_y = _position.y;
+	Coord_t new_z = _position.z;
+	Coord_t new_angle = _position.angle;
 
-	SetPos(_x, _y, _z);
-	SetAngle(_angle);
+	SetPos(new_x, new_y, new_z);
+	SetAngle(new_angle);
 
 	// 내 정보 데이터
+	CREATE_FBB(fbb);
 
 	// 내 주변을 탐색하며 정보를 가져오거나 전달한다.
 
 	// 내 주변 유저들에게 내 정보를 전달한다
-
-	// 내 주변 액터 목록을 가져온다
-	ActorList actor_list;
-	if (true == terrain->AroundList(Position(), SYSTEM.actor.max_around_distance, actor_list))
-	{
-	}
 
 	// 좌표 기준 주변 알림
 	GridMultiCast(this, new_x, new_y, new_z, new_angle);
