@@ -25,6 +25,7 @@ struct TerrainInfo
 {
 	TerrainIdx_t idx = 0;
 	String8 name;
+	String8 nav_mesh_name;
 
 	CoordPoint_t left_top;
 	CoordPoint_t right_bottom;

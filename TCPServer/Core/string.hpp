@@ -138,7 +138,7 @@ public:
 		return m_str;
 	}
 
-	operator const T* ()
+	const T* c_str() const
 	{
 		return m_str.c_str();
 	}
