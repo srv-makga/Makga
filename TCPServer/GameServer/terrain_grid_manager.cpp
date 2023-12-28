@@ -48,14 +48,15 @@ void TerrainGridManager::Initialize(const TerrainInfo& _table)
 				LOG_FATAL << "grid is nullptr.";
 			}
 
-			if (0 < i)
-				grid->PushAround(m_grid[i - 1][j]);
-			if (m_grid.size() > i + 1)
-				grid->PushAround(m_grid[i + 1][j]);
-			if (0 < j)
-				grid->PushAround(m_grid[i][j - 1]);
-			if (0 < m_grid[i].size())
-				grid->PushAround(m_grid[i][j + 1]);
+			grid->SetAround(TerrainGrid::Direction::LeftTop, (0 == i || 0 == j) ? nullptr : m_grid[i - 1][j - 1]);
+			grid->SetAround(TerrainGrid::Direction::Top, (0 == i) ? nullptr : m_grid[i - 1][j]);
+			grid->SetAround(TerrainGrid::Direction::RightTop, (0 == i || m_grid[i].size() == j) ? nullptr : m_grid[i - 1][j]);
+			grid->SetAround(TerrainGrid::Direction::Left, (0 == j) ? nullptr : m_grid[i][j - 1]);
+			grid->SetAround(TerrainGrid::Direction::Center, grid);
+			grid->SetAround(TerrainGrid::Direction::Right, (m_grid[i].size() == j) ? nullptr : m_grid[i][j + 1]);
+			grid->SetAround(TerrainGrid::Direction::LeftBottom, (m_grid.size() == i || 0 == j) ? nullptr : m_grid[i][j + 1]);
+			grid->SetAround(TerrainGrid::Direction::Bottom, (m_grid.size() == i) ? nullptr : m_grid[i][j + 1]);
+			grid->SetAround(TerrainGrid::Direction::RightBottom, (m_grid.size() == i || m_grid[i].size() == j) ? nullptr : m_grid[i + 1][j + 1]);
 		}
 	}
 }
@@ -70,4 +71,20 @@ void TerrainGridManager::OnUpdate()
 		}
 
 	}
+}
+
+TerrainGrid* TerrainGridManager::FindGrid(Coord_t _x, Coord_t _y, Coord_t _z)
+{
+	for (auto grids : m_grid)
+	{
+		for (TerrainGrid* grid : grids)
+		{
+			if (true == grid->IsInside(_x, _y, _z))
+			{
+				return grid;
+			}
+		}
+	}
+
+	return nullptr;
 }

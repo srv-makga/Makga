@@ -13,6 +13,9 @@ class TerrainGridManager;
 class Terrain
 {
 public:
+	using ActorList = std::unordered_map<ActorUid_t, Actor*>;
+
+public:
 	Terrain(TerrainUid_t _uid);
 	virtual ~Terrain();
 
@@ -21,11 +24,22 @@ public:
 
 	void OnUpdate();
 
-	Result_t DoMove(Actor* _actor, const PositionT& _position);
+	Result_t CanMove(const PositionT& _position);
 
 	bool IsInside(const Vector_t& _vector);
 
+	TerrainGrid* FindGrid(Coord_t _x, Coord_t _y, Coord_t _z);
+
+	void FindNotificationList(const PositionT& _old,
+		const PositionT& _new,
+		Count_t _max_count,
+		OUT UserList& _appear_list,
+		OUT UserList& _disappear_list,
+		OUT UserList& _move_list);
+
 	bool AroundList(const PositionT& _position, Distance_t _range, OUT ActorList& _actor_list);
+
+	Count_t CurUserCount() const;
 
 
 	TerrainIdx_t Idx() const;
@@ -42,9 +56,11 @@ private:
 
 	const TerrainInfo* m_table;
 
+	ActorList m_actor_list;
+
 	TerrainGridManager* m_grid_manager;
 
 	dtNavMesh* m_nav_mesh;
 	dtNavMeshQuery* m_nav_query;
-	dtQueryFilter* m_nav_filter;
+	dtQueryFilter m_nav_filter;
 };

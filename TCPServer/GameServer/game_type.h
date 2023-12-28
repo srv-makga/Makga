@@ -4,5 +4,7 @@
 #include <unordered_set>
 
 class Actor;
+class User;
 
 using ActorList = std::unordered_set<Actor*>;
+using UserList = std::unordered_set<User*>;

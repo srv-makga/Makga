@@ -10,6 +10,19 @@ class TerrainGrid
 {
 public:
 	using Actors = std::unordered_map<ActorUid_t, Actor*>;
+	enum Direction
+	{
+		LeftTop = 0,
+		Top,
+		RightTop,
+		Left,
+		Center,
+		Right,
+		LeftBottom,
+		Bottom,
+		RightBottom,
+		Max
+	};
 
 public:
 	TerrainGrid(CoordPoint_t& _lefttop, CoordPoint_t& _rightbottom, Coord_t _height);
@@ -28,8 +41,14 @@ public:
 	bool Erasector(ActorUid_t _actor_id);
 	bool Erasector(Actor* _actor);
 
+	bool IsInside(Coord_t _x, Coord_t _y, Coord_t _z);
 
-	TerrainGrid& PushAround(TerrainGrid* _terrain_grid);
+
+	TerrainGrid& SetAround(Direction _direction, TerrainGrid* _grid);
+
+	// @brief 좌표 중심으로 일정 거리 액터들 불러오기
+	void ActorListByCoord(Coord_t _x, Coord_t _y, Coord_t _z, Distance_t _distance, OUT std::vector<Actor*> _list);
+	void GridListByChangeCoord(const PositionT& _pos1, const PositionT& _pos2, OUT std::vector<TerrainGrid*>& _list);
 
 private:
 	Actors m_actors;

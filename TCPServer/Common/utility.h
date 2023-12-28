@@ -13,6 +13,7 @@ public:
 	bool Tokenization(const std::string& _data, const char _token, std::vector<std::string>& _output);
 
 	// Position
+	bool IsSame(const PositionT& _pos1, const PositionT& _pos2);
 	Coord_t CalcDistance(const PositionT& _pos1, const PositionT& _pos2);
 
 	// time

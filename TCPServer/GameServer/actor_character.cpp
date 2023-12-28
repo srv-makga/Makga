@@ -2,6 +2,7 @@
 #include "actor_character.h"
 #include "data_manager.h"
 #include "terrain.h"
+#include "user.h"
 #include "../Common/utility.h"
 
 Character::Character()
@@ -37,6 +38,12 @@ Result_t Character::DoMove(const PositionT& _position)
 		return eResult_ActorNotMovePos;
 	}
 
+	// 같은 위치면 그냥 성공 처리..
+	if (true == UTIL.IsSame(Position(), _position))
+	{
+		return eResult_Success;
+	}
+
 	// 이동 시간 체크
 	Tick_t diff_tick = 0;
 
@@ -45,12 +52,12 @@ Result_t Character::DoMove(const PositionT& _position)
 	// 시간 * 속도 < 
 	if ((diff_tick / 1000) * MoveSpeed() < distance)
 	{
-		LOG_ERROR << LOG_USER(User()) << " Speed:" << MoveSpeed() << " DiffTick:" << diff_tick;
+		LOG_ERROR << LOG_ACTOR(this) << " Speed:" << MoveSpeed() << " DiffTick:" << diff_tick;
 		return eResult_ActorInvalidSpeed;
 	}
 
 	// 해당 좌표가 이동가능한 지역인지 확인
-	Result_t result = terrain->DoMove(this, _position);
+	Result_t result = terrain->CanMove(_position);
 	if (eResult_Success != result)
 	{
 		return result;
@@ -67,8 +74,22 @@ Result_t Character::DoMove(const PositionT& _position)
 	Coord_t new_z = _position.z;
 	Coord_t new_angle = _position.angle;
 
+	std::unordered_set<User*> appear_list;
+	std::unordered_set<User*> disappear_list;
+	std::unordered_set<User*> move_list;
+
+	terrain->FindNotificationList(Position(),
+		_position,
+		SYSTEM.actor.max_move_list,
+		appear_list, disappear_list, move_list);
+
 	SetPos(new_x, new_y, new_z);
 	SetAngle(new_angle);
+
+	// 1. 기존좌표와 신규 좌표 차이에 따라 이동하는 방향을 구함
+	// 2. 
+
+	terrain->leave
 
 	// 내 정보 데이터
 	CREATE_FBB(fbb);
