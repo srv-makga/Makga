@@ -109,46 +109,8 @@ TerrainGrid& TerrainGrid::SetAround(Direction _direction, TerrainGrid* _grid)
 	return *this;
 }
 
-void TerrainGrid::ActorListByCoord(Coord_t _x, Coord_t _y, Coord_t _z, Distance_t _distance, OUT std::vector<Actor*> _list)
+void TerrainGrid::ActorListByCoord(Coord_t _x, Coord_t _y, Coord_t _z, Distance_t _distance, OUT ActorList& _list)
 {
-}
-
-void TerrainGrid::GridListByChangeCoord(Coord_t _change_x, Coord_t _change_y, Coord_t _change_z, OUT std::vector<TerrainGrid*>& _list)
-{
-	static const auto lambda_push = [](std::vector<TerrainGrid*> _list, TerrainGrid* _grid)
-		{
-			if (nullptr != _grid)
-			{
-				_list.push_back(_grid);
-			}
-		};
-
-	if (0 == _change_x)
-	{
-		if (0 < _change_y)
-		{
-			lambda_push(_list, m_around[Direction::Top]);
-		}
-		else if (0 > _change_y)
-		{
-			lambda_push(_list, m_around[Direction::Bottom]);
-		}
-	}
-	else if (0 == _change_y)
-	{
-		if (0 < _change_x)
-		{
-			lambda_push(_list, m_around[Direction::Right]);
-		}
-		else if (0 > _change_x)
-		{
-			lambda_push(_list, m_around[Direction::Left]);
-		}
-	}
-	else
-	{
-
-	}
 }
 
 void TerrainGrid::GridListByChangeCoord(const PositionT& _pos1, const PositionT& _pos2, OUT std::vector<TerrainGrid*>& _list)

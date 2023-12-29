@@ -2,6 +2,7 @@
 #include "terrain.h"
 #include "terrain_grid_manager.h"
 #include "terrain_grid.h"
+#include "data_manager.h"
 
 Terrain::Terrain(TerrainUid_t _uid)
 	: m_uid(_uid)
@@ -125,39 +126,63 @@ void Terrain::FindNotificationList(const PositionT& _old, const PositionT& _new,
 		return;
 	}
 
-	std::vector<TerrainGrid*> appear_grid_list;
-	std::vector<TerrainGrid*> disappear_grid_list;
-	std::vector<TerrainGrid*> move_grid_list;
-
+	// 좌표 변화에 따른 주변 grid 가져오기
 	// 우선 9x9에서만 찾는다
+	std::vector<TerrainGrid*> grid_list;
 
 	if (old_grid == new_grid)
 	{
-		appear_grid_list.push_back(old_grid);
-		disappear_grid_list.push_back(old_grid);
-		move_grid_list.push_back(old_grid);
+		grid_list.push_back(old_grid);
 	}
 	else
 	{
-		Coord_t change_x = _old.x - _new.x;
-		Coord_t change_y = _old.y - _new.y;
-		Coord_t change_z = _old.z - _new.z;
+		old_grid->GridListByChangeCoord(_old, _new, grid_list);	
+	}
 
-		// 좌표 변화에 따른 주변 grid 가져오기
-		std::vector<TerrainGrid*> grid_list;
-		old_grid->GridListByChangeCoord(_old, _new, grid_list);
-		
-		if (true == grid_list.empty())
+	if (true == grid_list.empty())
+	{
+		return;
+	}
+
+	// disappear - 기존 좌표에서 일정거리 내에 있고 신규 위치 일정거리 내에 없는
+	// appear  - 기존 좌표에서 일정거리 내에 없고 신규 위치 일정거리 내에 있는
+	// move - 기존 좌표에서 일정거리 내에 있고 신규 위치 일정거리 내에 있는
+
+	ActorList old_pos_actor_list; // 이전 위치 주변에 있는 액터들
+	ActorList new_pos_actor_list; // 신규 위치 주변에 있는 액터들
+
+	for (TerrainGrid* grid : grid_list)
+	{
+		grid->ActorListByCoord(_old.x, _old.y, _old.z, SYSTEM.actor.max_around_distance, SearchFilterCharacter, old_pos_actor_list);
+		grid->ActorListByCoord(_new.x, _new.y, _new.z, SYSTEM.actor.max_around_distance, SearchFilterCharacter, new_pos_actor_list);
+	}
+
+	if (true == old_pos_actor_list.empty() || true == new_pos_actor_list.empty())
+	{
+		return;
+	}
+
+	_appear_list.clear();
+	_disappear_list.clear();
+	_move_list.clear();
+
+	for (Actor* actor : old_pos_actor_list)
+	{
+		if (new_pos_actor_list.end() == new_pos_actor_list.find(actor))
 		{
-			return;
+			_disappear_list.insert(actor->OwnerUser());
 		}
-
-		for (TerrainGrid* grid : grid_list)
+		else
 		{
-			old_grid->GridListByChangeCoord
-			// disappear - 기존 좌표에서 일정거리 내에 있고 신규 위치 일정거리 내에 없는
-			// appear  - 기존 좌표에서 일정거리 내에 없고 신규 위치 일정거리 내에 있는
-			// move - 기존 좌표에서 일정거리 내에 있고 신규 위치 일정거리 내에 없는
+			_move_list.insert(actor->OwnerUser());
+		}
+	}
+
+	for (Actor* actor : new_pos_actor_list)
+	{
+		if (old_pos_actor_list.end() == old_pos_actor_list.find(actor))
+		{
+			_appear_list.insert(actor->OwnerUser());
 		}
 	}
 }

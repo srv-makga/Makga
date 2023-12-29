@@ -7,7 +7,8 @@
 
 struct SystemValue_Actor
 {
-	Coord_t max_around_distance = 30.f;
+	
+	Distance_t max_around_distance = 30.f; // appear, disappear, move를 계산할 거리
 	Count_t max_move_list = 40; // appear, disappear, move를 알릴 각각 최대 유저 수
 	Distance_t character_sight = 20.f;
 };

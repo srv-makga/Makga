@@ -47,7 +47,7 @@ public:
 	TerrainGrid& SetAround(Direction _direction, TerrainGrid* _grid);
 
 	// @brief 좌표 중심으로 일정 거리 액터들 불러오기
-	void ActorListByCoord(Coord_t _x, Coord_t _y, Coord_t _z, Distance_t _distance, OUT std::vector<Actor*> _list);
+	void ActorListByCoord(Coord_t _x, Coord_t _y, Coord_t _z, Distance_t _distance, OUT ActorList& _list);
 	void GridListByChangeCoord(const PositionT& _pos1, const PositionT& _pos2, OUT std::vector<TerrainGrid*>& _list);
 
 private:

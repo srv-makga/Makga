@@ -13,9 +13,6 @@ class TerrainGridManager;
 class Terrain
 {
 public:
-	using ActorList = std::unordered_map<ActorUid_t, Actor*>;
-
-public:
 	Terrain(TerrainUid_t _uid);
 	virtual ~Terrain();
 
@@ -56,7 +53,7 @@ private:
 
 	const TerrainInfo* m_table;
 
-	ActorList m_actor_list;
+	std::unordered_map<ActorUid_t, Actor*> m_actor_list;
 
 	TerrainGridManager* m_grid_manager;
 
