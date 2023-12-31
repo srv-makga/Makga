@@ -39,8 +39,17 @@ enum eActorType : int
 	None = -1,
 	Character,
 	Monster,
-	Object,
+	Object, // 공격 O
+	Gadget, // 공격 X, 기능
 	Npc,
+	Pran,
+}
+
+enum eMoveType : int
+{
+	None = -1,
+	Move,
+	TelePort,
 }
 
 enum eInvenType : int

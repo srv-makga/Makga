@@ -146,38 +146,77 @@ enum eActorType : int32_t {
   eActorType_Character = 0,
   eActorType_Monster = 1,
   eActorType_Object = 2,
-  eActorType_Npc = 3,
+  eActorType_Gadget = 3,
+  eActorType_Npc = 4,
+  eActorType_Pran = 5,
   eActorType_MIN = eActorType_None,
-  eActorType_MAX = eActorType_Npc
+  eActorType_MAX = eActorType_Pran
 };
 
-inline const eActorType (&EnumValueseActorType())[5] {
+inline const eActorType (&EnumValueseActorType())[7] {
   static const eActorType values[] = {
     eActorType_None,
     eActorType_Character,
     eActorType_Monster,
     eActorType_Object,
-    eActorType_Npc
+    eActorType_Gadget,
+    eActorType_Npc,
+    eActorType_Pran
   };
   return values;
 }
 
 inline const char * const *EnumNameseActorType() {
-  static const char * const names[6] = {
+  static const char * const names[8] = {
     "None",
     "Character",
     "Monster",
     "Object",
+    "Gadget",
     "Npc",
+    "Pran",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameeActorType(eActorType e) {
-  if (::flatbuffers::IsOutRange(e, eActorType_None, eActorType_Npc)) return "";
+  if (::flatbuffers::IsOutRange(e, eActorType_None, eActorType_Pran)) return "";
   const size_t index = static_cast<size_t>(e) - static_cast<size_t>(eActorType_None);
   return EnumNameseActorType()[index];
+}
+
+enum eMoveType : int32_t {
+  eMoveType_None = -1,
+  eMoveType_Move = 0,
+  eMoveType_TelePort = 1,
+  eMoveType_MIN = eMoveType_None,
+  eMoveType_MAX = eMoveType_TelePort
+};
+
+inline const eMoveType (&EnumValueseMoveType())[3] {
+  static const eMoveType values[] = {
+    eMoveType_None,
+    eMoveType_Move,
+    eMoveType_TelePort
+  };
+  return values;
+}
+
+inline const char * const *EnumNameseMoveType() {
+  static const char * const names[4] = {
+    "None",
+    "Move",
+    "TelePort",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameeMoveType(eMoveType e) {
+  if (::flatbuffers::IsOutRange(e, eMoveType_None, eMoveType_TelePort)) return "";
+  const size_t index = static_cast<size_t>(e) - static_cast<size_t>(eMoveType_None);
+  return EnumNameseMoveType()[index];
 }
 
 enum eInvenType : int32_t {

@@ -106,7 +106,7 @@ TerrainGrid* Terrain::FindGrid(Coord_t _x, Coord_t _y, Coord_t _z)
 	return m_grid_manager->FindGrid(_x, _y, _z);
 }
 
-void Terrain::FindNotificationList(const PositionT& _old, const PositionT& _new, Count_t _max_count, OUT UserList& _appear_list, OUT UserList& _disappear_list, OUT UserList& _move_list)
+void Terrain::FindNotificationList(const PositionT& _old, const PositionT& _new, Count_t _max_count, OUT ActorList& _appear_list, OUT ActorList& _disappear_list, OUT ActorList& _move_list)
 {
 	// 나 밖에 없다면야
 	if (0 == CurUserCount())
@@ -153,8 +153,8 @@ void Terrain::FindNotificationList(const PositionT& _old, const PositionT& _new,
 
 	for (TerrainGrid* grid : grid_list)
 	{
-		grid->ActorListByCoord(_old.x, _old.y, _old.z, SYSTEM.actor.max_around_distance, SearchFilterCharacter, old_pos_actor_list);
-		grid->ActorListByCoord(_new.x, _new.y, _new.z, SYSTEM.actor.max_around_distance, SearchFilterCharacter, new_pos_actor_list);
+		grid->ActorListByPosition(_old, SYSTEM.actor.max_around_distance, eActorSearchFilter::Character, old_pos_actor_list);
+		grid->ActorListByPosition(_new, SYSTEM.actor.max_around_distance, eActorSearchFilter::Character, new_pos_actor_list);
 	}
 
 	if (true == old_pos_actor_list.empty() || true == new_pos_actor_list.empty())
@@ -166,23 +166,28 @@ void Terrain::FindNotificationList(const PositionT& _old, const PositionT& _new,
 	_disappear_list.clear();
 	_move_list.clear();
 
+	// 이전 위치 주변에서
 	for (Actor* actor : old_pos_actor_list)
 	{
+		// 신규 위치 주변에 없으면 사라지게
 		if (new_pos_actor_list.end() == new_pos_actor_list.find(actor))
 		{
-			_disappear_list.insert(actor->OwnerUser());
+			_disappear_list.insert(actor);
 		}
+		// 신규 위치 주변에 있으면 이동
 		else
 		{
-			_move_list.insert(actor->OwnerUser());
+			_move_list.insert(actor);
 		}
 	}
 
+	// 신규 위치 주변에서
 	for (Actor* actor : new_pos_actor_list)
 	{
+		// 기존 위치에 없었으면 나타나게
 		if (old_pos_actor_list.end() == old_pos_actor_list.find(actor))
 		{
-			_appear_list.insert(actor->OwnerUser());
+			_appear_list.insert(actor);
 		}
 	}
 }

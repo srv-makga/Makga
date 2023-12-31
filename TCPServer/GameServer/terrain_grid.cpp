@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "terrain_grid.h"
 #include "actor.h"
+#include "../Common/utility.h"
 
 TerrainGrid::TerrainGrid(CoordPoint_t& _lefttop, CoordPoint_t& _rightbottom, Coord_t _height)
 	: m_lefttop(_lefttop)
@@ -109,8 +110,50 @@ TerrainGrid& TerrainGrid::SetAround(Direction _direction, TerrainGrid* _grid)
 	return *this;
 }
 
-void TerrainGrid::ActorListByCoord(Coord_t _x, Coord_t _y, Coord_t _z, Distance_t _distance, OUT ActorList& _list)
+void TerrainGrid::ActorListByCoord(Coord_t _x, Coord_t _y, Coord_t _z, Distance_t _distance, ActorSearchFilter _filter, OUT ActorList& _list)
 {
+	if (true == m_actors.empty())
+	{
+		return;
+	}
+
+	fb::PositionT pos{};
+	pos.x = _x;
+	pos.x = _y;
+	pos.x = _z;
+
+	for (const auto& iter : m_actors)
+	{
+		if (!(1 << iter.second->Type()) & _filter)
+		{
+			continue;
+		}
+
+		if (UTIL.CalcDistance(pos, iter.second->Position()) < _distance)
+		{
+			continue;
+		}
+
+		_list.insert(iter.second);
+	}
+}
+
+void TerrainGrid::ActorListByPosition(const fb::PositionT& _pos, Distance_t _distance, ActorSearchFilter _filter, OUT ActorList& _list)
+{
+	if (true == m_actors.empty())
+	{
+		return;
+	}
+
+	for (const auto& iter : m_actors)
+	{
+		if (UTIL.CalcDistance(_pos, iter.second->Position()) < _distance)
+		{
+			continue;
+		}
+
+		_list.insert(iter.second);
+	}
 }
 
 void TerrainGrid::GridListByChangeCoord(const PositionT& _pos1, const PositionT& _pos2, OUT std::vector<TerrainGrid*>& _list)

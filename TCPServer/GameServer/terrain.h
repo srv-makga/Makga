@@ -30,9 +30,9 @@ public:
 	void FindNotificationList(const PositionT& _old,
 		const PositionT& _new,
 		Count_t _max_count,
-		OUT UserList& _appear_list,
-		OUT UserList& _disappear_list,
-		OUT UserList& _move_list);
+		OUT ActorList& _appear_list,
+		OUT ActorList& _disappear_list,
+		OUT ActorList& _move_list);
 
 	bool AroundList(const PositionT& _position, Distance_t _range, OUT ActorList& _actor_list);
 

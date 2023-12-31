@@ -14,6 +14,9 @@ public:
 	void OnUpdate() override;
 	Result_t DoMove(const PositionT& _position) override;
 
+
+	void SendDelete(Actor* _actor, eActorDisappearEffect _effect);
+
 public:
 	fb::eActorType Type() const override { return fb::eActorType_Character; }
 	bool IsCharacter() const  override { return true; }
@@ -32,7 +35,9 @@ public:
 	Mp_t MaxMp() const override;
 	Mp_t CurMp() const override;
 
-	void SetPos(const fb::Position* _pos);
+	void SetGrid(const fb::Position& _pos);
+
+	void SetPos(const fb::Position& _pos);
 	void SetPos(const Vector_t& _pos);
 	void SetPos(Coord_t _x, Coord_t _y, Coord_t _z);
 	void SetAngle(Coord_t _angle);
@@ -40,8 +45,8 @@ public:
 	Speed_t Speed() const override;
 
 private:
-	Vector_t m_pos;
-	Coord_t m_angle;
+	std::string m_name;
+	fb::PositionT m_pos;
 	fb::HpMpT m_hp_mp;
 
 	Speed_t m_speed;

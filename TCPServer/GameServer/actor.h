@@ -9,6 +9,7 @@ class Character;
 class Monster;
 class Npc;
 class Gadget;
+class User;
 
 /*
 * @brief 맵에서 보일 객체의 인터페이스
@@ -27,9 +28,10 @@ public: // 가상 & 기능
 	virtual void OnUpdate() = 0;
 
 	virtual Result_t DoMove(const PositionT& _position) = 0;
-
 	virtual Result_t Move(Coord_t _x, Coord_t _y, Coord_t _z) = 0;
-	virtual Result_t Move(Vector_t _vec) = 0;
+
+	// @breif 상대방에게 나를 지우는 함수
+	virtual void SendDelete(Actor* _to_actor, eActorDisappearEffect _effect);
 
 	virtual Actor* FindTarget() = 0;
 	// @brief 해당 액터를 인지할 수 있는 상태인지
@@ -109,6 +111,7 @@ public: // 가상 & get set
 	virtual Terrain* CurTerrain() const { return nullptr; }
 
 	virtual Actor* Owner() const { return nullptr; }
+	virtual User* OwnerUser() const { return nullptr; }
 
 public: // actor 자체
 	ActorUid_t Uid() const { return m_uid; }

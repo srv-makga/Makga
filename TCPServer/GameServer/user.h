@@ -18,6 +18,7 @@ public:
 	using Pid_t = fb::server::SendPid;
 	using Function_t = bool (User::*)(NetPacket*);
 	using InventoryCache = std::unordered_map<ItemUid_t, InventoryBase*>;
+	using UserState = enum { Lobby, Play };
 
 public:
 	static bool InitDispatcher();
@@ -53,6 +54,10 @@ public: // 멤버 변수 get/set
 	Character* ActiveCharacter() const;
 	void SetActiveCharacter(Character* _character);
 
+	std::atomic<UserState> state;
+	UserState State() const { return state; }
+	void SetState(UserState _state)  { state = _state; }
+
 public: // 패킷 처리 함수
 	bool OnChatting(NetPacket* _packet);
 	bool OnLoginSecurity(NetPacket* _packet);
@@ -67,13 +72,19 @@ private:
 	String8 m_account;
 	String8 m_auth_key;
 
+	UserUid_t m_user_uid;
+
 	SessionUser* m_session;
 
 	Count_t m_max_inventory;
 
-	UserUid_t m_user_uid;
-
 	Character* m_character;
+
+	uint32_t m_slot; // 몇번째 슬롯 캐릭터인지
+
+	GuildUid_t m_guild_uid;
+	String8 m_guild_name;
+	bool m_is_guild_leader;
 
 	// interaction
 	ActorUid_t m_interaction_id;
@@ -81,4 +92,5 @@ private:
 
 	InventoryCache m_inventory_cache;
 	InventoryAccount* m_inventory;
+	InventoryAccount* m_warehouse;
 }; 

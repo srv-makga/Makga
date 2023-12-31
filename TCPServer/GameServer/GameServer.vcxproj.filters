@@ -113,6 +113,9 @@
     <ClCompile Include="terrain_grid_manager.cpp">
       <Filter>system\terrain\grid</Filter>
     </ClCompile>
+    <ClCompile Include="actor_pran.cpp">
+      <Filter>actor\detail</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -251,6 +254,12 @@
     <ClInclude Include="terrain_grid.h">
       <Filter>system\terrain\grid</Filter>
     </ClInclude>
+    <ClInclude Include="game_enum.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="actor_pran.h">
+      <Filter>actor\detail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -315,6 +324,15 @@
     </Filter>
     <Filter Include="system\terrain\grid">
       <UniqueIdentifier>{a5c31c99-6c5e-4205-b63e-f1747dd0b244}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\friend">
+      <UniqueIdentifier>{7a1eee0c-a369-4049-8781-819589a7acb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\aggro">
+      <UniqueIdentifier>{34585e8d-45c2-40bf-8f11-94f3ed2a7494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\skill">
+      <UniqueIdentifier>{f72cbf04-3835-43d9-bc3f-b0cbb99267c7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

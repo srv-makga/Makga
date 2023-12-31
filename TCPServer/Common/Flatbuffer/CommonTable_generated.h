@@ -43,6 +43,18 @@ struct ActorInfoDetail;
 struct ActorInfoDetailBuilder;
 struct ActorInfoDetailT;
 
+struct ActorAppear;
+struct ActorAppearBuilder;
+struct ActorAppearT;
+
+struct ActorDisAppear;
+struct ActorDisAppearBuilder;
+struct ActorDisAppearT;
+
+struct ActorMove;
+struct ActorMoveBuilder;
+struct ActorMoveT;
+
 struct ItemAbility;
 struct ItemAbilityBuilder;
 struct ItemAbilityT;
@@ -729,6 +741,251 @@ inline ::flatbuffers::Offset<ActorInfoDetail> CreateActorInfoDetailDirect(
 }
 
 ::flatbuffers::Offset<ActorInfoDetail> CreateActorInfoDetail(::flatbuffers::FlatBufferBuilder &_fbb, const ActorInfoDetailT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct ActorAppearT : public ::flatbuffers::NativeTable {
+  typedef ActorAppear TableType;
+  uint64_t uid = 0;
+  std::unique_ptr<fb::ActorInfoBaseT> info{};
+  uint32_t effect = 0;
+  ActorAppearT() = default;
+  ActorAppearT(const ActorAppearT &o);
+  ActorAppearT(ActorAppearT&&) FLATBUFFERS_NOEXCEPT = default;
+  ActorAppearT &operator=(ActorAppearT o) FLATBUFFERS_NOEXCEPT;
+};
+
+struct ActorAppear FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef ActorAppearT NativeTableType;
+  typedef ActorAppearBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4,
+    VT_INFO = 6,
+    VT_EFFECT = 8
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
+  const fb::ActorInfoBase *info() const {
+    return GetPointer<const fb::ActorInfoBase *>(VT_INFO);
+  }
+  fb::ActorInfoBase *mutable_info() {
+    return GetPointer<fb::ActorInfoBase *>(VT_INFO);
+  }
+  uint32_t effect() const {
+    return GetField<uint32_t>(VT_EFFECT, 0);
+  }
+  bool mutate_effect(uint32_t _effect = 0) {
+    return SetField<uint32_t>(VT_EFFECT, _effect, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
+           VerifyOffset(verifier, VT_INFO) &&
+           verifier.VerifyTable(info()) &&
+           VerifyField<uint32_t>(verifier, VT_EFFECT, 4) &&
+           verifier.EndTable();
+  }
+  ActorAppearT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ActorAppearT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<ActorAppear> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ActorAppearT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct ActorAppearBuilder {
+  typedef ActorAppear Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(ActorAppear::VT_UID, uid, 0);
+  }
+  void add_info(::flatbuffers::Offset<fb::ActorInfoBase> info) {
+    fbb_.AddOffset(ActorAppear::VT_INFO, info);
+  }
+  void add_effect(uint32_t effect) {
+    fbb_.AddElement<uint32_t>(ActorAppear::VT_EFFECT, effect, 0);
+  }
+  explicit ActorAppearBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<ActorAppear> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<ActorAppear>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<ActorAppear> CreateActorAppear(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0,
+    ::flatbuffers::Offset<fb::ActorInfoBase> info = 0,
+    uint32_t effect = 0) {
+  ActorAppearBuilder builder_(_fbb);
+  builder_.add_uid(uid);
+  builder_.add_effect(effect);
+  builder_.add_info(info);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<ActorAppear> CreateActorAppear(::flatbuffers::FlatBufferBuilder &_fbb, const ActorAppearT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct ActorDisAppearT : public ::flatbuffers::NativeTable {
+  typedef ActorDisAppear TableType;
+  uint64_t uid = 0;
+  uint32_t effect = 0;
+};
+
+struct ActorDisAppear FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef ActorDisAppearT NativeTableType;
+  typedef ActorDisAppearBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4,
+    VT_EFFECT = 6
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
+  uint32_t effect() const {
+    return GetField<uint32_t>(VT_EFFECT, 0);
+  }
+  bool mutate_effect(uint32_t _effect = 0) {
+    return SetField<uint32_t>(VT_EFFECT, _effect, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
+           VerifyField<uint32_t>(verifier, VT_EFFECT, 4) &&
+           verifier.EndTable();
+  }
+  ActorDisAppearT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ActorDisAppearT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<ActorDisAppear> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ActorDisAppearT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct ActorDisAppearBuilder {
+  typedef ActorDisAppear Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(ActorDisAppear::VT_UID, uid, 0);
+  }
+  void add_effect(uint32_t effect) {
+    fbb_.AddElement<uint32_t>(ActorDisAppear::VT_EFFECT, effect, 0);
+  }
+  explicit ActorDisAppearBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<ActorDisAppear> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<ActorDisAppear>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<ActorDisAppear> CreateActorDisAppear(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0,
+    uint32_t effect = 0) {
+  ActorDisAppearBuilder builder_(_fbb);
+  builder_.add_uid(uid);
+  builder_.add_effect(effect);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<ActorDisAppear> CreateActorDisAppear(::flatbuffers::FlatBufferBuilder &_fbb, const ActorDisAppearT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct ActorMoveT : public ::flatbuffers::NativeTable {
+  typedef ActorMove TableType;
+  uint64_t uid = 0;
+  std::unique_ptr<fb::PositionT> pos{};
+  int32_t speed = 0;
+  ActorMoveT() = default;
+  ActorMoveT(const ActorMoveT &o);
+  ActorMoveT(ActorMoveT&&) FLATBUFFERS_NOEXCEPT = default;
+  ActorMoveT &operator=(ActorMoveT o) FLATBUFFERS_NOEXCEPT;
+};
+
+struct ActorMove FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef ActorMoveT NativeTableType;
+  typedef ActorMoveBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4,
+    VT_POS = 6,
+    VT_SPEED = 8
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
+  const fb::Position *pos() const {
+    return GetPointer<const fb::Position *>(VT_POS);
+  }
+  fb::Position *mutable_pos() {
+    return GetPointer<fb::Position *>(VT_POS);
+  }
+  int32_t speed() const {
+    return GetField<int32_t>(VT_SPEED, 0);
+  }
+  bool mutate_speed(int32_t _speed = 0) {
+    return SetField<int32_t>(VT_SPEED, _speed, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
+           VerifyOffset(verifier, VT_POS) &&
+           verifier.VerifyTable(pos()) &&
+           VerifyField<int32_t>(verifier, VT_SPEED, 4) &&
+           verifier.EndTable();
+  }
+  ActorMoveT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ActorMoveT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<ActorMove> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ActorMoveT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct ActorMoveBuilder {
+  typedef ActorMove Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(ActorMove::VT_UID, uid, 0);
+  }
+  void add_pos(::flatbuffers::Offset<fb::Position> pos) {
+    fbb_.AddOffset(ActorMove::VT_POS, pos);
+  }
+  void add_speed(int32_t speed) {
+    fbb_.AddElement<int32_t>(ActorMove::VT_SPEED, speed, 0);
+  }
+  explicit ActorMoveBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<ActorMove> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<ActorMove>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<ActorMove> CreateActorMove(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0,
+    ::flatbuffers::Offset<fb::Position> pos = 0,
+    int32_t speed = 0) {
+  ActorMoveBuilder builder_(_fbb);
+  builder_.add_uid(uid);
+  builder_.add_speed(speed);
+  builder_.add_pos(pos);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<ActorMove> CreateActorMove(::flatbuffers::FlatBufferBuilder &_fbb, const ActorMoveT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct ItemAbilityT : public ::flatbuffers::NativeTable {
   typedef ItemAbility TableType;
@@ -1441,6 +1698,125 @@ inline ::flatbuffers::Offset<ActorInfoDetail> CreateActorInfoDetail(::flatbuffer
       _base,
       _speed,
       _buff);
+}
+
+inline ActorAppearT::ActorAppearT(const ActorAppearT &o)
+      : uid(o.uid),
+        info((o.info) ? new fb::ActorInfoBaseT(*o.info) : nullptr),
+        effect(o.effect) {
+}
+
+inline ActorAppearT &ActorAppearT::operator=(ActorAppearT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(uid, o.uid);
+  std::swap(info, o.info);
+  std::swap(effect, o.effect);
+  return *this;
+}
+
+inline ActorAppearT *ActorAppear::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<ActorAppearT>(new ActorAppearT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void ActorAppear::UnPackTo(ActorAppearT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = uid(); _o->uid = _e; }
+  { auto _e = info(); if (_e) { if(_o->info) { _e->UnPackTo(_o->info.get(), _resolver); } else { _o->info = std::unique_ptr<fb::ActorInfoBaseT>(_e->UnPack(_resolver)); } } else if (_o->info) { _o->info.reset(); } }
+  { auto _e = effect(); _o->effect = _e; }
+}
+
+inline ::flatbuffers::Offset<ActorAppear> ActorAppear::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ActorAppearT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateActorAppear(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<ActorAppear> CreateActorAppear(::flatbuffers::FlatBufferBuilder &_fbb, const ActorAppearT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ActorAppearT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _uid = _o->uid;
+  auto _info = _o->info ? CreateActorInfoBase(_fbb, _o->info.get(), _rehasher) : 0;
+  auto _effect = _o->effect;
+  return fb::CreateActorAppear(
+      _fbb,
+      _uid,
+      _info,
+      _effect);
+}
+
+inline ActorDisAppearT *ActorDisAppear::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<ActorDisAppearT>(new ActorDisAppearT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void ActorDisAppear::UnPackTo(ActorDisAppearT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = uid(); _o->uid = _e; }
+  { auto _e = effect(); _o->effect = _e; }
+}
+
+inline ::flatbuffers::Offset<ActorDisAppear> ActorDisAppear::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ActorDisAppearT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateActorDisAppear(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<ActorDisAppear> CreateActorDisAppear(::flatbuffers::FlatBufferBuilder &_fbb, const ActorDisAppearT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ActorDisAppearT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _uid = _o->uid;
+  auto _effect = _o->effect;
+  return fb::CreateActorDisAppear(
+      _fbb,
+      _uid,
+      _effect);
+}
+
+inline ActorMoveT::ActorMoveT(const ActorMoveT &o)
+      : uid(o.uid),
+        pos((o.pos) ? new fb::PositionT(*o.pos) : nullptr),
+        speed(o.speed) {
+}
+
+inline ActorMoveT &ActorMoveT::operator=(ActorMoveT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(uid, o.uid);
+  std::swap(pos, o.pos);
+  std::swap(speed, o.speed);
+  return *this;
+}
+
+inline ActorMoveT *ActorMove::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<ActorMoveT>(new ActorMoveT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void ActorMove::UnPackTo(ActorMoveT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = uid(); _o->uid = _e; }
+  { auto _e = pos(); if (_e) { if(_o->pos) { _e->UnPackTo(_o->pos.get(), _resolver); } else { _o->pos = std::unique_ptr<fb::PositionT>(_e->UnPack(_resolver)); } } else if (_o->pos) { _o->pos.reset(); } }
+  { auto _e = speed(); _o->speed = _e; }
+}
+
+inline ::flatbuffers::Offset<ActorMove> ActorMove::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ActorMoveT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateActorMove(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<ActorMove> CreateActorMove(::flatbuffers::FlatBufferBuilder &_fbb, const ActorMoveT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ActorMoveT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _uid = _o->uid;
+  auto _pos = _o->pos ? CreatePosition(_fbb, _o->pos.get(), _rehasher) : 0;
+  auto _speed = _o->speed;
+  return fb::CreateActorMove(
+      _fbb,
+      _uid,
+      _pos,
+      _speed);
 }
 
 inline ItemAbilityT *ItemAbility::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {

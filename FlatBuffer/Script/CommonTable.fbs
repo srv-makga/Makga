@@ -57,6 +57,26 @@ table ActorInfoDetail
 	buff:[BuffInfo];
 }
 
+table ActorAppear
+{
+	uid:uint64;
+	info:ActorInfoBase;
+	effect:uint32; // 나타나는 효과
+}
+
+table ActorDisAppear
+{
+	uid:uint64;
+	effect:uint32; // 사라지는 효과
+}
+
+table ActorMove
+{
+	uid:uint64;
+	pos:Position;
+	speed:int32;
+}
+
 table ItemAbility
 {
 	type:eAbilityTYpe;

@@ -8,3 +8,4 @@ class User;
 
 using ActorList = std::unordered_set<Actor*>;
 using UserList = std::unordered_set<User*>;
+using ActorSearchFilter = uint32_t;
