@@ -5,10 +5,9 @@
 #include <memory>
 
 namespace core {
-template <typename T>
-concept MemoryPoolConcept = true;// sizeof(T) >= sizeof(void*);
+//template <typename T>
+//concept MemoryPoolConcept = sizeof(T) >= sizeof(void*);
 
-template<MemoryPoolConcept T>
 class MemoryPool
 {
 public:

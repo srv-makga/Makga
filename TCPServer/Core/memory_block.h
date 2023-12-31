@@ -1,6 +1,8 @@
 #pragma once
 
-#include <corecrt_malloc.h>
+#include <iostream>
+#include <vector>
+#include <unordered_map>
 
 const int k_alignment_default_size = (sizeof(void*));
 
@@ -81,8 +83,8 @@ public:
 
 	/*
 	* @brief 메모리 청크 초기화
-	* @parameter _block_size : 생성할 블록(내가 원하는) 갯수
-	* @parameter _chunk_size : 생성할 청크(메모리 덩어리) 갯수
+	* @parameter _block_size : 생성할 블록(내가 원하는) 크기
+	* @parameter _chunk_size : 생성할 청크(메모리 덩어리) 크기
 	*/
 	bool Initialize(int _block_size, int _chunk_size)
 	{
@@ -119,7 +121,7 @@ public:
 	{
 		if (nullptr == m_available_first_block)
 		{
-			if (false == add_chunk())
+			if (false == AddChunk())
 			{
 				return nullptr;
 			}
@@ -286,4 +288,28 @@ private:
 
 		return true;
 	}
+};
+
+class MemoryBlockPool
+{
+public:
+	using Chunk = MemoryChunk<>;
+
+public:
+	MemoryBlockPool();
+	virtual ~MemoryBlockPool();
+
+	void Initialize();
+
+	void* Rental(std::size_t _size);
+	void Return(void* _block);
+
+private:
+	// @brief 초기 풀 설정
+	void Alloc();
+	// @brief 사이즈에 따른 청크 찾기
+	Chunk* FindChunk(std::size_t _size);
+
+	std::unordered_map<void*, Chunk*> m_cache;
+	std::vector<std::pair<std::size_t, MemoryChunk<>>> m_chunks;
 };

@@ -163,7 +163,7 @@
     <ClInclude Include="event.hpp" />
     <ClInclude Include="crypto_interface.h" />
     <ClInclude Include="io_context.hpp" />
-    <ClInclude Include="memory_chunk.h" />
+    <ClInclude Include="memory_block.h" />
     <ClInclude Include="net_header.h" />
     <ClInclude Include="net_service.h" />
     <ClInclude Include="random.hpp" />
@@ -204,6 +204,7 @@
     <ClCompile Include="db_connector_mysql.cpp" />
     <ClCompile Include="db_statement_maria.cpp" />
     <ClCompile Include="endpoint.cpp" />
+    <ClCompile Include="memory_block.cpp" />
     <ClCompile Include="redis_connector.cpp" />
     <ClCompile Include="redis_reply.cpp" />
     <ClCompile Include="socket_base.cpp" />

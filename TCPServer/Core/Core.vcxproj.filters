@@ -76,6 +76,9 @@
     <ClCompile Include="db_connector_mysql.cpp">
       <Filter>database\mysql</Filter>
     </ClCompile>
+    <ClCompile Include="memory_block.cpp">
+      <Filter>memory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -158,7 +161,7 @@
     <ClInclude Include="rio_service.h">
       <Filter>network\proactor\rio</Filter>
     </ClInclude>
-    <ClInclude Include="memory_chunk.h">
+    <ClInclude Include="memory_block.h">
       <Filter>memory</Filter>
     </ClInclude>
     <ClInclude Include="throw_exception.hpp">
