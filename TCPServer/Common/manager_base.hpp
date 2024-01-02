@@ -2,7 +2,7 @@
 
 #include "../Core/lock.h"
 #include <type_traits>
-#include <unordered_map>
+#include <concurrent_unordered_map.h>
 
 template <typename T>
 concept ManagerElement = std::is_pointer_v<T>;
@@ -45,6 +45,7 @@ public:
 	}
 
 protected:
-	std::unordered_map<Identity_t, Object_t> m_objects;
+	concurrency::concurrent_unordered_map<Identity_t, Object_t> m_objects;
+	//std::unordered_map<Identity_t, Object_t> m_objects;
 	mutable core::RWMutex m_mutex;
 };

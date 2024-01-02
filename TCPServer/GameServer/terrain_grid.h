@@ -35,7 +35,7 @@ public:
 
 	void OnUpdate();
 
-	bool AddActor(Actor* _actor);
+	bool InsertActor(Actor* _actor);
 	Actor* FindActor(Actor* _actor);
 	Actor* FindActor(ActorUid_t _actor_id);
 	bool Erasector(ActorUid_t _actor_id);

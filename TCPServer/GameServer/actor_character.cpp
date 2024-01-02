@@ -66,7 +66,7 @@ Result_t Character::DoMove(const PositionT& _position)
 	User* owner_user = OwnerUser();
 	if (nullptr == owner_user)
 	{
-
+		return;
 	}
 
 	// @todo 이동시 취소해야 될 것들.. 상호작용 등등
@@ -87,9 +87,6 @@ Result_t Character::DoMove(const PositionT& _position)
 		SYSTEM.actor.max_move_list,
 		appear_list, disappear_list, move_list);
 
-	SetPos(new_x, new_y, new_z);
-	SetAngle(new_angle);
-
 	// Terrain 내 정보 갱신
 	terrain->leave;
 
@@ -106,14 +103,8 @@ Result_t Character::DoMove(const PositionT& _position)
 	{
 		// 다른 사람들에게 줄 내 정보
 		fbb_me_to_other.Clear();
-
-		std::vector offset_appear = { fb::CreateActorAppear(fbb_me_to_other,
-			Uid(),
-			OffsetActorInfoBase(fbb_me_to_other), eActorMoveEffect::Delay)
-		};
-
 		fbb_me_to_other.Finish(fb::server::CreateRecv_ActorAppear(fbb_me_to_other,
-			fbb_me_to_other.CreateVector(offset_appear)
+			fbb_me_to_other.CreateVector({ OffsetActorAppear(fbb_me_to_other, eActorMoveEffect::Delay) })
 		));
 
 		fbb_other_to_me.Clear();
@@ -128,25 +119,21 @@ Result_t Character::DoMove(const PositionT& _position)
 				continue;
 			}
 
-			// 나에게 보내줄 다른 액터 정보
-			vec_offset_appear.push_back(fb::CreateActorAppear(fbb_other_to_me,
-				actor->Uid(),
-				actor->OffsetActorInfoBase(fbb_other_to_me),
-				eActorMoveEffect::Delay
-			));
-	
 			User* user = actor->OwnerUser();
 			if (nullptr != user)
 			{
 				user->Send(fb::server::RecvPid_ActorAppear, fbb_me_to_other);
 			}
+
+			// 나에게 보내줄 다른 액터 정보
+			vec_offset_appear.push_back(actor->OffsetActorAppear(fbb_other_to_me, eActorMoveEffect::Delay));
 		}
 
 		if (false == vec_offset_appear.empty())
 		{
 			fbb_other_to_me.Finish(fb::server::CreateRecv_ActorAppear(fbb_other_to_me,
 				fbb_other_to_me.CreateVector(vec_offset_appear)));
-			Send(fb::server::RecvPid_ActorAppear, fbb_other_to_me);
+			owner_user->Send(fb::server::RecvPid_ActorAppear, fbb_other_to_me);
 		}
 	}
 
@@ -154,15 +141,15 @@ Result_t Character::DoMove(const PositionT& _position)
 	{
 		fbb_me_to_other.Clear();
 		fbb_me_to_other.Finish(fb::server::CreateRecv_ActorMove(fbb_me_to_other,
-			Uid(),
-			Speed()
+			fbb_me_to_other.CreateVector({ OffsetActorMove(fbb_me_to_other) })
 		));
 
 		for (Actor* actor : move_list)
 		{
-			if (nullptr != actor && nullptr != actor->OwnerUser())
+			User* user = actor->OwnerUser();
+			if (nullptr != user)
 			{
-				actor->OwnerUser()->Send(fb::server::RecvPid_ActorMove, fbb_me_to_other);
+				user->Send(fb::server::RecvPid_ActorMove, fbb_me_to_other);
 			}
 		}
 	}
@@ -171,13 +158,12 @@ Result_t Character::DoMove(const PositionT& _position)
 	{
 		fbb_me_to_other.Clear();
 		fbb_me_to_other.Finish(fb::server::CreateRecv_ActorDisappear(fbb_me_to_other,
-			Uid(),
-			fb::eMoveType_Move
+			fbb_me_to_other.CreateVector({ OffsetActorDisappear(fbb_me_to_other, eActorMoveEffect::Delay) })
 		));
 
 		fbb_other_to_me.Clear();
 
-		std::vector<flatbuffers::Offset<fb::ActorAppear>> vec_offset_disappear;
+		std::vector<flatbuffers::Offset<fb::ActorDisAppear>> vec_offset_disappear;
 		vec_offset_disappear.reserve(appear_list.size());
 
 		for (Actor* actor : disappear_list)
@@ -187,26 +173,47 @@ Result_t Character::DoMove(const PositionT& _position)
 				continue;
 			}
 
-			// 나에게 보내줄 다른 액터 정보
-			vec_offset_disappear.push_back(fb::Create_ActorDisappear(fbb_other_to_me, );
-	
 			User* user = actor->OwnerUser();
 			if (nullptr != user)
 			{
 				user->Send(fb::server::RecvPid_ActorAppear, fbb_me_to_other);
 			}
 
-			if (nullptr != actor && nullptr != actor->OwnerUser())
-			{
-				actor->OwnerUser()->Send(fb::server::RecvPid_ActorDisappear, fbb_me_to_other);
-			}
+			// 나에게 보내줄 다른 액터 정보
+			vec_offset_disappear.push_back(OffsetActorDisappear(fbb_other_to_me, eActorMoveEffect::Delay));
 		}
+
+		owner_user->Send(fb::server::RecvPid_ActorDisappear, fbb_me_to_other);
 	}
 
-	// 파티원등 알림 받아야할 대상에게 알림
-	NtfyMultiCast(this, CurTerrainIdx(), new_x, new_y, new_z);
+	UpdatePosition(_position);
 
     return eResult_Success;
+}
+
+void Character::UpdatePosition(const fb::PositionT& _position)
+{
+	Terrain* cur_terrain = CurTerrain();
+	if (nullptr == cur_terrain)
+	{
+		return;
+	}
+
+	cur_terrain->LeaveActor(this);
+	
+	SetPosition(_position);
+
+	Terrain* new_terrain = TerrainManager->FindTerrain(_position.x, _position.y, _position.z);
+	if (nullptr == new_terrain)
+	{
+		LOG_ERROR << "new terrain is nullptr";
+		return;
+	}
+
+	new_terrain->EnterActor(this, _position.x, _position.y, _position.z);
+
+	// @todo 이걸 하는 순간 멀티 로직 스레드라면 스레드가 변경된다
+	SetTerrain(new_terrain);
 }
 
 Coord_t Character::X() const
@@ -244,38 +251,26 @@ Mp_t Character::CurMp() const
 	return m_hp_mp.cur_mp;
 }
 
-void Character::SetGrid(const fb::Position& _pos)
-{
-	Terrain* terrain = CurTerrain();
-
-	terrain->
-	
-	terrain->actor
-}
-
-void Character::SetPos(const fb::Position& _pos)
+void Character::SetPosition(const fb::Position& _pos, Coord_t _angle)
 {
 	m_pos.x = _pos.x();
 	m_pos.y = _pos.y();
 	m_pos.z = _pos.z();
+	m_pos.angle = _angle;
 }
 
-void Character::SetPos(const Vector_t& _pos)
+void Character::SetPosition(const Vector_t& _pos)
 {
 	m_pos.x = _pos.X();
 	m_pos.y = _pos.Y();
 	m_pos.z = _pos.Z();
 }
 
-void Character::SetPos(Coord_t _x, Coord_t _y, Coord_t _z)
+void Character::SetPosition(Coord_t _x, Coord_t _y, Coord_t _z, Coord_t _angle)
 {
 	m_pos.x = _x;
 	m_pos.y = _y;
 	m_pos.z = _z;
-}
-
-void Character::SetAngle(Coord_t _angle)
-{
 	m_pos.angle = _angle;
 }
 

@@ -101,6 +101,16 @@ bool Terrain::IsInside(const Vector_t& _vector)
 	return true;
 }
 
+bool Terrain::EnterActor(Actor* _actor, Coord_t _x, Coord_t _y, Coord_t _z)
+{
+	return m_grid_manager->EnterActor(_actor, _x, _y, _z);
+}
+
+bool Terrain::LeaveActor(Actor* _actor)
+{
+	return m_grid_manager->LeaveActor(_actor);
+}
+
 TerrainGrid* Terrain::FindGrid(Coord_t _x, Coord_t _y, Coord_t _z)
 {
 	return m_grid_manager->FindGrid(_x, _y, _z);

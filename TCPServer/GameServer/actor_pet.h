@@ -2,11 +2,11 @@
 
 #include "actor.h"
 
-class Character : public Actor, public core::ObjectPool<Character*>
+class Pet : public Actor, public core::ObjectPool<Pet*>
 {
 public:
-	Character();
-	virtual ~Character();
+	Pet();
+	virtual ~Pet();
 
 	void Initialize() override;
 	void Finallize() override;
@@ -14,10 +14,8 @@ public:
 	void OnUpdate() override;
 	Result_t DoMove(const PositionT& _position) override;
 
-	void UpdatePosition(const fb::PositionT& _position);
-
 public:
-	fb::eActorType Type() const override { return fb::eActorType_Character; }
+	fb::eActorType Type() const override { return fb::eActorType_Pran; }
 	bool IsCharacter() const  override { return true; }
 
 	bool IsAttackable() const override { return true; }
@@ -34,10 +32,11 @@ public:
 	Mp_t MaxMp() const override;
 	Mp_t CurMp() const override;
 
-	void SetPosition(const fb::Position& _pos, Coord_t _angle);
-	void SetPosition(const Vector_t& _pos);
-	void SetPosition(Coord_t _x, Coord_t _y, Coord_t _z, Coord_t _angle = 0);
-	
+	void SetPos(const fb::Position* _pos);
+	void SetPos(const Vector_t& _pos);
+	void SetPos(Coord_t _x, Coord_t _y, Coord_t _z);
+	void SetAngle(Coord_t _angle);
+
 	Speed_t Speed() const override;
 
 private:

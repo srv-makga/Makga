@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "terrain_grid_manager.h"
 #include "terrain_grid.h"
+#include "actor.h"
 
 TerrainGridManager::TerrainGridManager()
 {
@@ -71,6 +72,33 @@ void TerrainGridManager::OnUpdate()
 		}
 
 	}
+}
+
+bool TerrainGridManager::EnterActor(Actor* _actor, Coord_t _x, Coord_t _y, Coord_t _z)
+{
+	if (nullptr == _actor)
+	{
+		return false;
+	}
+
+	TerrainGrid* grid = FindGrid(_x, _y, _z);
+	if (nullptr == grid)
+	{
+		return false;
+	}
+
+	if (grid == _actor->CurTerrainGrid())
+	{
+		return false;
+	}
+
+	grid->InsertActor(_actor);
+	_actor->SetTerrainGrid(grid);
+}
+
+bool TerrainGridManager::LeaveActor(Actor* _actor)
+{
+	return false;
 }
 
 TerrainGrid* TerrainGridManager::FindGrid(Coord_t _x, Coord_t _y, Coord_t _z)

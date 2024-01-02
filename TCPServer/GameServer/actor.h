@@ -4,6 +4,7 @@
 #include "../Core/object_pool.h"
 
 class Terrain;
+class TerrainGrid;
 class ActorAI;
 class Character;
 class Monster;
@@ -53,6 +54,9 @@ public: // 가상 & 기능
 	virtual void AddAggroList(const ActorList& _actor) = 0;
 	virtual void SelectTarget() = 0;
 
+	flatbuffers::Offset<fb::ActorAppear> OffsetActorAppear(FB_BUILDER& _fbb, eActorMoveEffect _effect);
+	flatbuffers::Offset<fb::ActorDisAppear> OffsetActorDisappear(FB_BUILDER& _fbb, eActorMoveEffect _effect);
+	flatbuffers::Offset<fb::ActorMove> OffsetActorMove(FB_BUILDER& _fbb);
 	virtual flatbuffers::Offset<fb::ActorInfoBase> OffsetActorInfoBase(FB_BUILDER& _fbb) = 0;
 	virtual flatbuffers::Offset<fb::ActorInfoDetail> OffsetActorInfoDetail(FB_BUILDER& _fbb) = 0;
 
@@ -108,7 +112,9 @@ public: // 가상 & get set
 
 	virtual Speed_t Speed() const { return 0; }
 
-	virtual Terrain* CurTerrain() const { return nullptr; }
+	virtual Terrain* CurTerrain() const = 0;
+	virtual TerrainGrid* CurTerrainGrid() const { return m_grid; }
+	virtual void SetTerrainGrid(TerrainGrid* _grid) { m_grid = _grid; }
 
 	virtual Actor* Owner() const { return nullptr; }
 	virtual User* OwnerUser() const { return nullptr; }
@@ -121,6 +127,8 @@ public: // actor 자체
 protected:
 	ActorUid_t m_uid;
 	ActorAI* m_ai;
+
+	TerrainGrid* m_grid;
 
 	inline static const PositionT s_empty_position;
 };

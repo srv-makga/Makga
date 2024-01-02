@@ -130,7 +130,7 @@
     <ClCompile Include="actor_monster.cpp" />
     <ClCompile Include="actor_npc.cpp" />
     <ClCompile Include="actor_gadget.cpp" />
-    <ClCompile Include="actor_pran.cpp" />
+    <ClCompile Include="actor_pet.cpp" />
     <ClCompile Include="aggro_list.cpp" />
     <ClCompile Include="ai_aggressive.cpp" />
     <ClCompile Include="ai_base.cpp" />
@@ -171,7 +171,7 @@
   <ItemGroup>
     <ClInclude Include="actor_ai.h" />
     <ClInclude Include="actor_manager.h" />
-    <ClInclude Include="actor_pran.h" />
+    <ClInclude Include="actor_pet.h" />
     <ClInclude Include="aggro_list.h" />
     <ClInclude Include="ai_base.h" />
     <ClInclude Include="ai_boss.h" />

@@ -43,7 +43,7 @@ void TerrainGrid::OnUpdate()
 	}
 }
 
-bool TerrainGrid::AddActor(Actor* _actor)
+bool TerrainGrid::InsertActor(Actor* _actor)
 {
 	if (nullptr == _actor)
 	{

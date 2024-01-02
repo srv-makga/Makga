@@ -113,7 +113,7 @@
     <ClCompile Include="terrain_grid_manager.cpp">
       <Filter>system\terrain\grid</Filter>
     </ClCompile>
-    <ClCompile Include="actor_pran.cpp">
+    <ClCompile Include="actor_pet.cpp">
       <Filter>actor\detail</Filter>
     </ClCompile>
   </ItemGroup>
@@ -257,7 +257,7 @@
     <ClInclude Include="game_enum.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="actor_pran.h">
+    <ClInclude Include="actor_pet.h">
       <Filter>actor\detail</Filter>
     </ClInclude>
   </ItemGroup>

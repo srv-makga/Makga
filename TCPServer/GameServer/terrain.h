@@ -25,6 +25,9 @@ public:
 
 	bool IsInside(const Vector_t& _vector);
 
+	bool EnterActor(Actor* _actor, Coord_t _x, Coord_t _y, Coord_t _z);
+	bool LeaveActor(Actor* _actor);
+
 	TerrainGrid* FindGrid(Coord_t _x, Coord_t _y, Coord_t _z);
 
 	void FindNotificationList(const PositionT& _old,
@@ -42,6 +45,7 @@ public:
 	TerrainIdx_t Idx() const;
 
 private:
+	// @brief 내비메쉬 로딩
 	bool LoadNavMesh(const String8& _file_name);
 
 private:
