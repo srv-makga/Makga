@@ -163,6 +163,7 @@
     <ClCompile Include="terrain.cpp" />
     <ClCompile Include="terrain_grid.cpp" />
     <ClCompile Include="terrain_grid_manager.cpp" />
+    <ClCompile Include="terrain_manager.cpp" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="acceptor_user.cpp" />
     <ClCompile Include="session_world.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="terrain.h" />
     <ClInclude Include="terrain_grid.h" />
     <ClInclude Include="terrain_grid_manager.h" />
+    <ClInclude Include="terrain_manager.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="user_manager.h" />
     <ClInclude Include="acceptor_user.h" />

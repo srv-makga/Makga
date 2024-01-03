@@ -18,6 +18,9 @@ public:
 
 	void OnUpdate() override;
 
+	Actor* FindTarget() override;
+
+public:
 	fb::eActorType Type() const override { return fb::eActorType_Monster; }
 
 private:

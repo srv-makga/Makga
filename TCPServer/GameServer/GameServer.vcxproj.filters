@@ -116,6 +116,9 @@
     <ClCompile Include="actor_pet.cpp">
       <Filter>actor\detail</Filter>
     </ClCompile>
+    <ClCompile Include="terrain_manager.cpp">
+      <Filter>system\terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -224,9 +227,6 @@
     <ClInclude Include="DetourStatus.h">
       <Filter>system\terrain\detour</Filter>
     </ClInclude>
-    <ClInclude Include="detour.h">
-      <Filter>system\terrain</Filter>
-    </ClInclude>
     <ClInclude Include="ai_base.h">
       <Filter>ai</Filter>
     </ClInclude>
@@ -259,6 +259,12 @@
     </ClInclude>
     <ClInclude Include="actor_pet.h">
       <Filter>actor\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="detour.h">
+      <Filter>system\terrain\detour</Filter>
+    </ClInclude>
+    <ClInclude Include="terrain_manager.h">
+      <Filter>system\terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
