@@ -37,7 +37,7 @@ public:
 		OUT ActorList& _disappear_list,
 		OUT ActorList& _move_list);
 
-	bool AroundList(const PositionT& _position, Distance_t _range, eActorSearchFilter _filter, OUT ActorList& _actor_list);
+	bool AroundList(const PositionT& _position, Distance_t _range, int _filter, OUT ActorList& _actor_list);
 
 	Count_t CurUserCount() const;
 
