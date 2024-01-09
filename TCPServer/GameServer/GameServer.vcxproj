@@ -142,6 +142,7 @@
     <ClCompile Include="DetourNavMeshBuilder.cpp" />
     <ClCompile Include="DetourNavMeshQuery.cpp" />
     <ClCompile Include="DetourNode.cpp" />
+    <ClCompile Include="monster_generator.cpp" />
     <ClCompile Include="proc_world.cpp" />
     <ClCompile Include="session_community.cpp" />
     <ClCompile Include="connector_community.cpp" />
@@ -190,7 +191,9 @@
     <ClInclude Include="DetourStatus.h" />
     <ClInclude Include="function.h" />
     <ClInclude Include="game_enum.h" />
+    <ClInclude Include="game_struct.h" />
     <ClInclude Include="game_type.h" />
+    <ClInclude Include="monster_generator.h" />
     <ClInclude Include="session_community.h" />
     <ClInclude Include="connector_community.h" />
     <ClInclude Include="connector_dbagent.h" />

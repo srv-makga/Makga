@@ -119,6 +119,9 @@
     <ClCompile Include="terrain_manager.cpp">
       <Filter>system\terrain</Filter>
     </ClCompile>
+    <ClCompile Include="monster_generator.cpp">
+      <Filter>system\generator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -266,6 +269,12 @@
     <ClInclude Include="terrain_manager.h">
       <Filter>system\terrain</Filter>
     </ClInclude>
+    <ClInclude Include="monster_generator.h">
+      <Filter>system\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="game_struct.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -339,6 +348,9 @@
     </Filter>
     <Filter Include="system\skill">
       <UniqueIdentifier>{f72cbf04-3835-43d9-bc3f-b0cbb99267c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\generator">
+      <UniqueIdentifier>{37a4f676-34b5-4fd5-8722-99babdf3ff88}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

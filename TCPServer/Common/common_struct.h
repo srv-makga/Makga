@@ -119,5 +119,17 @@ struct PositionXY
 	Coord_t y;
 };
 
+struct MonsterCreateOption
+{
+	TableIdx_t monster_idx;
+	Vector_t position;
+	Angle_t angle; // 생성시 방향
+};
+
+struct ItemCreateOption
+{
+
+};
+
 using UmapItemList = std::unordered_map<ItemIdx_t, StackCount_t>;
 using UmapItemPropertyList = std::unordered_map<const ItemProperty*, StackCount_t>;

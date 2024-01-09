@@ -64,7 +64,8 @@ struct MonsterRouteTable
 
 struct MonsterSpawnTable
 {
-	Coord_t angle; // 积己矫 规氢
+	MonsterCreateOption option;
+
 	Tick_t respawn_cycle_tick; // 积己 埃拜
 	Count_t max_count; // 弥措 积己
 	Count_t cur_count; // 泅犁 积己
@@ -73,4 +74,5 @@ struct MonsterSpawnTable
 	std::vector<Vector_t> spawn_pos;
 	Distance_t spawn_distance;
 	TableIdx_t route_idx;
+
 };

@@ -8,9 +8,13 @@ public:
 	MonsterGenerator();
 	virtual ~MonsterGenerator();
 
-	void SetTable(const MonsterSpawnTable* _table);
+	void AddSpawnTable(const MonsterSpawnTable* _table);
 
+
+	void OnUpdate();
+
+protected:
+	static Monster* MonsterCreate(const MonsterCreateOption& _option);
 private:
-	inline static const MonsterSpawnTable s_empty_table{};
-	const MonsterSpawnTable* m_spawn_table;
+	std::vector<std::pair<Tick_t, const MonsterSpawnTable*>> m_spawn_list;
 };
