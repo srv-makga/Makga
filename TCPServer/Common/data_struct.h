@@ -68,7 +68,6 @@ struct MonsterSpawnTable
 
 	Tick_t respawn_cycle_tick; // 생성 간격
 	Count_t max_count; // 최대 생성
-	Count_t cur_count; // 현재 생성
 	std::pair<Count_t, Count_t> group_count; // 한번에 생성될 최소, 최대
 
 	std::vector<Vector_t> spawn_pos;

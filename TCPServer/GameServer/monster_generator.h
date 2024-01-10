@@ -2,10 +2,19 @@
 
 #include "game_header.h"
 
+class Monster;
+class Terrain;
+
+struct MonsterSpawnInfo
+{
+	Tick_t tick;
+	Count_t count;
+};
+
 class MonsterGenerator
 {
 public:
-	MonsterGenerator();
+	MonsterGenerator(Terrain& _terrain);
 	virtual ~MonsterGenerator();
 
 	void AddSpawnTable(const MonsterSpawnTable* _table);
@@ -15,6 +24,9 @@ public:
 
 protected:
 	static Monster* MonsterCreate(const MonsterCreateOption& _option);
+
 private:
-	std::vector<std::pair<Tick_t, const MonsterSpawnTable*>> m_spawn_list;
+	Terrain& m_terrain;
+	std::map<TableIdx_t, const MonsterSpawnTable*> m_spawn_list;
+	std::map<TableIdx_t, MonsterSpawnInfo> m_spawn_info;
 };

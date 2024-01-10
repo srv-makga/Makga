@@ -31,7 +31,7 @@ public:
 	template <typename T>
 	typename std::enable_if_t<std::is_floating_point<T>::value, T> Random(T _min = std::numeric_limits<T>::min(), T _max = std::numeric_limits<T>::max())
 	{
-		std::uniform_real_distribution<T> distribution(std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
+		std::uniform_real_distribution<T> distribution(_min, _max);
 		return distribution(m_random_engine);
 	}
 
