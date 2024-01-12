@@ -18,7 +18,8 @@ class User;
 class Actor
 {
 public:
-	Actor() = default;
+	Actor(ActorUid_t _uid)
+		: m_uid(_uid) {}
 	virtual ~Actor() = default;
 
 public: // 가상 & 기능
@@ -38,8 +39,10 @@ public: // 가상 & 기능
 	// @brief 해당 액터를 인지할 수 있는 상태인지
 	virtual bool CanSeeActor(Actor* _actor) = 0;
 
+	virtual void SetRouteTable(TableIdx_t _idx) = 0;
+
 	// @brief 특정 좌표 리스트를 반복적으로 이동하기 위한 설정
-	virtual void SetRoute(Sequence_t _seq, const Vector_t& _vec) {}
+	virtual void SetRoute(Sequence_t _seq, const Vector_t& _vec) = 0;
 
 	// @brief 특정 모습으로 변경
 	virtual Result_t Change(TableIdx_t _index) = 0;
@@ -49,6 +52,8 @@ public: // 가상 & 기능
 	virtual Result_t Resurrecton() const { return eResult_Success; }
 
 	virtual Result_t DoAttack(Actor* _target, SkillIdx_t _skill_idx) = 0;
+
+	virtual void StartAI() = 0;
 
 	virtual void AddAggroList(Actor* _actor) = 0;
 	virtual void AddAggroList(const ActorList& _actor) = 0;
@@ -121,11 +126,10 @@ public: // 가상 & get set
 
 public: // actor 자체
 	ActorUid_t Uid() const { return m_uid; }
-	void SetUId(ActorUid_t _uid) { m_uid = _uid; }
 	ActorAI* AI() const { return m_ai; }
 
 protected:
-	ActorUid_t m_uid;
+	const ActorUid_t m_uid;
 	ActorAI* m_ai;
 
 	TerrainGrid* m_grid;

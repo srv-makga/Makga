@@ -2,10 +2,10 @@
 
 #include "actor.h"
 
-class Pet : public Actor, public core::ObjectPool<Pet*>
+class Pet : public Actor, private core::ObjectPool<Pet*>
 {
 public:
-	Pet();
+	Pet(ActorUid_t _uid);
 	virtual ~Pet();
 
 	void Initialize() override;

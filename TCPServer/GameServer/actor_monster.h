@@ -5,11 +5,11 @@
 
 class ActorAI;
 
-class Monster : public Actor, public core::ObjectPool<Monster*>
+class Monster : public Actor, private core::ObjectPool<Monster*>
 {
 public:
 	Monster();
-	~Monster();
+	virtual ~Monster();
 
 	void Initialize() override;
 	void Finallize() override;
@@ -22,6 +22,16 @@ public:
 
 public:
 	fb::eActorType Type() const override { return fb::eActorType_Monster; }
+
+public:
+	static Monster* Rental()
+	{
+		return Pop();
+	}
+	static void Return(Monster* _actor)
+	{
+		Push(_actor);
+	}
 
 private:
 	const ActorBasicTable* m_basic_table;

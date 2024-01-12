@@ -2,7 +2,7 @@
 
 #include "actor.h"
 
-class Character : public Actor, public core::ObjectPool<Character*>
+class Character : public Actor, private core::ObjectPool<Character*>
 {
 public:
 	Character();
@@ -39,6 +39,16 @@ public:
 	void SetPosition(Coord_t _x, Coord_t _y, Coord_t _z, Coord_t _angle = 0);
 	
 	Speed_t Speed() const override;
+
+public:
+	static Character* Rental()
+	{
+		return Pop();
+	}
+	static void Return(Character* _actor)
+	{
+		Push(_actor);
+	}
 
 private:
 	std::string m_name;
