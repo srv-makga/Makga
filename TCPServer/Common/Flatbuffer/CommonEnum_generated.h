@@ -186,37 +186,46 @@ inline const char *EnumNameeActorType(eActorType e) {
   return EnumNameseActorType()[index];
 }
 
-enum eMoveType : int32_t {
-  eMoveType_None = -1,
-  eMoveType_Move = 0,
-  eMoveType_TelePort = 1,
-  eMoveType_MIN = eMoveType_None,
-  eMoveType_MAX = eMoveType_TelePort
+enum eActorMoveEffect : int32_t {
+  eActorMoveEffect_Normal = 0,
+  eActorMoveEffect_Delay = 1,
+  eActorMoveEffect_LongDelay = 2,
+  eActorMoveEffect_Wrap = 3,
+  eActorMoveEffect_Fake = 4,
+  eActorMoveEffect_Event = 5,
+  eActorMoveEffect_MIN = eActorMoveEffect_Normal,
+  eActorMoveEffect_MAX = eActorMoveEffect_Event
 };
 
-inline const eMoveType (&EnumValueseMoveType())[3] {
-  static const eMoveType values[] = {
-    eMoveType_None,
-    eMoveType_Move,
-    eMoveType_TelePort
+inline const eActorMoveEffect (&EnumValueseActorMoveEffect())[6] {
+  static const eActorMoveEffect values[] = {
+    eActorMoveEffect_Normal,
+    eActorMoveEffect_Delay,
+    eActorMoveEffect_LongDelay,
+    eActorMoveEffect_Wrap,
+    eActorMoveEffect_Fake,
+    eActorMoveEffect_Event
   };
   return values;
 }
 
-inline const char * const *EnumNameseMoveType() {
-  static const char * const names[4] = {
-    "None",
-    "Move",
-    "TelePort",
+inline const char * const *EnumNameseActorMoveEffect() {
+  static const char * const names[7] = {
+    "Normal",
+    "Delay",
+    "LongDelay",
+    "Wrap",
+    "Fake",
+    "Event",
     nullptr
   };
   return names;
 }
 
-inline const char *EnumNameeMoveType(eMoveType e) {
-  if (::flatbuffers::IsOutRange(e, eMoveType_None, eMoveType_TelePort)) return "";
-  const size_t index = static_cast<size_t>(e) - static_cast<size_t>(eMoveType_None);
-  return EnumNameseMoveType()[index];
+inline const char *EnumNameeActorMoveEffect(eActorMoveEffect e) {
+  if (::flatbuffers::IsOutRange(e, eActorMoveEffect_Normal, eActorMoveEffect_Event)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNameseActorMoveEffect()[index];
 }
 
 enum eInvenType : int32_t {

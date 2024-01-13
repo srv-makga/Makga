@@ -45,11 +45,14 @@ enum eActorType : int
 	Pran,
 }
 
-enum eMoveType : int
+enum eActorMoveEffect : int
 {
-	None = -1,
-	Move,
-	TelePort,
+	Normal,
+	Delay,
+	LongDelay,
+	Wrap,
+	Fake,
+	Event,
 }
 
 enum eInvenType : int

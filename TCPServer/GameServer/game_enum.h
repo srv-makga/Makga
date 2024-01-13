@@ -7,13 +7,3 @@ enum eActorSearchFilter
 	FilterObject = 1 << fb::eActorType_Object,
 	FilterAll = std::numeric_limits<uint32_t>::max()
 };
-
-enum eActorMoveEffect
-{
-	Normal,
-	Delay,
-	LongDelay,
-	Wrap,
-	Fake,
-	Event,
-};

@@ -8,7 +8,7 @@ class ActorAI;
 class Monster : public Actor, private core::ObjectPool<Monster*>
 {
 public:
-	Monster();
+	Monster(ActorUid_t _uid);
 	virtual ~Monster();
 
 	void Initialize() override;

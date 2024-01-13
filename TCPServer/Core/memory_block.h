@@ -146,7 +146,7 @@ public:
 		// 지금 chunk에 기존 chunk 메모리 주소 값을 넣고
 		*(reinterpret_cast<CHUNK_TYPE**>(_chunk)) = m_available_first_block;
 		// 지금 반환되는 chunk를 반환되게 만든다
-		m_available_first_block = reinterpret_cast<CHUNK_TYPE*>(pBack);
+		m_available_first_block = reinterpret_cast<CHUNK_TYPE*>(_chunk);
 
 		--m_alloc_count;
 	}
@@ -167,7 +167,7 @@ public:
 			next_chunk = *free_chunk;
 
 			//
-			tail = reinterpret_cast<CHUNK_TAIL_TYPE*>(reinterpret_cast<BYTE*>(free_chunk) + m_chunk_head_size + (m_chunk_size << gridx));
+			tail = reinterpret_cast<CHUNK_TAIL_TYPE*>(reinterpret_cast<unsigned char*>(free_chunk) + m_chunk_head_size + (m_chunk_size << gridx));
 			if (CHUNK_CHECK_DATA != *tail)
 			{
 				return false;
@@ -252,11 +252,11 @@ private:
 		}
 
 		m_available_last_chunk = reinterpret_cast<CHUNK_HEAD_TYPE*>(new_chunk);
-		m_available_first_block = reinterpret_cast<CHUNK_TYPE*>(reinterpret_cast<BYTE*>(m_available_last_chunk) + m_chunk_head_size);
+		m_available_first_block = reinterpret_cast<CHUNK_TYPE*>(reinterpret_cast<unsigned char*>(m_available_last_chunk) + m_chunk_head_size);
 #ifdef _DEBUG
-		CHUNK_TYPE* pAvailableLastBlock = reinterpret_cast<CHUNK_TYPE*>(reinterpret_cast<BYTE*>(m_available_last_chunk) + new_alloc_size - m_block_size - GET_ALIGNMENT_BY_SIZE(MNGR_CHUNK_TAIL_TYPE_SIZE, MNGR_CHUNK_ALIGNMENT));
+		CHUNK_TYPE* pAvailableLastBlock = reinterpret_cast<CHUNK_TYPE*>(reinterpret_cast<unsigned char*>(m_available_last_chunk) + new_alloc_size - m_block_size - GET_ALIGNMENT_BY_SIZE(MNGR_CHUNK_TAIL_TYPE_SIZE, MNGR_CHUNK_ALIGNMENT));
 #else
-		CHUNK_TYPE* pAvailableLastBlock = reinterpret_cast<CHUNK_TYPE*>(reinterpret_cast<BYTE*>(m_available_last_chunk) + new_alloc_size - m_block_size);
+		CHUNK_TYPE* pAvailableLastBlock = reinterpret_cast<CHUNK_TYPE*>(reinterpret_cast<unsigned char*>(m_available_last_chunk) + new_alloc_size - m_block_size);
 #endif
 
 		//
@@ -266,7 +266,7 @@ private:
 
 		for (; next_block < pAvailableLastBlock;)
 		{
-			next_block = reinterpret_cast<CHUNK_TYPE*>(reinterpret_cast<BYTE*>(next_block) + m_block_size);
+			next_block = reinterpret_cast<CHUNK_TYPE*>(reinterpret_cast<unsigned char*>(next_block) + m_block_size);
 			*ppCurBlock = next_block;
 			ppCurBlock = reinterpret_cast<CHUNK_TYPE**>(next_block);
 		}
@@ -277,7 +277,7 @@ private:
 			return false;
 		}
 
-		CHUNK_TAIL_TYPE* tail = reinterpret_cast<CHUNK_TAIL_TYPE*>(reinterpret_cast<BYTE*>(pAvailableLastBlock) + m_block_size);
+		CHUNK_TAIL_TYPE* tail = reinterpret_cast<CHUNK_TAIL_TYPE*>(reinterpret_cast<unsigned char*>(pAvailableLastBlock) + m_block_size);
 		*tail = CHUNK_CHECK_DATA;
 #endif
 

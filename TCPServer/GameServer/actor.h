@@ -33,7 +33,7 @@ public: // 가상 & 기능
 	virtual Result_t Move(Coord_t _x, Coord_t _y, Coord_t _z) = 0;
 
 	// @breif 상대방에게 나를 지우는 함수
-	virtual void SendDelete(Actor* _to_actor, eActorDisappearEffect _effect);
+	virtual void SendDelete(Actor* _to_actor, eActorMoveEffect _effect);
 
 	virtual Actor* FindTarget() = 0;
 	// @brief 해당 액터를 인지할 수 있는 상태인지

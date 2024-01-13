@@ -5,7 +5,7 @@
 class Character : public Actor, private core::ObjectPool<Character*>
 {
 public:
-	Character();
+	Character(ActorUid_t _uid);
 	virtual ~Character();
 
 	void Initialize() override;
