@@ -181,7 +181,7 @@ ActionNode::Status ActorAI::ReturnRoutePosition()
 
 ActionNode::Status ActorAI::FindTarget()
 {
-	Terrain* terrain = m_actor->Terrain();
+	Terrain* terrain = m_actor->CurTerrain();
 	if (nullptr == terrain)
 	{
 		return ActionNode::Status::Failure;

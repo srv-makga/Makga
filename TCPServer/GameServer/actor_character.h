@@ -52,8 +52,5 @@ public:
 
 private:
 	std::string m_name;
-	fb::PositionT m_pos;
-	fb::HpMpT m_hp_mp;
-
 	Speed_t m_speed;
 };

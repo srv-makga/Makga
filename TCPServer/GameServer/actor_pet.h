@@ -39,6 +39,16 @@ public:
 
 	Speed_t Speed() const override;
 
+public:
+	static Pet* Rental()
+	{
+		return Pop();
+	}
+	static void Return(Pet* _actor)
+	{
+		Push(_actor);
+	}
+
 private:
 	std::string m_name;
 	fb::PositionT m_pos;

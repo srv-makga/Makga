@@ -16,7 +16,7 @@ public:
 	void Finalize();
 
 	// @brief 액터의 풀링 설정
-	void CreateActor(std::size_t _create_character, std::size_t _create_npc, std::size_t _create_monster, std::size_t _create_object);
+	void CreateActor(std::size_t _create_character, std::size_t _create_npc, std::size_t _create_monster, std::size_t _create_gadget, std::size_t _create_pet);
 
 	Character* AllocCharacter();
 	void ReallocCharacter(Character* _actor);

@@ -34,8 +34,12 @@ public: // 가상 & 기능
 
 	// @breif 상대방에게 나를 지우는 함수
 	virtual void SendDelete(Actor* _to_actor, eActorMoveEffect _effect);
+	virtual void SendDelete(const std::vector<Actor*>& _to_actors, eActorMoveEffect _effect);
+	virtual void SendDelete(const std::unordered_set<Actor*>& _to_actors, eActorMoveEffect _effect);
 
+	// @brief 적 찾기
 	virtual Actor* FindTarget() = 0;
+
 	// @brief 해당 액터를 인지할 수 있는 상태인지
 	virtual bool CanSeeActor(Actor* _actor) = 0;
 
@@ -59,11 +63,21 @@ public: // 가상 & 기능
 	virtual void AddAggroList(const ActorList& _actor) = 0;
 	virtual void SelectTarget() = 0;
 
+public:
+#pragma region broadcast & multicast
+	void MulticastHpMp();
+	void MulticastBuff();
+	void Multicast(fb::server::RecvPid, flatbuffers::FlatBufferBuilder& _builder);
+#pragma endregion
+
+public:
+#pragma region flatbuffer_offset 
 	flatbuffers::Offset<fb::ActorAppear> OffsetActorAppear(FB_BUILDER& _fbb, eActorMoveEffect _effect);
 	flatbuffers::Offset<fb::ActorDisAppear> OffsetActorDisappear(FB_BUILDER& _fbb, eActorMoveEffect _effect);
 	flatbuffers::Offset<fb::ActorMove> OffsetActorMove(FB_BUILDER& _fbb);
 	virtual flatbuffers::Offset<fb::ActorInfoBase> OffsetActorInfoBase(FB_BUILDER& _fbb) = 0;
 	virtual flatbuffers::Offset<fb::ActorInfoDetail> OffsetActorInfoDetail(FB_BUILDER& _fbb) = 0;
+#pragma endregion
 
 protected:
 	// @brief 이동할 목표 지점 설정
@@ -128,11 +142,16 @@ public: // actor 자체
 	ActorUid_t Uid() const { return m_uid; }
 	ActorAI* AI() const { return m_ai; }
 
+	const fb::PositionT& Position() const { return m_position; }
+
 protected:
 	const ActorUid_t m_uid;
 	ActorAI* m_ai;
 
 	TerrainGrid* m_grid;
+
+	fb::PositionT m_position;
+	fb::HpMpT m_hp_mp;
 
 	inline static const PositionT s_empty_position;
 };

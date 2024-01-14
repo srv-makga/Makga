@@ -65,6 +65,9 @@ using UserUid_t = uint64_t;
 using TerrainIdx_t = TableIdx_t;
 using TerrainUid_t = uint32_t;
 
+// Nation
+using Nation_t = uint32_t;
+
 // Coord
 using Coord_t = float;
 using Distance_t = Coord_t;

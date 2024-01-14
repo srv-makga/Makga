@@ -352,6 +352,12 @@ table Recv_ActorChange
 	info:ActorInfoBase;
 }
 
+table Recv_CharacterHpMp
+{
+	uid:uint64;
+	hp_mp:HpMp;
+}
+
 table Recv_ItemCreate
 {
 	info:ItemDetail;

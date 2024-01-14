@@ -37,6 +37,7 @@ public:
 		OUT ActorList& _disappear_list,
 		OUT ActorList& _move_list);
 
+	// @brief position 주변 액터 목록을 불러온다
 	bool AroundList(const PositionT& _position, Distance_t _range, int _filter, OUT ActorList& _actor_list);
 
 	Count_t CurUserCount() const;

@@ -114,6 +114,8 @@ enum RecvPid : uint32
 	CharacterMove,
 	CharacterAngle,
 	CharacterResurrection,
+	
+	CharacterHpMp,
 
 	////////// actor //////////
 	ActorInteractionStart,

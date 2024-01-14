@@ -260,6 +260,10 @@ struct Recv_ActorChange;
 struct Recv_ActorChangeBuilder;
 struct Recv_ActorChangeT;
 
+struct Recv_CharacterHpMp;
+struct Recv_CharacterHpMpBuilder;
+struct Recv_CharacterHpMpT;
+
 struct Recv_ItemCreate;
 struct Recv_ItemCreateBuilder;
 struct Recv_ItemCreateT;
@@ -3952,6 +3956,80 @@ inline ::flatbuffers::Offset<Recv_ActorChange> CreateRecv_ActorChange(
 
 ::flatbuffers::Offset<Recv_ActorChange> CreateRecv_ActorChange(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_ActorChangeT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct Recv_CharacterHpMpT : public ::flatbuffers::NativeTable {
+  typedef Recv_CharacterHpMp TableType;
+  uint64_t uid = 0;
+  std::unique_ptr<fb::HpMpT> hp_mp{};
+  Recv_CharacterHpMpT() = default;
+  Recv_CharacterHpMpT(const Recv_CharacterHpMpT &o);
+  Recv_CharacterHpMpT(Recv_CharacterHpMpT&&) FLATBUFFERS_NOEXCEPT = default;
+  Recv_CharacterHpMpT &operator=(Recv_CharacterHpMpT o) FLATBUFFERS_NOEXCEPT;
+};
+
+struct Recv_CharacterHpMp FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Recv_CharacterHpMpT NativeTableType;
+  typedef Recv_CharacterHpMpBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4,
+    VT_HP_MP = 6
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool mutate_uid(uint64_t _uid = 0) {
+    return SetField<uint64_t>(VT_UID, _uid, 0);
+  }
+  const fb::HpMp *hp_mp() const {
+    return GetPointer<const fb::HpMp *>(VT_HP_MP);
+  }
+  fb::HpMp *mutable_hp_mp() {
+    return GetPointer<fb::HpMp *>(VT_HP_MP);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID, 8) &&
+           VerifyOffset(verifier, VT_HP_MP) &&
+           verifier.VerifyTable(hp_mp()) &&
+           verifier.EndTable();
+  }
+  Recv_CharacterHpMpT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(Recv_CharacterHpMpT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Recv_CharacterHpMp> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_CharacterHpMpT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct Recv_CharacterHpMpBuilder {
+  typedef Recv_CharacterHpMp Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(Recv_CharacterHpMp::VT_UID, uid, 0);
+  }
+  void add_hp_mp(::flatbuffers::Offset<fb::HpMp> hp_mp) {
+    fbb_.AddOffset(Recv_CharacterHpMp::VT_HP_MP, hp_mp);
+  }
+  explicit Recv_CharacterHpMpBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Recv_CharacterHpMp> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Recv_CharacterHpMp>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Recv_CharacterHpMp> CreateRecv_CharacterHpMp(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0,
+    ::flatbuffers::Offset<fb::HpMp> hp_mp = 0) {
+  Recv_CharacterHpMpBuilder builder_(_fbb);
+  builder_.add_uid(uid);
+  builder_.add_hp_mp(hp_mp);
+  return builder_.Finish();
+}
+
+::flatbuffers::Offset<Recv_CharacterHpMp> CreateRecv_CharacterHpMp(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_CharacterHpMpT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 struct Recv_ItemCreateT : public ::flatbuffers::NativeTable {
   typedef Recv_ItemCreate TableType;
   std::unique_ptr<fb::ItemDetailT> info{};
@@ -5951,6 +6029,46 @@ inline ::flatbuffers::Offset<Recv_ActorChange> CreateRecv_ActorChange(::flatbuff
       _fbb,
       _uid,
       _info);
+}
+
+inline Recv_CharacterHpMpT::Recv_CharacterHpMpT(const Recv_CharacterHpMpT &o)
+      : uid(o.uid),
+        hp_mp((o.hp_mp) ? new fb::HpMpT(*o.hp_mp) : nullptr) {
+}
+
+inline Recv_CharacterHpMpT &Recv_CharacterHpMpT::operator=(Recv_CharacterHpMpT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(uid, o.uid);
+  std::swap(hp_mp, o.hp_mp);
+  return *this;
+}
+
+inline Recv_CharacterHpMpT *Recv_CharacterHpMp::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::unique_ptr<Recv_CharacterHpMpT>(new Recv_CharacterHpMpT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Recv_CharacterHpMp::UnPackTo(Recv_CharacterHpMpT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = uid(); _o->uid = _e; }
+  { auto _e = hp_mp(); if (_e) { if(_o->hp_mp) { _e->UnPackTo(_o->hp_mp.get(), _resolver); } else { _o->hp_mp = std::unique_ptr<fb::HpMpT>(_e->UnPack(_resolver)); } } else if (_o->hp_mp) { _o->hp_mp.reset(); } }
+}
+
+inline ::flatbuffers::Offset<Recv_CharacterHpMp> Recv_CharacterHpMp::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_CharacterHpMpT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateRecv_CharacterHpMp(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Recv_CharacterHpMp> CreateRecv_CharacterHpMp(::flatbuffers::FlatBufferBuilder &_fbb, const Recv_CharacterHpMpT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const Recv_CharacterHpMpT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _uid = _o->uid;
+  auto _hp_mp = _o->hp_mp ? CreateHpMp(_fbb, _o->hp_mp.get(), _rehasher) : 0;
+  return fb::server::CreateRecv_CharacterHpMp(
+      _fbb,
+      _uid,
+      _hp_mp);
 }
 
 inline Recv_ItemCreateT::Recv_ItemCreateT(const Recv_ItemCreateT &o)
