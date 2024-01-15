@@ -10,6 +10,7 @@ class Character;
 class Monster;
 class Npc;
 class Gadget;
+class Pet;
 class User;
 
 /*

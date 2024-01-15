@@ -135,6 +135,7 @@
     <ClCompile Include="ai_aggressive.cpp" />
     <ClCompile Include="ai_base.cpp" />
     <ClCompile Include="ai_non_aggressive.cpp" />
+    <ClCompile Include="buff_manager.h" />
     <ClCompile Include="DetourAlloc.cpp" />
     <ClCompile Include="DetourAssert.cpp" />
     <ClCompile Include="DetourCommon.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="DetourNode.cpp" />
     <ClCompile Include="monster_generator.cpp" />
     <ClCompile Include="proc_world.cpp" />
+    <ClCompile Include="send_func.cpp" />
     <ClCompile Include="session_community.cpp" />
     <ClCompile Include="connector_community.cpp" />
     <ClCompile Include="connector_dbagent.cpp" />
@@ -194,6 +196,7 @@
     <ClInclude Include="game_struct.h" />
     <ClInclude Include="game_type.h" />
     <ClInclude Include="monster_generator.h" />
+    <ClInclude Include="send_func.h" />
     <ClInclude Include="session_community.h" />
     <ClInclude Include="connector_community.h" />
     <ClInclude Include="connector_dbagent.h" />

@@ -122,6 +122,10 @@
     <ClCompile Include="monster_generator.cpp">
       <Filter>system\generator</Filter>
     </ClCompile>
+    <ClCompile Include="send_func.cpp" />
+    <ClCompile Include="buff_manager.h">
+      <Filter>system\buff</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -275,6 +279,7 @@
     <ClInclude Include="game_struct.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="send_func.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -351,6 +356,9 @@
     </Filter>
     <Filter Include="system\generator">
       <UniqueIdentifier>{37a4f676-34b5-4fd5-8722-99babdf3ff88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\buff">
+      <UniqueIdentifier>{36bbaa50-5a2d-4399-94ef-a34de288f29b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
