@@ -79,6 +79,9 @@
     <ClCompile Include="memory_block.cpp">
       <Filter>memory</Filter>
     </ClCompile>
+    <ClCompile Include="buffer_pool.cpp">
+      <Filter>buffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -266,6 +269,9 @@
     </ClInclude>
     <ClInclude Include="db_connector_mysql.h">
       <Filter>database\mysql</Filter>
+    </ClInclude>
+    <ClInclude Include="buffer_pool.h">
+      <Filter>buffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

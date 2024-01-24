@@ -153,6 +153,4 @@ protected:
 
 	fb::PositionT m_position;
 	fb::HpMpT m_hp_mp;
-
-	inline static const PositionT s_empty_position;
 };

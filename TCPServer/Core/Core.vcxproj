@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ahocorasick.h" />
+    <ClInclude Include="buffer_pool.h" />
     <ClInclude Include="db_connector_maria.h" />
     <ClInclude Include="db_connector_mssql.h" />
     <ClInclude Include="db_connector_mysql.h" />
@@ -198,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ahocorasick.cpp" />
+    <ClCompile Include="buffer_pool.cpp" />
     <ClCompile Include="datetime.cpp" />
     <ClCompile Include="db_connector.cpp" />
     <ClCompile Include="db_connector_maria.cpp" />
