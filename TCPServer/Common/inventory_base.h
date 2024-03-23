@@ -42,16 +42,23 @@ public:
 
 	virtual Result_t CanAddItem(ItemIdx_t _item_index, StackCount_t _item_count) = 0;
 	virtual Result_t CanAddItem(const ItemProperty& _item_property, StackCount_t _item_count) = 0;
+	virtual Result_t CanAddItem(std::unordered_map<ItemIdx_t, StackCount_t>& _list) = 0;
+
+	virtual Result_t CanSubItem(ItemIdx_t _item_index, StackCount_t _item_count) = 0;
+	virtual Result_t CanSubItem(const ItemProperty& _item_property, StackCount_t _item_count) = 0;
+	virtual Result_t CanSubItem(std::unordered_map<ItemIdx_t, StackCount_t>& _list) = 0;
 
 	virtual Result_t AddItem(ItemIdx_t _item_index, StackCount_t _item_count, bool _client_send) = 0;
 	virtual Result_t AddItem(const ItemProperty& _item_property, StackCount_t _item_count, bool _client_send) = 0;
 	virtual Result_t AddItem(ItemObjectBase* _item_object, bool _client_send) = 0;
 
-	virtual Result_t CanSubItem(ItemIdx_t _item_index, StackCount_t _item_count) = 0;
-	virtual Result_t CanSubItem(const ItemProperty& _item_property, StackCount_t _item_count) = 0;
-
+	// @brief 老何 昏力
 	virtual Result_t SubItem(ItemIdx_t _item_index, StackCount_t _item_count) = 0;
 	virtual Result_t SubItem(const ItemProperty& _item_property, StackCount_t _item_count) = 0;
+
+	// @brief 傈眉 昏力
+	virtual Result_t DeleteItem(ItemUid_t _item_uid) = 0;
+	virtual Result_t DeleteItem(ItemIdx_t _item_index) = 0;
 
 	virtual Count_t ObjectCount(ItemIdx_t _item_index) = 0;
 	virtual bool HasItemIdx(ItemIdx_t _item_index) = 0;
@@ -72,5 +79,4 @@ public:
 protected:
 	eInvenType m_type;
 	InventoryOwner* m_owner;
-	Items m_items;
 };

@@ -154,7 +154,7 @@
     <ClCompile Include="session_dbagent.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="server_game.cpp" />
-    <ClCompile Include="inventory_account.cpp" />
+    <ClCompile Include="inventory_user.cpp" />
     <ClCompile Include="item_object_equip.cpp" />
     <ClCompile Include="item_object_stack.cpp" />
     <ClCompile Include="pch.cpp">
@@ -211,7 +211,7 @@
     <ClInclude Include="game_header.h" />
     <ClInclude Include="actor.h" />
     <ClInclude Include="ai_aggressive.h" />
-    <ClInclude Include="inventory_account.h" />
+    <ClInclude Include="inventory_user.h" />
     <ClInclude Include="actor_monster.h" />
     <ClInclude Include="actor_npc.h" />
     <ClInclude Include="actor_gadget.h" />

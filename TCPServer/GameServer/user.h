@@ -10,7 +10,7 @@ class SessionUser;
 class Character;
 class ItemObjectBase;
 class InventoryBase;
-class InventoryAccount;
+class InventoryUser;
 
 class User : public core::ObjectPool<User*>, public JobOwner//, public InventoryOwner
 {
@@ -91,6 +91,6 @@ private:
 	Time_t m_interaction_expire;
 
 	InventoryCache m_inventory_cache;
-	InventoryAccount* m_inventory;
-	InventoryAccount* m_warehouse;
+	InventoryUser* m_inventory;
+	InventoryUser* m_warehouse;
 }; 

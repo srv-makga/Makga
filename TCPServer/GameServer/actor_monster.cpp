@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "actor_monster.h"
 #include "actor_ai.h"
+#include "terrain.h"
 
-Monster::Monster()
+Monster::Monster(ActorUid_t _uid)
+	: Actor(_uid)
 {
 }
 
@@ -52,6 +54,12 @@ bool Monster::SetTable(ActorBasicTable* _table)
 	delete m_ai;
 
 	m_ai = new ActorAI(this, m_basic_table->ai_type);
+	if (nullptr == m_ai)
+	{
+		LOG_ERROR << "m_ai is nullptr";
+		return false;
+	}
+
 	m_ai->Initialize();
 
 	return true;
@@ -63,4 +71,33 @@ void Monster::OnUpdate()
 	{
 		m_ai->OnUpdate();
 	}
+}
+
+Actor* Monster::FindTarget()
+{
+	if (nullptr == m_basic_table)
+	{
+		return nullptr;
+	}
+
+	// 내 AI 타입이 선공이 아니면 실패
+	if (eAiType_Aggressive != m_basic_table->ai_type)
+	{
+		return nullptr;
+	}
+	
+	Terrain* terrain = CurTerrain();
+	if (nullptr == terrain)
+	{
+		return nullptr;
+	}
+
+	ActorList actor_list;
+	terrain->AroundList(Position(), MySight(), (int)FilterCharacter | FilterMonster, actor_list);
+
+	if (true == actor_list.empty())
+	{
+		return nullptr;
+	}
+
 }

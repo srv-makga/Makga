@@ -153,6 +153,7 @@
     <ClInclude Include="db_query.h" />
     <ClInclude Include="object_pool.h" />
     <ClInclude Include="queue_interface.h" />
+    <ClInclude Include="queue_mpsc.hpp" />
     <ClInclude Include="redis_connector.h" />
     <ClInclude Include="redis_reply.h" />
     <ClInclude Include="sorted_container.h" />

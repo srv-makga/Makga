@@ -2,7 +2,7 @@
 #include "user.h"
 #include "session_user.h"
 #include "server_game.h"
-#include "inventory_account.h"
+#include "inventory_user.h"
 #include "item_object_base.h"
 
 User::User()

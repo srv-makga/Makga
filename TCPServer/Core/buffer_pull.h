@@ -10,6 +10,7 @@ public:
 	using Length_t = BufferBase::Length_t;
 
 public:
+	BufferPull() = delete;
 	BufferPull(Length_t _length);
 	BufferPull(char* _buffer, Length_t _length);
 	virtual ~BufferPull();

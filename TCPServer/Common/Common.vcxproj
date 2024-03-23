@@ -14,6 +14,7 @@
     <ClInclude Include="acceptor_base.h" />
     <ClInclude Include="command_line.h" />
     <ClInclude Include="common_const.h" />
+    <ClInclude Include="content_db_save.h" />
     <ClInclude Include="Flatbuffer\ClientToServerPid_generated.h" />
     <ClInclude Include="Flatbuffer\ClientToServerTable_generated.h" />
     <ClInclude Include="Flatbuffer\CommonEnum_generated.h" />

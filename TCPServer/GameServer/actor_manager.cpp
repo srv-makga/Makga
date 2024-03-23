@@ -4,6 +4,7 @@
 #include "actor_monster.h"
 #include "actor_npc.h"
 #include "actor_gadget.h"
+#include "actor_pet.h"
 
 ActorManager::ActorManager()
 	: m_actor_id(0)
@@ -22,75 +23,74 @@ void ActorManager::Finalize()
 {
 	for (auto& iter : m_characters)
 	{
-		POOL(Character)::Push(iter.second);
+		Character::Return(iter.second);
 	}
 
 	m_characters.clear();
 
 	for (auto& iter : m_monsters)
 	{
-		POOL(Monster)::Push(iter.second);
+		Monster::Return(iter.second);
 	}
 
 	m_monsters.clear();
 
 	for (auto& iter : m_npcs)
 	{
-		POOL(Npc)::Push(iter.second);
+		Npc::Return(iter.second);
 	}
 
 	m_npcs.clear();
 
 	for (auto& iter : m_gadgets)
 	{
-		POOL(Gadget)::Push(iter.second);
+		Gadget::Return(iter.second);
 	}
 
 	m_gadgets.clear();
 }
 
-void ActorManager::CreateActor(std::size_t _create_character, std::size_t _create_npc, std::size_t _create_monster, std::size_t _create_object)
+void ActorManager::CreateActor(std::size_t _create_character, std::size_t _create_npc, std::size_t _create_monster, std::size_t _create_gadget, std::size_t _create_pet)
 {
 	for (std::size_t i = 0; i < _create_character; ++i)
 	{
-		Character* character = new Character();
-		character->Initialize();
-		character->SetUId(++m_actor_id);
-
-		POOL(Character)::Push(character);
+		Character* actor = new Character(++m_actor_id);
+		actor->Initialize();
+		Character::Return(actor);
 	}
 
 	for (std::size_t i = 0; i < _create_npc; ++i)
 	{
-		Npc* npc = new Npc();
-		npc->Initialize();
-		npc->SetUId(++m_actor_id);
-
-		POOL(Npc)::Push(npc);
+		Npc* actor = new Npc(++m_actor_id);
+		actor->Initialize();
+		Npc::Return(actor);
 	}
 
 	for (std::size_t i = 0; i < _create_monster; ++i)
 	{
-		Monster* monster = new Monster();
-		monster->Initialize();
-		monster->SetUId(++m_actor_id);
-
-		POOL(Monster)::Push(monster);
+		Monster* actor = new Monster(++m_actor_id);
+		actor->Initialize();
+		Monster::Return(actor);
 	}
 
-	for (std::size_t i = 0; i < _create_object; ++i)
+	for (std::size_t i = 0; i < _create_gadget; ++i)
 	{
-		Gadget* object = new Gadget();
-		object->Initialize();
-		object->SetUId(++m_actor_id);
+		Gadget* actor = new Gadget(++m_actor_id);
+		actor->Initialize();
+		Gadget::Return(actor);
+	}
 
-		POOL(Gadget)::Push(object);
+	for (std::size_t i = 0; i < _create_pet; ++i)
+	{
+		Pet* actor = new Pet(++m_actor_id);
+		actor->Initialize();
+		Pet::Return(actor);
 	}
 }
 
 Character* ActorManager::AllocCharacter()
 {
-	Character* actor = POOL(Character)::Pop();
+	Character* actor = Character::Rental();
 
 	m_characters.insert({ actor->Uid(), actor });
 	Add(actor->Uid(), actor);
@@ -108,12 +108,12 @@ void ActorManager::ReallocCharacter(Character* _actor)
 	m_characters.erase(_actor->Uid());
 	Remove(_actor->Uid());
 
-	POOL(Character)::Push(_actor);
+	Character::Return(_actor);
 }
 
 Monster* ActorManager::AllocMonster()
 {
-	Monster* actor = POOL(Monster)::Pop();
+	Monster* actor = Monster::Rental();
 
 	m_monsters.insert({ actor->Uid(), actor });
 	Add(actor->Uid(), actor);
@@ -131,12 +131,12 @@ void ActorManager::ReallocMonster(Monster* _actor)
 	m_monsters.erase(_actor->Uid());
 	Remove(_actor->Uid());
 
-	POOL(Monster)::Push(_actor);
+	Monster::Return(_actor);
 }
 
 Npc* ActorManager::AllocNpc()
 {
-	Npc* actor = POOL(Npc)::Pop();
+	Npc* actor = Npc::Rental();
 
 	m_npcs.insert({ actor->Uid(), actor });
 	Add(actor->Uid(), actor);
@@ -154,14 +154,14 @@ void ActorManager::ReallocNpc(Npc* _actor)
 	m_npcs.erase(_actor->Uid());
 	Remove(_actor->Uid());
 
-	POOL(Npc)::Push(_actor);
+	Npc::Return(_actor);
 }
 
 Gadget* ActorManager::AllocGadget()
 {
-	Gadget* actor = POOL(Gadget)::Pop();
+	Gadget* actor = Gadget::Rental();
 
-	m_objects.insert({ actor->Uid(), actor });
+	m_gadgets.insert({ actor->Uid(), actor });
 	Add(actor->Uid(), actor);
 
 	return actor;
@@ -174,8 +174,8 @@ void ActorManager::ReallocGadget(Gadget* _actor)
 		return;
 	}
 
-	m_objects.erase(_actor->Uid());
+	m_gadgets.erase(_actor->Uid());
 	Remove(_actor->Uid());
 
-	POOL(Gadget)::Push(_actor);
+	Gadget::Return(_actor);
 }

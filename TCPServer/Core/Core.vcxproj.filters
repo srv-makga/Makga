@@ -273,6 +273,9 @@
     <ClInclude Include="buffer_pool.h">
       <Filter>buffer</Filter>
     </ClInclude>
+    <ClInclude Include="queue_mpsc.hpp">
+      <Filter>queue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

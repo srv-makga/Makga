@@ -5,14 +5,14 @@
 
 class User;
 
-class InventoryAccount : public InventoryBase
+class InventoryUser : public InventoryBase
 {
 public:
 	using CacheContainer_t = std::unordered_map<ItemIdx_t, std::unordered_set<ItemObjectBase*>>;
 
 public:
-	InventoryAccount(eInvenType _type, User* _owner);
-	virtual ~InventoryAccount();
+	InventoryUser(eInvenType _type, User* _owner);
+	virtual ~InventoryUser();
 
 	void Initialize() override;
 	void Finalize() override;

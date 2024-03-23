@@ -56,7 +56,7 @@
     <ClCompile Include="proc_world.cpp">
       <Filter>proc</Filter>
     </ClCompile>
-    <ClCompile Include="inventory_account.cpp">
+    <ClCompile Include="inventory_user.cpp">
       <Filter>system\inventory</Filter>
     </ClCompile>
     <ClCompile Include="proc_user.cpp">
@@ -119,12 +119,14 @@
     <ClCompile Include="terrain_manager.cpp">
       <Filter>system\terrain</Filter>
     </ClCompile>
-    <ClCompile Include="monster_generator.cpp">
-      <Filter>system\generator</Filter>
-    </ClCompile>
-    <ClCompile Include="send_func.cpp" />
     <ClCompile Include="buff_manager.h">
       <Filter>system\buff</Filter>
+    </ClCompile>
+    <ClCompile Include="monster_generator.cpp">
+      <Filter>system\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="send_func.cpp">
+      <Filter>func</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -189,7 +191,7 @@
     <ClInclude Include="session_world.h">
       <Filter>network\session</Filter>
     </ClInclude>
-    <ClInclude Include="inventory_account.h">
+    <ClInclude Include="inventory_user.h">
       <Filter>system\inventory</Filter>
     </ClInclude>
     <ClInclude Include="inventory_equip.h">
@@ -273,13 +275,15 @@
     <ClInclude Include="terrain_manager.h">
       <Filter>system\terrain</Filter>
     </ClInclude>
-    <ClInclude Include="monster_generator.h">
-      <Filter>system\generator</Filter>
-    </ClInclude>
     <ClInclude Include="game_struct.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="send_func.h" />
+    <ClInclude Include="monster_generator.h">
+      <Filter>system\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="send_func.h">
+      <Filter>func</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -354,11 +358,11 @@
     <Filter Include="system\skill">
       <UniqueIdentifier>{f72cbf04-3835-43d9-bc3f-b0cbb99267c7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="system\generator">
-      <UniqueIdentifier>{37a4f676-34b5-4fd5-8722-99babdf3ff88}</UniqueIdentifier>
-    </Filter>
     <Filter Include="system\buff">
       <UniqueIdentifier>{36bbaa50-5a2d-4399-94ef-a34de288f29b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="func">
+      <UniqueIdentifier>{c19ced4e-5d92-48d1-93ea-a3850ac1bc58}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

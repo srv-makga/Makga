@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "actor_gadget.h"
 
-Gadget::Gadget()
+Gadget::Gadget(ActorUid_t _uid)
+	: Actor(_uid)
 {
 }
 

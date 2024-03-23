@@ -138,6 +138,9 @@
     <ClInclude Include="Flatbuffer\ServerToGlobalPid_generated.h">
       <Filter>flatbuffer\output</Filter>
     </ClInclude>
+    <ClInclude Include="content_db_save.h">
+      <Filter>system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

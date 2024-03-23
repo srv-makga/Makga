@@ -5,7 +5,8 @@
 #include "user.h"
 #include "../Common/utility.h"
 
-Character::Character()
+Character::Character(ActorUid_t _uid)
+	: Actor(_uid)
 {
 }
 
@@ -104,7 +105,7 @@ Result_t Character::DoMove(const PositionT& _position)
 		// 다른 사람들에게 줄 내 정보
 		fbb_me_to_other.Clear();
 		fbb_me_to_other.Finish(fb::server::CreateRecv_ActorAppear(fbb_me_to_other,
-			fbb_me_to_other.CreateVector({ OffsetActorAppear(fbb_me_to_other, eActorMoveEffect::Delay) })
+			fbb_me_to_other.CreateVector({ OffsetActorAppear(fbb_me_to_other, eActorMoveEffect_Delay) })
 		));
 
 		fbb_other_to_me.Clear();
@@ -126,7 +127,7 @@ Result_t Character::DoMove(const PositionT& _position)
 			}
 
 			// 나에게 보내줄 다른 액터 정보
-			vec_offset_appear.push_back(actor->OffsetActorAppear(fbb_other_to_me, eActorMoveEffect::Delay));
+			vec_offset_appear.push_back(actor->OffsetActorAppear(fbb_other_to_me, eActorMoveEffect_Delay));
 		}
 
 		if (false == vec_offset_appear.empty())
@@ -158,7 +159,7 @@ Result_t Character::DoMove(const PositionT& _position)
 	{
 		fbb_me_to_other.Clear();
 		fbb_me_to_other.Finish(fb::server::CreateRecv_ActorDisappear(fbb_me_to_other,
-			fbb_me_to_other.CreateVector({ OffsetActorDisappear(fbb_me_to_other, eActorMoveEffect::Delay) })
+			fbb_me_to_other.CreateVector({ OffsetActorDisappear(fbb_me_to_other, eActorMoveEffect_Delay) })
 		));
 
 		fbb_other_to_me.Clear();
@@ -180,7 +181,7 @@ Result_t Character::DoMove(const PositionT& _position)
 			}
 
 			// 나에게 보내줄 다른 액터 정보
-			vec_offset_disappear.push_back(OffsetActorDisappear(fbb_other_to_me, eActorMoveEffect::Delay));
+			vec_offset_disappear.push_back(OffsetActorDisappear(fbb_other_to_me, eActorMoveEffect_Delay));
 		}
 
 		owner_user->Send(fb::server::RecvPid_ActorDisappear, fbb_me_to_other);
@@ -203,7 +204,7 @@ void Character::UpdatePosition(const fb::PositionT& _position)
 	
 	SetPosition(_position);
 
-	Terrain* new_terrain = TerrainManager->FindTerrain(_position.x, _position.y, _position.z);
+	Terrain* new_terrain = TERRAIN_MANAGER.FindTerrain(_position.x, _position.y, _position.z);
 	if (nullptr == new_terrain)
 	{
 		LOG_ERROR << "new terrain is nullptr";

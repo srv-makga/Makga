@@ -3,10 +3,9 @@
 #include "data_manager.h"
 #include "session_dbagent.h"
 #include "../Common/utility.h"
-#include "inventory_account.h"
+#include "inventory_user.h"
 #include "actor_character.h"
 #include "actor_manager.h"
-#include "ReinforceManager.h"
 
 #define REG_DISPATCHER(pid)	s_dispatcher.Add(fb::server::SendPid_##pid, &User::On##pid);
 

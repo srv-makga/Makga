@@ -66,6 +66,14 @@ void Terrain::Finalize()
 void Terrain::OnUpdate()
 {
 	m_grid_manager->OnUpdate();
+
+	for (Actor* actor : m_dead_actor_list)
+	{
+		if (false == actor->CanResurrection())
+		{
+			continue;
+		}
+	}
 }
 
 Result_t Terrain::CanMove(const PositionT& _position)
@@ -163,8 +171,8 @@ void Terrain::FindNotificationList(const PositionT& _old, const PositionT& _new,
 
 	for (TerrainGrid* grid : grid_list)
 	{
-		grid->ActorListByPosition(_old, SYSTEM.actor.max_around_distance, eActorSearchFilter::Character, old_pos_actor_list);
-		grid->ActorListByPosition(_new, SYSTEM.actor.max_around_distance, eActorSearchFilter::Character, new_pos_actor_list);
+		grid->ActorListByPosition(_old, SYSTEM.actor.max_around_distance, eActorSearchFilter::FilterCharacter, old_pos_actor_list);
+		grid->ActorListByPosition(_new, SYSTEM.actor.max_around_distance, eActorSearchFilter::FilterCharacter, new_pos_actor_list);
 	}
 
 	if (true == old_pos_actor_list.empty() || true == new_pos_actor_list.empty())
@@ -202,7 +210,7 @@ void Terrain::FindNotificationList(const PositionT& _old, const PositionT& _new,
 	}
 }
 
-bool Terrain::AroundList(const PositionT& _position, Distance_t _range, OUT ActorList& _actor_list)
+bool Terrain::AroundList(const PositionT& _position, Distance_t _range, int _filter, OUT ActorList& _actor_list)
 {
 	// @todo ±¸Çö
 	return !_actor_list.empty();
@@ -211,6 +219,11 @@ bool Terrain::AroundList(const PositionT& _position, Distance_t _range, OUT Acto
 Count_t Terrain::CurUserCount() const
 {
 	return m_actor_list.size();
+}
+
+TerrainUid_t Terrain::Uid() const
+{
+	return m_uid;
 }
 
 TerrainIdx_t Terrain::Idx() const
