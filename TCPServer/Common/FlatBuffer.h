@@ -25,7 +25,7 @@ using namespace fb;
 
 
 template<typename T>
-static const T* BufferToStruct(const char* _buffer, DWORD _len)
+static const T* BufferToStruct(const char* _buffer, std::size_t _len)
 {
 	flatbuffers::Verifier verifier((uint8_t*)_buffer, _len);
 	if (_len != 0 && !verifier.VerifyBuffer<T>())

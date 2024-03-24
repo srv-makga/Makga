@@ -45,7 +45,6 @@ public:
 	}
 
 protected:
-	concurrency::concurrent_unordered_map<Identity_t, Object_t> m_objects;
-	//std::unordered_map<Identity_t, Object_t> m_objects;
+	std::unordered_map<Identity_t, Object_t> m_objects;
 	mutable core::RWMutex m_mutex;
 };

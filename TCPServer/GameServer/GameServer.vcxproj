@@ -64,7 +64,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(SolutionDir)libs\mariadb_cpp\include;$(SolutionDir)libs\flatbuffer\include;$(SolutionDir)libs\rapidjson\include;$(SolutionDir)libs\glog\include;$(SolutionDir)libs\hiredis\include;$(SolutionDir)Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\mariadb_cpp\include;$(SolutionDir)libs\flatbuffer\include;$(SolutionDir)libs\rapidjson\include;$(SolutionDir)libs\glog\include;$(SolutionDir)libs\hiredis\include;$(SolutionDir)Core;$(SolutionDir)Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <DisableSpecificWarnings>4819;26812</DisableSpecificWarnings>
       <UseFullPaths>false</UseFullPaths>
@@ -83,7 +83,7 @@
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalLibraryDirectories>$(solutiondir)libs\mariadb_cpp;$(SolutionDir)libs\glog\lib\$(Platform)\Debug;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(solutiondir)libs\mariadb_cpp;$(SolutionDir)libs\glog\lib\$(Platform)\$(Configuration);$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>

@@ -47,8 +47,8 @@ public:
 	std::size_t thread_count_database = 1;
 
 	// buffer
-	std::size_t buffer_size_write = 4096;
-	std::size_t buffer_size_read = 4096;
+	std::size_t buffer_size_write = 1 << 13;
+	std::size_t buffer_size_read = 1 << 13;
 
 	std::map<ServerId_t, ServerInfo_t*> serverlist;
 	std::map<ServerType_t, ServerInfo_t*> serverlist_by_type; // 타입별 서버 (여러개 쓰려면 프록시 서버를 만든다)
