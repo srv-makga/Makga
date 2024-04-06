@@ -25,12 +25,12 @@ public:
 	AcceptorBase();
 	virtual ~AcceptorBase();
 
-	virtual void Initialize();
-	virtual void InitSession(std::size_t _max_session) = 0;
+	virtual void Initialize() override;
+	void Finalize() override;
 
 	void InitSetting(int32_t _accept_max_count);
 	void InitSocket(const std::string& _ipaddr, Port_t _port);
-	void Finalize() override;
+	virtual void InitSession(std::size_t _max_session) = 0;
 
 	bool OnAccepted(SessionBase* _session, IOContext_t* _context) override;
 	bool OnConnected(SessionBase*, IOContext_t* _context) override { return false; }
@@ -45,9 +45,6 @@ protected:
 
 	void AddWaitSession(SessionBase* _session);
 	void RemoveWaitSession(SessionBase* _session);
-
-	void PushFreeSession(SessionBase* _session);
-	SessionBase* PopFreeSession();
 
 	virtual SessionBase* AllocSession() = 0;
 	virtual void ReallocSession(SessionBase* _session) = 0;
@@ -77,7 +74,7 @@ protected:
 	std::unordered_set<SessionBase*> m_wait_sessions; // accept 걸어둔
 	core::RCMutex m_wait_mutex;
 
-	std::queue<SessionBase*> m_free_sessions; // 생성만된
+	std::queue<SessionBase*> m_free_sessions;
 	core::RCMutex m_free_mutex;
 
 private:

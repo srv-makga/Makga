@@ -20,6 +20,16 @@ bool SessionGame::RecvPacket(NetPacket* _packet)
 	return true;
 }
 
+void SessionGame::OnError(const std::string& _errmsg)
+{
+	LOG_ERROR << _errmsg;
+}
+
+void SessionGame::OnError(std::exception& _exception)
+{
+	LOG_ERROR << _exception.what();
+}
+
 bool SessionGame::ProcPacket(NetPacket* _packet)
 {
 	if (nullptr == _packet)

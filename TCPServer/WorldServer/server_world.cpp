@@ -71,7 +71,7 @@ void ServerWorld::Initialize()
 	m_net_handler = new IOCPHandler();
 	m_net_handler->Initialize(m_config->thread_count_network);
 
-	m_connect_list = { /*eServerType_DBAgent, /*eServerType_Global*/};
+	m_connect_list = { /*eServerType_DBAgent,*/ eServerType_Global};
 	m_accept_list = {/*eServerType_Community, eServerType_InstancePool, eServerType_Instance,*/ eServerType_Game };
 
 	SessionGlobal::InitDispatcher();
@@ -149,9 +149,9 @@ bool ServerWorld::InitConnector()
 		switch (server_type)
 		{
 		case eServerType_Global:
-			//connector = new ConnectorGlobal();
-			//connector->SetSession(&SESSION_GLOBAL);
-			//SESSION_GLOBAL.SetNetActor(connector);
+			connector = new ConnectorGlobal();
+			connector->SetSession(&SESSION_GLOBAL);
+			SESSION_GLOBAL.SetNetActor(connector);
 			break;
 		case eServerType_DBAgent:
 			connector = new ConnectorDBAgent();

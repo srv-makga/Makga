@@ -26,6 +26,9 @@ public:
 	bool ProcPacket(NetPacket* packet) override;
 	ThreadId_t ThreadId() const override;
 
+	void OnError(const char* _msg) override;
+	void OnError(std::exception& _exception) override;
+
 protected:
 	bool OnRegServer(NetPacket* _packet);
 };

@@ -19,6 +19,8 @@ public:
 
 	bool RecvPacket(NetPacket* _packet) override; // SessionBase
 	bool ProcPacket(NetPacket* _packet) override; // JobOwner
+	void OnError(const std::string& _errmsg) override; // SessionBase
+	void OnError(std::exception& _exception) override; // SessionBase
 	ThreadId_t ThreadId() const override; // JobOwner
 
 protected: // 패킷 처리 함수

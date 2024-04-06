@@ -2,10 +2,8 @@
 
 #include "common_type.h"
 #include "../Core/net_service.h"
-#include <map>
 
 class ConfigBase;
-class AcceptorBase;
 
 class ServerBase : public core::network::NetService
 {
@@ -20,26 +18,28 @@ public:
 	ServerBase(ConfigBase* config);
 	virtual ~ServerBase();
 
-	virtual void Initialize();
-	virtual void Finallize();
+public:
+	void Initialize();
+	void Finalize();
 
-	/*!
-	* @details start() 에서 config set 전에 호출되는 함수
-	* @detail 주로 데이터를 로드
-	*/
-	virtual bool StartUp() = 0;
-
+	// @brief 서버 시작
 	bool Start();
 
-	/*!
-	* @details Start() 에서 config set 후에 호출되는 함수
-	* @detail 로드된 데이터로 셋팅
-	*/
-	virtual bool StartEnd() = 0;
-
+	// @brief 종료 이벤트 대기
 	void Wait();
+
+	// @brief 서버 정지
+	void Stop();
+
+public:
+	// @detail 주로 데이터를 로드
+	virtual bool StartUp() = 0;
+	// @detail 로드된 데이터로 셋팅
+	virtual bool StartEnd() = 0;
 
 protected:
 	ConfigBase* m_config;
-	HANDLE m_service;
+
+	std::mutex m_exit_mutex;
+	std::condition_variable m_exit_cv;
 };

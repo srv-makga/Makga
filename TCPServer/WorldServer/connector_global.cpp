@@ -9,6 +9,11 @@ ConnectorGlobal::~ConnectorGlobal()
 {
 }
 
+bool ConnectorGlobal::ProcPacket(NetPacket* _packet)
+{
+    return true;
+}
+
 ThreadId_t ConnectorGlobal::ThreadId() const
 {
 	return 0;

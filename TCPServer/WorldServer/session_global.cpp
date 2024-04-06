@@ -21,6 +21,16 @@ bool SessionGlobal::RecvPacket(NetPacket* _packet)
 	return true;
 }
 
+void SessionGlobal::OnError(const std::string& _errmsg)
+{
+	LOG_ERROR << _errmsg;
+}
+
+void SessionGlobal::OnError(std::exception& _exception)
+{
+	LOG_ERROR << _exception.what();
+}
+
 bool SessionGlobal::ProcPacket(NetPacket* _packet)
 {
 	if (nullptr == _packet)

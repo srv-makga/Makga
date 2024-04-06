@@ -39,6 +39,16 @@ bool SessionCommunity::ProcPacket(NetPacket* _packet)
 	return true;
 }
 
+void SessionCommunity::OnError(const char* _msg)
+{
+	LOG_ERROR << _msg;
+}
+
+void SessionCommunity::OnError(std::exception& _exception)
+{
+	LOG_ERROR << _exception.what();
+}
+
 ThreadId_t SessionCommunity::ThreadId() const
 {
 	return SessionId();

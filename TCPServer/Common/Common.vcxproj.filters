@@ -141,6 +141,9 @@
     <ClInclude Include="content_db_save.h">
       <Filter>system</Filter>
     </ClInclude>
+    <ClInclude Include="tcp_server.h">
+      <Filter>network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -243,6 +246,9 @@
     </ClCompile>
     <ClCompile Include="item_property.cpp">
       <Filter>system\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="tcp_server.cpp">
+      <Filter>network</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -23,15 +23,18 @@ public:
 	{
 		Invalid,
 		Open,
-		Terminate
+		Terminate,
 	};
 
-	SocketBase(int _family);
+	SocketBase();
 	~SocketBase();
 
-	// _family AF_INET, AF_INET6
-	// _type SOCK_STREAM, SOCK_DGRAM
-	// _protocol IPPROTO_TCP, IPPROTO_UDP
+	void Initialize();
+	void Finalize();
+
+	// @param _family AF_INET, AF_INET6
+	// @param _type SOCK_STREAM, SOCK_DGRAM
+	// @param _protocol IPPROTO_TCP, IPPROTO_UDP
 	CoreError Create(int _family, int _type, int _protocol);
 	bool Bind(const EndPoint& _endpoint);
 
@@ -42,7 +45,7 @@ public:
 	void Close();
 
 	// @brief 소켓에서 처리되지 않은 비동기 작업을 취소합니다.
-	void Cancel();
+	void Cancel(); // @todo
 
 	bool Reuse();
 
@@ -51,7 +54,7 @@ public:
 
 	// @brief 소켓의 데이터를 일정 크기로 모아서 전송
 	// @detail tcp only
-	bool OffNagle();
+	bool OptionNagle(bool _value);
 
 	// @brief 소켓 종료시
 	// @detail tcp only

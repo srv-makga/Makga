@@ -37,7 +37,7 @@ int main(int argc, char** argv)
 		return false;
 	}
 
-	SetConsoleTitle(CONFIG.app_name);
+	SetConsoleTitle(CONFIG.app_name.c_str());
 
 	// ################################################
 	// 매니저 초기화

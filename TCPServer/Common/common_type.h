@@ -32,7 +32,7 @@ using String8 = core::string::String<char>;
 using String16 = core::string::String<wchar_t>;
 using NetPacket = Packet;
 using NetPacketHeader = NetPacket::PacketHeader;
-using IOContext_t = core::network::IOContext<>;
+using IOContext_t = core::network::IOContext<8192>;
 using IOType_t = core::network::IOType;
 
 // flatbuffer 관련 재정의

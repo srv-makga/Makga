@@ -8,26 +8,18 @@
 
 int main(int argc, char** argv)
 {
-	fb::eServerType server_type = fb::eServerType_World;
-
-	// ################################################
-	//  기본 정보
-	// ################################################
-
 	// 마우스 선택으로 프로세스 멈춤 방지
 	DWORD prev_mode;
 	::GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &prev_mode);
 	::SetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), prev_mode & ~ENABLE_QUICK_EDIT_MODE);
 
+	// ################################################
+	//  기본 정보
+	// ################################################
+	
+	fb::eServerType server_type = fb::eServerType_World;
+	
 	SETTING.Initialize(server_type);
-
-	std::string log_suffix = std::string(fb::EnumNameeServerType(server_type)) + "_" + std::string(argv[1]);
-
-	core::logger::LoggerGoogle logger;
-	logger.Initialize("log", fb::EnumNameeServerType(server_type), log_suffix, ".log");
-	logger.set_file_with_console(true);
-	logger.set_console_color(true);
-	logger.set_prefix(true);
 
 	MiniDump mini_dump;
 	mini_dump.StartMiniDump();
@@ -38,7 +30,15 @@ int main(int argc, char** argv)
 		return false;
 	}
 
-	SetConsoleTitle(CONFIG.app_name);
+	SetConsoleTitle(CONFIG.app_name.c_str());
+
+	std::string log_suffix = std::string(fb::EnumNameeServerType(server_type)) + "_" + std::string(argv[1]);
+
+	core::logger::LoggerGoogle logger;
+	logger.Initialize("log", fb::EnumNameeServerType(server_type), log_suffix, ".log");
+	logger.set_file_with_console(true);
+	logger.set_console_color(true);
+	logger.set_prefix(true);
 
 	// ################################################
 	// 매니저 초기화

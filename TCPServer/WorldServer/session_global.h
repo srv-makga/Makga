@@ -19,6 +19,8 @@ public:
 	virtual ~SessionGlobal();
 
 	bool RecvPacket(NetPacket* _packet) override; // SessionBase
+	void OnError(const std::string& _errmsg) override; // SessionBase
+	void OnError(std::exception& _exception) override; // SessionBase
 	bool ProcPacket(NetPacket* _packet) override; // JobOwner
 	ThreadId_t ThreadId() const override; // JobOwner
 

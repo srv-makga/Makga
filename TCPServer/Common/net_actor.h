@@ -36,13 +36,13 @@ public:
 		m_job_handler = nullptr;
 	}
 
+	virtual void Finalize() = 0;
+
 	virtual void InitHandler(NetHandler* _net_handler, JobHandler* _job_handler)
 	{
 		m_net_handler = _net_handler;
 		m_job_handler = _job_handler;
 	}
-
-	virtual void Finalize() = 0;
 
 	virtual bool OnAccepted(SessionBase*, IOContext_t*) = 0;
 	virtual bool OnConnected(SessionBase*, IOContext_t*) = 0;

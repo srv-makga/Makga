@@ -71,6 +71,23 @@ public:
 		return item;
 	}
 
+	T TryPop()
+	{
+		T ret;
+
+		{
+			std::unique_lock lock(m_mutex);
+
+			if (false == m_queue.empty())
+			{
+				ret = m_queue.front();
+				m_queue.pop();
+			}
+		}
+
+		return ret;
+	}
+
 	bool IsEmpty() const
 	{
 		std::unique_lock lock(m_mutex);

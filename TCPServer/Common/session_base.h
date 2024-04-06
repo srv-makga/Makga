@@ -33,28 +33,28 @@ public:
 
 	void Close();
 
-	// iocp & rio 관련
+	// @brief listen socket에 세션 소켓 accept 걸기
+	// @parameter _socket listen socket
 	bool PostAccept(SOCKET _socket);
-	void OnAccept(IOContext_t* _context);
-
+	// @brief endpoint로 연결 시도
+	// @parameter ip와 port 정보
 	bool PostConnect(const core::network::EndPoint& _endpoint);
-	void OnConnect();
-
 	bool PostDisconnect();
-	void OnDisconnect();
-
-	std::size_t Recv();
 	bool PostZeroRecv();
 	bool PostRecv();
-	void OnRecv(DWORD _bytes_transferred, IOContext_t* _context);
-
 	bool PostSend();
+
+	void OnAccept(IOContext_t* _context);
+	void OnConnect();
+	void OnDisconnect();
+	void OnRecv(DWORD _bytes_transferred, IOContext_t* _context);
 	void OnSent(DWORD _bytes_transferred);
 
 	// @brief send buffer에 데이터 추가
 	// @detail 지연 전송을 위한
 	bool PushData(char* _data, std::size_t _length);
 
+	std::size_t Recv();
 	// @brief send buffer에 있는 데이터 전송
 	bool Send();
 	
@@ -67,6 +67,8 @@ public:
 	NetPacket* GetProcPacket();
 
 	virtual bool RecvPacket(NetPacket* packet) = 0;
+	virtual void OnError(const std::string& _errmsg) = 0;
+	virtual void OnError(std::exception& _exception) = 0;
 
 	bool IsConnect() const;
 	bool IsSendable() const;

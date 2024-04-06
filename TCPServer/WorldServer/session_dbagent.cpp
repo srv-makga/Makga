@@ -21,6 +21,16 @@ bool SessionDBAgent::RecvPacket(NetPacket* _packet)
 	return true;
 }
 
+void SessionDBAgent::OnError(const std::string& _errmsg)
+{
+	LOG_ERROR << _errmsg;
+}
+
+void SessionDBAgent::OnError(std::exception& _exception)
+{
+	LOG_ERROR << _exception.what();
+}
+
 bool SessionDBAgent::ProcPacket(NetPacket* _packet)
 {
 	if (nullptr == _packet)

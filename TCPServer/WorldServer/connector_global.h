@@ -9,6 +9,8 @@ public:
 	ConnectorGlobal();
 	~ConnectorGlobal();
 
+	bool ProcPacket(NetPacket* _packet) override;
+
 	ThreadId_t ThreadId() const override;
 	bool OnConnected(SessionBase* _session, IOContext_t* _io_context) override;
 };
