@@ -28,7 +28,7 @@ public:
 	~SocketTcp();
 
 	CoreError Create();
-	CoreError Listen() override;
+	CoreError Listen(int32_t _backlog) override;
 
 	bool Linger(struct linger _linger) override;
 

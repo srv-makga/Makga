@@ -38,7 +38,7 @@ public:
 	CoreError Create(int _family, int _type, int _protocol);
 	bool Bind(const EndPoint& _endpoint);
 
-	virtual CoreError Listen() { return Success; }
+	virtual CoreError Listen(int32_t _backlog) { return Success; }
 	bool Connect(const EndPoint& _endpoint);
 
 	// @brief 소켓을 닫습니다.
