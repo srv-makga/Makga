@@ -1,7 +1,7 @@
 #pragma once
 
 #include "socket_header.h"
-#include "endpoint.h"
+#include "ip_endpoint.h"
 #include "buffer_base.h"
 #include <string>
 #include <optional>
@@ -35,19 +35,23 @@ public:
 	// @param _family AF_INET, AF_INET6
 	// @param _type SOCK_STREAM, SOCK_DGRAM
 	// @param _protocol IPPROTO_TCP, IPPROTO_UDP
-	CoreError Create(int _family, int _type, int _protocol);
-	bool Bind(const EndPoint& _endpoint);
+	virtual CoreError Create(int _family, int _type, int _protocol);
+	virtual void Close();
 
-	virtual CoreError Listen(int32_t _backlog) { return Success; }
-	bool Connect(const EndPoint& _endpoint);
+	virtual CoreError Listen(int32_t _backlog) const { return SocketFailListen; }
+	bool Bind(const IPEndPoint& _endpoint);
 
-	// @brief 소켓을 닫습니다.
-	void Close();
+	bool Connect(const IPEndPoint& _endpoint);
+
+	// @brief 소켓의 송신, 수신 또는 양쪽 끝을 종료합니다.
+	int Shutdown(Shutdown_e _what);
 
 	// @brief 소켓에서 처리되지 않은 비동기 작업을 취소합니다.
 	void Cancel(); // @todo
 
 	bool Reuse();
+
+	bool Pool(long _msec);
 
 	bool OptionRecvBufferSize(int _buffer_size);
 	bool OptionSendBufferSize(int _buffer_size);
@@ -60,8 +64,6 @@ public:
 	// @detail tcp only
 	virtual bool Linger(struct linger _linger) { return true; }
 
-	// @brief 소켓의 송신, 수신 또는 양쪽 끝을 종료합니다.
-	int Shutdown(Shutdown_e _what);
 
 	virtual unsigned long Recv(char* _buffer, std::size_t _size) = 0;
 	virtual unsigned long Send(char* _buffer, std::size_t _size) = 0;
@@ -86,13 +88,13 @@ public:
 	inline bool NativeNonBlocking() const { return m_native_non_blocking; }
 	inline void SetNativeNonBlocking(bool _native_non_blocking) { m_native_non_blocking = _native_non_blocking; }
 
-	inline const EndPoint& RemoteAddr() const { return m_remote_addr; }
-	inline void SetRemoteAddr(const EndPoint& _remote_addr) { m_remote_addr = _remote_addr; }
+	inline const IPEndPoint& RemoteAddr() const { return m_remote_addr; }
+	inline void SetRemoteAddr(const IPEndPoint& _remote_addr) { m_remote_addr = _remote_addr; }
 	inline void SetRemoteAddr(const SOCKADDR_IN* _sockaddr) { m_remote_addr = *_sockaddr; }
 	inline void SetRemoteAddr(const SOCKADDR_IN6* _sockaddr) { m_remote_addr = *_sockaddr; }
 
-	inline const EndPoint& LocalAddr() const { return m_local_addr; }
-	inline void SetLocalAddr(const EndPoint& _local_addr) { m_local_addr = _local_addr; }
+	inline const IPEndPoint& LocalAddr() const { return m_local_addr; }
+	inline void SetLocalAddr(const IPEndPoint& _local_addr) { m_local_addr = _local_addr; }
 	inline void SetLocalAddr(const SOCKADDR_IN* _sockaddr) { m_local_addr = *_sockaddr; }
 	inline void SetLocalAddr(const SOCKADDR_IN6* _sockaddr) { m_local_addr = *_sockaddr; }
 
@@ -103,8 +105,8 @@ protected:
 	bool m_native_non_blocking;
 	State m_state;
 
-	EndPoint m_remote_addr;
-	EndPoint m_local_addr;
+	IPEndPoint m_remote_addr;
+	IPEndPoint m_local_addr;
 };
 } // namespace network
 } // namespace core;

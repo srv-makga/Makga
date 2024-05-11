@@ -208,6 +208,7 @@
     <ClCompile Include="db_statement_maria.cpp" />
     <ClCompile Include="endpoint.cpp" />
     <ClCompile Include="memory_block.cpp" />
+    <ClCompile Include="net_service.cpp" />
     <ClCompile Include="redis_connector.cpp" />
     <ClCompile Include="redis_reply.cpp" />
     <ClCompile Include="socket_base.cpp" />

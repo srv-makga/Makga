@@ -4,18 +4,17 @@
 
 namespace core {
 // @brief 일반적인 버퍼
-// @detail 사용 후 데이터를 앞당길 수 있음
-class BufferPull : public BufferBase
+class Buffer : public BufferBase
 {
 public:
 	using Offset_t = BufferBase::Offset_t;
 	using Length_t = BufferBase::Length_t;
 
 public:
-	BufferPull();
-	BufferPull(Length_t _length);
-	BufferPull(char* _buffer, Length_t _length);
-	virtual ~BufferPull();
+	Buffer();
+	Buffer(Length_t _length);
+	Buffer(char* _buffer, Length_t _length);
+	virtual ~Buffer();
 
 	// @brief 버퍼 초기화 - 전체 메모리 초기화
 	void Initialize() override;
@@ -28,6 +27,16 @@ public:
 	bool ReSize(Length_t _buffer_size) override;
 	// @brief 버퍼 메모리 변경
 	bool Swap(char* _buffer, Length_t _buffer_size) override;
+	bool Swap(Buffer& _other);
+
+	// @brief 버퍼 크기
+	Length_t Length() const override;
+	// @brief 데이터 크기
+	Length_t Size() const override;
+	// @brief 가용한 크기
+	Length_t FreeSize() const override;
+	// @brief 데이터
+	char* Data() const override;
 
 	// @brief 데이터 읽기
 	// @return 읽은 데이터 크기
@@ -45,31 +54,17 @@ public:
 	void SetPushOffset(Offset_t _offset) override;
 	void AddPushOffset(Offset_t _offset) override;
 
-	Length_t BufferSize() const override;
-	Length_t FreeSize() const override;
-	Length_t UsingSize() const override;
-
 	char* PopPosition() const override;
 	char* PopPosition(Offset_t _offset) override;
 	char* PushPosition() const override;
-	char* Buffer() const override;
 
 protected:
 	bool Alloc(Length_t _buffer_size) override;
 	void Destroy() override;
-	void Pull();
-
-private:
-	void BufferSize(Length_t _length);
 
 private:
 	char* m_buffer;
-	Length_t m_buffer_size;
-	Length_t m_pull_size;
-
-	Offset_t m_pop_offset;
-	Offset_t m_push_offset;
-
-	bool m_is_inside_created;
+	Length_t m_buffer_length;
+	Length_t m_data_size;
 };
 } // namespace core

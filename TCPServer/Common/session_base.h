@@ -38,7 +38,7 @@ public:
 	bool PostAccept(SOCKET _socket);
 	// @brief endpoint로 연결 시도
 	// @parameter ip와 port 정보
-	bool PostConnect(const core::network::EndPoint& _endpoint);
+	bool PostConnect(const core::network::IPEndPoint& _endpoint);
 	bool PostDisconnect();
 	bool PostZeroRecv();
 	bool PostRecv();

@@ -82,6 +82,9 @@
     <ClCompile Include="buffer_pool.cpp">
       <Filter>buffer</Filter>
     </ClCompile>
+    <ClCompile Include="net_service.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -234,7 +237,7 @@
     <ClInclude Include="queue_interface.h">
       <Filter>queue</Filter>
     </ClInclude>
-    <ClInclude Include="endpoint.h">
+    <ClInclude Include="ip_endpoint.h">
       <Filter>network</Filter>
     </ClInclude>
     <ClInclude Include="memory_pool.h">

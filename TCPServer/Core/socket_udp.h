@@ -7,8 +7,6 @@ namespace network {
 class SocketUdp : public SocketBase
 {
 public:
-	using EndPoint_t = EndPoint;
-
 	static constexpr int s_type = OS_DEF(SOCK_DGRAM);
 	static constexpr int s_protocol = OS_DEF(IPPROTO_UDP);
 

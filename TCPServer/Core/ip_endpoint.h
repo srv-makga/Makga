@@ -14,7 +14,7 @@ enum Address_e
 /*
 @brief sockaddr_in, sockaddr_in6을 랩핑할 클래스
 */
-class EndPoint
+class IPEndPoint
 {
 public:
 	using Port_t = unsigned short;
@@ -25,13 +25,13 @@ public:
 	};
 
 public:
-	EndPoint();
-	EndPoint(const std::tchar* _ip, Port_t _port);
-	EndPoint(const std::string& _ip, Port_t _port);
+	IPEndPoint() = delete;
+	IPEndPoint(const std::tchar* _ip, Port_t _port);
+	IPEndPoint(const std::tstring& _ip, Port_t _port);
 
-	EndPoint& operator=(const EndPoint& _other);
-	EndPoint& operator=(const SOCKADDR_IN& _sockaddr);
-	EndPoint& operator=(const SOCKADDR_IN6& _sockaddr);
+	IPEndPoint& operator=(const IPEndPoint& _other);
+	IPEndPoint& operator=(const SOCKADDR_IN& _sockaddr);
+	IPEndPoint& operator=(const SOCKADDR_IN6& _sockaddr);
 
 	bool IsV4() const;
 	bool IsV6() const;

@@ -66,12 +66,6 @@
     <ClInclude Include="acceptor_base.h">
       <Filter>network\actor</Filter>
     </ClInclude>
-    <ClInclude Include="server_base.h">
-      <Filter>network</Filter>
-    </ClInclude>
-    <ClInclude Include="session_base.h">
-      <Filter>network</Filter>
-    </ClInclude>
     <ClInclude Include="thread_base.h">
       <Filter>handler\job_handler\thread</Filter>
     </ClInclude>
@@ -141,8 +135,17 @@
     <ClInclude Include="content_db_save.h">
       <Filter>system</Filter>
     </ClInclude>
+    <ClInclude Include="server_base.h">
+      <Filter>network\server</Filter>
+    </ClInclude>
     <ClInclude Include="tcp_server.h">
-      <Filter>network</Filter>
+      <Filter>network\server</Filter>
+    </ClInclude>
+    <ClInclude Include="session_base.h">
+      <Filter>network\session</Filter>
+    </ClInclude>
+    <ClInclude Include="tcp_session.h">
+      <Filter>network\session</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +200,15 @@
     <Filter Include="system\community">
       <UniqueIdentifier>{c226c382-93a6-4e88-bd4f-20503cf24af0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="network\session">
+      <UniqueIdentifier>{344465af-e204-481b-a8ed-debc92cb11f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\server">
+      <UniqueIdentifier>{3ccb663b-cb23-4b9e-8f9d-d0bb157f7ea3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\client">
+      <UniqueIdentifier>{ea836dee-1f27-4926-bd35-3026aeacccda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -232,12 +244,6 @@
     <ClCompile Include="acceptor_base.cpp">
       <Filter>network\actor</Filter>
     </ClCompile>
-    <ClCompile Include="server_base.cpp">
-      <Filter>network</Filter>
-    </ClCompile>
-    <ClCompile Include="session_base.cpp">
-      <Filter>network</Filter>
-    </ClCompile>
     <ClCompile Include="thread_base.cpp">
       <Filter>handler\job_handler\thread</Filter>
     </ClCompile>
@@ -247,8 +253,17 @@
     <ClCompile Include="item_property.cpp">
       <Filter>system\Item</Filter>
     </ClCompile>
+    <ClCompile Include="server_base.cpp">
+      <Filter>network\server</Filter>
+    </ClCompile>
     <ClCompile Include="tcp_server.cpp">
-      <Filter>network</Filter>
+      <Filter>network\server</Filter>
+    </ClCompile>
+    <ClCompile Include="session_base.cpp">
+      <Filter>network\session</Filter>
+    </ClCompile>
+    <ClCompile Include="tcp_session.cpp">
+      <Filter>network\session</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

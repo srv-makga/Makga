@@ -9,20 +9,16 @@ namespace network {
 class NetService
 {
 public:
-	NetService()
-	{
-		WSADATA wsa_data;
+	NetService();
+	~NetService();
 
-		if (0 != ::WSAStartup(MAKEWORD(2, 2), &wsa_data))
-		{
-			assert(false);
-		}
-	}
+public:
+	static bool BindWindowsFunction(SOCKET socket, GUID guid, LPVOID* func);
 
-	~NetService()
-	{
-		::WSACleanup();
-	}
+	//LPFN_CONNECTEX		ConnectEx;
+	//LPFN_DISCONNECTEX	DisconnectEx;
+	//LPFN_ACCEPTEX		AcceptEx;
+
 };
 #endif
 } // namespace network

@@ -2,7 +2,7 @@
 
 #include "common_header.h"
 #include "../Core/socket_tcp.h"
-#include "../Core/endpoint.h"
+#include "../Core/ip_endpoint.h"
 #include "../Core/buffer_pull.h"
 
 class TcpSession;
@@ -12,7 +12,7 @@ class TcpServer
 public:
 	TcpServer() = delete;
 	TcpServer(const std::string& _ip, Port_t _port);
-	TcpServer(const core::network::EndPoint& _ep);
+	TcpServer(const core::network::IPEndPoint& _ep);
 	virtual ~TcpServer();
 
 public:
@@ -44,7 +44,7 @@ public:
 	// @brief 현재 서버에 연결된 세션 수
 	std::size_t ConnectSessionCount() const;
 
-	const core::network::EndPoint& EndPoint() const;
+	const core::network::IPEndPoint& IPEndPoint() const;
 
 	std::size_t BytesPending() const;
 	std::size_t BytesSent() const;
@@ -90,7 +90,7 @@ private:
 	std::condition_variable m_exit_cv;
 	mutable std::mutex m_exit_mutex;
 
-	core::network::EndPoint m_endpoint;
+	core::network::IPEndPoint m_endpoint;
 
 	std::unordered_map<SessionId_t, TcpSession*> m_sessions;
 

@@ -27,10 +27,37 @@ public:
 
 	// @brief 오프셋만 초기화
 	virtual void Clear() = 0;
+	// @brief 내부 버퍼 삭제
+	virtual void Remove() = 0;
 	// @brief 크기 재할당
-	virtual bool Realloc(Length_t _buffer_size) = 0;
+	virtual bool ReSize(Length_t _buffer_length) = 0;
 	// @brief 버퍼 메모리 변경
-	virtual bool Swap(char* _buffer, Length_t _buffer_size) = 0;
+	virtual bool Swap(char* _buffer, Length_t _buffer_length) = 0;
+
+	// @brief 버퍼 크기
+	virtual Length_t Length() const = 0;
+	// @brief 데이터 크기
+	virtual Length_t Size() const = 0;
+	// @brief 가용한 크기
+	virtual Length_t FreeSize() const = 0;
+	// @brief 데이터
+	virtual char* Data() const = 0;
+	char* operator[](Length_t _offset)
+	{
+		do
+		{
+			if (Length() <= _offset)
+				break;
+
+			auto data = Data();
+			if (nullptr == data)
+				break;
+			
+			return data + _offset;
+		} while (false);
+
+		return nullptr;
+	}
 
 	// @brief 데이터 읽기
 	// @return 읽은 데이터 크기
@@ -48,14 +75,10 @@ public:
 	virtual void SetPushOffset(Offset_t _offset) = 0;
 	virtual void AddPushOffset(Offset_t _offset) = 0;
 
-	virtual Length_t BufferSize() const = 0;
-	virtual Length_t FreeSize() const = 0;
-	virtual Length_t UsingSize() const = 0;
-
 	virtual char* PopPosition() const = 0;
 	virtual char* PopPosition(Offset_t _offset) = 0;
 	virtual char* PushPosition() const = 0;
-	virtual char* Buffer() const = 0;
+	
 
 protected:
 	virtual bool Alloc(Length_t _buffer_size) = 0;

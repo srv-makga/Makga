@@ -73,7 +73,7 @@ static float getSlabCoord(const float* va, const int side)
 	return 0;
 }
 
-static void calcSlabEndPoints(const float* va, const float* vb, float* bmin, float* bmax, const int side)
+static void calcSlabIPEndPoints(const float* va, const float* vb, float* bmin, float* bmax, const int side)
 {
 	if (side == 0 || side == 4)
 	{
@@ -304,7 +304,7 @@ int dtNavMesh::findConnectingPolys(const float* va, const float* vb,
 	if (!tile) return 0;
 	
 	float amin[2], amax[2];
-	calcSlabEndPoints(va, vb, amin, amax, side);
+	calcSlabIPEndPoints(va, vb, amin, amax, side);
 	const float apos = getSlabCoord(va, side);
 
 	// Remove links pointing to 'side' and compact the links array. 
@@ -332,7 +332,7 @@ int dtNavMesh::findConnectingPolys(const float* va, const float* vb,
 				continue;
 			
 			// Check if the segments touch.
-			calcSlabEndPoints(vc,vd, bmin,bmax, side);
+			calcSlabIPEndPoints(vc,vd, bmin,bmax, side);
 			
 			if (!overlapSlabs(amin,amax, bmin,bmax, 0.01f, tile->header->walkableClimb)) continue;
 			
@@ -1456,7 +1456,7 @@ dtStatus dtNavMesh::restoreTileState(dtMeshTile* tile, const unsigned char* data
 /// inside a normal polygon. So an off-mesh connection is "entered" from a 
 /// normal polygon at one of its endpoints. This is the polygon identified by 
 /// the prevRef parameter.
-dtStatus dtNavMesh::getOffMeshConnectionPolyEndPoints(dtPolyRef prevRef, dtPolyRef polyRef, float* startPos, float* endPos) const
+dtStatus dtNavMesh::getOffMeshConnectionPolyIPEndPoints(dtPolyRef prevRef, dtPolyRef polyRef, float* startPos, float* endPos) const
 {
 	unsigned int salt, it, ip;
 

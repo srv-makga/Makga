@@ -8,19 +8,20 @@ class TcpServer;
 class TcpSession
 {
 public:
-	TcpSession();
+	TcpSession(TcpServer* _server);
 	virtual ~TcpSession();
 
 public:
 	void Initialize();
 	void Finalize();
 
+	bool Connect(const core::network::IPEndPoint& _endpoint);
+
 public:
 	SessionId_t SessionId() const;
 	void SetSessionId(SessionId_t _id);
 
 	TcpServer* Server() const;
-	void SetServer(TcpServer* _server);
 
 	bool IsConnected() const;
 
