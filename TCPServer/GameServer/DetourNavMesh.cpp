@@ -73,7 +73,7 @@ static float getSlabCoord(const float* va, const int side)
 	return 0;
 }
 
-static void calcSlabIPEndPoints(const float* va, const float* vb, float* bmin, float* bmax, const int side)
+static void calcSlabEndPoints(const float* va, const float* vb, float* bmin, float* bmax, const int side)
 {
 	if (side == 0 || side == 4)
 	{
@@ -304,7 +304,7 @@ int dtNavMesh::findConnectingPolys(const float* va, const float* vb,
 	if (!tile) return 0;
 	
 	float amin[2], amax[2];
-	calcSlabIPEndPoints(va, vb, amin, amax, side);
+	calcSlabEndPoints(va, vb, amin, amax, side);
 	const float apos = getSlabCoord(va, side);
 
 	// Remove links pointing to 'side' and compact the links array. 
@@ -332,7 +332,7 @@ int dtNavMesh::findConnectingPolys(const float* va, const float* vb,
 				continue;
 			
 			// Check if the segments touch.
-			calcSlabIPEndPoints(vc,vd, bmin,bmax, side);
+			calcSlabEndPoints(vc,vd, bmin,bmax, side);
 			
 			if (!overlapSlabs(amin,amax, bmin,bmax, 0.01f, tile->header->walkableClimb)) continue;
 			
