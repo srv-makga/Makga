@@ -52,7 +52,7 @@
     <ClCompile Include="datetime.cpp">
       <Filter>utility</Filter>
     </ClCompile>
-    <ClCompile Include="endpoint.cpp">
+    <ClCompile Include="ip_endpoint.cpp">
       <Filter>network</Filter>
     </ClCompile>
     <ClCompile Include="type_convert.cpp">
@@ -79,11 +79,11 @@
     <ClCompile Include="memory_block.cpp">
       <Filter>memory</Filter>
     </ClCompile>
-    <ClCompile Include="buffer_pool.cpp">
-      <Filter>buffer</Filter>
-    </ClCompile>
     <ClCompile Include="net_service.cpp">
       <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="buffer.cpp">
+      <Filter>buffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -237,9 +237,6 @@
     <ClInclude Include="queue_interface.h">
       <Filter>queue</Filter>
     </ClInclude>
-    <ClInclude Include="ip_endpoint.h">
-      <Filter>network</Filter>
-    </ClInclude>
     <ClInclude Include="memory_pool.h">
       <Filter>memory</Filter>
     </ClInclude>
@@ -273,11 +270,12 @@
     <ClInclude Include="db_connector_mysql.h">
       <Filter>database\mysql</Filter>
     </ClInclude>
-    <ClInclude Include="buffer_pool.h">
-      <Filter>buffer</Filter>
-    </ClInclude>
     <ClInclude Include="queue_mpsc.hpp">
       <Filter>queue</Filter>
+    </ClInclude>
+    <ClInclude Include="ip_endpoint.h" />
+    <ClInclude Include="buffer.h">
+      <Filter>buffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

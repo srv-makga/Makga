@@ -30,9 +30,9 @@ public:
 	// @brief 내부 버퍼 삭제
 	virtual void Remove() = 0;
 	// @brief 크기 재할당
-	virtual bool ReSize(Length_t _buffer_length) = 0;
+	virtual bool Resize(Length_t _buffer_length) = 0;
 	// @brief 버퍼 메모리 변경
-	virtual bool Swap(char* _buffer, Length_t _buffer_length) = 0;
+	virtual bool SetBuffer(char* _buffer, Length_t _buffer_length) = 0;
 
 	// @brief 버퍼 크기
 	virtual Length_t Length() const = 0;

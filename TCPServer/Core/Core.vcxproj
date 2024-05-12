@@ -132,7 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ahocorasick.h" />
-    <ClInclude Include="buffer_pool.h" />
+    <ClInclude Include="buffer.h" />
     <ClInclude Include="db_connector_maria.h" />
     <ClInclude Include="db_connector_mssql.h" />
     <ClInclude Include="db_connector_mysql.h" />
@@ -145,7 +145,7 @@
     <ClInclude Include="core_header.h" />
     <ClInclude Include="core_struct.h" />
     <ClInclude Include="core_type.h" />
-    <ClInclude Include="endpoint.h" />
+    <ClInclude Include="ip_endpoint.h" />
     <ClInclude Include="epoll_service.h" />
     <ClInclude Include="gmp.h" />
     <ClInclude Include="json_object.hpp" />
@@ -200,13 +200,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ahocorasick.cpp" />
-    <ClCompile Include="buffer_pool.cpp" />
+    <ClCompile Include="buffer.cpp" />
     <ClCompile Include="datetime.cpp" />
     <ClCompile Include="db_connector.cpp" />
     <ClCompile Include="db_connector_maria.cpp" />
     <ClCompile Include="db_connector_mysql.cpp" />
     <ClCompile Include="db_statement_maria.cpp" />
-    <ClCompile Include="endpoint.cpp" />
+    <ClCompile Include="ip_endpoint.cpp" />
     <ClCompile Include="memory_block.cpp" />
     <ClCompile Include="net_service.cpp" />
     <ClCompile Include="redis_connector.cpp" />
