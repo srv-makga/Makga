@@ -6,15 +6,17 @@
 #include <condition_variable>
 
 namespace core {
-namespace queue {
+namespace container {
+// @breif 알림 기능이 추가된 큐
+// @detail 요소의 추가,삭제시 스레드 세이프하며, Push 발생시 Pop에서 대기하고 있는 스레드에 알림
 template<typename T>
-class QueueSafety : public QueueInterface
+class QueueSafeCv : public QueueInterface
 {
-	using Queue_t = std::queue<T>;
+	using Container_t = std::queue<T>;
 
 public:
-	QueueSafety() = default;
-	~QueueSafety()
+	QueueSafeCv() = default;
+	~QueueSafeCv()
 	{
 		Finalize();
 	}
@@ -95,9 +97,9 @@ public:
 	}
 
 private:
-	Queue_t m_queue;
+	Container_t m_queue;
 	mutable std::mutex m_mutex;
 	std::condition_variable m_cv;
 };
-} // namespace queue
+} // namespace container
 } // namespace core

@@ -1,16 +1,16 @@
 #pragma once
 
 #include "net_header.h"
+#include "socket_header.h"
+#include "server_service.h"
 
 namespace core {
 namespace network {
-class IOCPService
+class IOCPService : public ServerService
 {
-	HANDLE	m_iocp;
-
 public:
 	IOCPService();
-	~IOCPService();
+	virtual ~IOCPService();
 
 	void Initialize();
 	void Finalize();
@@ -18,6 +18,9 @@ public:
 	bool Registered(HANDLE _handle, ULONG_PTR _completion_key);
 	bool PostStatus(ULONG_PTR _completion_key, DWORD _transferred_bytes, OVERLAPPED* _overlapped = nullptr);
 	bool GetStatus(ULONG_PTR* _completion_key, DWORD* _transferred_bytes, OVERLAPPED** _overlapped, DWORD _timeout = INFINITE);
+
+private:
+	HANDLE m_iocp;
 };
 } // namespace network
 } // namespace core

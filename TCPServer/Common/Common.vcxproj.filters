@@ -147,6 +147,9 @@
     <ClInclude Include="tcp_session.h">
       <Filter>network\session</Filter>
     </ClInclude>
+    <ClInclude Include="server_proxy.h">
+      <Filter>network\server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

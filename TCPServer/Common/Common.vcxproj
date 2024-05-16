@@ -57,6 +57,7 @@
     <ClInclude Include="common_struct.h" />
     <ClInclude Include="ranking_manager.h" />
     <ClInclude Include="server_base.h" />
+    <ClInclude Include="server_proxy.h" />
     <ClInclude Include="session_base.h" />
     <ClInclude Include="tcp_server.h" />
     <ClInclude Include="tcp_session.h" />

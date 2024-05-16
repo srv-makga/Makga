@@ -130,9 +130,6 @@
     <ClInclude Include="queue_swap.hpp">
       <Filter>queue</Filter>
     </ClInclude>
-    <ClInclude Include="queue_safety.hpp">
-      <Filter>queue</Filter>
-    </ClInclude>
     <ClInclude Include="datetime.h">
       <Filter>utility</Filter>
     </ClInclude>
@@ -277,6 +274,15 @@
     <ClInclude Include="buffer.h">
       <Filter>buffer</Filter>
     </ClInclude>
+    <ClInclude Include="vector_safe.hpp">
+      <Filter>container</Filter>
+    </ClInclude>
+    <ClInclude Include="queue_safe.hpp">
+      <Filter>container</Filter>
+    </ClInclude>
+    <ClInclude Include="queue_safe_cv.hpp">
+      <Filter>container</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -365,6 +371,9 @@
     </Filter>
     <Filter Include="ai">
       <UniqueIdentifier>{ae4da3cf-75d1-4358-94d2-a8ce21946902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="container">
+      <UniqueIdentifier>{79e2024e-c0de-4e31-a680-309cb7d3e7a6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

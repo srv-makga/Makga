@@ -11,7 +11,6 @@ public:
 	ServerBase() = delete;
 	ServerBase(const ServerBase&) = delete;
 	ServerBase(ServerBase&&) = delete;
-
 	ServerBase& operator=(const ServerBase&) = delete;
 	ServerBase& operator=(ServerBase&&) = delete;
 

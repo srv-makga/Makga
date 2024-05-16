@@ -1,21 +1,23 @@
 #pragma once
 
 #include "socket_header.h"
+#include "server_service.h"
 
 // RIO is support only windows
 
 #ifdef _WIN32
 namespace core {
+namespace network {
 char* GetVirtualMemory(std::size_t _buffer_size);
 
-class RioService final
+class RIOService : public ServerService
 {
 	SOCKET m_socket;
 	//IOCPService m_iocp_service;
 
 public:
-	RioService();
-	~RioService();
+	RIOService();
+	virtual ~RIOService();
 
 	bool Initialize();
 
@@ -23,7 +25,8 @@ public:
 	static RIO_CQ s_completion_queue;
 };
 
-#define RIO RioService::s_function_table;
+#define RIO RIOService::s_function_table;
+} // namespace network
 } // namespace core
 
 #endif

@@ -10,7 +10,7 @@ namespace core {
 namespace network {
 Socket_t get_socket_async(int _family, int _type, int _protocol);
 #ifdef _WIN32
-Socket_t get_socket_rio(int _family, int _type, int _protocol);
+Socket_t CreateRegisteredIOSocket(int _family, int _type, int _protocol);
 #endif
 int socket_no_blocking(Socket_t _socket);
 int reuse(Socket_t _socket);
