@@ -10,7 +10,7 @@ namespace core {
 namespace network {
 char* GetVirtualMemory(std::size_t _buffer_size);
 
-class RIOService : public ServerService
+class RIOService : public core::server::ServerService
 {
 	SOCKET m_socket;
 	//IOCPService m_iocp_service;
@@ -22,7 +22,6 @@ public:
 	bool Initialize();
 
 	static RIO_EXTENSION_FUNCTION_TABLE s_function_table;
-	static RIO_CQ s_completion_queue;
 };
 
 #define RIO RIOService::s_function_table;

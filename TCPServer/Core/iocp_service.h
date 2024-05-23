@@ -6,7 +6,7 @@
 
 namespace core {
 namespace network {
-class IOCPService : public ServerService
+class IOCPService : public server::ServerService
 {
 public:
 	IOCPService();
@@ -18,6 +18,9 @@ public:
 	bool Registered(HANDLE _handle, ULONG_PTR _completion_key);
 	bool PostStatus(ULONG_PTR _completion_key, DWORD _transferred_bytes, OVERLAPPED* _overlapped = nullptr);
 	bool GetStatus(ULONG_PTR* _completion_key, DWORD* _transferred_bytes, OVERLAPPED** _overlapped, DWORD _timeout = INFINITE);
+
+	bool Start() override;
+	bool Stop() override;
 
 private:
 	HANDLE m_iocp;

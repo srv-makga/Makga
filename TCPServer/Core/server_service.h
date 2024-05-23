@@ -1,12 +1,15 @@
 #pragma once
 
 namespace core {
-namespace network {
+namespace server {
 class ServerService
 {
 public:
 	ServerService() = default;
 	virtual ~ServerService() = default;
+
+	virtual bool Start() = 0;
+	virtual bool Stop() = 0;
 };
-} // namespace network
+} // namespace server
 } // namespace core

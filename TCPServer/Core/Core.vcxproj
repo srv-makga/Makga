@@ -157,6 +157,7 @@
     <ClInclude Include="queue_safe_cv.hpp" />
     <ClInclude Include="redis_connector.h" />
     <ClInclude Include="redis_reply.h" />
+    <ClInclude Include="server_service.h" />
     <ClInclude Include="sorted_container.h" />
     <ClInclude Include="db_statement.h" />
     <ClInclude Include="socket_tcp.h" />

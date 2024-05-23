@@ -268,5 +268,8 @@
     <ClCompile Include="tcp_session.cpp">
       <Filter>network\session</Filter>
     </ClCompile>
+    <ClCompile Include="server_proxy.cpp">
+      <Filter>network\server</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -5,24 +5,24 @@
 
 #include "../Core/thread_group.h"
 #include "../Core/thread.h"
-#include "../Core/iocp_service.h"
+#include "../Core/rio_service.h"
 #include "../Core/io_context.hpp"
 
-class IOCPHandler : public NetHandler
+class RIOHandler : public NetHandler
 {
 public:
-	using Handler_t = core::network::IOCPService;
+	using Handler_t = core::network::RIOService;
 	using Thread_t = core::thread::ThreadGroup;
 
 public:
-	IOCPHandler();
-	virtual ~IOCPHandler();
+	RIOHandler();
+	virtual ~RIOHandler();
 
-	IOCPHandler(const IOCPHandler&) = delete;
-	IOCPHandler(IOCPHandler&&) = delete;
+	RIOHandler(const RIOHandler&) = delete;
+	RIOHandler(RIOHandler&&) = delete;
 
-	IOCPHandler& operator=(const IOCPHandler&) = delete;
-	IOCPHandler& operator=(IOCPHandler&&) = delete;
+	RIOHandler& operator=(const RIOHandler&) = delete;
+	RIOHandler& operator=(RIOHandler&&) = delete;
 
 public:
 	bool Initialize(std::size_t) override;
@@ -41,4 +41,7 @@ private:
 
 	std::time_t m_time_out;
 	std::size_t m_thread_count;
+
+	static RIO_EXTENSION_FUNCTION_TABLE s_rio_table;
+
 };

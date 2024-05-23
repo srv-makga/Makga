@@ -283,6 +283,9 @@
     <ClInclude Include="queue_safe_cv.hpp">
       <Filter>container</Filter>
     </ClInclude>
+    <ClInclude Include="server_service.h">
+      <Filter>network\proactor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

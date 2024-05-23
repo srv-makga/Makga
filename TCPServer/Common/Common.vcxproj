@@ -82,6 +82,7 @@
     </ClCompile>
     <ClCompile Include="server_base.cpp" />
     <ClCompile Include="ranking_manager.cpp" />
+    <ClCompile Include="server_proxy.cpp" />
     <ClCompile Include="session_base.cpp" />
     <ClCompile Include="tcp_server.cpp" />
     <ClCompile Include="tcp_session.cpp" />
