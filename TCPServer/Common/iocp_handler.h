@@ -11,7 +11,7 @@
 class IOCPHandler : public NetHandler
 {
 public:
-	using Handler_t = core::network::IOCPService;
+	using Service_t = core::network::IOCPService;
 	using Thread_t = core::thread::ThreadGroup;
 
 public:
@@ -25,9 +25,10 @@ public:
 	IOCPHandler& operator=(IOCPHandler&&) = delete;
 
 public:
-	bool Initialize(std::size_t) override;
+	bool Initialize() override;
 	bool Finallize() override;
 	bool RegistedHandle(HANDLE, ULONG_PTR) override;
+	bool Start(std::size_t _thread_count) override;
 	bool Stop() override;
 
 	bool PostEvent(ULONG_PTR _key, IOContext_t* _io_context);
@@ -36,7 +37,7 @@ private:
 	void Run();
 
 private:
-	Handler_t m_service;
+	Service_t m_service;
 	Thread_t m_thread_group;
 
 	std::time_t m_time_out;

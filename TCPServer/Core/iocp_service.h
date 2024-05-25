@@ -4,6 +4,7 @@
 #include "socket_header.h"
 #include "server_service.h"
 
+#ifdef _WIN32
 namespace core {
 namespace network {
 class IOCPService : public server::ServerService
@@ -27,3 +28,4 @@ private:
 };
 } // namespace network
 } // namespace core
+#endif // _WIN32

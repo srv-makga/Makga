@@ -150,6 +150,9 @@
     <ClInclude Include="server_proxy.h">
       <Filter>network\server</Filter>
     </ClInclude>
+    <ClInclude Include="rio_handler.h">
+      <Filter>handler\net_handler\rio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -212,6 +215,9 @@
     <Filter Include="network\client">
       <UniqueIdentifier>{ea836dee-1f27-4926-bd35-3026aeacccda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="handler\net_handler\rio">
+      <UniqueIdentifier>{1de4d966-777a-4d0d-9e80-1c7326f71a1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -270,6 +276,9 @@
     </ClCompile>
     <ClCompile Include="server_proxy.cpp">
       <Filter>network\server</Filter>
+    </ClCompile>
+    <ClCompile Include="rio_handler.cpp">
+      <Filter>handler\net_handler\rio</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

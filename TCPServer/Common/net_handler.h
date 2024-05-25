@@ -11,8 +11,9 @@ public:
 	virtual ~NetHandler() = default;
 
 public:
-	virtual bool Initialize(std::size_t) = 0;
+	virtual bool Initialize() = 0;
 	virtual bool Finallize() = 0;
 	virtual bool RegistedHandle(HANDLE, ULONG_PTR) = 0;
+	virtual bool Start(std::size_t) = 0;
 	virtual bool Stop() = 0;
 };

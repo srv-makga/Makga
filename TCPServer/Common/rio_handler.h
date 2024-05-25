@@ -11,7 +11,7 @@
 class RIOHandler : public NetHandler
 {
 public:
-	using Handler_t = core::network::RIOService;
+	using Service_t = core::network::RIOService;
 	using Thread_t = core::thread::ThreadGroup;
 
 public:
@@ -36,7 +36,7 @@ private:
 	void Run();
 
 private:
-	Handler_t m_service;
+	Service_t m_service;
 	Thread_t m_thread_group;
 
 	std::time_t m_time_out;

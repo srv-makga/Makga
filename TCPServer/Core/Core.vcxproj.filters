@@ -224,9 +224,6 @@
     <ClInclude Include="ahocorasick.h">
       <Filter>algorithm</Filter>
     </ClInclude>
-    <ClInclude Include="io_context.hpp">
-      <Filter>network</Filter>
-    </ClInclude>
     <ClInclude Include="sorted_container.h" />
     <ClInclude Include="core_error.h">
       <Filter>include</Filter>
@@ -284,6 +281,9 @@
       <Filter>container</Filter>
     </ClInclude>
     <ClInclude Include="server_service.h">
+      <Filter>network\proactor</Filter>
+    </ClInclude>
+    <ClInclude Include="io_context.hpp">
       <Filter>network\proactor</Filter>
     </ClInclude>
   </ItemGroup>
