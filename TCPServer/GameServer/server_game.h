@@ -15,7 +15,8 @@ public:
 	ServerGame(ConfigGame* _cconfig);
 	virtual ~ServerGame();
 
-	void Initialize() override;
+	void Initialize();
+	void Finalize();
 
 	bool StartUp() override;
 	bool StartEnd() override;
