@@ -25,7 +25,7 @@ public:
 	RIOHandler& operator=(RIOHandler&&) = delete;
 
 public:
-	bool Initialize(std::size_t) override;
+	bool Initialize() override;
 	bool Finallize() override;
 	bool RegistedHandle(HANDLE, ULONG_PTR) override;
 	bool Stop() override;
