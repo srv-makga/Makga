@@ -144,14 +144,32 @@
     <ClInclude Include="session_base.h">
       <Filter>network\session</Filter>
     </ClInclude>
-    <ClInclude Include="tcp_session.h">
-      <Filter>network\session</Filter>
-    </ClInclude>
     <ClInclude Include="server_proxy.h">
       <Filter>network\server</Filter>
     </ClInclude>
     <ClInclude Include="rio_handler.h">
       <Filter>handler\net_handler\rio</Filter>
+    </ClInclude>
+    <ClInclude Include="server.h">
+      <Filter>network\server</Filter>
+    </ClInclude>
+    <ClInclude Include="server_iocp.h">
+      <Filter>network\server</Filter>
+    </ClInclude>
+    <ClInclude Include="session.h">
+      <Filter>network\session</Filter>
+    </ClInclude>
+    <ClInclude Include="session_manager.hpp">
+      <Filter>network\session</Filter>
+    </ClInclude>
+    <ClInclude Include="tcp_session.h">
+      <Filter>network\session\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="iocp_session.h">
+      <Filter>network\session\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="net_buffer.h">
+      <Filter>network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -218,6 +236,9 @@
     <Filter Include="handler\net_handler\rio">
       <UniqueIdentifier>{1de4d966-777a-4d0d-9e80-1c7326f71a1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="network\session\detail">
+      <UniqueIdentifier>{c3df11a9-9d03-412d-856e-692018661eab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -271,14 +292,18 @@
     <ClCompile Include="session_base.cpp">
       <Filter>network\session</Filter>
     </ClCompile>
-    <ClCompile Include="tcp_session.cpp">
-      <Filter>network\session</Filter>
-    </ClCompile>
     <ClCompile Include="server_proxy.cpp">
       <Filter>network\server</Filter>
     </ClCompile>
     <ClCompile Include="rio_handler.cpp">
       <Filter>handler\net_handler\rio</Filter>
+    </ClCompile>
+    <ClCompile Include="tcp_session.cpp">
+      <Filter>network\session\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="iocp_session.cpp" />
+    <ClCompile Include="net_buffer.cpp">
+      <Filter>network</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

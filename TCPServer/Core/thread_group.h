@@ -27,7 +27,7 @@ public:
 	ThreadGroup& operator=(ThreadGroup&&) = delete;
 
 	void Initialize();
-	void InitThread(std::size_t _thread_count, Task_t&& _task);
+	void CreateThread(Task_t&& _task, std::size_t _thread_count = 1);
 	void Stop();
 	void Resume();
 

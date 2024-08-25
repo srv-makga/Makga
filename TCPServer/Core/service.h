@@ -2,12 +2,14 @@
 
 namespace core {
 namespace server {
-class ServerService
+class Service
 {
 public:
-	ServerService() = default;
-	virtual ~ServerService() = default;
+	Service() = default;
+	virtual ~Service() = default;
 
+	virtual bool Initialize() = 0;
+	virtual void Finalize() = 0;
 	virtual bool Start() = 0;
 	virtual bool Stop() = 0;
 };

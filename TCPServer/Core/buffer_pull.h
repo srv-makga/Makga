@@ -54,9 +54,9 @@ protected:
 private:
 	char* m_buffer;
 	Length_t m_buffer_size;
-	Length_t m_pull_size;
+	Length_t m_pull_size; // 데이터 정렬
 
-	Offset_t m_pop_offset;
-	Offset_t m_push_offset;
+	Offset_t m_read_offset;
+	Offset_t m_write_offset;
 };
 } // namespace core

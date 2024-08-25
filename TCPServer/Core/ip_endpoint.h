@@ -5,27 +5,18 @@
 
 namespace core {
 namespace network {
-enum Address_e
-{
-	None,
-	v4,
-	v6
-};
 /*
 @brief sockaddr_in, sockaddr_in6을 랩핑할 클래스
 */
 class IPEndPoint
 {
 public:
+	using Type_t = enum { None, v4, v6};
 	using Port_t = unsigned short;
-
-	union Address_t {
-		sockaddr_in ipv4;
-		sockaddr_in6 ipv6;
-	};
+	using Address_t = union { sockaddr_in ipv4; sockaddr_in6 ipv6; };
 
 public:
-	IPEndPoint() = delete;
+	IPEndPoint();
 	IPEndPoint(const std::tchar* _ip, Port_t _port);
 	IPEndPoint(const std::tstring& _ip, Port_t _port);
 
@@ -39,12 +30,12 @@ public:
 	const sockaddr_in& Addr() const;
 	const sockaddr_in6& Addr6() const;
 
-	Address_e Type() const;
+	Type_t Type() const;
 	std::tstring Ip() const;
 	Port_t Port() const;
 
 private:
-	Address_e m_type;
+	Type_t m_type;
 	Address_t m_address;
 };
 } // namespace network

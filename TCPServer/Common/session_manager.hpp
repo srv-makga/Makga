@@ -12,6 +12,7 @@ public:
 	using Container_t = std::unordered_map<SessionId_t, T>;
 	using ContainerFree_t = std::queue<T>;
 	using AllocFunctions_t = std::function<ISession*()>;
+	using Mutex_t = core::RWMutex;
 
 public:
 	SessionManager() = default;
@@ -26,16 +27,16 @@ public:
 
 protected:
 	void RegistedSession(ISession* _session);
-	ISession* AllocSeesion() { return m_alloc_func(); }
+
+	ISession* AllocSession() { return ::new T(); }
+	void DeallocSession(ISession* _session) { ::delete _session; }
 
 private:
-	core::RWMutex m_mutex;
+	Mutex_t m_mutex;
 	Container_t m_sessions;
 
-	core::RWMutex m_mutex_free;
+	Mutex_t m_mutex_free;
 	ContainerFree_t m_frees;
-
-	AllocFunctions_t m_alloc_func;
 };
 
 template<typename T>
@@ -46,13 +47,38 @@ inline bool SessionManager<T>::Initialize(AllocFunctions_t&& _func)
 }
 
 template<typename T>
+inline bool SessionManager<T>::Finalize()
+{
+	{
+		WriteLock lock(m_mutex);
+		for (auto& iter : m_sessions)
+		{
+			DeallocSession(iter->second);
+		}
+	}
+
+	{
+		WriteLock lock(m_mutex_free);
+		while (false == m_frees.empty())
+		{
+			ISession* session = m_frees.front();
+			m_frees.pop();
+			DeallocSession(session);
+		}
+
+	}
+
+	return true;
+}
+
+template<typename T>
 inline ISession* SessionManager<T>::GetSession()
 {
 	ISession* session = nullptr;
 
 	do
 	{
-		ReadLock lock(m_mutex_free);
+		WriteLock lock(m_mutex_free);
 		if (false == m_frees.empty())
 		{
 			session = m_frees.front();
@@ -96,9 +122,10 @@ inline bool SessionManager<T>::Erase(ISession* _session)
 		ret = 0 < m_sessions.erase(_session->SessionId());
 	}
 
+	_session->FInalize();
+
 	{
 		WriteLock lock(m_mutex_free);
-		_session->FInalize();
 		m_frees.push(_session);
 	}
 }

@@ -59,14 +59,18 @@ void ServerGame::Initialize()
 {
 	ServerBase::Initialize();
 
-	ThreadManager* thread_manager = new ThreadManager;
-	thread_manager->Initialize();
-	thread_manager->InitThread(m_config->thread_count_work);
+	// job handler는 여러가지 작업이 올 수 있기 때문에 manager
+	auto job_handler = std::make_shared<ThreadManager>();
+	job_handler->Initialize();
+	job_handler->CreateThread(m_config->thread_count_work);
 
-	m_job_handler = thread_manager;
+	m_job_handler = job_handler;
 
-	m_net_handler = new IOCPHandler();
-	m_net_handler->Initialize(m_config->thread_count_network);
+	auto net_handler = std::make_shared<IOCPHandler>();
+	net_handler->Initialize();
+	net_handler->Start(m_config->thread_count_network);
+
+	m_net_handler = net_handler;
 
 	m_connect_list = { eServerType_World/*, ServerType_Community, ServerType_DBAgent */ };
 	m_accept_list = { eServerType_User };

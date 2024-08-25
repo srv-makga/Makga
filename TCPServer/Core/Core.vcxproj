@@ -137,6 +137,8 @@
     <ClInclude Include="db_connector_mssql.h" />
     <ClInclude Include="db_connector_mysql.h" />
     <ClInclude Include="db_statement_maria.h" />
+    <ClInclude Include="iocp_context.h" />
+    <ClInclude Include="io_context.h" />
     <ClInclude Include="logger.h" />
     <ClInclude Include="BrainTree.h" />
     <ClInclude Include="buffer_base.h" />
@@ -157,7 +159,8 @@
     <ClInclude Include="queue_safe_cv.hpp" />
     <ClInclude Include="redis_connector.h" />
     <ClInclude Include="redis_reply.h" />
-    <ClInclude Include="server_service.h" />
+    <ClInclude Include="service.h" />
+    <ClInclude Include="socket_core.h" />
     <ClInclude Include="sorted_container.h" />
     <ClInclude Include="db_statement.h" />
     <ClInclude Include="socket_tcp.h" />
@@ -171,7 +174,7 @@
     <ClInclude Include="net_header.h" />
     <ClInclude Include="net_service.h" />
     <ClInclude Include="random.hpp" />
-    <ClInclude Include="buffer_ring.h" />
+    <ClInclude Include="buffer_ring.hpp" />
     <ClInclude Include="datetime.h" />
     <ClInclude Include="rio_service.h" />
     <ClInclude Include="socket_base.h" />
@@ -220,8 +223,8 @@
     <ClCompile Include="buffer_pull.cpp" />
     <ClCompile Include="rio_service.cpp" />
     <ClCompile Include="db_client_maria.cpp" />
-    <ClCompile Include="buffer_ring.cpp" />
     <ClCompile Include="crypto_rsa.cpp" />
+    <ClCompile Include="socket_core.cpp" />
     <ClCompile Include="socket_udp.cpp" />
     <ClCompile Include="string_function.cpp" />
     <ClCompile Include="RapidJson.cpp" />

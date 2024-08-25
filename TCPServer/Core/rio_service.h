@@ -2,7 +2,7 @@
 
 #include "net_header.h"
 #include "socket_header.h"
-#include "server_service.h"
+#include "service.h"
 
 #ifdef _WIN32
 namespace core {
@@ -15,20 +15,20 @@ enum COMPLETION_KEY
 	CK_START = 1
 };
 
-class RIOService : public core::server::ServerService
+class RIOService : public core::server::Service
 {
 public:
 	RIOService();
 	virtual ~RIOService();
 
-	bool Initialize();
-	bool Finalize();
+	bool Initialize() override;
+	void Finalize() override;
 	ULONG DequeueCompletion(RIO_CQ& _completion_queue, std::vector<RIORESULT>& _results);
 
-	bool Start();
+	bool Start() override;
 	bool Stop() override;
 
-	inline static RIO_EXTENSION_FUNCTION_TABLE s_function_table;
+	inline static RIO_EXTENSION_FUNCTION_TABLE s_function_table = { };
 
 private:
 	bool CreateCompletionQueue(DWORD _size);

@@ -38,7 +38,7 @@ public:
 	virtual CoreError Create(int _family, int _type, int _protocol);
 	virtual void Close();
 
-	virtual CoreError Listen(int32_t _backlog) const { return SocketFailListen; }
+	virtual CoreError Listen(int32_t _backlog) { return SocketFailListen; }
 	bool Bind(const IPEndPoint& _endpoint);
 
 	bool Connect(const IPEndPoint& _endpoint);
