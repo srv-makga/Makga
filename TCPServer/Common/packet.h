@@ -78,7 +78,7 @@ inline Packet& Packet::operator<<(T& _value)
 template<typename T>
 inline Packet& Packet::operator>>(T& _value)
 {
-	if (m_buffer->UsingSize() < sizeof(T))
+	if (m_buffer->Size() < sizeof(T))
 	{
 		m_buffer->Pop(static_cast<char*>(&_value), sizeof(T));
 	}

@@ -286,14 +286,11 @@
     <ClInclude Include="io_context.hpp">
       <Filter>network\proactor</Filter>
     </ClInclude>
-    <ClInclude Include="io_context.h">
-      <Filter>network\proactor</Filter>
-    </ClInclude>
-    <ClInclude Include="iocp_context.h">
-      <Filter>network\proactor</Filter>
-    </ClInclude>
     <ClInclude Include="socket_core.h">
       <Filter>network\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="queue_lockfree.hpp">
+      <Filter>queue</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

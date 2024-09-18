@@ -37,6 +37,7 @@
     <ClInclude Include="connector_base.h" />
     <ClInclude Include="inventory_base.h" />
     <ClInclude Include="item_property.h" />
+    <ClInclude Include="job.h" />
     <ClInclude Include="json_saver.h" />
     <ClInclude Include="manager_base.hpp" />
     <ClInclude Include="common_type.h" />

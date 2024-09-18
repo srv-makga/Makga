@@ -69,18 +69,18 @@ public:
 		}
 
 		std::size_t remain_length = Size() - WriteOffset();
-		if (remain_length > _length)
+		if (remain_length > _size)
 		{
-			::memcpy(WritePosition(), _data, _length);
+			::memcpy(WritePosition(), _buffer, _size);
 		}
 		else
 		{
-			::memcpy(WritePosition(), _data, remain_length);
-			::memcpy(m_buffer, _data + remain_length, _length - remain_length);
+			::memcpy(WritePosition(), _buffer, remain_length);
+			::memcpy(m_buffer, _buffer + remain_length, _size - remain_length);
 		}
 
-		AddWriteOffset(_length);
-		return _length;
+		AddWriteOffset(_size);
+		return _size;
 	}
 
 	std::size_t Read(T* _buffer, std::size_t _size)
@@ -106,8 +106,8 @@ public:
 			::memcpy(_buffer + remain_length, m_buffer, _size - remain_length);
 		}
 
-		AddReadOffset(_length);
-		return _length;
+		AddReadOffset(_size);
+		return _size;
 	}
 
 	void Clear()
@@ -195,14 +195,14 @@ protected:
 			return nullptr;
 		}
 
-		return m_buffer + m_write_offset();
+		return m_buffer + m_write_offset;
 	}
 
 	Element_t* ReadPosition() const
 	{
 		if (nullptr == m_buffer)
 		{
-			reutrn nullptr;
+			return nullptr;
 		}
 
 		return m_buffer + m_read_offset;

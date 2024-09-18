@@ -2,8 +2,8 @@
 
 #include "session.h"
 #include "../Core/socket_tcp.h"
-#include "../Core/iocp_context.h"
-#include "../Core/buffer_ring.h"
+#include "../Core/io_context.hpp"
+#include "../Core/buffer_ring.hpp"
 
 // @todo IOCPContext ÇÊ¿ä
 
@@ -11,8 +11,8 @@ class IOCPSession : public ISession
 {
 public:
 	using Socket_t = core::network::SocketTcp;
-	using Buffer_t = core::BufferRing;
-	using Context_t = std::shared_ptr<core::network::IOCPContext>;
+	using Buffer_t = core::BufferRing<char>;
+	using Context_t = std::shared_ptr<core::network::IOContext<8192>>;
 
 public:
 	IOCPSession(SessionId_t _id);

@@ -171,6 +171,9 @@
     <ClInclude Include="net_buffer.h">
       <Filter>network</Filter>
     </ClInclude>
+    <ClInclude Include="job.h">
+      <Filter>handler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

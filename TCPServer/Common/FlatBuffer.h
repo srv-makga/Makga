@@ -47,7 +47,7 @@ static const T* BufferToStruct(const char* _buffer, std::size_t _len)
 	return root;
 }
 
-#define PACKET_TO_FBSTRUCT(packet, type)  BufferToStruct<type>(packet->Buffer()->Buffer() + Packet::HeaderSize(), packet->Buffer()->UsingSize() - Packet::HeaderSize());\
+#define PACKET_TO_FBSTRUCT(packet, type)  BufferToStruct<type>(packet->Buffer()->Buffer() + Packet::HeaderSize(), packet->Buffer()->Size() - Packet::HeaderSize());\
 	if (nullptr == recv_data) { LOG_ERROR << "Fail to convert packet -> " << #type; return false; }
 
 #define DECLARE_FB_RECEIVE(fb_struct) \

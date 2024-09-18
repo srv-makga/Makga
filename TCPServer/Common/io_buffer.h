@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../Core/buffer_ring.h"
+#include "../Core/buffer_ring.hpp"
 #include "../Core/lock.h"
 #include "../Core/crypto_interface.h"
 
 class IOBuffer
 {
 public:
-	using Buffer_t = core::BufferRing;
+	using Buffer_t = core::BufferRing<char>;
 
 public:
 	IOBuffer(std::size_t _buffer_size, core::BufferFlag _flag);

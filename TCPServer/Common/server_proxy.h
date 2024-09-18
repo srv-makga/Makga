@@ -7,7 +7,7 @@
 class ServerProxy
 {
 public:
-	using ServerService = core::server::ServerService;
+	using ServerService = core::server::Service;
 	using IOCPService = core::network::IOCPService;
 	using RIOService = core::network::RIOService;
 

@@ -137,8 +137,6 @@
     <ClInclude Include="db_connector_mssql.h" />
     <ClInclude Include="db_connector_mysql.h" />
     <ClInclude Include="db_statement_maria.h" />
-    <ClInclude Include="iocp_context.h" />
-    <ClInclude Include="io_context.h" />
     <ClInclude Include="logger.h" />
     <ClInclude Include="BrainTree.h" />
     <ClInclude Include="buffer_base.h" />
@@ -155,6 +153,7 @@
     <ClInclude Include="db_query.h" />
     <ClInclude Include="object_pool.h" />
     <ClInclude Include="queue_interface.h" />
+    <ClInclude Include="queue_lockfree.hpp" />
     <ClInclude Include="queue_mpsc.hpp" />
     <ClInclude Include="queue_safe_cv.hpp" />
     <ClInclude Include="redis_connector.h" />

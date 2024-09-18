@@ -15,18 +15,18 @@ public:
 	virtual ThreadId_t ThreadId() const = 0;
 };
 
-class Job : public core::ObjectPool<Job*>
-{
-public:
-	Job() = default;
-	virtual ~Job() = default;
-
-	virtual void Initialize();
-	virtual void Execute();
-
-	JobOwner* owner;
-	NetPacket* packet;
-};
+//class Job : public core::ObjectPool<Job*>
+//{
+//public:
+//	Job() = default;
+//	virtual ~Job() = default;
+//
+//	virtual void Initialize();
+//	virtual void Execute();
+//
+//	JobOwner* owner;
+//	NetPacket* packet;
+//};
 
 /*
 * @brief: 데이터를 쌓는 클래스

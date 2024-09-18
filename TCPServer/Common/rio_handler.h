@@ -28,6 +28,7 @@ public:
 	bool Initialize() override;
 	bool Finallize() override;
 	bool RegistedHandle(HANDLE, ULONG_PTR) override;
+	bool Start(std::size_t _thread_count) override;
 	bool Stop() override;
 
 	bool PostEvent(ULONG_PTR _key, IOContext_t* _io_context);
