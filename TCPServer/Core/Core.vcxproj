@@ -152,7 +152,6 @@
     <ClInclude Include="buffer_pull.h" />
     <ClInclude Include="db_query.h" />
     <ClInclude Include="object_pool.h" />
-    <ClInclude Include="queue_interface.h" />
     <ClInclude Include="queue_lockfree.hpp" />
     <ClInclude Include="queue_mpsc.hpp" />
     <ClInclude Include="queue_safe_cv.hpp" />

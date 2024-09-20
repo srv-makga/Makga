@@ -1,7 +1,6 @@
 #pragma once
 
 #include "core_header.h"
-#include "queue_interface.h"
 
 namespace core {
 namespace queue {
@@ -9,7 +8,7 @@ template<typename T>
 concept iocp_queue_object_type = std::is_pointer_v<T>;
 
 template<iocp_queue_object_type T>
-class QueueIOCP : public QueueInterface
+class QueueIOCP
 {
 public:
 	QueueIOCP()
@@ -22,12 +21,12 @@ public:
 		Destroy();
 	}
 
-	bool Initialize() override
+	bool Initialize()
 	{
 		return Create();
 	}
 
-	void Finalize() override
+	void Finalize()
 	{
 		Destroy();
 	}

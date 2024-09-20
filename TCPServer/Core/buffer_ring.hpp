@@ -127,6 +127,13 @@ public:
 		m_write_offset = 0;
 	}
 
+	void ClearOffset()
+	{
+		m_element_count = 0;
+		m_read_offset = 0;
+		m_write_offset = 0;
+	}
+
 	bool IsEmpty() const
 	{
 		return nullptr == m_buffer || 0 == m_element_count;

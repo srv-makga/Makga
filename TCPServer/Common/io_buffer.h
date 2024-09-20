@@ -20,10 +20,10 @@ public:
 	std::size_t FreeSize() const;
 	std::size_t Size() const;
 	void Clear(std::size_t _position);
-	void BufferSize(std::size_t _size);
 	void Flag(core::BufferFlag _e);
 
 private:
+	std::vector<char> m_data;
 	Buffer_t m_buffer;
 	core::BufferFlag m_flag;
 	core::CryptoInterface* m_crypto;

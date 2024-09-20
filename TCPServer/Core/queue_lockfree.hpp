@@ -3,8 +3,9 @@
 #include <memory>
 
 namespace core {
+namespace queue {
 template<typename T>
-class QueueLockFree
+class QueueLockFree final
 {
 private:
 	struct Node;
@@ -35,14 +36,14 @@ private:
 	std::atomic<TaggedPointer> tail;
 
 public:
-	LockFreeQueue()
+	QueueLockFree()
 	{
 		Node* dummy = new Node();
 		head.store(TaggedPointer(dummy, 0));
 		tail.store(TaggedPointer(dummy, 0));
 	}
 
-	~LockFreeQueue()
+	~QueueLockFree()
 	{
 		while (Node* node = head.load().ptr)
 		{
@@ -116,4 +117,5 @@ public:
 		}
 	}
 };
+} // namespace queue
 } // namespace core

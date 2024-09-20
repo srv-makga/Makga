@@ -10,7 +10,7 @@ class NetService
 {
 public:
 	NetService();
-	~NetService();
+	virtual ~NetService();
 };
 #endif
 } // namespace network

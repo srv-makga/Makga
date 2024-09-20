@@ -1,6 +1,5 @@
 #pragma once
 
-#include "queue_interface.h"
 #include "lock.h"
 #include <queue>
 #include <atomic>
@@ -9,7 +8,7 @@
 namespace core {
 namespace queue {
 template<typename T>
-class QueueSwap : public QueueInterface
+class QueueSwap
 {
 public:
 	using Queue_t = std::queue<T>;
@@ -21,7 +20,7 @@ public:
 	{
 	}
 
-	bool Initialize() override
+	bool Initialize()
 	{
 		return true;
 	}

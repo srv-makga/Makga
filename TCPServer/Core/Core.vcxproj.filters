@@ -228,9 +228,6 @@
     <ClInclude Include="core_error.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="queue_interface.h">
-      <Filter>queue</Filter>
-    </ClInclude>
     <ClInclude Include="memory_pool.h">
       <Filter>memory</Filter>
     </ClInclude>

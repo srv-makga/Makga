@@ -4,7 +4,7 @@
 #include "object_pool.h"
 #include "buffer_pull.h"
 
-class SessionBase;
+class ISession;
 
 namespace core {
 namespace network {

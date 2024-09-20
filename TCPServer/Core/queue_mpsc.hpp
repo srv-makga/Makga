@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "queue_interface.h"
 #include "lock.h"
 #include <queue>
 #include <condition_variable>
@@ -27,7 +26,7 @@ struct is_executable
 namespace core {
 namespace queue {
 template <typename T>
-class MPSCQueue : public QueueInterface
+class MPSCQueue
 {
 	struct Node
 	{
@@ -106,3 +105,5 @@ private:
 	mutable std::recursive_mutex m_mutex;
 	uint32_t m_element_count;
 };
+} // namespace queue
+} // namespace core

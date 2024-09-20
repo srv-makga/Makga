@@ -152,7 +152,7 @@
     <ClCompile Include="connector_world.cpp" />
     <ClCompile Include="data_manager.cpp" />
     <ClCompile Include="session_dbagent.cpp" />
-    <ClCompile Include="game.cpp" />
+    <ClCompile Include="gameserver.cpp" />
     <ClCompile Include="server_game.cpp" />
     <ClCompile Include="inventory_user.cpp" />
     <ClCompile Include="item_object_equip.cpp" />
