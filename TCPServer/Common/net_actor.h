@@ -44,11 +44,11 @@ public:
 		m_job_handler = _job_handler;
 	}
 
-	virtual bool OnAccepted(SessionBase*, IOContext_t*) = 0;
-	virtual bool OnConnected(SessionBase*, IOContext_t*) = 0;
-	virtual bool OnReceived(SessionBase*, DWORD, IOContext_t*) = 0;
-	virtual bool OnSent(SessionBase*, DWORD, IOContext_t*) = 0;
-	virtual bool OnClosed(SessionBase*, IOContext_t*) = 0;
+	virtual bool OnAccepted(std::shared_ptr<SessionBase>, IOContext_t*) = 0;
+	virtual bool OnConnected(std::shared_ptr<SessionBase>, IOContext_t*) = 0;
+	virtual bool OnReceived(std::shared_ptr<SessionBase>, DWORD, IOContext_t*) = 0;
+	virtual bool OnSent(std::shared_ptr<SessionBase>, DWORD, IOContext_t*) = 0;
+	virtual bool OnClosed(std::shared_ptr<SessionBase>, IOContext_t*) = 0;
 
 	virtual std::shared_ptr<NetHandler> NetHandler() const { return m_net_handler; }
 	virtual std::shared_ptr<JobHandler> JobHandler() const { return m_job_handler; }

@@ -29,7 +29,13 @@ private:
 		std::atomic<TaggedPointer> next;
 
 		Node() : next(TaggedPointer(nullptr, 0)) {}
-		Node(T value) : data(std::make_shared<T>(value)), next(TaggedPointer(nullptr, 0)) {}
+		/*Node(T value) : data(std::make_shared<T>(value)), next(TaggedPointer(nullptr, 0)) {}*/
+		template <typename U = T, typename = typename std::enable_if<!std::is_same<U, std::shared_ptr<typename U::element_type>>::value>::type>
+		Node(const T& value) : data(std::make_shared<T>(value)), next(TaggedPointer<T>(nullptr, 0)) {}
+
+		// T가 shared_ptr일 때의 생성자
+		template <typename U = T, typename = typename std::enable_if<std::is_same<U, std::shared_ptr<typename U::element_type>>::value>::type>
+		Node(const std::shared_ptr<T>& ptr) : data(ptr), next(TaggedPointer<T>(nullptr, 0)) {}
 	};
 
 	std::atomic<TaggedPointer> head;
@@ -82,6 +88,7 @@ public:
 		}
 	}
 
+	template <typename U = T, typename = typename std::enable_if<!std::is_same<U, std::shared_ptr<typename U::element_type>>::value>::type>
 	std::shared_ptr<T> Dequeue()
 	{
 		TaggedPointer old_head;
@@ -115,6 +122,47 @@ public:
 				}
 			}
 		}
+	}
+
+	template <typename U = T, typename = typename std::enable_if<std::is_same<U, std::shared_ptr<typename U::element_type>>::value>::type>
+	T Dequeue()
+	{
+		TaggedPointer old_head;
+		while (true)
+		{
+			old_head = head.load();
+			TaggedPointer old_tail = tail.load();
+			TaggedPointer next = old_head.ptr->next.load();
+
+			if (old_head == head.load())
+			{
+				if (old_head.ptr == old_tail.ptr)
+				{
+					// 큐가 비었을 가능성 있음
+					if (next.ptr == nullptr)
+					{
+						return T();  // 빈 큐
+					}
+					// tail이 늦게 따라오고 있으므로 tail을 다음 노드로 이동
+					tail.compare_exchange_weak(old_tail, TaggedPointer(next.ptr, old_tail.tag + 1));
+				}
+				else
+				{
+					// head를 한 칸 앞으로 이동하고 데이터를 반환
+					if (head.compare_exchange_weak(old_head, TaggedPointer(next.ptr, old_head.tag + 1)))
+					{
+						auto result = next.ptr->data;
+						delete old_head.ptr;
+						return result;
+					}
+				}
+			}
+		}
+	}
+
+	bool IsEmpty() const
+	{
+		return head != tail;
 	}
 };
 } // namespace queue

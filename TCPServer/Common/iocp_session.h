@@ -1,13 +1,13 @@
 #pragma once
 
-#include "session.h"
+#include "session_base.h"
 #include "../Core/socket_tcp.h"
 #include "../Core/io_context.hpp"
 #include "../Core/buffer_ring.hpp"
 
 // @todo IOCPContext ÇÊ¿ä
 
-class IOCPSession : public ISession
+class IOCPSession : public SessionBase
 {
 public:
 	using Socket_t = core::network::SocketTcp;
@@ -15,31 +15,22 @@ public:
 	using Context_t = std::shared_ptr<core::network::IOContext<8192>>;
 
 public:
-	IOCPSession(SessionId_t _id);
+	IOCPSession();
 	virtual ~IOCPSession();
 
-	bool Initialize() override;
-	void FInalize() override;
+	bool Initialize();
+	void Finalize();
 
-public:
-	bool PostAccept(SOCKET _socket) override;
-	bool PostConnect(const core::network::IPEndPoint& _endpoint) override;
-	bool PostDisconnect() override;
-	bool PostZeroRecv() override;
-	bool PostRecv() override;
-	bool PostSend() override;
+public: // JobOwner
+	bool ProcPacket(NetPacket* _packet) override;
+	ThreadId_t ThreadId() const override;
 
-	void OnAccept(IOContext_t* _context) override;
-	void OnConnect() override;
-	void OnDisconnect() override;
-	void OnRecv(DWORD _bytes_transferred, IOContext_t* _context) override;
-	void OnSent(DWORD _bytes_transferred) override;
-
-public:
-	SessionId_t SessionId() const override { return m_session_id; }
+public: // SessionBase
+	bool RecvPacket(NetPacket* packet) override;
+	void OnError(const std::string& _errmsg) override;
+	void OnError(std::exception& _exception) override;
 
 private:
-	SessionId_t m_session_id;
 	Socket_t m_socket;
 
 	std::atomic<bool> m_is_connected;

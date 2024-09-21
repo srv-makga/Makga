@@ -19,7 +19,7 @@ public:
 
 	bool CreateThread(std::size_t _thread_count);
 	void Stop();
-	void Push(Job* _job) override;
+	void Push(Job_t _job) override;
 
 private:
 	Threads m_threads;

@@ -18,7 +18,7 @@ enum SessionCloseState
 	CloseEnd
 };
 
-class SessionBase : public JobOwner
+class SessionBase : public JobOwner, public std::enable_shared_from_this<SessionBase>
 {
 public:
 	using Buffer_t = core::BufferPull;
@@ -29,7 +29,7 @@ public:
 
 public:
 	void Initialize();
-	void Finallize();
+	void Finalize();
 
 	void Close();
 

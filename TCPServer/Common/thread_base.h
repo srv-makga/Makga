@@ -8,7 +8,7 @@
 class ThreadBase : public core::thread::Thread, public JobHandler
 {
 public:
-	using Queue_t = core::QueueLockFree<Job>;
+	using Queue_t = core::queue::QueueLockFree<Job_t>;
 	
 	ThreadBase();
 	virtual ~ThreadBase();
@@ -16,7 +16,7 @@ public:
 	void Initialize();
 	void Finalize();
 
-	void Push(Job* _job) override;
+	void Push(Job_t _job) override;
 
 protected:
 	void Run() override;

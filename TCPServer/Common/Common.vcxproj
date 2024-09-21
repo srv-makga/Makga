@@ -83,7 +83,6 @@
     <ClCompile Include="io_buffer.cpp" />
     <ClCompile Include="iocp_handler.cpp" />
     <ClCompile Include="item_property.cpp" />
-    <ClCompile Include="job_handler.cpp" />
     <ClCompile Include="json_saver.cpp" />
     <ClCompile Include="net_buffer.cpp" />
     <ClCompile Include="packet.cpp" />

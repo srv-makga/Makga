@@ -32,25 +32,25 @@ public:
 	void InitSocket(const std::string& _ipaddr, Port_t _port);
 	virtual void InitSession(std::size_t _max_session) = 0;
 
-	bool OnAccepted(SessionBase* _session, IOContext_t* _context) override;
-	bool OnConnected(SessionBase*, IOContext_t* _context) override { return false; }
-	bool OnReceived(SessionBase* _session, DWORD _bytes_transferred, IOContext_t* _context) override;
-	bool OnSent(SessionBase* _session, DWORD _bytes_transferred, IOContext_t* _context) override;
-	bool OnClosed(SessionBase* _session, IOContext_t* _context) override;
+	bool OnAccepted(std::shared_ptr<SessionBase> _session, IOContext_t* _context) override;
+	bool OnConnected(std::shared_ptr<SessionBase>, IOContext_t* _context) override { return false; }
+	bool OnReceived(std::shared_ptr<SessionBase> _session, DWORD _bytes_transferred, IOContext_t* _context) override;
+	bool OnSent(std::shared_ptr<SessionBase> _session, DWORD _bytes_transferred, IOContext_t* _context) override;
+	bool OnClosed(std::shared_ptr<SessionBase> _session, IOContext_t* _context) override;
 
 protected:
-	bool AddSession(SessionBase* _session);
-	void RemoveSession(SessionBase* _session);
-	SessionBase* FindSession(SessionId_t _sessionId);
+	bool AddSession(std::shared_ptr<SessionBase> _session);
+	void RemoveSession(std::shared_ptr<SessionBase> _session);
+	std::shared_ptr<SessionBase> FindSession(SessionId_t _sessionId);
 
-	void AddWaitSession(SessionBase* _session);
-	void RemoveWaitSession(SessionBase* _session);
+	void AddWaitSession(std::shared_ptr<SessionBase> _session);
+	void RemoveWaitSession(std::shared_ptr<SessionBase> _session);
 
-	virtual SessionBase* AllocSession() = 0;
-	virtual void ReallocSession(SessionBase* _session) = 0;
+	virtual std::shared_ptr<SessionBase> AllocSession() = 0;
+	virtual void ReallocSession(std::shared_ptr<SessionBase> _session) = 0;
 
 private:
-	bool RegisterAcceptex(SessionBase* _session);
+	bool RegisterAcceptex(std::shared_ptr<SessionBase> _session);
 	bool RegisterAcceptex();
 
 	/*
@@ -68,13 +68,13 @@ public:
 	void SetUsingAcceptSize(std::size_t _accept_use_size);
 
 protected:
-	std::unordered_map<SessionId_t, SessionBase*> m_using_sessions; // 접속 완료
+	std::unordered_map<SessionId_t, std::shared_ptr<SessionBase>> m_using_sessions; // 접속 완료
 	core::RCMutex m_using_mutex;
 
-	std::unordered_set<SessionBase*> m_wait_sessions; // accept 걸어둔
+	std::unordered_set<std::shared_ptr<SessionBase>> m_wait_sessions; // accept 걸어둔
 	core::RCMutex m_wait_mutex;
 
-	std::queue<SessionBase*> m_free_sessions;
+	std::queue<std::shared_ptr<SessionBase>> m_free_sessions;
 	core::RCMutex m_free_mutex;
 
 private:

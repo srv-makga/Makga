@@ -24,12 +24,6 @@
     <ClInclude Include="net_actor.h">
       <Filter>network\actor</Filter>
     </ClInclude>
-    <ClInclude Include="job_handler.h">
-      <Filter>handler\job_handler</Filter>
-    </ClInclude>
-    <ClInclude Include="net_handler.h">
-      <Filter>handler\net_handler</Filter>
-    </ClInclude>
     <ClInclude Include="packet.h" />
     <ClInclude Include="config_base.h" />
     <ClInclude Include="data_table.h">
@@ -57,17 +51,11 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="command_line.h" />
-    <ClInclude Include="thread_manager.h">
-      <Filter>handler\job_handler\thread</Filter>
-    </ClInclude>
     <ClInclude Include="connector_base.h">
       <Filter>network\actor</Filter>
     </ClInclude>
     <ClInclude Include="acceptor_base.h">
       <Filter>network\actor</Filter>
-    </ClInclude>
-    <ClInclude Include="thread_base.h">
-      <Filter>handler\job_handler\thread</Filter>
     </ClInclude>
     <ClInclude Include="iocp_handler.h">
       <Filter>handler\net_handler\iocp</Filter>
@@ -174,11 +162,20 @@
     <ClInclude Include="job.h">
       <Filter>handler</Filter>
     </ClInclude>
+    <ClInclude Include="thread_base.h">
+      <Filter>handler\job_handler</Filter>
+    </ClInclude>
+    <ClInclude Include="thread_manager.h">
+      <Filter>handler\job_handler</Filter>
+    </ClInclude>
+    <ClInclude Include="job_handler.h">
+      <Filter>handler</Filter>
+    </ClInclude>
+    <ClInclude Include="net_handler.h">
+      <Filter>handler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="include">
-      <UniqueIdentifier>{b3120a40-d77f-4cd4-a9b0-3f8b43b8620f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="utility">
       <UniqueIdentifier>{c9c74c59-0be8-4d2f-b065-208b60747e52}</UniqueIdentifier>
     </Filter>
@@ -218,9 +215,6 @@
     <Filter Include="handler\job_handler">
       <UniqueIdentifier>{23e9ca6a-d3aa-4d6b-9960-a3c743c0167a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="handler\job_handler\thread">
-      <UniqueIdentifier>{a469e04d-1f9c-438c-9696-33c088e0da6c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="flatbuffer\output">
       <UniqueIdentifier>{96015d67-eb30-4ef3-9156-717ac6305b2a}</UniqueIdentifier>
     </Filter>
@@ -241,6 +235,9 @@
     </Filter>
     <Filter Include="network\session\detail">
       <UniqueIdentifier>{c3df11a9-9d03-412d-856e-692018661eab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{b3120a40-d77f-4cd4-a9b0-3f8b43b8620f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -265,20 +262,11 @@
     <ClCompile Include="json_saver.cpp">
       <Filter>utility</Filter>
     </ClCompile>
-    <ClCompile Include="job_handler.cpp">
-      <Filter>handler\job_handler</Filter>
-    </ClCompile>
-    <ClCompile Include="thread_manager.cpp">
-      <Filter>handler\job_handler\thread</Filter>
-    </ClCompile>
     <ClCompile Include="connector_base.cpp">
       <Filter>network\actor</Filter>
     </ClCompile>
     <ClCompile Include="acceptor_base.cpp">
       <Filter>network\actor</Filter>
-    </ClCompile>
-    <ClCompile Include="thread_base.cpp">
-      <Filter>handler\job_handler\thread</Filter>
     </ClCompile>
     <ClCompile Include="iocp_handler.cpp">
       <Filter>handler\net_handler\iocp</Filter>
@@ -307,6 +295,12 @@
     <ClCompile Include="iocp_session.cpp" />
     <ClCompile Include="net_buffer.cpp">
       <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="thread_base.cpp">
+      <Filter>handler\job_handler</Filter>
+    </ClCompile>
+    <ClCompile Include="thread_manager.cpp">
+      <Filter>handler\job_handler</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

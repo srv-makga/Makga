@@ -4,7 +4,7 @@
 #include "object_pool.h"
 #include "buffer_pull.h"
 
-class ISession;
+class SessionBase;
 
 namespace core {
 namespace network {
@@ -22,7 +22,7 @@ enum class IOType
 };
 
 template<std::size_t T = s_io_context_buffer_size>
-class IOContext : public OVERLAPPED, public std::enable_shared_from_this<IOContext>, public core::ObjectPool<IOContext<T>*>
+class IOContext : public OVERLAPPED, public std::enable_shared_from_this<IOContext<T>>, public core::ObjectPool<IOContext<T>*>
 {
 public:
 	IOContext()
@@ -44,7 +44,7 @@ public:
 		m_buffer->Initialize();
 	}
 
-	void SetSession(IOType _type, ISession* _session)
+	void SetSession(IOType _type, std::shared_ptr<SessionBase> _session)
 	{
 		m_type = _type;
 		m_session = _session;
@@ -57,7 +57,7 @@ public:
 			return nullptr;
 		}
 
-		return m_buffer->Buffer();
+		return m_buffer->Data();
 	}
 
 	std::size_t Size() const
@@ -77,7 +77,7 @@ public:
 	}
 
 	IOType m_type;
-	ISession* m_session;
+	std::shared_ptr<SessionBase> m_session;
 	BufferBase* m_buffer;
 };
 

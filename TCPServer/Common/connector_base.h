@@ -16,15 +16,15 @@ public:
 
 	bool Connect(const std::string& _ip, Port_t _port);
 
-	bool OnAccepted(SessionBase*, IOContext_t*) override;
-	bool OnConnected(SessionBase*, IOContext_t*) override;
-	bool OnReceived(SessionBase*, DWORD, IOContext_t*) override;
-	bool OnSent(SessionBase*, DWORD, IOContext_t*) override;
-	bool OnClosed(SessionBase*, IOContext_t*) override;
+	bool OnAccepted(std::shared_ptr<SessionBase>, IOContext_t*) override;
+	bool OnConnected(std::shared_ptr<SessionBase>, IOContext_t*) override;
+	bool OnReceived(std::shared_ptr<SessionBase>, DWORD, IOContext_t*) override;
+	bool OnSent(std::shared_ptr<SessionBase>, DWORD, IOContext_t*) override;
+	bool OnClosed(std::shared_ptr<SessionBase>, IOContext_t*) override;
 
-	SessionBase* Session() const;
-	void SetSession(SessionBase* _session);
+	std::shared_ptr<SessionBase> Session() const;
+	void SetSession(std::shared_ptr<SessionBase> _session);
 
 protected:
-	SessionBase* m_session;
+	std::shared_ptr<SessionBase> m_session;
 };

@@ -23,7 +23,9 @@ public:
 class JobHandler
 {
 public:
+	using Job_t = std::shared_ptr<Job>;
+
 	JobHandler() {}
 	virtual ~JobHandler() {}
-	virtual void Push(std::shared_ptr<Job> _data) = 0;
+	virtual void Push(Job_t _data) = 0;
 };
