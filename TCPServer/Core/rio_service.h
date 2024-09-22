@@ -23,11 +23,10 @@ public:
 
 	bool Initialize() override;
 	void Finalize() override;
-	ULONG DequeueCompletion(RIO_CQ& _completion_queue, std::vector<RIORESULT>& _results);
-
 	bool Start() override;
 	bool Stop() override;
 
+	ULONG DequeueCompletion(RIO_CQ& _completion_queue, std::vector<RIORESULT>& _results);
 	inline static RIO_EXTENSION_FUNCTION_TABLE s_function_table = { };
 
 private:

@@ -33,6 +33,8 @@ public:
 
 	void Close();
 
+	bool ProcPacket(NetPacket* _packet) override { return false; }
+
 	// @brief listen socket俊 技记 家南 accept 吧扁
 	// @parameter _socket listen socket
 	bool PostAccept(SOCKET _socket);

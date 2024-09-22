@@ -18,8 +18,8 @@ public:
 	ServerProxy& operator=(const ServerProxy& other) = delete;
 	ServerProxy& operator=(ServerProxy&& other) = delete;
 
-	ServerProxy(core::network::IPEndPoint _endpoint, IOCPService* _service);
-	ServerProxy(core::network::IPEndPoint _endpoint, RIOService* _service);
+	ServerProxy(core::network::IPEndPoint _endpoint, std::shared_ptr<IOCPService> _service);
+	ServerProxy(core::network::IPEndPoint _endpoint, std::shared_ptr<RIOService> _service);
 	virtual ~ServerProxy();
 
 	bool Start();

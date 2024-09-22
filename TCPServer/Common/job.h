@@ -8,7 +8,7 @@ public:
 	Job(std::function<void()> callback) :m_callback(callback) {}
 
 	template<typename T, typename Ret, typename...Args>
-	Job(std::shared_ptr<T> owner, Ret(T::* memFunc)(Args...), Args&&... args)
+	Job(std::shared_ptr<T> owner, Ret(T::* memFunc)(Args...), Args... args)
 	{
 		m_callback = [owner, memFunc, args...]()
 			{
