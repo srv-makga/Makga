@@ -289,6 +289,12 @@
     <ClInclude Include="queue_lockfree.hpp">
       <Filter>queue</Filter>
     </ClInclude>
+    <ClInclude Include="iocp_object.h">
+      <Filter>network\proactor\iocp</Filter>
+    </ClInclude>
+    <ClInclude Include="iocp_event.h">
+      <Filter>network\proactor\iocp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

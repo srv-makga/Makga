@@ -174,7 +174,7 @@ public:
 		return m_read_offset;
 	}
 
-protected:
+//protected:
 	void AddWriteOffset(std::size_t _offset)
 	{
 		if (m_write_offset + _offset > m_buffer_size)

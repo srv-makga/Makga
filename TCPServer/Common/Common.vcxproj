@@ -30,7 +30,7 @@
     <ClInclude Include="Flatbuffer\ServerToWorldTable_generated.h" />
     <ClInclude Include="Flatbuffer\Version_generated.h" />
     <ClInclude Include="inventory_owner.h" />
-    <ClInclude Include="iocp_session.h" />
+    <ClInclude Include="session_iocp.h" />
     <ClInclude Include="item_container_base.hpp" />
     <ClInclude Include="item_manager.h" />
     <ClInclude Include="item_object_base.h" />
@@ -79,7 +79,6 @@
     <ClCompile Include="connector_base.cpp" />
     <ClCompile Include="data_table.cpp" />
     <ClCompile Include="event_timer.cpp" />
-    <ClCompile Include="iocp_session.cpp" />
     <ClCompile Include="io_buffer.cpp" />
     <ClCompile Include="iocp_handler.cpp" />
     <ClCompile Include="item_property.cpp" />
@@ -94,6 +93,7 @@
     <ClCompile Include="ranking_manager.cpp" />
     <ClCompile Include="server_proxy.cpp" />
     <ClCompile Include="session_base.cpp" />
+    <ClCompile Include="session_iocp.cpp" />
     <ClCompile Include="tcp_server.cpp" />
     <ClCompile Include="tcp_session.cpp" />
     <ClCompile Include="thread_base.cpp" />

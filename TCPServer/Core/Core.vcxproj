@@ -137,6 +137,8 @@
     <ClInclude Include="db_connector_mssql.h" />
     <ClInclude Include="db_connector_mysql.h" />
     <ClInclude Include="db_statement_maria.h" />
+    <ClInclude Include="iocp_event.h" />
+    <ClInclude Include="iocp_object.h" />
     <ClInclude Include="logger.h" />
     <ClInclude Include="BrainTree.h" />
     <ClInclude Include="buffer_base.h" />

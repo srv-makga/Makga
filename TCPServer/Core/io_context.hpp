@@ -1,7 +1,6 @@
 #pragma once
 
 #include "net_header.h"
-#include "object_pool.h"
 #include "buffer_pull.h"
 
 class SessionBase;
@@ -21,14 +20,13 @@ enum class IOType
 	Close,
 };
 
-template<std::size_t T = s_io_context_buffer_size>
-class IOContext : public OVERLAPPED, public std::enable_shared_from_this<IOContext<T>>, public core::ObjectPool<IOContext<T>*>
+class IOContext : public OVERLAPPED, public std::enable_shared_from_this<IOContext>
 {
 public:
 	IOContext()
 		: m_type(IOType::None)
 		, m_session(nullptr)
-		, m_buffer(new BufferPull(T))
+		, m_buffer(nullptr)
 	{
 		::memset((OVERLAPPED*)this, 0, sizeof(OVERLAPPED));
 	}
@@ -37,10 +35,6 @@ public:
 	{
 		m_type = IOType::None;
 		m_session = nullptr;
-		m_buffer->Initialize();
-	}
-	void InitBuffer()
-	{
 		m_buffer->Initialize();
 	}
 
@@ -62,18 +56,7 @@ public:
 
 	std::size_t Size() const
 	{
-		return m_buffer ? m_buffer->UsingSize() : 0;
-	}
-
-	std::size_t BufferSize() const
-	{
-		return T;
-	}
-
-	template<typename ...Args>
-	static void InitPool(int _init_count, int _grow_count, Args... args)
-	{
-		core::ObjectPool<IOContext*>::Initialize(_init_count, _grow_count);
+		return m_buffer ? m_buffer->Size() : 0;
 	}
 
 	IOType m_type;

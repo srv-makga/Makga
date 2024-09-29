@@ -1,14 +1,14 @@
 #pragma once
 
 #include "common_header.h"
-#include "../Core/socket_tcp.h"
+#include "session_base.h"
 
 class TcpServer;
 
-class TcpSession
+class TcpSession : public SessionBase
 {
 public:
-	TcpSession(TcpServer* _server);
+	TcpSession();
 	virtual ~TcpSession();
 
 public:
@@ -22,6 +22,7 @@ public:
 	void SetSessionId(SessionId_t _id);
 
 	TcpServer* Server() const;
+	void SetServer(TcpServer* _server);
 
 	bool IsConnected() const;
 
