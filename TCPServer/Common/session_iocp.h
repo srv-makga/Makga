@@ -43,9 +43,8 @@ public:
 	bool IsConnect() const;
 
 protected:
-	// override at the content level
 	virtual void OnConnected() {}
-	virtual std::size_t OnRecv(char* buffer, std::size_t _len);
+	virtual std::size_t OnRecv(char* buffer, std::size_t _length) final;
 	virtual void OnRecvPacket(char* buffer, std::size_t len) {}
 	virtual void OnSend(std::size_t len) {}
 	virtual void OnDisconnected() {}
@@ -55,15 +54,10 @@ public: // JobOwner
 	ThreadId_t ThreadId() const;
 
 public: // SessionBase
-	bool RecvPacket(NetPacket* packet);
 	void OnError(const std::string& _errmsg);
-	void OnError(std::exception& _exception);
+	void OnError(const std::exception& _exception);
 
-	void Send(Packet_t _packet);
-
-
-
-private:
+protected:
 	Socket_t m_socket;
 
 	Buffer_t m_recv_buffer;
@@ -80,7 +74,7 @@ private:
 	ConnectEvent_t m_connect_event;
 	DisconnectEvent_t m_disconnect_event;
 
-	std::shared_ptr<core::network::IOCPService> m_iocpService;
+	std::shared_ptr<core::network::IOCPService> m_iocp_service;
 
 	std::size_t m_pending_bytes;
 	std::size_t m_sending_bytes;

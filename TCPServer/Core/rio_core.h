@@ -15,11 +15,11 @@ enum COMPLETION_KEY
 	CK_START = 1
 };
 
-class RIOService : public core::server::Service
+class RIOCore : public core::server::Service
 {
 public:
-	RIOService();
-	virtual ~RIOService();
+	RIOCore();
+	virtual ~RIOCore();
 
 	bool Initialize() override;
 	void Finalize() override;
@@ -39,7 +39,7 @@ private:
 	RIO_RQ m_request_queue;
 };
 
-#define RIO RIOService::s_function_table;
+#define RIO RIOCore::s_function_table;
 } // namespace network
 } // namespace core
 #endif // _WIN32
