@@ -20,7 +20,7 @@ enum class IOType
 	Close,
 };
 
-class IOContext : public OVERLAPPED, public std::enable_shared_from_this<IOContext>
+class IOContext : public OVERLAPPED
 {
 public:
 	IOContext()

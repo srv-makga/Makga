@@ -295,6 +295,15 @@
     <ClInclude Include="iocp_event.h">
       <Filter>network\proactor\iocp</Filter>
     </ClInclude>
+    <ClInclude Include="rio_event.h">
+      <Filter>network\proactor\rio</Filter>
+    </ClInclude>
+    <ClInclude Include="session.h">
+      <Filter>network\proactor</Filter>
+    </ClInclude>
+    <ClInclude Include="rio_session.h">
+      <Filter>network\proactor\rio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
