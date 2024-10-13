@@ -159,10 +159,10 @@
     <ClInclude Include="queue_safe_cv.hpp" />
     <ClInclude Include="redis_connector.h" />
     <ClInclude Include="redis_reply.h" />
+    <ClInclude Include="rio_core.h" />
     <ClInclude Include="rio_event.h" />
     <ClInclude Include="rio_session.h" />
     <ClInclude Include="service.h" />
-    <ClInclude Include="session.h" />
     <ClInclude Include="socket_core.h" />
     <ClInclude Include="sorted_container.h" />
     <ClInclude Include="db_statement.h" />
@@ -179,7 +179,7 @@
     <ClInclude Include="random.hpp" />
     <ClInclude Include="buffer_ring.hpp" />
     <ClInclude Include="datetime.h" />
-    <ClInclude Include="rio_core.h" />
+    <ClInclude Include="rio_service.h" />
     <ClInclude Include="socket_base.h" />
     <ClInclude Include="lock.h" />
     <ClInclude Include="db_client_maria.h" />
@@ -192,7 +192,7 @@
     <ClInclude Include="memory_pool.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="singleton.hpp" />
-    <ClInclude Include="iocp_core.h" />
+    <ClInclude Include="iocp_service.h" />
     <ClInclude Include="string.hpp" />
     <ClInclude Include="string_function.h" />
     <ClInclude Include="queue_swap.hpp" />
@@ -220,11 +220,13 @@
     <ClCompile Include="net_service.cpp" />
     <ClCompile Include="redis_connector.cpp" />
     <ClCompile Include="redis_reply.cpp" />
+    <ClCompile Include="rio_core.cpp" />
+    <ClCompile Include="rio_session.cpp" />
     <ClCompile Include="socket_base.cpp" />
     <ClCompile Include="logger_glog.h" />
-    <ClCompile Include="iocp_core.cpp" />
+    <ClCompile Include="iocp_service.cpp" />
     <ClCompile Include="buffer_pull.cpp" />
-    <ClCompile Include="rio_core.cpp" />
+    <ClCompile Include="rio_service.cpp" />
     <ClCompile Include="db_client_maria.cpp" />
     <ClCompile Include="crypto_rsa.cpp" />
     <ClCompile Include="socket_core.cpp" />

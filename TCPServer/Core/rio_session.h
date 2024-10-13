@@ -4,11 +4,11 @@
 #include "ip_endpoint.h"
 #include "io_context.hpp"
 #include "lock.h"
+#include "rio_event.h"
 #include <queue>
 
 class RioBuffer;
-class RioCore;
-class RIOEvent;
+class RIOService;
 
 namespace core {
 namespace network {
@@ -32,7 +32,7 @@ public:
 	// set
 	void SetAddr(SOCKADDR_IN addr) { m_address = SockAddress(addr); }
 	void SetAddr(SockAddress sockAddr) { m_address = sockAddr; }
-	void SetCore(shared_ptr<RioCore> core) { m_rioCore = core; }
+	void SetCore(shared_ptr<RIOService> core) { m_RIOService = core; }
 
 	// state check
 	bool IsConnected() { return m_bConnected; }
@@ -55,8 +55,8 @@ public:
 	bool RegisterSend(int dataLength, int dataOffset);
 
 	void ProcessConnect();
-	void ProcessRecv(int bytesTransferred);
-	void ProcessSend(int bytesTransferred, RioSendEvent* sendEvent);
+	void ProcessRecv(int _bytes_transferred);
+	void ProcessSend(int _bytes_transferred, RIOSendEvent* _event);
 
 public:
 	virtual void OnConnected() {}
@@ -71,20 +71,19 @@ private:
 	bool CreateRequestQueue();
 
 private:
-	// socket
 	SOCKET m_socket;
-	SockAddress m_address;
-	std::atomic<bool> m_bConnected;
-	std::atomic<bool> m_bAllocated;
+	IPEndPoint m_address;
+	std::atomic<bool> m_is_connected;
+	std::atomic<bool> m_is_allocated;
 
 	// rio core
-	std::shared_ptr<RioCore> m_rioCore;
+	std::shared_ptr<RIOService> m_RIOService;
 
 	// request queue
 	RIO_RQ m_requestQueue;
 
 	// Rio Recv
-	RioRecvEvent m_recvEvent;
+	RIORecvEvent m_recvEvent;
 
 	// Rio Send
 	std::queue<std::shared_ptr<NetBuffer>> m_sendBufQueue;

@@ -10,7 +10,7 @@
     <ClCompile Include="RapidJson.cpp">
       <Filter>string\json</Filter>
     </ClCompile>
-    <ClCompile Include="rio_core.cpp">
+    <ClCompile Include="rio_service.cpp">
       <Filter>network\proactor\rio</Filter>
     </ClCompile>
     <ClCompile Include="buffer_pull.cpp">
@@ -22,7 +22,7 @@
     <ClCompile Include="logger_glog.h">
       <Filter>logger\impl</Filter>
     </ClCompile>
-    <ClCompile Include="iocp_core.cpp">
+    <ClCompile Include="iocp_service.cpp">
       <Filter>network\proactor\iocp</Filter>
     </ClCompile>
     <ClCompile Include="thread_group.cpp">
@@ -85,6 +85,12 @@
     <ClCompile Include="socket_core.cpp">
       <Filter>network\socket</Filter>
     </ClCompile>
+    <ClCompile Include="rio_session.cpp">
+      <Filter>network\proactor\rio</Filter>
+    </ClCompile>
+    <ClCompile Include="rio_core.cpp">
+      <Filter>network\proactor\rio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -97,7 +103,7 @@
     <ClInclude Include="thread_pool.h">
       <Filter>thread</Filter>
     </ClInclude>
-    <ClInclude Include="iocp_core.h">
+    <ClInclude Include="iocp_service.h">
       <Filter>network\proactor\iocp</Filter>
     </ClInclude>
     <ClInclude Include="net_service.h">
@@ -161,9 +167,6 @@
       <Filter>utility</Filter>
     </ClInclude>
     <ClInclude Include="dispatcher.h" />
-    <ClInclude Include="rio_core.h">
-      <Filter>network\proactor\rio</Filter>
-    </ClInclude>
     <ClInclude Include="memory_block.h">
       <Filter>memory</Filter>
     </ClInclude>
@@ -298,10 +301,11 @@
     <ClInclude Include="rio_event.h">
       <Filter>network\proactor\rio</Filter>
     </ClInclude>
-    <ClInclude Include="session.h">
-      <Filter>network\proactor</Filter>
-    </ClInclude>
     <ClInclude Include="rio_session.h">
+      <Filter>network\proactor\rio</Filter>
+    </ClInclude>
+    <ClInclude Include="rio_service.h" />
+    <ClInclude Include="rio_core.h">
       <Filter>network\proactor\rio</Filter>
     </ClInclude>
   </ItemGroup>

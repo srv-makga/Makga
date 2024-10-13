@@ -4,41 +4,47 @@
 
 class RIOSession;
 
+enum RIOType
+{
+	SEND,
+	RECV
+};
+
 namespace core {
 namespace network {
 class RIOEvent : public RIO_BUF
 {
 public:
-	using Session_t = std::shared_ptr<RIOSession>;
-
-	RIOEvent() = default;
+	RIOEvent() = delete;
+	RIOEvent(RIOType _type) : m_type(_type) {}
+	RIOEvent(const RIOEvent&) = delete;
+	RIOEvent(RIOEvent&&) = delete;
+	RIOEvent& operator=(const RIOEvent&) = delete;
+	RIOEvent& operator=(RIOEvent&&) = delete;
 	~RIOEvent() = default;
 
-	Session_t m_owner;
+	RIOType m_type;
+	std::shared_ptr<RIOSession> m_owner;
 };
 
 class RIOSendEvent : public RIOEvent
 {
-	RIOSendEvent() : RIOEvent() {}
+	RIOSendEvent(RIOType _type) : RIOEvent(_type) {}
 	RIOSendEvent(const RIOSendEvent&) = delete;
 	RIOSendEvent(RIOSendEvent&&) = delete;
 	RIOSendEvent& operator=(const RIOSendEvent&) = delete;
 	RIOSendEvent& operator=(RIOSendEvent&&) = delete;
 	~RIOSendEvent() = default;
-
-	Session_t m_owner;
 };
 
 class RIORecvEvent : public RIOEvent
 {
-	RIORecvEvent() : RIOEvent() {}
+	RIORecvEvent(RIOType _type) : RIOEvent(_type) {}
 	RIORecvEvent(const RIOSendEvent&) = delete;
 	RIORecvEvent(RIOSendEvent&&) = delete;
 	RIORecvEvent& operator=(const RIOSendEvent&) = delete;
 	RIORecvEvent& operator=(RIOSendEvent&&) = delete;
 	~RIORecvEvent() = default;
-
-	Session_t m_owner;
 };
 } // namespace network
 } // namespace core
