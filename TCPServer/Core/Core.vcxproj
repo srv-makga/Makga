@@ -153,12 +153,14 @@
     <ClInclude Include="json_object.hpp" />
     <ClInclude Include="buffer_pull.h" />
     <ClInclude Include="db_query.h" />
+    <ClInclude Include="net_buffer.h" />
     <ClInclude Include="object_pool.h" />
     <ClInclude Include="queue_lockfree.hpp" />
     <ClInclude Include="queue_mpsc.hpp" />
     <ClInclude Include="queue_safe_cv.hpp" />
     <ClInclude Include="redis_connector.h" />
     <ClInclude Include="redis_reply.h" />
+    <ClInclude Include="rio_buffer.h" />
     <ClInclude Include="rio_core.h" />
     <ClInclude Include="rio_event.h" />
     <ClInclude Include="rio_session.h" />
@@ -217,6 +219,7 @@
     <ClCompile Include="db_statement_maria.cpp" />
     <ClCompile Include="ip_endpoint.cpp" />
     <ClCompile Include="memory_block.cpp" />
+    <ClCompile Include="net_buffer.cpp" />
     <ClCompile Include="net_service.cpp" />
     <ClCompile Include="redis_connector.cpp" />
     <ClCompile Include="redis_reply.cpp" />

@@ -19,6 +19,7 @@ public:
 	static constexpr bool value = decltype(test<T>(0))::value;
 };
 
+// @brief 기능을 제공하는 껍데기 클래스이며, 실제 데이터는 생성시에 전달해야 한다
 template<typename T>
 requires ElementType<T>
 class BufferRing

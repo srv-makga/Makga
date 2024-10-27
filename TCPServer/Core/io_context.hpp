@@ -64,7 +64,7 @@ public:
 	BufferBase* m_buffer;
 };
 
-struct RIOContext : public RIO_BUF, public core::ObjectPool<RIOContext*>
+struct RIOContext : public RIO_BUF
 {
 	IOType m_type;
 	SessionBase* m_session;

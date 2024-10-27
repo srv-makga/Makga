@@ -29,6 +29,7 @@ public:
 
 class RIOSendEvent : public RIOEvent
 {
+public:
 	RIOSendEvent(RIOType _type) : RIOEvent(_type) {}
 	RIOSendEvent(const RIOSendEvent&) = delete;
 	RIOSendEvent(RIOSendEvent&&) = delete;
@@ -39,6 +40,7 @@ class RIOSendEvent : public RIOEvent
 
 class RIORecvEvent : public RIOEvent
 {
+public:
 	RIORecvEvent(RIOType _type) : RIOEvent(_type) {}
 	RIORecvEvent(const RIOSendEvent&) = delete;
 	RIORecvEvent(RIOSendEvent&&) = delete;

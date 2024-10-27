@@ -91,6 +91,9 @@
     <ClCompile Include="rio_core.cpp">
       <Filter>network\proactor\rio</Filter>
     </ClCompile>
+    <ClCompile Include="net_buffer.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -304,8 +307,16 @@
     <ClInclude Include="rio_session.h">
       <Filter>network\proactor\rio</Filter>
     </ClInclude>
-    <ClInclude Include="rio_service.h" />
     <ClInclude Include="rio_core.h">
+      <Filter>network\proactor\rio</Filter>
+    </ClInclude>
+    <ClInclude Include="rio_service.h">
+      <Filter>network\proactor\rio</Filter>
+    </ClInclude>
+    <ClInclude Include="net_buffer.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="rio_buffer.h">
       <Filter>network\proactor\rio</Filter>
     </ClInclude>
   </ItemGroup>

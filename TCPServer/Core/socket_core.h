@@ -18,6 +18,7 @@ public:
 
 	static SOCKET Socket();
 	static SOCKET RioSocket();
+	static void CloseSocket(SOCKET _socket);
 
 	static bool SetNodelay(SOCKET _socket, bool _optval);
 	static bool SetLinger(SOCKET _socket, bool _optval, int _time);

@@ -4,49 +4,48 @@
 #include "ip_endpoint.h"
 #include "io_context.hpp"
 #include "lock.h"
+#include "rio_core.h"
+#include "rio_service.h"
 #include "rio_event.h"
+#include "rio_buffer.h"
+#include "net_buffer.h"
 #include <queue>
-
-class RioBuffer;
-class RIOService;
 
 namespace core {
 namespace network {
-class RIOSession : public std::enable_shared_from_this<RIOSession>
+class RioSession : public std::enable_shared_from_this<RioSession>
 {
 public:
-	RIOSession();
-	RIOSession(const RIOSession& other) = delete;
-	RIOSession(RIOSession&& other) = delete;
-	RIOSession& operator=(const RIOSession& other) = delete;
-	RIOSession& operator=(RIOSession&& other) = delete;
-	virtual ~RIOSession();
+	RioSession();
+	RioSession(const RioSession& other) = delete;
+	RioSession(RioSession&& other) = delete;
+	RioSession& operator=(const RioSession& other) = delete;
+	RioSession& operator=(RioSession&& other) = delete;
+	virtual ~RioSession();
 
 	void Initialize();
 	void Finalize();
 
-	// get
-	SOCKET& GetSocket() { return m_socket; }
-	SockAddress GetAddr() { return m_address; }
+	SOCKET GetSocket();
+	void SetSocket(SOCKET _socket);
 
-	// set
-	void SetAddr(SOCKADDR_IN addr) { m_address = SockAddress(addr); }
-	void SetAddr(SockAddress sockAddr) { m_address = sockAddr; }
-	void SetCore(shared_ptr<RIOService> core) { m_RIOService = core; }
+	const IPEndPoint& GetEndPoint() const;
+	const sockaddr_in GetSockAddr() const;
+	void SetSockAddr(sockaddr_in _sockaddr);
 
-	// state check
-	bool IsConnected() { return m_bConnected; }
-	bool IsEmptySendQueue() { return m_sendBufQueue.empty(); }
-	bool IsAllocated() { return m_bAllocated; }
 
-	// networking
+	/* 이하 복사 */
+
+	void SetCore(std::shared_ptr<RIOCore> _core) { m_rio_core = _core; }
+
+	bool IsConnected() { return m_is_connected; }
+	bool IsEmptySendQueue() { return m_send_buffer_queue.empty(); }
+
 	void Disconnect();
-	void Send(std::shared_ptr<NetBuffer> sendBuffer);
+	void Send(std::shared_ptr<NetBuffer> _buffer);
 
-	// dispatch
 	void Dispatch(RIOEvent* _event, int _bytes_transferred = 0);
 
-	// DeferredSend & Commit
 	bool SendDeferred();
 	void SendCommit();
 
@@ -77,18 +76,18 @@ private:
 	std::atomic<bool> m_is_allocated;
 
 	// rio core
-	std::shared_ptr<RIOService> m_RIOService;
+	std::shared_ptr<RIOCore> m_rio_core;
 
 	// request queue
-	RIO_RQ m_requestQueue;
+	RIO_RQ m_rio_request_queue;
 
 	// Rio Recv
-	RIORecvEvent m_recvEvent;
+	RIORecvEvent m_recv_event;
 
 	// Rio Send
-	std::queue<std::shared_ptr<NetBuffer>> m_sendBufQueue;
-	RWMutex m_sendQueueLock;
-	std::atomic<int> m_sendCnt;
+	std::queue<std::shared_ptr<NetBuffer>> m_send_buffer_queue;
+	RWMutex m_mutex_send_queue;
+	std::atomic<std::size_t> m_send_count;
 	time_t m_last_send_time;
 
 	RIO_BUFFERID m_recv_buff_id;

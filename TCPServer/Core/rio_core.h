@@ -2,10 +2,9 @@
 
 #include "core_header.h"
 #include "lock.h"
+#include "rio_session.h"
 #include <unordered_set>
 #include <memory>
-
-class RIOSession;
 
 namespace core {
 namespace network {

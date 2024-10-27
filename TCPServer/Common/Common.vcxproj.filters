@@ -156,9 +156,6 @@
     <ClInclude Include="session_iocp.h">
       <Filter>network\session\detail</Filter>
     </ClInclude>
-    <ClInclude Include="net_buffer.h">
-      <Filter>network</Filter>
-    </ClInclude>
     <ClInclude Include="job.h">
       <Filter>handler</Filter>
     </ClInclude>
@@ -291,9 +288,6 @@
     </ClCompile>
     <ClCompile Include="tcp_session.cpp">
       <Filter>network\session\detail</Filter>
-    </ClCompile>
-    <ClCompile Include="net_buffer.cpp">
-      <Filter>network</Filter>
     </ClCompile>
     <ClCompile Include="thread_base.cpp">
       <Filter>handler\job_handler</Filter>
