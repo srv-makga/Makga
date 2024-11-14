@@ -8,17 +8,17 @@
 
 namespace core {
 namespace network {
-class RIOCore : public std::enable_shared_from_this<RIOCore>
+class RioCore : public std::enable_shared_from_this<RioCore>
 {
 public:
 	using Session_t = std::shared_ptr<RIOSession>;
 public:
-	RIOCore();
-	RIOCore(const RIOCore&) = delete;
-	RIOCore(RIOCore&&) = delete;
-	RIOCore& operator=(const RIOCore&) = delete;
-	RIOCore& operator=(RIOCore&&) = delete;
-	~RIOCore() = default;
+	RioCore();
+	RioCore(const RioCore&) = delete;
+	RioCore(RioCore&&) = delete;
+	RioCore& operator=(const RioCore&) = delete;
+	RioCore& operator=(RioCore&&) = delete;
+	~RioCore() = default;
 
 	bool Initialize();
 	void Finalize();

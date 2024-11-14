@@ -94,6 +94,9 @@
     <ClCompile Include="net_buffer.cpp">
       <Filter>network</Filter>
     </ClCompile>
+    <ClCompile Include="rio_buffer.cpp">
+      <Filter>network\proactor\rio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -317,6 +320,9 @@
       <Filter>network</Filter>
     </ClInclude>
     <ClInclude Include="rio_buffer.h">
+      <Filter>network\proactor\rio</Filter>
+    </ClInclude>
+    <ClInclude Include="rio_server.h">
       <Filter>network\proactor\rio</Filter>
     </ClInclude>
   </ItemGroup>

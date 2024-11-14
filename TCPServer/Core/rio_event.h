@@ -30,7 +30,7 @@ public:
 class RIOSendEvent : public RIOEvent
 {
 public:
-	RIOSendEvent(RIOType _type) : RIOEvent(_type) {}
+	RIOSendEvent() : RIOEvent(RIOType::SEND) {}
 	RIOSendEvent(const RIOSendEvent&) = delete;
 	RIOSendEvent(RIOSendEvent&&) = delete;
 	RIOSendEvent& operator=(const RIOSendEvent&) = delete;

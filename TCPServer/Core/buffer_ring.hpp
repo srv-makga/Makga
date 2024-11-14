@@ -111,6 +111,36 @@ public:
 		return _size;
 	}
 
+	void ReorganizeBuffer()
+	{
+		if (m_write_offset >= m_read_offset)
+		{
+			auto data_size = Size();
+			if (m_write_offset == m_read_offset)
+			{
+				m_write_offset = 0;
+				m_read_offset = 0;
+			}
+			else if (FreeSize() < m_buffer_size / 3)
+			{
+				::memcpy(&m_buffer[0], &m_buffer[m_read_offset], data_size);
+				m_read_offset = 0;
+				m_write_offset = data_size;
+			}
+		}
+		else
+		{
+			auto r_data_size = m_buffer_size - m_read_offset;
+			auto l_data_size = m_write_offset;
+
+			::memcpy(&m_buffer[rDataSize], &m_buffer[0], lDataSize);
+			::memcpy(&m_buffer[0], &m_buffer[m_read_offset], rDataSize);
+
+			m_read_offset = 0;
+			m_write_offset = rDataSize + lDataSize;
+		}
+	}
+
 	void Clear()
 	{
 		if (true == IsEmpty())
@@ -175,6 +205,11 @@ public:
 		return m_read_offset;
 	}
 
+	char* GetBufferPtr() const
+	{
+		return m_buffer;
+	}
+
 //protected:
 	void AddWriteOffset(std::size_t _offset)
 	{
@@ -186,14 +221,21 @@ public:
 		m_write_offset = (m_write_offset + _offset) % m_buffer_size;
 	}
 
-	void AddReadOffset(std::size_t _offset)
+	bool AddReadOffset(std::size_t _offset)
 	{
+		if (Size() < _offset)
+		{
+			return false;
+		}
+
 		if (m_read_offset + _offset > m_buffer_size)
 		{
 			_offset -= (m_buffer_size - m_read_offset);
 		}
 
 		m_read_offset = (m_read_offset + _offset) % m_buffer_size;
+
+		return true;
 	}
 
 	Element_t* WritePosition() const

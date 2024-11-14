@@ -51,7 +51,7 @@ public:
 
 public:
 	void RegisterRecv();
-	bool RegisterSend(int dataLength, int dataOffset);
+	bool RegisterSend(ULONG dataLength, ULONG dataOffset);
 
 	void ProcessConnect();
 	void ProcessRecv(int _bytes_transferred);
@@ -59,13 +59,12 @@ public:
 
 public:
 	virtual void OnConnected() {}
-	virtual int OnRecv(char* buffer, int len) final;
-	virtual void OnRecvPacket(char* buffer, int len) {}
-	virtual void OnSend(int len) {}
+	virtual int OnRecv(char* _buffer, int _length) final;
+	virtual void OnRecvPacket(char* _buffer, int _length) {}
+	virtual void OnSend(int _length) {}
 	virtual void OnDisconnected() {}
 
 private:
-	bool InitSession();
 	bool AllocBuffer();
 	bool CreateRequestQueue();
 

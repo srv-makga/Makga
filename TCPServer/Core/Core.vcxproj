@@ -163,6 +163,7 @@
     <ClInclude Include="rio_buffer.h" />
     <ClInclude Include="rio_core.h" />
     <ClInclude Include="rio_event.h" />
+    <ClInclude Include="rio_server.h" />
     <ClInclude Include="rio_session.h" />
     <ClInclude Include="service.h" />
     <ClInclude Include="socket_core.h" />
@@ -223,6 +224,7 @@
     <ClCompile Include="net_service.cpp" />
     <ClCompile Include="redis_connector.cpp" />
     <ClCompile Include="redis_reply.cpp" />
+    <ClCompile Include="rio_buffer.cpp" />
     <ClCompile Include="rio_core.cpp" />
     <ClCompile Include="rio_session.cpp" />
     <ClCompile Include="socket_base.cpp" />
