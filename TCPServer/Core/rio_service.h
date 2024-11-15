@@ -5,6 +5,8 @@
 #include "service.h"
 #include "rio_session.h"
 
+class RIOSession;
+
 #ifdef _WIN32
 namespace core {
 namespace network {

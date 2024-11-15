@@ -5,7 +5,7 @@ template <typename T, typename ISession>
 concept SessionType = std::is_pointer_v<T> && std::is_base_of_v<T, std::remove_pointer_t<ISession>>;
 
 template<typename T>
-requires SessionType<T, ISession>
+//requires SessionType<T, ISession>
 class SessionManager
 {
 public:

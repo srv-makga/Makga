@@ -11,7 +11,7 @@ namespace network {
 class RioCore : public std::enable_shared_from_this<RioCore>
 {
 public:
-	using Session_t = std::shared_ptr<RIOSession>;
+	using Session_t = std::shared_ptr<RioSession>;
 public:
 	RioCore();
 	RioCore(const RioCore&) = delete;

@@ -111,6 +111,7 @@ public:
 		return _size;
 	}
 
+	// @brief 버퍼 당기기
 	void ReorganizeBuffer()
 	{
 		if (m_write_offset >= m_read_offset)
@@ -130,14 +131,14 @@ public:
 		}
 		else
 		{
-			auto r_data_size = m_buffer_size - m_read_offset;
-			auto l_data_size = m_write_offset;
+			auto right_data_size = m_buffer_size - m_read_offset;
+			auto left_data_size = m_write_offset;
 
-			::memcpy(&m_buffer[rDataSize], &m_buffer[0], lDataSize);
-			::memcpy(&m_buffer[0], &m_buffer[m_read_offset], rDataSize);
+			::memcpy(&m_buffer[right_data_size], &m_buffer[0], left_data_size);
+			::memcpy(&m_buffer[0], &m_buffer[m_read_offset], right_data_size);
 
 			m_read_offset = 0;
-			m_write_offset = rDataSize + lDataSize;
+			m_write_offset = right_data_size + left_data_size;
 		}
 	}
 

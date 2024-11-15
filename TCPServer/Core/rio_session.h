@@ -36,7 +36,7 @@ public:
 
 	/* 이하 복사 */
 
-	void SetCore(std::shared_ptr<RIOCore> _core) { m_rio_core = _core; }
+	void SetCore(std::shared_ptr<RioCore> _core) { m_rio_core = _core; }
 
 	bool IsConnected() { return m_is_connected; }
 	bool IsEmptySendQueue() { return m_send_buffer_queue.empty(); }
@@ -54,14 +54,14 @@ public:
 	bool RegisterSend(ULONG dataLength, ULONG dataOffset);
 
 	void ProcessConnect();
-	void ProcessRecv(int _bytes_transferred);
-	void ProcessSend(int _bytes_transferred, RIOSendEvent* _event);
+	void ProcessRecv(std::size_t _bytes_transferred);
+	void ProcessSend(std::size_t _bytes_transferred, RIOSendEvent* _event);
 
 public:
 	virtual void OnConnected() {}
-	virtual int OnRecv(char* _buffer, int _length) final;
-	virtual void OnRecvPacket(char* _buffer, int _length) {}
-	virtual void OnSend(int _length) {}
+	virtual std::size_t OnRecv(char* _buffer, std::size_t _length) { return 0; }
+	virtual void OnRecvPacket(char* _buffer, std::size_t _length) {}
+	virtual void OnSend(std::size_t _length) {}
 	virtual void OnDisconnected() {}
 
 private:
@@ -71,19 +71,16 @@ private:
 private:
 	SOCKET m_socket;
 	IPEndPoint m_address;
+
 	std::atomic<bool> m_is_connected;
 	std::atomic<bool> m_is_allocated;
 
-	// rio core
-	std::shared_ptr<RIOCore> m_rio_core;
+	std::shared_ptr<RioCore> m_rio_core;
 
-	// request queue
 	RIO_RQ m_rio_request_queue;
 
-	// Rio Recv
 	RIORecvEvent m_recv_event;
 
-	// Rio Send
 	std::queue<std::shared_ptr<NetBuffer>> m_send_buffer_queue;
 	RWMutex m_mutex_send_queue;
 	std::atomic<std::size_t> m_send_count;
