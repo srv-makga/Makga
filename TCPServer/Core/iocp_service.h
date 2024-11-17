@@ -9,15 +9,15 @@ class IOCPSession;
 #ifdef _WIN32
 namespace core {
 namespace network {
-class IOCPService : public server::Service
+class IocpService : public server::Service
 {
 public:
-	IOCPService();
-	IOCPService(const IOCPService& _other) = delete;
-	IOCPService(IOCPService&& _other) = delete;
-	IOCPService& operator=(const IOCPService& _other) = delete;
-	IOCPService& operator=(IOCPService&& _other) = delete;
-	virtual ~IOCPService();
+	IocpService();
+	IocpService(const IocpService& _other) = delete;
+	IocpService(IocpService&& _other) = delete;
+	IocpService& operator=(const IocpService& _other) = delete;
+	IocpService& operator=(IocpService&& _other) = delete;
+	virtual ~IocpService();
 
 	bool Initialize() override;
 	void Finalize() override;

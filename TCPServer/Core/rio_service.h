@@ -18,18 +18,18 @@ enum COMPLETION_KEY
 	CK_START = 1
 };
 
-class RIOService : public core::server::Service
+class RioService : public core::server::Service
 {
 public:
 	using Session_t = std::shared_ptr<RIOSession>;
 
 public:
-	RIOService();
-	RIOService(const RIOService& _other) = delete;
-	RIOService(RIOService&& _other) = delete;
-	RIOService& operator=(const RIOService& _other) = delete;
-	RIOService& operator=(RIOService&& _other) = delete;
-	virtual ~RIOService();
+	RioService();
+	RioService(const RioService& _other) = delete;
+	RioService(RioService&& _other) = delete;
+	RioService& operator=(const RioService& _other) = delete;
+	RioService& operator=(RioService&& _other) = delete;
+	virtual ~RioService();
 
 	bool Initialize() override;
 	void Finalize() override;
