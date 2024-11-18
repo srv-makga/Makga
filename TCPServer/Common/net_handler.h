@@ -2,7 +2,7 @@
 
 /*
 * @brief 네트워크 데이터가 처리될 클래스의 인터페이스 클래스
-* @detail SelectEvent, IOCPEvent등의 세부 클래스가 상속함
+* @detail SelectEvent, IocpEvent등의 세부 클래스가 상속함
 */
 class NetHandler
 {

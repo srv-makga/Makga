@@ -18,82 +18,82 @@ class IOCPSession;
 
 namespace core {
 namespace network {
-class IOCPEvent : public OVERLAPPED
+class IocpEvent : public OVERLAPPED
 {
 public:
-	IOCPEvent() = delete;
-	IOCPEvent(IOCPType _type);
-	IOCPEvent(const IOCPEvent&) = delete;
-	IOCPEvent(IOCPEvent&& other) = delete;
-	IOCPEvent& operator=(const IOCPEvent&) = delete;
-	IOCPEvent& operator=(IOCPEvent&&) = delete;
-	virtual ~IOCPEvent() = default;
+	IocpEvent() = delete;
+	IocpEvent(IOCPType _type);
+	IocpEvent(const IocpEvent&) = delete;
+	IocpEvent(IocpEvent&& other) = delete;
+	IocpEvent& operator=(const IocpEvent&) = delete;
+	IocpEvent& operator=(IocpEvent&&) = delete;
+	virtual ~IocpEvent() = default;
 
-	void Initialize();
+	bool Initialize();
 	void Finalize();
 
 	IOCPType m_type;
 	std::shared_ptr<IOCPObject> m_owner;
 };
 
-class IOCPAcceptEvent : public IOCPEvent
+class IocpAcceptEvent : public IocpEvent
 {
 public:
-	IOCPAcceptEvent() = delete;
-	IOCPAcceptEvent(IOCPType _type);
-	IOCPAcceptEvent(const IOCPAcceptEvent&) = delete;
-	IOCPAcceptEvent(IOCPAcceptEvent&& other) = delete;
-	IOCPAcceptEvent& operator=(const IOCPAcceptEvent&) = delete;
-	IOCPAcceptEvent& operator=(IOCPAcceptEvent&&) = delete;
-	virtual ~IOCPAcceptEvent() = default;
+	IocpAcceptEvent() = delete;
+	IocpAcceptEvent(IOCPType _type);
+	IocpAcceptEvent(const IocpAcceptEvent&) = delete;
+	IocpAcceptEvent(IocpAcceptEvent&& other) = delete;
+	IocpAcceptEvent& operator=(const IocpAcceptEvent&) = delete;
+	IocpAcceptEvent& operator=(IocpAcceptEvent&&) = delete;
+	virtual ~IocpAcceptEvent() = default;
 
 private:
 	std::shared_ptr<IOCPSession> m_session = nullptr; // accept된 session
 };
 
-class IOCPConnectEvent : public IOCPEvent
+class IocpConnectEvent : public IocpEvent
 {
 public:
-	IOCPConnectEvent() : IOCPEvent(IOCPType::CONNECT) {}
-	IOCPConnectEvent(const IOCPConnectEvent&) = delete;
-	IOCPConnectEvent(IOCPConnectEvent&&) = delete;
-	IOCPConnectEvent& operator=(const IOCPConnectEvent&) = delete;
-	IOCPConnectEvent& operator=(IOCPConnectEvent&&) = delete;
-	virtual ~IOCPConnectEvent() = default;
+	IocpConnectEvent() : IocpEvent(IOCPType::CONNECT) {}
+	IocpConnectEvent(const IocpConnectEvent&) = delete;
+	IocpConnectEvent(IocpConnectEvent&&) = delete;
+	IocpConnectEvent& operator=(const IocpConnectEvent&) = delete;
+	IocpConnectEvent& operator=(IocpConnectEvent&&) = delete;
+	virtual ~IocpConnectEvent() = default;
 };
 
-class IOCPDisconnectEvent : public IOCPEvent
+class IocpDisconnectEvent : public IocpEvent
 {
 public:
-	IOCPDisconnectEvent() : IOCPEvent(IOCPType::DISCONNECT) {}
-	IOCPDisconnectEvent(const IOCPDisconnectEvent&) = delete;
-	IOCPDisconnectEvent(IOCPDisconnectEvent&&) = delete;
-	IOCPDisconnectEvent& operator=(const IOCPDisconnectEvent&) = delete;
-	IOCPDisconnectEvent& operator=(IOCPDisconnectEvent&&) = delete;
-	virtual ~IOCPDisconnectEvent() = default;
+	IocpDisconnectEvent() : IocpEvent(IOCPType::DISCONNECT) {}
+	IocpDisconnectEvent(const IocpDisconnectEvent&) = delete;
+	IocpDisconnectEvent(IocpDisconnectEvent&&) = delete;
+	IocpDisconnectEvent& operator=(const IocpDisconnectEvent&) = delete;
+	IocpDisconnectEvent& operator=(IocpDisconnectEvent&&) = delete;
+	virtual ~IocpDisconnectEvent() = default;
 };
 
-class IOCPRecvEvent : public IOCPEvent
+class IocpRecvEvent : public IocpEvent
 {
 public:
-	IOCPRecvEvent() : IOCPEvent(IOCPType::RECV) {}
-	IOCPRecvEvent(const IOCPRecvEvent&) = delete;
-	IOCPRecvEvent(IOCPRecvEvent&&) = delete;
-	IOCPRecvEvent& operator=(const IOCPRecvEvent&) = delete;
-	IOCPRecvEvent& operator=(IOCPRecvEvent&&) = delete;
-	virtual ~IOCPRecvEvent() = default;
+	IocpRecvEvent() : IocpEvent(IOCPType::RECV) {}
+	IocpRecvEvent(const IocpRecvEvent&) = delete;
+	IocpRecvEvent(IocpRecvEvent&&) = delete;
+	IocpRecvEvent& operator=(const IocpRecvEvent&) = delete;
+	IocpRecvEvent& operator=(IocpRecvEvent&&) = delete;
+	virtual ~IocpRecvEvent() = default;
 };
 
 template<typename T>
-class IOCPSendEvent : public IOCPEvent
+class IocpSendEvent : public IocpEvent
 {
 public:
-	IOCPSendEvent() : IOCPEvent(IOCPType::SEND) {}
-	IOCPSendEvent(const IOCPSendEvent&) = delete;
-	IOCPSendEvent(IOCPSendEvent&&) = delete;
-	IOCPSendEvent& operator=(const IOCPSendEvent&) = delete;
-	IOCPSendEvent& operator=(IOCPSendEvent&&) = delete;
-	virtual ~IOCPSendEvent() = default;
+	IocpSendEvent() : IocpEvent(IOCPType::SEND) {}
+	IocpSendEvent(const IocpSendEvent&) = delete;
+	IocpSendEvent(IocpSendEvent&&) = delete;
+	IocpSendEvent& operator=(const IocpSendEvent&) = delete;
+	IocpSendEvent& operator=(IocpSendEvent&&) = delete;
+	virtual ~IocpSendEvent() = default;
 
 	std::vector<std::shared_ptr<T>> m_send_buffer; // T는 전송될 데이터가 있는 네트워크용 버퍼
 };

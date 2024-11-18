@@ -15,10 +15,10 @@ public:
 	using Buffer_t = NetBuffer;
 	using Packet_t = Packet;
 
-	using SendEvent_t = core::network::IOCPSendEvent<NetBuffer>;
-	using RecvEvent_t = core::network::IOCPRecvEvent;
-	using ConnectEvent_t = core::network::IOCPConnectEvent;
-	using DisconnectEvent_t = core::network::IOCPDisconnectEvent;
+	using SendEvent_t = core::network::IocpSendEvent<NetBuffer>;
+	using RecvEvent_t = core::network::IocpRecvEvent;
+	using ConnectEvent_t = core::network::IocpConnectEvent;
+	using DisconnectEvent_t = core::network::IocpDisconnectEvent;
 
 public:
 	SessionIOCP();

@@ -21,8 +21,8 @@ public:
 
 	bool Initialize() override;
 	void Finalize() override;
-	bool Start() override;
-	bool Stop() override;
+	//bool Start() override;
+	//bool Stop() override;
 
 public: // iocp
 	bool CreatePort(DWORD _concurrent_thread = 1);

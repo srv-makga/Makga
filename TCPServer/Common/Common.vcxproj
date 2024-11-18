@@ -59,9 +59,8 @@
     <ClInclude Include="common_struct.h" />
     <ClInclude Include="ranking_manager.h" />
     <ClInclude Include="rio_handler.h" />
-    <ClInclude Include="server.h" />
     <ClInclude Include="server_base.h" />
-    <ClInclude Include="server_iocp.h" />
+    <ClInclude Include="iocp_server.h" />
     <ClInclude Include="server_proxy.h" />
     <ClInclude Include="session.h" />
     <ClInclude Include="session_base.h" />
