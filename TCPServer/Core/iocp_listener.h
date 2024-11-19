@@ -31,7 +31,7 @@ public:
 
 public:
 	HANDLE GetHandle();
-	void Dispatch(IocpEvent* _iocp_event, int bytesTransferred = 0);
+	void Dispatch(IocpEvent* _event, int _bytes_transferred = 0);
 
 private:
 	SOCKET m_socket;

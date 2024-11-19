@@ -2,14 +2,13 @@
 
 namespace core {
 namespace network {
-
 class IocpEvent;
 
-class IOCPObject : public std::enable_shared_from_this<IOCPObject>
+class IocpObject
 {
 public:
-	IOCPObject() = default;
-	virtual ~IOCPObject() = default;
+	IocpObject() = default;
+	virtual ~IocpObject() = default;
 
 	virtual void Dispatch(IocpEvent* _iocp_event, int _bytes_transferred = 0) abstract;
 };

@@ -97,6 +97,9 @@
     <ClCompile Include="rio_buffer.cpp">
       <Filter>network\proactor\rio</Filter>
     </ClCompile>
+    <ClCompile Include="iocp_listener.cpp">
+      <Filter>network\proactor\iocp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -329,6 +332,9 @@
       <Filter>network\proactor\iocp</Filter>
     </ClInclude>
     <ClInclude Include="Iocp_server.h">
+      <Filter>network\proactor\iocp</Filter>
+    </ClInclude>
+    <ClInclude Include="iocp_listener.h">
       <Filter>network\proactor\iocp</Filter>
     </ClInclude>
   </ItemGroup>

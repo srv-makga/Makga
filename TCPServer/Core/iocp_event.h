@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 
-enum IOCPType
+enum IocpType
 {
 	ACCEPT,
 	CONNECT,
@@ -13,16 +13,15 @@ enum IOCPType
 	RECV
 };
 
-class IOCPObject;
-class IOCPSession;
-
 namespace core {
 namespace network {
+class IocpSession;
+
 class IocpEvent : public OVERLAPPED
 {
 public:
 	IocpEvent() = delete;
-	IocpEvent(IOCPType _type);
+	IocpEvent(IocpType _type);
 	IocpEvent(const IocpEvent&) = delete;
 	IocpEvent(IocpEvent&& other) = delete;
 	IocpEvent& operator=(const IocpEvent&) = delete;
@@ -32,15 +31,14 @@ public:
 	bool Initialize();
 	void Finalize();
 
-	IOCPType m_type;
-	std::shared_ptr<IOCPObject> m_owner;
+	IocpType m_type;
+	std::shared_ptr<IocpSession> m_owner;
 };
 
 class IocpAcceptEvent : public IocpEvent
 {
 public:
-	IocpAcceptEvent() = delete;
-	IocpAcceptEvent(IOCPType _type);
+	IocpAcceptEvent() : IocpEvent(IocpType::ACCEPT) {}
 	IocpAcceptEvent(const IocpAcceptEvent&) = delete;
 	IocpAcceptEvent(IocpAcceptEvent&& other) = delete;
 	IocpAcceptEvent& operator=(const IocpAcceptEvent&) = delete;
@@ -48,13 +46,13 @@ public:
 	virtual ~IocpAcceptEvent() = default;
 
 private:
-	std::shared_ptr<IOCPSession> m_session = nullptr; // acceptµÈ session
+	std::shared_ptr<IocpSession> m_session = nullptr; // acceptµÈ session
 };
 
 class IocpConnectEvent : public IocpEvent
 {
 public:
-	IocpConnectEvent() : IocpEvent(IOCPType::CONNECT) {}
+	IocpConnectEvent() : IocpEvent(IocpType::CONNECT) {}
 	IocpConnectEvent(const IocpConnectEvent&) = delete;
 	IocpConnectEvent(IocpConnectEvent&&) = delete;
 	IocpConnectEvent& operator=(const IocpConnectEvent&) = delete;
@@ -65,7 +63,7 @@ public:
 class IocpDisconnectEvent : public IocpEvent
 {
 public:
-	IocpDisconnectEvent() : IocpEvent(IOCPType::DISCONNECT) {}
+	IocpDisconnectEvent() : IocpEvent(IocpType::DISCONNECT) {}
 	IocpDisconnectEvent(const IocpDisconnectEvent&) = delete;
 	IocpDisconnectEvent(IocpDisconnectEvent&&) = delete;
 	IocpDisconnectEvent& operator=(const IocpDisconnectEvent&) = delete;
@@ -76,7 +74,7 @@ public:
 class IocpRecvEvent : public IocpEvent
 {
 public:
-	IocpRecvEvent() : IocpEvent(IOCPType::RECV) {}
+	IocpRecvEvent() : IocpEvent(IocpType::RECV) {}
 	IocpRecvEvent(const IocpRecvEvent&) = delete;
 	IocpRecvEvent(IocpRecvEvent&&) = delete;
 	IocpRecvEvent& operator=(const IocpRecvEvent&) = delete;
