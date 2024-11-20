@@ -41,7 +41,7 @@ public:
 	inline static LPFN_ACCEPTEX AcceptEx = nullptr;
 	inline static LPFN_GETACCEPTEXSOCKADDRS fn_acceptex_sock_addr;
 	inline static LPFN_CONNECTEX ConnectEx;
-	inline static LPFN_DISCONNECTEX fn_disconnectex;
+	inline static LPFN_DISCONNECTEX DisconnectEx;
 
 	static RIO_EXTENSION_FUNCTION_TABLE rio;
 };

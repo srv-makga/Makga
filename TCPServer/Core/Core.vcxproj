@@ -222,6 +222,7 @@
     <ClCompile Include="db_connector_mysql.cpp" />
     <ClCompile Include="db_statement_maria.cpp" />
     <ClCompile Include="iocp_listener.cpp" />
+    <ClCompile Include="iocp_session.cpp" />
     <ClCompile Include="ip_endpoint.cpp" />
     <ClCompile Include="memory_block.cpp" />
     <ClCompile Include="net_buffer.cpp" />

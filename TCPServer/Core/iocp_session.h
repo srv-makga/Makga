@@ -49,7 +49,6 @@ public:
 	void SetService(std::shared_ptr<IocpService> _service);
 
 protected:
-	// override at the content level
 	virtual void OnConnected() {}
 	virtual int OnRecv(char* buffer, int len) final;
 	virtual void OnRecvPacket(char* buffer, int len) {}
@@ -69,7 +68,7 @@ protected:
 	IocpRecvEvent m_recv_event;
 	IocpConnectEvent m_connect_event;
 	IocpDisconnectEvent m_disconnect_event;
-	IocpSendEvent<char> m_send_event;
+	IocpSendEvent<NetBuffer> m_send_event;
 
 	std::shared_ptr<IocpService> m_service;
 };

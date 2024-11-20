@@ -100,6 +100,9 @@
     <ClCompile Include="iocp_listener.cpp">
       <Filter>network\proactor\iocp</Filter>
     </ClCompile>
+    <ClCompile Include="iocp_session.cpp">
+      <Filter>network\proactor\iocp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
