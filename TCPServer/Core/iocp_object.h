@@ -10,7 +10,7 @@ public:
 	IocpObject() = default;
 	virtual ~IocpObject() = default;
 
-	virtual void Dispatch(IocpEvent* _iocp_event, int _bytes_transferred = 0) abstract;
+	virtual void Dispatch(IocpEvent* _iocp_event, int _bytes_transferred = 0) = 0;
 };
 } // namespace network
 } // namespace core

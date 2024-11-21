@@ -1,6 +1,7 @@
 #pragma once
 
 #include "net_header.h"
+#include "ip_endpoint.h"
 
 namespace core {
 namespace network {
@@ -18,7 +19,14 @@ public:
 
 	static SOCKET Socket();
 	static SOCKET RioSocket();
-	static void CloseSocket(SOCKET _socket);
+	static void CloseSocket(SOCKET& _socket);
+
+	static bool Bind(SOCKET _socket, const IPEndPoint& _endpoint);
+	static bool BindAddrAny(SOCKET _socket, unsigned short _port);
+	static bool Listen(SOCKET _socket);
+	static SOCKET Accept(SOCKET _socket, OUT SOCKADDR_IN& _addr);
+
+	static bool Connect(SOCKET _socket, const IPEndPoint& _endpoint);
 
 	static bool SetNodelay(SOCKET _socket, bool _optval);
 	static bool SetLinger(SOCKET _socket, bool _optval, int _time);

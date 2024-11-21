@@ -31,7 +31,6 @@ public:
 	BufferRing(T* _buffer, std::size_t _length)
 		: m_buffer(_buffer)
 		, m_buffer_size(_length)
-		, m_element_count(0)
 		, m_read_offset(0)
 		, m_write_offset(0)
 	{
@@ -149,26 +148,26 @@ public:
 			return;
 		}
 
-		for (std::size_t i = 0; i < m_element_count; ++i)
+		std::size_t size = Size();
+
+		for (std::size_t i = 0; i < size; ++i)
 		{
 			InitElement(m_buffer[i]);
 		}
 
-		m_element_count = 0;
 		m_read_offset = 0;
 		m_write_offset = 0;
 	}
 
 	void ClearOffset()
 	{
-		m_element_count = 0;
 		m_read_offset = 0;
 		m_write_offset = 0;
 	}
 
 	bool IsEmpty() const
 	{
-		return nullptr == m_buffer || 0 == m_element_count;
+		return nullptr == m_buffer || 0 == Size();
 	}
 
 	std::size_t Length() const
@@ -178,12 +177,24 @@ public:
 
 	std::size_t Size() const
 	{
-		return m_element_count;
+		if (m_write_offset >= m_read_offset)
+		{
+			return m_write_offset - m_read_offset;
+		}
+
+		return m_buffer_size - m_read_offset;
 	}
 
 	std::size_t FreeSize() const
 	{
-		return Length() - Size();
+		if (m_write_offset >= m_read_offset)
+		{
+			return m_buffer_size - m_write_offset;
+		}
+		else
+		{
+			return m_read_offset - m_write_offset;
+		}
 	}
 
 	std::optional<Element_t*> Data() const
@@ -290,8 +301,6 @@ public:
 protected:
 	T* m_buffer;
 	std::size_t m_buffer_size;
-	std::size_t m_element_count;
-
 	std::size_t m_write_offset;
 	std::size_t m_read_offset;
 };

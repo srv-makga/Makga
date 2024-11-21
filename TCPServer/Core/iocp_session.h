@@ -34,8 +34,8 @@ public:
 
 	void ProcessConnect();
 	void ProcessDisconnect();
-	void ProcessRecv(int bytesTransferred);
-	void ProcessSend(int bytesTransferred);
+	void ProcessRecv(int _bytes_transferred);
+	void ProcessSend(int _bytes_transferred);
 
 	SOCKET GetSocket() const;
 	const IPEndPoint& GetEndPoint() const;
@@ -49,11 +49,11 @@ public:
 	void SetService(std::shared_ptr<IocpService> _service);
 
 protected:
-	virtual void OnConnected() {}
-	virtual int OnRecv(char* buffer, int len) final;
-	virtual void OnRecvPacket(char* buffer, int len) {}
-	virtual void OnSend(int len) {}
-	virtual void OnDisconnected() {}
+	virtual void OnConnected() = 0;
+	virtual int OnRecv(char* buffer, int len) = 0;
+	virtual void OnRecvPacket(char* buffer, int len) = 0;
+	virtual void OnSend(int len) = 0;
+	virtual void OnDisconnected() = 0;
 
 protected:
 	SOCKET m_socket;
