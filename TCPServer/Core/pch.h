@@ -36,7 +36,10 @@
 #include <functional>
 #include <format>
 #include <filesystem>
+#include <set>
 #include <map>
+#include <unordered_set>
+#include <unordered_map>
 #include <thread>
 
 typedef std::error_code error_code;

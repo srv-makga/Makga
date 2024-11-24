@@ -3,35 +3,62 @@
 #include "net_header.h"
 #include "socket_header.h"
 #include "service.h"
-
-class IOCPSession;
+#include "lock.h"
 
 #ifdef _WIN32
 namespace core {
 namespace network {
+class IocpCore;
+class IocpSession;
+
+// @detail 技记 包府
 class IocpService : public server::Service
 {
+enum class ServiceType
+{
+	CLIENT,
+	SERVER,
+};
+
 public:
-	IocpService();
+	IocpService(ServiceType _service_type,
+		std::shared_ptr<IocpCore> _iocp_core,
+		std::function<std::shared_ptr<IocpSession>(void)> _alloc_session,
+		std::function<void(std::shared_ptr<IocpSession>)> _dealloc_session);
+
+	IocpService() = delete;
 	IocpService(const IocpService& _other) = delete;
 	IocpService(IocpService&& _other) = delete;
 	IocpService& operator=(const IocpService& _other) = delete;
 	IocpService& operator=(IocpService&& _other) = delete;
 	virtual ~IocpService();
 
+public: // Service
 	bool Initialize() override;
 	void Finalize() override;
 	//bool Start() override;
 	//bool Stop() override;
 
-public: // iocp
-	bool CreatePort(DWORD _concurrent_thread = 1);
-	bool Registered(HANDLE _handle, ULONG_PTR _completion_key);
-	bool PostStatus(ULONG_PTR _completion_key, DWORD _transferred_bytes, OVERLAPPED* _overlapped = nullptr); 
-	bool GetStatus(ULONG_PTR* _completion_key, DWORD* _transferred_bytes, OVERLAPPED** _overlapped, DWORD _timeout = INFINITE);
+public:
+	bool AddSession(std::shared_ptr<IocpSession> _session);
+	bool DelSession(std::shared_ptr<IocpSession> _session);
+	void DisconnectAllSession();
+	void RunOnAllSessions(std::function<void()> _func);
 
 private:
-	HANDLE m_iocp;
+	std::shared_ptr<IocpSession> AllocSession();
+	void DeallocSession(std::shared_ptr<IocpSession> _session);
+
+private:
+	ServiceType m_service_type;
+	std::shared_ptr<IocpCore> m_iocp_core;
+
+	core::RWMutex m_mutex_session;
+	std::unordered_set<std::shared_ptr<IocpSession>> m_sessions;
+
+	std::function<std::shared_ptr<IocpSession>(void)> m_alloc_session;
+	std::function<void(std::shared_ptr<IocpSession>)> m_dealloc_session;
+
 	unsigned int m_thread_count;
 };
 } // namespace network

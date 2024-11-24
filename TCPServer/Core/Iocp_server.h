@@ -5,24 +5,28 @@
 
 namespace core {
 namespace network {
+class IocpCore;
+class IocpListener;
+
 class IocpServer : public IocpService
 {
 public:
+	IocpServer(std::shared_ptr<IocpCore> _core, );
 	IocpServer() = delete;
-	IocpServer(const IocpServer& other) = delete;
-	IocpServer(IocpServer&& other) = delete;
-	IocpServer& operator=(const IocpServer& other) = delete;
-	IocpServer& operator=(IocpServer&& other) = delete;
+	IocpServer(const IocpServer& _other) = delete;
+	IocpServer(IocpServer&& _other) = delete;
+	IocpServer& operator=(const IocpServer& _other) = delete;
+	IocpServer& operator=(IocpServer&& _other) = delete;
 	virtual ~IocpServer();
 
-	virtual bool Start(function<void()> logicFunc) override;
+	virtual bool Start(std::function<void()> logicFunc) override;
 	virtual bool Stop() override;
 
 private:
-	bool RunServer(function<void(void)> serverWork);
+	bool RunServer(std::function<void(void)> serverWork);
 
 private:
-	shared_ptr<IocpListener> m_iocpListener;
+	std::shared_ptr<IocpListener> m_istener;
 
 };
 } //namespace network

@@ -137,8 +137,9 @@
     <ClInclude Include="db_connector_mssql.h" />
     <ClInclude Include="db_connector_mysql.h" />
     <ClInclude Include="db_statement_maria.h" />
+    <ClInclude Include="iocp_core.h" />
     <ClInclude Include="iocp_listener.h" />
-    <ClInclude Include="Iocp_server.h" />
+    <ClInclude Include="iocp_server.h" />
     <ClInclude Include="iocp_event.h" />
     <ClInclude Include="iocp_object.h" />
     <ClInclude Include="iocp_session.h" />
@@ -221,7 +222,9 @@
     <ClCompile Include="db_connector_maria.cpp" />
     <ClCompile Include="db_connector_mysql.cpp" />
     <ClCompile Include="db_statement_maria.cpp" />
+    <ClCompile Include="iocp_core.cpp" />
     <ClCompile Include="iocp_listener.cpp" />
+    <ClCompile Include="iocp_server.cpp" />
     <ClCompile Include="iocp_session.cpp" />
     <ClCompile Include="ip_endpoint.cpp" />
     <ClCompile Include="memory_block.cpp" />

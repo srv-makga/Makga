@@ -4,10 +4,9 @@
 #include "iocp_event.h"
 #include <memory>
 
-class IocpServer;
-
 namespace core {
 namespace network {
+class IocpServer;
 class IocpListener
 {
 public:

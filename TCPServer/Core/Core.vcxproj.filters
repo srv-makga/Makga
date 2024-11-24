@@ -103,6 +103,12 @@
     <ClCompile Include="iocp_session.cpp">
       <Filter>network\proactor\iocp</Filter>
     </ClCompile>
+    <ClCompile Include="iocp_server.cpp">
+      <Filter>network\proactor\iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="iocp_core.cpp">
+      <Filter>network\proactor\iocp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -334,10 +340,13 @@
     <ClInclude Include="iocp_session.h">
       <Filter>network\proactor\iocp</Filter>
     </ClInclude>
-    <ClInclude Include="Iocp_server.h">
+    <ClInclude Include="iocp_server.h">
       <Filter>network\proactor\iocp</Filter>
     </ClInclude>
     <ClInclude Include="iocp_listener.h">
+      <Filter>network\proactor\iocp</Filter>
+    </ClInclude>
+    <ClInclude Include="iocp_core.h">
       <Filter>network\proactor\iocp</Filter>
     </ClInclude>
   </ItemGroup>
