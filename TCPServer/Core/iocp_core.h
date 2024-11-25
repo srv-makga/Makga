@@ -23,7 +23,7 @@ public:
 public:
 	bool Registered(HANDLE _handle, ULONG_PTR _completion_key);
 	bool PostStatus(ULONG_PTR _completion_key, DWORD _transferred_bytes, OVERLAPPED* _overlapped = nullptr); 
-	bool GetStatus(ULONG_PTR* _completion_key, DWORD* _transferred_bytes, OVERLAPPED** _overlapped, DWORD _timeout = INFINITE, OUT int& _wsa_error);
+	bool GetStatus(ULONG_PTR* _completion_key, DWORD* _transferred_bytes, OVERLAPPED** _overlapped, DWORD _timeout, OUT int& _wsa_error);
 
 	HANDLE GetHandle() const;
 

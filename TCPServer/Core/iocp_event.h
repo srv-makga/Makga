@@ -86,7 +86,7 @@ template<typename T>
 class IocpSendEvent : public IocpEvent
 {
 public:
-	IocpSendEvent() : IocpEvent(IOCPType::SEND) {}
+	IocpSendEvent() : IocpEvent(IocpType::SEND) {}
 	IocpSendEvent(const IocpSendEvent&) = delete;
 	IocpSendEvent(IocpSendEvent&&) = delete;
 	IocpSendEvent& operator=(const IocpSendEvent&) = delete;

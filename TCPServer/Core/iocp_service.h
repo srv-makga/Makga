@@ -43,7 +43,12 @@ public:
 	bool AddSession(std::shared_ptr<IocpSession> _session);
 	bool DelSession(std::shared_ptr<IocpSession> _session);
 	void DisconnectAllSession();
-	void RunOnAllSessions(std::function<void()> _func);
+	void RunOnAllSessions(std::function<void(std::shared_ptr<IocpSession>)> _func);
+
+	ServiceType GetServiceType() const;
+	std::shared_ptr<IocpCore> GetIocpCore() const;
+	std::size_t GetSessionCount() const;
+	int GetThreadCount() const;
 
 private:
 	std::shared_ptr<IocpSession> AllocSession();
@@ -53,7 +58,7 @@ private:
 	ServiceType m_service_type;
 	std::shared_ptr<IocpCore> m_iocp_core;
 
-	core::RWMutex m_mutex_session;
+	mutable core::RWMutex m_mutex_session;
 	std::unordered_set<std::shared_ptr<IocpSession>> m_sessions;
 
 	std::function<std::shared_ptr<IocpSession>(void)> m_alloc_session;

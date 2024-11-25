@@ -5,8 +5,6 @@
 #include "service.h"
 #include "rio_session.h"
 
-class RIOSession;
-
 #ifdef _WIN32
 namespace core {
 namespace network {
@@ -17,12 +15,9 @@ enum COMPLETION_KEY
 	CK_STOP = 0,
 	CK_START = 1
 };
-
+class RioSession;
 class RioService : public core::server::Service
 {
-public:
-	using Session_t = std::shared_ptr<RIOSession>;
-
 public:
 	RioService();
 	RioService(const RioService& _other) = delete;

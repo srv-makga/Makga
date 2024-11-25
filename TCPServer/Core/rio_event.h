@@ -4,7 +4,7 @@
 
 class RIOSession;
 
-enum RIOType
+enum RioType
 {
 	SEND,
 	RECV
@@ -12,41 +12,41 @@ enum RIOType
 
 namespace core {
 namespace network {
-class RIOEvent : public RIO_BUF
+class RioEvent : public RIO_BUF
 {
 public:
-	RIOEvent() = delete;
-	RIOEvent(RIOType _type) : m_type(_type) {}
-	RIOEvent(const RIOEvent&) = delete;
-	RIOEvent(RIOEvent&&) = delete;
-	RIOEvent& operator=(const RIOEvent&) = delete;
-	RIOEvent& operator=(RIOEvent&&) = delete;
-	~RIOEvent() = default;
+	RioEvent() = delete;
+	RioEvent(RioType _type) : m_type(_type) {}
+	RioEvent(const RioEvent&) = delete;
+	RioEvent(RioEvent&&) = delete;
+	RioEvent& operator=(const RioEvent&) = delete;
+	RioEvent& operator=(RioEvent&&) = delete;
+	~RioEvent() = default;
 
-	RIOType m_type;
-	std::shared_ptr<RIOSession> m_owner;
+	RioType m_type;
+	std::shared_ptr<RioSession> m_owner;
 };
 
-class RIOSendEvent : public RIOEvent
+class RioSendEvent : public RioEvent
 {
 public:
-	RIOSendEvent() : RIOEvent(RIOType::SEND) {}
-	RIOSendEvent(const RIOSendEvent&) = delete;
-	RIOSendEvent(RIOSendEvent&&) = delete;
-	RIOSendEvent& operator=(const RIOSendEvent&) = delete;
-	RIOSendEvent& operator=(RIOSendEvent&&) = delete;
-	~RIOSendEvent() = default;
+	RioSendEvent() : RioEvent(RioType::SEND) {}
+	RioSendEvent(const RioSendEvent&) = delete;
+	RioSendEvent(RioSendEvent&&) = delete;
+	RioSendEvent& operator=(const RioSendEvent&) = delete;
+	RioSendEvent& operator=(RioSendEvent&&) = delete;
+	~RioSendEvent() = default;
 };
 
-class RIORecvEvent : public RIOEvent
+class RioRecvEvent : public RioEvent
 {
 public:
-	RIORecvEvent(RIOType _type) : RIOEvent(_type) {}
-	RIORecvEvent(const RIOSendEvent&) = delete;
-	RIORecvEvent(RIOSendEvent&&) = delete;
-	RIORecvEvent& operator=(const RIOSendEvent&) = delete;
-	RIORecvEvent& operator=(RIOSendEvent&&) = delete;
-	~RIORecvEvent() = default;
+	RioRecvEvent(RioType _type) : RioEvent(_type) {}
+	RioRecvEvent(const RioSendEvent&) = delete;
+	RioRecvEvent(RioSendEvent&&) = delete;
+	RioRecvEvent& operator=(const RioSendEvent&) = delete;
+	RioRecvEvent& operator=(RioSendEvent&&) = delete;
+	~RioRecvEvent() = default;
 };
 } // namespace network
 } // namespace core

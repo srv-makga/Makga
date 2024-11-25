@@ -7,7 +7,7 @@
 namespace core {
 namespace network {
 class IocpServer;
-class IocpListener
+class IocpListener : public std::enable_shared_from_this<IocpListener>
 {
 public:
 	IocpListener(std::shared_ptr<IocpServer> _server);

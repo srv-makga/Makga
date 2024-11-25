@@ -11,8 +11,6 @@ namespace network {
 class RioCore : public std::enable_shared_from_this<RioCore>
 {
 public:
-	using Session_t = std::shared_ptr<RioSession>;
-public:
 	RioCore();
 	RioCore(const RioCore&) = delete;
 	RioCore(RioCore&&) = delete;
@@ -26,14 +24,14 @@ public:
 	bool Dispatch();
 	void DeferredSend();
 
-	void AddSession(Session_t _session);
-	void ReleaseSession(Session_t _session);
+	void AddSession(std::shared_ptr<RioSession> _session);
+	void ReleaseSession(std::shared_ptr<RioSession> _session);
 
 	RIO_CQ& GetCompletionQueue() { return m_rio_completion_queue; }
 
 private:
 	RWMutex m_lock_session;
-	std::unordered_set<Session_t> m_sessions;
+	std::unordered_set<std::shared_ptr<RioSession>> m_sessions;
 
 	bool m_is_init;
 

@@ -44,7 +44,7 @@ public:
 	void Disconnect();
 	void Send(std::shared_ptr<NetBuffer> _buffer);
 
-	void Dispatch(RIOEvent* _event, int _bytes_transferred = 0);
+	void Dispatch(RioEvent* _event, int _bytes_transferred = 0);
 
 	bool SendDeferred();
 	void SendCommit();
@@ -55,7 +55,7 @@ public:
 
 	void ProcessConnect();
 	void ProcessRecv(std::size_t _bytes_transferred);
-	void ProcessSend(std::size_t _bytes_transferred, RIOSendEvent* _event);
+	void ProcessSend(std::size_t _bytes_transferred, RioSendEvent* _event);
 
 public:
 	virtual void OnConnected() {}
@@ -79,7 +79,7 @@ private:
 
 	RIO_RQ m_rio_request_queue;
 
-	RIORecvEvent m_recv_event;
+	RioRecvEvent m_recv_event;
 
 	std::queue<std::shared_ptr<NetBuffer>> m_send_buffer_queue;
 	RWMutex m_mutex_send_queue;
