@@ -32,7 +32,7 @@ public:
 	void Finalize();
 
 	IocpType m_type;
-	std::shared_ptr<IocpSession> m_owner;
+	std::shared_ptr<IocpObject> m_owner;
 };
 
 class IocpAcceptEvent : public IocpEvent
@@ -45,7 +45,7 @@ public:
 	IocpAcceptEvent& operator=(IocpAcceptEvent&&) = delete;
 	virtual ~IocpAcceptEvent() = default;
 
-private:
+public:
 	std::shared_ptr<IocpSession> m_session = nullptr; // acceptµÈ session
 };
 
