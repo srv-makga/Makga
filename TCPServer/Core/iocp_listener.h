@@ -6,11 +6,11 @@
 
 namespace core {
 namespace network {
-class IocpServer;
+class IocpService;
 class IocpListener : public std::enable_shared_from_this<IocpListener>
 {
 public:
-	IocpListener(std::shared_ptr<IocpServer> _server);
+	IocpListener(std::shared_ptr<IocpService> _server);
 	IocpListener() = delete;
 	IocpListener(const IocpListener& _other) = delete;
 	IocpListener(IocpListener&& _other) = delete;
@@ -35,7 +35,7 @@ public:
 private:
 	SOCKET m_socket;
 	std::vector<IocpAcceptEvent*> m_accept_events;
-	std::shared_ptr<IocpServer> m_server;
+	std::shared_ptr<IocpService> m_server;
 };
 } // namespace network
 } // namespace core

@@ -14,12 +14,6 @@ class IocpSession;
 // @detail 技记 包府
 class IocpService : public server::Service
 {
-enum class ServiceType
-{
-	CLIENT,
-	SERVER,
-};
-
 public:
 	IocpService(ServiceType _service_type,
 		std::shared_ptr<IocpCore> _iocp_core,
