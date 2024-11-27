@@ -1,6 +1,11 @@
 #pragma once
 
 namespace core {
+enum class ServiceType
+{
+	CLIENT,
+	SERVER,
+};
 namespace server {
 class Service
 {
