@@ -2,12 +2,12 @@
 
 #include "core_header.h"
 #include "iocp_event.h"
-#include <memory>
+#include "iocp_object.h"
 
 namespace core {
 namespace network {
 class IocpService;
-class IocpListener : public std::enable_shared_from_this<IocpListener>
+class IocpListener : public IocpObject
 {
 public:
 	IocpListener(std::shared_ptr<IocpService> _server);
