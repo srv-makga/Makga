@@ -2,12 +2,12 @@
 
 #include "core_header.h"
 #include "lock.h"
-#include "rio_session.h"
 #include <unordered_set>
 #include <memory>
 
 namespace core {
 namespace network {
+class RioSession;
 class RioCore : public std::enable_shared_from_this<RioCore>
 {
 public:
