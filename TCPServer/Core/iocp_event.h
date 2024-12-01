@@ -16,7 +16,7 @@ enum IocpType
 namespace core {
 namespace network {
 class IocpSession;
-
+class IocpObject;
 class IocpEvent : public OVERLAPPED
 {
 public:

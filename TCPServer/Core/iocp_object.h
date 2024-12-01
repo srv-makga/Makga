@@ -1,10 +1,12 @@
 #pragma once
 
+#include <memory>
+
 namespace core {
 namespace network {
 class IocpEvent;
 
-class IocpObject
+class IocpObject : public std::enable_shared_from_this<IocpObject>
 {
 public:
 	IocpObject() = default;
