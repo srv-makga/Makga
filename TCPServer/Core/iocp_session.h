@@ -12,7 +12,7 @@
 namespace core {
 namespace network {
 class IocpService;
-class IocpSession : public std::enable_shared_from_this<IocpSession>, public IocpObject
+class IocpSession : public IocpObject
 {
 public:
 	IocpSession();
@@ -55,7 +55,7 @@ protected:
 	virtual void OnSend(int len) = 0;
 	virtual void OnDisconnected() = 0;
 
-protected:
+public:
 	SOCKET m_socket;
 	IPEndPoint m_end_point;
 	std::atomic<bool> m_is_connected;

@@ -3,15 +3,15 @@
 #include "net_header.h"
 #include "socket_header.h"
 #include "service.h"
+#include "ip_endpoint.h"
 #include "lock.h"
+#include <unordered_set>
 
 #ifdef _WIN32
 namespace core {
 namespace network {
 class IocpCore;
 class IocpSession;
-
-// @detail 技记 包府
 class IocpService : public server::Service
 {
 public:
@@ -42,13 +42,15 @@ public:
 	ServiceType GetServiceType() const;
 	std::shared_ptr<IocpCore> GetIocpCore() const;
 	std::size_t GetSessionCount() const;
+	bool IsStart();
 	int GetThreadCount() const;
+	virtual const IPEndPoint& GetEndPoint() const = 0;
 
-private:
+public:
 	std::shared_ptr<IocpSession> AllocSession();
 	void DeallocSession(std::shared_ptr<IocpSession> _session);
 
-private:
+protected:
 	ServiceType m_service_type;
 	std::shared_ptr<IocpCore> m_iocp_core;
 
@@ -58,7 +60,9 @@ private:
 	std::function<std::shared_ptr<IocpSession>(void)> m_alloc_session;
 	std::function<void(std::shared_ptr<IocpSession>)> m_dealloc_session;
 
-	unsigned int m_thread_count;
+	bool m_is_start;
+
+	int m_thread_count;
 };
 } // namespace network
 } // namespace core
