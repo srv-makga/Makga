@@ -1,8 +1,5 @@
 #pragma once
-
 #include "io_context.hpp"
-
-class RIOSession;
 
 enum RioType
 {
@@ -12,6 +9,7 @@ enum RioType
 
 namespace core {
 namespace network {
+class RioSession;
 class RioEvent : public RIO_BUF
 {
 public:
