@@ -29,7 +29,7 @@ private:
 		std::atomic<TaggedPointer> next;
 
 		Node() : next(TaggedPointer(nullptr, 0)) {}
-		/*Node(T value) : data(std::make_shared<T>(value)), next(TaggedPointer(nullptr, 0)) {}*/
+		Node(T value) : data(std::make_shared<T>(value)), next(TaggedPointer(nullptr, 0)) {}
 		template <typename U = T, typename = typename std::enable_if<!std::is_same<U, std::shared_ptr<typename U::element_type>>::value>::type>
 		Node(const T& value) : data(std::make_shared<T>(value)), next(TaggedPointer<T>(nullptr, 0)) {}
 
@@ -151,18 +151,18 @@ public:
 					// head를 한 칸 앞으로 이동하고 데이터를 반환
 					if (head.compare_exchange_weak(old_head, TaggedPointer(next.ptr, old_head.tag + 1)))
 					{
-						auto result = next.ptr->data;
+						auto result = next.ptr->data.get();
 						delete old_head.ptr;
-						return result;
+						return *result;
 					}
 				}
 			}
 		}
 	}
 
-	bool IsEmpty() const
+	bool IsEmpty()
 	{
-		return head != tail;
+		return head.load() == tail.load();
 	}
 };
 } // namespace queue
