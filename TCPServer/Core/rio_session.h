@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core_header.h"
+#include "session.h"
 #include "ip_endpoint.h"
 #include "rio_core.h"
 #include "rio_service.h"
@@ -11,7 +11,7 @@
 
 namespace core {
 namespace network {
-class RioSession : public std::enable_shared_from_this<RioSession>
+class RioSession : public Session, public std::enable_shared_from_this<RioSession>
 {
 public:
 	RioSession();
@@ -65,6 +65,9 @@ public:
 private:
 	bool AllocBuffer();
 	bool CreateRequestQueue();
+
+public: // Session
+	Id SessionId() const override { return 0; } // @todo ±¸Çö
 
 private:
 	SOCKET m_socket;
