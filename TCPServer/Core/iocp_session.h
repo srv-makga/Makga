@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core_header.h"
+#include "session.h"
 #include "ip_endpoint.h"
 #include "io_context.hpp"
 #include "iocp_object.h"
@@ -12,12 +12,13 @@
 namespace core {
 namespace network {
 class IocpService;
-class IocpSession : public IocpObject
+class IocpSession : public Session, public IocpObject
 {
 public:
 	IocpSession();
 	virtual ~IocpSession();
 
+public:
 	bool Initialize();
 	void Finalize();
 
@@ -47,6 +48,9 @@ public:
 	void SetEndPoint(SOCKADDR_IN _addr);
 	void SetEndPoint(IPEndPoint _ep);
 	void SetService(std::shared_ptr<IocpService> _service);
+
+public: // Session
+	Id SessionId() const override { return 0; }// @todo ±¸Çö
 
 protected:
 	virtual void OnConnected() = 0;
