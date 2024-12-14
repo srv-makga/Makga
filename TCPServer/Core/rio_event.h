@@ -1,7 +1,7 @@
 #pragma once
 #include "io_context.hpp"
 
-enum RioType
+enum class RioType
 {
 	SEND,
 	RECV
