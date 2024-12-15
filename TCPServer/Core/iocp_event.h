@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 
-enum IocpType
+enum class IocpType
 {
 	ACCEPT,
 	CONNECT,
