@@ -8,6 +8,7 @@
 #include "rio_buffer.h"
 #include "lock.h"
 #include "net_buffer.h"
+#include <queue>
 
 namespace core {
 namespace network {
