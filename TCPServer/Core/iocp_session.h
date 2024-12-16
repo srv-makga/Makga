@@ -54,9 +54,9 @@ public: // Session
 
 protected:
 	virtual void OnConnected() = 0;
-	virtual int OnRecv(char* buffer, int len) = 0;
-	virtual void OnRecvPacket(char* buffer, int len) = 0;
-	virtual void OnSend(int len) = 0;
+	virtual std::size_t OnRecv(char* buffer, std::size_t _length) = 0;
+	virtual void OnRecvPacket(char* buffer, std::size_t _length) = 0;
+	virtual void OnSend(std::size_t _length) = 0;
 	virtual void OnDisconnected() = 0;
 
 public:
