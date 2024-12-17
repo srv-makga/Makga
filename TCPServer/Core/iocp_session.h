@@ -15,7 +15,7 @@ class IocpService;
 class IocpSession : public Session, public IocpObject
 {
 public:
-	IocpSession();
+	IocpSession(Id _id, std::size_t _buffer_size);
 	virtual ~IocpSession();
 
 public:
@@ -50,7 +50,8 @@ public:
 	void SetService(std::shared_ptr<IocpService> _service);
 
 public: // Session
-	Id SessionId() const override { return 0; }// @todo ±¸Çö
+	Id GetSessionId() const override;
+	void SetSessionId(Id _id) override;
 
 protected:
 	virtual void OnConnected() = 0;
@@ -60,6 +61,8 @@ protected:
 	virtual void OnDisconnected() = 0;
 
 public:
+	std::atomic<Id> m_id;
+
 	SOCKET m_socket;
 	IPEndPoint m_end_point;
 	std::atomic<bool> m_is_connected;
