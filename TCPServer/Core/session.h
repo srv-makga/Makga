@@ -12,7 +12,11 @@ public:
 	Session() = default;
 	virtual ~Session() = default;
 
-	virtual Id SessionId() const { return 0; }
+	virtual bool Initialize() = 0;
+	virtual void Finalize() = 0;
+
+	virtual Id GetSessionId() const = 0;
+	virtual void SetSessionId(Id _id) = 0;
 };
 } // namespace network
 } // namespace core
