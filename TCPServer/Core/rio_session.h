@@ -15,7 +15,7 @@ namespace network {
 class RioSession : public Session, public std::enable_shared_from_this<RioSession>
 {
 public:
-	RioSession();
+	RioSession(Id _id);
 	RioSession(const RioSession& _other) = delete;
 	RioSession(RioSession&& _other) = delete;
 	RioSession& operator=(const RioSession& _other) = delete;
@@ -68,9 +68,11 @@ private:
 	bool CreateRequestQueue();
 
 public: // Session
-	Id SessionId() const override { return 0; } // @todo ±¸Çö
+	Id GetSessionId() const override;
 
 private:
+	Id m_id;
+
 	SOCKET m_socket;
 	IPEndPoint m_end_point;
 
