@@ -1,6 +1,6 @@
 #pragma once
 
-#include "session_manager.hpp"
+//#include "session_manager.hpp"
 #include "../Core/rio_service.h"
 #include "../Core/rio_core.h"
 #include "../Core/rio_session.h"
