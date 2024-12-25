@@ -44,7 +44,9 @@ public:
 	std::size_t GetSessionCount() const;
 	bool IsStart();
 	int GetThreadCount() const;
+
 	virtual const IPEndPoint& GetEndPoint() const = 0;
+	virtual void SetEndPoint(const IPEndPoint& _ep) = 0;
 
 public:
 	std::shared_ptr<IocpSession> AllocSession();
@@ -52,7 +54,7 @@ public:
 
 protected:
 	ServiceType m_service_type;
-	std::shared_ptr<IocpCore> m_iocp_core;
+	std::shared_ptr<IocpCore> m_iocp_core = std::make_shared<IocpCore>();
 
 	mutable core::RWMutex m_mutex_session;
 	std::unordered_set<std::shared_ptr<IocpSession>> m_sessions;
