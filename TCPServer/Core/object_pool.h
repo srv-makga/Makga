@@ -146,11 +146,12 @@ public:
 	ObjectPool() = default;
 	~ObjectPool() = default;
 
-	static void Initialize(std::size_t _max_size, std::size_t _extend_size)
+	template<typename... ARGS>
+	static void Initialize(std::size_t _max_size, std::size_t _extend_size, ARGS&&... _args)
 	{
 		m_max_size = _max_size;
 		m_extend_size = _extend_size;
-		Create(_max_size);
+		Create(_max_size, std::forward<ARGS>(_args));
 	}
 
 	static void Finalize()
@@ -210,7 +211,8 @@ public:
 	//static std::size_t FreeSize() { core::ReadLock lock(m_mutex); return m_queue.size(); }
 
 protected:
-	static bool Create(std::size_t _size)
+	template<typename... ARGS>
+	static bool Create(std::size_t _size, ARGS&&... _args)
 	{
 		m_max_size += _size;
 
@@ -226,7 +228,7 @@ protected:
 			//}
 			//else
 			{
-				m_queue.push(new std::remove_pointer_t<T>());
+				m_queue.push(new std::remove_pointer_t<T>(std::forward<ARGS>(_args)...));
 			}
 		}
 
