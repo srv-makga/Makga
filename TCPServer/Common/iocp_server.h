@@ -1,5 +1,6 @@
 #pragma once
 
+#include "thread_manager.h"
 #include "session_manager.hpp"
 #include "../Core/iocp_service.h"
 #include "../Core/iocp_session.h"
@@ -10,8 +11,8 @@ class IocpServer : public core::network::IocpService, public std::enable_shared_
 {
 public:
 	using Service_t = core::network::IocpService;
-	using Listener_t = std::shared_ptr<core::network::IocpListener>;
 	using Session_t = std::shared_ptr<core::network::IocpSession>;
+	using Thread_t = std::shared_ptr<std::thread>;
 
 public:
 	IocpServer(
@@ -33,12 +34,14 @@ public: // IocpService
 	bool Stop() override;
 	
 	const core::network::IPEndPoint& GetEndPoint() const override;
+	void SetEndPoint(const core::network::IPEndPoint& _ep) override;
 
 private:
 	bool RunServer(std::function<void(void)> _work);
 
 private:
-	Listener_t m_listener;
+	std::shared_ptr<core::network::IocpListener> m_listener;
 	core::network::IPEndPoint m_end_point;
 
+	ThreadManager m_thread_manager;
 };
