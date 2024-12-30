@@ -2,8 +2,7 @@
 
 #include "../Core/buffer_base.h"
 #include "../Core/object_pool.h"
-
-class SessionBase;
+#include "../Core/session.h"
 
 class Packet : public core::ObjectPool<Packet*>
 {
@@ -18,14 +17,14 @@ public:
 	};
 
 	using Buffer_t = core::BufferBase;
-	using Owner_t = SessionBase;
+	using Owner_t = core::network::Session;
 
 public:
-	Packet(bool _is_encrypt = false);
-	~Packet();
+	Packet(std::size_t _buffer_size, bool _is_encrypt = false);
+	virtual ~Packet();
 
 	void Initialize();
-	void Finallize();
+	void Finalize();
 
 	char* Data() const;
 	void Clear();
@@ -40,16 +39,16 @@ public:
 	Packet& operator>>(T& _value);
 
 public:
-	PacketId_t Id() const;
+	PacketId_t GetId() const;
 	void SetId(PacketId_t _id);
 
 	PacketSize_t PacketSize() const;
 	PacketSize_t DataSize() const;
 
-	Buffer_t* Buffer() const;
+	Buffer_t* GetBuffer() const;
 	void  SetBuffer(Buffer_t* _buffer);
 
-	Owner_t* Ownwer() const;
+	Owner_t* GetOwner() const;
 	void SetOwner(Owner_t* _owner);
 
 	bool IsEncrypt() const;
