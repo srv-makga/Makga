@@ -2,7 +2,6 @@
 
 #include "game_header.h"
 #include "../Core/object_pool.h"
-#include "../Common/session_base.h"
 #include "../Common/inventory_owner.h"
 #include "../Core/dispatcher.h"
 

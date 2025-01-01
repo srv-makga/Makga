@@ -65,7 +65,10 @@ bool User::Send(fb::server::RecvPid _pid, fbb& _fbb)
 		return false;
 	}
 
-	return m_session->Send(_pid, _fbb);
+	NetPacket packet;
+	packet.SetOwner(m_session);
+	m_session->Send(packet);
+	return true;
 }
 
 Character* User::ActiveCharacter() const
