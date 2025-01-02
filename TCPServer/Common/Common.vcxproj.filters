@@ -51,15 +51,6 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="command_line.h" />
-    <ClInclude Include="connector_base.h">
-      <Filter>network\actor</Filter>
-    </ClInclude>
-    <ClInclude Include="acceptor_base.h">
-      <Filter>network\actor</Filter>
-    </ClInclude>
-    <ClInclude Include="iocp_handler.h">
-      <Filter>handler\net_handler\iocp</Filter>
-    </ClInclude>
     <ClInclude Include="inventory_base.h">
       <Filter>system\Inventory</Filter>
     </ClInclude>
@@ -123,20 +114,8 @@
     <ClInclude Include="content_db_save.h">
       <Filter>system</Filter>
     </ClInclude>
-    <ClInclude Include="server_base.h">
-      <Filter>network\server</Filter>
-    </ClInclude>
-    <ClInclude Include="tcp_server.h">
-      <Filter>network\server</Filter>
-    </ClInclude>
-    <ClInclude Include="session_base.h">
-      <Filter>network\session</Filter>
-    </ClInclude>
     <ClInclude Include="server_proxy.h">
       <Filter>network\server</Filter>
-    </ClInclude>
-    <ClInclude Include="rio_handler.h">
-      <Filter>handler\net_handler\rio</Filter>
     </ClInclude>
     <ClInclude Include="iocp_server.h">
       <Filter>network\server</Filter>
@@ -146,12 +125,6 @@
     </ClInclude>
     <ClInclude Include="session_manager.hpp">
       <Filter>network\session</Filter>
-    </ClInclude>
-    <ClInclude Include="tcp_session.h">
-      <Filter>network\session\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="session_iocp.h">
-      <Filter>network\session\detail</Filter>
     </ClInclude>
     <ClInclude Include="job.h">
       <Filter>handler</Filter>
@@ -167,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="net_handler.h">
       <Filter>handler</Filter>
+    </ClInclude>
+    <ClInclude Include="rio_server.h">
+      <Filter>network\server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -200,12 +176,6 @@
     <Filter Include="system\ranking">
       <UniqueIdentifier>{53ee5708-28b3-4cda-8c42-43acb7b2be9b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="handler\net_handler">
-      <UniqueIdentifier>{2aca54c5-c133-4992-952c-e8a087f98dfe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="handler\net_handler\iocp">
-      <UniqueIdentifier>{0b4d6033-8ed6-493f-b421-2d1ff021fca4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="handler\job_handler">
       <UniqueIdentifier>{23e9ca6a-d3aa-4d6b-9960-a3c743c0167a}</UniqueIdentifier>
     </Filter>
@@ -223,12 +193,6 @@
     </Filter>
     <Filter Include="network\client">
       <UniqueIdentifier>{ea836dee-1f27-4926-bd35-3026aeacccda}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="handler\net_handler\rio">
-      <UniqueIdentifier>{1de4d966-777a-4d0d-9e80-1c7326f71a1f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="network\session\detail">
-      <UniqueIdentifier>{c3df11a9-9d03-412d-856e-692018661eab}</UniqueIdentifier>
     </Filter>
     <Filter Include="include">
       <UniqueIdentifier>{b3120a40-d77f-4cd4-a9b0-3f8b43b8620f}</UniqueIdentifier>
@@ -256,35 +220,11 @@
     <ClCompile Include="json_saver.cpp">
       <Filter>utility</Filter>
     </ClCompile>
-    <ClCompile Include="connector_base.cpp">
-      <Filter>network\actor</Filter>
-    </ClCompile>
-    <ClCompile Include="acceptor_base.cpp">
-      <Filter>network\actor</Filter>
-    </ClCompile>
-    <ClCompile Include="iocp_handler.cpp">
-      <Filter>handler\net_handler\iocp</Filter>
-    </ClCompile>
     <ClCompile Include="item_property.cpp">
       <Filter>system\Item</Filter>
     </ClCompile>
-    <ClCompile Include="server_base.cpp">
-      <Filter>network\server</Filter>
-    </ClCompile>
-    <ClCompile Include="tcp_server.cpp">
-      <Filter>network\server</Filter>
-    </ClCompile>
-    <ClCompile Include="session_base.cpp">
-      <Filter>network\session</Filter>
-    </ClCompile>
     <ClCompile Include="server_proxy.cpp">
       <Filter>network\server</Filter>
-    </ClCompile>
-    <ClCompile Include="rio_handler.cpp">
-      <Filter>handler\net_handler\rio</Filter>
-    </ClCompile>
-    <ClCompile Include="tcp_session.cpp">
-      <Filter>network\session\detail</Filter>
     </ClCompile>
     <ClCompile Include="thread_base.cpp">
       <Filter>handler\job_handler</Filter>
@@ -292,8 +232,11 @@
     <ClCompile Include="thread_manager.cpp">
       <Filter>handler\job_handler</Filter>
     </ClCompile>
-    <ClCompile Include="session_iocp.cpp">
-      <Filter>network\session\detail</Filter>
+    <ClCompile Include="iocp_server.cpp">
+      <Filter>network\server</Filter>
+    </ClCompile>
+    <ClCompile Include="rio_server.cpp">
+      <Filter>network\server</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
