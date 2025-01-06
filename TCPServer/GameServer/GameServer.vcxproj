@@ -123,6 +123,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="acceptor_user.cpp" />
     <ClCompile Include="actor.cpp" />
     <ClCompile Include="actor_ai.cpp" />
     <ClCompile Include="actor_character.cpp" />
@@ -135,7 +136,6 @@
     <ClCompile Include="ai_aggressive.cpp" />
     <ClCompile Include="ai_base.cpp" />
     <ClCompile Include="ai_non_aggressive.cpp" />
-    <ClCompile Include="buff_manager.h" />
     <ClCompile Include="DetourAlloc.cpp" />
     <ClCompile Include="DetourAssert.cpp" />
     <ClCompile Include="DetourCommon.cpp" />
@@ -146,6 +146,7 @@
     <ClCompile Include="monster_generator.cpp" />
     <ClCompile Include="proc_world.cpp" />
     <ClCompile Include="send_func.cpp" />
+    <ClCompile Include="server_game.cpp" />
     <ClCompile Include="session_community.cpp" />
     <ClCompile Include="connector_community.cpp" />
     <ClCompile Include="connector_dbagent.cpp" />
@@ -153,7 +154,7 @@
     <ClCompile Include="data_manager.cpp" />
     <ClCompile Include="session_dbagent.cpp" />
     <ClCompile Include="gameserver.cpp" />
-    <ClCompile Include="server_game.cpp" />
+    <ClCompile Include="server_game1.cpp" />
     <ClCompile Include="inventory_user.cpp" />
     <ClCompile Include="item_object_equip.cpp" />
     <ClCompile Include="item_object_stack.cpp" />
@@ -168,11 +169,11 @@
     <ClCompile Include="terrain_grid_manager.cpp" />
     <ClCompile Include="terrain_manager.cpp" />
     <ClCompile Include="user.cpp" />
-    <ClCompile Include="acceptor_user.cpp" />
     <ClCompile Include="session_world.cpp" />
     <ClCompile Include="proc_user.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="acceptor_user.h" />
     <ClInclude Include="actor_ai.h" />
     <ClInclude Include="actor_manager.h" />
     <ClInclude Include="actor_pet.h" />
@@ -196,7 +197,9 @@
     <ClInclude Include="game_struct.h" />
     <ClInclude Include="game_type.h" />
     <ClInclude Include="monster_generator.h" />
+    <ClInclude Include="pool.h" />
     <ClInclude Include="send_func.h" />
+    <ClInclude Include="server_game.h" />
     <ClInclude Include="session_community.h" />
     <ClInclude Include="connector_community.h" />
     <ClInclude Include="connector_dbagent.h" />
@@ -206,7 +209,7 @@
     <ClInclude Include="inventory_equip.h" />
     <ClInclude Include="inventory_premium.h" />
     <ClInclude Include="item_object_equip.h" />
-    <ClInclude Include="server_game.h" />
+    <ClInclude Include="server_game1.h" />
     <ClInclude Include="config_game.h" />
     <ClInclude Include="game_header.h" />
     <ClInclude Include="actor.h" />
@@ -217,6 +220,7 @@
     <ClInclude Include="actor_gadget.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="item_object_stack.h" />
+    <ClInclude Include="session_manager_user.h" />
     <ClInclude Include="setting_game.h" />
     <ClInclude Include="terrain.h" />
     <ClInclude Include="terrain_grid.h" />
@@ -224,7 +228,6 @@
     <ClInclude Include="terrain_manager.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="user_manager.h" />
-    <ClInclude Include="acceptor_user.h" />
     <ClInclude Include="session_user.h" />
     <ClInclude Include="session_world.h" />
   </ItemGroup>

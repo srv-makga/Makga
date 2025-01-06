@@ -3,10 +3,6 @@
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="gameserver.cpp" />
-    <ClCompile Include="acceptor_user.cpp">
-      <Filter>network\acceptor</Filter>
-    </ClCompile>
-    <ClCompile Include="server_game.cpp" />
     <ClCompile Include="actor_character.cpp">
       <Filter>actor\detail</Filter>
     </ClCompile>
@@ -40,18 +36,6 @@
     </ClCompile>
     <ClCompile Include="connector_world.cpp">
       <Filter>network\connector</Filter>
-    </ClCompile>
-    <ClCompile Include="session_community.cpp">
-      <Filter>network\session</Filter>
-    </ClCompile>
-    <ClCompile Include="session_dbagent.cpp">
-      <Filter>network\session</Filter>
-    </ClCompile>
-    <ClCompile Include="session_user.cpp">
-      <Filter>network\session</Filter>
-    </ClCompile>
-    <ClCompile Include="session_world.cpp">
-      <Filter>network\session</Filter>
     </ClCompile>
     <ClCompile Include="proc_world.cpp">
       <Filter>proc</Filter>
@@ -119,14 +103,32 @@
     <ClCompile Include="terrain_manager.cpp">
       <Filter>system\terrain</Filter>
     </ClCompile>
-    <ClCompile Include="buff_manager.h">
-      <Filter>system\buff</Filter>
-    </ClCompile>
     <ClCompile Include="monster_generator.cpp">
       <Filter>system\terrain</Filter>
     </ClCompile>
     <ClCompile Include="send_func.cpp">
       <Filter>func</Filter>
+    </ClCompile>
+    <ClCompile Include="server_game1.cpp">
+      <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="session_community.cpp">
+      <Filter>session</Filter>
+    </ClCompile>
+    <ClCompile Include="session_dbagent.cpp">
+      <Filter>session</Filter>
+    </ClCompile>
+    <ClCompile Include="session_user.cpp">
+      <Filter>session</Filter>
+    </ClCompile>
+    <ClCompile Include="session_world.cpp">
+      <Filter>session</Filter>
+    </ClCompile>
+    <ClCompile Include="server_game.cpp">
+      <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="acceptor_user.cpp">
+      <Filter>network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -138,10 +140,6 @@
     <ClInclude Include="actor.h">
       <Filter>actor</Filter>
     </ClInclude>
-    <ClInclude Include="acceptor_user.h">
-      <Filter>network\acceptor</Filter>
-    </ClInclude>
-    <ClInclude Include="server_game.h" />
     <ClInclude Include="data_manager.h">
       <Filter>data</Filter>
     </ClInclude>
@@ -178,18 +176,6 @@
     </ClInclude>
     <ClInclude Include="connector_world.h">
       <Filter>network\connector</Filter>
-    </ClInclude>
-    <ClInclude Include="session_community.h">
-      <Filter>network\session</Filter>
-    </ClInclude>
-    <ClInclude Include="session_dbagent.h">
-      <Filter>network\session</Filter>
-    </ClInclude>
-    <ClInclude Include="session_user.h">
-      <Filter>network\session</Filter>
-    </ClInclude>
-    <ClInclude Include="session_world.h">
-      <Filter>network\session</Filter>
     </ClInclude>
     <ClInclude Include="inventory_user.h">
       <Filter>system\inventory</Filter>
@@ -284,6 +270,31 @@
     <ClInclude Include="send_func.h">
       <Filter>func</Filter>
     </ClInclude>
+    <ClInclude Include="server_game1.h">
+      <Filter>server</Filter>
+    </ClInclude>
+    <ClInclude Include="server_game.h">
+      <Filter>server</Filter>
+    </ClInclude>
+    <ClInclude Include="session_community.h">
+      <Filter>session</Filter>
+    </ClInclude>
+    <ClInclude Include="session_dbagent.h">
+      <Filter>session</Filter>
+    </ClInclude>
+    <ClInclude Include="session_user.h">
+      <Filter>session</Filter>
+    </ClInclude>
+    <ClInclude Include="session_world.h">
+      <Filter>session</Filter>
+    </ClInclude>
+    <ClInclude Include="session_manager_user.h">
+      <Filter>session</Filter>
+    </ClInclude>
+    <ClInclude Include="pool.h" />
+    <ClInclude Include="acceptor_user.h">
+      <Filter>network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -316,17 +327,11 @@
     <Filter Include="network">
       <UniqueIdentifier>{9a9e79a9-d5dc-43d3-8def-7e40db955c74}</UniqueIdentifier>
     </Filter>
-    <Filter Include="network\acceptor">
-      <UniqueIdentifier>{21cb9cf7-515a-4516-99f1-32a25bce7d36}</UniqueIdentifier>
-    </Filter>
     <Filter Include="network\connector">
       <UniqueIdentifier>{c11779a4-0fd3-4bc2-9d97-3653071bf128}</UniqueIdentifier>
     </Filter>
     <Filter Include="user">
       <UniqueIdentifier>{e46e772a-1350-4259-b9f6-858b476f9107}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="network\session">
-      <UniqueIdentifier>{0bd36375-4a67-4659-b125-2a0af7f65de7}</UniqueIdentifier>
     </Filter>
     <Filter Include="proc">
       <UniqueIdentifier>{e20b168b-6c51-4d4e-ac0d-b563d8b1d34d}</UniqueIdentifier>
@@ -363,6 +368,12 @@
     </Filter>
     <Filter Include="func">
       <UniqueIdentifier>{c19ced4e-5d92-48d1-93ea-a3850ac1bc58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="server">
+      <UniqueIdentifier>{73417ec6-5fc3-46ef-9d59-56a01780a701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="session">
+      <UniqueIdentifier>{062d3d12-e8c1-4a64-b62c-acc3310eb23d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
