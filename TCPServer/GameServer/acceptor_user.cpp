@@ -2,7 +2,7 @@
 #include "acceptor_user.h"
 
 AcceptorUser::AcceptorUser()
-	: IocpServer(m_iocp_core, _ep, (SessionManager<std::shared_ptr<core::network::IocpSession>>*)&m_session_manager)
+	: IocpServer()
 {
 }
 
@@ -17,4 +17,9 @@ bool AcceptorUser::Initialize()
 
 void AcceptorUser::Finalize()
 {
+}
+
+bool AcceptorUser::Setup(const core::network::IPEndPoint& _ep)
+{
+	return IocpServer::Setup(m_iocp_core, _ep, (SessionManager<std::shared_ptr<core::network::IocpSession>>*) & m_session_manager);
 }

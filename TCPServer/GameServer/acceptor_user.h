@@ -20,6 +20,8 @@ public:
 	bool Initialize();
 	void Finalize();
 
+	bool Setup(const core::network::IPEndPoint& _ep);
+
 private:
 	core::network::IocpCore m_core;
 	SessionManagerUser m_session_manager;
