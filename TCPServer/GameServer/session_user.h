@@ -33,7 +33,6 @@ public:
 protected:  // IocpSession
 	void OnConnected() override;
 	std::size_t OnRecv(char* buffer, std::size_t _length) override;
-	void OnRecvPacket(char* buffer, std::size_t _length) override;
 	void OnSend(std::size_t _length) override;
 	void OnDisconnected() override;
 

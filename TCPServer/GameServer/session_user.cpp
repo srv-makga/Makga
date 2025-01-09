@@ -13,8 +13,8 @@ bool SessionUser::InitDispatcher()
 	return true;
 }
 
-SessionUser::SessionUser()
-	: SessionBase(core::BufferFlag::None, CONFIG.session_user_buffer_size)
+SessionUser::SessionUser(Id _id)
+	: IocpSession(CONFIG.buffer_size_user)
 	, m_user(nullptr)
 {
 }
@@ -23,25 +23,23 @@ SessionUser::~SessionUser()
 {
 }
 
-void SessionUser::Initialize()
+bool SessionUser::Initialize()
 {
-	SessionBase::Initialize();
 	m_user = nullptr;
-}
 
-bool SessionUser::RecvPacket(NetPacket* _packet)
-{
-	Job* job = Job::Pop();
-	job->owner = (nullptr == GetUser()) ? (JobOwner*)this : GetUser();
-	job->packet = _packet;
-	Actor()->JobHandler()->Push(job);
+	Session::Initialize();
 
 	return true;
 }
 
+void SessionUser::Finalize()
+{
+	Session::Finalize();
+}
+
 bool SessionUser::ProcPacket(NetPacket* _packet)
 {
-	fb::server::SendPid pid = (fb::server::SendPid)_packet->Id();
+	fb::server::SendPid pid = static_cast<fb::server::SendPid>(_packet->GetId());
 
 	LOG_INFO << "ProcPacket. Pid:" << fb::server::EnumNameSendPid(pid);
 
@@ -58,6 +56,16 @@ User* SessionUser::GetUser() const
 
 void SessionUser::SetUser(User* _user)
 {
+	if (m_user == _user)
+	{
+		return;
+	}
+
+	if (nullptr != m_user)
+	{
+		m_user->SetSession(nullptr);
+	}
+
 	m_user = _user;
 
 	if (nullptr != _user)
@@ -69,6 +77,25 @@ void SessionUser::SetUser(User* _user)
 ThreadId_t SessionUser::ThreadId() const
 {
 	return 0;
+}
+
+void SessionUser::OnConnected()
+{
+	
+}
+
+std::size_t SessionUser::OnRecv(char* buffer, std::size_t _length)
+{
+	NetPacket* packet;
+	return std::size_t();
+}
+
+void SessionUser::OnSend(std::size_t _length)
+{
+}
+
+void SessionUser::OnDisconnected()
+{
 }
 
 bool SessionUser::OnLoginAuth(NetPacket* _packet)
