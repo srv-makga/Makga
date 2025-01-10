@@ -15,12 +15,7 @@ class IocpSession;
 class IocpService : public server::Service
 {
 public:
-	IocpService(ServiceType _service_type,
-		std::shared_ptr<IocpCore> _iocp_core,
-		std::function<std::shared_ptr<IocpSession>(void)> _alloc_session,
-		std::function<void(std::shared_ptr<IocpSession>)> _dealloc_session);
-
-	IocpService() = delete;
+	IocpService(ServiceType _service_type);
 	IocpService(const IocpService& _other) = delete;
 	IocpService(IocpService&& _other) = delete;
 	IocpService& operator=(const IocpService& _other) = delete;
@@ -34,6 +29,10 @@ public: // Service
 	//bool Stop() override;
 
 public:
+	bool Setup(std::shared_ptr<IocpCore> _iocp_core,
+		std::function<std::shared_ptr<IocpSession>(void)> _alloc_session,
+		std::function<void(std::shared_ptr<IocpSession>)> _dealloc_session);
+
 	bool AddSession(std::shared_ptr<IocpSession> _session);
 	bool DelSession(std::shared_ptr<IocpSession> _session);
 	void DisconnectAllSession();
