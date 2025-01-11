@@ -18,9 +18,19 @@ class User;
 */
 class Actor
 {
+	struct Data
+	{
+		const ActorUid_t m_uid;
+		ActorAI* m_ai;
+
+		TerrainGrid* m_grid;
+
+		fb::HpMpT m_hp_mp;
+	};
+
+
 public:
-	Actor(ActorUid_t _uid)
-		: m_uid(_uid) {}
+	Actor() = default;
 	virtual ~Actor() = default;
 
 public: // 가상 & 기능
@@ -66,9 +76,9 @@ public: // 가상 & 기능
 
 public:
 #pragma region broadcast & multicast
-	void MulticastHpMp();
-	void MulticastBuff();
-	void Multicast(fb::server::RecvPid, flatbuffers::FlatBufferBuilder& _builder);
+	virtual void MulticastHpMp() = 0;
+	virtual void MulticastBuff() = 0;
+	virtual void Multicast(fb::server::RecvPid, flatbuffers::FlatBufferBuilder& _builder) = 0;
 #pragma endregion
 
 public:
@@ -133,24 +143,13 @@ public: // 가상 & get set
 	virtual Speed_t Speed() const { return 0; }
 
 	virtual Terrain* CurTerrain() const = 0;
-	virtual TerrainGrid* CurTerrainGrid() const { return m_grid; }
-	virtual void SetTerrainGrid(TerrainGrid* _grid) { m_grid = _grid; }
+	virtual TerrainGrid* CurTerrainGrid() const = 0;
+	virtual void SetTerrainGrid(TerrainGrid* _grid) = 0;
 
-	virtual Actor* Owner() const { return nullptr; }
-	virtual User* OwnerUser() const { return nullptr; }
+	virtual Actor* Owner() const = 0;
+	virtual User* OwnerUser() const = 0;
 
 public: // actor 자체
-	ActorUid_t Uid() const { return m_uid; }
-	ActorAI* AI() const { return m_ai; }
-
-	const fb::PositionT& Position() const { return m_position; }
-
-protected:
-	const ActorUid_t m_uid;
-	ActorAI* m_ai;
-
-	TerrainGrid* m_grid;
-
-	fb::PositionT m_position;
-	fb::HpMpT m_hp_mp;
+	virtual ActorUid_t Uid() const = 0;
+	virtual ActorAI* AI() const = 0;
 };
