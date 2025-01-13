@@ -154,7 +154,6 @@
     <ClCompile Include="data_manager.cpp" />
     <ClCompile Include="session_dbagent.cpp" />
     <ClCompile Include="gameserver.cpp" />
-    <ClCompile Include="server_game1.cpp" />
     <ClCompile Include="inventory_user.cpp" />
     <ClCompile Include="item_object_equip.cpp" />
     <ClCompile Include="item_object_stack.cpp" />
@@ -209,7 +208,6 @@
     <ClInclude Include="inventory_equip.h" />
     <ClInclude Include="inventory_premium.h" />
     <ClInclude Include="item_object_equip.h" />
-    <ClInclude Include="server_game1.h" />
     <ClInclude Include="config_game.h" />
     <ClInclude Include="game_header.h" />
     <ClInclude Include="actor.h" />

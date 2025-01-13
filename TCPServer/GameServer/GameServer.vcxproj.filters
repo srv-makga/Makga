@@ -10,7 +10,7 @@
       <Filter>system\terrain</Filter>
     </ClCompile>
     <ClCompile Include="data_manager.cpp">
-      <Filter>data</Filter>
+      <Filter>table</Filter>
     </ClCompile>
     <ClCompile Include="actor_monster.cpp">
       <Filter>actor\detail</Filter>
@@ -109,9 +109,6 @@
     <ClCompile Include="send_func.cpp">
       <Filter>func</Filter>
     </ClCompile>
-    <ClCompile Include="server_game1.cpp">
-      <Filter>server</Filter>
-    </ClCompile>
     <ClCompile Include="session_community.cpp">
       <Filter>session</Filter>
     </ClCompile>
@@ -141,7 +138,7 @@
       <Filter>actor</Filter>
     </ClInclude>
     <ClInclude Include="data_manager.h">
-      <Filter>data</Filter>
+      <Filter>table</Filter>
     </ClInclude>
     <ClInclude Include="actor_gadget.h">
       <Filter>actor\detail</Filter>
@@ -270,9 +267,6 @@
     <ClInclude Include="send_func.h">
       <Filter>func</Filter>
     </ClInclude>
-    <ClInclude Include="server_game1.h">
-      <Filter>server</Filter>
-    </ClInclude>
     <ClInclude Include="server_game.h">
       <Filter>server</Filter>
     </ClInclude>
@@ -302,9 +296,6 @@
     </Filter>
     <Filter Include="actor">
       <UniqueIdentifier>{93a2d064-2783-4f15-b366-b805d63d0327}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="data">
-      <UniqueIdentifier>{40724948-95ec-44b1-93a8-f8291b9db643}</UniqueIdentifier>
     </Filter>
     <Filter Include="actor\detail">
       <UniqueIdentifier>{368bf74e-324e-4e93-bad3-22a2f05ff196}</UniqueIdentifier>
@@ -374,6 +365,9 @@
     </Filter>
     <Filter Include="session">
       <UniqueIdentifier>{062d3d12-e8c1-4a64-b62c-acc3310eb23d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="table">
+      <UniqueIdentifier>{40724948-95ec-44b1-93a8-f8291b9db643}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
