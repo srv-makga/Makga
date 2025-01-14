@@ -51,4 +51,6 @@ void AINonAggressive::terminate(Status s)
 AINonAggressive::Status AINonAggressive::update()
 {
 	m_root->update();
+
+	return AINonAggressive::Status::Success;
 }
