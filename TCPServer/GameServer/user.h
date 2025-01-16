@@ -11,7 +11,7 @@ class ItemObjectBase;
 class InventoryBase;
 class InventoryUser;
 
-class User : public core::ObjectPool<User*>, public JobOwner//, public InventoryOwner
+class User : public JobOwner//, public InventoryOwner
 {
 public:
 	using Pid_t = fb::server::SendPid;

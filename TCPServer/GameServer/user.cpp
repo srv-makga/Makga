@@ -2,6 +2,7 @@
 #include "user.h"
 #include "session_user.h"
 #include "server_game.h"
+#include "pool.h"
 #include "inventory_user.h"
 #include "item_object_base.h"
 
@@ -47,7 +48,7 @@ void User::SetSession(SessionUser* _session)
 
 bool User::ProcPacket(NetPacket* _packet)
 {
-	fb::server::SendPid pid = (fb::server::SendPid)_packet->Id();
+	fb::server::SendPid pid = (fb::server::SendPid)_packet->GetId();
 
 	LOG_INFO << "ProcPacket. Pid:" << fb::server::EnumNameSendPid(pid);
 
@@ -65,9 +66,12 @@ bool User::Send(fb::server::RecvPid _pid, fbb& _fbb)
 		return false;
 	}
 
-	NetPacket packet;
-	packet.SetOwner(m_session);
-	m_session->Send(packet);
+	std::shared_ptr<core::network::NetBuffer> buffer = BufferPool::Pop();
+	buffer->Write((char*)&_pid, sizeof(_pid));
+	buffer->Write((char*)_fbb.GetBufferPointer(), _fbb.GetSize());
+
+	m_session->Send(buffer);
+
 	return true;
 }
 
