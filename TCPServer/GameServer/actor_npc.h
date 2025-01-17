@@ -2,24 +2,14 @@
 
 #include "actor.h"
 
-class Npc : public Actor, private core::ObjectPool<Npc*>
+class Npc : public Actor
 {
 public:
-	Npc(ActorUid_t _uid);
+	Npc();
 	virtual ~Npc();
 
 	void Initialize() override;
-	void Finallize() override;
+	void Finalize() override;
 
 	void OnUpdate() override;
-
-public:
-	static Npc* Rental()
-	{
-		return Pop();
-	}
-	static void Return(Npc* _actor)
-	{
-		Push(_actor);
-	}
 };

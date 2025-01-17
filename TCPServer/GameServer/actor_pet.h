@@ -9,7 +9,7 @@ public:
 	virtual ~Pet();
 
 	void Initialize() override;
-	void Finallize() override;
+	void Finalize() override;
 
 	void OnUpdate() override;
 	Result_t DoMove(const PositionT& _position) override;
@@ -21,7 +21,7 @@ public:
 	bool IsAttackable() const override { return true; }
 	bool IsAttacked() const override { return true; }
 	bool IsMovable() const override { return true; }
-	bool IsAppear() const override { return true; }
+	bool IsSendAppear() const override { return true; }
 
 	Coord_t X() const override;
 	Coord_t Y() const override;
