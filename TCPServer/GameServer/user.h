@@ -11,12 +11,11 @@ class ItemObjectBase;
 class InventoryBase;
 class InventoryUser;
 
-class User : public JobOwner//, public InventoryOwner
+class User : public InventoryOwner
 {
 public:
 	using Pid_t = fb::server::SendPid;
 	using Function_t = bool (User::*)(NetPacket*);
-	using InventoryCache = std::unordered_map<ItemUid_t, InventoryBase*>;
 	using UserState = enum { Lobby, Play };
 
 public:
@@ -35,9 +34,7 @@ public:
 public:
 	void Move(const Vector_t& _vec, Speed_t _speed, int _effect, int _animation);
 
-public: // JobOwner
-	bool ProcPacket(NetPacket* _packet) override;
-	ThreadId_t ThreadId() const override { return 0; }
+	bool ProcPacket(std::shared_ptr<NetPacket> _packet);
 
 public: // Session ·¦ÇÎ ÇÔ¼ö
 	bool Send(fb::server::RecvPid _pid, fbb& _fbb);
@@ -89,7 +86,6 @@ private:
 	ActorUid_t m_interaction_id;
 	Time_t m_interaction_expire;
 
-	InventoryCache m_inventory_cache;
 	InventoryUser* m_inventory;
 	InventoryUser* m_warehouse;
 }; 
