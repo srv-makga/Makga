@@ -1,32 +1,32 @@
 #include "pch.h"
 #include "session_world.h"
+#include "pool.h"
 
-SessionWorld::SessionWorld(std::size_t _buffer_size)
-	: SessionBase(core::BufferFlag::None, _buffer_size)
+SessionWorld::SessionWorld(SessionId_t _session_id, std::size_t _buffer_size)
+	: IocpSession(_session_id, _buffer_size)
 {
-	
 }
 
 SessionWorld::~SessionWorld()
 {
-
 }
 
 bool SessionWorld::RecvPacket(NetPacket* _packet)
 {
-	Job* job = Job::Pop();
+	
+	std::shared_ptr<Job> job = JobPool::Pop();
 	job->Initialize();
 	job->owner = this;
 	job->packet = _packet;
 
-	Actor()->JobHandler()->Push(job);
+	JobHandler()->Push(job);
 	return true;
 }
 
 bool SessionWorld::ProcPacket(NetPacket* _packet)
 {
-	Pid_t pid = static_cast<Pid_t>(_packet->Id());
-	LOG_INFO << "SessionId:" << SessionId() << " ProcPacket Pid:" << fb::world::EnumNameRecvPid(pid);
+	Pid_t pid = static_cast<Pid_t>(_packet->GetId());
+	LOG_INFO << "SessionId:" << GetSessionId() << " ProcPacket Pid:" << fb::world::EnumNameRecvPid(pid);
 
 	if (false == s_dispatcher.Exec(pid, this, _packet))
 	{

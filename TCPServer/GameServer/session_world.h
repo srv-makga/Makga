@@ -1,11 +1,10 @@
 #pragma once
 
-#include "connector_world.h"
-#include "../Common/session_base.h"
 #include "../Core/dispatcher.h"
 #include "../Core/singleton.hpp"
+#include "../Core/iocp_session.h"
 
-class SessionWorld : public SessionBase, public core::pattern::Singleton<SessionWorld>
+class SessionWorld : public core::network::IocpSession, public core::pattern::Singleton<SessionWorld>
 {
 public:
 	using Pid_t = fb::world::RecvPid;
@@ -16,7 +15,7 @@ public:
 	inline static core::Dispatcher<Pid_t, Function_t> s_dispatcher;
 
 public:
-	SessionWorld(std::size_t _buffer_size = CONFIG.buffer_size_read);
+	SessionWorld(SessionId_t _session_id, std::size_t _buffer_size = CONFIG.buffer_size_read);
 	virtual ~SessionWorld();
 
 	bool RecvPacket(NetPacket* _packet) override; // SessionBase
