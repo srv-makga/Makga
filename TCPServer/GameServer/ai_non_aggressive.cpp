@@ -3,13 +3,14 @@
 #include "actor.h"
 #include "actor_ai.h"
 
-AINonAggressive::AINonAggressive(Actor* _actor)
+AINonAggressive::AINonAggressive(std::shared_ptr<Actor> _actor)
 	: m_actor(_actor)
 {
 }
 
 AINonAggressive::~AINonAggressive()
 {
+	m_actor = nullptr;
 }
 
 void AINonAggressive::initialize()

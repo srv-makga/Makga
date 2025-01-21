@@ -5,8 +5,8 @@
 class AIAggressive : public core::ai::Node
 {
 public:
-	AIAggressive(Actor* _actor);
-	~AIAggressive() {}
+	AIAggressive(std::shared_ptr<Actor> _actor);
+	virtual ~AIAggressive();
 
 	void initialize() override;
 	void terminate(Status s) override;
@@ -15,6 +15,6 @@ public:
 	const core::ai::Node::Ptr root() { return m_root; }
 
 private:
-	Actor* m_actor;
+	std::shared_ptr<Actor> m_actor;
 	Node::Ptr m_root = nullptr;
 };

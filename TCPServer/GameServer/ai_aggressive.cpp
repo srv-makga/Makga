@@ -3,10 +3,15 @@
 #include "actor.h"
 #include "actor_ai.h"
 
-AIAggressive::AIAggressive(Actor* _actor)
+AIAggressive::AIAggressive(std::shared_ptr<Actor> _actor)
 	: m_actor(_actor)
 	, m_root(nullptr)
 {
+}
+
+AIAggressive::~AIAggressive()
+{
+	m_actor = nullptr;
 }
 
 void AIAggressive::initialize()
