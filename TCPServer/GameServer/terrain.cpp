@@ -66,14 +66,6 @@ void Terrain::Finalize()
 void Terrain::OnUpdate()
 {
 	m_grid_manager->OnUpdate();
-
-	for (Actor* actor : m_dead_actor_list)
-	{
-		if (false == actor->CanResurrection())
-		{
-			continue;
-		}
-	}
 }
 
 Result_t Terrain::CanMove(const PositionT& _position)
@@ -109,12 +101,12 @@ bool Terrain::IsInside(const Vector_t& _vector)
 	return true;
 }
 
-bool Terrain::EnterActor(Actor* _actor, Coord_t _x, Coord_t _y, Coord_t _z)
+bool Terrain::EnterActor(std::shared_ptr<Actor> _actor, Coord_t _x, Coord_t _y, Coord_t _z)
 {
 	return m_grid_manager->EnterActor(_actor, _x, _y, _z);
 }
 
-bool Terrain::LeaveActor(Actor* _actor)
+bool Terrain::LeaveActor(std::shared_ptr<Actor> _actor)
 {
 	return m_grid_manager->LeaveActor(_actor);
 }
@@ -185,7 +177,7 @@ void Terrain::FindNotificationList(const PositionT& _old, const PositionT& _new,
 	_move_list.clear();
 
 	// 이전 위치 주변에서
-	for (Actor* actor : old_pos_actor_list)
+	for (auto actor : old_pos_actor_list)
 	{
 		// 신규 위치 주변에 없으면 사라지게
 		if (new_pos_actor_list.end() == new_pos_actor_list.find(actor))
@@ -200,7 +192,7 @@ void Terrain::FindNotificationList(const PositionT& _old, const PositionT& _new,
 	}
 
 	// 신규 위치 주변에서
-	for (Actor* actor : new_pos_actor_list)
+	for (auto actor : new_pos_actor_list)
 	{
 		// 기존 위치에 없었으면 나타나게
 		if (old_pos_actor_list.end() == old_pos_actor_list.find(actor))
@@ -208,6 +200,11 @@ void Terrain::FindNotificationList(const PositionT& _old, const PositionT& _new,
 			_appear_list.insert(actor);
 		}
 	}
+}
+
+bool Terrain::AroundList(std::shared_ptr<Actor> _actor, int _filter, OUT ActorList& _actor_list)
+{
+	return false;
 }
 
 bool Terrain::AroundList(const PositionT& _position, Distance_t _range, int _filter, OUT ActorList& _actor_list)

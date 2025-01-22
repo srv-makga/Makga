@@ -25,8 +25,8 @@ public:
 
 	bool IsInside(const Vector_t& _vector);
 
-	bool EnterActor(Actor* _actor, Coord_t _x, Coord_t _y, Coord_t _z);
-	bool LeaveActor(Actor* _actor);
+	bool EnterActor(std::shared_ptr<Actor> _actor, Coord_t _x, Coord_t _y, Coord_t _z);
+	bool LeaveActor(std::shared_ptr<Actor> _actor);
 
 	TerrainGrid* FindGrid(Coord_t _x, Coord_t _y, Coord_t _z);
 
@@ -37,6 +37,8 @@ public:
 		OUT ActorList& _disappear_list,
 		OUT ActorList& _move_list);
 
+	// @brief position 주변 액터 목록을 불러온다
+	bool AroundList(std::shared_ptr<Actor> _actor, int _filter, OUT ActorList& _actor_list);
 	// @brief position 주변 액터 목록을 불러온다
 	bool AroundList(const PositionT& _position, Distance_t _range, int _filter, OUT ActorList& _actor_list);
 
