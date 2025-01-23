@@ -43,7 +43,7 @@ void TerrainGrid::OnUpdate()
 	}
 }
 
-bool TerrainGrid::InsertActor(Actor* _actor)
+bool TerrainGrid::InsertActor(std::shared_ptr<Actor> _actor)
 {
 	if (nullptr == _actor)
 	{
@@ -53,7 +53,7 @@ bool TerrainGrid::InsertActor(Actor* _actor)
 	return m_actors.insert({ _actor->Uid(), _actor }).second;
 }
 
-Actor* TerrainGrid::FindActor(Actor* _actor)
+std::shared_ptr<Actor> TerrainGrid::FindActor(std::shared_ptr<Actor> _actor)
 {
 	if (nullptr == _actor)
 	{
@@ -63,7 +63,7 @@ Actor* TerrainGrid::FindActor(Actor* _actor)
 	return FindActor(_actor->Uid());
 }
 
-Actor* TerrainGrid::FindActor(ActorUid_t _actor_id)
+std::shared_ptr<Actor> TerrainGrid::FindActor(ActorUid_t _actor_id)
 {
 	auto iter = m_actors.find(_actor_id);
 	if (m_actors.end() == iter)
@@ -79,7 +79,7 @@ bool TerrainGrid::Erasector(ActorUid_t _actor_id)
 	return 0 < m_actors.erase(_actor_id);
 }
 
-bool TerrainGrid::Erasector(Actor* _actor)
+bool TerrainGrid::Erasector(std::shared_ptr<Actor> _actor)
 {
 	if (nullptr == _actor)
 	{

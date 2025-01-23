@@ -9,7 +9,7 @@ class Actor;
 class TerrainGrid
 {
 public:
-	using Actors = std::unordered_map<ActorUid_t, Actor*>;
+	using Actors = std::unordered_map<ActorUid_t, std::shared_ptr<Actor>>;
 	enum Direction
 	{
 		LeftTop = 0,
@@ -35,11 +35,11 @@ public:
 
 	void OnUpdate();
 
-	bool InsertActor(Actor* _actor);
-	Actor* FindActor(Actor* _actor);
-	Actor* FindActor(ActorUid_t _actor_id);
+	bool InsertActor(std::shared_ptr<Actor> _actor);
+	std::shared_ptr<Actor> FindActor(std::shared_ptr<Actor> _actor);
+	std::shared_ptr<Actor> FindActor(ActorUid_t _actor_id);
 	bool Erasector(ActorUid_t _actor_id);
-	bool Erasector(Actor* _actor);
+	bool Erasector(std::shared_ptr<Actor> _actor);
 
 	bool IsInside(Coord_t _x, Coord_t _y, Coord_t _z);
 
