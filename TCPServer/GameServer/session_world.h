@@ -12,15 +12,18 @@ public:
 
 public:
 	static bool InitDispatcher();
+private:
 	inline static core::Dispatcher<Pid_t, Function_t> s_dispatcher;
 
 public:
-	SessionWorld(SessionId_t _session_id, std::size_t _buffer_size = CONFIG.buffer_size_read);
+	SessionWorld(std::size_t _buffer_size = CONFIG.buffer_size_read);
 	virtual ~SessionWorld();
 
-	bool RecvPacket(NetPacket* _packet) override; // SessionBase
-	bool ProcPacket(NetPacket* _packet) override; // JobOwner
-	ThreadId_t ThreadId() const override; // JobOwner
+public:
+	bool ProcPacket(NetPacket* _packet) override; // IocpSession
+
+public:
+	ThreadId_t ThreadId() const; // JobOwner
 
 protected: // 패킷 처리 함수
 	bool OnRecv_Reg(NetPacket* _packet);

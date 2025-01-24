@@ -1,11 +1,10 @@
 #pragma once
 
-#include "connector_dbagent.h"
-#include "../Common/session_base.h"
 #include "../Core/dispatcher.h"
 #include "../Core/singleton.hpp"
+#include "../Core/iocp_session.h"
 
-class SessionDBAgent : public SessionBase, public core::pattern::Singleton<SessionDBAgent>
+class SessionDBAgent : public core::network::IocpSession, public core::pattern::Singleton<SessionDBAgent>
 {
 public:
 	using Pid_t = fb::dbagent::RecvPid; // @todo 수정
@@ -13,24 +12,23 @@ public:
 
 public:
 	static bool InitDispatcher();
+private:
+	static core::Dispatcher<Pid_t, Function_t> s_dispatcher;
 
 public:
 	SessionDBAgent(std::size_t _buffer_size = 8192);
 	virtual ~SessionDBAgent();
 
-	// @brief 패킷 수신시
-	bool RecvPacket(NetPacket* _packet) override;
+public: // IocpSession
 	// @brief 패킷 처리
 	bool ProcPacket(NetPacket* _packet) override;
 
-	ThreadId_t ThreadId() const override;
+	ThreadId_t ThreadId() const;
 
 	/******************* 패킷 처리 함수 *******************/
 	// @brief DBA 서버에 연결 응답
 	bool OnRecv_Reg(NetPacket* _packet);
 
-private:
-	static core::Dispatcher<Pid_t, Function_t> s_dispatcher;
 };
 
 #define SESSION_DBAGENT	SessionDBAgent::Instance()

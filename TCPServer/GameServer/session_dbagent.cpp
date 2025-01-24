@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "session_dbagent.h"
-#include "connector_dbagent.h"
 
 core::Dispatcher<SessionDBAgent::Pid_t, SessionDBAgent::Function_t> SessionDBAgent::s_dispatcher;
 
@@ -12,7 +11,7 @@ bool SessionDBAgent::InitDispatcher()
 }
 
 SessionDBAgent::SessionDBAgent(std::size_t _buffer_size)
-	: SessionBase(core::BufferFlag::None, _buffer_size)
+	: IocpSession(Session::Type::IOCPClient, _buffer_size)
 {
 }
 
@@ -20,20 +19,9 @@ SessionDBAgent::~SessionDBAgent()
 {
 }
 
-bool SessionDBAgent::RecvPacket(NetPacket* _packet)
-{
-	Job* job = Job::Pop();
-	job->Initialize();
-	job->owner = this;
-	job->packet = _packet;
-
-	Actor()->JobHandler()->Push(job);
-	return true;
-}
-
 bool SessionDBAgent::ProcPacket(NetPacket* _packet)
 {
-	auto pid = (fb::dbagent::RecvPid)_packet->Id();
+	auto pid = (fb::dbagent::RecvPid)_packet->GetId();
 
 	LOG_INFO << "ProcPacket. Pid:" << fb::dbagent::EnumNameRecvPid(pid);
 

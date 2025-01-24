@@ -2,25 +2,13 @@
 #include "session_world.h"
 #include "pool.h"
 
-SessionWorld::SessionWorld(SessionId_t _session_id, std::size_t _buffer_size)
-	: IocpSession(_session_id, _buffer_size)
+SessionWorld::SessionWorld(std::size_t _buffer_size)
+	: IocpSession(Session::Type::IOCPClient, _buffer_size)
 {
 }
 
 SessionWorld::~SessionWorld()
 {
-}
-
-bool SessionWorld::RecvPacket(NetPacket* _packet)
-{
-	
-	std::shared_ptr<Job> job = JobPool::Pop();
-	job->Initialize();
-	job->owner = this;
-	job->packet = _packet;
-
-	JobHandler()->Push(job);
-	return true;
 }
 
 bool SessionWorld::ProcPacket(NetPacket* _packet)
