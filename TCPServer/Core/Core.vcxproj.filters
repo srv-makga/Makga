@@ -91,9 +91,6 @@
     <ClCompile Include="rio_core.cpp">
       <Filter>network\proactor\rio</Filter>
     </ClCompile>
-    <ClCompile Include="net_buffer.cpp">
-      <Filter>network</Filter>
-    </ClCompile>
     <ClCompile Include="rio_buffer.cpp">
       <Filter>network\proactor\rio</Filter>
     </ClCompile>

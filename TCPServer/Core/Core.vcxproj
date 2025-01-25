@@ -227,7 +227,6 @@
     <ClCompile Include="iocp_session.cpp" />
     <ClCompile Include="ip_endpoint.cpp" />
     <ClCompile Include="memory_block.cpp" />
-    <ClCompile Include="net_buffer.cpp" />
     <ClCompile Include="net_service.cpp" />
     <ClCompile Include="redis_connector.cpp" />
     <ClCompile Include="redis_reply.cpp" />
