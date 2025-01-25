@@ -1,6 +1,5 @@
 #pragma once
 
-#include "queue_interface.h"
 #include "lock.h"
 #include <queue>
 

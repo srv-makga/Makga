@@ -1,6 +1,8 @@
 #pragma once
+
 #include "core_header.h"
 #include <memory>
+#include <atomic>
 
 namespace core {
 namespace queue {
@@ -31,11 +33,11 @@ private:
 		Node() : next(TaggedPointer(nullptr, 0)) {}
 		Node(T value) : data(std::make_shared<T>(value)), next(TaggedPointer(nullptr, 0)) {}
 		template <typename U = T, typename = typename std::enable_if<!std::is_same<U, std::shared_ptr<typename U::element_type>>::value>::type>
-		Node(const T& value) : data(std::make_shared<T>(value)), next(TaggedPointer<T>(nullptr, 0)) {}
+		Node(const T& value) : data(std::make_shared<T>(value)), next(TaggedPointer(nullptr, 0)) {}
 
 		// T가 shared_ptr일 때의 생성자
 		template <typename U = T, typename = typename std::enable_if<std::is_same<U, std::shared_ptr<typename U::element_type>>::value>::type>
-		Node(const std::shared_ptr<T>& ptr) : data(ptr), next(TaggedPointer<T>(nullptr, 0)) {}
+		Node(const std::shared_ptr<T>& ptr) : data(ptr), next(TaggedPointer(nullptr, 0)) {}
 	};
 
 	std::atomic<TaggedPointer> head;

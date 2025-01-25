@@ -4,9 +4,6 @@
 #include <queue>
 #include <memory>
 
-#define POOL(classname)			classname::ObjectPool
-#define INIT_POOL(classname)	classname::ObjectPool::Initialize
-
 namespace core {
 template <typename T>
 concept MemoryPoolConcept = true;// sizeof(T) >= sizeof(void*);
@@ -130,13 +127,14 @@ template <MemoryPoolConcept T>
 int MemoryPool<T>::m_using_count = 0;
 
 
+//template<typename T>
+//concept ObjectPoolConcept = std::is_pointer_v<T> ||
+//	(std::is_same_v<T, std::shared_ptr<typename T::element_type>> && std::is_object_v<typename T::element_type>) ||
+//	(std::is_same_v<T, std::unique_ptr<typename T::element_type>> && std::is_object_v<typename T::element_type>);
+//
+//// @todo 포인터 타입이 아닌 타입 자체를 받고 내부에서 포인터로 관리하자
+//template<ObjectPoolConcept T>
 template<typename T>
-concept ObjectPoolConcept = std::is_pointer_v<T>/* ||
-	(std::is_same_v<T, std::shared_ptr<typename T::element_type>> && std::is_object_v<typename T::element_type>) ||
-	(std::is_same_v<T, std::unique_ptr<typename T::element_type>> && std::is_object_v<typename T::element_type>)*/;
-
-// @todo 포인터 타입이 아닌 타입 자체를 받고 내부에서 포인터로 관리하자
-template<ObjectPoolConcept T>
 class ObjectPool : protected std::queue<T>
 {
 public:
@@ -151,7 +149,7 @@ public:
 	{
 		m_max_size = _max_size;
 		m_extend_size = _extend_size;
-		Create(_max_size, std::forward<ARGS>(_args));
+		Create(_max_size, std::forward<ARGS>(_args)...);
 	}
 
 	static void Finalize()
@@ -218,15 +216,15 @@ protected:
 
 		for (int i = 0; i < _size; ++i)
 		{
-			//if constexpr (std::is_same_v<T, std::unique_ptr<typename T::element_type>>)
-			//{
-			//	m_queue.push(std::make_unique<T>());
-			//}
-			//else if constexpr (std::is_same_v<T, std::shared_ptr<typename T::element_type>>)
-			//{
-			//	m_queue.push(std::make_shared<T>());
-			//}
-			//else
+			if constexpr (std::is_same_v<T, std::unique_ptr<typename T::element_type>>)
+			{
+				m_queue.push(std::make_unique<T::element_type>(std::forward<ARGS>(_args)...));
+			}
+			else if constexpr (std::is_same_v<T, std::shared_ptr<typename T::element_type>>)
+			{
+				m_queue.push(std::make_shared<T::element_type>(std::forward<ARGS>(_args)...));
+			}
+			else
 			{
 				m_queue.push(new std::remove_pointer_t<T>(std::forward<ARGS>(_args)...));
 			}
