@@ -12,7 +12,7 @@ class SessionUser : public core::network::IocpSession
 {
 public:
 	using Pid_t = fb::server::SendPid;
-	using Function_t = bool (SessionUser::*)(NetPacket*);
+	using Function_t = std::function<bool(SessionUser*, std::shared_ptr<Packet>)>;
 
 public:
 	static bool InitDispatcher();
@@ -21,23 +21,22 @@ private:
 	static core::Dispatcher<Pid_t, Function_t> s_dispatcher;
 
 public:
-	SessionUser(Id _id);
+	SessionUser();
 	virtual ~SessionUser();
 	 
 	bool Initialize() override;
 	void Finalize() override;
 
-	bool ProcPacket(NetPacket* packet);
 	ThreadId_t ThreadId() const;
 
 protected:  // IocpSession
 	void OnConnected() override;
-	std::size_t OnRecv(char* buffer, std::size_t _length) override;
-	void OnSend(std::size_t _length) override;
 	void OnDisconnected() override;
+	std::size_t OnRecv(char* _buffer, std::size_t _length) override;
+	bool ProcPacket(std::shared_ptr<NetPacket> _packet) override;
 
 protected:
-	bool OnLoginAuth(NetPacket* _packet);
+	bool OnLoginAuth(std::shared_ptr<NetPacket> _packet);
 
 public:
 	User* GetUser() const;

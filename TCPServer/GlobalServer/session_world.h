@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../Common/session_base.h"
 #include "../Core/object_pool.h"
 #include "../Core/dispatcher.h"
+#include "../Core/iocp_session.h"
 
-class SessionWorld : public SessionBase
+class SessionWorld : public core::network::IocpSession
 {
 public:
 	using Pid_t = fb::server::SendPid;
@@ -20,14 +20,13 @@ public:
 	SessionWorld(std::size_t _buffer_size);
 	virtual ~SessionWorld();
 
-	void Initialize();
+	bool Initialize();
 
-	bool RecvPacket(NetPacket* packet) override;
+public: // IocpSession
 	bool ProcPacket(NetPacket* packet) override;
-	ThreadId_t ThreadId() const override;
 
-	void OnError(const char* _msg) override;
-	void OnError(std::exception& _exception) override;
+public:
+	ThreadId_t ThreadId() const;
 
 protected:
 	bool OnRegServer(NetPacket* _packet);

@@ -46,14 +46,15 @@ void User::SetSession(SessionUser* _session)
 	m_session = _session;
 }
 
-bool User::ProcPacket(std::shared_ptr<NetPacket> _packet)
+bool User::ProcPacket(std::shared_ptr<Packet> _packet)
 {
 	fb::server::SendPid pid = (fb::server::SendPid)_packet->GetId();
 
-	LOG_INFO << "ProcPacket. Pid:" << LOG_USER_UID(UserUid()) << fb::server::EnumNameSendPid(pid);
+	LOG_INFO << "ProcPacket Start. Pid:" << LOG_USER_UID(UserUid()) << fb::server::EnumNameSendPid(pid);
 
 	bool ret = s_dispatcher.Exec(pid, this, _packet);
-	LOG_ERROR_IF(false == ret) << "Fail to dispatcher exec. Pid:" << fb::server::EnumNameSendPid(pid);
+
+	LOG_INFO << "ProcPacket End. Pid:" << LOG_USER_UID(UserUid()) << fb::server::EnumNameSendPid(pid) << " result:" << ret ? "true" : "false";
 
 	return ret;
 }

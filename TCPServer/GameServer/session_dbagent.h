@@ -7,27 +7,32 @@
 class SessionDBAgent : public core::network::IocpSession, public core::pattern::Singleton<SessionDBAgent>
 {
 public:
-	using Pid_t = fb::dbagent::RecvPid; // @todo 수정
-	using Function_t = bool (SessionDBAgent::*)(NetPacket*);
+	using Pid_t = fb::dbagent::RecvPid;
+	using Function_t = std::function<bool(SessionDBAgent*, std::shared_ptr<Packet>)>;
 
 public:
 	static bool InitDispatcher();
 private:
-	static core::Dispatcher<Pid_t, Function_t> s_dispatcher;
+	inline static core::Dispatcher<Pid_t, Function_t> s_dispatcher;
 
 public:
 	SessionDBAgent(std::size_t _buffer_size = 8192);
 	virtual ~SessionDBAgent();
 
 public: // IocpSession
-	// @brief 패킷 처리
-	bool ProcPacket(NetPacket* _packet) override;
+	void OnConnected() override;
+	void OnDisconnected() override;
+	std::size_t OnRecv(char* buffer, std::size_t _length) override;
+	bool ProcPacket(std::shared_ptr<Packet> _packet) override;
+
+public:
+	bool Send(fb::dbagent::SendPid _pid, fbb& _fbb);
 
 	ThreadId_t ThreadId() const;
 
 	/******************* 패킷 처리 함수 *******************/
 	// @brief DBA 서버에 연결 응답
-	bool OnRecv_Reg(NetPacket* _packet);
+	bool OnReg(std::shared_ptr<NetPacket> _packet);
 
 };
 

@@ -11,18 +11,37 @@ SessionWorld::~SessionWorld()
 {
 }
 
-bool SessionWorld::ProcPacket(NetPacket* _packet)
+void SessionWorld::OnConnected()
+{
+	LOG_INFO << "Connected to World.";
+}
+
+void SessionWorld::OnDisconnected()
+{
+	LOG_INFO << "Disconnected from World.";
+}
+
+std::size_t SessionWorld::OnRecv(char* buffer, std::size_t _length)
+{
+	auto packet = PacketPool::Instance().Pop();
+	packet->SetBuffer(m_recv_buffer);
+
+	ProcPacket(packet);
+
+	return _length;
+}
+
+bool SessionWorld::ProcPacket(std::shared_ptr<NetPacket> _packet)
 {
 	Pid_t pid = static_cast<Pid_t>(_packet->GetId());
-	LOG_INFO << "SessionId:" << GetSessionId() << " ProcPacket Pid:" << fb::world::EnumNameRecvPid(pid);
 
-	if (false == s_dispatcher.Exec(pid, this, _packet))
-	{
-		LOG_ERROR << "Fail to dispatcher exec. Pid:" << fb::world::EnumNameRecvPid(pid);
-		return false;
-	}
+	LOG_INFO << "ProcPacket. Pid:" << fb::world::EnumNameRecvPid(pid);
 
-	return true;
+	bool ret = s_dispatcher.Exec(pid, this, _packet);
+	
+	LOG_INFO << "ProcPacket. Pid:" << fb::world::EnumNameRecvPid(pid) << " ret:" << ret;
+
+	return ret;
 }
 
 ThreadId_t SessionWorld::ThreadId() const

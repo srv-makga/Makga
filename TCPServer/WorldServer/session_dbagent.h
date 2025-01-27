@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../Common/session_base.h"
 #include "../Core/dispatcher.h"
 #include "../Core/singleton.hpp"
+#include "../Core/iocp_session.h"
 
-class SessionDBAgent : public SessionBase, public core::pattern::Singleton<SessionDBAgent>
+class SessionDBAgent : public core::network::IocpSession, public core::pattern::Singleton<SessionDBAgent>
 {
 public:
 	using Pid_t = fb::dbagent::RecvPid;
