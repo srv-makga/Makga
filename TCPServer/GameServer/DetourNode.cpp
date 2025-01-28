@@ -16,6 +16,7 @@
 // 3. This notice may not be removed or altered from any source distribution.
 //
 
+#include "pch.h"
 #include "DetourNode.h"
 #include "DetourAlloc.h"
 #include "DetourAssert.h"
