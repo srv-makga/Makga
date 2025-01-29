@@ -2,7 +2,7 @@
 #include "terrain.h"
 #include "terrain_grid_manager.h"
 #include "terrain_grid.h"
-#include "data_manager.h"
+#include "manager.h"
 
 Terrain::Terrain(TerrainUid_t _uid)
 	: m_uid(_uid)
@@ -70,8 +70,9 @@ void Terrain::OnUpdate()
 
 Result_t Terrain::CanMove(const PositionT& _position)
 {
+	return fb::eResult::eResult_Fail;
+
 	// 내비메쉬 체크
-	CheckNaviMesh(_position.x, _position.y, _position.z);
 
 	// 다른 액터 충돌 체크
 }
@@ -163,8 +164,8 @@ void Terrain::FindNotificationList(const PositionT& _old, const PositionT& _new,
 
 	for (TerrainGrid* grid : grid_list)
 	{
-		grid->ActorListByPosition(_old, SYSTEM.actor.max_around_distance, eActorSearchFilter::FilterCharacter, old_pos_actor_list);
-		grid->ActorListByPosition(_new, SYSTEM.actor.max_around_distance, eActorSearchFilter::FilterCharacter, new_pos_actor_list);
+		grid->ActorListByPosition(_old, MANAGER.data.SystemValue().actor.max_around_distance, eActorSearchFilter::FilterCharacter, old_pos_actor_list);
+		grid->ActorListByPosition(_new, MANAGER.data.SystemValue().actor.max_around_distance, eActorSearchFilter::FilterCharacter, new_pos_actor_list);
 	}
 
 	if (true == old_pos_actor_list.empty() || true == new_pos_actor_list.empty())

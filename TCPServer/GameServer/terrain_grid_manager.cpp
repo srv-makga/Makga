@@ -74,7 +74,7 @@ void TerrainGridManager::OnUpdate()
 	}
 }
 
-bool TerrainGridManager::EnterActor(Actor* _actor, Coord_t _x, Coord_t _y, Coord_t _z)
+bool TerrainGridManager::EnterActor(std::shared_ptr<Actor> _actor, Coord_t _x, Coord_t _y, Coord_t _z)
 {
 	if (nullptr == _actor)
 	{
@@ -94,11 +94,24 @@ bool TerrainGridManager::EnterActor(Actor* _actor, Coord_t _x, Coord_t _y, Coord
 
 	grid->InsertActor(_actor);
 	_actor->SetTerrainGrid(grid);
+
+	return true;
 }
 
-bool TerrainGridManager::LeaveActor(Actor* _actor)
+bool TerrainGridManager::LeaveActor(std::shared_ptr<Actor> _actor)
 {
-	return false;
+	if (nullptr == _actor)
+	{
+		return false;
+	}
+
+	TerrainGrid* grid = _actor->CurTerrainGrid();
+	if (nullptr == grid)
+	{
+		return false;
+	}
+
+	return grid->Erasector(_actor->ActorUid());
 }
 
 TerrainGrid* TerrainGridManager::FindGrid(Coord_t _x, Coord_t _y, Coord_t _z)
