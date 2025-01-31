@@ -42,17 +42,14 @@ enum eActorType : int
 	Object, // 공격 O
 	Gadget, // 공격 X, 기능
 	Npc,
-	Pran,
+	Pet,
 }
 
 enum eActorMoveEffect : int
 {
 	Normal,
-	Delay,
-	LongDelay,
-	Wrap,
-	Fake,
-	Event,
+	Teleport,
+	Spawn,
 }
 
 enum eInvenType : int

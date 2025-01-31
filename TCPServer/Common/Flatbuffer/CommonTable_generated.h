@@ -356,51 +356,33 @@ inline ::flatbuffers::Offset<Position> CreatePosition(
 
 struct HpMpT : public ::flatbuffers::NativeTable {
   typedef HpMp TableType;
-  int64_t cur_hp = 0;
-  int64_t max_hp = 0;
-  int64_t cur_mp = 0;
-  int64_t max_mp = 0;
+  int64_t hp = 0;
+  int64_t mp = 0;
 };
 
 struct HpMp FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef HpMpT NativeTableType;
   typedef HpMpBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_CUR_HP = 4,
-    VT_MAX_HP = 6,
-    VT_CUR_MP = 8,
-    VT_MAX_MP = 10
+    VT_HP = 4,
+    VT_MP = 6
   };
-  int64_t cur_hp() const {
-    return GetField<int64_t>(VT_CUR_HP, 0);
+  int64_t hp() const {
+    return GetField<int64_t>(VT_HP, 0);
   }
-  bool mutate_cur_hp(int64_t _cur_hp = 0) {
-    return SetField<int64_t>(VT_CUR_HP, _cur_hp, 0);
+  bool mutate_hp(int64_t _hp = 0) {
+    return SetField<int64_t>(VT_HP, _hp, 0);
   }
-  int64_t max_hp() const {
-    return GetField<int64_t>(VT_MAX_HP, 0);
+  int64_t mp() const {
+    return GetField<int64_t>(VT_MP, 0);
   }
-  bool mutate_max_hp(int64_t _max_hp = 0) {
-    return SetField<int64_t>(VT_MAX_HP, _max_hp, 0);
-  }
-  int64_t cur_mp() const {
-    return GetField<int64_t>(VT_CUR_MP, 0);
-  }
-  bool mutate_cur_mp(int64_t _cur_mp = 0) {
-    return SetField<int64_t>(VT_CUR_MP, _cur_mp, 0);
-  }
-  int64_t max_mp() const {
-    return GetField<int64_t>(VT_MAX_MP, 0);
-  }
-  bool mutate_max_mp(int64_t _max_mp = 0) {
-    return SetField<int64_t>(VT_MAX_MP, _max_mp, 0);
+  bool mutate_mp(int64_t _mp = 0) {
+    return SetField<int64_t>(VT_MP, _mp, 0);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int64_t>(verifier, VT_CUR_HP, 8) &&
-           VerifyField<int64_t>(verifier, VT_MAX_HP, 8) &&
-           VerifyField<int64_t>(verifier, VT_CUR_MP, 8) &&
-           VerifyField<int64_t>(verifier, VT_MAX_MP, 8) &&
+           VerifyField<int64_t>(verifier, VT_HP, 8) &&
+           VerifyField<int64_t>(verifier, VT_MP, 8) &&
            verifier.EndTable();
   }
   HpMpT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -412,17 +394,11 @@ struct HpMpBuilder {
   typedef HpMp Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_cur_hp(int64_t cur_hp) {
-    fbb_.AddElement<int64_t>(HpMp::VT_CUR_HP, cur_hp, 0);
+  void add_hp(int64_t hp) {
+    fbb_.AddElement<int64_t>(HpMp::VT_HP, hp, 0);
   }
-  void add_max_hp(int64_t max_hp) {
-    fbb_.AddElement<int64_t>(HpMp::VT_MAX_HP, max_hp, 0);
-  }
-  void add_cur_mp(int64_t cur_mp) {
-    fbb_.AddElement<int64_t>(HpMp::VT_CUR_MP, cur_mp, 0);
-  }
-  void add_max_mp(int64_t max_mp) {
-    fbb_.AddElement<int64_t>(HpMp::VT_MAX_MP, max_mp, 0);
+  void add_mp(int64_t mp) {
+    fbb_.AddElement<int64_t>(HpMp::VT_MP, mp, 0);
   }
   explicit HpMpBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -437,15 +413,11 @@ struct HpMpBuilder {
 
 inline ::flatbuffers::Offset<HpMp> CreateHpMp(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    int64_t cur_hp = 0,
-    int64_t max_hp = 0,
-    int64_t cur_mp = 0,
-    int64_t max_mp = 0) {
+    int64_t hp = 0,
+    int64_t mp = 0) {
   HpMpBuilder builder_(_fbb);
-  builder_.add_max_mp(max_mp);
-  builder_.add_cur_mp(cur_mp);
-  builder_.add_max_hp(max_hp);
-  builder_.add_cur_hp(cur_hp);
+  builder_.add_mp(mp);
+  builder_.add_hp(hp);
   return builder_.Finish();
 }
 
@@ -1549,10 +1521,8 @@ inline HpMpT *HpMp::UnPack(const ::flatbuffers::resolver_function_t *_resolver) 
 inline void HpMp::UnPackTo(HpMpT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
-  { auto _e = cur_hp(); _o->cur_hp = _e; }
-  { auto _e = max_hp(); _o->max_hp = _e; }
-  { auto _e = cur_mp(); _o->cur_mp = _e; }
-  { auto _e = max_mp(); _o->max_mp = _e; }
+  { auto _e = hp(); _o->hp = _e; }
+  { auto _e = mp(); _o->mp = _e; }
 }
 
 inline ::flatbuffers::Offset<HpMp> HpMp::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const HpMpT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -1563,16 +1533,12 @@ inline ::flatbuffers::Offset<HpMp> CreateHpMp(::flatbuffers::FlatBufferBuilder &
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const HpMpT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _cur_hp = _o->cur_hp;
-  auto _max_hp = _o->max_hp;
-  auto _cur_mp = _o->cur_mp;
-  auto _max_mp = _o->max_mp;
+  auto _hp = _o->hp;
+  auto _mp = _o->mp;
   return fb::CreateHpMp(
       _fbb,
-      _cur_hp,
-      _max_hp,
-      _cur_mp,
-      _max_mp);
+      _hp,
+      _mp);
 }
 
 inline BuffInfoT *BuffInfo::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {

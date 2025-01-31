@@ -148,9 +148,9 @@ enum eActorType : int32_t {
   eActorType_Object = 2,
   eActorType_Gadget = 3,
   eActorType_Npc = 4,
-  eActorType_Pran = 5,
+  eActorType_Pet = 5,
   eActorType_MIN = eActorType_None,
-  eActorType_MAX = eActorType_Pran
+  eActorType_MAX = eActorType_Pet
 };
 
 inline const eActorType (&EnumValueseActorType())[7] {
@@ -161,7 +161,7 @@ inline const eActorType (&EnumValueseActorType())[7] {
     eActorType_Object,
     eActorType_Gadget,
     eActorType_Npc,
-    eActorType_Pran
+    eActorType_Pet
   };
   return values;
 }
@@ -174,56 +174,47 @@ inline const char * const *EnumNameseActorType() {
     "Object",
     "Gadget",
     "Npc",
-    "Pran",
+    "Pet",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameeActorType(eActorType e) {
-  if (::flatbuffers::IsOutRange(e, eActorType_None, eActorType_Pran)) return "";
+  if (::flatbuffers::IsOutRange(e, eActorType_None, eActorType_Pet)) return "";
   const size_t index = static_cast<size_t>(e) - static_cast<size_t>(eActorType_None);
   return EnumNameseActorType()[index];
 }
 
 enum eActorMoveEffect : int32_t {
   eActorMoveEffect_Normal = 0,
-  eActorMoveEffect_Delay = 1,
-  eActorMoveEffect_LongDelay = 2,
-  eActorMoveEffect_Wrap = 3,
-  eActorMoveEffect_Fake = 4,
-  eActorMoveEffect_Event = 5,
+  eActorMoveEffect_Teleport = 1,
+  eActorMoveEffect_Spawn = 2,
   eActorMoveEffect_MIN = eActorMoveEffect_Normal,
-  eActorMoveEffect_MAX = eActorMoveEffect_Event
+  eActorMoveEffect_MAX = eActorMoveEffect_Spawn
 };
 
-inline const eActorMoveEffect (&EnumValueseActorMoveEffect())[6] {
+inline const eActorMoveEffect (&EnumValueseActorMoveEffect())[3] {
   static const eActorMoveEffect values[] = {
     eActorMoveEffect_Normal,
-    eActorMoveEffect_Delay,
-    eActorMoveEffect_LongDelay,
-    eActorMoveEffect_Wrap,
-    eActorMoveEffect_Fake,
-    eActorMoveEffect_Event
+    eActorMoveEffect_Teleport,
+    eActorMoveEffect_Spawn
   };
   return values;
 }
 
 inline const char * const *EnumNameseActorMoveEffect() {
-  static const char * const names[7] = {
+  static const char * const names[4] = {
     "Normal",
-    "Delay",
-    "LongDelay",
-    "Wrap",
-    "Fake",
-    "Event",
+    "Teleport",
+    "Spawn",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameeActorMoveEffect(eActorMoveEffect e) {
-  if (::flatbuffers::IsOutRange(e, eActorMoveEffect_Normal, eActorMoveEffect_Event)) return "";
+  if (::flatbuffers::IsOutRange(e, eActorMoveEffect_Normal, eActorMoveEffect_Spawn)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNameseActorMoveEffect()[index];
 }
