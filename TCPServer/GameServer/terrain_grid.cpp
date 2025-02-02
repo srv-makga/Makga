@@ -15,6 +15,14 @@ TerrainGrid::~TerrainGrid()
 {
 }
 
+void TerrainGrid::Initialize()
+{
+}
+
+void TerrainGrid::Finalize()
+{
+}
+
 bool TerrainGrid::IsValid(Coord_t _x, Coord_t _y, Coord_t _z)
 {
 	if (m_height < _z)
@@ -41,6 +49,16 @@ void TerrainGrid::OnUpdate()
 	{
 		iter.second->OnUpdate();
 	}
+}
+
+bool TerrainGrid::EnterActor(std::shared_ptr<Actor> _actor, Coord_t _x, Coord_t _y, Coord_t _z, fb::eActorMoveEffect _move_effect)
+{
+	return false;
+}
+
+bool TerrainGrid::LeaveActor(std::shared_ptr<Actor> _actor, fb::eActorMoveEffect _move_effect)
+{
+	return false;
 }
 
 bool TerrainGrid::InsertActor(std::shared_ptr<Actor> _actor)

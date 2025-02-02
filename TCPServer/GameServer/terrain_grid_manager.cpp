@@ -74,45 +74,12 @@ void TerrainGridManager::OnUpdate()
 	}
 }
 
-bool TerrainGridManager::EnterActor(std::shared_ptr<Actor> _actor, Coord_t _x, Coord_t _y, Coord_t _z)
-{
-	if (nullptr == _actor)
-	{
-		return false;
-	}
-
-	TerrainGrid* grid = FindGrid(_x, _y, _z);
-	if (nullptr == grid)
-	{
-		return false;
-	}
-
-	if (grid == _actor->CurTerrainGrid())
-	{
-		return false;
-	}
-
-	grid->InsertActor(_actor);
-	_actor->SetTerrainGrid(grid);
-
-	return true;
-}
-
-bool TerrainGridManager::LeaveActor(std::shared_ptr<Actor> _actor)
-{
-	if (nullptr == _actor)
-	{
-		return false;
-	}
-
-	TerrainGrid* grid = _actor->CurTerrainGrid();
-	if (nullptr == grid)
-	{
-		return false;
-	}
-
-	return grid->Erasector(_actor->ActorUid());
-}
+// 액터의 terrain 입장 순서
+// Actor->DoMove();
+// Actor->UpdatePosition();
+// TerrainManager->FindTerrain();
+// Terrain->FindGrid();
+// TerrainGrid->InsertActor();
 
 TerrainGrid* TerrainGridManager::FindGrid(Coord_t _x, Coord_t _y, Coord_t _z)
 {

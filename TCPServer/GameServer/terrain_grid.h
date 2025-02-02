@@ -35,11 +35,10 @@ public:
 
 	void OnUpdate();
 
-	bool InsertActor(std::shared_ptr<Actor> _actor);
+	bool EnterActor(std::shared_ptr<Actor> _actor, Coord_t _x, Coord_t _y, Coord_t _z, fb::eActorMoveEffect _move_effect);
+	bool LeaveActor(std::shared_ptr<Actor> _actor, fb::eActorMoveEffect _move_effect);
 	std::shared_ptr<Actor> FindActor(std::shared_ptr<Actor> _actor);
 	std::shared_ptr<Actor> FindActor(ActorUid_t _actor_id);
-	bool Erasector(ActorUid_t _actor_id);
-	bool Erasector(std::shared_ptr<Actor> _actor);
 
 	bool IsInside(Coord_t _x, Coord_t _y, Coord_t _z);
 
@@ -50,6 +49,11 @@ public:
 	void ActorListByCoord(Coord_t _x, Coord_t _y, Coord_t _z, Distance_t _distance, ActorSearchFilter _filter, OUT ActorList& _list);
 	void ActorListByPosition(const fb::PositionT& _pos, Distance_t _distance, ActorSearchFilter _filter, OUT ActorList& _list);
 	void GridListByChangeCoord(const PositionT& _pos1, const PositionT& _pos2, OUT std::vector<TerrainGrid*>& _list);
+
+private:
+	bool InsertActor(std::shared_ptr<Actor> _actor);
+	bool Erasector(ActorUid_t _actor_id);
+	bool Erasector(std::shared_ptr<Actor> _actor);
 
 private:
 	Actors m_actors;
