@@ -9,19 +9,28 @@
 #include "net_buffer.h"
 #include <queue>
 
+class Packet;
+
 namespace core {
 namespace network {
 class IocpService;
 class IocpSession : public Session, public IocpObject
 {
 public:
-	IocpSession(Id _id, std::size_t _buffer_size);
+	IocpSession(Session::Type _type, std::size_t _buffer_size);
 	virtual ~IocpSession();
 
-public:
-	bool Initialize();
-	void Finalize();
+public: // Session
+	bool Initialize() override;
+	void Finalize() override;
 
+	Id GetSessionId() const override;
+	void SetSessionId(Id _id) override;
+
+	Type GetSessionType() const override;
+	void SetSessionType(Type _type) override;
+
+public:
 	void Dispatch(IocpEvent* _iocp_event, int _bytes_transferred = 0) override;
 
 	bool Connect();
@@ -49,25 +58,23 @@ public:
 	void SetEndPoint(IPEndPoint _ep);
 	void SetService(std::shared_ptr<IocpService> _service);
 
-public: // Session
-	Id GetSessionId() const override;
-	void SetSessionId(Id _id) override;
-
 protected:
 	virtual void OnConnected() = 0;
-	virtual std::size_t OnRecv(char* buffer, std::size_t _length) = 0;
-	virtual void OnRecvPacket(char* buffer, std::size_t _length) = 0;
-	virtual void OnSend(std::size_t _length) = 0;
 	virtual void OnDisconnected() = 0;
+	virtual std::size_t OnRecv(char* buffer, std::size_t _length);
+	virtual void OnSend(std::size_t _length);
+	virtual bool ProcPacket(std::shared_ptr<Packet> _packet) = 0;
 
 public:
-	std::atomic<Id> m_id;
+	Id m_id;
+	Session::Type m_type;
 
 	SOCKET m_socket;
 	IPEndPoint m_end_point;
 	std::atomic<bool> m_is_connected;
 
-	NetBuffer m_recv_buffer;
+	std::shared_ptr<NetBuffer> m_recv_buffer;
+
 	core::RWMutex m_send_mutex;
 	std::queue<std::shared_ptr<NetBuffer>> m_send_buffer_queue;
 	std::atomic<bool> m_is_send_registered;

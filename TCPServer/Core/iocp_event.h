@@ -21,15 +21,26 @@ class IocpEvent : public OVERLAPPED
 {
 public:
 	IocpEvent() = delete;
-	IocpEvent(IocpType _type);
+	IocpEvent(IocpType _type)
+		: m_type(_type)
+		, m_owner(nullptr)
+	{}
 	IocpEvent(const IocpEvent&) = delete;
 	IocpEvent(IocpEvent&& other) = delete;
 	IocpEvent& operator=(const IocpEvent&) = delete;
 	IocpEvent& operator=(IocpEvent&&) = delete;
 	virtual ~IocpEvent() = default;
 
-	bool Initialize();
-	void Finalize();
+	bool Initialize()
+	{
+		m_owner = nullptr;
+		return true;
+	}
+
+	void Finalize()
+	{
+		m_owner = nullptr;
+	}
 
 	IocpType m_type;
 	std::shared_ptr<IocpObject> m_owner;

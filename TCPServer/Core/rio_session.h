@@ -15,7 +15,7 @@ namespace network {
 class RioSession : public Session, public std::enable_shared_from_this<RioSession>
 {
 public:
-	RioSession(Id _id);
+	RioSession(Id _id, Session::Type _type);
 	RioSession(const RioSession& _other) = delete;
 	RioSession(RioSession&& _other) = delete;
 	RioSession& operator=(const RioSession& _other) = delete;
@@ -23,8 +23,14 @@ public:
 	virtual ~RioSession();
 
 public:
-	bool Initialize();
-	void Finalize();
+	bool Initialize() override;
+	void Finalize() override;
+
+	Id GetSessionId() const override;
+	void SetSessionId(Id _id) override;
+
+	Type GetSessionType() const override;
+	void SetSessionType(Type _type) override;
 
 	void Disconnect();
 	void Send(std::shared_ptr<NetBuffer> _buffer);
@@ -44,7 +50,6 @@ public:
 public:
 	virtual void OnConnected() {}
 	virtual std::size_t OnRecv(char* _buffer, std::size_t _length) { return 0; }
-	virtual void OnRecvPacket(char* _buffer, std::size_t _length) {}
 	virtual void OnSend(std::size_t _length) {}
 	virtual void OnDisconnected() {}
 
@@ -67,11 +72,9 @@ private:
 	bool AllocBuffer();
 	bool CreateRequestQueue();
 
-public: // Session
-	Id GetSessionId() const override;
-
 private:
 	Id m_id;
+	Type m_type;
 
 	SOCKET m_socket;
 	IPEndPoint m_end_point;

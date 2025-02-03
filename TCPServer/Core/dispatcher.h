@@ -47,32 +47,47 @@ public:
 	}
 
 	template<typename Actor, typename Args>
-	bool Exec(Identifier_t _identifier, Actor _actor, Args args)
+	bool Exec(Identifier_t _identifier, Actor _actor, Args _args)
 	{
-		Function_t functor;
+		auto iter = m_functor.find(_identifier);
+		if (m_functor.end() == iter)
+		{
+			return false;
+		}
+
+		return iter->second(_actor, _args);
+
+		/*Function_t functor;
 
 		if (true == Find(_identifier, functor))
 		{
-			(_actor->*functor)(args);
+			(_actor->*functor)(_args);
 			return true;
 		}
 
-		return false;
+		return false;*/
 	}
 
-	template<typename Actor, typename ...Args>
-	bool Exec(Identifier_t _identifier, Actor _actor, Args... args)
-	{
-		Function_t functor;
+	//template<typename Actor, typename ...Args>
+	//bool Exec(Identifier_t _identifier, Actor _actor, Args... args)
+	//{
+	//	auto iter = m_functor.find(_identifier);
+	//	if (m_functor.end() == iter)
+	//	{
+	//		return false;
+	//	}
+	//	
+	//	return iter->second(_actor, args...);
+	//	/*Function_t functor;
 
-		if (true == Find(_identifier, functor))
-		{
-			(_actor->*functor)(args...);
-			return true;
-		}
+	//	if (true == Find(_identifier, functor))
+	//	{
+	//		(_actor->*functor)(args...);
+	//		return true;
+	//	}
 
-		return false;
-	}
+	//	return false;*/
+	//}
 
 private:
 	bool Find(Identifier_t _identifier, Function_t& _functor) const

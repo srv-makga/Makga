@@ -144,12 +144,14 @@ public:
 	ObjectPool() = default;
 	~ObjectPool() = default;
 
-	template<typename... ARGS>
-	static void Initialize(std::size_t _max_size, std::size_t _extend_size, ARGS&&... _args)
+	static void Initialize(std::size_t _max_size, std::size_t _extend_size, std::function<T()> _create_func, std::function<void(T)> _destroy_func)
 	{
 		m_max_size = _max_size;
 		m_extend_size = _extend_size;
-		Create(_max_size, std::forward<ARGS>(_args)...);
+		m_create_func = _create_func;
+		m_destroy_func = _destroy_func;
+
+		Create(_max_size);
 	}
 
 	static void Finalize()
@@ -201,33 +203,18 @@ public:
 
 	static std::size_t Size()
 	{
-		core::WriteLock lock(m_mutex);
+		core::ReadLock lock(m_mutex);
 		return m_queue.size();
 	}
 
-	//static std::size_t MaxSize() { core::ReadLock lock(m_mutex); return m_max_size; }
-	//static std::size_t FreeSize() { core::ReadLock lock(m_mutex); return m_queue.size(); }
-
 protected:
-	template<typename... ARGS>
-	static bool Create(std::size_t _size, ARGS&&... _args)
+	static bool Create(std::size_t _size)
 	{
 		m_max_size += _size;
 
-		for (int i = 0; i < _size; ++i)
+		for (std::size_t i = 0; i < _size; ++i)
 		{
-			if constexpr (std::is_same_v<T, std::unique_ptr<typename T::element_type>>)
-			{
-				m_queue.push(std::make_unique<T::element_type>(std::forward<ARGS>(_args)...));
-			}
-			else if constexpr (std::is_same_v<T, std::shared_ptr<typename T::element_type>>)
-			{
-				m_queue.push(std::make_shared<T::element_type>(std::forward<ARGS>(_args)...));
-			}
-			else
-			{
-				m_queue.push(new std::remove_pointer_t<T>(std::forward<ARGS>(_args)...));
-			}
+			m_queue.push(m_create_func());
 		}
 
 		return true;
@@ -239,16 +226,9 @@ protected:
 
 		while (false == m_queue.empty())
 		{
-			if constexpr (std::is_pointer_v<T>)
-			{
-				T object = m_queue.front();
-				m_queue.pop();
-				::operator delete(object);
-			}
-			else
-			{
-				m_queue.pop();
-			}
+			T object = m_queue.front();
+			m_destroy_func(object);
+			m_queue.pop();
 		}
 	}
 
@@ -257,5 +237,7 @@ protected:
 	inline static std::size_t m_extend_size = 0;
 	inline static Queue_t m_queue;
 	inline static core::RWMutex m_mutex;
+	inline static std::function<T()> m_create_func;
+	inline static std::function<void(T)> m_destroy_func;
 };
 } // namespace core

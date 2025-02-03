@@ -2,6 +2,7 @@
 
 #include "net_header.h"
 #include "socket_header.h"
+#include "iocp_core.h"
 #include "service.h"
 #include "ip_endpoint.h"
 #include "lock.h"
@@ -10,7 +11,6 @@
 #ifdef _WIN32
 namespace core {
 namespace network {
-class IocpCore;
 class IocpSession;
 class IocpService : public server::Service
 {
@@ -29,7 +29,7 @@ public: // Service
 	//bool Stop() override;
 
 public:
-	bool Setup(std::shared_ptr<IocpCore> _iocp_core,
+	void Setup(std::shared_ptr<IocpCore> _iocp_core,
 		std::function<std::shared_ptr<IocpSession>(void)> _alloc_session,
 		std::function<void(std::shared_ptr<IocpSession>)> _dealloc_session);
 

@@ -14,6 +14,7 @@ public:
 	using Type_t = enum { None, v4, v6};
 	using Port_t = unsigned short;
 	using Address_t = union { sockaddr_in ipv4; sockaddr_in6 ipv6; };
+	bool operator== (const IPEndPoint& _other) const;
 
 public:
 	IPEndPoint();

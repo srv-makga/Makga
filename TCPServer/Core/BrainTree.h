@@ -23,7 +23,8 @@ public:
 		Running,
 	};
 
-	virtual ~Node() {}
+	Node() = default;
+	virtual ~Node() = default;
 
 	virtual Status update() = 0;
 	virtual void initialize() {}
@@ -456,14 +457,14 @@ public:
 
 		if (useSuccessFailPolicy) {
 			if (successOnAll) {
-				minimumSuccess = children.size();
+				minimumSuccess = static_cast<int>(children.size());
 			}
 			else {
 				minimumSuccess = 1;
 			}
 
 			if (failOnAll) {
-				minimumFail = children.size();
+				minimumFail = static_cast<int>(children.size());
 			}
 			else {
 				minimumFail = 1;
