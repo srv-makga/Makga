@@ -1,10 +1,9 @@
 #pragma once
 
 #include "../Core/dispatcher.h"
-#include "../Core/singleton.hpp"
 #include "../Core/iocp_session.h"
 
-class SessionWorld : public core::network::IocpSession, public core::pattern::Singleton<SessionWorld>
+class SessionWorld : public core::network::IocpSession
 {
 public:
 	using Pid_t = fb::world::RecvPid;

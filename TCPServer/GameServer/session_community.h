@@ -1,14 +1,13 @@
 #pragma once
 
 #include "../Core/dispatcher.h"
-#include "../Core/singleton.hpp"
 #include "../Core/iocp_session.h"
 
-class CommunityServer : public core::network::IocpSession, public core::pattern::Singleton<CommunityServer>
+class SessionCommunity : public core::network::IocpSession
 {
 public:
 	using Pid_t = fb::community::RecvPid;
-	using Function_t = std::function<bool(CommunityServer*, std::shared_ptr<Packet>)>;
+	using Function_t = std::function<bool(SessionCommunity*, std::shared_ptr<Packet>)>;
 
 public:
 	static bool InitDispatcher();
@@ -16,8 +15,8 @@ private:
 	inline static core::Dispatcher<Pid_t, Function_t> s_dispatcher;
 
 public:
-	CommunityServer();
-	virtual ~CommunityServer();
+	SessionCommunity();
+	virtual ~SessionCommunity();
 
 public: // IocpSession
 	void OnConnected() override;

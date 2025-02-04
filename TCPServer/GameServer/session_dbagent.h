@@ -1,10 +1,9 @@
 #pragma once
 
 #include "../Core/dispatcher.h"
-#include "../Core/singleton.hpp"
 #include "../Core/iocp_session.h"
 
-class SessionDBAgent : public core::network::IocpSession, public core::pattern::Singleton<SessionDBAgent>
+class SessionDBAgent : public core::network::IocpSession
 {
 public:
 	using Pid_t = fb::dbagent::RecvPid;
@@ -35,5 +34,3 @@ public:
 	bool OnReg(std::shared_ptr<NetPacket> _packet);
 
 };
-
-#define SESSION_DBAGENT	SessionDBAgent::Instance()
