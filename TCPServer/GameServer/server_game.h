@@ -1,22 +1,43 @@
 #pragma once
 
-#include "session_user.h"
+#include "../core/singleton.hpp"
+#include "../Common/server.h"
+
 #include "acceptor_user.h"
+#include "acceptor_admintool.h"
 
+#include "connecter.h"
 
-class GameServer
+#include "session_user.h"
+#include "session_world.h"
+#include "session_community.h"
+#include "session_dbagent.h"
+
+class GameServer : public Server, public core::pattern::Singleton<GameServer>
 {
 public:
-	GameServer(const core::network::IPEndPoint& _ep, SessionManager<std::shared_ptr<SessionUser>>* _session_manager);
-	GameServer() = delete;
+	GameServer();
 	GameServer(const GameServer& _other) = delete;
 	GameServer(GameServer&& _other) = delete;
 	GameServer& operator=(const GameServer& _other) = delete;
 	GameServer& operator=(GameServer&& _other) = delete;
+	virtual ~GameServer();
 
-	bool Initialize();
-	void Finalize();
+	bool Initialize() override;
+	void Finalize() override;
 
-private:
+protected:
+	bool StartUp() override;
+	bool StartEnd() override;
+
+public:
 	AcceptorUser m_acceptor_user;
-};0
+	AcceptorAdminTool m_acceptor_admintool;
+
+	// @todo proxy 서버로 변경 필요
+	std::shared_ptr<SessionWorld> m_session_world;
+	std::shared_ptr<SessionCommunity> m_session_community;
+	std::shared_ptr<SessionDBAgent> m_session_dbagent;
+};
+
+#define SERVER	GameServer::Instance()
