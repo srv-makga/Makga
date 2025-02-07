@@ -29,14 +29,11 @@ bool SessionUser::Initialize()
 {
 	m_user = nullptr;
 
-	Session::Initialize();
-
 	return true;
 }
 
 void SessionUser::Finalize()
 {
-	Session::Finalize();
 }
 
 User* SessionUser::GetUser() const
@@ -81,7 +78,7 @@ void SessionUser::OnDisconnected()
 
 std::size_t SessionUser::OnRecv(char* _buffer, std::size_t _length)
 {
-	auto packet = PacketPool::Instance().Pop();
+	auto packet = POOL.packet.Pop();
 	packet->SetBuffer(m_recv_buffer);
 
 	ProcPacket(packet);

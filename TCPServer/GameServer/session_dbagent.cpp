@@ -32,7 +32,7 @@ void SessionDBAgent::OnDisconnected()
 
 std::size_t SessionDBAgent::OnRecv(char* buffer, std::size_t _length)
 {
-	auto packet = PacketPool::Instance().Pop();
+	auto packet = POOL.packet.Pop();
 	packet->SetBuffer(m_recv_buffer);
 
 	ProcPacket(packet);
@@ -55,7 +55,7 @@ bool SessionDBAgent::ProcPacket(std::shared_ptr<Packet> _packet)
 
 bool SessionDBAgent::Send(fb::dbagent::SendPid _pid, fbb& _fbb)
 {
-	auto buffer = BufferPool::Pop();
+	auto buffer = POOL.buffer.Pop();
 
 	buffer->Write((char*)&_pid, sizeof(_pid));
 	buffer->Write((char*)(_fbb.GetBufferPointer()), _fbb.GetSize());

@@ -2,36 +2,36 @@
 #include "session_community.h"
 #include "pool.h"
 
-#define REG_DISPATCHER(pid)	s_dispatcher.Add(fb::community::RecvPid_##pid, [](CommunityServer* _procer, std::shared_ptr<Packet> packet) -> bool { return _procer->On##pid(packet); });
+#define REG_DISPATCHER(pid)	s_dispatcher.Add(fb::community::RecvPid_##pid, [](SessionCommunity* _procer, std::shared_ptr<Packet> packet) -> bool { return _procer->On##pid(packet); });
 
-bool CommunityServer::InitDispatcher()
+bool SessionCommunity::InitDispatcher()
 {
 	REG_DISPATCHER(Reg);
 	return true;
 }
 
-CommunityServer::CommunityServer()
+SessionCommunity::SessionCommunity()
 	: IocpSession(Session::Type::IOCPClient, CONFIG.buffer_size_read)
 {
 }
 
-CommunityServer::~CommunityServer()
+SessionCommunity::~SessionCommunity()
 {
 }
 
-void CommunityServer::OnConnected()
+void SessionCommunity::OnConnected()
 {
-	LOG_INFO << "Connected to CommunityServer.";
+	LOG_INFO << "Connected to SessionCommunity.";
 }
 
-void CommunityServer::OnDisconnected()
+void SessionCommunity::OnDisconnected()
 {
-	LOG_INFO << "Disconnected from CommunityServer.";
+	LOG_INFO << "Disconnected from SessionCommunity.";
 }
 
-std::size_t CommunityServer::OnRecv(char* buffer, std::size_t _length)
+std::size_t SessionCommunity::OnRecv(char* buffer, std::size_t _length)
 {
-	auto packet = PacketPool::Instance().Pop();
+	auto packet = POOL.packet.Pop();
 	packet->SetBuffer(m_recv_buffer);
 
 	ProcPacket(packet);
@@ -39,7 +39,7 @@ std::size_t CommunityServer::OnRecv(char* buffer, std::size_t _length)
 	return _length;
 }
 
-bool CommunityServer::ProcPacket(std::shared_ptr<Packet> _packet)
+bool SessionCommunity::ProcPacket(std::shared_ptr<Packet> _packet)
 {
 	LOG_INFO << "ProcPacket Start. Pid:" << fb::community::EnumNameRecvPid((fb::community::RecvPid)_packet->GetId());
 
@@ -50,12 +50,12 @@ bool CommunityServer::ProcPacket(std::shared_ptr<Packet> _packet)
 	return ret;
 }
 
-ThreadId_t CommunityServer::ThreadId() const
+ThreadId_t SessionCommunity::ThreadId() const
 {
 	return 0;
 }
 
-bool CommunityServer::OnReg(std::shared_ptr<NetPacket> _packet)
+bool SessionCommunity::OnReg(std::shared_ptr<NetPacket> _packet)
 {
 	LOG_INFO << "Community server connected!";
 	return true;

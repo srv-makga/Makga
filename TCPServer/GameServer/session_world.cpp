@@ -23,7 +23,7 @@ void SessionWorld::OnDisconnected()
 
 std::size_t SessionWorld::OnRecv(char* buffer, std::size_t _length)
 {
-	auto packet = PacketPool::Instance().Pop();
+	auto packet = POOL.packet.Pop();
 	packet->SetBuffer(m_recv_buffer);
 
 	ProcPacket(packet);
