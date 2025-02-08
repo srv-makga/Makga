@@ -9,7 +9,7 @@
 #include "terrain.h"
 #include "utility.h"
 
-ActorAI::ActorAI(Actor* _actor, fb::eAiType _type)
+ActorAI::ActorAI(std::shared_ptr<Actor> _actor, fb::eAiType _type)
 	: m_actor(_actor)
 	, m_node(nullptr)
 {
@@ -17,18 +17,20 @@ ActorAI::ActorAI(Actor* _actor, fb::eAiType _type)
 
 ActorAI::~ActorAI()
 {
+	m_actor = nullptr;
 	delete m_node;
 }
 
 void ActorAI::Initialize()
 {
+	delete m_node;
 }
 
 void ActorAI::OnUpdate()
 {
 	if (m_node)
 	{
-		m_node->tick();
+		m_node.load()->tick();
 	}
 }
 
@@ -74,8 +76,15 @@ ActionNode::Status ActorAI::TryResurrection()
 		return ActionNode::Status::Failure;
 	}
 
-	m_actor->SetDefaultPosition();
-	m_actor->Resurrecton();
+	if (Result_t::eResult_Success != m_actor->UpdatePosition(m_actor->SpawnPosition(), eActorMoveEffect_Teleport))
+	{
+		return ActionNode::Status::Failure;
+	}
+
+	if (Result_t::eResult_Success != m_actor->DoResurrecton())
+	{
+		return ActionNode::Status::Failure;
+	}
 
 	return ActionNode::Status::Success;
 }
@@ -92,7 +101,7 @@ ActionNode::Status ActorAI::HasTarget()
 
 ActionNode::Status ActorAI::IsInsideAttackRange()
 {
-	Actor* target = m_actor->Target();
+	auto target = m_actor->Target();
 	if (nullptr == target)
 	{
 		return ActionNode::Status::Failure;
@@ -109,20 +118,8 @@ ActionNode::Status ActorAI::IsInsideAttackRange()
 
 ActionNode::Status ActorAI::AttackTarget()
 {
-	Actor* target = m_actor->Target();
+	auto target = m_actor->Target();
 	if (nullptr == target)
-	{
-		return ActionNode::Status::Failure;
-	}
-
-	// 내가 공격할 수 없는 상태
-	if (false == m_actor->IsAttackable())
-	{
-		return ActionNode::Status::Failure;
-	}
-
-	// 상대방이 공격 당할 수 없는 상태
-	if (false == target->IsAttacked())
 	{
 		return ActionNode::Status::Failure;
 	}
@@ -134,7 +131,7 @@ ActionNode::Status ActorAI::AttackTarget()
 	}
 	else
 	{
-		DLOG_DEBUG << LOG_RESULT(result) << " " << m_actor->Uid() << " is attack " << target->Uid();
+		DLOG_DEBUG << LOG_RESULT(result) << " " << m_actor->ActorUid() << " is attack " << target->ActorUid();
 		return ActionNode::Status::Failure;
 	}
 
@@ -145,7 +142,7 @@ ActionNode::Status ActorAI::CheckFarSpawnPoistion()
 {
 	// 일정 거리이상 스폰 위치에서 벗어날 수 없다
 	// @todo 몬스터별로 거리를 갖자
-	if (m_actor->MaxAroundDistance() < UTIL.CalcDistance(m_actor->Position(), m_actor->LastRoutePosition()))
+	if (m_actor->MaxAroundDistance() < UTIL.CalcDistance(m_actor->Position(), m_actor->SpawnPosition()))
 	{
 		return ActionNode::Status::Failure;
 	}
@@ -155,7 +152,7 @@ ActionNode::Status ActorAI::CheckFarSpawnPoistion()
 
 ActionNode::Status ActorAI::MoveToTarget()
 {
-	Actor* target = m_actor->Target();
+	auto target = m_actor->Target();
 	if (nullptr == target)
 	{
 		return ActionNode::Status::Failure;
@@ -174,33 +171,62 @@ ActionNode::Status ActorAI::MoveToTarget()
 ActionNode::Status ActorAI::ReturnRoutePosition()
 {
 	// @todo 무적 상태로 설정해줘야 한다
-	m_actor->SetPosition(m_actor->LastRoutePosition());
+	m_actor->SetPosition(m_actor->SpawnPosition());
 
 	return ActionNode::Status::Success;
 }
 
 ActionNode::Status ActorAI::FindTarget()
 {
-	Terrain* terrain = m_actor->CurTerrain();
+	Terrain* terrain = m_actor->GetTerrain();
 	if (nullptr == terrain)
 	{
 		return ActionNode::Status::Failure;
 	}
 
+	// 어그로 목록에서 타겟을 선정했으면 성공
+	if (true == m_actor->SelectTarget())
+	{
+		return ActionNode::Status::Success;
+	}
+
+	int search_filter = 0;
 	ActorList actor_list;
-	if (false == terrain->AroundList(m_actor->Position(), m_actor->MySight(), actor_list))
+	if (false == terrain->AroundList(m_actor, search_filter, actor_list))
 	{
 		return ActionNode::Status::Failure;
 	}
 
-	m_actor->AddAggroList(actor_list);
+	// @todo actor_list 에서 가장 가까운 적 찾기
+	Distance_t min_distance = 0.f;
+	std::shared_ptr<Actor> target = nullptr;
+
+	for (auto actor : actor_list)
+	{
+		Coord_t distance = UTIL.CalcDistance(m_actor->Position(), actor->Position());
+		if (nullptr != actor || min_distance > distance)
+		{
+			min_distance = distance;
+			target = actor;
+		}
+	}
+
+	if (nullptr == target)
+	{
+		return ActionNode::Status::Failure;
+	}
+
+	m_actor->SetTarget(target);
 
 	return ActionNode::Status::Success;
 }
 
 ActionNode::Status ActorAI::SetTarget()
 {
-	m_actor->SelectTarget();
+	if (false == m_actor->SelectTarget())
+	{
+		return ActionNode::Status::Failure;
+	}
 
 	return ActionNode::Status::Success;
 }
