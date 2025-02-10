@@ -55,13 +55,17 @@ void AIAggressive::terminate(Status s)
 {
 	switch (s)
 	{
-
+	default:
+		break;
 	}
 }
 
 AIAggressive::Status AIAggressive::update()
 {
-	m_root->tick();
+	if (nullptr == m_root)
+	{
+		return Status::Failure;
+	}
 
-	return Status::Success;
+	return m_root->tick();
 }

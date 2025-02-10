@@ -2,6 +2,7 @@
 
 #include "ai_base.h"
 
+class Actor;
 class AIAggressive : public core::ai::Node
 {
 public:

@@ -3,7 +3,6 @@
 #include "ai_base.h"
 
 class Actor;
-
 class AIBoss : public core::ai::Node
 {
 public:
