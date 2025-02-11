@@ -1,15 +1,17 @@
 #include "pch.h"
 #include "session_world.h"
 
+#define REG_DISPATCHER(pid)	s_dispatcher.Add(fb::world::RecvPid_##pid, [](SessionWorld* _procer, std::shared_ptr<Packet> packet) -> bool { return _procer->On##pid(packet); });
+
 bool SessionWorld::InitDispatcher()
 {
-	s_dispatcher.Add(fb::world::RecvPid_Reg, &SessionWorld::OnRecv_Reg);
-	s_dispatcher.Add(fb::world::RecvPid_Ping, &SessionWorld::OnRecv_Ping);
+	REG_DISPATCHER(Reg);
+	REG_DISPATCHER(Ping);
 
 	return true;
 }
 
-bool SessionWorld::OnRecv_Reg(NetPacket* _packet)
+bool SessionWorld::OnReg(std::shared_ptr<NetPacket> _packet)
 {
 	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::world::Recv_Reg);
 
@@ -18,7 +20,7 @@ bool SessionWorld::OnRecv_Reg(NetPacket* _packet)
 	return true;
 }
 
-bool SessionWorld::OnRecv_Ping(NetPacket* _packet)
+bool SessionWorld::OnPing(std::shared_ptr<NetPacket> _packet)
 {
 	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::world::Recv_Ping);
 

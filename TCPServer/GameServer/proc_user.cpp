@@ -1,15 +1,14 @@
 #include "pch.h"
 #include "user.h"
-#include "data_manager.h"
-#include "session_dbagent.h"
 #include "../Common/utility.h"
+#include "server_game.h"
+#include "data_manager.h"
 #include "inventory_user.h"
 #include "actor_character.h"
 #include "actor_manager.h"
 
-#define REG_DISPATCHER(pid)	s_dispatcher.Add(fb::server::SendPid_##pid, &User::On##pid);
-
-core::Dispatcher<User::Pid_t, User::Function_t> User::s_dispatcher;
+//#define REG_DISPATCHER(pid)	s_dispatcher.Add(fb::server::SendPid_##pid, &User::On##pid);
+#define REG_DISPATCHER(pid)	s_dispatcher.Add(fb::server::SendPid_##pid, [](User* _user, std::shared_ptr<Packet> packet) -> bool { return _user->On##pid(packet); });
 
 bool User::InitDispatcher()
 {
@@ -25,7 +24,7 @@ bool User::InitDispatcher()
 	return true;
 }
 
-bool User::OnChatting(NetPacket* _packet)
+bool User::OnChatting(std::shared_ptr<Packet> _packet)
 {
 	if (nullptr == _packet)
 	{
@@ -38,7 +37,7 @@ bool User::OnChatting(NetPacket* _packet)
 	return true;
 }
 
-bool User::OnLoginSecurity(NetPacket* _packet)
+bool User::OnLoginSecurity(std::shared_ptr<Packet> _packet)
 {
 	if (nullptr == _packet)
 	{
@@ -53,31 +52,30 @@ bool User::OnLoginSecurity(NetPacket* _packet)
 		fb::dbagent::CreateHeader(fbb, UserUid()),
 		recv_data->security_number()
 	));
-
-	return SESSION_DBAGENT.Send(fb::dbagent::SendPid_LoginSecurity, fbb);
+	return SERVER.m_session_dbagent->Send(fb::dbagent::SendPid_LoginSecurity, fbb);
 }
 
-bool User::OnCharacterCreate(NetPacket* _packet)
+bool User::OnCharacterCreate(std::shared_ptr<Packet> _packet)
 {
 	return false;
 }
 
-bool User::OnCharacterDelete(NetPacket* _packet)
+bool User::OnCharacterDelete(std::shared_ptr<Packet> _packet)
 {
 	return false;
 }
 
-bool User::OnCharacterSelect(NetPacket* _packet)
+bool User::OnCharacterSelect(std::shared_ptr<Packet> _packet)
 {
 	return false;
 }
 
-bool User::OnCharacterLogout(NetPacket* _packet)
+bool User::OnCharacterLogout(std::shared_ptr<Packet> _packet)
 {
 	return false;
 }
 
-bool User::OnCharacterMove(NetPacket* _packet)
+bool User::OnCharacterMove(std::shared_ptr<Packet> _packet)
 {
 	if (nullptr == _packet)
 	{
@@ -96,19 +94,18 @@ bool User::OnCharacterMove(NetPacket* _packet)
 			break;
 		}
 
-		result = ActiveCharacter()->Move(recv_data->pos()->x(),
-			recv_data->pos()->y(),
-			recv_data->pos()->z(),
-			recv_data->pos()->angle()
-		);
+		fb::PositionT pos;
+		recv_data->pos()->UnPackTo(&pos);
+
+		result = ActiveCharacter()->DoMove(pos);
 	} while (false);
 
-	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result);
+	LOG_ERROR_IF(eResult_Success != result) << LOG_RESULT(result) << LOG_USER_UID(UserUid());
 
 	return true;
 }
 
-bool User::OnCharacterAngle(NetPacket* _packet)
+bool User::OnCharacterAngle(std::shared_ptr<Packet> _packet)
 {
 	if (nullptr == _packet)
 	{
@@ -117,8 +114,6 @@ bool User::OnCharacterAngle(NetPacket* _packet)
 	}
 
 	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_CharacterAngle);
-
-	ActiveCharacter()->SetAngle(recv_data->angle());
 
 	return true;
 }
