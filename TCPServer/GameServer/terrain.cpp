@@ -2,7 +2,7 @@
 #include "terrain.h"
 #include "terrain_grid_manager.h"
 #include "terrain_grid.h"
-#include "manager.h"
+#include "world.h"
 
 Terrain::Terrain(TerrainUid_t _uid)
 	: m_uid(_uid)
@@ -77,24 +77,24 @@ Result_t Terrain::CanMove(const PositionT& _position)
 	// 다른 액터 충돌 체크
 }
 
-bool Terrain::IsInside(const Vector_t& _vector)
+bool Terrain::IsInside(const PositionT& _position)
 {
-	if (m_table->left_top.first < _vector.X())
+	if (m_table->left_top.first < _position.x)
 	{
 		return false;
 	}
 
-	if (m_table->left_top.second < _vector.Y())
+	if (m_table->left_top.second < _position.y)
 	{
 		return false;
 	}
 
-	if (m_table->right_bottom.first > _vector.X())
+	if (m_table->right_bottom.first > _position.x)
 	{
 		return false;
 	}
 
-	if (m_table->right_bottom.second > _vector.Y())
+	if (m_table->right_bottom.second > _position.y)
 	{
 		return false;
 	}
@@ -104,12 +104,34 @@ bool Terrain::IsInside(const Vector_t& _vector)
 
 bool Terrain::EnterActor(std::shared_ptr<Actor> _actor, Coord_t _x, Coord_t _y, Coord_t _z)
 {
-	return m_grid_manager->EnterActor(_actor, _x, _y, _z);
+	TerrainGrid* grid = FindGrid(_x, _y, _z);
+	if (nullptr == grid)
+	{
+		return false;
+	}
+
+	return grid->EnterActor(_actor, _x, _y, _z, fb::eActorMoveEffect_Normal);
 }
 
 bool Terrain::LeaveActor(std::shared_ptr<Actor> _actor)
 {
-	return m_grid_manager->LeaveActor(_actor);
+	TerrainGrid* grid = _actor->GetTerrainGrid();
+	if (nullptr == grid)
+	{
+		return false;
+	}
+
+	return grid->LeaveActor(_actor, fb::eActorMoveEffect_Normal);
+}
+
+TerrainGrid* Terrain::FindGrid(const PositionT& _position)
+{
+	if (false == IsInside(_position))
+	{
+		return nullptr;
+	}
+
+	return m_grid_manager->FindGrid(_position.x, _position.y, _position.z);
 }
 
 TerrainGrid* Terrain::FindGrid(Coord_t _x, Coord_t _y, Coord_t _z)
@@ -164,8 +186,8 @@ void Terrain::FindNotificationList(const PositionT& _old, const PositionT& _new,
 
 	for (TerrainGrid* grid : grid_list)
 	{
-		grid->ActorListByPosition(_old, MANAGER.data.SystemValue().actor.max_around_distance, eActorSearchFilter::FilterCharacter, old_pos_actor_list);
-		grid->ActorListByPosition(_new, MANAGER.data.SystemValue().actor.max_around_distance, eActorSearchFilter::FilterCharacter, new_pos_actor_list);
+		grid->ActorListByPosition(_old, GetWorld().data.SystemValue().actor.max_around_distance, eActorSearchFilter::FilterCharacter, old_pos_actor_list);
+		grid->ActorListByPosition(_new, GetWorld().data.SystemValue().actor.max_around_distance, eActorSearchFilter::FilterCharacter, new_pos_actor_list);
 	}
 
 	if (true == old_pos_actor_list.empty() || true == new_pos_actor_list.empty())

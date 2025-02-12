@@ -23,11 +23,12 @@ public:
 
 	Result_t CanMove(const PositionT& _position);
 
-	bool IsInside(const Vector_t& _vector);
+	bool IsInside(const PositionT& _position);
 
 	bool EnterActor(std::shared_ptr<Actor> _actor, Coord_t _x, Coord_t _y, Coord_t _z);
 	bool LeaveActor(std::shared_ptr<Actor> _actor);
 
+	TerrainGrid* FindGrid(const PositionT& _position);
 	TerrainGrid* FindGrid(Coord_t _x, Coord_t _y, Coord_t _z);
 
 	void FindNotificationList(const PositionT& _old,
