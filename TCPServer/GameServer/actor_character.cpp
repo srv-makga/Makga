@@ -2,11 +2,14 @@
 #include "actor_character.h"
 #include "data_manager.h"
 #include "terrain.h"
+#include "terrain_grid.h"
 #include "user.h"
+#include "world.h"
 #include "../Common/utility.h"
 
-Character::Character(ActorUid_t _uid)
-	: Actor(_uid)
+Character::Character()
+	: m_uid(0)
+	, m_table(nullptr)
 {
 }
 
@@ -18,264 +21,123 @@ void Character::Initialize()
 {
 }
 
-void Character::Finallize()
+void Character::Finalize()
 {
+}
+
+void Character::SetActorTable(const ActorBasicTable* _table)
+{
+	m_table = static_cast<const MonsterBasicTable*>(_table);
 }
 
 void Character::OnUpdate()
 {
 }
 
-Result_t Character::DoMove(const PositionT& _position)
+Result_t Character::DoMove(fb::PositionT& _position)
 {
-	if (false == IsMovable())
+	// 이동 가능 상태 확인
+	if (false == CanMove())
 	{
-		return eResult_ActorNotMoveState;
+		return fb::eResult_ActorNotMoveState;
 	}
 
-	Terrain* terrain = CurTerrain();
-	if (nullptr == terrain)
-	{
-		return eResult_ActorNotMovePos;
-	}
+	// @todo 이동 가능한 거리인지 확인
 
-	// 같은 위치면 그냥 성공 처리..
-	if (true == UTIL.IsSame(Position(), _position))
-	{
-		return eResult_Success;
-	}
+	// @todo 기타 이동에 관련된 컨텐츠 제약사항 추가
 
-	// 이동 시간 체크
-	Tick_t diff_tick = 0;
-
-	// 이동 거리 체크
-	Distance_t distance = UTIL.CalcDistance(Position(), _position);
-	// 시간 * 속도 < 
-	if ((diff_tick / 1000) * MoveSpeed() < distance)
-	{
-		LOG_ERROR << LOG_ACTOR(this) << " Speed:" << MoveSpeed() << " DiffTick:" << diff_tick;
-		return eResult_ActorInvalidSpeed;
-	}
-
-	// 해당 좌표가 이동가능한 지역인지 확인
-	Result_t result = terrain->CanMove(_position);
-	if (eResult_Success != result)
-	{
-		return result;
-	}
-
-	User* owner_user = OwnerUser();
-	if (nullptr == owner_user)
-	{
-		return;
-	}
-
-	// @todo 이동시 취소해야 될 것들.. 상호작용 등등
-
-	Coord_t new_x = _position.x;
-	Coord_t new_y = _position.y;
-	Coord_t new_z = _position.z;
-	Coord_t new_angle = _position.angle;
-
-	// @todo 좌표가 보정되어야 한다면 여기서
-
-	ActorList appear_list;
-	ActorList disappear_list;
-	ActorList move_list;
-
-	terrain->FindNotificationList(Position(),
-		_position,
-		SYSTEM.actor.max_move_list,
-		appear_list, disappear_list, move_list);
-
-	// Terrain 내 정보 갱신
-	terrain->leave;
-
-	appear_list.erase(this);
-	move_list.erase(this);
-	disappear_list.erase(this);
-
-	CREATE_FBB(fbb_me_to_other);
-	CREATE_FBB(fbb_other_to_me);
-
-	// 내 주변을 탐색하며 정보를 가져오거나 전달한다.
-
-	if (false == appear_list.empty())
-	{
-		// 다른 사람들에게 줄 내 정보
-		fbb_me_to_other.Clear();
-		fbb_me_to_other.Finish(fb::server::CreateRecv_ActorAppear(fbb_me_to_other,
-			fbb_me_to_other.CreateVector({ OffsetActorAppear(fbb_me_to_other, eActorMoveEffect_Delay) })
-		));
-
-		fbb_other_to_me.Clear();
-
-		std::vector<flatbuffers::Offset<fb::ActorAppear>> vec_offset_appear;
-		vec_offset_appear.reserve(appear_list.size());
-
-		for (Actor* actor : appear_list)
-		{
-			if (nullptr == actor)
-			{
-				continue;
-			}
-
-			User* user = actor->OwnerUser();
-			if (nullptr != user)
-			{
-				user->Send(fb::server::RecvPid_ActorAppear, fbb_me_to_other);
-			}
-
-			// 나에게 보내줄 다른 액터 정보
-			vec_offset_appear.push_back(actor->OffsetActorAppear(fbb_other_to_me, eActorMoveEffect_Delay));
-		}
-
-		if (false == vec_offset_appear.empty())
-		{
-			fbb_other_to_me.Finish(fb::server::CreateRecv_ActorAppear(fbb_other_to_me,
-				fbb_other_to_me.CreateVector(vec_offset_appear)));
-			owner_user->Send(fb::server::RecvPid_ActorAppear, fbb_other_to_me);
-		}
-	}
-
-	if (false == move_list.empty())
-	{
-		fbb_me_to_other.Clear();
-		fbb_me_to_other.Finish(fb::server::CreateRecv_ActorMove(fbb_me_to_other,
-			fbb_me_to_other.CreateVector({ OffsetActorMove(fbb_me_to_other) })
-		));
-
-		for (Actor* actor : move_list)
-		{
-			User* user = actor->OwnerUser();
-			if (nullptr != user)
-			{
-				user->Send(fb::server::RecvPid_ActorMove, fbb_me_to_other);
-			}
-		}
-	}
-
-	if (false == disappear_list.empty())
-	{
-		fbb_me_to_other.Clear();
-		fbb_me_to_other.Finish(fb::server::CreateRecv_ActorDisappear(fbb_me_to_other,
-			fbb_me_to_other.CreateVector({ OffsetActorDisappear(fbb_me_to_other, eActorMoveEffect_Delay) })
-		));
-
-		fbb_other_to_me.Clear();
-
-		std::vector<flatbuffers::Offset<fb::ActorDisAppear>> vec_offset_disappear;
-		vec_offset_disappear.reserve(appear_list.size());
-
-		for (Actor* actor : disappear_list)
-		{
-			if (nullptr == actor)
-			{
-				continue;
-			}
-
-			User* user = actor->OwnerUser();
-			if (nullptr != user)
-			{
-				user->Send(fb::server::RecvPid_ActorAppear, fbb_me_to_other);
-			}
-
-			// 나에게 보내줄 다른 액터 정보
-			vec_offset_disappear.push_back(OffsetActorDisappear(fbb_other_to_me, eActorMoveEffect_Delay));
-		}
-
-		owner_user->Send(fb::server::RecvPid_ActorDisappear, fbb_me_to_other);
-	}
-
-	UpdatePosition(_position);
-
-    return eResult_Success;
+	return UpdatePosition(_position, fb::eActorMoveEffect_Normal);
 }
 
-void Character::UpdatePosition(const fb::PositionT& _position)
+Result_t Character::UpdatePosition(const fb::PositionT& _position, fb::eActorMoveEffect _move_effect)
 {
-	Terrain* cur_terrain = CurTerrain();
+	// @todo 이동 가능 상태 여부 체크
+	// @todo 이동 속도 체크
+	// @todo 캐릭터 넓이 등으로 이동 가능한 좌표인지 확인
+
+	Terrain* cur_terrain = GetTerrain();
 	if (nullptr == cur_terrain)
 	{
-		return;
+		return eResult_TerrainNotIn;
 	}
 
-	cur_terrain->LeaveActor(this);
+	TerrainGrid* cur_terrain_grid = GetTerrainGrid();
+
+	TerrainGrid* terrain_grid = cur_terrain->FindGrid(_position);
+	if (nullptr == terrain_grid)
+	{
+		// 맵 좌표 안에 없는 좌표
+		return eResult_TerrainNotInThis;
+	}
+
+	do
+	{
+		if (cur_terrain_grid == terrain_grid)
+		{
+			break;
+		}
+
+		cur_terrain_grid->LeaveActor(shared_from_this(), _move_effect);
+		terrain_grid->EnterActor(shared_from_this(), _position.x, _position.y, _position.z, _move_effect);
+
+		SetTerrainGrid(terrain_grid);
+
+	} while (false);
+
+	if (eActorMoveEffect_Teleport == _move_effect)
+	{
+	}
+	else
+	{
+
+	}
+
+	float dx = _position.x - m_pos.x;
+	float dy = _position.y - m_pos.y;
 	
 	SetPosition(_position);
+	SetAngle(std::atan2(dy, dx) * 180 / g_pi);
 
-	Terrain* new_terrain = TERRAIN_MANAGER.FindTerrain(_position.x, _position.y, _position.z);
-	if (nullptr == new_terrain)
-	{
-		LOG_ERROR << "new terrain is nullptr";
-		return;
-	}
+	// @todo 주변에 알림
+	// @todo 파티 or 길드등에 알림
 
-	new_terrain->EnterActor(this, _position.x, _position.y, _position.z);
+	m_tick_prev_move = GetWorld().utility.CurrentTick();
 
-	// @todo 이걸 하는 순간 멀티 로직 스레드라면 스레드가 변경된다
-	SetTerrain(new_terrain);
+	return eResult_Success;
 }
 
-Coord_t Character::X() const
+Result_t Character::UpdatePosition(TerrainIdx_t _terrain_idx, const PositionT& _position, fb::eActorMoveEffect _move_effect)
 {
-	return m_pos.x;
+	return eResult_Success;
 }
 
-Coord_t Character::Y() const
+bool Character::CanMove() const
 {
-	return m_pos.y;
+	// @todo 디버프 효과등 체크 추가
+	return true;
 }
 
-Coord_t Character::Z() const
+Terrain* Character::GetTerrain() const
 {
-	return m_pos.z;
+	return m_terrain;
 }
 
-Hp_t Character::MaxHp() const
+TerrainGrid* Character::GetTerrainGrid() const
 {
-	return m_hp_mp.max_hp;
+	return m_grid;
 }
 
-Hp_t Character::CurHp() const
+void Character::SetTerrainGrid(TerrainGrid* _grid)
 {
-	return m_hp_mp.cur_hp;
+	m_grid = _grid;
 }
 
-Mp_t Character::MaxMp() const
+const PositionT& Character::Position() const
 {
-	return m_hp_mp.max_mp;
+	return m_pos;
 }
 
-Mp_t Character::CurMp() const
+void Character::SetPosition(const PositionT& _pos)
 {
-	return m_hp_mp.cur_mp;
-}
-
-void Character::SetPosition(const fb::Position& _pos, Coord_t _angle)
-{
-	m_pos.x = _pos.x();
-	m_pos.y = _pos.y();
-	m_pos.z = _pos.z();
-	m_pos.angle = _angle;
-}
-
-void Character::SetPosition(const Vector_t& _pos)
-{
-	m_pos.x = _pos.X();
-	m_pos.y = _pos.Y();
-	m_pos.z = _pos.Z();
-}
-
-void Character::SetPosition(Coord_t _x, Coord_t _y, Coord_t _z, Coord_t _angle)
-{
-	m_pos.x = _x;
-	m_pos.y = _y;
-	m_pos.z = _z;
-	m_pos.angle = _angle;
-}
-
-Speed_t Character::Speed() const
-{
-	return m_speed;
+	m_pos = _pos;
 }

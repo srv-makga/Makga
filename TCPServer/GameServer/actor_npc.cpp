@@ -9,14 +9,14 @@ Npc::~Npc()
 {
 }
 
-void Npc::Initialize()
-{
-}
-
-void Npc::Finalize()
-{
-}
-
-void Npc::OnUpdate()
-{
-}
+//void Npc::Initialize()
+//{
+//}
+//
+//void Npc::Finalize()
+//{
+//}
+//
+//void Npc::OnUpdate()
+//{
+//}
