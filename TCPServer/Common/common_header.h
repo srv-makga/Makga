@@ -22,3 +22,18 @@ constexpr uint64_t strhash(const char* s, size_t index = 0)
 {
 	return s + index == nullptr || s[index] == '\0' ? 55 : strhash(s, index + 1) * 33 + (unsigned char)(s[index]);
 }
+
+enum AcceptorType
+{
+	User,
+	Game,
+};
+
+enum ConnectorType
+{
+	World,
+	Community,
+	Game,
+	DBAgent,
+	Log,
+};

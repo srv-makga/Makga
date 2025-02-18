@@ -122,15 +122,6 @@ using Rate_t = float;
 using Percent_t = int32_t;
 
 
-class StringToEnumException : public std::exception
-{
-public:
-	const char* what()
-	{
-		return "Not found Enum";
-	}
-};
-
 #define STR_TO_ENUM(ENUMTYPE, str)					StrTo##ENUMTYPE(str)
 
 #define GET_ENUM_NAMES(ENUMTYPE)					fb::EnumNames##ENUMTYPE
