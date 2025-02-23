@@ -5,6 +5,7 @@
 class Job
 {
 public:
+	Job() = default;
 	Job(std::function<void()> callback) :m_callback(callback) {}
 
 	template<typename T, typename Ret, typename...Args>
@@ -20,7 +21,10 @@ public:
 
 	void Execute()
 	{
-		m_callback();
+		if (nullptr != m_callback)
+		{
+			m_callback();
+		}
 	}
 
 	std::size_t ThreadId() const

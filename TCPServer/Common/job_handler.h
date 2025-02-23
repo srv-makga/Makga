@@ -25,7 +25,8 @@ class JobHandler
 public:
 	using Job_t = std::shared_ptr<Job>;
 
-	JobHandler() {}
-	virtual ~JobHandler() {}
+	JobHandler() = default;
+	virtual ~JobHandler() = default;
 	virtual void Push(Job_t _data) = 0;
+	virtual Job_t Pop() = 0;
 };
