@@ -13,11 +13,11 @@ public:
 
 	void SetInfo(std::string&& _json) override;
 
-	ItemUid_t Uid() const override;
-	void SetUid(ItemUid_t _uid) const override;
+	ItemUid_t ItemUid() const override;
+	void SetItemUid(ItemUid_t _uid) const override;
 
-	ItemIdx_t Index() const override;
-	void SetIndex(ItemIdx_t _index) const override;
+	ItemIdx_t ItemIndex() const override;
+	void SetItemIndex(ItemIdx_t _index) const override;
 
 	StackCount_t Stack() const override;
 	void SetStack(StackCount_t _stack) const override;
