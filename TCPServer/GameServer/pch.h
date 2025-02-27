@@ -18,15 +18,41 @@
 #define NOMINMAX
 #include <winsock2.h>
 #include <windows.h>
-
-#include "../Core/logger.h"
-#include "game_header.h"
-
 #include <cstdlib>
 #include <cstdio>
 #include <string>
 #include <cassert>
+#include <cmath>
 #include <iostream>
+#include <memory>
+#include <vector>
+#include <atomic>
+#include <functional>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <unordered_map>
+#include <unordered_set>
+#include <algorithm>
+#include <cassert>
+#include <chrono>
+#include <cstdint>
+#include <cstring>
+#include <utility>
+#include <sstream>
+#include <fstream>
+#include <set>
+#include <map>
+#include <bitset>
+#include <limits>
+#include <numeric>
+#include <optional>
+#include <variant>
+#include <filesystem>
+#include <tuple>
+
+#include "../Core/logger.h"
+#include "game_header.h"
 
 #include "flatbuffers/flatbuffers.h"
 #include "rapidjson/rapidjson.h"
