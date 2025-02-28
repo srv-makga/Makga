@@ -15,12 +15,7 @@ public:
 	using Thread_t = std::shared_ptr<std::thread>;
 
 public:
-	IocpServer(
-		std::shared_ptr<core::network::IocpCore> _core,
-		const core::network::IPEndPoint& _ep,
-		SessionManager<Session_t>* _session_manager
-	);
-	IocpServer() = delete;
+	IocpServer();
 	IocpServer(const IocpServer& _other) = delete;
 	IocpServer(IocpServer&& _other) = delete;
 	IocpServer& operator=(const IocpServer& _other) = delete;
@@ -32,9 +27,16 @@ public: // IocpService
 	void Finalize() override;
 	bool Start() override;
 	bool Stop() override;
-	
+
 	const core::network::IPEndPoint& GetEndPoint() const override;
 	void SetEndPoint(const core::network::IPEndPoint& _ep) override;
+
+public:
+	bool Setup(std::shared_ptr<core::network::IocpCore> _core,
+		const core::network::IPEndPoint& _ep,
+		std::function<std::shared_ptr<core::network::IocpSession>(void)> _alloc_func,
+		std::function<void(std::shared_ptr<core::network::IocpSession>)> _dealloc_func
+	);
 
 private:
 	bool RunServer(std::function<void(void)> _work);
