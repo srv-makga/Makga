@@ -67,7 +67,7 @@ bool User::Send(fb::server::RecvPid _pid, fbb& _fbb)
 		return false;
 	}
 
-	std::shared_ptr<core::network::NetBuffer> buffer = BufferPool::Pop();
+	std::shared_ptr<core::network::NetBuffer> buffer = POOL.buffer.Pop();
 	buffer->Write((char*)&_pid, sizeof(_pid));
 	buffer->Write((char*)_fbb.GetBufferPointer(), _fbb.GetSize());
 

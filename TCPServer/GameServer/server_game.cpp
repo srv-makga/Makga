@@ -1,248 +1,106 @@
 #include "pch.h"
 #include "server_game.h"
+#include "session_manager_user.h"
 #include "config_game.h"
-#include "setting_game.h"
+#include "pool.h"
 
-#include "../Common/thread_manager.h"
-#include "../Common/iocp_Handler.h"
-
-#include "connector_world.h"
-#include "connector_community.h"
-#include "connector_dbagent.h"
-
-#include "acceptor_user.h"
-
-#include "session_world.h"
-#include "session_user.h"
-
-#include "user.h"
-
-ServerGame::ServerGame(ConfigGame* _config)
-	: ServerBase(_config)
-	, m_job_handler(nullptr)
-	, m_net_handler(nullptr)
+GameServer::GameServer(core::ServiceType _type)
+	: ProxyServer(_type)
 {
 }
 
-ServerGame::~ServerGame()
+GameServer::~GameServer()
 {
-	for (fb::eServerType type : m_accept_list)
+}
+
+bool GameServer::Initialize()
+{
+	if (false == m_acceptor_user.Initialize())
 	{
-		AcceptorBase* acceptor = m_acceptors.Find(type);
-		if (nullptr == acceptor)
-		{
-			continue;
-		}
-
-		m_acceptors.Remove(type);
-
-		acceptor->Finalize();
-		delete acceptor;
+		return false;
 	}
 
-	for (fb::eServerType type : m_connect_list)
+	if (false == m_acceptor_admintool.Initialize())
 	{
-		ConnectorBase* connector = m_connectors.Find(type);
-		if (nullptr == connector)
-		{
-			continue;
-		}
-
-		m_connectors.Remove(type);
-
-		connector->Finalize();
-		delete connector;
-	}
-}
-
-void ServerGame::Initialize()
-{
-	ServerBase::Initialize();
-
-	// job handler는 여러가지 작업이 올 수 있기 때문에 manager
-	auto job_handler = std::make_shared<ThreadManager>();
-	job_handler->Initialize();
-	job_handler->CreateThread(m_config->thread_count_work);
-
-	m_job_handler = job_handler;
-
-	auto net_handler = std::make_shared<IOCPHandler>();
-	net_handler->Initialize();
-	net_handler->Start(m_config->thread_count_network);
-
-	m_net_handler = net_handler;
-
-	m_connect_list = { eServerType_World/*, ServerType_Community, ServerType_DBAgent */ };
-	m_accept_list = { eServerType_User };
-
-	User::InitDispatcher();
-	SessionUser::InitDispatcher();
-	SessionWorld::InitDispatcher();
-
-	SESSION_WORLD.Initialize();
-}
-
-bool ServerGame::StartUp()
-{
-	// #################################################################################### //
-	// Server Setting
-	// #################################################################################### //
-
-	if (nullptr == m_config->MyInfo())
-	{
-		LOG_ERROR << "Not found server info. server_id:" << m_config->server_id;
 		return false;
 	}
 
 	return true;
 }
 
-bool ServerGame::StartEnd()
+void GameServer::Finalize()
 {
-	if (false == InitConnector())
+	m_acceptor_user.Finalize();
+	m_acceptor_admintool.Finalize();
+}
+
+bool GameServer::StartUp()
+{
+	return true;
+}
+
+bool GameServer::StartEnd()
+{
+	auto my_server = CONFIG.my_server;
+	if (nullptr == my_server)
 	{
 		return false;
 	}
 
-	if (false == InitAcceptor())
+	Connector connector;
+
+	m_session_world = connector.Connect<SessionWorld>(core::network::IPEndPoint(my_server->InternalIP(), my_server->Port(ServerType_t::eServerType_World)));
+	if (nullptr == m_session_world)
 	{
+		LOG_ERROR << "Failed to connect world server.";
 		return false;
 	}
 
-	m_scheduler = std::thread([this]() {
-		CREATE_FBB(fbb);
-		fbb.Finish(fb::world::CreateSend_Ping(fbb, std::time(nullptr)));
-
-		while (true)
-		{
-			auto world = this->m_connectors.Find(eServerType_World);
-			if (world)
-				world->Session()->Send(fb::world::SendPid_Ping, fbb);
-
-			std::this_thread::sleep_for(std::chrono::microseconds(10));
-		}
-	});
-
-	LOG_INFO << "server start. serverid:" << CONFIG.MyInfo()->ServerId();
-
-	return true;
-}
-
-bool ServerGame::InitConnector()
-{
-	// 해당 서버들에 모두 연결 해야한다
-	for (fb::eServerType server_type : m_connect_list)
+	m_session_community = connector.Connect<SessionCommunity>(core::network::IPEndPoint(my_server->InternalIP(), my_server->Port(ServerType_t::eServerType_Community)));
+	if (nullptr == m_session_community)
 	{
-		const ConfigBase::ServerInfo_t* info = m_config->FindServerInfo(server_type);
-		if (nullptr == info)
-		{
-			LOG_FATAL << "Not found server info. servertype:" << EnumNameeServerType(server_type);
-			return false;
-		}
-
-		Port_t port = info->Port(m_config->MyInfo()->ServerType());
-		if (0 == port)
-		{
-			port = info->Port(eServerType_All);
-			if (0 == port)
-			{
-				LOG_FATAL << "Not found connect port";
-				return false;
-			}
-		}
-
-		ConnectorBase* connector = nullptr;
-
-		switch (server_type)
-		{
-		case eServerType_World:
-			connector = new ConnectorWorld();
-			connector->SetSession(&SESSION_WORLD);
-			SESSION_WORLD.SetNetActor(connector);
-			break;
-		case eServerType_Community:
-			/*connector = new ConnectorCommunity();
-			connector->SetSession(&SESSION_COMMUNITY);
-			SESSION_COMMUNITY.SetNetActor(connector);*/
-			break;
-		case eServerType_DBAgent:
-			//connector = new ConnectorDBAgent();
-			//connector->SetSession(&SESSION_DBAGENT);
-			//SESSION_DBAGENT.SetNetActor(connector);
-			break;
-		}
-
-		if (nullptr == connector)
-		{
-			LOG_FATAL << "connector is nullptr. servertype:" << EnumNameeServerType(server_type);
-			return false;
-		}
-
-		connector->InitHandler(m_net_handler, m_job_handler);
-		if (false == connector->Connect(info->InternalIP(), port))
-		{
-			LOG_FATAL << "Fail server connect. host:" << info->InternalIP() << ":" << port;
-			return false;
-		}
-
-		m_connectors.Add(server_type, connector);
+		LOG_ERROR << "Failed to connect community server.";
+		return false;
 	}
 
-	return true;
-}
+	////로그 서버
+	//auto session_log = connector.Connect<SessionLog>(core::network::IPEndPoint(my_server->InternalIP(), my_server->Port(ServerType_t::eServerType_Log)));
+	//if (nullptr == session_log)
+	//{
+	//	LOG_ERROR << "Failed to connect log server.";
+	//	return false;
+	//}
 
-bool ServerGame::InitAcceptor()
-{
-	const auto* my_info = m_config->MyInfo();
+	////채팅 서버
+	//auto session_chat = connector.Connect<SessionChat>(core::network::IPEndPoint(my_server->InternalIP(), my_server->Port(ServerType_t::eServerType_Chat)));
+	//if (nullptr == session_chat)
+	//{
+	//	LOG_ERROR << "Failed to connect chat server.";
+	//	return false;
+	//}
 
-	for (fb::eServerType server_type : m_accept_list)
+	////빌링 서버(+웹 서버)
+	//auto session_billing = connector.Connect<SessionBilling>(core::network::IPEndPoint(my_server->InternalIP(), my_server->Port(ServerType_t::eServerType_Billing)));
+	//if (nullptr == session_billing)
+	//{
+	//	LOG_ERROR << "Failed to connect billing server.";
+	//	return false;
+	//}
+
+	m_session_dbagent = connector.Connect<SessionDBAgent>(core::network::IPEndPoint(my_server->InternalIP(), my_server->Port(ServerType_t::eServerType_DBAgent)));
+	if (nullptr == m_session_dbagent)
 	{
-		Port_t port = my_info->Port(server_type);
-		if (0 == port)
-		{
-			port = my_info->Port(fb::eServerType_All);
-			if (0 == port)
-			{
-				LOG_FATAL << "Not found port. Servertype:" << EnumNameeServerType(server_type);
-				return false;
-			}
-		}
-
-		AcceptorBase* acceptor = nullptr;
-
-		switch (server_type)
-		{
-		case eServerType_User:
-		{
-			acceptor = new AcceptorUser();
-			acceptor->Initialize();
-			acceptor->SetServerType(server_type);
-			acceptor->InitSession(((ConfigGame*)m_config)->max_session_user_count);
-			acceptor->InitHandler(m_net_handler, m_job_handler);
-			acceptor->InitSocket(my_info->InternalIP(), port);
-			acceptor->InitSetting(((ConfigGame*)m_config)->max_session_user_count);
-		}
-		break;
-		}
-
-		if (nullptr == acceptor)
-		{
-			LOG_FATAL << "acceptor is nullptr. ServerType:" << EnumNameeServerType(server_type);
-			return false;
-		}
-
-		m_acceptors.Add(server_type, acceptor);
+		LOG_ERROR << "Failed to connect dbagent server.";
+		return false;
 	}
 
+	//레디스
+
+
+	// @todo 각 iocp 스레드의 갯수를 지정할 수 있는 방식 추가
+	// 또는 특정 스레드에 여러 iocp를 처리할 수 있도록 하는 방식도 고려
+	m_acceptor_user.Setup(core::network::IPEndPoint(my_server->ExternalIP(), my_server->Port(ServerType_t::eServerType_User)));
+	m_acceptor_admintool.Setup(core::network::IPEndPoint(my_server->InternalIP(), my_server->Port(ServerType_t::eServerType_AdminTool)));
+
 	return true;
-}
-
-ConnectorBase* ServerGame::Connector(fb::eServerType _server_type) const
-{
-	return m_connectors.Find(_server_type);
-}
-
-AcceptorBase* ServerGame::Acceptor(fb::eServerType _server_type) const
-{
-	return m_acceptors.Find(_server_type);
 }

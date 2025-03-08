@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../core/singleton.hpp"
-#include "../Common/server.h"
+#include "../Common/proxy_server.h"
 
 #include "acceptor_user.h"
 #include "acceptor_admintool.h"
@@ -13,10 +13,10 @@
 #include "session_community.h"
 #include "session_dbagent.h"
 
-class GameServer : public Server, public core::pattern::Singleton<GameServer>
+class GameServer : public ProxyServer, public core::pattern::Singleton<GameServer>
 {
 public:
-	GameServer();
+	GameServer(core::ServiceType _type);
 	GameServer(const GameServer& _other) = delete;
 	GameServer(GameServer&& _other) = delete;
 	GameServer& operator=(const GameServer& _other) = delete;
