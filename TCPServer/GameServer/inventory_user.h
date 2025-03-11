@@ -42,7 +42,7 @@ public:
 	bool HasItemIdx(ItemIdx_t _item_index) override;
 
 	Result_t InsertObject(ItemObjectBase* _item_object) override;
-	bool EraseObject(ItemObjectBase* _item_object) override;
+	Result_t EraseObject(ItemObjectBase* _item_object) override;
 	ItemObjectBase* FindObject(ItemUid_t _item_uid) override;
 	ItemObjectBase* FindObject(ItemIdx_t _item_idx) override;
 
@@ -52,6 +52,7 @@ protected:
 	User* GetUser() const { return m_user; }
 	
 private:
+	Items m_items;
 	CacheContainer_t m_container_by_index;
 	User* m_user;
 
