@@ -28,7 +28,7 @@ public:
 
 	bool Initialize() override;
 	void Finalize() override;
-	bool Start() override;
+	bool Start(std::function<void()> _func) override;
 	bool Stop() override;
 
 public: // RIO
