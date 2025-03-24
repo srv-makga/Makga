@@ -11,7 +11,6 @@ public:
 	AcceptorUser();
 	virtual ~AcceptorUser();
 
-	AcceptorUser() = delete;
 	AcceptorUser(const AcceptorUser& _other) = delete;
 	AcceptorUser(AcceptorUser&& _other) = delete;
 	AcceptorUser& operator=(const AcceptorUser& _other) = delete;
@@ -24,5 +23,5 @@ public:
 
 private:
 	core::network::IocpCore m_core;
-	SessionManagerUser m_session_manager;
+	//SessionManagerUser m_session_manager;
 };
