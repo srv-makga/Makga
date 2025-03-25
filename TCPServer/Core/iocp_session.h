@@ -17,7 +17,7 @@ class IocpService;
 class IocpSession : public Session, public IocpObject
 {
 public:
-	IocpSession(Session::Type _type, std::size_t _buffer_size);
+	IocpSession(ServiceType _type, std::size_t _buffer_size);
 	virtual ~IocpSession();
 
 public: // Session
@@ -27,8 +27,8 @@ public: // Session
 	Id GetSessionId() const override;
 	void SetSessionId(Id _id) override;
 
-	Type GetSessionType() const override;
-	void SetSessionType(Type _type) override;
+	ServiceType GetSessionType() const override;
+	void SetSessionType(ServiceType _type) override;
 
 public:
 	void Dispatch(IocpEvent* _iocp_event, int _bytes_transferred = 0) override;
@@ -67,7 +67,7 @@ protected:
 
 public:
 	Id m_id;
-	Session::Type m_type;
+	ServiceType m_type;
 
 	SOCKET m_socket;
 	IPEndPoint m_end_point;
