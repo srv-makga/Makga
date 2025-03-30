@@ -32,7 +32,7 @@ private:
 	void CloseHandle();
 
 private:
-	HANDLE m_iocp;
+	HANDLE m_handle;
 };
 } // namespace network
 } // namespace core
