@@ -64,7 +64,7 @@ public:
 	virtual bool HasItemIdx(ItemIdx_t _item_index) = 0;
 
 	virtual Result_t InsertObject(ItemObjectBase* _item_object) = 0;
-	virtual bool EraseObject(ItemObjectBase* _item_object) = 0;
+	virtual Result_t EraseObject(ItemObjectBase* _item_object) = 0;
 	virtual ItemObjectBase* FindObject(ItemUid_t _item_uid) = 0;
 	virtual ItemObjectBase* FindObject(ItemIdx_t _item_idx) = 0;
 
