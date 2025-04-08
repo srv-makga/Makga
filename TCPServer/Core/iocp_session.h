@@ -42,10 +42,10 @@ public:
 	void RegisterRecv();
 	void RegisterSend();
 
-	void ProcessConnect();
-	void ProcessDisconnect();
-	void ProcessRecv(int _bytes_transferred);
-	void ProcessSend(int _bytes_transferred);
+	void OnConnect();
+	void OnDisconnect();
+	void OnRecv(int _bytes_transferred);
+	void OnSend(int _bytes_transferred);
 
 	SOCKET GetSocket() const;
 	const IPEndPoint& GetEndPoint() const;
