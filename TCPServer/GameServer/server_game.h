@@ -1,19 +1,11 @@
 #pragma once
 
 #include "../core/singleton.hpp"
-#include "../Common/proxy_server.h"
+#include "../Common/Server.h"
+#include "../Common/iocp_server.h"
+#include "../Common/iocp_client.h"
 
-#include "acceptor_user.h"
-#include "acceptor_admintool.h"
-
-#include "connecter.h"
-
-#include "session_user.h"
-#include "session_world.h"
-#include "session_community.h"
-#include "session_dbagent.h"
-
-class GameServer : public ProxyServer, public core::pattern::Singleton<GameServer>
+class GameServer : public Server, public core::pattern::Singleton<GameServer>
 {
 public:
 	GameServer(core::ServiceType _type);
@@ -26,18 +18,25 @@ public:
 	bool Initialize() override;
 	void Finalize() override;
 
+	template<typename T>
+	GameServer& AddServer(const std::string& _ip, Port_t _port);
+
 protected:
 	bool StartUp() override;
-	bool StartEnd() override;
+	bool StartUpEnd() override;
 
-public:
-	AcceptorUser m_acceptor_user;
-	AcceptorAdminTool m_acceptor_admintool;
-
-	// @todo proxy 서버로 변경 필요
-	std::shared_ptr<SessionWorld> m_session_world;
-	std::shared_ptr<SessionCommunity> m_session_community;
-	std::shared_ptr<SessionDBAgent> m_session_dbagent;
+private:
+	std::vector<std::shared_ptr<IocpServer>> m_servers;
+	std::vector<std::shared_ptr<IocpClient>> m_clients;
+	std::vector<std::shared_ptr<WebClient>> m_web_clients;
+	std::shared_ptr<World> m_world;
+	std::shared_ptr<Data> m_data;
 };
 
 #define SERVER	GameServer::Instance()
+
+template<typename T>
+inline GameServer& GameServer::AddServer(const std::string& _ip, Port_t _port)
+{
+	return *this;
+}
