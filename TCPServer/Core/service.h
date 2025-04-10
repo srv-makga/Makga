@@ -12,6 +12,7 @@ enum class ServiceType
 };
 
 namespace server {
+// @brief 네트워크 서비스 클래스
 class Service
 {
 public:
@@ -20,7 +21,22 @@ public:
 
 	virtual bool Initialize() = 0;
 	virtual void Finalize() = 0;
-	virtual bool Start(std::function<void(void)> _func) = 0;
+	virtual bool StartUp() = 0;
+	virtual bool StartUpEnd() = 0;
+	virtual bool Start()
+	{
+		if (StartUp() == false)
+		{
+			return false;
+		}
+
+		if (StartUpEnd() == false)
+		{
+			return false;
+		}
+
+		return true;
+	}
 	virtual bool Stop() = 0;
 };
 } // namespace server
