@@ -21,6 +21,9 @@ public:
 	template<typename T>
 	GameServer& AddServer(const std::string& _ip, Port_t _port);
 
+	template<typename T>
+	GameServer& AddClient(const std::string& _ip, Port_t _port);
+
 protected:
 	bool StartUp() override;
 	bool StartUpEnd() override;
@@ -38,5 +41,29 @@ private:
 template<typename T>
 inline GameServer& GameServer::AddServer(const std::string& _ip, Port_t _port)
 {
+	if constexpr (std::is_same_v<T, IocpSession>)
+	{
+		auto server = std::make_shared<IocpServer>();
+		m_servers.push_back(server);
+	}
+	else if constexpr (std::is_same_v<T, RioSession>)
+    {
+    }
+
+	return *this;
+}
+
+template<typename T>
+inline GameServer& GameServer::AddClient(const std::string& _ip, Port_t _port)
+{
+	if constexpr (std::is_same_v<T, IocpSession>)
+	{
+		auto client = std::make_shared<IocpClient>();
+		m_clients.push_back(client);
+	}
+	else if constexpr (std::is_same_v<T, RioSession>)
+	{
+	}
+
 	return *this;
 }
