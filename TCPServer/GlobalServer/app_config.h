@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Common/config_base.h"
+#include "../Common/config.h"
 #include "../Core/singleton.hpp"
 
-struct ConfigGlobal : public ConfigBase, public core::pattern::Singleton<ConfigGlobal>
+struct AppConfig : public Config, public core::pattern::Singleton<AppConfig>
 {
 	int max_session_user_count = 3000;
 	int max_actor_monster = 10000;
@@ -13,5 +13,5 @@ struct ConfigGlobal : public ConfigBase, public core::pattern::Singleton<ConfigG
 	std::size_t session_user_buffer_size = 1 << 13;
 };
 
-#define CONFIG		ConfigGlobal::Instance()
+#define CONFIG		AppConfig::Instance()
 #define SERVERLIST	CONFIG.serverlist

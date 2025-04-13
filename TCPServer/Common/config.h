@@ -6,7 +6,27 @@
 #include "../Core/json_object.hpp"
 #include <map>
 
-class ConfigBase
+struct NetInfo
+{
+	union
+	{
+		std::string listen_ip;
+		std::string remote_ip;
+	};
+
+	union
+	{
+		Port_t listen_port;
+		Port_t remote_port;
+	};
+};
+
+struct DatabaseInfo : public NetInfo
+{
+	std::string database_name;
+};
+
+class Config
 {
 public:
 	using ServerInfo_t = ::ServerInfo;
@@ -55,8 +75,14 @@ public:
 
 	std::map<fb::eDBType, DBInfo_t*> db_list;
 	std::map<fb::eRedisType, DBInfo_t*> redis_list;
-
-
-	const ServerInfo_t* my_server = nullptr;
 };
 
+class ServerConfig : public Config
+{
+	using DatabaseList = std::map<eDatabaseType, DatabaseInfo>;
+	using AcceptorList = std::map<eServerType, NetInfo>;
+
+public:
+	AcceptorList	m_accept_list;
+	DatabaseList	m_database_list;
+};
