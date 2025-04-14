@@ -61,7 +61,7 @@
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>$(SolutionDir)libs\mariadb_cpp\include;$(SolutionDir)libs\flatbuffer\include;$(SolutionDir)libs\rapidjson\include;$(SolutionDir)libs\glog\include;$(SolutionDir)libs\hiredis\include;$(SolutionDir)Core;$(SolutionDir)Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -123,7 +123,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="acceptor_user.cpp" />
     <ClCompile Include="actor.cpp" />
     <ClCompile Include="actor_ai.cpp" />
     <ClCompile Include="actor_character.cpp" />
@@ -135,7 +134,9 @@
     <ClCompile Include="aggro_list.cpp" />
     <ClCompile Include="ai_aggressive.cpp" />
     <ClCompile Include="ai_base.cpp" />
+    <ClCompile Include="ai_boss.cpp" />
     <ClCompile Include="ai_non_aggressive.cpp" />
+    <ClCompile Include="connector_manager.cpp" />
     <ClCompile Include="DetourAlloc.cpp" />
     <ClCompile Include="DetourAssert.cpp" />
     <ClCompile Include="DetourCommon.cpp" />
@@ -145,34 +146,32 @@
     <ClCompile Include="DetourNode.cpp" />
     <ClCompile Include="monster_generator.cpp" />
     <ClCompile Include="proc_world.cpp" />
+    <ClCompile Include="security.cpp" />
+    <ClCompile Include="security_nprotect.cpp" />
+    <ClCompile Include="security_xigncode.cpp" />
     <ClCompile Include="send_func.cpp" />
     <ClCompile Include="server_game.cpp" />
+    <ClCompile Include="session_admintool.cpp" />
     <ClCompile Include="session_community.cpp" />
-    <ClCompile Include="connector_community.cpp" />
-    <ClCompile Include="connector_dbagent.cpp" />
-    <ClCompile Include="connector_world.cpp" />
     <ClCompile Include="data_manager.cpp" />
     <ClCompile Include="session_dbagent.cpp" />
-    <ClCompile Include="gameserver.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="inventory_user.cpp" />
     <ClCompile Include="item_object_equip.cpp" />
     <ClCompile Include="item_object_stack.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="session_user.cpp" />
     <ClCompile Include="setting_game.cpp" />
     <ClCompile Include="terrain.cpp" />
     <ClCompile Include="terrain_grid.cpp" />
     <ClCompile Include="terrain_grid_manager.cpp" />
     <ClCompile Include="terrain_manager.cpp" />
+    <ClCompile Include="thread_manager.cpp" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="session_world.cpp" />
     <ClCompile Include="proc_user.cpp" />
+    <ClCompile Include="worker_thread.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="acceptor_user.h" />
     <ClInclude Include="actor_ai.h" />
     <ClInclude Include="actor_manager.h" />
     <ClInclude Include="actor_pet.h" />
@@ -181,6 +180,9 @@
     <ClInclude Include="ai_boss.h" />
     <ClInclude Include="ai_non_aggressive.h" />
     <ClInclude Include="actor_character.h" />
+    <ClInclude Include="app_connector.h" />
+    <ClInclude Include="connecter.h" />
+    <ClInclude Include="connector_manager.h" />
     <ClInclude Include="detour.h" />
     <ClInclude Include="DetourAlloc.h" />
     <ClInclude Include="DetourAssert.h" />
@@ -195,20 +197,27 @@
     <ClInclude Include="game_enum.h" />
     <ClInclude Include="game_struct.h" />
     <ClInclude Include="game_type.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="security.h" />
+    <ClInclude Include="security_dummy.h" />
+    <ClInclude Include="security_nprotect.h" />
+    <ClInclude Include="security_xigncode.h" />
+    <ClInclude Include="security_xtrap.h" />
+    <ClInclude Include="session_admintool.h" />
+    <ClInclude Include="thread_manager.h" />
+    <ClInclude Include="worker_thread.h" />
+    <ClInclude Include="world.h" />
     <ClInclude Include="monster_generator.h" />
     <ClInclude Include="pool.h" />
     <ClInclude Include="send_func.h" />
     <ClInclude Include="server_game.h" />
     <ClInclude Include="session_community.h" />
-    <ClInclude Include="connector_community.h" />
-    <ClInclude Include="connector_dbagent.h" />
-    <ClInclude Include="connector_world.h" />
     <ClInclude Include="data_manager.h" />
     <ClInclude Include="session_dbagent.h" />
     <ClInclude Include="inventory_equip.h" />
     <ClInclude Include="inventory_premium.h" />
     <ClInclude Include="item_object_equip.h" />
-    <ClInclude Include="config_game.h" />
+    <ClInclude Include="app_config.h" />
     <ClInclude Include="game_header.h" />
     <ClInclude Include="actor.h" />
     <ClInclude Include="ai_aggressive.h" />
@@ -216,7 +225,6 @@
     <ClInclude Include="actor_monster.h" />
     <ClInclude Include="actor_npc.h" />
     <ClInclude Include="actor_gadget.h" />
-    <ClInclude Include="pch.h" />
     <ClInclude Include="item_object_stack.h" />
     <ClInclude Include="session_manager_user.h" />
     <ClInclude Include="setting_game.h" />

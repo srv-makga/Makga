@@ -148,7 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="acceptor_world.h" />
-    <ClInclude Include="config_global.h" />
+    <ClInclude Include="app_config.h" />
     <ClInclude Include="global_header.h" />
     <ClInclude Include="global_struct.h" />
     <ClInclude Include="server_global.h" />

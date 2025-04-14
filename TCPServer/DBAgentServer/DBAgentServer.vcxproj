@@ -141,7 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="acceptor_server.h" />
-    <ClInclude Include="config_dbagent.h" />
+    <ClInclude Include="app_config.h" />
     <ClInclude Include="database_client.h" />
     <ClInclude Include="database_handler.h" />
     <ClInclude Include="database_thread.h" />

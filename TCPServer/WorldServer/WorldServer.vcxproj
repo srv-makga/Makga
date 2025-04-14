@@ -147,7 +147,7 @@
   <ItemGroup>
     <ClInclude Include="acceptor_community.h" />
     <ClInclude Include="acceptor_game.h" />
-    <ClInclude Include="config_world.h" />
+    <ClInclude Include="app_config.h" />
     <ClInclude Include="connector_dbagent.h" />
     <ClInclude Include="connector_global.h" />
     <ClInclude Include="data_manager.h" />
