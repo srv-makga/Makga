@@ -1,37 +1,78 @@
 #include "pch.h"
 #include "server_game.h"
 #include "session_manager_user.h"
-#include "config_game.h"
+#include "app_config.h"
 #include "pool.h"
 
-GameServer::GameServer(core::ServiceType _type)
-	: ProxyServer(_type)
+GameServer::GameServer(core::ServiceType _type, std::shared_ptr<AppConfig> _config)
+	: m_type(_type)
+	, m_config(_config)
 {
 }
 
 GameServer::~GameServer()
 {
+	m_config = nullptr;
 }
 
 bool GameServer::Initialize()
 {
-	if (false == m_acceptor_user.Initialize())
+	if (nullptr == m_config)
 	{
 		return false;
 	}
 
-	if (false == m_acceptor_admintool.Initialize())
+	auto lambda = [m_config]() -> bool
+		{
+		};
+
+	// world
 	{
-		return false;
+		auto iter = m_config->serverlist_by_type.find(eServerType_World);
+		if (m_config->serverlist_by_type.end() == iter)
+		{
+			LOG_ERROR << "World server not found.";
+			return false;
+		}
+
+		for (const auto& info : iter->second)
+		{
+			NetInfo net_info;
+			net_info.listen_ip = ::inet_addr(info->InternalIP().c_str());
+			net_info.listen_port = info->Port(eServerType_World);
+			if (false == m_config->accept_list.insert({ eServerType_World, net_info }).second)
+			{
+				LOG_ERROR << "World server already exists. server_id:" << info->ServerId();
+			}
+		}
 	}
+
+	
+	m_config->serverlist_by_type.find(eServerType_Community);
+
+	// @todo 내가 listen 해야하는 목록을 만든다
+	m_config->accept_list.insert(
+		{ ServerType_t::eServerType_User, NetInfo{ m_config->listen_ip, m_config->MyInfo()->Port }});
+
+	m_config->serverlist_by_type.find(eServerType_User);
+	m_config->serverlist_by_type.find(eServerType_AdminTool);
+
+	// @todo 내가 connect 해야하는 목록을 만든다
+	m_config->connector_list;
 
 	return true;
 }
 
 void GameServer::Finalize()
 {
-	m_acceptor_user.Finalize();
-	m_acceptor_admintool.Finalize();
+	m_servers.clear();
+	m_clients.clear();
+	m_web_clients.clear();
+}
+
+std::shared_ptr<AppConfig> GameServer::GetConfig() const
+{
+	return m_config;
 }
 
 bool GameServer::StartUp()
@@ -39,68 +80,18 @@ bool GameServer::StartUp()
 	return true;
 }
 
-bool GameServer::StartEnd()
+bool GameServer::StartUpEnd()
 {
-	auto my_server = CONFIG.my_server;
-	if (nullptr == my_server)
+	if (nullptr == m_config)
 	{
 		return false;
 	}
 
-	Connector connector;
-
-	m_session_world = connector.Connect<SessionWorld>(core::network::IPEndPoint(my_server->InternalIP(), my_server->Port(ServerType_t::eServerType_World)));
-	if (nullptr == m_session_world)
+	for (const auto& [type, info] : m_config->accept_list)
 	{
-		LOG_ERROR << "Failed to connect world server.";
-		return false;
+		info.listen_ip;
+		info.listen_port;
 	}
-
-	m_session_community = connector.Connect<SessionCommunity>(core::network::IPEndPoint(my_server->InternalIP(), my_server->Port(ServerType_t::eServerType_Community)));
-	if (nullptr == m_session_community)
-	{
-		LOG_ERROR << "Failed to connect community server.";
-		return false;
-	}
-
-	////로그 서버
-	//auto session_log = connector.Connect<SessionLog>(core::network::IPEndPoint(my_server->InternalIP(), my_server->Port(ServerType_t::eServerType_Log)));
-	//if (nullptr == session_log)
-	//{
-	//	LOG_ERROR << "Failed to connect log server.";
-	//	return false;
-	//}
-
-	////채팅 서버
-	//auto session_chat = connector.Connect<SessionChat>(core::network::IPEndPoint(my_server->InternalIP(), my_server->Port(ServerType_t::eServerType_Chat)));
-	//if (nullptr == session_chat)
-	//{
-	//	LOG_ERROR << "Failed to connect chat server.";
-	//	return false;
-	//}
-
-	////빌링 서버(+웹 서버)
-	//auto session_billing = connector.Connect<SessionBilling>(core::network::IPEndPoint(my_server->InternalIP(), my_server->Port(ServerType_t::eServerType_Billing)));
-	//if (nullptr == session_billing)
-	//{
-	//	LOG_ERROR << "Failed to connect billing server.";
-	//	return false;
-	//}
-
-	m_session_dbagent = connector.Connect<SessionDBAgent>(core::network::IPEndPoint(my_server->InternalIP(), my_server->Port(ServerType_t::eServerType_DBAgent)));
-	if (nullptr == m_session_dbagent)
-	{
-		LOG_ERROR << "Failed to connect dbagent server.";
-		return false;
-	}
-
-	//레디스
-
-
-	// @todo 각 iocp 스레드의 갯수를 지정할 수 있는 방식 추가
-	// 또는 특정 스레드에 여러 iocp를 처리할 수 있도록 하는 방식도 고려
-	m_acceptor_user.Setup(core::network::IPEndPoint(my_server->ExternalIP(), my_server->Port(ServerType_t::eServerType_User)));
-	m_acceptor_admintool.Setup(core::network::IPEndPoint(my_server->InternalIP(), my_server->Port(ServerType_t::eServerType_AdminTool)));
 
 	return true;
 }

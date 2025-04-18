@@ -8,7 +8,7 @@
 class GameServer : public Server, public core::pattern::Singleton<GameServer>
 {
 public:
-	GameServer(core::ServiceType _type);
+	GameServer(core::ServiceType _type, std::shared_ptr<AppConfig> _config);
 	GameServer(const GameServer& _other) = delete;
 	GameServer(GameServer&& _other) = delete;
 	GameServer& operator=(const GameServer& _other) = delete;
@@ -24,11 +24,15 @@ public:
 	template<typename T>
 	GameServer& AddClient(const std::string& _ip, Port_t _port);
 
+	std::shared_ptr<AppConfig> GetConfig() const;
+
 protected:
 	bool StartUp() override;
 	bool StartUpEnd() override;
 
 private:
+	core::ServiceType m_type;
+	std::shared_ptr<AppConfig> m_config;
 	std::vector<std::shared_ptr<IocpServer>> m_servers;
 	std::vector<std::shared_ptr<IocpClient>> m_clients;
 	std::vector<std::shared_ptr<WebClient>> m_web_clients;
@@ -47,8 +51,8 @@ inline GameServer& GameServer::AddServer(const std::string& _ip, Port_t _port)
 		m_servers.push_back(server);
 	}
 	else if constexpr (std::is_same_v<T, RioSession>)
-    {
-    }
+	{
+	}
 
 	return *this;
 }
