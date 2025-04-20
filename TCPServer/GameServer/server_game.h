@@ -4,6 +4,8 @@
 #include "../Common/Server.h"
 #include "../Common/iocp_server.h"
 #include "../Common/iocp_client.h"
+#include "world.h"
+#include "data_manager.h"
 
 class GameServer : public Server, public core::pattern::Singleton<GameServer>
 {
@@ -37,7 +39,7 @@ private:
 	std::vector<std::shared_ptr<IocpClient>> m_clients;
 	std::vector<std::shared_ptr<WebClient>> m_web_clients;
 	std::shared_ptr<World> m_world;
-	std::shared_ptr<Data> m_data;
+	std::shared_ptr<DataManager> m_data;
 };
 
 #define SERVER	GameServer::Instance()
