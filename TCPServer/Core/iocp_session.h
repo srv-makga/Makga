@@ -39,6 +39,7 @@ public:
 
 	bool RegisterConnect();
 	void RegisterDisconnect();
+	void RegisterZeroRecv();
 	void RegisterRecv();
 	void RegisterSend();
 

@@ -41,6 +41,7 @@ public:
 	ServiceType GetServiceType() const;
 	std::shared_ptr<IocpCore> GetIocpCore() const;
 	std::size_t GetSessionCount() const;
+	virtual std::size_t GetMaxSessionCount() const = 0;
 	bool IsStart();
 	int GetThreadCount() const;
 
@@ -61,7 +62,7 @@ protected:
 	std::function<std::shared_ptr<IocpSession>(void)> m_alloc_session;
 	std::function<void(std::shared_ptr<IocpSession>)> m_dealloc_session;
 
-	bool m_is_start;
+	std::atomic<bool> m_is_start;
 
 	int m_thread_count;
 };
