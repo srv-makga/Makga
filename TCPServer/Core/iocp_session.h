@@ -37,6 +37,9 @@ public:
 	void Disconnect();
 	void Send(std::shared_ptr<NetBuffer> _send_buffer);
 
+	// @brief 동기 수신
+	int Recv();
+
 	bool RegisterConnect();
 	void RegisterDisconnect();
 	void RegisterZeroRecv();
@@ -72,7 +75,9 @@ public:
 
 	SOCKET m_socket;
 	IPEndPoint m_end_point;
+
 	std::atomic<bool> m_is_connected;
+	bool m_is_zero_receivce;
 
 	std::shared_ptr<NetBuffer> m_recv_buffer;
 

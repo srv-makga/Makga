@@ -43,7 +43,8 @@ public:
 	std::size_t GetSessionCount() const;
 	virtual std::size_t GetMaxSessionCount() const = 0;
 	bool IsStart();
-	int GetThreadCount() const;
+	std::size_t GetThreadCount() const;
+	void SetThreadCount(std::size_t _thread_count);
 
 	virtual const IPEndPoint& GetEndPoint() const = 0;
 	virtual void SetEndPoint(const IPEndPoint& _ep) = 0;
@@ -64,7 +65,7 @@ protected:
 
 	std::atomic<bool> m_is_start;
 
-	int m_thread_count;
+	std::size_t m_thread_count;
 };
 } // namespace network
 } // namespace core
