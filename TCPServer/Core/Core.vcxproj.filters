@@ -94,13 +94,16 @@
     <ClCompile Include="rio_buffer.cpp">
       <Filter>network\proactor\rio</Filter>
     </ClCompile>
-    <ClCompile Include="iocp_listener.cpp">
+    <ClCompile Include="iocp_acceptor.cpp">
       <Filter>network\proactor\iocp</Filter>
     </ClCompile>
     <ClCompile Include="iocp_session.cpp">
       <Filter>network\proactor\iocp</Filter>
     </ClCompile>
     <ClCompile Include="iocp_core.cpp">
+      <Filter>network\proactor\iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="iocp_connector.cpp">
       <Filter>network\proactor\iocp</Filter>
     </ClCompile>
   </ItemGroup>
@@ -334,7 +337,7 @@
     <ClInclude Include="iocp_session.h">
       <Filter>network\proactor\iocp</Filter>
     </ClInclude>
-    <ClInclude Include="iocp_listener.h">
+    <ClInclude Include="iocp_acceptor.h">
       <Filter>network\proactor\iocp</Filter>
     </ClInclude>
     <ClInclude Include="iocp_core.h">
@@ -342,6 +345,15 @@
     </ClInclude>
     <ClInclude Include="session.h">
       <Filter>network\proactor</Filter>
+    </ClInclude>
+    <ClInclude Include="acceptor.h">
+      <Filter>network\proactor</Filter>
+    </ClInclude>
+    <ClInclude Include="iocp_connector.h">
+      <Filter>network\proactor\iocp</Filter>
+    </ClInclude>
+    <ClInclude Include="httplib.h">
+      <Filter>network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

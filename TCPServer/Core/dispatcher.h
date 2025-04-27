@@ -27,7 +27,7 @@ public:
 		auto it = m_functor.find(_identifier);
 		if (m_functor.end() == it)
 		{
-			return 0;
+			return nullptr;
 		}
 
 		return it->second;
