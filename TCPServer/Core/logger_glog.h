@@ -9,7 +9,7 @@
 #include "logger.h"
 #include "glog/logging.h"
 #include <filesystem>
-#include "../Common/Flatbuffer/ResultType_generated.h"
+#include "singleton.hpp"
 
 /* glog 플래그
 * logtostderr		            (bool  , default = false     ) 로그 파일이 아닌 stderr로 메시지를 남긴다.
@@ -60,7 +60,7 @@
 
 namespace core {
 namespace logger {
-class LoggerGoogle : public Logger
+class LoggerGoogle : public Logger, public core::pattern::Singleton<LoggerGoogle>
 {
 public:
 	LoggerGoogle()
@@ -154,73 +154,55 @@ public:
 		(DLOG(FATAL) << ... << _args);
 	}
 
-	/*
-	* @brief 로그 파일이 아닌 콘솔로 메시지를 남긴다.
-	*/
+	// @brief 로그 파일이 아닌 콘솔로 메시지를 남긴다.
 	void set_console(bool _flag)
 	{
 		fLB::FLAGS_logtostderr = _flag;
 	}
 
-	/*
-	* @brief 로그 메시지를 로그 파일과 콘솔에 함께 남긴다.
-	*/
+	// @brief 로그 메시지를 로그 파일과 콘솔에 함께 남긴다.
 	void set_file_with_console(bool _flag)
 	{
 		fLB::FLAGS_alsologtostderr = _flag;
 	}
 
-	/*
-	* @brief 콘솔 메시지에 색상을 설정한다.
-	*/
+	// @brief 콘솔 메시지에 색상을 설정한다.
 	void set_console_color(bool _flag)
 	{
 		fLB::FLAGS_colorlogtostderr = _flag;
 	}
 
-	/*
-	* @brief 지정한 레벨과 그 위의 레벨들의 로그 메시지들을 로그 파일 외에 stderr 로 복사를 한다.
-	*/
+	// @brief 지정한 레벨과 그 위의 레벨들의 로그 메시지들을 로그 파일 외에 stderr 로 복사를 한다.
 	void set_console_higher_level(int _level)
 	{
 		fLI::FLAGS_stderrthreshold = _level;
 	}
 
-	/*
-	* @brief 각 줄에 로그 접두사를 추가할지 여부를 추가한다.
-	*/
+	// @brief 각 줄에 로그 접두사를 추가할지 여부를 추가한다.
 	void set_prefix(bool _flag)
 	{
 		fLB::FLAGS_log_prefix = _flag;
 	}
 
-	/*
-	* @brief 해당 레벨 이하의 메시지는 버퍼링되고, 상위 레벨은 즉시 flush된다.
-	*/
+	// @brief 해당 레벨 이하의 메시지는 버퍼링되고, 상위 레벨은 즉시 flush된다.
 	void set_buf_level(int _level)
 	{
 		fLI::FLAGS_logbuflevel = _level;
 	}
 
-	/*
-	* @brief 로그가 버퍼링될 수 있는 최대 시간을 설정한다.
-	*/
+	// @brief 로그가 버퍼링될 수 있는 최대 시간을 설정한다.
 	void set_buf_time(int _time)
 	{
 		fLI::FLAGS_logbufsecs = _time;
 	}
 
-	/*
-	* @brief 지정한 레벨과 그 위의 레벨들의 메시지를 파일에 남긴다.
-	*/
+	// @brief 지정한 레벨과 그 위의 레벨들의 메시지를 파일에 남긴다.
 	void set_min_level(int _level)
 	{
 		fLI::FLAGS_minloglevel = _level;
 	}
 
-	/*
-	* @brief 최대 로그 파일 크기(MB)를 설정한다.
-	*/
+	// @brief 최대 로그 파일 크기(MB)를 설정한다.
 	void set_max_size(int _size)
 	{
 		fLI::FLAGS_max_log_size = _size;
@@ -230,5 +212,6 @@ private:
 	std::string m_prefix;
 };
 
+#define Glogger LoggerGoogle::Instance()
 } // namespace logger
 } // namespace core
