@@ -30,22 +30,26 @@ public: // Session
 	ServiceType GetSessionType() const override;
 	void SetSessionType(ServiceType _type) override;
 
-public:
+public: // IocpObject
 	void Dispatch(IocpEvent* _iocp_event, int _bytes_transferred = 0) override;
+	HANDLE GetHandle() const override;
 
+public:
 	bool Connect();
 	void Disconnect();
 	void Send(std::shared_ptr<NetBuffer> _send_buffer);
 
-	// @brief 동기 수신
+	// @brief 동기 요청
 	int Recv();
 
+	// @brief 비동기 요청
 	bool RegisterConnect();
 	void RegisterDisconnect();
 	void RegisterZeroRecv();
 	void RegisterRecv();
 	void RegisterSend();
 
+	// @brief 비동기 요청의 결과로 호출
 	void OnConnect();
 	void OnDisconnect();
 	void OnRecv(int _bytes_transferred);
@@ -57,17 +61,17 @@ public:
 
 	bool IsConnected() const;
 	bool IsSendRegistered() const;
+	bool IsZeroReceive() const;
 
 	void SetEndPoint(SOCKADDR_IN _addr);
 	void SetEndPoint(IPEndPoint _ep);
 	void SetService(std::shared_ptr<IocpService> _service);
 
-protected:
-	virtual void OnConnected() = 0;
-	virtual void OnDisconnected() = 0;
-	virtual std::size_t OnRecv(char* buffer, std::size_t _length);
-	virtual void OnSend(std::size_t _length);
-	virtual bool ProcPacket(std::shared_ptr<Packet> _packet) = 0;
+public:
+	virtual void ProcConnect() = 0;
+	virtual void ProcDisconnect() = 0;
+	virtual std::size_t ProcRecv(char*, std::size_t) = 0;
+	virtual void ProcSend(std::size_t) = 0;
 
 public:
 	Id m_id;
