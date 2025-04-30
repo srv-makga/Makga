@@ -18,6 +18,7 @@ public:
 
 public:
 	IPEndPoint();
+	IPEndPoint(unsigned long _ip, Port_t _port);
 	IPEndPoint(const std::tchar* _ip, Port_t _port);
 	IPEndPoint(const std::tstring& _ip, Port_t _port);
 
