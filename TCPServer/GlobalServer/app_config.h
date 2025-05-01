@@ -5,7 +5,6 @@
 
 struct AppConfig : public Config, public std::enable_shared_from_this<AppConfig>
 {
-	int max_session_user_count = 3000;
 	int max_actor_monster = 10000;
 	int max_actor_npc = 1000;
 	int max_actor_object = 1000;
