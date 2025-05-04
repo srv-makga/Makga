@@ -4,6 +4,7 @@
 #include "../Core/object_pool.h"
 #include "../Core/dispatcher.h"
 #include "../Core/net_buffer.h"
+#include "../Common/messenger.h"
 #include "../Common/inventory_owner.h"
 
 class SessionUser;
@@ -11,7 +12,7 @@ class Character;
 class ItemObjectBase;
 class InventoryUser;
 
-class User : public InventoryOwner
+class User : public Messenger, public InventoryOwner
 {
 public:
 	using Pid_t = fb::server::SendPid;
@@ -23,7 +24,10 @@ public:
 	static bool InitDispatcher();
 
 private:
-	inline static core::Dispatcher<Pid_t, Function_t> s_dispatcher;
+	inline static std::map<CommandType, core::Dispatcher<Pid_t, Function_t>> s_dispatcher;
+
+public: // Messenger
+	ThreadId_t GetThreadId() const override;
 
 public:
 	User();

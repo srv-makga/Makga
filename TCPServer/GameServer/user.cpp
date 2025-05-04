@@ -6,6 +6,30 @@
 #include "inventory_user.h"
 #include "item_object_base.h"
 
+const Messenger::MessageType& User::GetHandler(CommandType _type, PacketId_t _pid) const
+{
+	// using MessageType = std::function<bool(Packet*)>; => Messenger
+	// using Function_t = std::function<bool(User*, std::shared_ptr<Packet>)>; => User
+	// inline static std::map<CommandType, core::Dispatcher<Pid_t, Function_t>> s_dispatcher;
+	const auto iter = s_dispatcher.find(_type);
+	if (s_dispatcher.end() == iter)
+	{
+		return nullptr;
+	}
+
+	Pid_t pid = static_cast<Pid_t>(_pid);
+
+	const auto func = iter->second.Find(pid);
+	if (nullptr == func)
+	{
+		return nullptr;
+	}
+
+	func(this, )
+
+	return func;
+}
+
 User::User()
 {
 }
@@ -48,7 +72,9 @@ void User::SetSession(SessionUser* _session)
 
 bool User::ProcPacket(std::shared_ptr<Packet> _packet)
 {
-	fb::server::SendPid pid = (fb::server::SendPid)_packet->GetId();
+	fb::server::SendPid pid = static_cast<fb::server::SendPid>(_packet->GetId());
+
+
 
 	LOG_INFO << "ProcPacket Start. Pid:" << LOG_USER_UID(UserUid()) << fb::server::EnumNameSendPid(pid);
 
