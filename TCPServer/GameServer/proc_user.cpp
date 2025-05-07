@@ -8,18 +8,18 @@
 #include "actor_manager.h"
 
 //#define REG_DISPATCHER(pid)	s_dispatcher.Add(fb::server::SendPid_##pid, &User::On##pid);
-#define REG_DISPATCHER(pid)	s_dispatcher.Add(fb::server::SendPid_##pid, [](User* _user, std::shared_ptr<Packet> packet) -> bool { return _user->On##pid(packet); });
+#define REG_DISPATCHER(type, pid)	s_dispatcher[type].Add(fb::server::SendPid_##pid, [](User* _user, std::shared_ptr<Packet> packet) -> bool { return _user->On##pid(packet); });
 
 bool User::InitDispatcher()
 {
-	REG_DISPATCHER(Chatting);
-	REG_DISPATCHER(LoginSecurity);
-	REG_DISPATCHER(CharacterCreate);
-	REG_DISPATCHER(CharacterDelete);
-	REG_DISPATCHER(CharacterSelect);
-	REG_DISPATCHER(CharacterLogout);
-	REG_DISPATCHER(CharacterMove);
-	REG_DISPATCHER(CharacterAngle);
+	REG_DISPATCHER(CommandType::User, Chatting);
+	REG_DISPATCHER(CommandType::User, LoginSecurity);
+	REG_DISPATCHER(CommandType::User, CharacterCreate);
+	REG_DISPATCHER(CommandType::User, CharacterDelete);
+	REG_DISPATCHER(CommandType::User, CharacterSelect);
+	REG_DISPATCHER(CommandType::User, CharacterLogout);
+	REG_DISPATCHER(CommandType::User, CharacterMove);
+	REG_DISPATCHER(CommandType::User, CharacterAngle);
 
 	return true;
 }
