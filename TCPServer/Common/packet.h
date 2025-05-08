@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../Core/session.h"
+#include "../Core/session_interface.h"
 #include "../Core/net_buffer.h"
+#include "../Core/object_pool.h"
 
 class Packet
 {
@@ -11,21 +12,24 @@ public:
 
 	struct PacketHeader
 	{
-		PacketId_t id;
-		PacketSize_t size;
+		PacketSize_t size = 0;
+		PacketId_t id = 0;
+		uint8_t encryto_key = 0;
 	};
 
-	using Buffer_t = std::shared_ptr<core::network::NetBuffer>;
-	using Owner_t = std::shared_ptr<core::network::Session>;
+	using Buffer_t = core::network::NetBuffer;
+	using Owner_t = std::shared_ptr<core::network::SessionInterface>;
 
 public:
-	Packet(bool _is_encrypt = false);
+	Packet(bool _is_encrypt = false); // @todo packet의 내 버퍼 크기 지정 필요?
 	virtual ~Packet();
 
 	void Initialize();
 	void Finalize();
 
+	void SetData(char* _data, std::size_t _size);
 	char* Data() const;
+
 	void Clear();
 
 	void Encrypt(const char* _key) {}
@@ -44,8 +48,8 @@ public:
 	PacketSize_t PacketSize() const;
 	PacketSize_t DataSize() const;
 
-	Buffer_t GetBuffer() const;
-	void  SetBuffer(Buffer_t _buffer);
+	std::shared_ptr<Buffer_t> GetBuffer() const;
+	void  SetBuffer(std::shared_ptr<Buffer_t> _buffer);
 
 	Owner_t GetOwner() const;
 	void SetOwner(Owner_t _owner);
@@ -53,11 +57,34 @@ public:
 	bool IsEncrypt() const;
 	void SetEncryptFlag(bool _value);
 
-	static PacketSize_t HeaderSize();
+public: // static
+	inline static PacketSize_t HeaderSize();
+
+	inline static void Push(std::shared_ptr<Packet> _packet)
+	{
+		s_pool.Push(_packet);
+	}
+
+	inline static std::shared_ptr<Packet> Pop()
+	{
+		return s_pool.Pop();
+	}
+
+	inline static void InitPool(std::size_t _max_size, std::size_t _extend_size, std::function<std::shared_ptr<Packet>()> _create_func, std::function<void(std::shared_ptr<Packet>)> _destroy_func)
+	{
+		s_pool.Initialize(_max_size, _extend_size, _create_func, _destroy_func);
+	}
+
+	inline static void ClearPool()
+	{
+		s_pool.Finalize();
+	}
+
+	inline static core::ObjectPool<std::shared_ptr<Packet>> s_pool;
 
 private:
 	PacketHeader* m_header;
-	Buffer_t m_buffer;
+	std::shared_ptr<Buffer_t> m_buffer;
 	Owner_t m_owner;
 	bool m_is_encrypt;
 };
