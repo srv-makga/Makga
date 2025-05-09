@@ -1,22 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="pch.cpp" />
-    <ClCompile Include="gameserver.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="actor_character.cpp">
       <Filter>actor\detail</Filter>
     </ClCompile>
     <ClCompile Include="terrain.cpp">
       <Filter>system\terrain</Filter>
     </ClCompile>
-    <ClCompile Include="data_manager.cpp">
-      <Filter>table</Filter>
-    </ClCompile>
     <ClCompile Include="actor_monster.cpp">
       <Filter>actor\detail</Filter>
-    </ClCompile>
-    <ClCompile Include="actor_manager.cpp">
-      <Filter>actor</Filter>
     </ClCompile>
     <ClCompile Include="actor_npc.cpp">
       <Filter>actor\detail</Filter>
@@ -28,29 +21,17 @@
     <ClCompile Include="user.cpp">
       <Filter>user</Filter>
     </ClCompile>
-    <ClCompile Include="connector_community.cpp">
-      <Filter>network\connector</Filter>
-    </ClCompile>
-    <ClCompile Include="connector_dbagent.cpp">
-      <Filter>network\connector</Filter>
-    </ClCompile>
-    <ClCompile Include="connector_world.cpp">
-      <Filter>network\connector</Filter>
-    </ClCompile>
     <ClCompile Include="proc_world.cpp">
       <Filter>proc</Filter>
-    </ClCompile>
-    <ClCompile Include="inventory_user.cpp">
-      <Filter>system\inventory</Filter>
     </ClCompile>
     <ClCompile Include="proc_user.cpp">
       <Filter>proc</Filter>
     </ClCompile>
     <ClCompile Include="item_object_equip.cpp">
-      <Filter>system\item\object</Filter>
+      <Filter>system\item\detail</Filter>
     </ClCompile>
     <ClCompile Include="item_object_stack.cpp">
-      <Filter>system\item\object</Filter>
+      <Filter>system\item\detail</Filter>
     </ClCompile>
     <ClCompile Include="DetourAlloc.cpp">
       <Filter>system\terrain\detour</Filter>
@@ -72,9 +53,6 @@
     </ClCompile>
     <ClCompile Include="DetourNode.cpp">
       <Filter>system\terrain\detour</Filter>
-    </ClCompile>
-    <ClCompile Include="ai_base.cpp">
-      <Filter>ai</Filter>
     </ClCompile>
     <ClCompile Include="actor_ai.cpp">
       <Filter>actor</Filter>
@@ -100,9 +78,6 @@
     <ClCompile Include="actor_pet.cpp">
       <Filter>actor\detail</Filter>
     </ClCompile>
-    <ClCompile Include="terrain_manager.cpp">
-      <Filter>system\terrain</Filter>
-    </ClCompile>
     <ClCompile Include="monster_generator.cpp">
       <Filter>system\terrain</Filter>
     </ClCompile>
@@ -110,35 +85,67 @@
       <Filter>func</Filter>
     </ClCompile>
     <ClCompile Include="session_community.cpp">
-      <Filter>session</Filter>
+      <Filter>network\session</Filter>
     </ClCompile>
     <ClCompile Include="session_dbagent.cpp">
-      <Filter>session</Filter>
+      <Filter>network\session</Filter>
     </ClCompile>
     <ClCompile Include="session_user.cpp">
-      <Filter>session</Filter>
+      <Filter>network\session</Filter>
     </ClCompile>
     <ClCompile Include="session_world.cpp">
-      <Filter>session</Filter>
+      <Filter>network\session</Filter>
+    </ClCompile>
+    <ClCompile Include="actor_manager.cpp">
+      <Filter>world</Filter>
+    </ClCompile>
+    <ClCompile Include="terrain_manager.cpp">
+      <Filter>world</Filter>
+    </ClCompile>
+    <ClCompile Include="inventory_user.cpp">
+      <Filter>system\inventory\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="ai_boss.cpp">
+      <Filter>ai\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="ai_base.cpp">
+      <Filter>ai</Filter>
+    </ClCompile>
+    <ClCompile Include="data_manager.cpp">
+      <Filter>world</Filter>
+    </ClCompile>
+    <ClCompile Include="session_admintool.cpp">
+      <Filter>network\session</Filter>
     </ClCompile>
     <ClCompile Include="server_game.cpp">
-      <Filter>server</Filter>
-    </ClCompile>
-    <ClCompile Include="acceptor_user.cpp">
       <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="worker_thread.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="connector_manager.cpp">
+      <Filter>network\connector</Filter>
+    </ClCompile>
+    <ClCompile Include="thread_manager.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="security_nprotect.cpp">
+      <Filter>system\security\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="security_xigncode.cpp">
+      <Filter>system\security\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="security.cpp">
+      <Filter>system\security</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h" />
     <ClInclude Include="game_header.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="config_game.h" />
+    <ClInclude Include="app_config.h" />
     <ClInclude Include="actor.h">
       <Filter>actor</Filter>
-    </ClInclude>
-    <ClInclude Include="data_manager.h">
-      <Filter>table</Filter>
     </ClInclude>
     <ClInclude Include="actor_gadget.h">
       <Filter>actor\detail</Filter>
@@ -155,42 +162,18 @@
     <ClInclude Include="terrain.h">
       <Filter>system\terrain</Filter>
     </ClInclude>
-    <ClInclude Include="actor_manager.h">
-      <Filter>actor</Filter>
-    </ClInclude>
     <ClInclude Include="setting_game.h" />
-    <ClInclude Include="user_manager.h">
-      <Filter>user</Filter>
-    </ClInclude>
     <ClInclude Include="user.h">
       <Filter>user</Filter>
-    </ClInclude>
-    <ClInclude Include="connector_community.h">
-      <Filter>network\connector</Filter>
-    </ClInclude>
-    <ClInclude Include="connector_dbagent.h">
-      <Filter>network\connector</Filter>
-    </ClInclude>
-    <ClInclude Include="connector_world.h">
-      <Filter>network\connector</Filter>
-    </ClInclude>
-    <ClInclude Include="inventory_user.h">
-      <Filter>system\inventory</Filter>
-    </ClInclude>
-    <ClInclude Include="inventory_equip.h">
-      <Filter>system\inventory</Filter>
-    </ClInclude>
-    <ClInclude Include="inventory_premium.h">
-      <Filter>system\inventory</Filter>
     </ClInclude>
     <ClInclude Include="function.h">
       <Filter>function</Filter>
     </ClInclude>
     <ClInclude Include="item_object_stack.h">
-      <Filter>system\item\object</Filter>
+      <Filter>system\item\detail</Filter>
     </ClInclude>
     <ClInclude Include="item_object_equip.h">
-      <Filter>system\item\object</Filter>
+      <Filter>system\item\detail</Filter>
     </ClInclude>
     <ClInclude Include="DetourAlloc.h">
       <Filter>system\terrain\detour</Filter>
@@ -255,9 +238,6 @@
     <ClInclude Include="detour.h">
       <Filter>system\terrain\detour</Filter>
     </ClInclude>
-    <ClInclude Include="terrain_manager.h">
-      <Filter>system\terrain</Filter>
-    </ClInclude>
     <ClInclude Include="game_struct.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -267,27 +247,82 @@
     <ClInclude Include="send_func.h">
       <Filter>func</Filter>
     </ClInclude>
-    <ClInclude Include="server_game.h">
-      <Filter>server</Filter>
-    </ClInclude>
     <ClInclude Include="session_community.h">
-      <Filter>session</Filter>
+      <Filter>network\session</Filter>
     </ClInclude>
     <ClInclude Include="session_dbagent.h">
-      <Filter>session</Filter>
+      <Filter>network\session</Filter>
     </ClInclude>
     <ClInclude Include="session_user.h">
-      <Filter>session</Filter>
+      <Filter>network\session</Filter>
     </ClInclude>
     <ClInclude Include="session_world.h">
-      <Filter>session</Filter>
+      <Filter>network\session</Filter>
     </ClInclude>
     <ClInclude Include="session_manager_user.h">
-      <Filter>session</Filter>
+      <Filter>network\session</Filter>
     </ClInclude>
     <ClInclude Include="pool.h" />
-    <ClInclude Include="acceptor_user.h">
+    <ClInclude Include="actor_manager.h">
+      <Filter>world</Filter>
+    </ClInclude>
+    <ClInclude Include="world.h">
+      <Filter>world</Filter>
+    </ClInclude>
+    <ClInclude Include="terrain_manager.h">
+      <Filter>world</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory_user.h">
+      <Filter>system\inventory\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory_equip.h">
+      <Filter>system\inventory\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory_premium.h">
+      <Filter>system\inventory\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="user_manager.h">
+      <Filter>world</Filter>
+    </ClInclude>
+    <ClInclude Include="data_manager.h">
+      <Filter>world</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="session_admintool.h">
+      <Filter>network\session</Filter>
+    </ClInclude>
+    <ClInclude Include="server_game.h">
       <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="connecter.h">
+      <Filter>network\connector</Filter>
+    </ClInclude>
+    <ClInclude Include="worker_thread.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="connector_manager.h">
+      <Filter>network\connector</Filter>
+    </ClInclude>
+    <ClInclude Include="thread_manager.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="security_dummy.h">
+      <Filter>system\security\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="security_xigncode.h">
+      <Filter>system\security\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="security_xtrap.h">
+      <Filter>system\security\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="security_nprotect.h">
+      <Filter>system\security\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="security.h">
+      <Filter>system\security</Filter>
+    </ClInclude>
+    <ClInclude Include="app_connector.h">
+      <Filter>network\connector</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -318,9 +353,6 @@
     <Filter Include="network">
       <UniqueIdentifier>{9a9e79a9-d5dc-43d3-8def-7e40db955c74}</UniqueIdentifier>
     </Filter>
-    <Filter Include="network\connector">
-      <UniqueIdentifier>{c11779a4-0fd3-4bc2-9d97-3653071bf128}</UniqueIdentifier>
-    </Filter>
     <Filter Include="user">
       <UniqueIdentifier>{e46e772a-1350-4259-b9f6-858b476f9107}</UniqueIdentifier>
     </Filter>
@@ -329,9 +361,6 @@
     </Filter>
     <Filter Include="function">
       <UniqueIdentifier>{85bc49b6-a4d4-4ad8-b720-51d82436d2c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="system\item\object">
-      <UniqueIdentifier>{c47e153c-14c9-4c4f-9212-e3c065ac7081}</UniqueIdentifier>
     </Filter>
     <Filter Include="system\terrain\detour">
       <UniqueIdentifier>{35f0808f-81a7-459c-b986-ea90e148e316}</UniqueIdentifier>
@@ -360,14 +389,32 @@
     <Filter Include="func">
       <UniqueIdentifier>{c19ced4e-5d92-48d1-93ea-a3850ac1bc58}</UniqueIdentifier>
     </Filter>
-    <Filter Include="server">
-      <UniqueIdentifier>{73417ec6-5fc3-46ef-9d59-56a01780a701}</UniqueIdentifier>
+    <Filter Include="system\item\detail">
+      <UniqueIdentifier>{c47e153c-14c9-4c4f-9212-e3c065ac7081}</UniqueIdentifier>
     </Filter>
-    <Filter Include="session">
+    <Filter Include="system\inventory\detail">
+      <UniqueIdentifier>{5bcc5ec9-5d4b-4860-b2e6-bfe536c92943}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\session">
       <UniqueIdentifier>{062d3d12-e8c1-4a64-b62c-acc3310eb23d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="table">
-      <UniqueIdentifier>{40724948-95ec-44b1-93a8-f8291b9db643}</UniqueIdentifier>
+    <Filter Include="world">
+      <UniqueIdentifier>{4e6e731b-2626-4968-b731-837001c87c3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\connector">
+      <UniqueIdentifier>{5af733e8-fe86-47b5-8b14-b810cddcfb07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thread">
+      <UniqueIdentifier>{ffaa71f3-c615-4dd7-8604-e90c844cc81f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{35cf4535-720f-4dbe-b9f6-cc90293c0bbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\security">
+      <UniqueIdentifier>{ba3c17fa-1e1b-4fb7-a5f5-3f1e38d7aa8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\security\detail">
+      <UniqueIdentifier>{6768122c-5818-47f3-8907-c393d0472006}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
