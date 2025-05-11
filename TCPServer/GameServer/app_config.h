@@ -3,10 +3,11 @@
 #include "../Common/config.h"
 #include "../Common/iocp_server.h"
 #include "../Common/iocp_client.h"
+#include "../Common/session.h"
 
 using Server_t = IocpServer;
 using Client_t = IocpClient;
-using Session_t = core::network::IocpSession;
+using Session_t = Session;
 
 struct AppConfig : public ServerConfig<Session_t>, public std::enable_shared_from_this<AppConfig>
 {
