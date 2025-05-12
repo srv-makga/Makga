@@ -16,7 +16,7 @@ bool SessionUser::InitDispatcher()
 }
 
 SessionUser::SessionUser()
-	: IocpSession(Session::Type::IOCPClient, CONFIG.buffer_size_user)
+	: IocpSession(core::ServiceType::IOCP_CLIENT, CONFIG.buffer_size_user)
 	, m_user(nullptr)
 {
 }

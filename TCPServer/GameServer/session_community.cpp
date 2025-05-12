@@ -11,7 +11,7 @@ bool SessionCommunity::InitDispatcher()
 }
 
 SessionCommunity::SessionCommunity()
-	: IocpSession(Session::Type::IOCPClient, CONFIG.buffer_size_read)
+	: IocpSession(core::ServiceType::IOCP_CLIENT, CONFIG.buffer_size_read)
 {
 }
 

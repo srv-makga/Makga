@@ -3,7 +3,7 @@
 #include "pool.h"
 
 SessionWorld::SessionWorld(std::size_t _buffer_size)
-	: IocpSession(Session::Type::IOCPClient, _buffer_size)
+	: IocpSession(core::ServiceType::IOCP_CLIENT, _buffer_size)
 {
 }
 
