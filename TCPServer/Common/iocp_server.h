@@ -4,7 +4,7 @@
 #include "session_manager.hpp"
 #include "../Core/iocp_service.h"
 #include "../Core/iocp_session.h"
-#include "../Core/iocp_listener.h"
+#include "../Core/iocp_acceptor.h"
 #include "../Core/ip_endpoint.h"
 
 class IocpServer : public core::network::IocpService, public std::enable_shared_from_this<IocpServer>
@@ -25,8 +25,11 @@ public:
 public: // IocpService
 	bool Initialize() override;
 	void Finalize() override;
-	bool Start(std::function<void()> _func) override;
+	bool Start() override;
 	bool Stop() override;
+
+	std::size_t GetMaxSessionCount() const override;
+	void SetMaxSessionCount(std::size_t _max_session_count);
 
 	const core::network::IPEndPoint& GetEndPoint() const override;
 	void SetEndPoint(const core::network::IPEndPoint& _ep) override;
@@ -42,8 +45,10 @@ private:
 	bool RunServer(std::function<void(void)> _work);
 
 private:
-	std::shared_ptr<core::network::IocpListener> m_listener;
+	std::shared_ptr<core::network::IocpAcceptor> m_acceptor;
 	core::network::IPEndPoint m_end_point;
+	std::size_t m_max_session_count = 0;
+	bool m_is_setup;
 
 	ThreadManager m_thread_manager;
 };
