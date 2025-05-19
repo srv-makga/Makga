@@ -12,19 +12,22 @@ class Character;
 class ItemObjectBase;
 class InventoryUser;
 
-class User : public Messenger, public InventoryOwner
+class User : 
+	public Messenger<fb::server::SendPid, std::function<bool(User*, std::shared_ptr<Packet>)>>,
+	public std::enable_shared_from_this<User>,
+	public InventoryOwner
 {
 public:
-	using Pid_t = fb::server::SendPid;
+	//using Pid_t = fb::server::SendPid;
 	//using Function_t = bool (User::*)(NetPacket*);
-	using Function_t = std::function<bool(User*, std::shared_ptr<Packet>)>;
+	//using Function_t = std::function<bool(User*, std::shared_ptr<Packet>)>;
 	using UserState = enum { Lobby, Play };
 
 public:
 	static bool InitDispatcher();
 
 private:
-	inline static std::map<CommandType, core::Dispatcher<Pid_t, Function_t>> s_dispatcher;
+	inline static std::map<CommandType, core::Dispatcher<Messenger::Identifier_t, Messenger::Message_t>> s_dispatcher;
 
 public: // Messenger
 	ThreadId_t GetThreadId() const override;
