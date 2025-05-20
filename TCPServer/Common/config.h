@@ -10,8 +10,8 @@ struct NetInfo
 {
 	union
 	{
-		std::string listen_ip;
-		std::string remote_ip;
+		u_long listen_ip;
+		u_long remote_ip;
 	};
 
 	union
@@ -26,13 +26,27 @@ struct DatabaseInfo : public NetInfo
 	std::string database_name;
 };
 
+template<typename SessionType>
+struct AcceptorInfo : public NetInfo
+{
+	std::size_t max_connection = 0;
+	std::size_t max_session_buffer = 0;
+
+	std::size_t thread_count = 1;
+	std::size_t session_count = 1;
+
+	std::function<std::shared_ptr<SessionType>(void)> alloc_session = nullptr;
+	std::function<void(std::shared_ptr<SessionType>)> dealloc_session = nullptr;
+};
+
 class Config
 {
 public:
 	using ServerInfo_t = ::ServerInfo;
 	using DBInfo_t = ::DBInfo;
+	using ConnectorList = std::map<eServerType, NetInfo>;
 
-	bool Parsing(fb::eServerType _type, int _argc, char** _argv);
+	bool Parsing(fb::eServerType _type, ServerId_t _serverid);
 	bool LoadServerInfo(const std::string& _file_name, fb::eServerType _server_type);
 	bool LoadServerList(const std::string& _file_name);
 
@@ -41,12 +55,13 @@ public:
 	const ServerInfo_t* FindServerInfo(fb::eServerType _server_type);
 	const ServerInfo_t* MyInfo() const;
 
-	bool AddDBInfo(fb::eDBType _type, DBInfo_t* _db_info);
+	bool AddDBInfo(fb::eDatabaseType _type, DBInfo_t* _db_info);
 	bool AddRedisInfo(fb::eRedisType _type, DBInfo_t* _db_info);
 
 	/////////////////////////////////////////////////////////////////////////////////
 
 	ServerId_t server_id = 0;
+	const ServerInfo_t* my_info = nullptr;
 	fb::eServerType server_type = fb::eServerType_None;
 
 	// default
@@ -58,7 +73,8 @@ public:
 	std::size_t log_console_level = 4;
 	std::size_t log_max_file_size = 1024; // MB
 
-	std::size_t pool_session_init_count = 3000;
+	// session
+	std::size_t session_init_count = 3000;
 	std::size_t pool_packet_init_count = 1 << 12;
 
 	// thread
@@ -71,18 +87,22 @@ public:
 	std::size_t buffer_size_read = 1 << 13;
 
 	std::map<ServerId_t, ServerInfo_t*> serverlist;
-	std::map<ServerType_t, ServerInfo_t*> serverlist_by_type; // 타입별 서버 (여러개 쓰려면 프록시 서버를 만든다)
+	std::map<ServerType_t, std::vector<ServerInfo_t*>> serverlist_by_type; // 타입별 서버 (여러개 쓰려면 프록시 서버를 만든다)
 
-	std::map<fb::eDBType, DBInfo_t*> db_list;
+	std::map<fb::eDatabaseType, DBInfo_t*> db_list;
 	std::map<fb::eRedisType, DBInfo_t*> redis_list;
+
+	ConnectorList connector_list;
+	ConnectorList web_connector_list;
 };
 
+template<typename T>
 class ServerConfig : public Config
 {
 	using DatabaseList = std::map<eDatabaseType, DatabaseInfo>;
-	using AcceptorList = std::map<eServerType, NetInfo>;
+	using AcceptorList = std::map<eServerType, AcceptorInfo<T>>;
 
 public:
-	AcceptorList	m_accept_list;
-	DatabaseList	m_database_list;
+	AcceptorList	accept_list;
+	DatabaseList	database_list;
 };
