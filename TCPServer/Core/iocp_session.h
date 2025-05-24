@@ -1,6 +1,6 @@
 #pragma once
 
-#include "session.h"
+#include "session_interface.h"
 #include "ip_endpoint.h"
 #include "io_context.hpp"
 #include "iocp_object.h"
@@ -14,13 +14,15 @@ class Packet;
 namespace core {
 namespace network {
 class IocpService;
-class IocpSession : public Session, public IocpObject
+class IocpSession : public SessionInterface, public IocpObject
 {
+	friend class IocpAcceptor;
+
 public:
 	IocpSession(ServiceType _type, std::size_t _buffer_size);
 	virtual ~IocpSession();
 
-public: // Session
+public: // SessionInterface
 	bool Initialize() override;
 	void Finalize() override;
 
@@ -73,7 +75,7 @@ public:
 	virtual std::size_t ProcRecv(char*, std::size_t) = 0;
 	virtual void ProcSend(std::size_t) = 0;
 
-public:
+protected:
 	Id m_id;
 	ServiceType m_type;
 
@@ -82,6 +84,12 @@ public:
 
 	std::atomic<bool> m_is_connected;
 	bool m_is_zero_receivce;
+
+	std::atomic<std::time_t> m_recv_time;
+	std::atomic<std::size_t> m_recv_size;
+
+	std::atomic<std::time_t> m_sent_time;
+	std::atomic<std::size_t> m_sent_size;
 
 	std::shared_ptr<NetBuffer> m_recv_buffer;
 
