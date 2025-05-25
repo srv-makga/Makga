@@ -15,6 +15,14 @@
 #define SERVER_ID_TO_WORLD_ID(server_id)	(server_id / 1000000);
 #define SERVER_ID_TO_TYPE(server_id)		static_cast<fb::eServerType>((server_id % 1000000) / 1000)
 
+enum NetType
+{
+	IOCPServer,
+	IOCPClient,
+	RIOServer,
+	RIOClient,
+};
+
 /*
 	메모리 최적화를 위한 데이터만 크기를 지정하고
 	서버 내에서 쓰는 변수는 되도록 64bit형 타입을 지향
@@ -137,7 +145,7 @@ using Percent_t = int32_t;
 																return GET_ENUM_VALUES(ENUMTYPE)()[i];						\
 															}																\
 														}																	\
-														throw StringToEnumException();										\
+														return ENUMTYPE##_MIN;												\
 													}
 
 
