@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Core/lock.h"
+
 class Server
 {
 public:
@@ -16,7 +18,7 @@ public:
 			return false;
 		}
 
-		if (false == StartEnd())
+		if (false == StartUpEnd())
 		{
 			return false;
 		}
@@ -26,5 +28,5 @@ public:
 
 protected:
 	virtual bool StartUp() = 0;
-	virtual bool StartEnd() = 0;
-}
+	virtual bool StartUpEnd() = 0;
+};
