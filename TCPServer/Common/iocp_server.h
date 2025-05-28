@@ -1,7 +1,6 @@
 #pragma once
 
 #include "thread_manager.h"
-#include "session_manager.hpp"
 #include "../Core/iocp_service.h"
 #include "../Core/iocp_session.h"
 #include "../Core/iocp_acceptor.h"
@@ -25,7 +24,8 @@ public:
 public: // IocpService
 	bool Initialize() override;
 	void Finalize() override;
-	bool Start() override;
+	bool StartUp() override;
+	bool StartUpEnd() override;
 	bool Stop() override;
 
 	std::size_t GetMaxSessionCount() const override;
