@@ -1,8 +1,8 @@
 #pragma once
 
-#include "security.h"
+#include "security_interface.h"
 
-class SecurityXtrap : public SecuritySystem
+class SecurityXtrap : public SecurityInterface
 {
 public:
 	SecurityXtrap() = default;
