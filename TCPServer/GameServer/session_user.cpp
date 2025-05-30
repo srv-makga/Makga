@@ -15,8 +15,8 @@ bool SessionUser::InitDispatcher()
 	return true;
 }
 
-SessionUser::SessionUser()
-	: IocpSession(core::ServiceType::IOCP_CLIENT, CONFIG.buffer_size_user)
+SessionUser::SessionUser(std::size_t _buffer_size)
+	: IocpSession(core::ServiceType::IOCP_CLIENT, _buffer_size)
 	, m_user(nullptr)
 {
 }
@@ -66,28 +66,46 @@ ThreadId_t SessionUser::ThreadId() const
 	return 0;
 }
 
-void SessionUser::OnConnected()
+void SessionUser::ProcConnect()
 {
 	LOG_INFO << "SessionId:" << GetSessionId() << ", UserSession Connected.";
 }
 
-void SessionUser::OnDisconnected()
+void SessionUser::ProcDisconnect()
 {
 	LOG_INFO << "SessionId:" << GetSessionId() << ", UserSession Disconnected.";
+
+	// @todo 세션을 종료했을 떄 IOCP로 close 이벤트가 통지되고
+	// 소켓이 종료된 채로 여기에 들어오는 건지, 이벤트만 발생하고 여기서 종료 처리 해야되는지 확인 필요
 }
 
-std::size_t SessionUser::OnRecv(char* _buffer, std::size_t _length)
+std::size_t SessionUser::ProcRecv(char* _data, std::size_t _recv_size)
 {
-	auto packet = POOL.packet.Pop();
-	packet->SetBuffer(m_recv_buffer);
+	if (nullptr == _data)
+	{
+		return 0;
+	}
+
+	std::shared_ptr<Packet> packet = Packet::Pop();
+	packet->SetData(reinterpret_cast<char*>(_data), _recv_size);
 
 	ProcPacket(packet);
-
-	return _length;
+	// @todo 패킷 반납처리 (패킷 삭제처리자에 의해 반납되어야함)
+	
+	return _recv_size; // 패킷 처리에 성공하면 수신된 크기를 반환한다
 }
 
-bool SessionUser::ProcPacket(std::shared_ptr<NetPacket> _packet)
+void SessionUser::ProcSend(std::size_t _sent_size)
 {
+}
+
+void SessionUser::ProcPacket(std::shared_ptr<NetPacket> _packet)
+{
+	if (true == _packet->IsEncrypt())
+	{
+		// @todo ENCRYPTER->Decrypt(_packet->Data(), _packet->DataSize(), _packet->GetEncryptKey());
+	}
+
 	fb::server::SendPid pid = static_cast<fb::server::SendPid>(_packet->GetId());
 
 	LOG_INFO << "ProcPacket. Pid:" << fb::server::EnumNameSendPid(pid);
@@ -95,8 +113,6 @@ bool SessionUser::ProcPacket(std::shared_ptr<NetPacket> _packet)
 	bool ret = s_dispatcher.Exec(pid, this, _packet);
 	
 	LOG_INFO << "ProcPacket. Pid:" << fb::server::EnumNameSendPid(pid) << ", ret:" << ret ? "true" : "false";
-
-	return ret;
 }
 
 bool SessionUser::OnLoginAuth(std::shared_ptr<NetPacket> _packet)

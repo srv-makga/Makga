@@ -21,7 +21,7 @@ private:
 	static core::Dispatcher<Pid_t, Function_t> s_dispatcher;
 
 public:
-	SessionUser();
+	SessionUser(std::size_t _buffer_size);
 	virtual ~SessionUser();
 	 
 	bool Initialize() override;
@@ -30,12 +30,13 @@ public:
 	ThreadId_t ThreadId() const;
 
 protected:  // IocpSession
-	void OnConnected() override;
-	void OnDisconnected() override;
-	std::size_t OnRecv(char* _buffer, std::size_t _length) override;
-	bool ProcPacket(std::shared_ptr<NetPacket> _packet) override;
+	void ProcConnect() override;
+	void ProcDisconnect() override;
+	std::size_t ProcRecv(char* _data, std::size_t _recv_size) override;
+	void ProcSend(std::size_t _sent_size) override;
 
 protected:
+	void ProcPacket(std::shared_ptr<NetPacket> _packet);
 	bool OnLoginAuth(std::shared_ptr<NetPacket> _packet);
 
 public:
