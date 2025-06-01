@@ -3,8 +3,8 @@
 #include "../core/singleton.hpp"
 #include "../Common/Server.h"
 #include "../Common/iocp_server.h"
-#include "../Common/iocp_client.h"
 #include "../Common/web_client.h"
+#include "app_client.h"
 #include "world.h"
 #include "data_manager.h"
 
@@ -21,9 +21,11 @@ public:
 	bool Initialize() override;
 	void Finalize() override;
 
+	std::shared_ptr<AppClient> GetDBAgentServer() const;
+
 	std::shared_ptr<AppConfig> GetConfig() const;
 
-protected:
+protected: // Server
 	bool StartUp() override;
 	bool StartUpEnd() override;
 
@@ -37,7 +39,7 @@ private:
 	std::shared_ptr<core::network::IocpCore> m_iocp_core;
 
 	std::map<eServerType, std::shared_ptr<Server_t>> m_servers;
-	std::map<eServerType, std::shared_ptr<Client_t>> m_clients;
+	std::map<eServerType, std::shared_ptr<AppClient>> m_clients;
 	std::map<eServerType, std::shared_ptr<WebClient>> m_web_clients;
 
 	std::shared_ptr<World> m_world;
