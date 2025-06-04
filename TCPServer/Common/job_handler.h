@@ -1,7 +1,7 @@
 #pragma once
 
 #include "common_header.h"
-#include "../Core/object_pool.h"
+#include "../core/thread_pool.h"
 
 class SessionBase;
 class Job;
@@ -18,15 +18,13 @@ public:
 
 /*
 * @brief: 데이터를 쌓는 클래스
-* @detail: 주로 스레드가 데이터 큐잉을 위해 사용
 */
-class JobHandler
+// @todo JobHandler의 Job(class)과 ThreadPool의 Job(functional)을 통일시켜야 한다.. 
+class JobHandler : public core::thread::ThreadPool
 {
 public:
 	using Job_t = std::shared_ptr<Job>;
 
 	JobHandler() = default;
 	virtual ~JobHandler() = default;
-	virtual void Push(Job_t _data) = 0;
-	virtual Job_t Pop() = 0;
 };
