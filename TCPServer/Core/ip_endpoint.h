@@ -36,6 +36,8 @@ public:
 	std::tstring Ip() const;
 	Port_t Port() const;
 
+	std::tstring GetString() const;
+
 private:
 	Type_t m_type;
 	Address_t m_address;
