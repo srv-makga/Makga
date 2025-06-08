@@ -77,6 +77,29 @@ public:
 	ServerType_t ServerType() const { return server_type; }
 	const std::string& InternalIP() const { return internal_ip; }
 	const std::string& ExternalIP() const { return external_ip; }
+
+	const std::string& IP(ServerType_t _server_type) const
+	{
+		switch (_server_type)
+		{
+		case eServerType_User:
+			return ExternalIP();
+		case eServerType_Global:
+		case eServerType_Login:
+		case eServerType_DBAgent:
+		case eServerType_World:
+		case eServerType_Community:
+		case eServerType_InstancePool:
+		case eServerType_Instance:
+		case eServerType_Game:
+		case eServerType_Web:
+		case eServerType_AdminTool:
+			return InternalIP();
+		}
+
+		return std::string();
+	}
+
 	Port_t Port(ServerType_t _server_type) const
 	{
 		auto iter = ports.find(_server_type);
