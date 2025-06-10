@@ -3,12 +3,12 @@
 #include "core_header.h"
 #include "iocp_event.h"
 #include "iocp_object.h"
-#include "acceptor.h"
+#include "connector.h"
 
 namespace core {
 namespace network {
 class IocpService;
-class IocpConnector : public IocpObject, public Acceptor
+class IocpConnector : public IocpObject, public Connector
 {
 public:
 	IocpConnector(std::shared_ptr<IocpService> _client);
@@ -27,17 +27,17 @@ public:
 	void Stop();
 	void CloseSocket();
 
-	void RegisterAccept(IocpAcceptEvent* _event);
-	void ProcessAccept(IocpAcceptEvent* _event);
+	void RegisterConnect(IocpConnectEvent* _event);
+	void ProcessConnect(IocpConnectEvent* _event);
 
-public:
+public: // IocpObject
 	HANDLE GetHandle() const override;
 	void Dispatch(IocpEvent* _iocp_event, int _bytes_transferred = 0) override;
 
-private:
-	SOCKET m_socket;
-	std::vector<IocpAcceptEvent*> m_accept_events;
-	std::shared_ptr<IocpService> m_server;
+protected:
+	std::shared_ptr<IocpService> m_client;
+	std::shared_ptr<IocpSession> m_session;
+	IocpConnectEvent* m_connect_event;
 };
 } // namespace network
 } // namespace core
