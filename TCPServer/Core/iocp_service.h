@@ -8,6 +8,9 @@
 #include "lock.h"
 #include <unordered_set>
 
+class NetHandler;
+class JobHandler;
+
 #ifdef _WIN32
 namespace core {
 namespace network {
@@ -15,7 +18,7 @@ class IocpSession;
 class IocpService : public server::Service
 {
 public:
-	IocpService(ServiceType _service_type);
+	IocpService(ServiceType _service_type, std::shared_ptr<IocpCore> _core);
 	IocpService(const IocpService& _other) = delete;
 	IocpService(IocpService&& _other) = delete;
 	IocpService& operator=(const IocpService& _other) = delete;
@@ -25,47 +28,23 @@ public:
 public: // Service
 	bool Initialize() override;
 	void Finalize() override;
-	//bool Start() override;
-	//bool Stop() override;
-
-public:
-	void Setup(std::shared_ptr<IocpCore> _iocp_core,
-		std::function<std::shared_ptr<IocpSession>(void)> _alloc_session,
-		std::function<void(std::shared_ptr<IocpSession>)> _dealloc_session);
-
-	bool AddSession(std::shared_ptr<IocpSession> _session);
-	bool DelSession(std::shared_ptr<IocpSession> _session);
-	void DisconnectAllSession();
-	void RunOnAllSessions(std::function<void(std::shared_ptr<IocpSession>)> _func);
+	void InitHandler(std::shared_ptr<NetHandler> _net_handler, std::shared_ptr<JobHandler> _job_handler);
 
 	ServiceType GetServiceType() const;
 	std::shared_ptr<IocpCore> GetIocpCore() const;
-	std::size_t GetSessionCount() const;
-	virtual std::size_t GetMaxSessionCount() const = 0;
-	bool IsStart();
-	std::size_t GetThreadCount() const;
-	void SetThreadCount(std::size_t _thread_count);
+	bool IsRunning() const;
 
-	virtual const IPEndPoint& GetEndPoint() const = 0;
-	virtual void SetEndPoint(const IPEndPoint& _ep) = 0;
+	virtual const std::shared_ptr<core::network::IPEndPoint> GetEndPoint() const = 0;
 
-public:
-	std::shared_ptr<IocpSession> AllocSession();
-	void DeallocSession(std::shared_ptr<IocpSession> _session);
+protected:
+	virtual bool Run(std::function<void(void)> _work) = 0;
 
 protected:
 	ServiceType m_service_type;
-	std::shared_ptr<IocpCore> m_iocp_core = std::make_shared<IocpCore>();
-
-	mutable core::RWMutex m_mutex_session;
-	std::unordered_set<std::shared_ptr<IocpSession>> m_sessions;
-
-	std::function<std::shared_ptr<IocpSession>(void)> m_alloc_session;
-	std::function<void(std::shared_ptr<IocpSession>)> m_dealloc_session;
-
-	std::atomic<bool> m_is_start;
-
-	std::size_t m_thread_count;
+	std::shared_ptr<IocpCore> m_iocp_core;
+	std::shared_ptr<NetHandler> m_net_handler;
+	std::shared_ptr<JobHandler> m_job_handler;
+	bool m_is_running;
 };
 } // namespace network
 } // namespace core
