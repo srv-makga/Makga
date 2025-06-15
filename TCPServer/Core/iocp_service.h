@@ -35,6 +35,16 @@ public: // Service
 	bool IsRunning() const;
 
 	virtual const std::shared_ptr<core::network::IPEndPoint> GetEndPoint() const = 0;
+	virtual std::size_t GetConnectCount() const = 0;
+	virtual std::size_t GetMaxConnectCount() const = 0;
+
+	// @brief free 관련 함수
+	virtual std::shared_ptr<IocpSession> AllocSession() = 0;
+	virtual void DeallocSession(std::shared_ptr<IocpSession> _session) = 0;
+
+	// @brief using 관련 함수
+	virtual bool AddSession(std::shared_ptr<IocpSession> _session) = 0;
+	virtual void RemoveSession(std::shared_ptr<IocpSession> _session) = 0;
 
 protected:
 	virtual bool Run(std::function<void(void)> _work) = 0;
