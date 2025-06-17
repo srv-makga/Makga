@@ -38,20 +38,20 @@ public: // IocpObject
 	void Dispatch(IocpEvent* _iocp_event, int _bytes_transferred = 0) override;
 
 public: // Acceptor
-	std::size_t GetCurConnectCount() const override;
-	std::size_t GetMaxConnectCount() const override; // @todo 구현
+	std::size_t GetConnectCount() const override;
+	std::size_t GetMaxConnectCount() const override;
 
 protected:
 	void PushFreeAcceptEvent(IocpAcceptEvent* _event);
 	IocpAcceptEvent* PopFreeAcceptEvent();
 
 private:
+	std::shared_ptr<IocpService> m_server;
 	SOCKET m_socket;
 
-	mutable core::RCMutex m_mutex;
-	std::vector<IocpAcceptEvent*> m_accept_events; // @todo free, using 구분 필요
-	std::queue< IocpAcceptEvent*> m_free_accept_events;
-	std::shared_ptr<IocpService> m_server;
+	mutable core::RCMutex m_mutex_event;
+	std::vector<IocpAcceptEvent*> m_accept_events;
+	std::queue<IocpAcceptEvent*> m_free_accept_events;
 };
 } // namespace network
 } // namespace core
