@@ -1,6 +1,5 @@
 #pragma once
 
-#include "thread_manager.h"
 #include "../Core/iocp_service.h"
 #include "../Core/iocp_session.h"
 #include "../Core/iocp_acceptor.h"
@@ -31,6 +30,8 @@ public: // IocpService
 	std::size_t GetMaxConnectCount() const override;
 	std::shared_ptr<Session_t> AllocSession() override;
 	void DeallocSession(std::shared_ptr<Session_t> _session) override;
+	bool AddSession(std::shared_ptr<core::network::IocpSession> _session) override;
+	void RemoveSession(std::shared_ptr<core::network::IocpSession> _session) override;
 
 public:
 	void DisconnectAllSession();
@@ -38,7 +39,7 @@ public:
 protected:
 	bool Run(std::function<void(void)> _work) override;
 
-public:
+private:
 	std::shared_ptr<core::network::IocpAcceptor> m_acceptor;
 	std::shared_ptr<core::network::IPEndPoint> m_end_point;
 
