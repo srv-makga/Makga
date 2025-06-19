@@ -69,7 +69,7 @@ public:
 	void SetEndPoint(IPEndPoint _ep);
 	void SetService(std::shared_ptr<IocpService> _service);
 
-public:
+public: // NetEvent의 처리 함수들(단일 데이터)
 	virtual void ProcConnect() = 0;
 	virtual void ProcDisconnect() = 0;
 	virtual std::size_t ProcRecv(char*, std::size_t) = 0;
