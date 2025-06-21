@@ -23,8 +23,14 @@ public:
 class JobHandler : public core::thread::ThreadPool
 {
 public:
-	using Job_t = std::shared_ptr<Job>;
-
 	JobHandler() = default;
 	virtual ~JobHandler() = default;
+
+	virtual bool Initialize() = 0;
+	virtual void Finalize() = 0;
+	virtual bool CreateThread(std::size_t _thread_count = 1) = 0;
+	virtual void Push(std::shared_ptr<Job> _job) = 0;
+
+protected:
+	virtual std::shared_ptr<Job> Pop() = 0;
 };
