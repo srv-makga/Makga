@@ -52,7 +52,9 @@ bool User::OnLoginSecurity(std::shared_ptr<Packet> _packet)
 		fb::dbagent::CreateHeader(fbb, UserUid()),
 		recv_data->security_number()
 	));
-	return SERVER.m_session_dbagent->Send(fb::dbagent::SendPid_LoginSecurity, fbb);
+	SERVER.GetDBAgentServer()->Send(fb::dbagent::SendPid_LoginSecurity, fbb, UserUid());
+
+	return true;
 }
 
 bool User::OnCharacterCreate(std::shared_ptr<Packet> _packet)
