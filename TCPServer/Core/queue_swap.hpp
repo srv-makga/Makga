@@ -32,32 +32,25 @@ public:
 
 	void Push(const T& _data)
 	{
-		SYNC(m_mutex);
+		std::unique_ptr lock(m_mutex);
 		m_push_queue->push(_data);
 	}
 
 	void Push(T&& _data)
 	{
-		SYNC(m_mutex);
+		std::unique_ptr lock(m_mutex);
 		m_push_queue->push(_data);
 	}
 
 	bool Pop(T& t)
 	{
-		SYNC(m_mutex);
-		if (true == Empty())
+		if (true == m_pop_queue->empty())
 		{
-			Swap();
-
-			if (true == Empty())
-			{
-				return false;
-			}
+			return false;
 		}
 
 		t = std::move(m_pop_queue->front());
 		m_pop_queue->pop();
-
 		return true;
 	}
 
@@ -72,7 +65,7 @@ public:
 		T* job = nullptr;
 
 		{
-			SYNC(m_mutex);
+			std::unique_ptr lock(m_mutex);
 
 			if (true == Empty())
 			{
@@ -95,19 +88,19 @@ public:
 
 	bool Empty() const
 	{
-		SYNC(m_mutex);
+		std::unique_ptr lock(m_mutex);
 		return m_pop_queue->empty();
 	}
 
 	std::size_t Size() const
 	{
-		SYNC(m_mutex);
+		std::unique_ptr lock(m_mutex);
 		return m_queue1.size() + m_queue2.size();
 	}
 
 	void Swap()
 	{
-		SYNC(m_mutex);
+		std::unique_ptr lock(m_mutex);
 		std::swap(m_push_queue, m_pop_queue);
 	}
 
