@@ -1,13 +1,14 @@
 #pragma once
 
 #include "net_header.h"
+#include "net_core.h"
 #include "socket_header.h"
 
 #ifdef _WIN32
 namespace core {
 namespace network {
 // @detail 핸들 랩핑 클래스
-class IocpCore final
+class IocpCore final : public NetCore
 {
 public:
 	IocpCore();
@@ -19,6 +20,9 @@ public:
 
 	bool Initialize();
 	void Finalize();
+
+public: // NetCore
+	CoreType GetCoreType() const override { return CoreType::IOCP; }
 
 public:
 	bool Registered(HANDLE _handle, ULONG_PTR _completion_key);
