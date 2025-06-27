@@ -8,6 +8,6 @@ public:
 	Acceptor() = default;
 	virtual ~Acceptor() = default;
 
-	virtual std::size_t GetCurConnectCount() const = 0;
+	virtual std::size_t GetConnectCount() const = 0;
 	virtual std::size_t GetMaxConnectCount() const = 0;
 };
