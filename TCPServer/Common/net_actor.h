@@ -30,6 +30,8 @@ public:
 	{
 		m_net_handler = nullptr;
 		m_job_handler = nullptr;
+
+		return true;
 	}
 
 	virtual void Finalize() = 0;
