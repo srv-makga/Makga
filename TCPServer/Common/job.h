@@ -6,7 +6,11 @@ class Job
 {
 public:
 	Job() = default;
-	Job(std::function<void()> callback) :m_callback(callback) {}
+	Job(std::function<void()> callback, std::size_t _thread_id)
+		: m_callback(callback)
+		, m_thread_id(_thread_id)
+	{
+	}
 
 	template<typename T, typename Ret, typename...Args>
 	Job(std::shared_ptr<T> owner, Ret(T::* memFunc)(Args...), Args... args)
