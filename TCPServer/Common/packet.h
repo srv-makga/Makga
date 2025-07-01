@@ -4,17 +4,23 @@
 #include "../Core/net_buffer.h"
 #include "../Core/object_pool.h"
 
+// @todo 패킷 내 버퍼는 외부에서 만들어 넣어주는 걸로 하자.
+// 소켓의 recevice 버퍼의 내용은 복사하지 말고, recv 버퍼의 포인터 주소와 패킷 크기만 넣어서 주면 굳이 복사할 필요가 없다
+// 버퍼의 포인터만 등록하는 setBuffer 또는 changeBufffer를 만들고
+// 아니면 기존 버퍼에 데이터만 복사할 수 있는 copyData 함수를 만들자
+
 class Packet
 {
 public:
 	using PacketId_t = uint32_t;
 	using PacketSize_t = uint32_t;
+	using EncryptKet_t = uint8_t;
 
 	struct PacketHeader
 	{
 		PacketSize_t size = 0;
 		PacketId_t id = 0;
-		uint8_t encryto_key = 0;
+		EncryptKet_t encrypt_key = 0;
 	};
 
 	using Buffer_t = core::network::NetBuffer;
@@ -32,8 +38,8 @@ public:
 
 	void Clear();
 
-	void Encrypt(const char* _key) {}
-	bool Decrypt(const char* _key) { return false; }
+	void Encrypt(const char* _key);
+	bool Decrypt(const char* _key);
 
 	template<typename T>
 	Packet& operator<<(T& _value);
@@ -55,10 +61,10 @@ public:
 	void SetOwner(Owner_t _owner);
 
 	bool IsEncrypt() const;
-	void SetEncryptFlag(bool _value);
+	void SetEncryptKey(EncryptKet_t _key);
 
 public: // static
-	inline static PacketSize_t HeaderSize();
+	inline static PacketSize_t HeaderSize() { return sizeof(PacketHeader); }
 
 	inline static void Push(std::shared_ptr<Packet> _packet)
 	{
@@ -86,7 +92,6 @@ private:
 	PacketHeader* m_header;
 	std::shared_ptr<Buffer_t> m_buffer;
 	Owner_t m_owner;
-	bool m_is_encrypt;
 };
 
 template<typename T>
