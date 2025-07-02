@@ -21,16 +21,14 @@ public:
 
 	virtual bool Initialize() = 0;
 	virtual void Finalize() = 0;
-	virtual bool StartUp() = 0;
-	virtual bool StartUpEnd() = 0;
 	virtual bool Start()
 	{
-		if (StartUp() == false)
+		if (false == StartUp())
 		{
 			return false;
 		}
 
-		if (StartUpEnd() == false)
+		if (false == StartUpEnd())
 		{
 			return false;
 		}
@@ -38,6 +36,10 @@ public:
 		return true;
 	}
 	virtual bool Stop() = 0;
+
+protected:
+	virtual bool StartUp() = 0;
+	virtual bool StartUpEnd() = 0;
 };
 } // namespace server
 } // namespace core
