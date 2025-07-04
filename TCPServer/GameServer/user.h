@@ -7,7 +7,7 @@
 #include "../Common/messenger.h"
 #include "../Common/inventory_owner.h"
 
-class SessionUser;
+class UserSession;
 class Character;
 class ItemObjectBase;
 class InventoryUser;
@@ -52,8 +52,8 @@ public: // ¸â¹ö º¯¼ö get/set
 
 	UserUid_t UserUid() const { return m_user_uid; }
 
-	SessionUser* Session() const;
-	void SetSession(SessionUser* _session);
+	UserSession* Session() const;
+	void SetSession(UserSession* _session);
 
 	Character* ActiveCharacter() const;
 	void SetActiveCharacter(Character* _character);
@@ -78,7 +78,7 @@ private:
 
 	UserUid_t m_user_uid;
 
-	SessionUser* m_session;
+	UserSession* m_session;
 
 	Count_t m_max_inventory;
 
