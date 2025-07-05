@@ -32,13 +32,13 @@ public:
 
 	void Push(const T& _data)
 	{
-		std::unique_ptr lock(m_mutex);
+		std::unique_lock lock(m_mutex);
 		m_push_queue->push(_data);
 	}
 
 	void Push(T&& _data)
 	{
-		std::unique_ptr lock(m_mutex);
+		std::unique_lock lock(m_mutex);
 		m_push_queue->push(_data);
 	}
 
@@ -65,7 +65,7 @@ public:
 		T* job = nullptr;
 
 		{
-			std::unique_ptr lock(m_mutex);
+			std::unique_lock lock(m_mutex);
 
 			if (true == Empty())
 			{
@@ -88,19 +88,19 @@ public:
 
 	bool Empty() const
 	{
-		std::unique_ptr lock(m_mutex);
+		std::unique_lock lock(m_mutex);
 		return m_pop_queue->empty();
 	}
 
 	std::size_t Size() const
 	{
-		std::unique_ptr lock(m_mutex);
+		std::unique_lock lock(m_mutex);
 		return m_queue1.size() + m_queue2.size();
 	}
 
 	void Swap()
 	{
-		std::unique_ptr lock(m_mutex);
+		std::unique_lock lock(m_mutex);
 		std::swap(m_push_queue, m_pop_queue);
 	}
 
