@@ -8,10 +8,6 @@
 #include <Windows.h>
 #endif
 
-#define SYNC(mutex)	std::unique_lock lock_##mutex(mutex);
-using AutoLock = std::unique_lock<std::mutex>;
-
-
 namespace core {
 #ifdef _WIN32
 class CriticalSection
@@ -74,6 +70,8 @@ public:
 	}
 };
 #endif // _WIN32
+
+using AutoLock = std::unique_lock<std::mutex>;
 
 // Read & Write
 using RWMutex = ::std::shared_mutex;
