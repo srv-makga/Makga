@@ -4,6 +4,8 @@
 #include "../Core/iocp_session.h"
 #include "../Core/iocp_acceptor.h"
 #include "../Core/ip_endpoint.h"
+#include <concurrent_unordered_map.h>
+#include <concurrent_queue.h>
 
 class IocpServer : public core::network::IocpService, public std::enable_shared_from_this<IocpServer>
 {
@@ -12,7 +14,7 @@ public:
 	using Session_t = core::network::IocpSession;
 
 public:
-	IocpServer(std::shared_ptr<core::network::IocpCore> _core, std::shared_ptr<core::network::IPEndPoint> _ep);
+	IocpServer(std::shared_ptr<core::network::IocpCore> _core, const core::network::IPEndPoint& _endpoint);
 	IocpServer(const IocpServer& _other) = delete;
 	IocpServer(IocpServer&& _other) = delete;
 	IocpServer& operator=(const IocpServer& _other) = delete;
@@ -25,7 +27,7 @@ public: // IocpService
 	bool StartUp() override;
 	bool StartUpEnd() override;
 	bool Stop() override;
-	const std::shared_ptr<core::network::IPEndPoint> GetEndPoint() const override;
+	const core::network::IPEndPoint& GetEndPoint() const override;
 	std::size_t GetConnectCount() const override;
 	std::size_t GetMaxConnectCount() const override;
 	std::shared_ptr<Session_t> AllocSession() override;
@@ -37,13 +39,13 @@ public:
 	void DisconnectAllSession();
 
 protected:
-	bool Run(std::function<void(void)> _work) override;
+	bool Run() override;
 
 private:
 	std::shared_ptr<core::network::IocpAcceptor> m_acceptor;
-	std::shared_ptr<core::network::IPEndPoint> m_end_point;
+	core::network::IPEndPoint m_end_point;
 
 	mutable core::RWMutex m_mutex_session;
-	std::unordered_map<Session_t::Id, std::shared_ptr<Session_t> > m_sessions;
-	std::queue<std::shared_ptr<Session_t> > m_free_sessions;
+	std::unordered_map<Session_t::Id, std::shared_ptr<Session_t>> m_sessions;
+	std::queue<std::shared_ptr<Session_t>> m_free_sessions;
 };
