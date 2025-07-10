@@ -9,7 +9,7 @@
 namespace core {
 namespace network {
 class IocpService;
-class IocpAcceptor : public IocpObject, public Acceptor
+class IocpAcceptor : public Acceptor, public IocpObject
 {
 public:
 	IocpAcceptor(std::shared_ptr<IocpService> _server);

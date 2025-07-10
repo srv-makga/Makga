@@ -8,7 +8,7 @@
 namespace core {
 namespace network {
 class IocpService;
-class IocpConnector : public IocpObject, public Connector
+class IocpConnector : public Connector, public IocpObject
 {
 public:
 	IocpConnector(std::shared_ptr<IocpService> _client);
