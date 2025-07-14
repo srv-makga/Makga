@@ -34,7 +34,7 @@ public: // Service
 	std::shared_ptr<IocpCore> GetIocpCore() const;
 	bool IsRunning() const;
 
-	virtual const std::shared_ptr<core::network::IPEndPoint> GetEndPoint() const = 0;
+	virtual const core::network::IPEndPoint& GetEndPoint() const = 0;
 	virtual std::size_t GetConnectCount() const = 0;
 	virtual std::size_t GetMaxConnectCount() const = 0;
 
@@ -47,7 +47,7 @@ public: // Service
 	virtual void RemoveSession(std::shared_ptr<IocpSession> _session) = 0;
 
 protected:
-	virtual bool Run(std::function<void(void)> _work) = 0;
+	virtual bool Run() = 0;
 
 protected:
 	ServiceType m_service_type;
