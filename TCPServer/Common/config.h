@@ -6,6 +6,9 @@
 #include "../Core/json_object.hpp"
 #include <map>
 
+class NetHandler;
+class JobHandler;
+
 struct NetInfo
 {
 	union
@@ -26,17 +29,21 @@ struct DatabaseInfo : public NetInfo
 	std::string database_name;
 };
 
-template<typename SessionType>
+struct ConnectorInfo : public NetInfo
+{
+	fb::eServerType server_type = fb::eServerType_None;
+	std::shared_ptr<NetHandler> net_handler = nullptr;
+	std::shared_ptr<JobHandler> job_handler = nullptr;
+};
+
 struct AcceptorInfo : public NetInfo
 {
+	fb::eServerType server_type = fb::eServerType_None;
 	std::size_t max_connection = 0;
 	std::size_t max_session_buffer = 0;
 
-	std::size_t thread_count = 1;
-	std::size_t session_count = 1;
-
-	std::function<std::shared_ptr<SessionType>(void)> alloc_session = nullptr;
-	std::function<void(std::shared_ptr<SessionType>)> dealloc_session = nullptr;
+	std::shared_ptr<NetHandler> net_handler = nullptr;
+	std::shared_ptr<JobHandler> job_handler = nullptr;
 };
 
 class Config
@@ -96,13 +103,10 @@ public:
 	ConnectorList web_connector_list;
 };
 
-template<typename T>
 class ServerConfig : public Config
 {
 	using DatabaseList = std::map<eDatabaseType, DatabaseInfo>;
-	using AcceptorList = std::map<eServerType, AcceptorInfo<T>>;
 
 public:
-	AcceptorList	accept_list;
 	DatabaseList	database_list;
 };
