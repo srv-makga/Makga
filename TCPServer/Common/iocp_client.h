@@ -13,7 +13,7 @@ public:
 	using Thread_t = std::shared_ptr<std::thread>;
 
 public:
-	IocpClient(std::shared_ptr<core::network::IocpCore> _core, std::shared_ptr<core::network::IPEndPoint>);
+	IocpClient(std::shared_ptr<core::network::IocpCore> _core, const core::network::IPEndPoint& _endpoint);
 	IocpClient(const IocpClient& _other) = delete;
 	IocpClient(IocpClient&& _other) = delete;
 	IocpClient& operator=(const IocpClient& _other) = delete;
@@ -23,10 +23,12 @@ public:
 public: // IocpService
 	bool Initialize() override;
 	void Finalize() override;
+protected:
 	bool StartUp() override;
 	bool StartUpEnd() override;
+public:
 	bool Stop() override;
-	const std::shared_ptr<core::network::IPEndPoint> GetEndPoint() const override;
+	const core::network::IPEndPoint& GetEndPoint() const override;
 	std::size_t GetConnectCount() const override;
 	std::size_t GetMaxConnectCount() const override;
 	std::shared_ptr<core::network::IocpSession> AllocSession() override;
@@ -39,11 +41,11 @@ public:
 
 protected:
 	bool Send(std::shared_ptr<core::network::NetBuffer> _send_buffer, int _sequence = 0);
-	bool Run(std::function<void(void)> _work) override;
+	bool Run() override;
 
 private:
 	std::shared_ptr<core::network::IocpConnector> m_connector;
-	std::shared_ptr<core::network::IPEndPoint> m_end_point;
+	core::network::IPEndPoint m_end_point;
 
 	std::atomic<bool> m_is_connected;
 
