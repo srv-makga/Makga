@@ -3,7 +3,6 @@
 #include "common_header.h"
 #include "../core/thread_pool.h"
 
-class SessionBase;
 class Job;
 
 class JobOwner
@@ -12,7 +11,7 @@ public:
 	JobOwner() = default;
 	virtual ~JobOwner() = default;
 
-	virtual bool ProcPacket(NetPacket* _packet) = 0;
+	virtual bool ProcPacket(std::shared_ptr<NetPacket> _packet) = 0;
 	virtual ThreadId_t ThreadId() const = 0;
 };
 
