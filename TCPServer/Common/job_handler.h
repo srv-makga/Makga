@@ -1,9 +1,8 @@
 #pragma once
 
 #include "common_header.h"
-#include "../core/thread_pool.h"
-
-class Job;
+#include "job.h"
+#include "../core/thread_pool.hpp"
 
 class JobOwner
 {
@@ -15,11 +14,7 @@ public:
 	virtual ThreadId_t ThreadId() const = 0;
 };
 
-/*
-* @brief: 데이터를 쌓는 클래스
-*/
-// @todo JobHandler의 Job(class)과 ThreadPool의 Job(functional)을 통일시켜야 한다.. 
-class JobHandler : public core::thread::ThreadPool
+class JobHandler
 {
 public:
 	JobHandler() = default;
