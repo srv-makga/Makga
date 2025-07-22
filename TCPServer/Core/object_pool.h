@@ -240,4 +240,104 @@ protected:
 	inline static std::function<T()> m_create_func;
 	inline static std::function<void(T)> m_destroy_func;
 };
+
+template<typename T>
+class SharedObjectPool : private std::queue<std::unique_ptr<T>>
+{
+public:
+	using Queue_t = std::queue<std::unique_ptr<T>>;
+
+public:
+	SharedObjectPool() = default;
+	~SharedObjectPool() = default;
+
+	void Initialize(std::size_t _initial_size, std::function<T*()> _create_func)
+	{
+		m_create_func = _create_func;
+
+		Create(_initial_size);
+	}
+
+	void Finalize()
+	{
+		Destroy();
+	}
+
+	std::shared_ptr<T> Pop()
+	{
+		core::WriteLock lock(m_mutex);
+
+		if (true == m_queue.empty())
+		{
+			return std::shared_ptr<T>(m_create_func(),
+				[this](T* _object)
+				{
+					this->Push(_object);
+				}
+			);
+		}
+
+		auto object = std::move(m_queue.front());
+		m_queue.pop();
+
+		return std::shared_ptr<T>(object.release(),
+			[this](T* _object)
+			{
+				this->Push(_object);
+			}
+		);
+
+		return object;
+	}
+
+	bool Push(T* _object)
+	{
+		if (nullptr == _object)
+		{
+			return false;
+		}
+
+		_object->Initialize();
+
+		{
+			core::WriteLock lock(m_mutex);
+			m_queue.push(std::unique_ptr<T>(_object));
+		}
+
+		return true;
+	}
+
+	std::size_t Size()
+	{
+		core::ReadLock lock(m_mutex);
+		return m_queue.size();
+	}
+
+protected:
+	bool Create(std::size_t _size)
+	{
+		for (std::size_t i = 0; i < _size; ++i)
+		{
+			m_queue.push(std::unique_ptr<T>(m_create_func()));
+		}
+
+		return true;
+	}
+
+	void Destroy()
+	{
+		core::WriteLock lock(m_mutex);
+
+		while (false == m_queue.empty())
+		{
+			std::unique_ptr<T> object = std::move(m_queue.front());
+			m_queue.pop();
+		}
+	}
+
+protected:
+	Queue_t m_queue;
+	core::RWMutex m_mutex;
+	std::function<T*()> m_create_func;
+};
 } // namespace core
