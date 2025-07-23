@@ -30,7 +30,7 @@ public:
 	Packet(bool _is_encrypt = false); // @todo packet의 내 버퍼 크기 지정 필요?
 	virtual ~Packet();
 
-	void Initialize();
+	bool Initialize();
 	void Finalize();
 
 	void SetData(char* _data, std::size_t _size);
@@ -68,7 +68,7 @@ public: // static
 
 	inline static void Push(std::shared_ptr<Packet> _packet)
 	{
-		s_pool.Push(_packet);
+		_packet = nullptr;
 	}
 
 	inline static std::shared_ptr<Packet> Pop()
@@ -76,9 +76,9 @@ public: // static
 		return s_pool.Pop();
 	}
 
-	inline static void InitPool(std::size_t _max_size, std::size_t _extend_size, std::function<std::shared_ptr<Packet>()> _create_func, std::function<void(std::shared_ptr<Packet>)> _destroy_func)
+	inline static void InitPool(std::size_t _initial_size, std::function<Packet*()> _create_func)
 	{
-		s_pool.Initialize(_max_size, _extend_size, _create_func, _destroy_func);
+		s_pool.Initialize(_initial_size, _create_func);
 	}
 
 	inline static void ClearPool()
@@ -86,7 +86,7 @@ public: // static
 		s_pool.Finalize();
 	}
 
-	inline static core::ObjectPool<std::shared_ptr<Packet>> s_pool;
+	inline static core::SharedObjectPool<Packet> s_pool;
 
 private:
 	PacketHeader* m_header;
