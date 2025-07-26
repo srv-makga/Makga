@@ -21,13 +21,18 @@ public:
 
 	void Initialize()
 	{
-		Packet::InitPool(m_config->pool_packet_init_count, 10, [buffer_size = m_config->buffer_size_read]() { return std::make_shared<Packet>(new Packet(false), [](Packet* _p) { std::shared_ptr<Packet> new_packet(_p); Packet::Push(new_packet); }); }, [](std::shared_ptr<Packet> _object) { _object.reset(); });
-		buffer.Initialize(m_config->pool_packet_init_count, 10, [buffer_size = m_config->buffer_size_read]() { return std::make_shared<core::network::NetBuffer>(buffer_size); }, [](std::shared_ptr<core::network::NetBuffer> _object) { _object.reset(); });
+		Packet::InitPool(
+			m_config->pool_packet_init_count,
+			[buffer_size = m_config->buffer_size_read]() { return new Packet(false); }
+		);
+		NetBuffer::InitPool(
+			m_config->pool_packet_init_count,
+			[buffer_size = m_config->buffer_size_read]() { return new NetBuffer(buffer_size); }
+		);
 		job.Initialize(m_config->pool_packet_init_count, 10, []() { return std::make_shared<Job>(); }, [](std::shared_ptr<Job> _object) { _object.reset(); });
 	}
 
 public:
-	core::ObjectPool<std::shared_ptr<core::network::NetBuffer>> buffer;
 	core::ObjectPool<std::shared_ptr<Job>> job;
 
 	std::shared_ptr<AppConfig> m_config;
