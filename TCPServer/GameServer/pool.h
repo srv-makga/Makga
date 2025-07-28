@@ -29,12 +29,13 @@ public:
 			m_config->pool_packet_init_count,
 			[buffer_size = m_config->buffer_size_read]() { return new NetBuffer(buffer_size); }
 		);
-		job.Initialize(m_config->pool_packet_init_count, 10, []() { return std::make_shared<Job>(); }, [](std::shared_ptr<Job> _object) { _object.reset(); });
+		Job::InitPool(
+			m_config->pool_packet_init_count,
+			[]() { return new Job(); }
+		);
 	}
 
-public:
-	core::ObjectPool<std::shared_ptr<Job>> job;
-
+private:
 	std::shared_ptr<AppConfig> m_config;
 };
 
