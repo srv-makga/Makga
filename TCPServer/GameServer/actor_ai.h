@@ -1,32 +1,29 @@
 #pragma once
 
-#include "ai_base.h"
+#include "ai.h"
 #include <functional>
 #include <memory>
 
 class Actor;
 class ActorAI;
 
-class ActionNode : public core::ai::Node
+// @breif AI 라이브러리 사용을 위한 상속 클래스
+class ActionNode : public core::ai::Node, public std::enable_shared_from_this<ActionNode>
 {
 	using ActionType = std::function<core::ai::Node::Status(ActorAI*)>;
-public:
-	ActionNode(std::shared_ptr<ActorAI> _ai, ActionType _action)
-		: m_ai(_ai)
-		, m_action(_action)
-	{}
 
-	core::ai::Node::Status update() override
-	{
-		return m_action(m_ai.get());
-		//return m_action(m_ai);
-	}
+public:
+	ActionNode(std::shared_ptr<ActorAI> _ai, ActionType _action);
+	virtual ~ActionNode() = default;	
+
+	core::ai::Node::Status update() override;
 
 private:
 	std::shared_ptr<ActorAI> m_ai;
 	ActionType m_action;
 };
 
+// @brief Actor의 함수를 조합해서 ai용 함수를 만드는 클래스
 class ActorAI
 {
 public:
@@ -34,6 +31,9 @@ public:
 	virtual ~ActorAI();
 
 	void Initialize();
+	void Finalize();
+	bool IsValid() const;
+
 	void OnUpdate();
 
 	bool Create();
@@ -60,5 +60,5 @@ public:
 
 private:
 	std::shared_ptr<Actor> m_actor;
-	std::atomic<core::ai::Node*> m_node;
+	std::shared_ptr<core::ai::Node> m_node;
 };
