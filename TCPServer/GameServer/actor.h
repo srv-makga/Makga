@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game_header.h"
+#include "actor_ai.h"
 #include "../Core/object_pool.h"
 
 class Terrain;
@@ -164,7 +165,7 @@ public: // get set
 	virtual const ActorBasicTable* Table() const = 0;
 
 	virtual const String8& Name() const = 0;
-	virtual std::shared_ptr<ActorAI> AI() const = 0;
+	virtual std::shared_ptr<ActorAI> GetActorAI() const = 0;
 	virtual fb::eAiType AIType() const = 0;
 
 	virtual Terrain* GetTerrain() const = 0;
