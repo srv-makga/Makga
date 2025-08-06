@@ -3,7 +3,6 @@ x64
 *.bat
 *.pdb
 *.user
-*.cpp
 3rdParty/
 ART/
 FlatBuffer/Bin/
