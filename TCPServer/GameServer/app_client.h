@@ -11,7 +11,9 @@ public:
 	AppClient(std::shared_ptr<core::network::IocpCore> _core, const core::network::IPEndPoint& _endpoint);
 	virtual ~AppClient();
 
-public:
+public: // Client_t
 	bool Initialize() override;
 	void Finalize() override;
+
+	void Send(PacketId_t _pid, FB_BUILDER& _fbb);
 };
