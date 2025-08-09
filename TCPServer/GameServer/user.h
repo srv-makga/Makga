@@ -5,6 +5,7 @@
 #include "../Core/dispatcher.h"
 #include "../Core/net_buffer.h"
 #include "../Common/messenger.h"
+#include "../Common/job_handler.h"
 #include "../Common/inventory_owner.h"
 
 class UserSession;
@@ -13,24 +14,27 @@ class ItemObjectBase;
 class InventoryUser;
 
 class User : 
-	public Messenger<fb::server::SendPid, std::function<bool(User*, std::shared_ptr<Packet>)>>,
+	public JobOwner,
+	//public Messenger<fb::server::SendPid, std::function<bool(User*, std::shared_ptr<Packet>)>>,
 	public std::enable_shared_from_this<User>,
 	public InventoryOwner
 {
 public:
-	//using Pid_t = fb::server::SendPid;
+	using Pid_t = fb::server::SendPid;
+	using Function_t = std::function<bool(User*, std::shared_ptr<Packet>)>;
 	//using Function_t = bool (User::*)(NetPacket*);
-	//using Function_t = std::function<bool(User*, std::shared_ptr<Packet>)>;
 	using UserState = enum { Lobby, Play };
 
 public:
 	static bool InitDispatcher();
 
 private:
-	inline static std::map<CommandType, core::Dispatcher<Messenger::Identifier_t, Messenger::Message_t>> s_dispatcher;
+	inline static std::map<CommandType, core::Dispatcher<Pid_t, Function_t>> s_dispatcher;
+	//inline static std::map<CommandType, core::Dispatcher<Messenger::Identifier_t, Messenger::Message_t>> s_dispatcher;
 
-public: // Messenger
-	ThreadId_t GetThreadId() const override;
+public: // JobOwner
+	bool ProcPacket(std::shared_ptr<NetPacket> _packet) override;
+	ThreadId_t ThreadId() const override;
 
 public:
 	User();
@@ -41,8 +45,6 @@ public:
 
 public:
 	void Move(const Vector_t& _vec, Speed_t _speed, int _effect, int _animation);
-
-	bool ProcPacket(std::shared_ptr<Packet> _packet);
 
 public: // Session 랩핑 함수
 	bool Send(fb::server::RecvPid _pid, fbb& _fbb);
@@ -62,7 +64,7 @@ public: // 멤버 변수 get/set
 	UserState State() const { return state; }
 	void SetState(UserState _state)  { state = _state; }
 
-public: // 패킷 처리 함수
+protected: // 패킷 처리 함수
 	bool OnChatting(std::shared_ptr<Packet> _packet);
 	bool OnLoginSecurity(std::shared_ptr<Packet> _packet);
 	bool OnCharacterCreate(std::shared_ptr<Packet> _packet);
@@ -94,6 +96,6 @@ private:
 	ActorUid_t m_interaction_id;
 	Time_t m_interaction_expire;
 
-	InventoryUser* m_inventory;
-	InventoryUser* m_warehouse;
+	std::unique_ptr<InventoryUser> m_inventory;
+	std::unique_ptr<InventoryUser> m_warehouse;
 }; 
