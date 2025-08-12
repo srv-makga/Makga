@@ -9,6 +9,7 @@ class SessionWorld : public core::network::IocpSession
 public:
 	using Pid_t = fb::server::SendPid;
 	using Function_t = bool (SessionWorld::*)(NetPacket*);
+	using Session_t = core::network::IocpSession;
 
 public:
 	static bool InitDispatcher();
@@ -17,7 +18,7 @@ private:
 	static core::Dispatcher<Pid_t, Function_t> s_dispatcher;
 
 public:
-	SessionWorld(std::size_t _buffer_size);
+	SessionWorld(core::ServiceType _type, std::size_t _buffer_size);
 	virtual ~SessionWorld();
 
 	bool Initialize();
