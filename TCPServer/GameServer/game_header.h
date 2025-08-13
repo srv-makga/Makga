@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Common/common_header.h"
-#include "config_game.h"
+#include "app_config.h"
 #include "game_struct.h"
 
 using namespace core::network;
