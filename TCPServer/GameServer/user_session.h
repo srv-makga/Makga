@@ -24,13 +24,12 @@ public:
 	UserSession(std::size_t _buffer_size);
 	virtual ~UserSession();
 	 
+public: // AppSession
 	bool Initialize() override;
 	void Finalize() override;
 
-	ThreadId_t ThreadId() const;
-
-protected: // AppSession
-	void ProcPacket(std::shared_ptr<NetPacket> _packet) override;
+	bool ProcPacket(std::shared_ptr<NetPacket> _packet) override;
+	ThreadId_t ThreadId() const override;
 
 protected:
 	bool OnLoginAuth(std::shared_ptr<NetPacket> _packet);
