@@ -19,7 +19,7 @@ public:
 
 	static SOCKET Socket();
 	static SOCKET RioSocket();
-	static void CloseSocket(SOCKET& _socket);
+	static void CloseSocket(SOCKET _socket);
 
 	static bool Bind(SOCKET _socket, const IPEndPoint& _endpoint);
 	static bool BindAddrAny(SOCKET _socket, unsigned short _port);
