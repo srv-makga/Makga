@@ -43,7 +43,7 @@ protected:
 	bool Send(std::shared_ptr<core::network::NetBuffer> _send_buffer, int _sequence = 0);
 	bool Run() override;
 
-private:
+protected:
 	std::shared_ptr<core::network::IocpConnector> m_connector;
 	core::network::IPEndPoint m_end_point;
 
