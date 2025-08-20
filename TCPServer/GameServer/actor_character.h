@@ -12,6 +12,9 @@ public:
 	void Initialize() override;
 	void Finalize() override;
 
+	bool Setup(const fb::CharacterDetail* _detail);
+	bool Setup(const fb::CharacterDetailT& _detail);
+
 	void SetActorTable(const ActorBasicTable* _table) override;
 	void OnUpdate() override;
 
@@ -149,9 +152,7 @@ public: // get set
 private:
 	ActorUid_t m_uid;
 
-	const MonsterBasicTable* m_table;
-
-	fb::PositionT m_pos;
+	fb::PositionT  m_pos;
 	fb::HpMpT m_cur_hp_mp;
 	fb::HpMpT m_max_hp_mp;
 
