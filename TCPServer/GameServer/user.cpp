@@ -1,18 +1,37 @@
 #include "pch.h"
 #include "user.h"
-#include "session_user.h"
+#include "user_session.h"
 #include "server_game.h"
 #include "pool.h"
 #include "inventory_user.h"
 #include "item_object_base.h"
 
+ThreadId_t User::ThreadId() const
+{
+	return ThreadId_t();
+}
+
 User::User()
-	: Messenger(s_dispatcher)
+	: m_user_uid(0)
+	, m_session(nullptr)
+	, m_max_inventory(0)
+	, m_character(nullptr)
+	, m_slot(0)
+	, m_guild_uid(0)
+	, m_is_guild_leader(false)
+	, m_interaction_id(0)
+	, m_interaction_expire(0)
+	, m_inventory(nullptr)
+	, m_warehouse(nullptr)
 {
 }
 
 User::~User()
 {
+	m_session = nullptr;
+	m_character = nullptr;
+	m_inventory = nullptr;
+	m_warehouse = nullptr;
 }
 
 void User::Initialize()
@@ -26,6 +45,11 @@ void User::Initialize()
 
 void User::Finalize()
 {
+	m_account.Clear();
+	m_auth_key.Clear();
+	m_session = nullptr;
+	m_max_inventory = 0;
+	m_user_uid = 0;
 }
 
 void User::Move(const Vector_t& _vec, Speed_t _speed, int _effect, int _animation)
@@ -37,27 +61,14 @@ const String8& User::Account() const
 	return m_account;
 }
 
-SessionUser* User::Session() const
+UserSession* User::Session() const
 {
 	return m_session;
 }
 
-void User::SetSession(SessionUser* _session)
+void User::SetSession(UserSession* _session)
 {
 	m_session = _session;
-}
-
-bool User::ProcPacket(std::shared_ptr<Packet> _packet)
-{
-	fb::server::SendPid pid = static_cast<fb::server::SendPid>(_packet->GetId());
-
-	LOG_INFO << "ProcPacket Start. Pid:" << LOG_USER_UID(UserUid()) << fb::server::EnumNameSendPid(pid);
-
-	bool ret = Messenger::ProcPacket(CommandType::User, shared_from_this(), pid, _packet);
-
-	LOG_INFO << "ProcPacket End. Pid:" << LOG_USER_UID(UserUid()) << fb::server::EnumNameSendPid(pid) << " result:" << ret ? "true" : "false";
-
-	return ret;
 }
 
 bool User::Send(fb::server::RecvPid _pid, fbb& _fbb)
@@ -68,11 +79,7 @@ bool User::Send(fb::server::RecvPid _pid, fbb& _fbb)
 		return false;
 	}
 
-	std::shared_ptr<core::network::NetBuffer> buffer = POOL.buffer.Pop();
-	buffer->Write((char*)&_pid, sizeof(_pid));
-	buffer->Write((char*)_fbb.GetBufferPointer(), _fbb.GetSize());
-
-	m_session->Send(buffer);
+	m_session->Send(_pid, _fbb);
 
 	return true;
 }
