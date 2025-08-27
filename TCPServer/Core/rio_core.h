@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core_header.h"
+#include "net_core.h"
 #include "lock.h"
 #include <unordered_set>
 #include <memory>
@@ -8,7 +9,7 @@
 namespace core {
 namespace network {
 class RioSession;
-class RioCore : public std::enable_shared_from_this<RioCore>
+class RioCore : public std::enable_shared_from_this<RioCore>, public NetCore
 {
 public:
 	RioCore();
@@ -28,6 +29,9 @@ public:
 	void ReleaseSession(std::shared_ptr<RioSession> _session);
 
 	RIO_CQ& GetCompletionQueue() { return m_rio_completion_queue; }
+
+public: // NetCore
+	CoreType GetCoreType() const override { return CoreType::IOCP; }
 
 private:
 	RWMutex m_lock_session;
