@@ -1,21 +1,13 @@
 #pragma once
 
-#include "ai_base.h"
+#include "ai.h"
 
-class Actor;
-class AINonAggressive : public core::ai::Node
+class AINonAggressive : public AI, public std::enable_shared_from_this<AINonAggressive>
 {
 public:
 	AINonAggressive(std::shared_ptr<Actor> _actor);
-	~AINonAggressive();
+	virtual ~AINonAggressive();
 
 	void initialize() override;
-	void terminate(Status s) override;
 	Status update() override;
-
-	const core::ai::Node::Ptr root() { return m_root; }
-
-private:
-	std::shared_ptr<Actor> m_actor;
-	Node::Ptr m_root = nullptr;
 };
