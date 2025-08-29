@@ -18,9 +18,10 @@ enum eServerType : int
 	Instance,
 	Game,
 	Web,
+	AdminTool,
 }
 
-enum eDBType : int
+enum eDatabaseType : int
 {
 	Account,
 	Game,
@@ -122,12 +123,38 @@ enum eCoordAttribute : int
 	Block,
 }
 
-enum eTerrrainTytpe : int
+enum eTerrainType : int
 {
 	City,
 	Filed,
 	Instance,
 }
+
+enum eTerraiAattribute : int
+{
+	Fire,
+	Ice,
+}
+
+enum eAbilityTarget : int
+{
+	Self,
+	Party,
+	Guild,
+	Enermy,
+	Pos,
+}
+
+enum eAbilityApplyType : int
+{
+	OneTime, // 단발성
+	Repeat, // 지속성
+	Duration, // 지속성(종료시간까지 쭉 적용)
+}
+
+// 증가 In(crease) - self
+// 감소 De(crease) - self
+// 저항 Re(sistance) - target
 
 enum eAbilityTYpe : int
 {
@@ -144,24 +171,70 @@ enum eAbilityTYpe : int
 	Defense5,
 	Defense6,
 	
-	MonsterAttack, // 몬스터에게 추가 데미지
-	MonsterDefense, // 몬스터에게 받는 데미지 감소
+	SkillDagameIn, // 스킬데미지 증가
+	SkillDagameDe, // 스킬데미지 감소
 
-	Cri	, // 크리티컬 확률 증가
-	CriDef, // 크리티컬 확률 감소
-	CriAttack, // 크리티컬 발동시 추가 데미지
+	AbsoluteDamage, // 절대 데미지
+	
+	CharacterDamageIn, // 캐릭터에게 추가 데미지 증가
+	CharacterDamageDe, // 캐릭터에게 추가 데미지 감소(디버프)
+	CharacterDamageRe, // 캐릭터에게 받는 데미지 저항
+	
+	MonsterDamageIn, // 몬스터에게 추가 데미지 증가
+	MonsterDamageDe, // 몬스터에게 추가 데미지 감소(디버프)
+	MonsterDamageRe, // 몬스터에게 받는 데미지 저항
+
+	BeastDamageIn, // 동물형 타입에게 추가 데미지 증가
+	BeastDamageDe, // 동물형 타입에게 추가 데미지 감소(디버프)
+	BeastDamageRe, // 동물형 타입에게 받는 데미지 저항
+
+	PlantDamageIn, // 식물형 타입에게 추가 데미지 증가
+	PlantDamageDe, // 식물형 타입에게 추가 데미지 감소(디버프)
+	PlantDamageRe, // 식물형 타입에게 받는 데미지 저항
+
+	InsectDamageIn, // 곤충형 타입에게 추가 데미지 증가
+	InsectDamageDe, // 곤충형 타입에게 추가 데미지 감소(디버프)
+	InsectDamageRe, // 곤충형 타입에게 받는 데미지 저항
+
+	DemonDamageIn, // 악마형 타입에게 추가 데미지 증가
+	DemonDamageDe, // 악마형 타입에게 추가 데미지 감소(디버프)
+	DemonDamageRe, // 악마형 타입에게 받는 데미지 저항
+	
+	UndeadDamageIn, // 언데드 타입에게 추가 데미지 증가
+	UndeadDamageDe, // 언데드 타입에게 추가 데미지 감소(디버프)
+	UndeadDamageRe, // 언데드 타입에게 받는 데미지 
+
+	StructDamageIn, // 건물 타입에게 추가 데미지 증가
+	StructDamageDe, // 건물 타입에게 추가 데미지 감소(디버프)
+	StructDamageRe, // 건물 타입에게 받는 데미지 저항	
+
+	CriticalIn, // 크리티컬 확률 증가
+	CriticalDe, // 크리티컬 확률 감소(디버프)
+	CriticalRe, // 크리티컬 확률 저항
+	
+	CriticalDamageIn, // 크리티컬 데미지 증가
+	CriticalDamageDe, // 크리티컬 데미지 감소(디버프)
+	CriticalDamageRe, // 크리티컬 데미지 저항
 
 	Hit, // 명중 확률
-	HitDef, // 회피 확률
+	HitRe, // 명중 확률 저항
 
-	MoveSpeed,
+	Aggro, // 어그로 획득 배수
 
-	Hp,
-	Mp,
-	RegenHp, // HP 회복량
-	RegenMp, // MP 회복량
+	Hp, // 최대 HP
+	Mp, // 최대 MP
+
+	RecoveryHp, // HP 회복량
+	RecoveryMp, // MP 회복량
+	RegenHp, // HP 틱 회복량
+	RegenMp, // MP 틱 회복량
 	DrainHp, // 데미지에 따른 HP 흡수
 	DrainMp, // 데미지에 따른 MP 흡수
+	AttackSpeed, // 공격 속도
+	MoveSpeed, // 이동 속도
+	CoolTime, // 쿨타임
+	Reflection, // 효과 반사
+	Dispell, // 스킬 해제
 
 	// stat
 	Str,
@@ -177,9 +250,10 @@ enum eAbilityTYpe : int
 enum eAiType : int
 {
 	None = -1,
-	Aggressive,
-	NonAggressive,
-	Boss,
+	Aggressive, // 선공몹
+	NonAggressive, // 비선공몹
+	Boss, // 보스몹
+	Summon, // 일반 소환수
 }
 
 // bit flag
@@ -195,6 +269,7 @@ enum eGuildMemberGrade : int
 {
 	None = 0,
 	Normal,
+	Elite,
 	SubMaster,
 	Master = 99,
 }
