@@ -8,9 +8,12 @@ class Terrain;
 class TerrainGrid;
 class ActorAI;
 
-// @brief 맵에서 움직일 수 있는 모든 객체의 인터페이스
+// @brief 맵에 추가되는 모든 객체의 인터페이스
 class Actor : public std::enable_shared_from_this<Actor>
 {
+public:
+	using Ptr = std::shared_ptr<Actor>;
+
 public:
 	Actor() = default;
 	virtual ~Actor() = default;
@@ -22,20 +25,29 @@ public:
 	virtual void SetActorTable(const ActorBasicTable* _table) = 0;
 	virtual void OnUpdate() = 0;
 
-public: // 결과가 필요한 함수들
+public: // 결과가 필요한 함수들 (Do로 시작)
 	// @brief 이동이 불가능한 경우 _position가 변경되어 이동될 수 있음
 	virtual Result_t DoMove(fb::PositionT& _position) = 0;
 	// @brief 이동이 불가능한 경우 실패
 	virtual Result_t DoMove(const fb::PositionT& _position) = 0;
-	virtual Result_t DoAttack(std::shared_ptr<Actor> _attacked, SkillIdx_t _skill_idx) = 0;
+	// @breif 공격 시도
+	// @detail targetlist는 내부에서 변경될 수 있음
+	virtual Result_t DoAttack(SkillIndex_t _index, SkillLevel_t _level, OUT ActorList& _target_list) = 0;
 	// @brief 좌표 갱신(Terrain 등 제반 작업 포함)
 	virtual Result_t UpdatePosition(const PositionT& _position, fb::eActorMoveEffect _move_effect) = 0;
 	// @brief 좌표 갱신(Terrain 등 제반 작업 포함)
 	virtual Result_t UpdatePosition(TerrainIdx_t _terrain_idx, const PositionT& _position, fb::eActorMoveEffect _move_effect) = 0;
 	// @brief 부활
 	virtual Result_t DoResurrecton() = 0;
+	// @brief 상대와 상호 작용 시도
+	virtual Result_t DoInteractionStart(std::shared_ptr<Actor> _other) = 0;
+	virtual Result_t DoInteraction(std::shared_ptr<Actor> _other) = 0;
+	virtual Result_t DoInteractionCancel(std::shared_ptr<Actor> _other) = 0;
 
 public:
+	virtual bool IsEnermy(std::shared_ptr<Actor>) = 0;
+
+	// 어그로
 	virtual void AddAggroList(std::shared_ptr<Actor> _actor) = 0;
 	virtual void AddAggroList(const ActorList& _actor) = 0;
 	virtual void RemoveAggroList(const std::shared_ptr<Actor> _actor) = 0;
@@ -72,7 +84,7 @@ public:
 
 //	virtual Result_t Resurrecton() const = 0;
 //
-//	virtual Result_t DoAttack(std::shared_ptr<Actor> _target, SkillIdx_t _skill_idx) = 0;
+//	virtual Result_t DoAttack(std::shared_ptr<Actor> _target, SkillIndex_t _skill_idx) = 0;
 //
 //	virtual void StartAI() = 0;
 //
@@ -99,7 +111,7 @@ public:
 //	virtual Result_t SetMoveTarget(Vector_t _vec) = 0;
 //	
 //
-//	virtual SkillIdx_t SkillIndex() const = 0;
+//	virtual SkillIndex_t SkillIndex() const = 0;
 //
 
 //	virtual bool HasNextRoutePosition() const = 0;
@@ -183,7 +195,7 @@ public: // get set
 	virtual const PositionT& SpawnPosition() const = 0;
 	virtual void SetSpawnPosition(const PositionT& _pos) = 0;
 
-	virtual SkillIdx_t SkillIndex() const = 0;
+	virtual SkillIndex_t SkillIndex() const = 0;
 
 	// @brief 스폰 지점으로부터 최대 움직일  수 있는 거리
 	virtual Distance_t MaxAroundDistance() const = 0;
