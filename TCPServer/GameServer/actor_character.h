@@ -20,6 +20,7 @@ public:
 
 public:
 	Result_t DoMove(fb::PositionT& _position) override;
+	Result_t DoAttack(SkillIndex_t _index, SkillLevel_t _level, OUT ActorList& _target_list) override;
 	Result_t UpdatePosition(const fb::PositionT& _position, fb::eActorMoveEffect _move_effect) override;
 	Result_t UpdatePosition(TerrainIdx_t _terrain_idx, const PositionT& _position, fb::eActorMoveEffect _move_effect) override;
 
@@ -60,7 +61,7 @@ public: // get set
 //	bool CanResurrecton() const override;
 //	Result_t Resurrecton() const override;
 //
-//	Result_t DoAttack(std::shared_ptr<Actor> _target, SkillIdx_t _skill_idx) override;
+//	Result_t DoAttack(std::shared_ptr<Actor> _target, SkillIndex_t _skill_idx) override;
 //
 //	void StartAI() override;
 //
@@ -109,7 +110,7 @@ public: // get set
 //	// @brief 사망 상태 여부
 //	bool IsDead() const override;
 //
-//	SkillIdx_t SkillIndex() const override;
+//	SkillIndex_t SkillIndex() const override;
 //
 //	void SetPosition(const PositionT& _pos) override;
 //	const PositionT& Position() const override;
