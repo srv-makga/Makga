@@ -47,6 +47,8 @@ public: // 결과가 필요한 함수들 (Do로 시작)
 public:
 	virtual bool IsEnermy(std::shared_ptr<Actor>) = 0;
 
+	virtual void ApplyAbility(const SkillAbility& _ability) = 0;
+
 	// 어그로
 	virtual void AddAggroList(std::shared_ptr<Actor> _actor) = 0;
 	virtual void AddAggroList(const ActorList& _actor) = 0;
