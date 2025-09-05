@@ -32,7 +32,7 @@ public: // 결과가 필요한 함수들 (Do로 시작)
 	virtual Result_t DoMove(const fb::PositionT& _position) = 0;
 	// @breif 공격 시도
 	// @detail targetlist는 내부에서 변경될 수 있음
-	virtual Result_t DoAttack(SkillIndex_t _index, SkillLevel_t _level, OUT ActorList& _target_list) = 0;
+	virtual Result_t DoAttack(SkillIndex_t _index, SkillLevel_t _level, OUT ActorList& _target_list) = 0; // 스킬 시작지 필요
 	// @brief 좌표 갱신(Terrain 등 제반 작업 포함)
 	virtual Result_t UpdatePosition(const PositionT& _position, fb::eActorMoveEffect _move_effect) = 0;
 	// @brief 좌표 갱신(Terrain 등 제반 작업 포함)
