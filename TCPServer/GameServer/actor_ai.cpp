@@ -1,11 +1,10 @@
 #include "pch.h"
+#include "actor.h"
 #include "actor_ai.h"
 #include "ai_aggressive.h"
-#include "ai_non_aggressive.h"
 #include "ai_boss.h"
-#include "actor.h"
-#include "actor_manager.h"
-#include "data_manager.h"
+#include "ai_non_aggressive.h"
+#include "ai_summon.h"
 #include "terrain.h"
 #include "utility.h"
 
@@ -18,19 +17,40 @@ ActorAI::ActorAI(std::shared_ptr<Actor> _actor, fb::eAiType _type)
 ActorAI::~ActorAI()
 {
 	m_actor = nullptr;
-	delete m_node;
+	m_node = nullptr;
 }
 
 void ActorAI::Initialize()
 {
-	delete m_node;
+	m_node = nullptr;
+}
+
+void ActorAI::Finalize()
+{
+	m_node = nullptr;
+}
+
+bool ActorAI::IsValid() const
+{
+	if (nullptr == m_node)
+	{
+		return false;
+	}
+
+	// @todo actor의 상태 체크가 필요하다
+	if (nullptr == m_actor)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 void ActorAI::OnUpdate()
 {
-	if (m_node)
+	if (nullptr != m_node)
 	{
-		m_node.load()->tick();
+		m_node->tick();
 	}
 }
 
@@ -39,19 +59,22 @@ bool ActorAI::Create()
 	switch (Type())
 	{
 	case eAiType_Aggressive:
-		m_node = new AIAggressive(m_actor);
+		m_node = std::make_shared<AIAggressive>(m_actor);
 		break;
 	case eAiType_NonAggressive:
-		m_node = new AINonAggressive(m_actor);
+		m_node = std::make_shared<AINonAggressive>(m_actor);
 		break;
 	case eAiType_Boss:
-		m_node = new AIBoss(m_actor);
+		m_node = std::make_shared<AIBoss>(m_actor);
+		break;
+	case eAiType_Summon:
+		m_node = std::make_shared<AISummon>(m_actor);
 		break;
 	default:
 		return false;
 	}
 
-	return true;
+	return nullptr != m_node;
 }
 
 ActionNode::Status ActorAI::IsDead()
@@ -127,7 +150,6 @@ ActionNode::Status ActorAI::AttackTarget()
 	Result_t result = m_actor->DoAttack(target, m_actor->SkillIndex());
 	if (eResult_Success == result)
 	{
-		
 	}
 	else
 	{
