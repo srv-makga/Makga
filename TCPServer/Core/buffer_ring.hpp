@@ -49,6 +49,8 @@ public:
 		}
 
 		Clear();
+
+		return true;
 	}
 
 	void Finalize()
