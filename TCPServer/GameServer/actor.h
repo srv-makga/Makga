@@ -31,8 +31,9 @@ public: // 결과가 필요한 함수들 (Do로 시작)
 	// @brief 이동이 불가능한 경우 실패
 	virtual Result_t DoMove(const fb::PositionT& _position) = 0;
 	// @breif 공격 시도
+	// @param cast_pos 스킬 시전 위치
 	// @detail targetlist는 내부에서 변경될 수 있음
-	virtual Result_t DoAttack(SkillIndex_t _index, SkillLevel_t _level, OUT ActorList& _target_list) = 0; // 스킬 시작지 필요
+	virtual Result_t DoAttack(SkillIndex_t _index, SkillLevel_t _level, const PositionT& _cast_pos, OUT ActorList& _target_list) = 0; // 스킬 시작지 필요
 	// @brief 좌표 갱신(Terrain 등 제반 작업 포함)
 	virtual Result_t UpdatePosition(const PositionT& _position, fb::eActorMoveEffect _move_effect) = 0;
 	// @brief 좌표 갱신(Terrain 등 제반 작업 포함)
@@ -47,7 +48,7 @@ public: // 결과가 필요한 함수들 (Do로 시작)
 public:
 	virtual bool IsEnermy(std::shared_ptr<Actor>) = 0;
 
-	virtual void ApplyAbility(const SkillAbility& _ability) = 0;
+	virtual void ApplyAbility(const SkillAbility& _ability, ActorUid_t _by_uid, SkillIndex_t _skill_index, Time_t _expireTime) = 0;
 
 	// 어그로
 	virtual void AddAggroList(std::shared_ptr<Actor> _actor) = 0;
@@ -172,7 +173,7 @@ public: // is, can => return bool
 	virtual bool HasNextRoutePosition() const = 0;
 
 public: // get set
-	virtual ActorUid_t ActorUid() const = 0;
+	virtual ActorUid_t GetActorUid() const = 0;
 	virtual void SetActorUid(ActorUid_t _uid) = 0;
 
 	virtual fb::eActorType Type() const = 0;
