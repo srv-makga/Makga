@@ -20,7 +20,7 @@ public:
 
 public:
 	Result_t DoMove(fb::PositionT& _position) override;
-	Result_t DoAttack(SkillIndex_t _index, SkillLevel_t _level, OUT ActorList& _target_list) override;
+	Result_t DoAttack(SkillIndex_t _index, SkillLevel_t _level, const PositionT& _cast_pos, OUT ActorList& _target_list) override;
 	Result_t UpdatePosition(const fb::PositionT& _position, fb::eActorMoveEffect _move_effect) override;
 	Result_t UpdatePosition(TerrainIdx_t _terrain_idx, const PositionT& _position, fb::eActorMoveEffect _move_effect) override;
 
