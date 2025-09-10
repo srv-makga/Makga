@@ -47,10 +47,29 @@ struct ItemRefineInfo
 	Rate_t success_rate = 1.0f;
 };
 
-struct ActorBasicTable
+struct SkillAbility
 {
-	eActorType actor_type = eActorType_None;
-	eAiType ai_type;
+	eAbilityType type = eAbilityType_MIN;
+	eAbilityTarget target = eAbilityTarget_MIN;
+	eAbilityApplyType apply_type = eAbilityApplyType_MIN;
+	eAbilityOverlapType overlap_type = eAbilityOverlapType_MIN;
+	Time_t duration = 0; // 지속 시간(0이면 즉시 효과)
+};
+
+struct DataTableSkill
+{
+	SkillIndex_t index = 0;
+	SkillLevel_t level = 0;
+	eSkillAttackType attack_type = eSkillAttackType_MIN; // 스킬 타입(공격, 버프등)
+	eSkillUseType use_type = eSkillUseType_MIN; // 스킬 사용 타입(액티브, 패시브 등)
+	eSkillHitType hit_type = eSkillHitType_MIN; // 공격 단계 타입(단일, 연속, 콤보등)
+	eSkillTargetShape target_shape = eSkillTargetShape_MIN; // 타켓 범위(단일, 원형, 직선 등)
+	Count_t target_count = 1; // 타격 횟수
+
+	Distance_t cast_distance = 0.f; // 캐스팅 사거리
+	Distance_t apply_distance = 0.f; // 효과 적용 사거리
+
+	std::vector<SkillAbility> ability_list;
 };
 
 struct StatAttackDefence
@@ -67,26 +86,10 @@ struct StatRates
 
 struct Stat
 {
-	HpMpT hp_mp;
-	HpMpT hp_mp_gen;
-
-	StatAttackDefence phisical; // 물리
-	StatAttackDefence magical; // 마법
-	
 	StatRates hit; // 명중률
 	StatRates critical; // 크리티컬 확률
 	StatRates stun; // 스턴 확률
 	StatRates blocking; // 블로킹 확률
-};
-
-struct MonsterBasicTable : public ActorBasicTable
-{
-	eActorType actor_type = eActorType_None;
-
-	MonsterIdx_t idx = 0; // 몬스터 인덱스
-	TableIdx_t group_idx = 0; // 그룹 인덱스
-
-	Level_t level = 1; // 레벨
 
 	Distance_t attack_range = 0; // 공격 범위
 	Distance_t sight = 0; // 시야
@@ -99,15 +102,29 @@ struct MonsterBasicTable : public ActorBasicTable
 
 	StatAttackDefence phisical; // 물리
 	StatAttackDefence magical; // 마법
+};
 
-	StatRates hit; // 명중률
-	StatRates critical; // 크리티컬 확률
-	StatRates stun; // 스턴 확률
-	StatRates blocking; // 블로킹 확률
+struct ActorBasicTable
+{
+	eActorType actor_type = eActorType_None;
+	eAiType ai_type = fb::eAiType_NonAggressive; // AI 타입
 
-	fb::eAiType ai_type = fb::eAiType_NonAggressive; // AI 타입
+	Stat stat;
+};
 
-	TableIdx_t spawn_idx = 0;
+struct CharacterBasicTable : public ActorBasicTable
+{
+	CharIdx_t idx = 0; // 캐릭터 인덱스
+};
+
+struct MonsterBasicTable : public ActorBasicTable
+{
+	MonsterIdx_t idx = 0; // 몬스터 인덱스
+	TableIdx_t group_idx = 0; // 그룹 인덱스
+
+	Level_t level = 1; // 레벨
+
+	std::vector<std::pair<ItemIdx_t, StackCount_t>> drop_item_list;
 };
 
 struct NpcBasicTable : public ActorBasicTable
