@@ -5,7 +5,7 @@
 
 #include "server_game.h"
 #include "app_config.h"
-#include "setting_game.h"
+#include "app_setting.h"
 #include "pool.h"
 
 #include "world.h"
