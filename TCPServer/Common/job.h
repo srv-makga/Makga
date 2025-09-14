@@ -6,14 +6,26 @@
 class Job : public std::enable_shared_from_this<Job>
 {
 public:
-	Job() = default;
 	Job()
 		: m_callback(nullptr)
 		, m_thread_id(0)
 	{
 	}
 
-	bool Initialize(std::function<void()> callback, std::size_t _thread_id)
+	bool Initialize()
+	{
+		m_callback = nullptr;
+		m_thread_id = 0;
+		return true;
+	}
+
+	void Finalize()
+	{
+		m_callback = nullptr;
+		m_thread_id = 0;
+	}
+
+	bool Set(std::function<void()> callback, std::size_t _thread_id)
 	{
 		if (nullptr == callback)
 		{
@@ -23,12 +35,6 @@ public:
 		m_callback = callback;
 		m_thread_id = _thread_id;
 		return true;
-	}
-
-	void Finalize()
-	{
-		m_callback = nullptr;
-		m_thread_id = 0;
 	}
 
 	void Execute()
