@@ -84,7 +84,7 @@ private:
 
 	Count_t m_max_inventory;
 
-	Character* m_character;
+	std::shared_ptr<Character> m_character;
 
 	uint32_t m_slot; // 몇번째 슬롯 캐릭터인지
 
