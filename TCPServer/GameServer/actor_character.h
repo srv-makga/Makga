@@ -12,7 +12,8 @@ public:
 	void Initialize() override;
 	void Finalize() override;
 
-	bool Setup(const fb::CharacterDetail& _detail);
+	bool Setup(CharIdx_t _char_idx);
+	bool SetupDetail(const fb::CharacterDetail& _detail);
 
 	void SetActorTable(const ActorBasicTable* _table) override;
 	void OnUpdate() override;
