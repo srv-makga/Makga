@@ -1,6 +1,6 @@
 #pragma once
 
-#include "session.h"
+#include "session_interface.h"
 #include "ip_endpoint.h"
 #include "rio_core.h"
 #include "rio_service.h"
@@ -12,7 +12,7 @@
 
 namespace core {
 namespace network {
-class RioSession : public Session, public std::enable_shared_from_this<RioSession>
+class RioSession : public SessionInterface, public std::enable_shared_from_this<RioSession>
 {
 public:
 	RioSession(Id _id, ServiceType _type);
@@ -22,7 +22,7 @@ public:
 	RioSession& operator=(RioSession&& _other) = delete;
 	virtual ~RioSession();
 
-public:
+public: // SessionInterface
 	bool Initialize() override;
 	void Finalize() override;
 
@@ -43,9 +43,9 @@ public:
 	void RegisterRecv();
 	bool RegisterSend(ULONG dataLength, ULONG dataOffset);
 
-	void ProcessConnect();
-	void ProcessRecv(std::size_t _bytes_transferred);
-	void ProcessSend(std::size_t _bytes_transferred, RioSendEvent* _event);
+	void OnConnect();
+	void OnRecv(std::size_t _bytes_transferred);
+	void OnSend(std::size_t _bytes_transferred, RioSendEvent* _event);
 
 public:
 	virtual void OnConnected() {}
