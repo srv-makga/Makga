@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "actor_character.h"
-#include "data_manager.h"
+#include "server_game.h"
 #include "terrain.h"
 #include "terrain_grid.h"
 #include "user.h"
@@ -9,7 +9,6 @@
 
 Character::Character()
 	: m_uid(0)
-	, m_table(nullptr)
 {
 }
 
@@ -19,15 +18,32 @@ Character::~Character()
 
 void Character::Initialize()
 {
+	// @todo 캐릭터 테이블 설정이 필요하다.
 }
 
 void Character::Finalize()
 {
 }
 
+bool Character::Setup(const fb::CharacterDetail& _detail)
+{
+	auto* base = _detail.base();
+	if (nullptr == base)
+	{
+		return false;
+	}
+
+	m_uid = 0 < base->uid() ? base->uid() : GetWorld().m_character_uid.CreateUid();
+	m_name = base->name() ? base->name()->c_str() : "";
+}
+
+bool Character::SetupDetail(const fb::CharacterDetail& _detail)
+{
+    return false;
+}
+
 void Character::SetActorTable(const ActorBasicTable* _table)
 {
-	m_table = static_cast<const MonsterBasicTable*>(_table);
 }
 
 void Character::OnUpdate()
@@ -47,6 +63,184 @@ Result_t Character::DoMove(fb::PositionT& _position)
 	// @todo 기타 이동에 관련된 컨텐츠 제약사항 추가
 
 	return UpdatePosition(_position, fb::eActorMoveEffect_Normal);
+}
+
+Result_t Character::DoAttack(SkillIndex_t _index, SkillLevel_t _level, const PositionT& _cast_pos, OUT ActorList& _target_list)
+{
+	auto skill_table = GameServer::GetData()->FindSkillTable(_index, _level);
+	if (nullptr == skill_table)
+	{
+		return eResult_DataNotFound;
+	}
+
+	switch(skill_table->use_type)
+	{
+	case eSkillUseType_Active:
+	{
+
+	}
+	break;
+	case eSkillUseType_Passive:
+	{
+		_target_list.clear();
+		_target_list.insert(shared_from_this());
+	}
+	break;
+	default:
+	{
+		return eResult_DataNotFound;
+	}
+	break;
+	}
+
+	if (true == _target_list.empty())
+	{
+		return eResult_SkillNoTarget;
+	}
+
+	if (skill_table->target_count < _target_list.size())
+	{
+		LOG_ERROR << LOG_ACTOR(this)
+			<< " target count overflow."
+			<< " skill index:" << _index
+			<< " table count:" << skill_table->target_count
+			<< " target count:" << _target_list.size();
+		return eResult_SkillOverflowTarget	;
+	}
+
+	if (UTIL.CalcDistance2D(Position(), _cast_pos) > skill_table->cast_distance + 3.f) // 오차 허용 범위
+	{
+		return eResult_SkillOverflowRange;
+	}
+
+	// 히트 타입 체크.
+	eSkillHitType_Normal;
+	eSkillHitType_Sequential; // 순차공격
+	eSkillHitType_Combo; // 콤보
+	eSkillHitType_Random; // 랜덤
+	eSkillHitType_Projectile; // 투사체
+	skill_table->hit_type;
+
+	std::set<std::shared_ptr<Actor>> delete_target_list;
+
+	for (auto& target : _target_list)
+	{
+		if (nullptr == target)
+		{
+			delete_target_list.insert(target);
+			continue;
+		}
+
+		// 거리측정
+		Distance_t distance = UTIL.CalcDistance2D(_cast_pos, target->Position());
+		if (distance > skill_table->apply_distance + 3.f) // 오차 허용 범위
+		{
+			delete_target_list.insert(target);
+			continue;
+		}
+
+		switch (skill_table->target_shape)
+		{
+		case eSkillTargetShape_Single:
+		{
+		}
+		break;
+		case eSkillTargetShape_Line:
+		{
+			if (false == UTIL.CheckWithInLine(_cast_pos, target->Position()))
+			{
+				delete_target_list.insert(target);
+				continue;
+			}
+		}
+		break;
+		case eSkillTargetShape_Cone:
+		{
+			if (false == UTIL.CheckWithInCone(_cast_pos, target->Position()))
+			{
+				delete_target_list.insert(target);
+				continue;
+			}
+		}
+		break;
+		case eSkillTargetShape_Circle:
+		{
+			if (false == UTIL.CheckWithInCircle(_cast_pos, skill_table->apply_distance, target->Position()))
+			{
+				delete_target_list.insert(target);
+				continue;
+			}
+		}
+		break;
+		case eSkillTargetShape_Rectangle:
+		{
+			if (false == UTIL.CheckWithInRectangle(_cast_pos, skill_table->apply_distance, skill_table->apply_distance, target->Position()))
+			{
+				delete_target_list.insert(target);
+				continue;
+			}
+		}
+		break;
+		case eSkillTargetShape_Cross:
+		{
+			if (false == UTIL.CheckWithInCross(_cast_pos, skill_table->apply_distance, skill_table->apply_distance, target->Position()))
+			{
+				delete_target_list.insert(target);
+				continue;
+			}
+		}
+		break;
+		case eSkillTargetShape_Dounut:
+		{
+			if (false == UTIL.CheckWithInDounut(_cast_pos, skill_table->apply_distance, /*@todo 도넛크기*/3.f, target->Position()))
+			{
+				delete_target_list.insert(target);
+				continue;
+			}
+		}
+		break;
+		default:
+		{
+			LOG_ERROR << "Not defined targer shared. " << EnumNameeSkillTargetShape(skill_table->target_shape);
+			return eResult_Fail;
+		}
+		break;
+		}
+	}
+
+	// 삭제 대상이 있으면 목록에서 삭제한다
+	if (false == delete_target_list.empty())
+	{
+		_target_list.erase(std::remove_if(_target_list.begin(), _target_list.end(),
+			[&delete_target_list](const std::shared_ptr<Actor>& actor) {
+				return delete_target_list.count(actor);
+			})
+			, _target_list.end()
+		);
+	}
+
+	for (const auto& ability : skill_table->ability_list)
+	{
+		// 나 자신에게 적용
+		if (eAbilityTarget_Self == ability.target)
+		{
+			ApplyAbility(ability, GetActorUid(), _index, UTIL.CurrentTime() + ability.duration);
+		}
+		else if (ability.target == eAbilityTarget_Enermy)
+		{
+			for (auto& target : _target_list)
+			{
+				if (false == IsEnermy(target))
+				{
+					continue;
+				}
+
+				target->ApplyAbility(ability, GetActorUid(), _index, UTIL.CurrentTime() + ability.duration);
+			}
+		}
+	}
+
+	return eResult_Success;
 }
 
 Result_t Character::UpdatePosition(const fb::PositionT& _position, fb::eActorMoveEffect _move_effect)
