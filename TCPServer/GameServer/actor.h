@@ -21,8 +21,6 @@ public:
 public:
 	virtual void Initialize() = 0;
 	virtual void Finalize() = 0;
-
-	virtual void SetActorTable(const ActorBasicTable* _table) = 0;
 	virtual void OnUpdate() = 0;
 
 public: // 결과가 필요한 함수들 (Do로 시작)
