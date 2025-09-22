@@ -11,12 +11,12 @@ public:
 public:
 	void Initialize() override;
 	void Finalize() override;
-
-	bool Setup(CharIdx_t _char_idx);
-	bool SetupDetail(const fb::CharacterDetail& _detail);
-
-	void SetActorTable(const ActorBasicTable* _table) override;
 	void OnUpdate() override;
+
+	// @brief 캐릭터 기본 정보 설정 (데이터 테이블)
+	bool Setup(CharIdx_t _char_idx);
+	// @brief 캐릭터 세부 정보 설정 (DB 정보)
+	bool SetupDetail(const fb::CharacterDetail& _detail);
 
 public:
 	Result_t DoMove(fb::PositionT& _position) override;
