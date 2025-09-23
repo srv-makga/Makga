@@ -186,8 +186,8 @@ void Terrain::FindNotificationList(const PositionT& _old, const PositionT& _new,
 
 	for (TerrainGrid* grid : grid_list)
 	{
-		grid->ActorListByPosition(_old, GetWorld().data.SystemValue().actor.max_around_distance, eActorSearchFilter::FilterCharacter, old_pos_actor_list);
-		grid->ActorListByPosition(_new, GetWorld().data.SystemValue().actor.max_around_distance, eActorSearchFilter::FilterCharacter, new_pos_actor_list);
+		grid->ActorListByPosition(_old, GetWorld().data.GetSystemValue().actor.max_around_distance, eActorSearchFilter::FilterCharacter, old_pos_actor_list);
+		grid->ActorListByPosition(_new, GetWorld().data.GetSystemValue().actor.max_around_distance, eActorSearchFilter::FilterCharacter, new_pos_actor_list);
 	}
 
 	if (true == old_pos_actor_list.empty() || true == new_pos_actor_list.empty())
@@ -238,7 +238,7 @@ bool Terrain::AroundList(const PositionT& _position, Distance_t _range, int _fil
 
 Count_t Terrain::CurUserCount() const
 {
-	return m_actor_list.size();
+	return static_cast<Count_t>(m_actor_list.size());
 }
 
 TerrainUid_t Terrain::Uid() const
