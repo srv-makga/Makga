@@ -6,6 +6,7 @@
 #include "actor_manager.h"
 #include "terrain_manager.h"
 #include "user_manager.h"
+#include "../Common/uid_generator.h"
 
 class World final : public core::pattern::Singleton<World>
 {
@@ -35,6 +36,10 @@ public:
 	ActorManager actor;
 	TerrainManager terrain;
 	UserManager user;
+
+	UidGenerator m_character_uid;
+	UidGenerator m_item_uid;
+
 
 	Utility utility;
 };
