@@ -43,7 +43,7 @@ public:
 //	bool CanResurrecton() const override;
 //	Result_t Resurrecton() const override;
 //
-//	Result_t DoAttack(std::shared_ptr<Actor> _target, SkillIdx_t _skill_idx) override;
+//	Result_t DoAttack(std::shared_ptr<Actor> _target, SkillIndex_t _skill_idx) override;
 //
 //	void StartAI() override;
 //
@@ -92,7 +92,7 @@ public:
 //	// @brief 사망 상태 여부
 //	bool IsDead() const override;
 //
-//	SkillIdx_t SkillIndex() const override;
+//	SkillIndex_t SkillIndex() const override;
 //
 //	void SetDefaultPosition() override;
 //	void SetPosition(const PositionT& _pos) override;
