@@ -14,9 +14,9 @@ public:
 	virtual ~NetThread();
 
 public: // NetHandler
-	bool Initialize(std::shared_ptr<core::network::NetCore> _net_core, std::shared_ptr<JobHandler> _job_handler) override;
+	bool Initialize(std::shared_ptr<core::network::NetCore> _net_core) override;
 	void Finalize() override;
-	bool CreateThread(std::function<void()> _work, std::size_t _thread_count = 1) override; // 해당 함수 내용을 Initialize에 포함?
+	bool CreateThread(std::size_t _thread_count = 1) override;
 	bool Start() override;
 	void Stop() override;
 
@@ -26,9 +26,6 @@ protected:
 
 protected:
 	std::atomic<bool> m_is_running;
-	std::function<void()> m_work;
 	std::vector<std::thread> m_threads;
-
 	std::shared_ptr<core::network::NetCore> m_net_core;
-	std::shared_ptr<JobHandler> m_job_handler;
 };
