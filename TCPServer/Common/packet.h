@@ -66,11 +66,6 @@ public:
 public: // static
 	inline static PacketSize_t HeaderSize() { return sizeof(PacketHeader); }
 
-	inline static void Push(std::shared_ptr<Packet> _packet)
-	{
-		_packet = nullptr;
-	}
-
 	inline static std::shared_ptr<Packet> Pop()
 	{
 		return s_pool.Pop();
