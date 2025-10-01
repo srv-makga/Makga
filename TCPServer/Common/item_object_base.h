@@ -17,11 +17,11 @@ public:
 
 	virtual void SetInfo(std::string&& _json) = 0;
 
-	virtual ItemUid_t Uid() const = 0;
-	virtual void SetUid(ItemUid_t _uid) const = 0;
+	virtual ItemUid_t ItemUid() const = 0;
+	virtual void SetItemUid(ItemUid_t _uid) const = 0;
 
-	virtual ItemIdx_t Index() const = 0;
-	virtual void SetIndex(ItemIdx_t _index) const = 0;
+	virtual ItemIdx_t ItemIndex() const = 0;
+	virtual void SetItemIndex(ItemIdx_t _index) const = 0;
 
 	virtual StackCount_t Stack() const = 0;
 	virtual void SetStack(StackCount_t _stack) const = 0;
