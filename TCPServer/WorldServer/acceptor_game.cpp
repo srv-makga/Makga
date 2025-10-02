@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "acceptor_game.h"
 #include "session_game.h"
-#include "config_world.h"
+#include "app_config.h"
 
 AcceptorGame::AcceptorGame()
 {
