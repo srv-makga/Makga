@@ -1,8 +1,8 @@
 #pragma once
 
-#include "security.h"
+#include "security_interface.h"
 
-class SecurityDummy : public SecuritySystem
+class SecurityDummy : public SecurityInterface
 {
 public:
 	SecurityDummy() = default;
@@ -11,5 +11,5 @@ public:
 	bool Initialize() override { return true; }
 	void Finalize() override {}
 
-	eResult Register(User* _user) override { return eResult::Success; }
+	eResult Register(User* _user) override { return eResult::eResult_Success; }
 };
