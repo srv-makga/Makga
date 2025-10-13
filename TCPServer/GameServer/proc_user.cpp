@@ -10,6 +10,10 @@
 //#define REG_DISPATCHER(pid)	s_dispatcher.Add(fb::server::SendPid_##pid, &User::On##pid);
 #define REG_DISPATCHER(type, pid)	s_dispatcher[type].Add(fb::server::SendPid_##pid, [](User* _user, std::shared_ptr<Packet> packet) -> bool { return _user->On##pid(packet); });
 
+void RegistDispatcher(CommandType _type, fb::server::SendPid _pid)
+{
+}
+
 bool User::InitDispatcher()
 {
 	REG_DISPATCHER(CommandType::User, Chatting);
@@ -24,6 +28,20 @@ bool User::InitDispatcher()
 	return true;
 }
 
+bool User::ProcPacket(std::shared_ptr<NetPacket> _packet)
+{
+	fb::server::SendPid pid = static_cast<fb::server::SendPid>(_packet->GetId());
+
+	LOG_INFO << "ProcPacket Start. Pid:" << LOG_USER_UID(UserUid()) << fb::server::EnumNameSendPid(pid);
+
+	bool ret = s_dispatcher[CommandType::User].Exec(pid, this, _packet); // @todo 수정 필요
+	//bool ret = Messenger::ProcPacket(CommandType::User, shared_from_this(), pid, _packet);
+
+	LOG_INFO << "ProcPacket End. Pid:" << LOG_USER_UID(UserUid()) << fb::server::EnumNameSendPid(pid) << " result:" << ret ? "true" : "false";
+
+	return ret;
+}
+
 bool User::OnChatting(std::shared_ptr<Packet> _packet)
 {
 	if (nullptr == _packet)
@@ -33,6 +51,11 @@ bool User::OnChatting(std::shared_ptr<Packet> _packet)
 	}
 
 	auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_Chatting);
+	if (nullptr == recv_data)
+	{
+		LOG_ERROR << LOG_RESULT(eResult_InvalidParameter);
+		return false;
+	}
 
 	return true;
 }
@@ -52,13 +75,31 @@ bool User::OnLoginSecurity(std::shared_ptr<Packet> _packet)
 		fb::dbagent::CreateHeader(fbb, UserUid()),
 		recv_data->security_number()
 	));
-	SERVER.GetDBAgentServer()->Send(fb::dbagent::SendPid_LoginSecurity, fbb, UserUid());
+	GameServer::GetDBAgentServer()->Send(static_cast<PacketId_t>(fb::dbagent::SendPid_LoginSecurity), fbb);
 
 	return true;
 }
 
 bool User::OnCharacterCreate(std::shared_ptr<Packet> _packet)
 {
+	do
+	{
+		if (nullptr == m_character)
+		{
+			m_character = std::make_shared<Character>(); // @todo 풀링
+		}
+
+		auto recv_data = PACKET_TO_FBSTRUCT(_packet, fb::server::Send_CharacterCreate);
+
+		GetWorld().data.FindCharacterBasicTable(recv_data->detail()->base()->idx());
+
+		m_character->Initialize();
+		m_character->SetActorTable();
+		m_character->Setup(*recv_data->detail());
+		m_character->SaveDB();
+
+	} while (false);
+
 	return false;
 }
 
