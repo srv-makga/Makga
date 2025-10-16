@@ -68,7 +68,7 @@ bool TerrainGrid::InsertActor(std::shared_ptr<Actor> _actor)
 		return false;
 	}
 
-	return m_actors.insert({ _actor->ActorUid(), _actor }).second;
+	return m_actors.insert({ _actor->GetActorUid(), _actor }).second;
 }
 
 std::shared_ptr<Actor> TerrainGrid::FindActor(std::shared_ptr<Actor> _actor)
@@ -78,7 +78,7 @@ std::shared_ptr<Actor> TerrainGrid::FindActor(std::shared_ptr<Actor> _actor)
 		return nullptr;
 	}
 
-	return FindActor(_actor->ActorUid());
+	return FindActor(_actor->GetActorUid());
 }
 
 std::shared_ptr<Actor> TerrainGrid::FindActor(ActorUid_t _actor_id)
@@ -104,7 +104,7 @@ bool TerrainGrid::Erasector(std::shared_ptr<Actor> _actor)
 		return false;
 	}
 
-	return Erasector(_actor->ActorUid());
+	return Erasector(_actor->GetActorUid());
 }
 
 bool TerrainGrid::IsInside(Coord_t _x, Coord_t _y, Coord_t _z)
