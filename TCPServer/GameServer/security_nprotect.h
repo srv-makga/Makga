@@ -1,8 +1,8 @@
 #pragma once
 
-#include "security.h"
+#include "security_interface.h"
 
-class SecurityNprotect : public SecuritySystem
+class SecurityNprotect : public SecurityInterface
 {
 public:
 	SecurityNprotect() = default;
