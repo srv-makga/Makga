@@ -1,47 +1,40 @@
 #include "pch.h"
 #include "session_world.h"
-#include "pool.h"
 
 SessionWorld::SessionWorld(std::size_t _buffer_size)
-	: IocpSession(core::ServiceType::IOCP_CLIENT, _buffer_size)
+	: SessionBase(core::BufferFlag::None, _buffer_size)
 {
+	
 }
 
 SessionWorld::~SessionWorld()
 {
+
 }
 
-void SessionWorld::OnConnected()
+bool SessionWorld::RecvPacket(NetPacket* _packet)
 {
-	LOG_INFO << "Connected to World.";
+	Job* job = Job::Pop();
+	job->Initialize();
+	job->owner = this;
+	job->packet = _packet;
+
+	Actor()->JobHandler()->Push(job);
+	return true;
 }
 
-void SessionWorld::OnDisconnected()
+bool SessionWorld::ProcPacket(NetPacket* _packet)
 {
-	LOG_INFO << "Disconnected from World.";
-}
+	Pid_t pid = static_cast<Pid_t>(_packet->Id());
+	LOG_INFO << "SessionId:" << SessionId() << " ProcPacket Pid:" << fb::world::EnumNameRecvPid(pid);
 
-std::size_t SessionWorld::OnRecv(char* buffer, std::size_t _length)
-{
-	auto packet = POOL.packet.Pop();
-	packet->SetBuffer(m_recv_buffer);
+	if (false == s_dispatcher.Exec(pid, this, _packet))
+	{
+		LOG_ERROR << "Fail to dispatcher exec. Pid:" << fb::world::EnumNameRecvPid(pid);
+		return false;
+	}
 
-	ProcPacket(packet);
-
-	return _length;
-}
-
-bool SessionWorld::ProcPacket(std::shared_ptr<NetPacket> _packet)
-{
-	Pid_t pid = static_cast<Pid_t>(_packet->GetId());
-
-	LOG_INFO << "ProcPacket. Pid:" << fb::world::EnumNameRecvPid(pid);
-
-	bool ret = s_dispatcher.Exec(pid, this, _packet);
-	
-	LOG_INFO << "ProcPacket. Pid:" << fb::world::EnumNameRecvPid(pid) << " ret:" << ret;
-
-	return ret;
+	return true;
 }
 
 ThreadId_t SessionWorld::ThreadId() const
