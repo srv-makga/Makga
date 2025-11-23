@@ -1,0 +1,150 @@
+/root
+│
+├── docs/                      # 기술 문서, 아키텍처, 디자인 문서
+│   ├── architecture/
+│   ├── api/
+│   └── requirements/
+│
+├── config/                    # 공통 설정 파일 (YAML/JSON 등)
+│   ├── dev/
+│   ├── staging/
+│   └── production/
+│
+├── scripts/                   # 배포/빌드/운영 관련 스크립트
+│   ├── build/
+│   ├── deploy/
+│   ├── db/
+│   └── utils/
+│
+├── tools/                     # 내부 툴 (로그 뷰어, 데이터 변환기 등)
+│   ├── log_viewer/
+│   └── packet_generator/
+│
+├── protocol/                  # protobuf / flatbuffer / thrift 등
+│   ├── schema/
+│   ├── generator/
+│   └── out/
+│       ├── cpp/
+│       ├── csharp/
+│       └── go/
+│
+├── libs/
+│   │
+│   ├── cpp/
+│   │   │
+│   │   ├── network/            # 공통 네트워크 로직
+│   │   │   │
+│   │   │   ├── interface/
+│   │   │   │   ├── INetworkService.ixx
+│   │   │   │   ├── ISession.ixx
+│   │   │   │   ├── IAcceptor.ixx
+│   │   │   │   └── IPacketHandler.ixx
+│   │   │   │
+│   │   │   ├── core/
+│   │   │   │   ├── Packet.ixx
+│   │   │   │   ├── PacketBuffer.ixx
+│   │   │   │   ├── RingBuffer.ixx
+│   │   │   │   ├── Serializer.ixx
+│   │   │   │   └── Logger.ixx
+│   │   │   │
+│   │   │   ├── tcp/
+│   │   │   │   ├── TcpSession.ixx
+│   │   │   │   ├── TcpAcceptor.ixx
+│   │   │   │   ├── TcpNetworkService.ixx
+│   │   │   │   ├── TcpRIOService.ixx        # Windows 전용
+│   │   │   │   └── TcpIoUringService.ixx    # Linux 전용
+│   │   │   │
+│   │   │   ├── udp/
+│   │   │   │   ├── UdpSession.ixx
+│   │   │   │   ├── UdpNetworkService.ixx
+│   │   │   │   ├── UdpRIOService.ixx
+│   │   │   │   └── UdpIoUringService.ixx
+│   │   │   │
+│   │   │   ├── platform/
+│   │   │   │   ├── RIOWrapper.ixx
+│   │   │   │   ├── IoUringWrapper.ixx
+│   │   │   │   └── SocketUtils.ixx
+│   │   │   │
+│   │   │   └── network.module.ixx # C++ 전용
+│   │   │
+│   │   ├── libraries/             # 공통 라이브러리 (유틸, 로깅, 공통 타입)
+│   │   ├── auth/                  # 인증/토큰 처리 공통 모듈
+│   │   └── metrics/               # 공통 모니터링 로직
+│   │
+│   ├── csharp/
+│   │   │
+│   │   ├── network/               # 공통 네트워크 로직
+│   │   │   ├── interface/
+│   │   │   ├── core/
+│   │   │   ├── tcp/
+│   │   │   ├── udp/
+│   │   │   ├── platform/
+│   │   │   └── network.cs
+│   │   │
+│   │   ├── libraries/             # 공통 라이브러리 (유틸, 로깅, 공통 타입)
+│   │   ├── auth/                  # 인증/토큰 처리 공통 모듈
+│   │   └── metrics/               # 공통 모니터링 로직
+│   │
+│   └── go/
+│       │
+│       ├── network/               # 공통 네트워크 로직
+│       │   ├── interface/
+│       │   ├── core/
+│       │   ├── tcp/
+│       │   ├── udp/
+│       │   ├── platform/
+│       │   └── network.go
+│       │
+│       ├── libraries/             # 공통 라이브러리 (유틸, 로깅, 공통 타입)
+│       ├── auth/                  # 인증/토큰 처리 공통 모듈
+│       └── metrics/               # 공통 모니터링 로직
+│
+├── servers/                       # 실제 게임 서버 모듈들
+│   ├── gateway/                   # C# (ASP.NET, Kestrel 등 proxy server 역할)
+│   │   ├── src/
+│   │   ├── tests/
+│   │   └── Gateway.sln
+│   │
+│   ├── game/                      # C++ 기반 메인 게임 서버
+│   │   │
+│   │   ├── src/
+│   │   │   ├── core/
+│   │   │   ├── network/
+│   │   │   ├── gameplay/
+│   │   │   ├── db/
+│   │   │   └── world/
+│   │   │
+│   │   ├── tests/
+│   │   └── CMakeLists.txt
+│   │
+│   ├── match/                     # Go 기반 매칭 서버
+│   │   ├── cmd/                   # 실행 가능한 바이너리
+│   │   │   ├── main.go
+│   │   ├── internal/
+│   │   ├── pkg/
+│   │   ├── tests/
+│   │   └── go.mod
+│   │
+│   ├── chat/                      # Go 또는 C# 기반 채팅 서버
+│   │   └── ...
+│   │
+│   └── ranking/                   # 배치/점수 집계 서버(C# 또는 Go)
+│       └── ...
+│
+├── database/
+│   ├── migrations/                # DB 스키마 변경 내역
+│   ├── schema/                    # DB 스키마 최신
+│   └── seeds/                     # 초기 데이터
+│
+├── infrastructure/
+│   ├── docker/                    # 도커파일, 컨테이너 구성
+│   ├── k8s/                       # 쿠버네티스 매니페스트
+│   ├── terraform/                 # IaC (AWS/GCP 등)
+│   └── ci_cd/                     # Github Actions / Jenkins pipelines
+│
+├── tests/                         # 통합 테스트 / E2E 테스트
+│   └── load_tests/
+│
+├── .editorconfig
+├── .gitignore
+└── README.md
