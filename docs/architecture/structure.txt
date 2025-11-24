@@ -106,14 +106,11 @@
 │   │   └── Gateway.sln
 │   │
 │   ├── game/                      # C++ 기반 메인 게임 서버
-│   │   │
-│   │   ├── src/
-│   │   │   ├── core/
-│   │   │   ├── network/
-│   │   │   ├── gameplay/
-│   │   │   ├── db/
-│   │   │   └── world/
-│   │   │
+│   │   ├── core/
+│   │   ├── network/
+│   │   ├── gameplay/
+│   │   ├── db/
+│   │   ├── world/
 │   │   ├── tests/
 │   │   └── CMakeLists.txt
 │   │
