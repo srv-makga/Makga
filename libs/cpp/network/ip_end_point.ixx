@@ -2,7 +2,9 @@ module;
 
 #include <WinSock2.h>
 #include <Windows.h>
+#include <ws2ipdef.h>
 #include <string>
+#include <sstream>
 
 export module network.endpoint;
 
@@ -20,7 +22,6 @@ public:
 	IPEndPoint(unsigned long _ip, Port_t _port);
 	IPEndPoint(unsigned long _ip, Port_t _port);
 	IPEndPoint(const std::string& _ip, Port_t _port);
-	IPEndPoint(const std::tstring& _ip, Port_t _port);
 
 	IPEndPoint& operator=(const IPEndPoint& _other);
 	IPEndPoint& operator=(const SOCKADDR_IN& _sockaddr);
@@ -33,10 +34,10 @@ public:
 	const sockaddr_in6& Addr6() const;
 
 	Type_t Type() const;
-	std::tstring Ip() const;
+	std::string Ip() const;
 	Port_t Port() const;
 
-	std::tstring GetString() const;
+	std::string GetString() const;
 
 private:
 	Type_t m_type;

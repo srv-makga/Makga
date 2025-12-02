@@ -61,7 +61,7 @@ IPEndPoint::IPEndPoint(const std::tchar* _ip, Port_t _port)
 	}
 }
 
-IPEndPoint::IPEndPoint(const std::tstring& _ip, Port_t _port)
+IPEndPoint::IPEndPoint(const std::string& _ip, Port_t _port)
 	: IPEndPoint()
 {
 	if (true == _ip.empty())
@@ -69,7 +69,7 @@ IPEndPoint::IPEndPoint(const std::tstring& _ip, Port_t _port)
 		return;
 	}
 
-	if (std::tstring::npos != _ip.find("."))
+	if (std::string::npos != _ip.find("."))
 	{
 		m_type = v4;
 		m_address.ipv4.sin_family = AF_INET;
@@ -136,13 +136,13 @@ const sockaddr_in6& IPEndPoint::Addr6() const
 	return m_address.ipv6;
 }
 
-std::tstring IPEndPoint::Ip() const
+std::string IPEndPoint::Ip() const
 {
-	static std::tstring empty_string;
+	static std::string empty_string;
 
 	if (v4 == m_type)
 	{
-		std::tstring ret;
+		std::string ret;
 		ret.resize(INET_ADDRSTRLEN);
 		if (InetNtop(AF_INET, &(m_address.ipv4.sin_addr), const_cast<std::tchar*>(ret.c_str()), INET_ADDRSTRLEN) != nullptr)
 		{
@@ -152,7 +152,7 @@ std::tstring IPEndPoint::Ip() const
 
 	else
 	{
-		std::tstring ret;
+		std::string ret;
 		ret.resize(INET6_ADDRSTRLEN);
 		if (::InetNtop(AF_INET6, &(m_address.ipv6.sin6_addr), const_cast<std::tchar*>(ret.c_str()), INET6_ADDRSTRLEN) != nullptr)
 		{
@@ -173,9 +173,9 @@ IPEndPoint::Port_t IPEndPoint::Port() const
 	return ::ntohs(m_address.ipv6.sin6_port);
 }
 
-std::tstring IPEndPoint::GetString() const
+std::string IPEndPoint::Gestring() const
 {
-	std::tstringstream ss;
+	std::stringstream ss;
 	ss << " ip: " << Ip() << ", port: " << Port();
 	return ss.str();
 }

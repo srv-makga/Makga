@@ -5,3 +5,4 @@
 /libs/cpp/network/x64
 /servers/.vs
 servers/game/game.vcxproj.user
+/servers/game/x64
