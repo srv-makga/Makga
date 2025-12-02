@@ -2,3 +2,6 @@
 *.lib
 *.idb
 *.log
+/libs/cpp/network/x64
+/servers/.vs
+servers/game/game.vcxproj.user

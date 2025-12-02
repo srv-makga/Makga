@@ -4,9 +4,9 @@ module;
 #include <Windows.h>
 #include <string>
 
-export module IPEndPoint;
+export module network.endpoint;
 
-namespace makga::network {
+export namespace makga::network {
 class IPEndPoint
 {
 public:

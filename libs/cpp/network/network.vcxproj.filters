@@ -40,5 +40,8 @@
     <ClCompile Include="ip_end_point.ixx">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="ip_end_point.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
