@@ -1,4 +1,4 @@
-import network.service.iocp;
+module network.service.iocp;
 
 namespace makga::network {
 IocpService::IocpService()

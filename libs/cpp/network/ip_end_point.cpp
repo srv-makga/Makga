@@ -1,4 +1,4 @@
-import network.endpoint;
+module network.endpoint;
 
 namespace makga::network {
 bool IPEndPoint::operator== (const IPEndPoint& _other) const
@@ -18,7 +18,7 @@ bool IPEndPoint::operator== (const IPEndPoint& _other) const
 		return 0 == memcmp(&m_address.ipv4, &_other.m_address.ipv4, sizeof(m_address.ipv4));
 	}
 
-	return 0 == memcmp(&m_address.ipv6, &_other.m_address.ipv6, sizeof(m_address.ipv6));
+	return 0 == ::memcmp(&m_address.ipv6, &_other.m_address.ipv6, sizeof(m_address.ipv6));
 }
 
 IPEndPoint::IPEndPoint()
@@ -36,7 +36,7 @@ IPEndPoint::IPEndPoint(unsigned long _ip, Port_t _port)
 	m_address.ipv4.sin_port = ::htons(_port);
 }
 
-IPEndPoint::IPEndPoint(const std::tchar* _ip, Port_t _port)
+IPEndPoint::IPEndPoint(const std::string* _ip, Port_t _port)
 	: IPEndPoint()
 {
 	if (nullptr == _ip)
@@ -173,7 +173,7 @@ IPEndPoint::Port_t IPEndPoint::Port() const
 	return ::ntohs(m_address.ipv6.sin6_port);
 }
 
-std::string IPEndPoint::Gestring() const
+std::string IPEndPoint::GetString() const
 {
 	std::stringstream ss;
 	ss << " ip: " << Ip() << ", port: " << Port();

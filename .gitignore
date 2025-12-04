@@ -6,3 +6,5 @@
 /servers/.vs
 servers/game/game.vcxproj.user
 /servers/game/x64
+libs/cpp/libraries/libraries.vcxproj.user
+/libs/cpp/libraries/x64

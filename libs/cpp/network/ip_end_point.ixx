@@ -3,6 +3,7 @@ module;
 #include <WinSock2.h>
 #include <Windows.h>
 #include <ws2ipdef.h>
+#include <stdio.h>
 #include <string>
 #include <sstream>
 
@@ -19,7 +20,6 @@ public:
 
 public:
 	IPEndPoint();
-	IPEndPoint(unsigned long _ip, Port_t _port);
 	IPEndPoint(unsigned long _ip, Port_t _port);
 	IPEndPoint(const std::string& _ip, Port_t _port);
 
