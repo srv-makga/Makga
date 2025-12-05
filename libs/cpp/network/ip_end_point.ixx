@@ -16,16 +16,16 @@ public:
 	using Type_t = enum { None, v4, v6};
 	using Port_t = unsigned short;
 	using Address_t = union { sockaddr_in ipv4; sockaddr_in6 ipv6; };
-	bool operator== (const IPEndPoint& _other) const;
+	bool operator== (const IPEndPoint& other) const;
 
 public:
 	IPEndPoint();
-	IPEndPoint(unsigned long _ip, Port_t _port);
-	IPEndPoint(const std::string& _ip, Port_t _port);
+	IPEndPoint(unsigned long ip, Port_t port);
+	IPEndPoint(const std::string& ip, Port_t port);
 
-	IPEndPoint& operator=(const IPEndPoint& _other);
-	IPEndPoint& operator=(const SOCKADDR_IN& _sockaddr);
-	IPEndPoint& operator=(const SOCKADDR_IN6& _sockaddr);
+	IPEndPoint& operator=(const IPEndPoint& other);
+	IPEndPoint& operator=(const SOCKADDR_IN& sockaddr);
+	IPEndPoint& operator=(const SOCKADDR_IN6& sockaddr);
 
 	bool IsV4() const;
 	bool IsV6() const;
@@ -40,7 +40,7 @@ public:
 	std::string GetString() const;
 
 private:
-	Type_t m_type;
-	Address_t m_address;
+	Type_t type_;
+	Address_t address_;
 };
-}
+} // namespace makga::network

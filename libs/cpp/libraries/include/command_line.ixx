@@ -5,6 +5,9 @@ module;
 
 export module makga.lib.command_line;
 
+import makga.lib.convert;
+import makga.lib.util;
+
 export namespace makga::lib {
 export class CommandLine
 {
@@ -16,7 +19,7 @@ public:
 				std::string first;
 				std::string second;
 
-				if (false == _text.Split(_T('='), first, second))
+				if (false == SplitString(_text, '=', first, second))
 				{
 					return;
 				}
@@ -33,7 +36,7 @@ public:
 
 			do
 			{
-				if (true == arg.Split(_T(','), first, second))
+				if (true == SplitString(arg, ',', first, second))
 				{
 					lambda(first);
 					arg = second;
@@ -46,9 +49,9 @@ public:
 	virtual ~CommandLine() = default;
 
 	template<typename T>
-	T Get(const char* _str) const
+	T Get(const char* str) const
 	{
-		auto iter = m_parameter.find(_str);
+		auto iter = m_parameter.find(str);
 		if (m_parameter.end() == iter)
 		{
 			return T();
@@ -56,34 +59,34 @@ public:
 
 		if constexpr (std::is_same_v<T, bool>)
 		{
-			return TYPE_CONVERT.StringToBool(iter->second.c_str());
+			return StringToBool(iter->second.c_str());
 		}
 		if constexpr (std::is_same_v<T, int64_t>)
 		{
-			return TYPE_CONVERT.StringToInt64(iter->second.c_str());
+			return StringToInt64(iter->second.c_str());
 		}
 		if constexpr (std::is_same_v<T, uint64_t>)
 		{
-			return TYPE_CONVERT.StringToUInt64(iter->second.c_str());
+			return StringToUInt64(iter->second.c_str());
 		}
 		if constexpr (std::is_unsigned_v<T>)
 		{
-			return TYPE_CONVERT.StringToUInt32(iter->second.c_str());
+			return StringToUInt32(iter->second.c_str());
 		}
 		if constexpr (std::is_integral_v<T>)
 		{
-			return TYPE_CONVERT.StringToInt32(iter->second.c_str());
+			return StringToInt32(iter->second.c_str());
 		}
 		if constexpr (std::is_floating_point_v<T>)
 		{
-			return TYPE_CONVERT.StringToFloat(iter->second.c_str());
+			return StringToFloat(iter->second.c_str());
 		}
 		if constexpr (std::is_same_v<T, std::string> || std::is_same_v<T, const char*>)
 		{
 			return iter->second;
 		}
 
-		return _default;
+		return T();
 	}
 
 protected:

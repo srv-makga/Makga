@@ -1,9 +1,15 @@
 module network.endpoint;
 
+#include <WinSock2.h>
+#include <Windows.h>
+#include <ws2tcpip.h>
+#include <string>
+#include <sstream>
+
 namespace makga::network {
 bool IPEndPoint::operator== (const IPEndPoint& _other) const
 {
-	if (m_type != _other.m_type)
+	if (type_ != _other.type_)
 	{
 		return false;
 	}
@@ -15,49 +21,49 @@ bool IPEndPoint::operator== (const IPEndPoint& _other) const
 
 	if (true == IsV4())
 	{
-		return 0 == memcmp(&m_address.ipv4, &_other.m_address.ipv4, sizeof(m_address.ipv4));
+		return 0 == memcmp(&address_.ipv4, &_other.address_.ipv4, sizeof(address_.ipv4));
 	}
 
-	return 0 == ::memcmp(&m_address.ipv6, &_other.m_address.ipv6, sizeof(m_address.ipv6));
+	return 0 == ::memcmp(&address_.ipv6, &_other.address_.ipv6, sizeof(address_.ipv6));
 }
 
 IPEndPoint::IPEndPoint()
-	: m_type(None)
-	, m_address({})
+	: type_(None)
+	, address_({})
 {
 }
 
 IPEndPoint::IPEndPoint(unsigned long _ip, Port_t _port)
 	: IPEndPoint()
 {
-	m_type = v4;
-	m_address.ipv4.sin_family = AF_INET;
-	m_address.ipv4.sin_addr.S_un.S_addr =  _ip ;
-	m_address.ipv4.sin_port = ::htons(_port);
+	type_ = v4;
+	address_.ipv4.sin_family = AF_INET;
+	address_.ipv4.sin_addr.S_un.S_addr =  _ip ;
+	address_.ipv4.sin_port = ::htons(_port);
 }
 
-IPEndPoint::IPEndPoint(const std::string* _ip, Port_t _port)
+IPEndPoint::IPEndPoint(const std::string& ip, Port_t port)
 	: IPEndPoint()
 {
-	if (nullptr == _ip)
+	if (true == ip.empty())
 	{
 		return;
 	}
 
-	if (nullptr != _tcsstr(_ip, _T(".")))
+	if (std::string::npos != ip.find("."))
 	{
-		m_type = v4;
-		m_address.ipv4.sin_family = AF_INET;
-		m_address.ipv4.sin_port = ::htons(_port);
-		::InetPton(AF_INET, _ip, &(m_address.ipv4.sin_addr));
+		type_ = v4;
+		address_.ipv4.sin_family = AF_INET;
+		address_.ipv4.sin_port = ::htons(port);
+		::InetPtonA(AF_INET, ip.c_str(), &(address_.ipv4.sin_addr));
 	}
 	else
 	{
-		m_type = v6;
-		m_address.ipv6.sin6_family = AF_INET6;
-		m_address.ipv6.sin6_port = ::htons(_port);
+		type_ = v6;
+		address_.ipv6.sin6_family = AF_INET6;
+		address_.ipv6.sin6_port = ::htons(port);
 
-		::InetPton(AF_INET6, _ip, &(m_address.ipv6.sin6_addr));
+		::InetPtonA(AF_INET6, ip.c_str(), &(address_.ipv6.sin6_addr));
 	}
 }
 
@@ -71,17 +77,17 @@ IPEndPoint::IPEndPoint(const std::string& _ip, Port_t _port)
 
 	if (std::string::npos != _ip.find("."))
 	{
-		m_type = v4;
-		m_address.ipv4.sin_family = AF_INET;
-		m_address.ipv4.sin_port = ::htons(_port);
-		::InetPton(AF_INET, _ip.c_str(), &(m_address.ipv4.sin_addr));
+		type_ = v4;
+		address_.ipv4.sin_family = AF_INET;
+		address_.ipv4.sin_port = ::htons(_port);
+		::InetPtonA(AF_INET, _ip.c_str(), &(address_.ipv4.sin_addr));
 	}
 	else
 	{
-		m_type = v6;
-		m_address.ipv6.sin6_family = AF_INET6;
-		m_address.ipv6.sin6_port = ::htons(_port);
-		::InetPton(AF_INET6, _ip.c_str(), &(m_address.ipv6.sin6_addr));
+		type_ = v6;
+		address_.ipv6.sin6_family = AF_INET6;
+		address_.ipv6.sin6_port = ::htons(_port);
+		::InetPtonA(AF_INET6, _ip.c_str(), &(address_.ipv6.sin6_addr));
 	}
 }
 
@@ -92,28 +98,28 @@ IPEndPoint& IPEndPoint::operator=(const IPEndPoint& _other)
 		return *this;
 	}
 
-	m_type = _other.m_type;
-	m_address = _other.m_address;
+	type_ = _other.type_;
+	address_ = _other.address_;
 	return *this;
 }
 
 IPEndPoint& IPEndPoint::operator=(const SOCKADDR_IN& _sockaddr)
 {
-	m_type = v4;
-	::memcpy(&m_address.ipv4, &_sockaddr, sizeof(m_address.ipv4));
+	type_ = v4;
+	::memcpy(&address_.ipv4, &_sockaddr, sizeof(address_.ipv4));
 	return *this;
 }
 
 IPEndPoint& IPEndPoint::operator=(const SOCKADDR_IN6& _sockaddr)
 {
-	m_type = v6;
-	::memcpy(&m_address.ipv6, &_sockaddr, sizeof(_sockaddr));
+	type_ = v6;
+	::memcpy(&address_.ipv6, &_sockaddr, sizeof(_sockaddr));
 	return *this;
 }
 
 IPEndPoint::Type_t IPEndPoint::Type() const
 {
-	return m_type;
+	return type_;
 }
 
 bool IPEndPoint::IsV4() const
@@ -128,23 +134,23 @@ bool IPEndPoint::IsV6() const
 
 const sockaddr_in& IPEndPoint::Addr() const
 {
-	return m_address.ipv4;
+	return address_.ipv4;
 }
 
 const sockaddr_in6& IPEndPoint::Addr6() const
 {
-	return m_address.ipv6;
+	return address_.ipv6;
 }
 
 std::string IPEndPoint::Ip() const
 {
 	static std::string empty_string;
 
-	if (v4 == m_type)
+	if (v4 == type_)
 	{
 		std::string ret;
 		ret.resize(INET_ADDRSTRLEN);
-		if (InetNtop(AF_INET, &(m_address.ipv4.sin_addr), const_cast<std::tchar*>(ret.c_str()), INET_ADDRSTRLEN) != nullptr)
+		if (InetNtopA(AF_INET, &(address_.ipv4.sin_addr), const_cast<char*>(ret.c_str()), INET_ADDRSTRLEN) != nullptr)
 		{
 			return ret;
 		}
@@ -154,7 +160,7 @@ std::string IPEndPoint::Ip() const
 	{
 		std::string ret;
 		ret.resize(INET6_ADDRSTRLEN);
-		if (::InetNtop(AF_INET6, &(m_address.ipv6.sin6_addr), const_cast<std::tchar*>(ret.c_str()), INET6_ADDRSTRLEN) != nullptr)
+		if (::InetNtopA(AF_INET6, &(address_.ipv6.sin6_addr), const_cast<char*>(ret.c_str()), INET6_ADDRSTRLEN) != nullptr)
 		{
 			return ret;
 		}
@@ -165,12 +171,12 @@ std::string IPEndPoint::Ip() const
 
 IPEndPoint::Port_t IPEndPoint::Port() const
 {
-	if (v4 == m_type)
+	if (v4 == type_)
 	{
-		return ::ntohs(m_address.ipv4.sin_port);
+		return ::ntohs(address_.ipv4.sin_port);
 	}
 	
-	return ::ntohs(m_address.ipv6.sin6_port);
+	return ::ntohs(address_.ipv6.sin6_port);
 }
 
 std::string IPEndPoint::GetString() const

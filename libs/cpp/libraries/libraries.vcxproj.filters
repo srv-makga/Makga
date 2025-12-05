@@ -1,10 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="command_line.ixx" />
-    <ClCompile Include="string.ixx" />
     <ClCompile Include="string.cpp" />
-    <ClCompile Include="brain_tree.ixx" />
-    <ClCompile Include="ring_buffer.ixx" />
+    <ClCompile Include="util.cpp" />
+    <ClCompile Include="include\ring_buffer.ixx" />
+    <ClCompile Include="include\string.ixx" />
+    <ClCompile Include="include\util.ixx" />
+    <ClCompile Include="include\brain_tree.ixx" />
+    <ClCompile Include="include\command_line.ixx" />
+    <ClCompile Include="include\convert.ixx" />
   </ItemGroup>
 </Project>
