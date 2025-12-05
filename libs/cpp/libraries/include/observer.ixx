@@ -51,7 +51,7 @@ public:
 		objects_.pop_back();
 	}
 
-	void OnUpdate()
+	void OnUpdate() const
 	{
 		ReadLock lock(mutex_);
 
