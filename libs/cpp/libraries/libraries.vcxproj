@@ -132,12 +132,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ahocorasick.cpp" />
+    <ClCompile Include="datetime.cpp" />
     <ClCompile Include="include\ahocorasick.ixx" />
     <ClCompile Include="include\brain_tree.ixx" />
     <ClCompile Include="include\command_line.ixx" />
     <ClCompile Include="include\convert.ixx" />
+    <ClCompile Include="include\datetime.ixx" />
     <ClCompile Include="include\observer.ixx" />
+    <ClCompile Include="include\random.ixx" />
     <ClCompile Include="include\ring_buffer.ixx" />
+    <ClCompile Include="include\singleton.ixx" />
     <ClCompile Include="include\string.ixx" />
     <ClCompile Include="include\util.ixx" />
     <ClCompile Include="string.cpp" />
