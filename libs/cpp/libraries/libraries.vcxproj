@@ -131,9 +131,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ahocorasick.cpp" />
+    <ClCompile Include="include\ahocorasick.ixx" />
     <ClCompile Include="include\brain_tree.ixx" />
     <ClCompile Include="include\command_line.ixx" />
     <ClCompile Include="include\convert.ixx" />
+    <ClCompile Include="include\observer.ixx" />
     <ClCompile Include="include\ring_buffer.ixx" />
     <ClCompile Include="include\string.ixx" />
     <ClCompile Include="include\util.ixx" />

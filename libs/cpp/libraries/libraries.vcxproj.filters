@@ -9,5 +9,22 @@
     <ClCompile Include="include\brain_tree.ixx" />
     <ClCompile Include="include\command_line.ixx" />
     <ClCompile Include="include\convert.ixx" />
+    <ClCompile Include="include\ahocorasick.ixx">
+      <Filter>algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="ahocorasick.cpp">
+      <Filter>algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="include\observer.ixx">
+      <Filter>pattern</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="algorithm">
+      <UniqueIdentifier>{c9f54a1b-e439-4eb2-9f48-d9b4cfb37b3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pattern">
+      <UniqueIdentifier>{1033f836-2bb6-4799-b09d-7d87dbe547b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
