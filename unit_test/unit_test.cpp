@@ -15,14 +15,18 @@ namespace unittest
 		{
 			try
 			{
-				//makga::lib::ring_buffer<int> rb(3);
-
+				makga::lib::RingBuffer<int> rb;
 				//// 초기 상태
-				//Assert::IsTrue(rb.empty());
-				//Assert::IsTrue(rb.size() == 0);
+				Assert::IsTrue(!rb.ValidBuffer());
+
+				rb.AllocateBuffer(10);
+				Assert::IsTrue(rb.ValidBuffer());
+				Assert::IsTrue(rb.BufferSize() == rb.AvailableWriteSize());
 
 				//// 삽입
-				//rb.push_back(10);
+				int a = 10;
+				rb.Write(&a, 1);
+
 				//rb.push_back(20);
 				//rb.push_back(30);
 

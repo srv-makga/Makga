@@ -20,8 +20,8 @@ public:
 	std::size_t Length() const;
 	bool IsEmpty() const;
 
-	std::string Upper();
-	std::string Lower();
+	std::string Upper() const;
+	std::string Lower() const;
 
 	std::vector<std::string> Tokenize(char delimiter) const;
 

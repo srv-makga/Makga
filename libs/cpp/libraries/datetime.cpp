@@ -1,8 +1,11 @@
+#include <ctime>
+
 module makga.lib.datetime;
 
 namespace makga::lib {
 DateTime::DateTime()
 	: time_(std::time(nullptr))
+	, tm_({0, })
 {
 	TimeToTM();
 }
@@ -87,21 +90,21 @@ int DateTime::Hour() const
 	return tm_.tm_hour;
 }
 
-DateTime& DateTime::SetHour(int _hour)
+DateTime& DateTime::SetHour(int hour)
 {
-	tm_.tm_hour = _hour;
+	tm_.tm_hour = hour;
 	return *this;
 }
 
-DateTime& DateTime::AddHour(int _hour)
+DateTime& DateTime::AddHour(int hour)
 {
-	tm_.tm_hour += _hour;
+	tm_.tm_hour += hour;
 	return *this;
 }
 
-DateTime& DateTime::SubHour(int _hour)
+DateTime& DateTime::SubHour(int hour)
 {
-	tm_.tm_hour -= _hour;
+	tm_.tm_hour -= hour;
 	return *this;
 }
 
@@ -110,21 +113,21 @@ int DateTime::Min() const
 	return tm_.tm_min;
 }
 
-DateTime& DateTime::SetMin(int _min)
+DateTime& DateTime::SetMin(int min)
 {
-	tm_.tm_min = _min;
+	tm_.tm_min = min;
 	return *this;
 }
 
-DateTime& DateTime::AddMin(int _min)
+DateTime& DateTime::AddMin(int min)
 {
-	tm_.tm_min += _min;
+	tm_.tm_min += min;
 	return *this;
 }
 
-DateTime& DateTime::SubMin(int _min)
+DateTime& DateTime::SubMin(int min)
 {
-	tm_.tm_min -= _min;
+	tm_.tm_min -= min;
 	return *this;
 }
 
@@ -133,28 +136,28 @@ int DateTime::Sec() const
 	return tm_.tm_sec;
 }
 
-DateTime& DateTime::SetSec(int _sec)
+DateTime& DateTime::SetSec(int sec)
 {
-	tm_.tm_sec = _sec;
+	tm_.tm_sec = sec;
 	return *this;
 }
 
-DateTime& DateTime::AddSec(int _sec)
+DateTime& DateTime::AddSec(int sec)
 {
-	tm_.tm_sec += _sec;
+	tm_.tm_sec += sec;
 	return *this;
 }
 
-DateTime& DateTime::SubSec(int _sec)
+DateTime& DateTime::SubSec(int sec)
 {
-	tm_.tm_sec -= _sec;
+	tm_.tm_sec -= sec;
 	return *this;
 }
 
-std::string DateTime::String(const char* foramt) const
+std::string DateTime::String(const char* format) const
 {
-	thread_local char buffer[128] = { 0, };
-	std::strftime(buffer, sizeof(buffer), foramt, &tm_);
+	thread_local char buffer[64] = { 0, };
+	std::strftime(buffer, sizeof(buffer), format, &tm_);
 	return std::string(buffer);
 }
 
@@ -175,6 +178,11 @@ bool DateTime::operator<(std::time_t time) const
 
 void DateTime::TimeToTM()
 {
-	::localtime_s(&tm_, &time_);
+	auto* ptr = ::localtime_s(&tm_, &time_);
+
+	if (nullptr != ptr)
+	{
+		tm_ = *ptr;
+	}
 }
 } // namespace makga::lib

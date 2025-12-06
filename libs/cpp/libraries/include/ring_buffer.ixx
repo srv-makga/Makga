@@ -21,7 +21,6 @@ public:
 		, write_offset_(0)
 		, read_offset_(0)
 	{
-
 	}
 
 	virtual ~RingBuffer()
@@ -48,14 +47,14 @@ public:
 		read_offset_ = 0;
 	}
 
-	std::size_t Write(T* data, std::size_t size)
+	std::size_t Write(T* data, std::size_t count)
 	{
-		if (nullptr == data || 0 == size)
+		if (nullptr == data || 0 == count)
 		{
 			return 0;
 		}
 
-		if (AvailableWriteSize() < size)
+		if (AvailableWriteSize() < count)
 		{
 			return 0;
 		}
@@ -69,28 +68,28 @@ public:
 
 		const std::size_t remain_size = buffer_size_ - write_offset_;
 		// 버퍼 끝까지 남은 공간이 충분함
-		if (remain_size > size)
+		if (remain_size > count)
 		{
-			::memcpy(WritePosition(), data, size);
+			::memcpy(WritePosition(), data, (sizeof(T) * count));
 		}
 		else
 		{
-			::memcpy(WritePosition(), data, remain_size);
-			::memcpy(buffer_, data + remain_size, (size - remain_size));
+			::memcpy(WritePosition(), data, (sizeof(T) * remain_size));
+			::memcpy(buffer_, data + remain_size, (sizeof(T) * (count - remain_size)));
 		}
 
-		AddWriteOffset(size);
-		return size;
+		AddWriteOffset(count);
+		return count;
 	}
 
-	std::size_t Read(T* data, std::size_t size)
+	std::size_t Read(T* data, std::size_t count)
 	{
-		if (nullptr == data || 0 == size)
+		if (nullptr == data || 0 == count)
 		{
 			return 0;
 		}
 
-		if (UsingSize() < size)
+		if (UsingSize() < count)
 		{
 			return 0;
 		}
@@ -103,18 +102,18 @@ public:
 		}
 
 		std::size_t remain_size = buffer_size_ - read_offset_;
-		if (remain_size > size)
+		if (remain_size > count)
 		{
-			::memcpy(data, ReadPosition(), size);
+			::memcpy(data, ReadPosition(), count);
 		}
 		else
 		{
-			::memcpy(data, ReadPosition(), remain_size);
-			::memcpy(data + remain_size, buffer_, size - remain_size);
+			::memcpy(data, ReadPosition(), (sizeof(T) * remain_size));
+			::memcpy(data + remain_size, buffer_, sizeof(T) * (count - remain_size));
 		}
 
-		AddReadOffset(size);
-		return size;
+		AddReadOffset(count);
+		return count;
 	}
 
 	// @brief 사용 가능한 사이즈
@@ -131,10 +130,8 @@ public:
 		{
 			return buffer_size_ - (write_offset_ - read_offset_) - 1;
 		}
-		else
-		{
-			return read_offset_ - write_offset_ - 1;
-		}
+
+		return read_offset_ - write_offset_ - 1;
 	}
 
 	// @brief 사용중인 사이즈
@@ -220,7 +217,7 @@ private:
 	inline T* ReadPosition() const { return buffer_[read_offset_]; }
 
 protected:
-	std::shared_mutex mutex_;
+	mutable std::shared_mutex mutex_;
 	std::unique_ptr<T> buffer_;
 	std::size_t buffer_size_;
 	std::size_t write_offset_;

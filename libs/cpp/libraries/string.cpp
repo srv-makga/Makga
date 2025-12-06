@@ -38,29 +38,29 @@ bool String::IsEmpty() const
 	return data_.empty();
 }
 
-std::string String::Upper()
+std::string String::Upper() const
 {
 	if (true == data_.empty())
 	{
 		return std::string();
 	}
 
-	std::string result = data_;
-	std::transform(result.begin(), result.end(), result.begin(),
+	std::string result;
+	std::transform(data_.begin(), data_.end(), result.begin(),
 		[](unsigned char ch) -> char { return static_cast<char>(std::toupper(ch)); });
 
 	return result;
 }
 
-std::string String::Lower()
+std::string String::Lower() const
 {
 	if (true == data_.empty())
 	{
 		return std::string();
 	}
 
-	std::string result = data_;
-	std::transform(result.begin(), result.end(), result.begin(),
+	std::string result;
+	std::transform(data_.begin(), data_.end(), result.begin(),
 		[](unsigned char ch) -> char { return static_cast<char>(std::tolower(ch)); });
 
 	return result;
