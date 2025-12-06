@@ -50,7 +50,7 @@ export namespace makga::lib
 
 		for (std::size_t i = 0; i < s_true_str_size; ++i)
 		{
-			if (s_true_str[0] != std::tolower(temp[i]))
+			if (s_true_str[i] != std::tolower(temp[i]))
 			{
 				return false;
 			}

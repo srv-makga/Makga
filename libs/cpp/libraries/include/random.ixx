@@ -7,8 +7,7 @@ export module makga.lib.random;
 template <typename T>
 concept Arithmetic = std::is_arithmetic_v<T>;
 
-export namespace makga::lib
-{
+export namespace makga::lib {
 class RandomEngine
 {
 public:
