@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CppUnitTest.h"
+#include <format>
 
 import makga.lib.ring_buffer;
 
@@ -13,50 +14,40 @@ namespace unittest
 		
 		TEST_METHOD(RingBufferTest)
 		{
+			size_t buffer_size = 10;
+			makga::lib::RingBuffer<int> rb;
+
 			try
 			{
-				makga::lib::RingBuffer<int> rb;
 				//// 초기 상태
 				Assert::IsTrue(!rb.ValidBuffer());
 
-				rb.AllocateBuffer(10);
+				rb.AllocateBuffer(buffer_size);
 				Assert::IsTrue(rb.ValidBuffer());
-				Assert::IsTrue(rb.BufferSize() == rb.AvailableWriteSize());
+
+				size_t real_buffer_size = rb.BufferSize();
+				size_t available_size = rb.AvailableWriteSize();
+
+				Assert::IsTrue(real_buffer_size == buffer_size);
+				Assert::IsTrue(available_size == rb.AvailableWriteSize());
 
 				//// 삽입
 				int a = 10;
 				rb.Write(&a, 1);
 
-				//rb.push_back(20);
-				//rb.push_back(30);
+				size_t used_size = rb.UsingSize();
+				available_size = rb.AvailableWriteSize();
 
-				//Assert::IsFalse(rb.empty());
-				//Assert::IsTrue(rb.size() == 3);
+				Assert::IsTrue(used_size == 1);
+				Assert::IsTrue(real_buffer_size - 1 == available_size);
 
-				//// 앞/뒤 검사
-				//Assert::AreEqual(10, rb.front());
-				//Assert::AreEqual(30, rb.back());
-
-				//// 제거 (FIFO)
-				//rb.pop_front();
-				//Assert::IsTrue(rb.size() == 2);
-				//Assert::AreEqual(20, rb.front());
-
-				//// 남은 요소 제거
-				//rb.pop_front();
-				//rb.pop_front();
-				//Assert::IsTrue(rb.empty());
-				//Assert::IsTrue(rb.size() == 0);
-
-				//// clear 검사 (있다면)
-				//rb.push_back(1);
-				//rb.push_back(2);
-				//rb.clear();
-				//Assert::IsTrue(rb.empty());
+				std::unique_ptr<int[]> arr(new int[4]);
+				size_t read_size = rb.Read(arr.get(), 4);
+				Assert::IsTrue(read_size == 0);
 			}
 			catch (const std::exception& e)
 			{
-				Assert::Fail(L"Unhandled std::exception in RingBufferTest");
+				Assert::Fail(std::format(L"{0}, {1}/{2}", L""/*e.what()*/, rb.AvailableWriteSize(), rb.BufferSize()).c_str());
 			}
 			catch (...)
 			{

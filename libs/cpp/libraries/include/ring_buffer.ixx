@@ -75,7 +75,7 @@ public:
 		else
 		{
 			::memcpy(WritePosition(), data, (sizeof(T) * remain_size));
-			::memcpy(buffer_, data + remain_size, (sizeof(T) * (count - remain_size)));
+			::memcpy(buffer_.get(), data + remain_size, (sizeof(T) * (count - remain_size)));
 		}
 
 		AddWriteOffset(count);
@@ -109,7 +109,7 @@ public:
 		else
 		{
 			::memcpy(data, ReadPosition(), (sizeof(T) * remain_size));
-			::memcpy(data + remain_size, buffer_, sizeof(T) * (count - remain_size));
+			::memcpy(data + remain_size, buffer_.get(), sizeof(T) * (count - remain_size));
 		}
 
 		AddReadOffset(count);
@@ -120,18 +120,7 @@ public:
 	std::size_t AvailableWriteSize() const
 	{
 		ReadLock lock(mutex_);
-
-		if (nullptr == buffer_)
-		{
-			return 0;
-		}
-
-		if (write_offset_ >= read_offset_)
-		{
-			return buffer_size_ - (write_offset_ - read_offset_) - 1;
-		}
-
-		return read_offset_ - write_offset_ - 1;
+		return BufferSize() - UsingSize();
 	}
 
 	// @brief 사용중인 사이즈
@@ -149,7 +138,7 @@ public:
 			return write_offset_ - read_offset_;
 		}
 		
-		return buffer_size_ - (read_offset_ - write_offset_);
+		return (buffer_size_ + write_offset_) - read_offset_;
 	}
 	
 	// @brief 버퍼 할당
@@ -213,12 +202,12 @@ private:
 		}
 	}
 
-	inline T* WritePosition() const { return buffer_[write_offset_]; }
-	inline T* ReadPosition() const { return buffer_[read_offset_]; }
+	inline T* WritePosition() const { return buffer_.get() + write_offset_; }
+	inline T* ReadPosition() const { return buffer_.get() + read_offset_; }
 
 protected:
 	mutable std::shared_mutex mutex_;
-	std::unique_ptr<T> buffer_;
+	std::unique_ptr<T[]> buffer_;
 	std::size_t buffer_size_;
 	std::size_t write_offset_;
 	std::size_t read_offset_;

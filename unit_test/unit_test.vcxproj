@@ -181,12 +181,6 @@
     <ProjectReference Include="..\libs\cpp\libraries\libraries.vcxproj">
       <Project>{65f45b7d-c941-4b24-a612-113230fd4229}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\libs\cpp\network\network.vcxproj">
-      <Project>{1500e32c-c2d3-4843-b713-daf205ce230a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\servers\game\game.vcxproj">
-      <Project>{8672f9f4-ca20-4c14-8137-6e0f8b153f4b}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
