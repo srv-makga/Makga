@@ -1,6 +1,9 @@
 module;
 
 #include <string>
+#include <cwchar>
+#include <stdexcept>
+#include <windows.h>
 
 export module makga.lib.convert;
 
@@ -57,5 +60,56 @@ export namespace makga::lib
 		}
 
 		return true;
+	}
+
+	std::wstring StringToWString(const std::string& str)
+	{
+		if (true == str.empty())
+		{
+			return std::wstring();
+		}
+
+		// Get required size (includes terminating null)
+		int required = ::MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, str.c_str(), -1, nullptr, 0);
+		if (0 == required)
+		{
+			return std::wstring();
+		}
+
+		std::wstring result(required, L'\0');
+
+		int converted = ::MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, str.c_str(), -1, &result[0], required);
+		if (0 == converted)
+		{
+			return std::wstring();
+		}
+
+		result.resize(converted - 1);
+		return result;
+	}
+
+	std::string WStringToString(const std::wstring& wstr)
+	{
+		if (true == wstr.empty())
+		{
+			return std::string();
+		}
+
+		int required = ::WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
+		if (0 == required)
+		{
+			return std::string();
+		}
+
+		std::string result(required, '\0');
+
+		int converted = ::WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, wstr.c_str(), -1, &result[0], required, nullptr, nullptr);
+		if (0 == converted)
+		{
+			return std::string();
+		}
+
+		result.resize(converted - 1);
+		return result;
 	}
 } // namespace makga::lib
