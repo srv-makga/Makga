@@ -19,6 +19,7 @@ public:
 
 	void Push(Job_t&& job);
 	Job_t Pop();
+	bool IsEmpty() const;
 
 private:
 	void SwapQueues();

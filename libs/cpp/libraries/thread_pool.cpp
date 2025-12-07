@@ -13,18 +13,33 @@ bool ThreadPool::Initialize(std::size_t thread_count)
 	{
 		return false;
 	}
+
 	threads_.reserve(thread_count);
 	for (auto i : std::views::iota(0) | std::views::take(thread_count))
 	{
 		threads_.push_back(std::jthread(
 			[this](std::stop_token stoken)
 			{
-				// @todo 큐잉된 작업 처리
+				Job_t job = nullptr;
+
 				while (false == stoken.stop_requested())
 				{
+					{
+						std::unique_lock<std::mutex> lock(mutex_);
+
+						this->cv_.wait(lock, [this] { return false == this->job_queue_.IsEmpty(); });
+
+						job = std::move(this->job_queue_.Pop());
+					}
+
+					if (nullptr != job)
+					{
+						job();
+					}
 				}
 			}));
 	}
+
 	return true;
 }
 

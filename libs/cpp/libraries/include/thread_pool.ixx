@@ -30,5 +30,7 @@ public:
 private:
 	std::vector<std::jthread> threads_;
 	makga::lib::DoubleQueue job_queue_;
+	std::condition_variable cv_;
+	std::mutex mutex_;
 };
 } // namespace makga::lib

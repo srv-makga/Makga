@@ -48,6 +48,11 @@ DoubleQueue::Job_t DoubleQueue::Pop()
 	return job;
 }
 
+bool DoubleQueue::IsEmpty() const
+{
+	return true == dequeue_->empty() && true == enqueue_->empty();
+}
+
 void DoubleQueue::SwapQueues()
 {
 	std::lock_guard lock(swap_mutex_);
