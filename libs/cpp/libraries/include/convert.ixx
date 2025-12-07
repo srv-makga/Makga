@@ -9,37 +9,37 @@ export module makga.lib.convert;
 
 export namespace makga::lib
 {
-	int32_t StringToInt32(const char* _value)
+	export int32_t StringToInt32(const char* _value)
 	{
 		return std::stoi(_value);
 	}
 
-	uint32_t StringToUInt32(const char* _value)
+	export uint32_t StringToUInt32(const char* _value)
 	{
 		return static_cast<uint32_t>(std::stoul(_value));
 	}
 
-	int64_t StringToInt64(const char* _value)
+	export int64_t StringToInt64(const char* _value)
 	{
 		return static_cast<int64_t>(std::stoll(_value));
 	}
 
-	uint64_t StringToUInt64(const char* _value)
+	export uint64_t StringToUInt64(const char* _value)
 	{
 		return static_cast<uint64_t>(std::stoull(_value));
 	}
 
-	float StringToFloat(const char* _value)
+	export float StringToFloat(const char* _value)
 	{
 		return std::stof(_value);
 	}
 
-	double StringToDouble(const char* _value)
+	export double StringToDouble(const char* _value)
 	{
 		return std::stod(_value);
 	}
 
-	bool StringToBool(const char* _value)
+	export bool StringToBool(const char* _value)
 	{
 		static const std::string s_true_str = "true";
 		static const std::size_t s_true_str_size = s_true_str.size();
@@ -62,7 +62,7 @@ export namespace makga::lib
 		return true;
 	}
 
-	std::wstring StringToWString(const std::string& str)
+	export std::wstring StringToWString(const std::string& str)
 	{
 		if (true == str.empty())
 		{
@@ -88,7 +88,7 @@ export namespace makga::lib
 		return result;
 	}
 
-	std::string WStringToString(const std::wstring& wstr)
+	export std::string WStringToString(const std::wstring& wstr)
 	{
 		if (true == wstr.empty())
 		{

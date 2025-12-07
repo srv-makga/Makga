@@ -18,7 +18,7 @@ template <typename T>
 concept ObserverConcept = HasElementType<T> && std::is_same_v<T, std::shared_ptr<typename T::element_type>> && HasNotify<T>;
 
 export namespace makga::lib {
-template<ObserverConcept T>
+export template<ObserverConcept T>
 class Observer
 {
 	using Mutex_t = std::shared_mutex;

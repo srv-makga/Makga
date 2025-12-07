@@ -6,7 +6,7 @@ import <memory>;
 import <shared_mutex>;
 
 export namespace makga::lib {
-template<typename T>
+export template<typename T>
 class Singleton
 {
 public:

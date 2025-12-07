@@ -10,7 +10,7 @@ import <unordered_map>;
 import <cassert>;
 
 export namespace makga::lib {
-class Node
+export class Node
 {
 public:
 	enum class Status
@@ -58,7 +58,7 @@ protected:
 
 // @brief Composite Node
 // @detail: 분기의 루트와 그 분기가 실행되는 바탕 규칙을 정의
-class Composite : public Node
+export class Composite : public Node
 {
 public:
 	Composite() : it(children.begin()) {}
@@ -89,7 +89,7 @@ protected:
 * 다수의 AI가 하나의 Blackboard 공유 가능 (통신)
 * Task와 Data를 분리
 */
-class Blackboard
+export class Blackboard
 {
 public:
 	void setBool(std::string key, bool value) { bools[key] = value; }
@@ -152,7 +152,7 @@ protected:
 	std::unordered_map<std::string, std::string> strings;
 };
 
-class Leaf : public Node
+export class Leaf : public Node
 {
 public:
 	Leaf() {}
@@ -181,10 +181,10 @@ private:
 	Blackboard::Ptr blackboard = nullptr;
 };
 
-template <class Parent>
+export template <class Parent>
 class DecoratorBuilder;
 
-template <class Parent>
+export template <class Parent>
 class CompositeBuilder
 {
 public:
@@ -224,7 +224,7 @@ private:
 	Composite* node;
 };
 
-template <class Parent>
+export template <class Parent>
 class DecoratorBuilder
 {
 public:
@@ -282,7 +282,7 @@ composite()는 복합 노드를 생성합니다.복합 노드는 자식 노드의 집합입니다.가장 일�
 build()
 build()는 행동 트리를 생성합니다. build()를 호출하기 전에 모든 노드를 생성하고 연결해야 합니다. build()는 트리의 모든 노드를 순회하고 각 노드의 동작을 실행합니다.
 */
-class Builder
+export class Builder
 {
 public:
 	template <class NodeType, typename... Args>
@@ -324,7 +324,7 @@ private:
 // If all children fails, only then does the selector fail.
 // Selector composite는 자식 노드가 Success를 반환할 때까지 자식 노드를 실행한다.
 // 자식 노드 중 1개만 선택하는 것
-class Selector : public Composite
+export class Selector : public Composite
 {
 public:
 	void initialize() override
@@ -356,7 +356,7 @@ public:
 // If all children succeeds, only then does the sequence succeed.
 // Sequence composite는 자식 노드가?Fail?를 반환할 때까지 자식 노드들을 실행한다.
 // 모든 자식 노드를 실행한다
-class Sequence : public Composite
+export class Sequence : public Composite
 {
 public:
 	void initialize() override
@@ -390,7 +390,7 @@ public:
 // 하위 노드 중 하나가 성공하거나 실행 중이면, StatefulSelector는 동일한 상태를 반환합니다.
 // 다음 틱에서는 다음 하위 노드를 실행하거나 처음부터 다시 시작하려고 시도합니다.
 // 모든 하위 노드가 실패한 경우에만 StatefulSelector가 실패합니다.
-class StatefulSelector : public Composite
+export class StatefulSelector : public Composite
 {
 public:
 	Status update() override
@@ -418,7 +418,7 @@ public:
 // If all children succeeds, only then does the stateful sequence succeed.
 // MemSequence는 순서대로 각 자식 노드를 검사한다.
 // 이전에 검사한 자식 노드의 인덱스를 가져와서 검사하고, 검사가 실패하면 종료된다.
-class MemSequence : public Composite
+export class MemSequence : public Composite
 {
 public:
 	Status update() override
@@ -440,7 +440,7 @@ public:
 	}
 };
 
-class ParallelSequence : public Composite
+export class ParallelSequence : public Composite
 {
 public:
 	ParallelSequence(bool successOnAll = true, bool failOnAll = true) : useSuccessFailPolicy(true), successOnAll(successOnAll), failOnAll(failOnAll) {}
@@ -502,7 +502,7 @@ private:
 
 // The Succeeder decorator returns success, regardless of what happens to the child.
 // Succeeder decorator는 하위 노드의 결과에 관계없이 항상 성공을 반환합니다.
-class Succeeder : public Decorator
+export class Succeeder : public Decorator
 {
 public:
 	Status update() override
@@ -513,7 +513,7 @@ public:
 };
 
 // Failer decorator는 하위 노드의 결과에 관계없이 항상 실패를 반환합니다.
-class Failer : public Decorator
+export class Failer : public Decorator
 {
 public:
 	Status update() override
@@ -527,7 +527,7 @@ public:
 // If the child runs, the Inverter returns the status that it is running too.
 // Inverter decorator는 하위 노드의 상태를 반전시킵니다. 즉, 실패는 성공으로, 성공은 실패로 변합니다.
 // 만약 하위 노드가 실행 중이면, Inverter는 실행 중인 상태를 반환합니다.
-class Inverter : public Decorator
+export class Inverter : public Decorator
 {
 public:
 	Status update() override
@@ -547,7 +547,7 @@ public:
 
 // The Repeater decorator repeats infinitely or to a limit until the child returns success.
 // Repeater decorator는 하위 노드가 성공을 반환할 때까지 무한하게 또는 한계까지 반복합니다.
-class Repeater : public Decorator
+export class Repeater : public Decorator
 {
 public:
 	Repeater(int limit = 0) : limit(limit) {}
@@ -575,7 +575,7 @@ protected:
 
 // The UntilSuccess decorator repeats until the child returns success and then returns success.
 // UntilSuccess decorator는 하위 노드가 성공을 반환할 때까지 반복하고, 그 후에 성공을 반환합니다.
-class UntilSuccess : public Decorator
+export class UntilSuccess : public Decorator
 {
 public:
 	Status update() override
@@ -592,7 +592,7 @@ public:
 
 // The UntilFailure decorator repeats until the child returns fail and then returns success.
 // UntilFailure decorator는 하위 노드가 실패를 반환할 때까지 반복하고, 그 후에 성공을 반환합니다.
-class UntilFailure : public Decorator
+export class UntilFailure : public Decorator
 {
 public:
 	Status update() override

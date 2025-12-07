@@ -7,7 +7,7 @@ import <functional>;
 import <mutex>;
 
 export namespace makga::lib {
-class DoubleQueue
+export class DoubleQueue
 {
 	using Job_t = std::function<void(void)>;
 	using Queue_t = std::queue<Job_t>;

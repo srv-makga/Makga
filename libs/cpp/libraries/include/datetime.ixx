@@ -7,7 +7,7 @@ export module makga.lib.datetime;
 import <string>;
 
 export namespace makga::lib {
-class DateTime
+export class DateTime
 {
 public:
 	DateTime();

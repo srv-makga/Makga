@@ -7,8 +7,8 @@ import <vector>;
 export module makga.lib.thread.group;
 
 export namespace makga::lib {
-// @brief 동일한 작업을 여러개의 스레드가 진행
-class ThreadGroup
+// @brief Multiple threads performing the same task
+export class ThreadGroup
 {
 	using Job_t = std::function<void(void)>;
 

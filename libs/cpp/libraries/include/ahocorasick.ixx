@@ -7,7 +7,7 @@ import <string>;
 import <unordered_map>;
 
 export namespace makga::lib {
-class TrieNode
+export class TrieNode
 {
 public:
 	TrieNode();
