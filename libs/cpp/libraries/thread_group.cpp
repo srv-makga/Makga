@@ -9,7 +9,7 @@ import <vector>;
 namespace makga::lib {
 bool ThreadGroup::Start(Job_t&& job, std::size_t thread_count)
 {
-	if (nullptr == job)
+	if (nullptr == job || 0 == thread_count)
 	{
 		return false;
 	}
