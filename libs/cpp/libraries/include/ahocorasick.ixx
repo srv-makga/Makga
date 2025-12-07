@@ -1,10 +1,10 @@
 module;
 
+export module makga.lib.algorithm.ahocorasick;
+
 import <vector>;
 import <string>;
 import <unordered_map>;
-
-export module makga.lib.algorithm.ahocorasick;
 
 export namespace makga::lib {
 class TrieNode

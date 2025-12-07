@@ -1,9 +1,9 @@
 module;
 
+export module makga.lib.pattern.singleton;
+
 import <memory>;
 import <shared_mutex>;
-
-export module makga.lib.pattern.singleton;
 
 export namespace makga::lib {
 template<typename T>

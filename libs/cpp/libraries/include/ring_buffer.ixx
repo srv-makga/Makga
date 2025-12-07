@@ -1,10 +1,10 @@
 module;
 
-#include <iostream>
-#include <memory>
-#include <shared_mutex>
-
 export module makga.lib.ring_buffer;
+
+import <iostream>;
+import <memory>;
+import <shared_mutex>;
 
 export namespace makga::lib {
 export template<typename T>

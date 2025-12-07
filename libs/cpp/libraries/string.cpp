@@ -4,7 +4,6 @@
 module makga.lib.string;
 
 import <vector>;
-
 import makga.lib.util;
 
 namespace makga::lib {

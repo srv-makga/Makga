@@ -1,9 +1,9 @@
 module;
 
+export module makga.lib.util;
+
 import <string>;
 import <vector>;
-
-export module makga.lib.util;
 
 export namespace makga::lib
 {
