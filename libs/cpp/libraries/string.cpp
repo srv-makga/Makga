@@ -1,8 +1,8 @@
 #include <algorithm>
+#include <string>
 
 module makga.lib.string;
 
-import <string>;
 import <vector>;
 
 import makga.lib.util;

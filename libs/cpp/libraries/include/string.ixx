@@ -1,12 +1,11 @@
 module;
 
-export module makga.lib.string;
-
-import <string>;
+#include <string>
 import <vector>;
 
-export namespace makga::lib
-{
+export module makga.lib.string;
+
+export namespace makga::lib {
 class String
 {
 public:

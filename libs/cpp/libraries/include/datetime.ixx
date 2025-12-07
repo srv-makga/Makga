@@ -1,8 +1,9 @@
 module;
 
-export module makga.lib.datetime;
-import <ctime>;
+#include <ctime>
 import <string>;
+
+export module makga.lib.datetime;
 
 export namespace makga::lib {
 class DateTime
@@ -28,19 +29,19 @@ public:
 	DateTime& SubDay(int day = 1);
 
 	int Hour() const;
-	DateTime& SetHour(int _hour);
-	DateTime& AddHour(int _hour = 1);
-	DateTime& SubHour(int _hour = 1);
+	DateTime& SetHour(int hour);
+	DateTime& AddHour(int hour = 1);
+	DateTime& SubHour(int hour = 1);
 
 	int Min() const;
-	DateTime& SetMin(int _min);
-	DateTime& AddMin(int _min = 1);
-	DateTime& SubMin(int _min = 1);
+	DateTime& SetMin(int min);
+	DateTime& AddMin(int min = 1);
+	DateTime& SubMin(int min = 1);
 
 	int Sec() const;
-	DateTime& SetSec(int _sec);
-	DateTime& AddSec(int _sec = 1);
-	DateTime& SubSec(int _sec = 1);
+	DateTime& SetSec(int sec);
+	DateTime& AddSec(int sec = 1);
+	DateTime& SubSec(int sec = 1);
 
 	std::string String(const char* foramt = "%Y-%m-%d %H:%M:%S") const;
 

@@ -104,7 +104,7 @@ public:
 		std::size_t remain_size = buffer_size_ - read_offset_;
 		if (remain_size > count)
 		{
-			::memcpy(data, ReadPosition(), count);
+			::memcpy(data, ReadPosition(), (sizeof(T) * count));
 		}
 		else
 		{

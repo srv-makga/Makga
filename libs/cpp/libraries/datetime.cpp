@@ -1,6 +1,8 @@
 #include <ctime>
+#include <errno.h>
 
 module makga.lib.datetime;
+import <string>;
 
 namespace makga::lib {
 DateTime::DateTime()
@@ -178,11 +180,6 @@ bool DateTime::operator<(std::time_t time) const
 
 void DateTime::TimeToTM()
 {
-	auto* ptr = ::localtime_s(&tm_, &time_);
-
-	if (nullptr != ptr)
-	{
-		tm_ = *ptr;
-	}
+	errno_t err = ::localtime_s(&tm_, &time_);
 }
 } // namespace makga::lib

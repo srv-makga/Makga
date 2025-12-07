@@ -17,7 +17,7 @@ std::vector<std::string> Tokenize(const std::string& str, char delimiter)
 
 		std::string::size_type start = 0;
 		std::string::size_type end = str.find(delimiter);
-		while (end != std::string::npos)
+		while (std::string::npos != end)
 		{
 			result.push_back(str.substr(start, end - start));
 

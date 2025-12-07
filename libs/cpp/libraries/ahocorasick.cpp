@@ -1,6 +1,10 @@
+#include <queue>
+
 module makga.lib.algorithm.ahocorasick;
 
-import <queue>;
+import <vector>;
+import <string>;
+import <unordered_map>;
 
 namespace makga::lib {
 TrieNode::TrieNode()
@@ -40,7 +44,7 @@ void TrieNode::ConstructFailureLinks()
 		q.push(children);
 	}
 
-	while (!q.empty())
+	while (false == q.empty())
 	{
 		TrieNode* current = q.front();
 		q.pop();
@@ -49,7 +53,7 @@ void TrieNode::ConstructFailureLinks()
 		{
 			TrieNode* failure = current->failure_link_;
 
-			while (nullptr != failure && failure->childrens_.find(c) == failure->childrens_.end())
+			while (nullptr != failure && failure->childrens_.end() == failure->childrens_.find(c))
 			{
 				failure = failure->failure_link_;
 			}

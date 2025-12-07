@@ -1,7 +1,7 @@
 module;
 
-#include <string>
-#include <vector>
+import <string>;
+import <vector>;
 
 export module makga.lib.util;
 
