@@ -1,9 +1,9 @@
 #include <algorithm>
-#include <string>
 
 module makga.lib.string;
 
 import <vector>;
+import <string>;
 import makga.lib.util;
 
 namespace makga::lib {

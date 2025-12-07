@@ -1,10 +1,9 @@
 module;
 
-#include <string>
-
 export module makga.lib.string;
 
 import <vector>;
+import <string>;
 
 export namespace makga::lib {
 class String
