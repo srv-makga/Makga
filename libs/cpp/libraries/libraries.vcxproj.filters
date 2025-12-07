@@ -32,6 +32,15 @@
     <ClCompile Include="datetime.cpp">
       <Filter>date</Filter>
     </ClCompile>
+    <ClCompile Include="include\thread_group.ixx">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="include\thread_pool.ixx">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="thread_group.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">
@@ -43,11 +52,14 @@
     <Filter Include="string">
       <UniqueIdentifier>{1ff3c294-e2d6-4f6c-a9b9-8722333d5da9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="json">
-      <UniqueIdentifier>{fa30b812-99d9-4bdc-96ae-c072bcaeeb9c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="date">
       <UniqueIdentifier>{fc8b4586-65b2-479f-8459-d4c27d495b9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thread">
+      <UniqueIdentifier>{d696e9e7-1b5d-4055-a86e-7c10c75369aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="date\json">
+      <UniqueIdentifier>{fa30b812-99d9-4bdc-96ae-c072bcaeeb9c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

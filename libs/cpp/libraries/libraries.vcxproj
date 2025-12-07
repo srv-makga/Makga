@@ -143,8 +143,11 @@
     <ClCompile Include="include\ring_buffer.ixx" />
     <ClCompile Include="include\singleton.ixx" />
     <ClCompile Include="include\string.ixx" />
+    <ClCompile Include="include\thread_group.ixx" />
+    <ClCompile Include="include\thread_pool.ixx" />
     <ClCompile Include="include\util.ixx" />
     <ClCompile Include="string.cpp" />
+    <ClCompile Include="thread_group.cpp" />
     <ClCompile Include="util.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
