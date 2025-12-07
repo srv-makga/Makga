@@ -1,6 +1,6 @@
-import <queue>;
-
 module makga.lib.doublequeue;
+
+import <queue>;
 
 namespace makga::lib {
 DoubleQueue::DoubleQueue()

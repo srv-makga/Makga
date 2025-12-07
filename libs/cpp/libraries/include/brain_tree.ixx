@@ -1,13 +1,13 @@
 module;
 
-#include <string>
-#include <map>
-#include <memory>
-#include <vector>
-#include <unordered_map>
-#include <cassert>
-
 export module makga.lib.ai;
+
+import <map>;
+import <string>;
+import <memory>;
+import <vector>;
+import <unordered_map>;
+import <cassert>;
 
 export namespace makga::lib {
 class Node
