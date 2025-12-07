@@ -41,6 +41,12 @@
     <ClCompile Include="thread_group.cpp">
       <Filter>thread</Filter>
     </ClCompile>
+    <ClCompile Include="include\double_queue.ixx">
+      <Filter>queue</Filter>
+    </ClCompile>
+    <ClCompile Include="double_queue.cpp">
+      <Filter>queue</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">
@@ -60,6 +66,9 @@
     </Filter>
     <Filter Include="date\json">
       <UniqueIdentifier>{fa30b812-99d9-4bdc-96ae-c072bcaeeb9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="queue">
+      <UniqueIdentifier>{460f42f1-ede7-4b2b-80f6-123eac0b2aa3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
