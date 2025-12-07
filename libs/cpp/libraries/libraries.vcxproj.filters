@@ -47,6 +47,9 @@
     <ClCompile Include="double_queue.cpp">
       <Filter>queue</Filter>
     </ClCompile>
+    <ClCompile Include="thread_pool.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">
