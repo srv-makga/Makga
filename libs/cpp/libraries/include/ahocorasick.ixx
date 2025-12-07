@@ -11,7 +11,7 @@ export class TrieNode
 {
 public:
 	TrieNode();
-	void InsertString(const std::string& str, std::size_t index);
+	void InsertString(const std::string& str);
 	void ConstructFailureLinks();
 	bool IsMatch(const std::string& text);
 	const std::string& GetMatchString(const std::string& text);

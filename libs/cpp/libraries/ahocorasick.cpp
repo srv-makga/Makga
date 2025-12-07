@@ -14,22 +14,23 @@ TrieNode::TrieNode()
 {
 }
 
-void TrieNode::InsertString(const std::string& str, std::size_t index)
+void TrieNode::InsertString(const std::string& str)
 {
 	TrieNode* current = this;
 
 	for (char c : str)
 	{
-		if (current->childrens_.end() == current->childrens_.find(c))
+		auto iter = current->childrens_.find(c);
+		if (current->childrens_.end() == iter)
 		{
-			current->childrens_.insert({ c, new TrieNode });
+			iter = current->childrens_.insert({ c, new TrieNode }).first;
 		}
 
-		current = current->childrens_[c];
+		current = iter->second;
 	}
 
 	current->is_end_word_ = true;
-	current->index_ = index;
+	current->index_ = texts_.size();
 
 	texts_.push_back(str);
 }
@@ -89,13 +90,13 @@ const std::string& TrieNode::GetMatchString(const std::string& text)
 	return texts_[pos];
 }
 
-std::size_t TrieNode::Search(const std::string& _text)
+std::size_t TrieNode::Search(const std::string& text)
 {
 	TrieNode* current = this;
 
-	for (char c : _text)
+	for (char c : text)
 	{
-		while (nullptr != current && current->childrens_.end() != current->childrens_.find(c))
+		while (nullptr != current && current->childrens_.end() == current->childrens_.find(c))
 		{
 			current = current->failure_link_;
 		}
