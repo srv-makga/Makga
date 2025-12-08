@@ -131,13 +131,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\iocp_core.ixx" />
+    <ClCompile Include="include\iocp_service.ixx" />
+    <ClCompile Include="include\ip_end_point.ixx" />
+    <ClCompile Include="include\network.ixx" />
+    <ClCompile Include="include\net_service.ixx" />
+    <ClCompile Include="include\net_session.ixx" />
+    <ClCompile Include="iocp_core.cpp" />
     <ClCompile Include="iocp_service.cpp" />
-    <ClCompile Include="iocp_service.ixx" />
     <ClCompile Include="ip_end_point.cpp" />
-    <ClCompile Include="ip_end_point.ixx" />
-    <ClCompile Include="net_service.ixx" />
-    <ClCompile Include="net_session.ixx" />
-    <ClCompile Include="network.ixx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
