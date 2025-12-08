@@ -1,12 +1,15 @@
+#include "pch.h"
 #include "message_actor.h"
 
-MessageActor::MessageActor()
+MessageActor::MessageActor(ActorId_t actor_id)
+	: actor_id_(actor_id)
 {
 }
 
 MessageActor::~MessageActor()
 {
 }
+
 bool MessageActor::Initialize()
 {
 	return true;

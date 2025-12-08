@@ -2,10 +2,11 @@
 
 import makga.lib.doublequeue;
 
+// @brief Basic unit class for processing messages based on threads
 class MessageActor
 {
 public:
-	MessageActor();
+	MessageActor(ActorId_t actor_id);
 	virtual ~MessageActor();
 
 	bool Initialize();
@@ -17,5 +18,6 @@ protected:
 	virtual makga::lib::DoubleQueue::Job_t PopMessage();
 
 private:
+	ActorId_t actor_id_;
 	makga::lib::DoubleQueue message_queue_;
 };
