@@ -1,4 +1,4 @@
-#include "../libraries/include/RapidJson.h"
+#include "include/RapidJson.h"
 
 float getJsonValue(const rapidjson::Value& _jsonValue, float _default)
 {

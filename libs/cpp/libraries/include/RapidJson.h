@@ -1,9 +1,9 @@
 #pragma once
 
-#include "rapidjson/rapidjson.h"
-#include "rapidjson/document.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
+#include "../../3rdparty/rapidjson/include/rapidjson/rapidjson.h"
+#include "../../3rdparty/rapidjson/include/rapidjson/document.h"
+#include "../../3rdparty/rapidjson/include/rapidjson/writer.h"
+#include "../../3rdparty/rapidjson/include/rapidjson/stringbuffer.h"
 #include <string>
 
 template<typename T>
