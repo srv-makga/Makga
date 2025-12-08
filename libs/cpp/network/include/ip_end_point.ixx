@@ -8,6 +8,7 @@ module;
 #include <sstream>
 
 export module network.endpoint;
+import <string>;
 
 export namespace makga::network {
 class IPEndPoint
