@@ -1,6 +1,6 @@
 module makga.network.endpoint;
 
-#include <WinSock2.h>
+#include <Winsock2.h>
 #include <Windows.h>
 #include <ws2tcpip.h>
 #include <string>
