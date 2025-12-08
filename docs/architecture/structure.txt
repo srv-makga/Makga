@@ -68,6 +68,7 @@
 │   │   │   └── network.module.ixx # C++ 전용
 │   │   │
 │   │   ├── libraries/             # 공통 라이브러리 (유틸, 로깅, 공통 타입)
+│   │   │   └── include/
 │   │   ├── auth/                  # 인증/토큰 처리 공통 모듈
 │   │   └── metrics/               # 공통 모니터링 로직
 │   │
@@ -104,6 +105,8 @@
 │   │   ├── src/
 │   │   ├── tests/
 │   │   └── Gateway.sln
+│   │
+│   ├── common/
 │   │
 │   ├── game/                      # C++ 기반 메인 게임 서버
 │   │   ├── core/
