@@ -7,7 +7,7 @@ module;
 
 export module makga.network.iocp.event;
 
-namespace makga::network {
+export namespace makga::network {
 enum class IocpType
 {
 	ACCEPT,
@@ -19,7 +19,7 @@ enum class IocpType
 
 class IocpSession;
 class IocpObject;
-class IocpEvent : public OVERLAPPED
+export class IocpEvent : public OVERLAPPED
 {
 public:
 	IocpEvent() = delete;
@@ -49,7 +49,7 @@ public:
 	std::shared_ptr<IocpObject> owner_;
 };
 
-class IocpAcceptEvent : public IocpEvent
+export class IocpAcceptEvent : public IocpEvent
 {
 public:
 	IocpAcceptEvent() : IocpEvent(IocpType::ACCEPT) {}
@@ -63,7 +63,7 @@ public:
 	std::shared_ptr<IocpSession> session_ = nullptr; // acceptµÈ session
 };
 
-class IocpConnectEvent : public IocpEvent
+export class IocpConnectEvent : public IocpEvent
 {
 public:
 	IocpConnectEvent() : IocpEvent(IocpType::CONNECT) {}
@@ -74,7 +74,7 @@ public:
 	virtual ~IocpConnectEvent() = default;
 };
 
-class IocpDisconnectEvent : public IocpEvent
+export class IocpDisconnectEvent : public IocpEvent
 {
 public:
 	IocpDisconnectEvent() : IocpEvent(IocpType::DISCONNECT) {}
@@ -85,7 +85,7 @@ public:
 	virtual ~IocpDisconnectEvent() = default;
 };
 
-class IocpRecvEvent : public IocpEvent
+export class IocpRecvEvent : public IocpEvent
 {
 public:
 	IocpRecvEvent() : IocpEvent(IocpType::RECV) {}
@@ -96,7 +96,7 @@ public:
 	virtual ~IocpRecvEvent() = default;
 };
 
-template<typename T>
+export template<typename T>
 class IocpSendEvent : public IocpEvent
 {
 public:

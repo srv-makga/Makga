@@ -2,7 +2,7 @@ module;
 
 #include <windows.h>
 
-export module network.service.iocp.core;
+export module makga.network.service.iocp.core;
 
 export namespace makga::network {
 export class IocpCore

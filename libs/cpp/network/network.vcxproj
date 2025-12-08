@@ -131,7 +131,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\iocp_acceptor.ixx" />
     <ClCompile Include="include\iocp_core.ixx" />
+    <ClCompile Include="include\iocp_event.ixx" />
+    <ClCompile Include="include\iocp_object.ixx" />
     <ClCompile Include="include\iocp_service.ixx" />
     <ClCompile Include="include\ip_end_point.ixx" />
     <ClCompile Include="include\network.ixx" />

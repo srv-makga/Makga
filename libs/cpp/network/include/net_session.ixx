@@ -1,7 +1,7 @@
 module;
 
-export module network.session;
-import network.service;
+export module makga.network.session;
+import makga.network.service;
 
 namespace makga::network {
 export class NetSession

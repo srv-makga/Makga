@@ -4,10 +4,10 @@ module;
 #include <Windows.h>
 #include <ws2ipdef.h>
 #include <stdio.h>
-#include <string>
 #include <sstream>
 
-export module network.endpoint;
+export module makga.network.endpoint;
+
 import <string>;
 
 export namespace makga::network {

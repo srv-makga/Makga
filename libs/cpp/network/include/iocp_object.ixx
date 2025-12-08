@@ -7,8 +7,8 @@ export module makga.network.iocp.object;
 
 import makga.network.iocp.event;
 
-namespace makga::network {
-class IocpObject : public std::enable_shared_from_this<IocpObject>
+export namespace makga::network {
+export class IocpObject : public std::enable_shared_from_this<IocpObject>
 {
 public:
 	IocpObject() = default;

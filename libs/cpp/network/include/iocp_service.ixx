@@ -2,12 +2,12 @@ module;
 
 #include <windows.h>
 
-export module network.service.iocp;
+export module makga.network.iocp.service;
 
-import network.service;
+import makga.network.service;
 
 export namespace makga::network {
-class IocpService : public NetService
+export class IocpService : public NetService
 {
 public:
 	IocpService();

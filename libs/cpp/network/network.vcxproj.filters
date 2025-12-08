@@ -38,5 +38,14 @@
     <ClCompile Include="include\iocp_core.ixx">
       <Filter>tcp\iocp</Filter>
     </ClCompile>
+    <ClCompile Include="include\iocp_event.ixx">
+      <Filter>tcp\iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="include\iocp_object.ixx">
+      <Filter>tcp\iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="include\iocp_acceptor.ixx">
+      <Filter>tcp\iocp</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 module;
 
-export module network.service;
+export module makga.network.service;
 
 export namespace makga::network {
 enum class NetServiceType

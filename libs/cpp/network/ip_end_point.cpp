@@ -1,4 +1,4 @@
-module network.endpoint;
+module makga.network.endpoint;
 
 #include <WinSock2.h>
 #include <Windows.h>

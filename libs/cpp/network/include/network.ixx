@@ -2,11 +2,11 @@ module;
 
 #include <memory>
 
-export module network;
-export import network.service;
-export import network.service.iocp;
-export import network.session;
-export import network.endpoint;
+export module makga.network;
+export import makga.network.service;
+export import makga.network.iocp.service;
+export import makga.network.session;
+export import makga.network.endpoint;
 
 export namespace makga::network {
 using NetService_t = std::shared_ptr<NetService>;
