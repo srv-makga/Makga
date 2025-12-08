@@ -22,9 +22,6 @@
     <ClCompile Include="include\string.ixx">
       <Filter>string</Filter>
     </ClCompile>
-    <ClCompile Include="string.cpp">
-      <Filter>string</Filter>
-    </ClCompile>
     <ClCompile Include="include\random.ixx" />
     <ClCompile Include="include\datetime.ixx">
       <Filter>date</Filter>
@@ -50,6 +47,12 @@
     <ClCompile Include="thread_pool.cpp">
       <Filter>thread</Filter>
     </ClCompile>
+    <ClCompile Include="string.cpp">
+      <Filter>string</Filter>
+    </ClCompile>
+    <ClCompile Include="RapidJson.cpp">
+      <Filter>string\json</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">
@@ -67,11 +70,16 @@
     <Filter Include="thread">
       <UniqueIdentifier>{d696e9e7-1b5d-4055-a86e-7c10c75369aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="date\json">
-      <UniqueIdentifier>{fa30b812-99d9-4bdc-96ae-c072bcaeeb9c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="queue">
       <UniqueIdentifier>{460f42f1-ede7-4b2b-80f6-123eac0b2aa3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="string\json">
+      <UniqueIdentifier>{fa30b812-99d9-4bdc-96ae-c072bcaeeb9c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\RapidJson.h">
+      <Filter>string\json</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

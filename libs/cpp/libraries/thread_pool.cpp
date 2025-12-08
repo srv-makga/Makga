@@ -15,7 +15,8 @@ bool ThreadPool::Initialize(std::size_t thread_count)
 	}
 
 	threads_.reserve(thread_count);
-	for (auto i : std::views::iota(0) | std::views::take(thread_count))
+
+	for (std::size_t i = 0; i < thread_count; ++i)
 	{
 		threads_.push_back(std::jthread(
 			[this](std::stop_token stoken)
@@ -25,7 +26,7 @@ bool ThreadPool::Initialize(std::size_t thread_count)
 				while (false == stoken.stop_requested())
 				{
 					{
-						std::unique_lock<std::mutex> lock(mutex_);
+						std::unique_lock<std::mutex> lock(this->mutex_);
 
 						this->cv_.wait(lock, [this] { return false == this->job_queue_.IsEmpty(); });
 
@@ -37,7 +38,8 @@ bool ThreadPool::Initialize(std::size_t thread_count)
 						job();
 					}
 				}
-			}));
+			}
+		));
 	}
 
 	return true;
