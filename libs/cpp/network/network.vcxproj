@@ -106,6 +106,7 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\..\libraries\include$(MSBuildProjectDirectory);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,6 +125,7 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\..\libraries\include$(MSBuildProjectDirectory);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,18 +133,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\iocp.ixx" />
     <ClCompile Include="include\iocp_acceptor.ixx" />
     <ClCompile Include="include\iocp_core.ixx" />
     <ClCompile Include="include\iocp_event.ixx" />
     <ClCompile Include="include\iocp_object.ixx" />
     <ClCompile Include="include\iocp_service.ixx" />
+    <ClCompile Include="include\iocp_session.ixx" />
     <ClCompile Include="include\ip_end_point.ixx" />
     <ClCompile Include="include\network.ixx" />
     <ClCompile Include="include\net_service.ixx" />
     <ClCompile Include="include\net_session.ixx" />
+    <ClCompile Include="include\socket_util.ixx" />
+    <ClCompile Include="iocp_acceptor.cpp" />
     <ClCompile Include="iocp_core.cpp" />
     <ClCompile Include="iocp_service.cpp" />
+    <ClCompile Include="iocp_session.cpp" />
     <ClCompile Include="ip_end_point.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libraries\libraries.vcxproj">
+      <Project>{65f45b7d-c941-4b24-a612-113230fd4229}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

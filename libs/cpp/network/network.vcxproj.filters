@@ -47,5 +47,18 @@
     <ClCompile Include="include\iocp_acceptor.ixx">
       <Filter>tcp\iocp</Filter>
     </ClCompile>
+    <ClCompile Include="iocp_acceptor.cpp">
+      <Filter>tcp\iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="include\socket_util.ixx" />
+    <ClCompile Include="iocp_session.cpp">
+      <Filter>tcp\iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="include\iocp_session.ixx">
+      <Filter>tcp\iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="include\iocp.ixx">
+      <Filter>tcp\iocp</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
