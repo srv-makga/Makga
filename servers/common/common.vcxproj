@@ -144,10 +144,14 @@
     <ClInclude Include="define.h" />
     <ClInclude Include="message_actor.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ranking_content.h" />
+    <ClInclude Include="ranking_system.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
     <ClCompile Include="message_actor.cpp" />
+    <ClCompile Include="ranking_content.cpp" />
+    <ClCompile Include="ranking_system.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
