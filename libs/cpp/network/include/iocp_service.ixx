@@ -15,7 +15,5 @@ public:
 
 	bool Initialize() override;
 	void Finalize() override;
-
-
 };
 } // namespace makga::network

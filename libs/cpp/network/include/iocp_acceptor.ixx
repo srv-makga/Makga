@@ -19,10 +19,10 @@ export class IocpAcceptor : public IocpObject
 public:
 	IocpAcceptor(std::shared_ptr<IocpService> server);
 	IocpAcceptor() = delete;
-	IocpAcceptor(const IocpAcceptor& _other) = delete;
-	IocpAcceptor(IocpAcceptor&& _other) = delete;
-	IocpAcceptor& operator= (const IocpAcceptor& _other) = delete;
-	IocpAcceptor& operator= (IocpAcceptor&& _other) = delete;
+	IocpAcceptor(const IocpAcceptor&) = delete;
+	IocpAcceptor(IocpAcceptor&&) = delete;
+	IocpAcceptor& operator= (const IocpAcceptor&) = delete;
+	IocpAcceptor& operator= (IocpAcceptor&&) = delete;
 	virtual ~IocpAcceptor();
 
 	bool Initialize();
@@ -42,10 +42,10 @@ public:
 
 public: // IocpObject
 	HANDLE GetHandle() const override;
-	void Dispatch(IocpEvent* iocp_event, int bytes_transferred = 0) override;
+	void Dispatch(IocpEvent* event, int bytes_transferred = 0) override;
 
 protected:
-	void PushFreeAcceptEvent(IocpAcceptEvent* _event);
+	void PushFreeAcceptEvent(IocpAcceptEvent* event);
 	IocpAcceptEvent* PopFreeAcceptEvent();
 
 private:

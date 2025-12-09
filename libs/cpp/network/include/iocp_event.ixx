@@ -8,6 +8,9 @@ module;
 export module makga.network.iocp.event;
 
 export namespace makga::network {
+class IocpSession;
+class IocpObject;
+
 enum class IocpType
 {
 	ACCEPT,
@@ -17,8 +20,6 @@ enum class IocpType
 	RECV
 };
 
-class IocpSession;
-class IocpObject;
 export class IocpEvent : public OVERLAPPED
 {
 public:
@@ -29,7 +30,7 @@ public:
 	{
 	}
 	IocpEvent(const IocpEvent&) = delete;
-	IocpEvent(IocpEvent&& other) = delete;
+	IocpEvent(IocpEvent&&) = delete;
 	IocpEvent& operator=(const IocpEvent&) = delete;
 	IocpEvent& operator=(IocpEvent&&) = delete;
 	virtual ~IocpEvent() = default;
@@ -54,7 +55,7 @@ export class IocpAcceptEvent : public IocpEvent
 public:
 	IocpAcceptEvent() : IocpEvent(IocpType::ACCEPT) {}
 	IocpAcceptEvent(const IocpAcceptEvent&) = delete;
-	IocpAcceptEvent(IocpAcceptEvent&& other) = delete;
+	IocpAcceptEvent(IocpAcceptEvent&&) = delete;
 	IocpAcceptEvent& operator=(const IocpAcceptEvent&) = delete;
 	IocpAcceptEvent& operator=(IocpAcceptEvent&&) = delete;
 	virtual ~IocpAcceptEvent() = default;
