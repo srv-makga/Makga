@@ -6,10 +6,10 @@
     <ClCompile Include="netbuffer_test.cpp">
       <Filter>network</Filter>
     </ClCompile>
-    <ClCompile Include="libraries_random_test.cpp">
+    <ClCompile Include="random_test.cpp">
       <Filter>libraries</Filter>
     </ClCompile>
-    <ClCompile Include="libraries_algorithm_test.cpp">
+    <ClCompile Include="algorithm_test.cpp">
       <Filter>libraries</Filter>
     </ClCompile>
   </ItemGroup>
