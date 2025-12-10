@@ -26,12 +26,11 @@ public:
 	bool Initialize();
 	void Finalize();
 
+	std::shared_ptr<IocpCore> GetIocpCore() const;
 	std::shared_ptr<NetHandler> GetNetHandler() const;
 	void SetNetHandler(std::shared_ptr<NetHandler> handler);
-	std::shared_ptr<JobHandler> GetNetHandler() const;
+	std::shared_ptr<JobHandler> GetJobHandler() const;
 	void SetJobHandler(std::shared_ptr<JobHandler> handler);
-
-	std::shared_ptr<IocpCore> GetIocpCore() const;
 	bool IsRunning() const;
 
 public:
@@ -41,13 +40,6 @@ public:
 
 	virtual std::shared_ptr<IocpSession> AllocSession() = 0;
 	virtual void DeallocSession(std::shared_ptr<IocpSession> session) = 0;
-
-public: // NetService
-	bool Stop() override;
-
-protected:
-	bool StartUp() override;
-	bool StartUpEnd() override;
 
 protected:
 	std::shared_ptr<IocpCore> core_;

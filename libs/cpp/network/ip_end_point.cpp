@@ -1,10 +1,10 @@
-module makga.network.endpoint;
-
 #include <Winsock2.h>
 #include <Windows.h>
 #include <ws2tcpip.h>
 #include <string>
 #include <sstream>
+
+module makga.network.endpoint;
 
 namespace makga::network {
 bool IPEndPoint::operator== (const IPEndPoint& _other) const
@@ -64,30 +64,6 @@ IPEndPoint::IPEndPoint(const std::string& ip, Port_t port)
 		address_.ipv6.sin6_port = ::htons(port);
 
 		::InetPtonA(AF_INET6, ip.c_str(), &(address_.ipv6.sin6_addr));
-	}
-}
-
-IPEndPoint::IPEndPoint(const std::string& _ip, Port_t _port)
-	: IPEndPoint()
-{
-	if (true == _ip.empty())
-	{
-		return;
-	}
-
-	if (std::string::npos != _ip.find("."))
-	{
-		type_ = v4;
-		address_.ipv4.sin_family = AF_INET;
-		address_.ipv4.sin_port = ::htons(_port);
-		::InetPtonA(AF_INET, _ip.c_str(), &(address_.ipv4.sin_addr));
-	}
-	else
-	{
-		type_ = v6;
-		address_.ipv6.sin6_family = AF_INET6;
-		address_.ipv6.sin6_port = ::htons(_port);
-		::InetPtonA(AF_INET6, _ip.c_str(), &(address_.ipv6.sin6_addr));
 	}
 }
 

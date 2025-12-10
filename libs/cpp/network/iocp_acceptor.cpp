@@ -16,6 +16,7 @@ import makga.network.socket;
 
 namespace makga::network {
 IocpAcceptor::IocpAcceptor(std::shared_ptr<IocpService> service)
+	: service_(service)
 {
 }
 
@@ -46,7 +47,7 @@ bool IocpAcceptor::RegisterAccept(IocpAcceptEvent* event)
 	event->session_ = session;
 
 	DWORD bytes_received = 0;
-	if (FALSE == AcceptEx(socket_, session->GetSocket(), session->recv_buffer_->WritePosition(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &bytes_received, static_cast<LPOVERLAPPED>(event)))
+	if (FALSE == SocketAddr::Instance().AcceptEx(socket_, session->GetSocket(), session->recv_buffer_->WritePosition(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &bytes_received, static_cast<LPOVERLAPPED>(event)))
 	{
 		if (WSA_IO_PENDING != ::WSAGetLastError())
 		{
@@ -55,8 +56,8 @@ bool IocpAcceptor::RegisterAccept(IocpAcceptEvent* event)
 			event->session_ = nullptr;
 			service_->DeallocSession(session);
 
-			// @todo 혹시나 무한루프?
-			RegisterAccept(_event);
+			// @todo 혹시나 무한루프 가능성이 있나?
+			RegisterAccept(event);
 		}
 	}
 

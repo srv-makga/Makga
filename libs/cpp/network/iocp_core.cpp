@@ -1,6 +1,6 @@
 #include <Windows.h>
 
-module makga.network.service.iocp.core;
+module makga.network.iocp.core;
 
 namespace makga::network {
 IocpCore::IocpCore()
