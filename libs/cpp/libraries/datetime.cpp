@@ -267,9 +267,19 @@ bool DateTime::operator>=(const DateTime& other) const
 	return time_ >= other.time_;
 }
 
+bool DateTime::operator==(std::time_t time) const
+{
+	return time_ == time;
+}
+
 bool DateTime::operator<(std::time_t time) const
 {
 	return time_ < time;
+}
+
+bool DateTime::operator>(std::time_t time) const
+{
+	return time_ > time;
 }
 
 void DateTime::TimeToTM()

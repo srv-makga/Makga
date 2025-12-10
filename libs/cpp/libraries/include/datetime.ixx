@@ -64,7 +64,10 @@ public:
 	bool operator<=(const DateTime& other) const;
 	bool operator>(const DateTime& other) const;
 	bool operator>=(const DateTime& other) const;
+
+	bool operator==(std::time_t time) const;
 	bool operator<(std::time_t time) const;
+	bool operator>(std::time_t time) const;
 
 	std::time_t Time() const { return time_; }
 	const std::tm& TM() const { return tm_; }

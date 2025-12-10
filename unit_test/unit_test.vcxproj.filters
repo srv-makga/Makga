@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="unit_test.cpp" />
     <ClCompile Include="netbuffer_test.cpp">
       <Filter>network</Filter>
     </ClCompile>
@@ -10,6 +9,12 @@
       <Filter>libraries</Filter>
     </ClCompile>
     <ClCompile Include="algorithm_test.cpp">
+      <Filter>libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="ringbuffer_test.cpp">
+      <Filter>libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="datetime_test.cpp">
       <Filter>libraries</Filter>
     </ClCompile>
   </ItemGroup>

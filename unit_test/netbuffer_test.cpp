@@ -12,7 +12,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace unittest
 {
-	TEST_CLASS(random)
+	TEST_CLASS(netbuffer)
 	{
 	public:
 		TEST_METHOD(NetBufferTest)

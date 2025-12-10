@@ -12,7 +12,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace unittest
 {
-	TEST_CLASS(unittest)
+	TEST_CLASS(ringbuffer)
 	{
 	public:
 		TEST_METHOD(RingBufferTest)
