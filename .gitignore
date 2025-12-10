@@ -11,3 +11,4 @@ libs/cpp/libraries/libraries.vcxproj.user
 /unit_test/x64
 unit_test/unit_test.vcxproj.user
 /servers/x64
+/servers/common/x64
