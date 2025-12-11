@@ -35,11 +35,11 @@ namespace unittest
 			}
 			catch (const std::exception& e)
 			{
-				Assert::Fail(std::format(L"AhocorasickTest exception: {0}", makga::lib::StringToWString(e.what())).c_str());
+				Assert::Fail(std::format(L"DatetimeTest exception: {0}", makga::lib::StringToWString(e.what())).c_str());
 			}
 			catch (...)
 			{
-				Assert::Fail(L"AhocorasickTest exception");
+				Assert::Fail(L"DatetimeTest exception");
 			}
 		}
 	};
