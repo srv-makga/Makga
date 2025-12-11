@@ -3,11 +3,13 @@ module;
 export module makga.network.service;
 
 export namespace makga::network {
-enum class NetServiceType
+export enum class NetServiceType
 {
 	None,
-	Iocp,
-	Rio,
+	IocpServer,
+	IocpClient,
+	RioServer,
+	RioClient,
 	Iouring,
 };
 
