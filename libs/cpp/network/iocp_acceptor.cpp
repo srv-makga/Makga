@@ -47,7 +47,7 @@ bool IocpAcceptor::RegisterAccept(IocpAcceptEvent* event)
 	event->session_ = session;
 
 	DWORD bytes_received = 0;
-	if (FALSE == SocketAddr::Instance().AcceptEx(socket_, session->GetSocket(), session->recv_buffer_->WritePosition(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &bytes_received, static_cast<LPOVERLAPPED>(event)))
+	if (FALSE == SocketFunc::Instance().AcceptEx(socket_, session->GetSocket(), session->recv_buffer_->WritePosition(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &bytes_received, static_cast<LPOVERLAPPED>(event)))
 	{
 		if (WSA_IO_PENDING != ::WSAGetLastError())
 		{

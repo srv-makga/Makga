@@ -11,11 +11,11 @@ class Singleton
 {
 public:
 	Singleton() = default;
-	Singleton(const Singleton<T>& other) = delete;
-	Singleton(Singleton<T>&& other) = delete;
+	Singleton(const Singleton<T>&) = delete;
+	Singleton(Singleton<T>&&) = delete;
+	Singleton<T>& operator=(const Singleton<T>&) = delete;
+	Singleton<T>& operator=(Singleton<T>&&) = delete;
 	virtual ~Singleton() = default;
-	Singleton<T>& operator=(const Singleton<T>& rhs) = delete;
-	Singleton<T>& operator=(Singleton<T>&& rhs) = delete;
 
 	static T& Instance()
 	{
