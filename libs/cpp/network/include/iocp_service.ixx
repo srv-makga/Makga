@@ -5,18 +5,18 @@ module;
 
 export module makga.network.iocp.service;
 
-import makga.network.nethandler;
-import makga.network.jobhandler;
-import makga.network.service;
-import makga.network.endpoint;
-import makga.network.iocp.core;
+export import makga.network.nethandler;
+export import makga.network.jobhandler;
+export import makga.network.service;
+export import makga.network.endpoint;
+export import makga.network.iocp.core;
 
 export namespace makga::network {
 class IocpSession;
 export class IocpService : public NetService
 {
 public:
-	IocpService(std::shared_ptr<IocpCore> core);
+	IocpService(NetServiceType service_type, std::shared_ptr<IocpCore> core);
 	IocpService(const IocpService&) = delete;
 	IocpService(IocpService&&) = delete;
 	IocpService& operator=(const IocpService&) = delete;

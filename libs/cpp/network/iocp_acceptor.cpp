@@ -34,6 +34,20 @@ void IocpAcceptor::Finalize()
 	CloseSocket();
 }
 
+bool IocpAcceptor::Start()
+{
+
+}
+
+void IocpAcceptor::Stop()
+{
+
+}
+
+void makga::network::IocpAcceptor::CloseSocket()
+{
+}
+
 bool IocpAcceptor::RegisterAccept(IocpAcceptEvent* event)
 {
 	if (nullptr == event)

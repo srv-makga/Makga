@@ -13,12 +13,14 @@ class IocpServer : public makga::network::IocpService, public std::enable_shared
 {
 public:
 	using Session_t = makga::network::IocpSession;
+	using NetHandler_t = makga::network::NetHandler;
+	using JobHandler_t = makga::network::JobHandler;
 
 public:
-	IocpServer(std::shared_ptr<makga::network::IocpCore> _core);
+	IocpServer(makga::network::IPEndPoint ep, std::shared_ptr<makga::network::IocpCore> core);
 	virtual ~IocpServer();
 
-	bool Initialize(std::size_t max_connect_count);
+	bool Initialize(std::size_t max_connect_count, std::shared_ptr<NetHandler_t> net_handler, std::shared_ptr<JobHandler_t> job_handler);
 	void Finalize();
 
 	std::shared_ptr<Session_t> FindSession(Session_t::Id id) const;
@@ -43,7 +45,7 @@ protected:
 	std::queue<std::shared_ptr<Session_t>> free_sessions_;
 	std::size_t next_session_id_;
 
-	std::shared_ptr<makga::network::NetHandler> net_handler_;
-	std::shared_ptr<makga::network::JobHandler> job_handler_;
+	std::shared_ptr<NetHandler_t> net_handler_;
+	std::shared_ptr<JobHandler_t> job_handler_;
 
 };
