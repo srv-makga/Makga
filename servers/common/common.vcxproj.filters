@@ -7,18 +7,12 @@
     <ClInclude Include="ranking_system.h">
       <Filter>system\ranking</Filter>
     </ClInclude>
-    <ClInclude Include="ranking_content.h">
-      <Filter>system\ranking\content</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
     <ClCompile Include="message_actor.cpp" />
     <ClCompile Include="ranking_system.cpp">
       <Filter>system\ranking</Filter>
-    </ClCompile>
-    <ClCompile Include="ranking_content.cpp">
-      <Filter>system\ranking\content</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -28,8 +22,8 @@
     <Filter Include="system\ranking">
       <UniqueIdentifier>{89a25610-ab9d-4f8d-9428-5f86324d6ebe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="system\ranking\content">
-      <UniqueIdentifier>{370de2c8-3026-4bf1-88c5-bb9eaba35043}</UniqueIdentifier>
+    <Filter Include="network">
+      <UniqueIdentifier>{429e5cbc-f3a9-4efd-b1fb-1593b222d68a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
