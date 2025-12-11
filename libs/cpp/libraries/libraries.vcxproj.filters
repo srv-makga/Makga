@@ -50,9 +50,6 @@
     <ClCompile Include="string.cpp">
       <Filter>string</Filter>
     </ClCompile>
-    <ClCompile Include="RapidJson.cpp">
-      <Filter>string\json</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">
@@ -78,7 +75,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\RapidJson.h">
+    <ClInclude Include="include\rapidjson.ixx">
       <Filter>string\json</Filter>
     </ClInclude>
   </ItemGroup>
