@@ -7,12 +7,18 @@
     <ClInclude Include="ranking_system.h">
       <Filter>system\ranking</Filter>
     </ClInclude>
+    <ClInclude Include="iocp_server.h">
+      <Filter>network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
     <ClCompile Include="message_actor.cpp" />
     <ClCompile Include="ranking_system.cpp">
       <Filter>system\ranking</Filter>
+    </ClCompile>
+    <ClCompile Include="iocp_server.cpp">
+      <Filter>network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

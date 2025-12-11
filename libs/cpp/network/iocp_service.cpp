@@ -6,8 +6,8 @@ import makga.network.service;
 import makga.network.iocp.core;
 
 namespace makga::network {
-IocpService::IocpService(std::shared_ptr<IocpCore> core)
-	: NetService(NetServiceType::Iocp)
+IocpService::IocpService(NetServiceType service_type, std::shared_ptr<IocpCore> core)
+	: NetService(service_type)
 	, core_(core)
 {
 }
