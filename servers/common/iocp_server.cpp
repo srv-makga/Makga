@@ -53,17 +53,26 @@ bool IocpServer::Initialize(std::size_t max_connect_count, std::shared_ptr<NetHa
 
 void IocpServer::Finalize()
 {
-	acceptor_ = nullptr;
-	net_handler_ = nullptr;
-	job_handler_ = nullptr;
-
-	std::unique_lock lock(session_mutex_);
-	sessions_.clear();
-
-	while(false == free_sessions_.empty())
+	if(nullptr != acceptor_)
 	{
-		free_sessions_.pop();
+		acceptor_->Stop();
+		acceptor_->Finalize();
+		acceptor_ = nullptr;
 	}
+
+	if (nullptr != net_handler_)
+	{
+		net_handler_->Stop();
+		net_handler_ = nullptr;
+	}
+
+	if (nullptr != job_handler_)
+	{
+		job_handler_->Stop();
+		job_handler_ = nullptr;
+	}
+
+	DestroyAllSession();
 }
 
 std::shared_ptr<IocpServer::Session_t> IocpServer::FindSession(Session_t::Id id) const
@@ -131,13 +140,9 @@ void IocpServer::CreateSession(std::size_t max_connect_count)
 		return;
 	}
 
+	DestroyAllSession();
+	
 	std::unique_lock lock(session_mutex_);
-
-	sessions_.clear();
-	while (false == free_sessions_.empty())
-	{
-		free_sessions_.pop();
-	}
 
 	for (std::size_t i = 0; i < max_connect_count; ++i)
 	{
@@ -145,5 +150,16 @@ void IocpServer::CreateSession(std::size_t max_connect_count)
 		session->SetSessionId(static_cast<Session_t::Id>(++next_session_id_));
 
 		free_sessions_.push(session);
+	}
+}
+
+void IocpServer::DestroyAllSession()
+{
+	std::unique_lock lock(session_mutex_);
+
+	sessions_.clear();
+	while (false == free_sessions_.empty())
+	{
+		free_sessions_.pop();
 	}
 }

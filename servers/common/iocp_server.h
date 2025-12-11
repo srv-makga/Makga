@@ -35,6 +35,7 @@ public: // IocpService
 
 private:
 	void CreateSession(std::size_t max_connect_count);
+	void DestroyAllSession();
 
 protected:
 	std::shared_ptr<makga::network::IocpAcceptor> acceptor_;
