@@ -42,8 +42,10 @@ struct MakgaLoggerSteam
 	template<typename T>
 	MakgaLoggerSteam& operator<<(T& data)
 	{
-		std::lock_guard lock(mutex);
-		stream << msg;
+		{
+			std::lock_guard lock(mutex);
+			stream << data;
+		}
 		return *this;
 	}
 };
@@ -59,7 +61,6 @@ public:
 	inline MakgaLoggerSteam& Warn() { return level_streams_[LogLevel::WARN]; }
 	inline MakgaLoggerSteam& Error() { return level_streams_[LogLevel::ERROR]; }
 	inline MakgaLoggerSteam& Fatal() { return level_streams_[LogLevel::FATAL]; }
-
 
 protected:
 	std::unordered_map<LogLevel, MakgaLoggerSteam> level_streams_;
