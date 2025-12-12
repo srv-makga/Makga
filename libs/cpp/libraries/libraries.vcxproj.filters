@@ -50,6 +50,12 @@
     <ClCompile Include="string.cpp">
       <Filter>string</Filter>
     </ClCompile>
+    <ClCompile Include="include\logger.ixx">
+      <Filter>logger</Filter>
+    </ClCompile>
+    <ClCompile Include="logger.cpp">
+      <Filter>logger</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">
@@ -72,6 +78,9 @@
     </Filter>
     <Filter Include="string\json">
       <UniqueIdentifier>{fa30b812-99d9-4bdc-96ae-c072bcaeeb9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="logger">
+      <UniqueIdentifier>{3017f7e5-e09f-4b90-8cd2-cc3a90aa28da}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

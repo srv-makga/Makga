@@ -140,6 +140,7 @@
     <ClCompile Include="include\convert.ixx" />
     <ClCompile Include="include\datetime.ixx" />
     <ClCompile Include="include\double_queue.ixx" />
+    <ClCompile Include="include\logger.ixx" />
     <ClCompile Include="include\observer.ixx" />
     <ClCompile Include="include\random.ixx" />
     <ClCompile Include="include\ring_buffer.ixx" />
@@ -148,6 +149,7 @@
     <ClCompile Include="include\thread_group.ixx" />
     <ClCompile Include="include\thread_pool.ixx" />
     <ClCompile Include="include\util.ixx" />
+    <ClCompile Include="logger.cpp" />
     <ClCompile Include="string.cpp" />
     <ClCompile Include="thread_group.cpp" />
     <ClCompile Include="thread_pool.cpp" />
