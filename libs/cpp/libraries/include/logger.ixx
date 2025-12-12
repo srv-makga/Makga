@@ -50,7 +50,7 @@ struct MakgaLoggerSteam
 	}
 };
 
-export class MakgaLogger : public Singleton<MakgaLogger>
+export class MakgaLogger : public Logger, public Singleton<MakgaLogger>
 {
 public:
 	MakgaLogger();
