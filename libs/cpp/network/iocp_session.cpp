@@ -305,7 +305,7 @@ void IocpSession::OnConnect()
 	is_connected_ = true;
 
 	//auto shared_this = std::static_pointer_cast<IocpSession>(shared_from_this());
-	service_->AddSession(shared_from_this());
+	//service_->AddSession(shared_from_this());
 
 	ProcConnect();
 
@@ -319,7 +319,7 @@ void IocpSession::OnDisconnect()
 	ProcDisconnect();
 
 	//auto shared_this = static_pointer_cast<IocpSession>(shared_from_this());
-	service_->RemoveSession(shared_from_this());
+	//service_->RemoveSession(shared_from_this());
 }
 
 void IocpSession::OnRecv(int bytes_transferred)
