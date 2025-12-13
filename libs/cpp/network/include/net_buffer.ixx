@@ -2,10 +2,10 @@ module;
 
 export module makga.network.buffer;
 
-import makga.lib.ring_buffer;
+import makga.lib.buffer;
 
 export namespace makga::network {
-export class NetBuffer : public makga::lib::RingBuffer<char>
+export class NetBuffer : public makga::lib::Buffer<char>
 {
 public:
 	NetBuffer();
