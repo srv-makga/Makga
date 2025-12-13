@@ -1,13 +1,12 @@
 #pragma once
 
-#include <shared_mutex>
-
 import makga.network.endpoint;
 import makga.network.iocp.service;
 import makga.network.iocp.acceptor;
 import makga.network.iocp.session;
 import makga.network.nethandler;
 import makga.network.jobhandler;
+import makga.lib.lock;
 
 class IocpServer : public makga::network::IocpService, public std::enable_shared_from_this<IocpServer>
 {
@@ -41,12 +40,11 @@ protected:
 	std::shared_ptr<makga::network::IocpAcceptor> acceptor_;
 	makga::network::IPEndPoint ep_;
 
-	mutable std::shared_mutex session_mutex_;
+	mutable makga::lib::SharedMutex session_mutex_;
 	std::unordered_map<Session_t::Id, std::shared_ptr<Session_t>> sessions_;
 	std::queue<std::shared_ptr<Session_t>> free_sessions_;
-	std::size_t next_session_id_;
+	Session_t::Id next_session_id_;
 
 	std::shared_ptr<NetHandler_t> net_handler_;
 	std::shared_ptr<JobHandler_t> job_handler_;
-
 };

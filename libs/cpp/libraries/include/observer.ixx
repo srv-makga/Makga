@@ -1,10 +1,10 @@
 module;
 
+export module makga.lib.pattern.observer;
+
 import <vector>;
 import <memory>;
-import <shared_mutex>;
-
-export module makga.lib.pattern.observer;
+import makga.lib.lock;	
 
 template<typename T>
 concept HasElementType = requires {
@@ -21,10 +21,6 @@ export namespace makga::lib {
 export template<ObserverConcept T>
 class Observer
 {
-	using Mutex_t = std::shared_mutex;
-	using ReadLock = std::shared_lock<Mutex_t>;
-	using WriteLock = std::unique_lock<Mutex_t>;
-
 public:
 	Observer() = default;
 	virtual ~Observer() = default;
@@ -65,7 +61,7 @@ public:
 	}
 
 private:
-	mutable std::shared_mutex mutex_;
+	mutable SharedMutex mutex_;
 	std::vector<T> objects_;
 };
 } // namespace makga::lib

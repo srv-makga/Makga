@@ -4,16 +4,12 @@ export module makga.lib.ring_buffer;
 
 import <iostream>;
 import <memory>;
-import <shared_mutex>;
+import makga.lib.lock;
 
 export namespace makga::lib {
 export template<typename T>
 class RingBuffer
 {
-	using Mutex_t = std::shared_mutex;
-	using ReadLock = ::std::shared_lock<Mutex_t>;
-	using WriteLock = ::std::unique_lock<Mutex_t>;
-
 public:
 	RingBuffer()
 		: buffer_(nullptr)
@@ -206,7 +202,7 @@ private:
 	inline T* ReadPosition() const { return buffer_.get() + read_offset_; }
 
 protected:
-	mutable std::shared_mutex mutex_;
+	mutable SharedMutex mutex_;
 	std::unique_ptr<T[]> buffer_;
 	std::size_t buffer_size_;
 	std::size_t write_offset_;
