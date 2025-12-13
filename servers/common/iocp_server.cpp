@@ -20,6 +20,7 @@ bool IocpServer::Initialize(std::size_t max_connect_count, std::shared_ptr<NetHa
 {
 	if (0 == max_connect_count)
 	{
+		makga::lib::MakgaLogger::Debug() << "IocpServer::Initialize failed.";
 		//LOG_ERROR << "max_connect_count is 0.";
 		return false;
 	}
@@ -147,7 +148,7 @@ void IocpServer::CreateSession(std::size_t max_connect_count)
 	for (std::size_t i = 0; i < max_connect_count; ++i)
 	{
 		auto session = std::make_shared<Session_t>(shared_from_this());
-		session->SetSessionId(static_cast<Session_t::Id>(++next_session_id_));
+		session->SetSessionId(++next_session_id_);
 
 		free_sessions_.push(session);
 	}
