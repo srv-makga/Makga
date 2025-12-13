@@ -97,7 +97,8 @@ public:
 	std::size_t AvailableWriteSize() const
 	{
 		ReadLock lock(mutex_);
-		return BufferSize() - UsingSize();
+		// read offset은 상관없이 write offset으로만 계산
+		return buffer_size_ - write_offset_;
 	}
 
 	// @brief 사용중인 사이즈
@@ -110,11 +111,6 @@ public:
 			return 0;
 		}
 
-		if (write_offset_ >= read_offset_)
-		{
-			return write_offset_ - read_offset_;
-		}
-		
 		return (buffer_size_ + write_offset_) - read_offset_;
 	}
 	
@@ -140,7 +136,7 @@ public:
 		return nullptr != buffer_;
 	}
 
-	// @brief 버퍼 사용 메모리 갱신
+	// @brief 쓰고 읽은 메모리 위치 갱신
 	void PullBuffer()
 	{
 		WriteLock lock(mutex_);
@@ -150,8 +146,8 @@ public:
 		}
 
 		::memcpy(buffer_, buffer_ + read_offset_, sizeof(buffer_[0]) * read_offset_);
-		m_write_offset -= m_read_offset;
-		m_read_offset = 0;
+		write_offset_ -= read_offset_;
+		read_offset_ = 0;
 	}
 
 	std::size_t BufferSize() const

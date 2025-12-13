@@ -136,10 +136,12 @@
     <ClCompile Include="double_queue.cpp" />
     <ClCompile Include="include\ahocorasick.ixx" />
     <ClCompile Include="include\brain_tree.ixx" />
+    <ClCompile Include="include\buffer.ixx" />
     <ClCompile Include="include\command_line.ixx" />
     <ClCompile Include="include\convert.ixx" />
     <ClCompile Include="include\datetime.ixx" />
     <ClCompile Include="include\double_queue.ixx" />
+    <ClCompile Include="include\lock.ixx" />
     <ClCompile Include="include\logger.ixx" />
     <ClCompile Include="include\observer.ixx" />
     <ClCompile Include="include\random.ixx" />

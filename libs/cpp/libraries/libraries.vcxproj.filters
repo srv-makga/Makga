@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="util.cpp" />
-    <ClCompile Include="include\ring_buffer.ixx" />
     <ClCompile Include="include\util.ixx" />
     <ClCompile Include="include\brain_tree.ixx" />
     <ClCompile Include="include\command_line.ixx" />
@@ -56,6 +55,13 @@
     <ClCompile Include="logger.cpp">
       <Filter>logger</Filter>
     </ClCompile>
+    <ClCompile Include="include\lock.ixx" />
+    <ClCompile Include="include\ring_buffer.ixx">
+      <Filter>buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="include\buffer.ixx">
+      <Filter>buffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">
@@ -81,6 +87,9 @@
     </Filter>
     <Filter Include="logger">
       <UniqueIdentifier>{3017f7e5-e09f-4b90-8cd2-cc3a90aa28da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="buffer">
+      <UniqueIdentifier>{dee6a5d5-9cc8-42b9-8dd1-0de9407b4ab4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
