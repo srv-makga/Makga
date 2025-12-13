@@ -36,12 +36,13 @@ void IocpAcceptor::Finalize()
 
 bool IocpAcceptor::Start()
 {
-
+	//@todo 구현
+	return true;
 }
 
 void IocpAcceptor::Stop()
 {
-
+	//@todo 구현
 }
 
 void makga::network::IocpAcceptor::CloseSocket()

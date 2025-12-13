@@ -65,7 +65,7 @@ public:
 public: // NetEvent의 처리 함수들(단일 데이터)
 	virtual void ProcConnect() = 0;
 	virtual void ProcDisconnect() = 0;
-	virtual std::size_t ProcRecv(char* data, int32_t bytes_transferred) = 0;
+	virtual std::size_t ProcRecv(char* data, std::size_t bytes_transferred) = 0;
 	virtual void ProcSend(std::int32_t bytes_transferred) = 0;
 
 public: // IocpObject

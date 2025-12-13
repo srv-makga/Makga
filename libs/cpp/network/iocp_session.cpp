@@ -1,5 +1,6 @@
 #include <WinSock2.h>
 #include <Windows.h>
+#include <mswsock.h>
 #include <memory>
 #include <mutex>
 
@@ -139,7 +140,6 @@ int IocpSession::Recv()
 		return false;
 	}
 
-	// @todo 링 버퍼는 버퍼와 남은 공간 계산을 이렇게 할 수 없다 수정 필요.
 	int recv_size = ::recv(socket_, recv_buffer_->WritePosition(), static_cast<int>(recv_buffer_->AvailableWriteSize()), 0);
 	if (0 >= recv_size)
 	{
@@ -158,6 +158,7 @@ bool IocpSession::RegisterConnect()
 		return false;
 	}
 
+	// 클라이언트가 아니면 연결하지 않음
 	if (NetServiceType::IocpClient != service_->GetServiceType())
 	{
 		return false;
@@ -347,11 +348,13 @@ void IocpSession::OnRecv(int bytes_transferred)
 
 		std::size_t data_size = recv_buffer_->UsingSize();
 		std::size_t proc_length = ProcRecv(recv_buffer_->ReadPosition(), data_size);
-		if (0 > proc_length || data_size < proc_length || false == recv_buffer_->AddReadOffset(proc_length))
+		if (0 > proc_length || data_size < proc_length)
 		{
 			Disconnect();
 			return;
 		}
+
+		recv_buffer_->AddReadOffset(proc_length);
 	}
 
 	RegisterZeroRecv();

@@ -168,19 +168,31 @@ public:
 		return read_offset_;
 	}
 
-protected:
 	void AddWriteOffset(std::size_t size)
 	{
-		write_offset_ = ((write_offset_ + size) % buffer_size_);
+		WriteLock lock(mutex_);
+		SetReadOffset(write_offset_ + size);
 	}
 
 	void AddReadOffset(std::size_t size)
 	{
-		read_offset_ = ((read_offset_ + size) % buffer_size_);
+		WriteLock lock(mutex_);
+		SetReadOffset(read_offset_ + size);
 	}
 
 	inline T* WritePosition() const { return buffer_.get() + write_offset_; }
 	inline T* ReadPosition() const { return buffer_.get() + read_offset_; }
+
+protected:
+	void SetWriteOffset(std::size_t size)
+	{
+		write_offset_ = (size % buffer_size_);
+	}
+
+	void SetReadOffset(std::size_t size)
+	{
+		read_offset_ = (size % buffer_size_);
+	}
 
 protected:
 	mutable SharedMutex mutex_;
