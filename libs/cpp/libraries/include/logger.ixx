@@ -2,6 +2,7 @@ module;
 
 #include <mutex>
 #include <sstream>
+#include <fstream>
 
 export module makga.lib.logger;
 
@@ -43,6 +44,7 @@ struct MakgaLoggerSteam
 	MakgaLoggerSteam& operator<<(T& data)
 	{
 		{
+			// @todo 시간, 스레드, 함수명등
 			std::lock_guard lock(mutex);
 			stream << data;
 		}
@@ -53,16 +55,18 @@ struct MakgaLoggerSteam
 export class MakgaLogger : public Logger, public Singleton<MakgaLogger>
 {
 public:
-	MakgaLogger();
+	MakgaLogger() = default;
 	virtual ~MakgaLogger() = default;
 
-	inline MakgaLoggerSteam& Debug() { return level_streams_[LogLevel::DEBUG]; }
-	inline MakgaLoggerSteam& Info() { return level_streams_[LogLevel::INFO]; }
-	inline MakgaLoggerSteam& Warn() { return level_streams_[LogLevel::WARN]; }
-	inline MakgaLoggerSteam& Error() { return level_streams_[LogLevel::ERROR]; }
-	inline MakgaLoggerSteam& Fatal() { return level_streams_[LogLevel::FATAL]; }
+	inline static MakgaLoggerSteam& Debug() { return level_streams_[LogLevel::DEBUG]; }
+	inline static MakgaLoggerSteam& Info() { return level_streams_[LogLevel::INFO]; }
+	inline static MakgaLoggerSteam& Warn() { return level_streams_[LogLevel::WARN]; }
+	inline static MakgaLoggerSteam& Error() { return level_streams_[LogLevel::ERROR]; }
+	inline static MakgaLoggerSteam& Fatal() { return level_streams_[LogLevel::FATAL]; }
 
 protected:
-	std::unordered_map<LogLevel, MakgaLoggerSteam> level_streams_;
+	inline static std::unordered_map<LogLevel, MakgaLoggerSteam> level_streams_;
+
+	// @todo 파일 이름, 크기등 설정 추가 필요
 };
 } // namespace makga::lib
