@@ -7,6 +7,8 @@ import <shared_mutex>;
 
 export namespace makga::lib {
 using Mutex = std::mutex;
+using LockGuard = std::lock_guard<Mutex>;
+
 using SharedMutex = std::shared_mutex;
 using ReadLock = ::std::shared_lock<SharedMutex>;
 using WriteLock = ::std::unique_lock<SharedMutex>;
