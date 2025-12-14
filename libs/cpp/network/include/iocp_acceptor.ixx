@@ -3,7 +3,6 @@ module;
 #include "WinSock2.h"
 #include "Windows.h"
 #include <memory>
-#include <mutex>
 
 export module makga.network.iocp.acceptor;
 
@@ -12,6 +11,7 @@ import <queue>;
 import makga.network.iocp.service;
 import makga.network.iocp.object;
 import makga.network.iocp.event;
+import makga.lib.lock;
 
 export namespace makga::network {
 export class IocpAcceptor : public IocpObject
@@ -30,7 +30,6 @@ public:
 
 	bool Start();
 	void Stop();
-	void CloseSocket();
 
 	bool RegisterAccept(IocpAcceptEvent* event);
 	void ProcessAccept(IocpAcceptEvent* event);
@@ -52,7 +51,7 @@ private:
 	std::shared_ptr<IocpService> service_;
 	SOCKET socket_;
 
-	mutable std::mutex mutex_;
+	mutable makga::lib::Mutex mutex_;
 	std::vector<IocpAcceptEvent*> accept_events_;
 	std::queue<IocpAcceptEvent*> free_accept_events_;
 };

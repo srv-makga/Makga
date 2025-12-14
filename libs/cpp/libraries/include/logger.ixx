@@ -58,6 +58,12 @@ public:
 	MakgaLogger() = default;
 	virtual ~MakgaLogger() = default;
 
+	static void Debug(std::string&& log) { level_streams_[LogLevel::DEBUG] << log; }
+	static void Info(std::string&& log) { level_streams_[LogLevel::INFO] << log; }
+	static void Warn(std::string&& log) { level_streams_[LogLevel::WARN] << log; }
+	static void Error(std::string&& log) { level_streams_[LogLevel::ERROR] << log; }
+	static void Fatal(std::string&& log) { level_streams_[LogLevel::FATAL] << log; }
+
 	inline static MakgaLoggerSteam& Debug() { return level_streams_[LogLevel::DEBUG]; }
 	inline static MakgaLoggerSteam& Info() { return level_streams_[LogLevel::INFO]; }
 	inline static MakgaLoggerSteam& Warn() { return level_streams_[LogLevel::WARN]; }

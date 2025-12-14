@@ -13,15 +13,21 @@ import makga.network.iocp.object;
 import makga.network.iocp.session;
 import makga.network.iocp.event;
 import makga.network.socket;
+import makga.lib.lock;
+import makga.lib.logger;
 
 namespace makga::network {
 IocpAcceptor::IocpAcceptor(std::shared_ptr<IocpService> service)
 	: service_(service)
+	, socket_(INVALID_SOCKET)
 {
 }
 
 IocpAcceptor::~IocpAcceptor()
 {
+	service_ = nullptr;
+
+	Finalize();
 }
 
 bool IocpAcceptor::Initialize()
@@ -31,22 +37,84 @@ bool IocpAcceptor::Initialize()
 
 void IocpAcceptor::Finalize()
 {
-	CloseSocket();
+	SocketFunc::Instance().CloseSocket(socket_);
+
+	lib::LockGuard lock(mutex_);
+
+	accept_events_.clear();
+
+	while (false == free_accept_events_.empty())
+	{
+		free_accept_events_.pop();
+	}
 }
 
 bool IocpAcceptor::Start()
 {
-	//@todo 구현
+	if (nullptr == service_)
+	{
+		lib::MakgaLogger::Error("IocpAcceptor::Start - Service is nullptr.");
+		return false;
+	}
+
+	SocketFunc::CloseSocket(socket_);
+
+	socket_ = SocketFunc::Socket();
+	if (INVALID_SOCKET == socket_)
+	{
+		lib::MakgaLogger::Error("IocpAcceptor::Start - Create socket failed.");
+		return false;
+	}
+
+	if (false == service_->GetIocpCore()->Registered(reinterpret_cast<HANDLE>(socket_), 0))
+	{
+		lib::MakgaLogger::Error("IocpAcceptor::Start - Registered failed.");
+		return false;
+	}
+
+	if (false == SocketFunc::SetReuseAddr(socket_, true))
+	{
+		lib::MakgaLogger::Error("IocpAcceptor::Start - Set reuse addr.");
+		return false;
+	}
+
+	SocketFunc::SetLinger(socket_, 0, 0);
+	if (false == SocketFunc::Bind(socket_, service_->GetEndPoint()))
+	{
+		lib::MakgaLogger::Error("IocpAcceptor::Start - Socket bind failed.");
+		return false;
+	}
+
+	if (false == SocketFunc::Listen(socket_))
+	{
+		lib::MakgaLogger::Error("IocpAcceptor::Start - Socket listen failed.");
+		return false;
+	}
+
+	lib::LockGuard lock(mutex_);
+
+	std::size_t max_session_count = service_->GetMaxConnectCount();
+	for (std::size_t i = 0; i < max_session_count; ++i)
+	{
+		IocpAcceptEvent* accept_event = new IocpAcceptEvent();
+		if (nullptr == accept_event)
+		{
+			lib::MakgaLogger::Error("IocpAcceptor::Start - Accept event create failed.");
+			return false;
+		}
+
+		accept_events_.push_back(accept_event);
+
+		accept_event->owner_ = shared_from_this();
+		RegisterAccept(accept_event);
+	}
+
 	return true;
 }
 
 void IocpAcceptor::Stop()
 {
-	//@todo 구현
-}
-
-void makga::network::IocpAcceptor::CloseSocket()
-{
+	SocketFunc::CloseSocket(socket_);
 }
 
 bool IocpAcceptor::RegisterAccept(IocpAcceptEvent* event)
@@ -56,7 +124,6 @@ bool IocpAcceptor::RegisterAccept(IocpAcceptEvent* event)
 		return false;
 	}
 
-	// Service에 등록은 Accept 이후 처리에서 된다
 	std::shared_ptr<IocpSession> session = service_->AllocSession();
 
 	event->session_ = session;
