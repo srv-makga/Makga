@@ -64,5 +64,11 @@
     <ClCompile Include="net_buffer.cpp" />
     <ClCompile Include="include\job_handler.ixx" />
     <ClCompile Include="include\net_handler.ixx" />
+    <ClCompile Include="include\iocp_connector.ixx">
+      <Filter>tcp\iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="iocp_connector.cpp">
+      <Filter>tcp\iocp</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
