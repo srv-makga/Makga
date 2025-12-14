@@ -31,8 +31,8 @@ public:
 	bool Start();
 	void Stop();
 
-	bool RegisterConnect(IocpAcceptEvent* event);
-	void ProcessConnect(IocpAcceptEvent* event);
+	bool RegisterConnect(IocpConnectEvent* event);
+	void ProcessConnect(IocpConnectEvent* event);
 
 public: // IocpObject
 	HANDLE GetHandle() const override;
@@ -43,5 +43,6 @@ protected:
 	SOCKET socket_;
 
 	std::shared_ptr<IocpSession> session_;
+	IocpConnectEvent connect_event_;
 };
 } // namespace makga::network
