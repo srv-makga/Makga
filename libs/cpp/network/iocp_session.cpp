@@ -197,7 +197,7 @@ void IocpSession::RegisterDisconnect()
 	disconnect_event_.Initialize();
 	disconnect_event_.owner_ = shared_from_this();
 
-	if (FALSE == SocketFunc::Instance().DisconnectEx(socket_, &disconnect_event_, TF_REUSE_SOCKET, 0))
+	if (FALSE == SocketFunc::DisconnectEx(socket_, &disconnect_event_, TF_REUSE_SOCKET, 0))
 	{
 		if (ERROR_IO_PENDING != ::WSAGetLastError())
 		{

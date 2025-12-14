@@ -1,4 +1,3 @@
-
 #include "WinSock2.h"
 #include "Windows.h"
 #include <memory>
@@ -37,14 +36,21 @@ bool IocpAcceptor::Initialize()
 
 void IocpAcceptor::Finalize()
 {
-	SocketFunc::Instance().CloseSocket(socket_);
+	SocketFunc::CloseSocket(socket_);
 
 	lib::LockGuard lock(mutex_);
+
+	for (IocpAcceptEvent* accept_event : accept_events_)
+	{
+		delete accept_event;
+	}
 
 	accept_events_.clear();
 
 	while (false == free_accept_events_.empty())
 	{
+		IocpAcceptEvent* accept_event = free_accept_events_.front();
+		delete accept_event;
 		free_accept_events_.pop();
 	}
 }
@@ -93,6 +99,8 @@ bool IocpAcceptor::Start()
 
 	lib::LockGuard lock(mutex_);
 
+	accept_events_.clear();
+
 	std::size_t max_session_count = service_->GetMaxConnectCount();
 	for (std::size_t i = 0; i < max_session_count; ++i)
 	{
@@ -129,7 +137,7 @@ bool IocpAcceptor::RegisterAccept(IocpAcceptEvent* event)
 	event->session_ = session;
 
 	DWORD bytes_received = 0;
-	if (FALSE == SocketFunc::Instance().AcceptEx(socket_, session->GetSocket(), session->recv_buffer_->WritePosition(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &bytes_received, static_cast<LPOVERLAPPED>(event)))
+	if (FALSE == SocketFunc::AcceptEx(socket_, session->GetSocket(), session->recv_buffer_->WritePosition(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &bytes_received, static_cast<LPOVERLAPPED>(event)))
 	{
 		if (WSA_IO_PENDING != ::WSAGetLastError())
 		{
