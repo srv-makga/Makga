@@ -4,8 +4,6 @@ module;
 
 export module makga.network.nethandler;
 
-import makga.network.iocp.core;
-
 export namespace makga::network {
 export class NetHandler
 {

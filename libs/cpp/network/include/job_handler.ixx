@@ -13,17 +13,20 @@ export class Job
 {
 public:
 	Job()
-		: func_(nullptr)
+		: session_(nullptr)
+		, func_(nullptr)
 		, thread_id_() {}
 
 	void Initialize()
 	{
+		session_ = nullptr;
 		func_ = nullptr;
 		thread_id_ = std::thread::id();
 	}
 
-	void Set(const std::function<void(void)>& func, std::thread::id id)
+	void Set(std::shared_ptr<NetSession> session, std::function<void(void)>& func, std::thread::id id)
 	{
+		session_ = session;
 		func_ = func;
 		thread_id_ = id;
 	}
@@ -42,6 +45,7 @@ public:
 	}
 
 private:
+	std::shared_ptr<NetSession> session_;
 	std::function<void(void)> func_;
 	std::thread::id thread_id_;
 };
