@@ -2,5 +2,22 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="app.cpp" />
+    <ClCompile Include="net_thread.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="thread">
+      <UniqueIdentifier>{163bc5ec-c87f-4d96-8515-89d593da50a5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="net_thread.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="job_thread.h">
+      <Filter>thread</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
