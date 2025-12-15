@@ -150,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
+    <ClCompile Include="iocp_client.cpp" />
     <ClCompile Include="iocp_server.cpp" />
     <ClCompile Include="message_actor.cpp" />
     <ClCompile Include="ranking_system.cpp" />

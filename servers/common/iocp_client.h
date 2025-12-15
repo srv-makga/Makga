@@ -37,9 +37,7 @@ protected:
 	makga::network::IPEndPoint ep_;
 
 	mutable makga::lib::SharedMutex session_mutex_;
-	std::unordered_map<Session_t::Id, std::shared_ptr<Session_t>> sessions_;
-	std::queue<std::shared_ptr<Session_t>> free_sessions_;
-	Session_t::Id next_session_id_;
+	std::shared_ptr<Session_t> session_;
 
 	std::shared_ptr<NetHandler_t> net_handler_;
 	std::shared_ptr<JobHandler_t> job_handler_;

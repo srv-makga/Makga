@@ -23,6 +23,9 @@
     <ClCompile Include="iocp_server.cpp">
       <Filter>network</Filter>
     </ClCompile>
+    <ClCompile Include="iocp_client.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="system">
