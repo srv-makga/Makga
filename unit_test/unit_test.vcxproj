@@ -94,7 +94,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;..\libs\cpp\libraries;..\libs\cpp\network;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;..\libs\cpp\libraries\include;..\libs\cpp\network\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -184,6 +184,9 @@
   <ItemGroup>
     <ProjectReference Include="..\libs\cpp\libraries\libraries.vcxproj">
       <Project>{65f45b7d-c941-4b24-a612-113230fd4229}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\cpp\network\network.vcxproj">
+      <Project>{1500e32c-c2d3-4843-b713-daf205ce230a}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -29,9 +29,9 @@ namespace unittest
 				Assert::IsFalse(dt == now);
 				Assert::IsTrue(dt > now);
 
-				dt.SetDateTime("1970-01-01 00:00:00").CalculateTime();
+				dt.SetDateTime("1970-01-01 09:00:00").CalculateTime();
 				Assert::IsTrue(dt == std::time_t());
-				Assert::IsTrue(0 == dt.String().compare("1970-01-01 00:00:00"));
+				Assert::IsTrue(0 == dt.String().compare("1970-01-01 09:00:00"));
 			}
 			catch (const std::exception& e)
 			{

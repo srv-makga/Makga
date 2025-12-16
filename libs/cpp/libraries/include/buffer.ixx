@@ -64,7 +64,7 @@ public:
 
 		::memcpy(WritePosition(), data, (sizeof(T) * count));
 
-		AddWriteOffset(count);
+		SetWriteOffset(write_offset_ + count);
 		return count;
 	}
 
@@ -89,7 +89,7 @@ public:
 
 		::memcpy(data, ReadPosition(), (sizeof(T) * count));
 
-		AddReadOffset(count);
+		SetReadOffset(read_offset_ + count);
 		return count;
 	}
 
@@ -111,7 +111,7 @@ public:
 			return 0;
 		}
 
-		return (buffer_size_ + write_offset_) - read_offset_;
+		return write_offset_ - read_offset_;
 	}
 	
 	// @brief 버퍼 할당
@@ -145,7 +145,7 @@ public:
 			return;
 		}
 
-		::memcpy(buffer_, buffer_ + read_offset_, sizeof(buffer_[0]) * read_offset_);
+		::memcpy(buffer_.get(), (buffer_.get() + read_offset_), (sizeof(buffer_[0]) * read_offset_));
 		write_offset_ -= read_offset_;
 		read_offset_ = 0;
 	}

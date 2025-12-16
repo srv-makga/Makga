@@ -36,6 +36,7 @@ namespace unittest
 				buffer.Read(read_data.data(), read_data.size());
 
 				Assert::IsTrue(0 == buffer.UsingSize());
+				buffer.PullBuffer();
 				Assert::IsTrue(buffer_size == buffer.AvailableWriteSize());
 
 				int read_int_value = *reinterpret_cast<int*>(read_data.data());
