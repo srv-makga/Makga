@@ -1,19 +1,17 @@
 module;
 
-#include <memory>
-
 export module makga.lib.doublequeue;
 
 import <queue>;
 import <functional>;
+import makga.lib.lock;
 
 export namespace makga::lib {
 export template<typename T>
 class DoubleQueue
 {
 public:
-	using Job_t = std::shared_ptr<T>;
-	using Queue_t = std::queue<Job_t>;
+	using Queue_t = std::queue<T>;
 
 public:
 	DoubleQueue()
@@ -39,13 +37,13 @@ public:
 		}
 	}
 
-	void Push(Job_t job)
+	void Push(T job)
 	{
 		std::lock_guard lock(enqueue_mutex_);
 		enqueue_->push(std::move(job));
 	}
 
-	Job_t Pop()
+	T Pop()
 	{
 		if (true == dequeue_->empty())
 		{
@@ -77,8 +75,8 @@ private:
 private:
 	Queue_t* enqueue_;
 	Queue_t* dequeue_;
-	mutable std::mutex swap_mutex_;
-	mutable std::mutex enqueue_mutex_;
+	mutable Mutex swap_mutex_;
+	mutable Mutex enqueue_mutex_;
 
 	Queue_t queue1_;
 	Queue_t queue2_;
