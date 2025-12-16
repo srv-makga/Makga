@@ -19,6 +19,7 @@ namespace makga::network {
 IocpConnector::IocpConnector(std::shared_ptr<IocpService> service)
 	: service_(service)
 	, socket_(INVALID_SOCKET)
+	, is_connected_(false)
 {
 }
 
@@ -31,6 +32,7 @@ IocpConnector::~IocpConnector()
 
 bool IocpConnector::Initialize()
 {
+	is_connected_ = false;
 	connect_event_.Initialize();
 
 	return true;
@@ -40,11 +42,18 @@ void IocpConnector::Finalize()
 {
 	SocketFunc::CloseSocket(socket_);
 
+	is_connected_ = false;
 	session_ = nullptr;
 }
 
 bool IocpConnector::Start()
 {
+	if (true == is_connected_)
+	{
+		lib::MakgaLogger::Error("IocpConnector::Start - Already started.");
+		return false;
+	}
+
 	if (nullptr == service_)
 	{
 		lib::MakgaLogger::Error("IocpConnector::Start - Service is nullptr.");
@@ -125,6 +134,8 @@ void IocpConnector::ProcessConnect(IocpConnectEvent* event)
 	SOCKADDR_IN session_addr{};
 	int addrlen = sizeof(session_addr);
 	::getpeername(session_->GetSocket(), (SOCKADDR*)&session_addr, &addrlen);
+
+	is_connected_ = true;
 
 	session_->SetEndPoint(session_addr);
 	session_->OnConnect();

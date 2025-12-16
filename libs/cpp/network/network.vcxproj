@@ -106,7 +106,7 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
-      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\..\libraries\include$(MSBuildProjectDirectory);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\libraries\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,7 +125,7 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
-      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\..\libraries\include$(MSBuildProjectDirectory);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\libraries\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

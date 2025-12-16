@@ -34,6 +34,9 @@ public:
 	bool RegisterConnect(IocpConnectEvent* event);
 	void ProcessConnect(IocpConnectEvent* event);
 
+	bool IsConnected() const { return is_connected_.load(); }
+	void SetConnected(bool value) { is_connected_.store(value); }
+
 public: // IocpObject
 	HANDLE GetHandle() const override;
 	void Dispatch(IocpEvent* event, int bytes_transferred = 0) override;
@@ -41,6 +44,7 @@ public: // IocpObject
 protected:
 	std::shared_ptr<IocpService> service_;
 	SOCKET socket_;
+	std::atomic<bool> is_connected_;
 
 	std::shared_ptr<IocpSession> session_;
 	IocpConnectEvent connect_event_;
