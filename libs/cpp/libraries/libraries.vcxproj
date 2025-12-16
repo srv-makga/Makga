@@ -133,7 +133,6 @@
   <ItemGroup>
     <ClCompile Include="ahocorasick.cpp" />
     <ClCompile Include="datetime.cpp" />
-    <ClCompile Include="double_queue.cpp" />
     <ClCompile Include="include\ahocorasick.ixx" />
     <ClCompile Include="include\brain_tree.ixx" />
     <ClCompile Include="include\buffer.ixx" />

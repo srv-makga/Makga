@@ -40,9 +40,6 @@
     <ClCompile Include="include\double_queue.ixx">
       <Filter>queue</Filter>
     </ClCompile>
-    <ClCompile Include="double_queue.cpp">
-      <Filter>queue</Filter>
-    </ClCompile>
     <ClCompile Include="thread_pool.cpp">
       <Filter>thread</Filter>
     </ClCompile>
