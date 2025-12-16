@@ -33,8 +33,12 @@ public: // IocpService
 	void DeallocSession(std::shared_ptr<Session_t> session) override;
 
 protected:
-	std::shared_ptr<makga::network::IocpConnector> connector_;
+	virtual void CreateSession(std::size_t max_connect_count = 1) = 0;
+	void DestroyAllSession();
+
+protected:
 	makga::network::IPEndPoint ep_;
+	std::shared_ptr<makga::network::IocpConnector> connector_;
 
 	mutable makga::lib::SharedMutex session_mutex_;
 	std::shared_ptr<Session_t> session_;

@@ -1,5 +1,6 @@
-#include "pch.h"
+#include "stdafx.h"
 #include "message_actor.h"
+#include "iocp_server.h"
 
 MessageActor::MessageActor(ActorId_t actor_id)
 	: actor_id_(actor_id)

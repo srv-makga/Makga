@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "stdafx.h"
 #include "iocp_client.h"
 
 IocpClient::IocpClient(makga::network::IPEndPoint ep, std::shared_ptr<makga::network::IocpCore> core)
@@ -32,7 +32,11 @@ bool IocpClient::Initialize(std::size_t max_connect_count, std::shared_ptr<NetHa
 	net_handler_ = net_handler;
 	job_handler_ = job_handler;
 
-	session_ = std::make_shared<Session_t>(shared_from_this());
+	if (nullptr != session_)
+	{
+		CreateSession();
+		session_ = AllocSession();
+	}
 
 	connector_ = std::make_shared<makga::network::IocpConnector>(shared_from_this());
 	if (nullptr == connector_)
@@ -83,7 +87,12 @@ makga::network::IPEndPoint IocpClient::GetEndPoint() const
 
 std::size_t IocpClient::GetConnectCount() const
 {
-	return is_connected_ ? std::size_t(1) : std::size_t(0);
+	if (nullptr == connector_)
+	{
+		return 0;
+	}
+
+	return (true == connector_->IsConnected()) ? 1 : 0;
 }
 
 std::size_t IocpClient::GetMaxConnectCount() const
@@ -93,7 +102,7 @@ std::size_t IocpClient::GetMaxConnectCount() const
 
 std::shared_ptr<IocpClient::Session_t> IocpClient::AllocSession()
 {
-	if (true == is_connected_)
+	if (0 != GetConnectCount())
 	{
 		return nullptr;
 	}
@@ -102,6 +111,7 @@ std::shared_ptr<IocpClient::Session_t> IocpClient::AllocSession()
 }
 
 
-void DeallocSession(std::shared_ptr<IocpClient::Session_t> session)
+void IocpClient::DeallocSession(std::shared_ptr<Session_t> session)
 {
+	(void)session;
 }

@@ -1,5 +1,6 @@
-#include "pch.h"
+#include "stdafx.h"
 #include "iocp_server.h"
+#include "iocp_client.h"
 
 IocpServer::IocpServer(makga::network::IPEndPoint ep, std::shared_ptr<makga::network::IocpCore> core)
 	: IocpService(makga::network::NetServiceType::IocpServer, core)
@@ -16,24 +17,24 @@ IocpServer::~IocpServer()
 	Finalize();
 }
 
+// @todo 이 함수를 부모 클래스쪽 공통으로..
 bool IocpServer::Initialize(std::size_t max_connect_count, std::shared_ptr<NetHandler_t> net_handler, std::shared_ptr<JobHandler_t> job_handler)
 {
 	if (0 == max_connect_count)
 	{
-		makga::lib::MakgaLogger::Debug() << "IocpServer::Initialize failed.";
-		//LOG_ERROR << "max_connect_count is 0.";
+		makga::lib::MakgaLogger::Error() << "IocpServer::Initialize max_connect_count is zero.";
 		return false;
 	}
 
 	if (nullptr == net_handler)
 	{
-		//LOG_ERROR << "net_handler is nullptr.";
+		makga::lib::MakgaLogger::Error() << "IocpServer::Initialize net_handler is nullptr.";
 		return false;
 	}
 
 	if (nullptr == job_handler)
 	{
-		//LOG_ERROR << "job_handler is nullptr.";
+		makga::lib::MakgaLogger::Error() << "IocpServer::Initialize job_handler is nullptr.";
 		return false;
 	}
 
@@ -45,7 +46,7 @@ bool IocpServer::Initialize(std::size_t max_connect_count, std::shared_ptr<NetHa
 	acceptor_ = std::make_shared<makga::network::IocpAcceptor>(shared_from_this());
 	if (nullptr == acceptor_)
 	{
-		//LOG_ERROR << "acceptor_ is nullptr.";
+		makga::lib::MakgaLogger::Error() << "IocpServer::Initialize acceptor is nullptr.";
 		return false;
 	}
 
@@ -134,25 +135,25 @@ void IocpServer::DeallocSession(std::shared_ptr<Session_t> session)
 	free_sessions_.push(session);
 }
 
-void IocpServer::CreateSession(std::size_t max_connect_count)
-{
-	if (0 == max_connect_count)
-	{
-		return;
-	}
-
-	DestroyAllSession();
-	
-	std::unique_lock lock(session_mutex_);
-
-	for (std::size_t i = 0; i < max_connect_count; ++i)
-	{
-		auto session = std::make_shared<Session_t>(shared_from_this());
-		session->SetSessionId(++next_session_id_);
-
-		free_sessions_.push(session);
-	}
-}
+//void IocpServer::CreateSession(std::size_t max_connect_count)
+//{
+//	if (0 == max_connect_count)
+//	{
+//		return;
+//	}
+//
+//	DestroyAllSession();
+//	
+//	std::unique_lock lock(session_mutex_);
+//
+//	for (std::size_t i = 0; i < max_connect_count; ++i)
+//	{
+//		auto session = std::make_shared<Session_t>(shared_from_this());
+//		session->SetSessionId(++next_session_id_);
+//
+//		free_sessions_.push(session);
+//	}
+//}
 
 void IocpServer::DestroyAllSession()
 {

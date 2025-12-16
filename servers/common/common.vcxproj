@@ -112,9 +112,12 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\libs\cpp\libraries\include\;..\..\libs\cpp\network\include;$(PublicIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\libs\cpp\libraries;..\..\libs\cpp\network;$(PublicIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
+      <TranslateIncludes>false</TranslateIncludes>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,7 +134,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\libs\cpp\libraries\include\;$(PublicIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\libs\cpp\libraries\include;..\..\libs\cpp\network\include;$(PublicIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
     </ClCompile>
@@ -145,7 +148,7 @@
     <ClInclude Include="iocp_client.h" />
     <ClInclude Include="iocp_server.h" />
     <ClInclude Include="message_actor.h" />
-    <ClInclude Include="pch.h" />
+    <ClInclude Include="stdafx.h" />
     <ClInclude Include="ranking_system.h" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +157,14 @@
     <ClCompile Include="iocp_server.cpp" />
     <ClCompile Include="message_actor.cpp" />
     <ClCompile Include="ranking_system.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\cpp\libraries\libraries.vcxproj">
+      <Project>{65f45b7d-c941-4b24-a612-113230fd4229}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libs\cpp\network\network.vcxproj">
+      <Project>{1500e32c-c2d3-4843-b713-daf205ce230a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

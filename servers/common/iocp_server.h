@@ -32,8 +32,8 @@ public: // IocpService
 	std::shared_ptr<Session_t> AllocSession() override;
 	void DeallocSession(std::shared_ptr<Session_t> session) override;
 
-private:
-	void CreateSession(std::size_t max_connect_count);
+protected:
+	virtual void CreateSession(std::size_t max_connect_count) = 0;
 	void DestroyAllSession();
 
 protected:
