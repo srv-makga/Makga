@@ -11,6 +11,7 @@ import makga.lib.thread.group;
 NetThread::NetThread(std::shared_ptr<makga::network::IocpCore> core)
 	: core_(core)
 	, thread_count_(1)
+	, job_handler_(job_handler)
 {
 }
 
@@ -100,4 +101,3 @@ void NetThread::Stop()
 {
 	thread_group_.Stop();
 }
-
