@@ -20,12 +20,12 @@ void MessageActor::Finalize()
 {
 }
 
-void MessageActor::PushMessage(makga::lib::DoubleQueue::Job_t&& job)
+void MessageActor::PushMessage(Job job)
 {
-	message_queue_.Push(std::move(job));
+	message_queue_.Push(job);
 }
 
-makga::lib::DoubleQueue::Job_t MessageActor::PopMessage()
+MessageActor::Job MessageActor::PopMessage()
 {
 	return message_queue_.Pop();
 }

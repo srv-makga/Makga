@@ -1,10 +1,13 @@
 #pragma once
 
 import makga.lib.doublequeue;
+import makga.network.jobhandler;
 
-// @brief Basic unit class for processing messages based on threads
 class MessageActor
 {
+public:
+	using Job = std::shared_ptr<makga::network::Job>;
+
 public:
 	MessageActor(ActorId_t actor_id);
 	virtual ~MessageActor();
@@ -12,12 +15,12 @@ public:
 	bool Initialize();
 	void Finalize();
 
-	void PushMessage(makga::lib::DoubleQueue::Job_t&& job);
+	void PushMessage(Job job);
 
 protected:
-	virtual makga::lib::DoubleQueue::Job_t PopMessage();
+	virtual Job PopMessage();
 
 private:
 	ActorId_t actor_id_;
-	makga::lib::DoubleQueue message_queue_;
+	makga::lib::DoubleQueue<Job> message_queue_;
 };
