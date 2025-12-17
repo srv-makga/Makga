@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "stdafx.h"
 #include "ranking_content.h"
 
 static constexpr int64_t s_redis_max_number = 9007199254740992;
@@ -16,11 +16,11 @@ void RankingContent::AddScore(uint64_t member, int64_t score)
 
 	if (0 == score)
 	{
-		sendData(std::format("ZREM {0}:ranking {1}", redis_key_, member));
+		SendCommand(std::format("ZREM {0}:ranking {1}", redis_key_, member));
 	}
 	else
 	{
-		sendData(std::format("ZADD {0}:ranking {1} {2}", redis_key_, score, member));
+		SendCommand(std::format("ZADD {0}:ranking {1} {2}", redis_key_, score, member));
 	}
 }
 
@@ -66,7 +66,7 @@ void RankingContent::SetNextUpdateTime(std::time_t time)
 	next_update_time_ = time;
 }
 
-void RankingContent::SendData(std::string&& _data)
+void RankingContent::SendCommand(std::string&& _data)
 {
 	// @todo redis connector implement
 }

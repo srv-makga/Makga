@@ -148,6 +148,7 @@
     <ClInclude Include="iocp_client.h" />
     <ClInclude Include="iocp_server.h" />
     <ClInclude Include="message_actor.h" />
+    <ClInclude Include="ranking_content.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="ranking_system.h" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <ClCompile Include="iocp_client.cpp" />
     <ClCompile Include="iocp_server.cpp" />
     <ClCompile Include="message_actor.cpp" />
+    <ClCompile Include="ranking_content.cpp" />
     <ClCompile Include="ranking_system.cpp" />
   </ItemGroup>
   <ItemGroup>

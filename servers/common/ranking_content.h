@@ -1,5 +1,9 @@
 #pragma once
 
+#include <memory>
+
+import <string>;
+
 // @brief Ranking content interface
 // @detail Register in RANKING_SYSTEM and use it.
 class RankingContent
@@ -29,7 +33,7 @@ public:
 	void SetNextUpdateTime(std::time_t time);
 
 protected:
-	void SendData(std::string&& _data);
+	void SendCommand(std::string&& _data);
 	void SendTopRanking(std::string&& _data);
 
 protected:

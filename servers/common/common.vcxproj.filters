@@ -13,6 +13,9 @@
     <ClInclude Include="iocp_client.h">
       <Filter>network</Filter>
     </ClInclude>
+    <ClInclude Include="ranking_content.h">
+      <Filter>system\ranking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
@@ -25,6 +28,9 @@
     </ClCompile>
     <ClCompile Include="iocp_client.cpp">
       <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="ranking_content.cpp">
+      <Filter>system\ranking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
