@@ -4,6 +4,8 @@ export module makga.lib.doublequeue;
 
 import <queue>;
 import <functional>;
+import <type_traits>;
+import <utility>;
 import makga.lib.lock;
 
 export namespace makga::lib {
@@ -24,23 +26,28 @@ public:
 	{
 		while (false == queue1_.empty())
 		{
-			auto job = queue1_.front();
-			job();
 			queue1_.pop();
 		}
 
 		while (false == queue2_.empty())
 		{
-			auto job = queue2_.front();
-			job();
 			queue2_.pop();
 		}
 	}
 
 	void Push(T job)
 	{
+		// T가 포인터이거나 참조일 때는 그대로 전달하고,
+		// 값 타입일 경우에는 std::move로 이동시킵니다.
 		std::lock_guard lock(enqueue_mutex_);
-		enqueue_->push(std::move(job));
+		if constexpr (std::is_pointer_v<T> || std::is_reference_v<T>)
+		{
+			enqueue_->push(job);
+		}
+		else
+		{
+			enqueue_->push(std::move(job));
+		}
 	}
 
 	T Pop()
