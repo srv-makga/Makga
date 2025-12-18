@@ -1,15 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="util.cpp" />
     <ClCompile Include="include\util.ixx" />
     <ClCompile Include="include\brain_tree.ixx" />
     <ClCompile Include="include\command_line.ixx" />
     <ClCompile Include="include\convert.ixx" />
     <ClCompile Include="include\ahocorasick.ixx">
-      <Filter>algorithm</Filter>
-    </ClCompile>
-    <ClCompile Include="ahocorasick.cpp">
       <Filter>algorithm</Filter>
     </ClCompile>
     <ClCompile Include="include\observer.ixx">
@@ -25,31 +21,16 @@
     <ClCompile Include="include\datetime.ixx">
       <Filter>date</Filter>
     </ClCompile>
-    <ClCompile Include="datetime.cpp">
-      <Filter>date</Filter>
-    </ClCompile>
     <ClCompile Include="include\thread_group.ixx">
       <Filter>thread</Filter>
     </ClCompile>
     <ClCompile Include="include\thread_pool.ixx">
       <Filter>thread</Filter>
     </ClCompile>
-    <ClCompile Include="thread_group.cpp">
-      <Filter>thread</Filter>
-    </ClCompile>
     <ClCompile Include="include\double_queue.ixx">
       <Filter>queue</Filter>
     </ClCompile>
-    <ClCompile Include="thread_pool.cpp">
-      <Filter>thread</Filter>
-    </ClCompile>
-    <ClCompile Include="string.cpp">
-      <Filter>string</Filter>
-    </ClCompile>
     <ClCompile Include="include\logger.ixx">
-      <Filter>logger</Filter>
-    </ClCompile>
-    <ClCompile Include="logger.cpp">
       <Filter>logger</Filter>
     </ClCompile>
     <ClCompile Include="include\lock.ixx" />
@@ -58,6 +39,28 @@
     </ClCompile>
     <ClCompile Include="include\buffer.ixx">
       <Filter>buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="include\redis_connector.ixx">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thread_group.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thread_pool.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util.cpp" />
+    <ClCompile Include="src\string.cpp">
+      <Filter>string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\datetime.cpp">
+      <Filter>date</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ahocorasick.cpp">
+      <Filter>algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\logger.cpp">
+      <Filter>logger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +90,9 @@
     </Filter>
     <Filter Include="buffer">
       <UniqueIdentifier>{dee6a5d5-9cc8-42b9-8dd1-0de9407b4ab4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="database">
+      <UniqueIdentifier>{b6c2398f-763a-4b54-bd41-bbd7851a45b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

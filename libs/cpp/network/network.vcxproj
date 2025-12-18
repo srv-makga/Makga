@@ -149,13 +149,14 @@
     <ClCompile Include="include\net_service.ixx" />
     <ClCompile Include="include\net_session.ixx" />
     <ClCompile Include="include\socket_util.ixx" />
-    <ClCompile Include="iocp_acceptor.cpp" />
-    <ClCompile Include="iocp_connector.cpp" />
-    <ClCompile Include="iocp_core.cpp" />
-    <ClCompile Include="iocp_service.cpp" />
-    <ClCompile Include="iocp_session.cpp" />
-    <ClCompile Include="ip_end_point.cpp" />
-    <ClCompile Include="net_buffer.cpp" />
+    <ClCompile Include="src\iocp_acceptor.cpp" />
+    <ClCompile Include="src\iocp_connector.cpp" />
+    <ClCompile Include="src\iocp_core.cpp" />
+    <ClCompile Include="src\iocp_service.cpp" />
+    <ClCompile Include="src\iocp_session.cpp" />
+    <ClCompile Include="src\ip_end_point.cpp" />
+    <ClCompile Include="src\net_buffer.cpp" />
+    <ClCompile Include="src\net_service.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libraries\libraries.vcxproj">

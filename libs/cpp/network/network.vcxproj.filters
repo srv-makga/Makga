@@ -1,17 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="core">
-      <UniqueIdentifier>{a465f87e-3134-467f-9def-49f0ceff8891}</UniqueIdentifier>
-    </Filter>
     <Filter Include="tcp">
       <UniqueIdentifier>{174f738a-9b25-4a16-8104-49de206ca695}</UniqueIdentifier>
     </Filter>
     <Filter Include="udp">
       <UniqueIdentifier>{3d3c8f8e-c08e-4852-8ac3-8b1fa853e98b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="platform">
-      <UniqueIdentifier>{8246cb72-3635-4f05-b967-0f5094ecc193}</UniqueIdentifier>
     </Filter>
     <Filter Include="tcp\iocp">
       <UniqueIdentifier>{13023599-ccf3-4dbe-a740-b042782ae371}</UniqueIdentifier>
@@ -19,20 +13,18 @@
     <Filter Include="tcp\rio">
       <UniqueIdentifier>{4218a55b-ab74-4b74-9698-6982235b6d4c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="socket">
+      <UniqueIdentifier>{e95bd216-cb72-4313-81db-35aea65f19fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="endpoint">
+      <UniqueIdentifier>{995c33f4-4819-4e0e-a0b4-0274bb582d4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="iocp_service.cpp">
-      <Filter>tcp\iocp</Filter>
-    </ClCompile>
-    <ClCompile Include="ip_end_point.cpp" />
-    <ClCompile Include="include\ip_end_point.ixx" />
     <ClCompile Include="include\net_service.ixx" />
     <ClCompile Include="include\net_session.ixx" />
     <ClCompile Include="include\network.ixx" />
     <ClCompile Include="include\iocp_service.ixx">
-      <Filter>tcp\iocp</Filter>
-    </ClCompile>
-    <ClCompile Include="iocp_core.cpp">
       <Filter>tcp\iocp</Filter>
     </ClCompile>
     <ClCompile Include="include\iocp_core.ixx">
@@ -47,13 +39,6 @@
     <ClCompile Include="include\iocp_acceptor.ixx">
       <Filter>tcp\iocp</Filter>
     </ClCompile>
-    <ClCompile Include="iocp_acceptor.cpp">
-      <Filter>tcp\iocp</Filter>
-    </ClCompile>
-    <ClCompile Include="include\socket_util.ixx" />
-    <ClCompile Include="iocp_session.cpp">
-      <Filter>tcp\iocp</Filter>
-    </ClCompile>
     <ClCompile Include="include\iocp_session.ixx">
       <Filter>tcp\iocp</Filter>
     </ClCompile>
@@ -61,14 +46,36 @@
       <Filter>tcp\iocp</Filter>
     </ClCompile>
     <ClCompile Include="include\net_buffer.ixx" />
-    <ClCompile Include="net_buffer.cpp" />
     <ClCompile Include="include\job_handler.ixx" />
     <ClCompile Include="include\net_handler.ixx" />
     <ClCompile Include="include\iocp_connector.ixx">
       <Filter>tcp\iocp</Filter>
     </ClCompile>
-    <ClCompile Include="iocp_connector.cpp">
+    <ClCompile Include="src\net_buffer.cpp" />
+    <ClCompile Include="src\iocp_acceptor.cpp">
       <Filter>tcp\iocp</Filter>
     </ClCompile>
+    <ClCompile Include="src\iocp_connector.cpp">
+      <Filter>tcp\iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\iocp_core.cpp">
+      <Filter>tcp\iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\iocp_service.cpp">
+      <Filter>tcp\iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\iocp_session.cpp">
+      <Filter>tcp\iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="include\socket_util.ixx">
+      <Filter>socket</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ip_end_point.cpp">
+      <Filter>endpoint</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ip_end_point.ixx">
+      <Filter>endpoint</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net_service.cpp" />
   </ItemGroup>
 </Project>
