@@ -62,6 +62,9 @@
     <ClCompile Include="src\logger.cpp">
       <Filter>logger</Filter>
     </ClCompile>
+    <ClCompile Include="src\redis_connector.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">
