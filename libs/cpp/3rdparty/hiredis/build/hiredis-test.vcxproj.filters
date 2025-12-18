@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Github\Makga\libs\cpp\3rdparty\hiredis\test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Github\Makga\libs\cpp\3rdparty\hiredis\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{E315B2D5-43A5-330F-9690-0E43E12290E5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

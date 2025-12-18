@@ -1,0 +1,7 @@
+C:/Github/Makga/libs/cpp/3rdparty/hiredis/build/hiredis.dir/RelWithDebInfo/alloc.obj
+C:/Github/Makga/libs/cpp/3rdparty/hiredis/build/hiredis.dir/RelWithDebInfo/async.obj
+C:/Github/Makga/libs/cpp/3rdparty/hiredis/build/hiredis.dir/RelWithDebInfo/hiredis.obj
+C:/Github/Makga/libs/cpp/3rdparty/hiredis/build/hiredis.dir/RelWithDebInfo/net.obj
+C:/Github/Makga/libs/cpp/3rdparty/hiredis/build/hiredis.dir/RelWithDebInfo/read.obj
+C:/Github/Makga/libs/cpp/3rdparty/hiredis/build/hiredis.dir/RelWithDebInfo/sds.obj
+C:/Github/Makga/libs/cpp/3rdparty/hiredis/build/hiredis.dir/RelWithDebInfo/sockcompat.obj

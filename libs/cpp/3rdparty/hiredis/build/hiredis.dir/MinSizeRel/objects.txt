@@ -1,0 +1,7 @@
+C:/Github/Makga/libs/cpp/3rdparty/hiredis/build/hiredis.dir/MinSizeRel/alloc.obj
+C:/Github/Makga/libs/cpp/3rdparty/hiredis/build/hiredis.dir/MinSizeRel/async.obj
+C:/Github/Makga/libs/cpp/3rdparty/hiredis/build/hiredis.dir/MinSizeRel/hiredis.obj
+C:/Github/Makga/libs/cpp/3rdparty/hiredis/build/hiredis.dir/MinSizeRel/net.obj
+C:/Github/Makga/libs/cpp/3rdparty/hiredis/build/hiredis.dir/MinSizeRel/read.obj
+C:/Github/Makga/libs/cpp/3rdparty/hiredis/build/hiredis.dir/MinSizeRel/sds.obj
+C:/Github/Makga/libs/cpp/3rdparty/hiredis/build/hiredis.dir/MinSizeRel/sockcompat.obj

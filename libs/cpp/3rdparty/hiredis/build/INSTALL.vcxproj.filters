@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Github\Makga\libs\cpp\3rdparty\hiredis\build\CMakeFiles\cb5e7c2a997f9b76b6fbe8b00a565326\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{B5050970-05F5-3F9E-8A89-DACE8EE1C17E}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
