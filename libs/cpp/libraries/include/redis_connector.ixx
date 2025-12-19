@@ -11,8 +11,26 @@ import <chrono>;
 import makga.lib.lock;
 
 export namespace makga::lib::database {
+class RedisReplyDeleter
+{
+public:
+	RedisReplyDeleter() = default;
+	~RedisReplyDeleter() = default;
+
+	void operator()(redisReply* reply) const noexcept
+	{
+		if (nullptr != reply)
+		{
+			::freeReplyObject(reply);
+		}
+	}
+};
+
 export class RedisConnector
 {
+	using UniqueRedisReply = std::unique_ptr<redisReply*, RedisReplyDeleter>;
+	using SharedRedisReply = std::shared_ptr<redisReply>;
+
 public:
 	// @param host: Redis 서버 주소 (aka 127.0.0.1)
 	// @param port: Redis 포트 (aka 6379)
@@ -25,10 +43,10 @@ public:
 	bool IsConnected() const;
 
 	// Common
-	bool Set(std::string_view key, std::string_view value, std::chrono::milliseconds ttl = std::chrono::milliseconds::zero());
-	bool Del(std::string_view key);
 	std::optional<std::string> Get(std::string_view key);
 	std::optional<std::string> GetDel(std::string_view key); // 데이터 조회 후 삭제, Redis 6.2+
+	bool Set(std::string_view key, std::string_view value, std::chrono::milliseconds ttl = std::chrono::milliseconds::zero());
+	bool Del(std::string_view key);
 
 	bool SetEx(std::string_view key, std::string_view value, std::chrono::milliseconds ttl); // 만료 시간과 함께 설정
 
@@ -51,6 +69,8 @@ protected:
 	// @return 성공 여부
 	// @note 응답 값이 필요하지 않을 때 사용
 	bool SendCommond(std::string&& command);
+
+	redisReply* SendCommand(std::string&& command);
 
 private:
 	makga::lib::SharedMutex mutex_;

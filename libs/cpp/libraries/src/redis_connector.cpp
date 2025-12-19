@@ -17,6 +17,7 @@ RedisConnector::RedisConnector(std::string_view host, int port)
 	: redis_context_(nullptr)
 	, host_(host)
 	, port_(port)
+	, db_id_(0)
 {
 }
 
@@ -53,5 +54,31 @@ void RedisConnector::Disconnect() noexcept
 
 bool RedisConnector::IsConnected() const
 {
+	return nullptr != redis_context_;
+}
+
+std::optional<std::string> database::RedisConnector::Get(std::string_view key) 
+{
+	UniqueRedisReply reply(SendCommand(std::format("GET {0}", key.data())));
+	if (nullptr == reply)
+	{
+		return std::nullopt;
+	}
+
+	if (REDIS_REPLY_STRING != reply->type)
+	{
+		return std::nullopt;
+	}
+
+	return std::string(reply->str, reply->len);
+}
+
+redisReply* RedisConnector::SendCommand(std::string&& command)
+{
+	if (true == command.empty())
+	{
+		return nullptr;
+	}
+
 }
 } // makga::lib::database
