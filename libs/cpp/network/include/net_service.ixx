@@ -16,29 +16,13 @@ export enum class NetServiceType
 export class NetService
 {
 public:
-	NetService(NetServiceType type)
-		: service_type_(type) {}
+	NetService(NetServiceType type);
+	virtual ~NetService();
 
-	virtual ~NetService() = default;
-
-	virtual bool Start()
-	{
-		if (false == StartUp())
-		{
-			return false;
-		}
-
-		if (false == StartUpEnd())
-		{
-			return false;
-		}
-
-		return true;
-	}
-
+	virtual bool Start();
 	virtual bool Stop() = 0;
 
-	NetServiceType GetServiceType() const { return service_type_; }
+	NetServiceType GetServiceType() const;
 
 protected:
 	virtual bool StartUp() = 0;
