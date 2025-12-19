@@ -12,3 +12,9 @@ libs/cpp/libraries/libraries.vcxproj.user
 unit_test/unit_test.vcxproj.user
 /servers/x64
 /servers/common/x64
+/libs/cpp/3rdparty/hiredis/build/.vs
+/libs/cpp/3rdparty/hiredis/build/Debug
+/libs/cpp/3rdparty/hiredis/build/hiredis.dir
+/libs/cpp/3rdparty/hiredis/build/Release
+/libs/cpp/3rdparty/hiredis/build/x64
+libs/cpp/3rdparty/hiredis/build/hiredis.vcxproj.user
