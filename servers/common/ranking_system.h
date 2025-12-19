@@ -22,6 +22,8 @@ public:
 	std::shared_ptr<RankingContent> GetContent(const Key& key);
 	bool RemoveContent(const Key& key);
 
+	void Update();
+
 protected:
 	std::unordered_map<Key, std::shared_ptr<RankingContent>> ranking_contents_;
-}
+};
