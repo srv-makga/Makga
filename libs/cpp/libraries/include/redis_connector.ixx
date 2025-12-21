@@ -60,9 +60,20 @@ public:
 	std::vector<std::string> MGet(const std::vector<std::string>& keys);
 
 	uint64_t Incr(std::string_view key);
-	uint64_t IncrBy(std::string_view key);
+	uint64_t IncrBy(std::string_view key, uint64_t value);
 	uint64_t Decr(std::string_view key);
-	uint64_t DecrBy(std::string_view key);
+	uint64_t DecrBy(std::string_view key, uint64_t value);
+
+	// List
+	template<typename... Args>
+	int64_t LPush(std::string_view key, Args&&... args);
+
+	template<typename... Args>
+	int64_t RPush(std::string_view key, Args&&... args);
+
+	std::optional<std::string> LPop(std::string_view key);
+	std::optional<std::string> RPop(std::string_view key);
+
 
 	bool Ping();
 
@@ -101,4 +112,48 @@ bool RedisConnector::MSet(std::string_view key, std::string_view value, Args&&..
 
 	return SendCommandNoReply(command.str());
 }
+
+template<typename... Args>
+int64_t RedisConnector::LPush(std::string_view key, Args&&... args)
+{
+	std::ostringstream command;
+	command << "LPUSH " << key;
+	((command << " " << args), ...);
+
+	UniqueRedisReply reply(SendCommand(command.str()));
+	if (nullptr == reply)
+	{
+		return -1;
+	}
+
+	if (REDIS_REPLY_INTEGER != reply->type)
+	{
+		return -1;
+	}
+
+	return static_cast<int64_t>(reply->integer);
+}
+
+template<typename... Args>
+int64_t RedisConnector::RPush(std::string_view key, Args&&... args)
+{
+	std::ostringstream command;
+	command << "RPUSH " << key;
+	((command << " " << args), ...);
+
+	UniqueRedisReply reply(SendCommand(command.str()));
+	if (nullptr == reply)
+	{
+		return -1;
+	}
+
+	if (REDIS_REPLY_INTEGER != reply->type)
+	{
+		return -1;
+	}
+
+	return static_cast<int64_t>(reply->integer);
+}
+
+
 } // namespace makga::database

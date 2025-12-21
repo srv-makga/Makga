@@ -167,6 +167,70 @@ std::vector<std::string> RedisConnector::MGet(const std::vector<std::string>& ke
 	return values;
 }
 
+uint64_t RedisConnector::Incr(std::string_view key)
+{
+	UniqueRedisReply reply(SendCommand(std::format("INCR {0}", key.data())));
+	if (nullptr == reply)
+	{
+		return 0;
+	}
+
+	if (REDIS_REPLY_INTEGER != reply->type)
+	{
+		return 0;
+	}
+
+	return static_cast<uint64_t>(reply->integer);
+}
+
+uint64_t RedisConnector::IncrBy(std::string_view key, uint64_t value)
+{
+	UniqueRedisReply reply(SendCommand(std::format("INCRBY {0} {1}", key.data(), value)));
+	if (nullptr == reply)
+	{
+		return 0;
+	}
+
+	if (REDIS_REPLY_INTEGER != reply->type)
+	{
+		return 0;
+	}
+
+	return static_cast<uint64_t>(reply->integer);
+}
+
+uint64_t RedisConnector::Decr(std::string_view key)
+{
+	UniqueRedisReply reply(SendCommand(std::format("DECR {0}", key.data())));
+	if (nullptr == reply)
+	{
+		return 0;
+	}
+
+	if (REDIS_REPLY_INTEGER != reply->type)
+	{
+		return 0;
+	}
+
+	return static_cast<uint64_t>(reply->integer);
+}
+
+uint64_t RedisConnector::DecrBy(std::string_view key, uint64_t value)
+{
+	UniqueRedisReply reply(SendCommand(std::format("DECRBY {0} {1}", key.data(), value)));
+	if (nullptr == reply)
+	{
+		return 0;
+	}
+
+	if (REDIS_REPLY_INTEGER != reply->type)
+	{
+		return 0;
+	}
+
+	return static_cast<uint64_t>(reply->integer);
+}
+
 bool RedisConnector::SendCommandNoReply(std::string&& command)
 {
 	UniqueRedisReply reply(SendCommand(std::move(command)));
@@ -203,6 +267,58 @@ redisReply* RedisConnector::SendCommand(std::string&& command)
 	}
 
 	return reply;
+}
+
+std::optional<std::string> RedisConnector::LPop(std::string_view key)
+{
+	if (true == key.empty())
+	{
+		return std::nullopt;
+	}
+
+	if (false == IsConnected())
+	{
+		return std::nullopt;
+	}
+
+	UniqueRedisReply reply(SendCommand(std::format("LPOP {0}", key.data())));
+	if (nullptr == reply)
+	{
+		return std::nullopt;
+	}
+
+	if (REDIS_REPLY_STRING != reply->type)
+	{
+		return std::nullopt;
+	}
+
+	return std::string(reply->str, reply->len);
+}
+
+std::optional<std::string> RedisConnector::RPop(std::string_view key)
+{
+	if (true == key.empty())
+	{
+		return std::nullopt;
+	}
+
+	if (false == IsConnected())
+	{
+		return std::nullopt;
+	}
+
+	UniqueRedisReply reply(SendCommand(std::format("RPOP {0}", key.data())));
+	if (nullptr == reply)
+	{
+		return std::nullopt;
+	}
+
+	if (REDIS_REPLY_STRING != reply->type)
+	{
+		return std::nullopt;
+	}
+
+	return std::string(reply->str, reply->len);
 }
 
 bool RedisConnector::Ping()
