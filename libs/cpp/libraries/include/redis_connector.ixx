@@ -28,7 +28,7 @@ public:
 
 export class RedisConnector
 {
-	using UniqueRedisReply = std::unique_ptr<redisReply*, RedisReplyDeleter>;
+	using UniqueRedisReply = std::unique_ptr<redisReply, RedisReplyDeleter>;
 	using SharedRedisReply = std::shared_ptr<redisReply>;
 
 public:
@@ -51,6 +51,7 @@ public:
 	bool SetEx(std::string_view key, std::string_view value, std::chrono::milliseconds ttl); // 만료 시간과 함께 설정
 
 	bool Exists(std::string_view key);
+	void Unlink(std::string_view key);
 
 	template<typename... Args>
 	bool MSet(std::string_view key, std::string_view value, ...);
@@ -68,13 +69,13 @@ protected:
 	// @param command: Redis 명령어
 	// @return 성공 여부
 	// @note 응답 값이 필요하지 않을 때 사용
-	bool SendCommond(std::string&& command);
+	bool SendCommondNoReply(std::string&& command);
 
 	redisReply* SendCommand(std::string&& command);
 
 private:
 	makga::lib::SharedMutex mutex_;
-	std::unique_ptr<redisContext> redis_context_;
+	std::shared_ptr<redisContext> redis_context_;
 
 	std::string host_;
 	int port_;

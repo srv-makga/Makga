@@ -45,7 +45,14 @@ bool RedisConnector::Connect()
 		return false;
 	}
 
-	std::shared_ptr<redisReply> reply(static_cast<redisReply*>(::redisCommand(redis_context_.get(), "PING")), ::freeReplyObject);
+	if (false == Ping())
+	{
+		MakgaLogger::Error("Redis PING failed.");
+		redis_context_.reset();
+		return false;
+	}
+
+	return true;
 }
 
 void RedisConnector::Disconnect() noexcept
@@ -73,6 +80,41 @@ std::optional<std::string> database::RedisConnector::Get(std::string_view key)
 
 	return std::string(reply->str, reply->len);
 }
+
+std::optional<std::string> database::RedisConnector::GetDel(std::string_view key)
+{
+	UniqueRedisReply reply(SendCommand(std::format("GETDEL {0}", key.data())));
+	if (nullptr == reply)
+	{
+		return std::nullopt;
+	}
+
+	return std::optional<std::string>();
+}
+
+bool RedisConnector::Set(std::string_view key, std::string_view value, std::chrono::milliseconds ttl)
+{
+	bool ret = SendCommondNoReply(std::format("SET {0} {1}", key.data(), value.data()));
+
+	if (std::chrono::milliseconds::zero() != ttl)
+	{
+		SendCommondNoReply(std::format("PEXPIRE {0} {1}", key.data(), ttl.count()));
+	}
+
+	return ret;
+}
+
+bool RedisConnector::Del(std::string_view key)
+{
+	return SendCommondNoReply(std::format("DEL {0}", key.data()));
+}
+
+bool RedisConnector::SendCommondNoReply(std::string&& command)
+{
+	UniqueRedisReply reply(SendCommand(std::move(command)));
+	return nullptr != reply;
+}
+
 
 [[nodiscard]]
 redisReply* RedisConnector::SendCommand(std::string&& command)
@@ -106,5 +148,26 @@ redisReply* RedisConnector::SendCommand(std::string&& command)
 	}
 
 	return reply;
+}
+
+bool RedisConnector::Ping()
+{
+	if (false == IsConnected())
+	{
+		return false;
+	}
+
+	UniqueRepy reply(SendCommand("PING"));
+	if (nullptr == reply)
+	{
+		return false;
+	}
+
+	if (REDIS_REPLY_STATUS != reply->type || 0 != std::string_view(reply->str, reply->len).compare("PONG"))
+	{
+		return false;
+	}
+
+	return true;
 }
 } // makga::lib::database
