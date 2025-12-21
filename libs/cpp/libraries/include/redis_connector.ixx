@@ -1,6 +1,8 @@
 #include <memory>
 #include <optional>
 #include <stdexcept>
+#include <sstream>
+#include <type_traits>
 
 #include "../../3rdparty/hiredis/hiredis.h"
 
@@ -45,16 +47,16 @@ public:
 	// Common
 	std::optional<std::string> Get(std::string_view key);
 	std::optional<std::string> GetDel(std::string_view key); // 데이터 조회 후 삭제, Redis 6.2+
-	bool Set(std::string_view key, std::string_view value, std::chrono::milliseconds ttl = std::chrono::milliseconds::zero());
+	bool Set(std::string_view key, std::string_view value);
 	bool Del(std::string_view key);
 
-	bool SetEx(std::string_view key, std::string_view value, std::chrono::milliseconds ttl); // 만료 시간과 함께 설정
+	bool SetEx(std::string_view key, std::string_view value, std::chrono::seconds ttl = std::chrono::seconds::zero()); // 만료 시간과 함께 설정
 
 	bool Exists(std::string_view key);
 	void Unlink(std::string_view key);
 
 	template<typename... Args>
-	bool MSet(std::string_view key, std::string_view value, ...);
+	bool MSet(std::string_view key, std::string_view value, Args&&... args);
 	std::vector<std::string> MGet(const std::vector<std::string>& keys);
 
 	uint64_t Incr(std::string_view key);
@@ -67,10 +69,9 @@ public:
 protected:
 	// @brief Redis 명령어 전송
 	// @param command: Redis 명령어
-	// @return 성공 여부
+	// @return reply의 nullptr 여부
 	// @note 응답 값이 필요하지 않을 때 사용
-	bool SendCommondNoReply(std::string&& command);
-
+	bool SendCommandNoReply(std::string&& command);
 	redisReply* SendCommand(std::string&& command);
 
 private:
@@ -87,7 +88,17 @@ private:
 };
 
 template<typename ...Args>
-bool RedisConnector::MSet(std::string_view key, std::string_view value, ...)
+bool RedisConnector::MSet(std::string_view key, std::string_view value, Args&&... args)
 {
+	static_assert((std::is_convertible_v<Args, std::string_view> && ...),
+		"All additional arguments must be convertible to std::string_view");
+	static_assert(sizeof...(Args) % 2 == 0, "MSet requires an even number of additional arguments (key,value pairs)");
+
+	std::ostringstream command;
+	command << "MSET " << key << " " << value;
+
+	((command << " " << std::string_view(args)), ...);
+
+	return SendCommandNoReply(command.str());
 }
 } // namespace makga::database

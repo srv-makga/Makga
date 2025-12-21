@@ -65,7 +65,7 @@ bool RedisConnector::IsConnected() const
 	return nullptr != redis_context_;
 }
 
-std::optional<std::string> database::RedisConnector::Get(std::string_view key) 
+std::optional<std::string> RedisConnector::Get(std::string_view key) 
 {
 	UniqueRedisReply reply(SendCommand(std::format("GET {0}", key.data())));
 	if (nullptr == reply)
@@ -81,7 +81,7 @@ std::optional<std::string> database::RedisConnector::Get(std::string_view key)
 	return std::string(reply->str, reply->len);
 }
 
-std::optional<std::string> database::RedisConnector::GetDel(std::string_view key)
+std::optional<std::string> RedisConnector::GetDel(std::string_view key)
 {
 	UniqueRedisReply reply(SendCommand(std::format("GETDEL {0}", key.data())));
 	if (nullptr == reply)
@@ -89,32 +89,89 @@ std::optional<std::string> database::RedisConnector::GetDel(std::string_view key
 		return std::nullopt;
 	}
 
-	return std::optional<std::string>();
-}
-
-bool RedisConnector::Set(std::string_view key, std::string_view value, std::chrono::milliseconds ttl)
-{
-	bool ret = SendCommondNoReply(std::format("SET {0} {1}", key.data(), value.data()));
-
-	if (std::chrono::milliseconds::zero() != ttl)
+	if (REDIS_REPLY_STRING != reply->type)
 	{
-		SendCommondNoReply(std::format("PEXPIRE {0} {1}", key.data(), ttl.count()));
+		return std::nullopt;
 	}
 
-	return ret;
+	return std::string(reply->str, reply->len);
+}
+
+bool RedisConnector::Set(std::string_view key, std::string_view value)
+{
+	return SendCommandNoReply(std::format("SET {0} {1}", key.data(), value.data()));
 }
 
 bool RedisConnector::Del(std::string_view key)
 {
-	return SendCommondNoReply(std::format("DEL {0}", key.data()));
+	return SendCommandNoReply(std::format("DEL {0}", key.data()));
 }
 
-bool RedisConnector::SendCommondNoReply(std::string&& command)
+bool RedisConnector::SetEx(std::string_view key, std::string_view value, std::chrono::seconds ttl)
+{
+	return SendCommand(std::format("SETEX {0} {1} {2}", key.data(), ttl.count(), value.data()));
+}
+
+bool RedisConnector::Exists(std::string_view key)
+{
+	UniqueRedisReply reply(SendCommand(std::format("EXISTS {0}", key.data())));
+	if (nullptr == reply)
+	{
+		return false;
+	}
+
+	return reply->str[0] != '1';
+}
+
+void RedisConnector::Unlink(std::string_view key)
+{
+	SendCommandNoReply(std::format("UNLINK {0}", key.data()));
+}
+
+std::vector<std::string> RedisConnector::MGet(const std::vector<std::string>& keys)
+{
+	std::ostringstream command;
+	command << "MGET ";
+	for (const auto& key : keys)
+	{
+		command << ' ' << key;
+	}
+
+	UniqueRedisReply reply(SendCommand(command.str()));
+	if (nullptr == reply)
+	{
+		return std::vector<std::string>();
+	}
+
+	if (REDIS_REPLY_ARRAY != reply->type)
+	{
+		return std::vector<std::string>();
+	}
+
+	std::vector<std::string> values;
+	values.reserve(reply->elements);
+
+	for (size_t i = 0; i < reply->elements; ++i)
+	{
+		redisReply* element = reply->element[i];
+		if (REDIS_REPLY_STRING == element->type)
+		{
+			values.emplace_back(std::string(element->str, element->len));
+		}
+		else
+		{
+			values.emplace_back(std::string());
+		}
+	}
+
+	return values;
+}
+
+bool RedisConnector::SendCommandNoReply(std::string&& command)
 {
 	UniqueRedisReply reply(SendCommand(std::move(command)));
 	return nullptr != reply;
 }
-
 
 [[nodiscard]]
 redisReply* RedisConnector::SendCommand(std::string&& command)
@@ -123,8 +180,6 @@ redisReply* RedisConnector::SendCommand(std::string&& command)
 	{
 		return nullptr;
 	}
-
-	auto context = redis_context_;
 
 	if (false == IsConnected())
 	{
@@ -157,7 +212,7 @@ bool RedisConnector::Ping()
 		return false;
 	}
 
-	UniqueRepy reply(SendCommand("PING"));
+	UniqueRedisReply reply(SendCommand("PING"));
 	if (nullptr == reply)
 	{
 		return false;
