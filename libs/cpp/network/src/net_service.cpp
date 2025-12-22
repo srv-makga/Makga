@@ -9,7 +9,7 @@
 
 module makga.network.service;
 
-export namespace makga::network {
+namespace makga::network {
 NetService::NetService(NetServiceType type)
 	: service_type_(type)
 {
