@@ -321,6 +321,42 @@ std::optional<std::string> RedisConnector::RPop(std::string_view key)
 	return std::string(reply->str, reply->len);
 }
 
+std::vector<std::pair<std::string, double>> RedisConnector::ZRangeWithScores(std::string_view key, int64_t start, int64_t stop)
+{
+	std::ostringstream command;
+	command << "ZRANGE " << key << " " << start << " " << stop << " WITHSCORES";
+
+	UniqueRedisReply reply(SendCommand(command.str()));
+	if (nullptr == reply)
+	{
+		return std::vector<std::pair<std::string, double>>();
+	}
+
+	if (REDIS_REPLY_ARRAY != reply->type || 0 != reply->elements % 2)
+	{
+		return std::vector<std::pair<std::string, double>>();
+	}
+
+	std::vector<std::pair<std::string, double>> result;
+	result.reserve(reply->elements / 2);
+
+	for (size_t i = 0; i < reply->elements; i += 2)
+	{
+		redisReply* member_reply = reply->element[i];
+		redisReply* score_reply = reply->element[i + 1];
+		if (REDIS_REPLY_STRING != member_reply->type || REDIS_REPLY_STRING != score_reply->type)
+		{
+			continue;
+		}
+
+		std::string member(member_reply->str, member_reply->len);
+		double score = std::stod(std::string(score_reply->str, score_reply->len));
+		result.emplace_back(std::make_pair(std::move(member), score));
+	}
+
+	return result;
+}
+
 bool RedisConnector::Ping()
 {
 	if (false == IsConnected())

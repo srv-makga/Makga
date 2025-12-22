@@ -67,12 +67,17 @@ public:
 	// List
 	template<typename... Args>
 	int64_t LPush(std::string_view key, Args&&... args);
-
 	template<typename... Args>
 	int64_t RPush(std::string_view key, Args&&... args);
 
 	std::optional<std::string> LPop(std::string_view key);
 	std::optional<std::string> RPop(std::string_view key);
+
+	// Sorted Set
+	template<typename... Args>
+	bool ZAdd(std::string_view key, Args&&... args);
+
+	std::vector<std::pair<std::string, double>> ZRangeWithScores(std::string_view key, int64_t start, int64_t stop);
 
 
 	bool Ping();
@@ -83,6 +88,11 @@ protected:
 	// @return reply의 nullptr 여부
 	// @note 응답 값이 필요하지 않을 때 사용
 	bool SendCommandNoReply(std::string&& command);
+
+	// @brief Redis 명령어 전송
+	// @param command: Redis 명령어
+	// @return redis 라이브러리에서 반환하는 redisReply
+	// @note 응답 값이 필요할 때 사용, 리턴 값은 반드시 release 처리 해야함
 	redisReply* SendCommand(std::string&& command);
 
 private:
@@ -101,14 +111,12 @@ private:
 template<typename ...Args>
 bool RedisConnector::MSet(std::string_view key, std::string_view value, Args&&... args)
 {
-	static_assert((std::is_convertible_v<Args, std::string_view> && ...),
-		"All additional arguments must be convertible to std::string_view");
-	static_assert(sizeof...(Args) % 2 == 0, "MSet requires an even number of additional arguments (key,value pairs)");
+	/*static_assert((std::is_convertible_v<Args, std::string_view> && ...), "All additional arguments must be convertible to std::string_view");*/
+	static_assert(sizeof...(Args) % 2 == 0, "MSet requires an even number of additional arguments (key, value pairs)");
 
 	std::ostringstream command;
 	command << "MSET " << key << " " << value;
-
-	((command << " " << std::string_view(args)), ...);
+	((command << " " << args), ...);
 
 	return SendCommandNoReply(command.str());
 }
@@ -155,5 +163,13 @@ int64_t RedisConnector::RPush(std::string_view key, Args&&... args)
 	return static_cast<int64_t>(reply->integer);
 }
 
+template<typename... Args>
+bool RedisConnector::ZAdd(std::string_view key, Args&&... args)
+{
+	std::ostringstream command;
+	command << "ZADD " << key;
+	((command << " " << args), ...);
+	return SendCommandNoReply(command.str());
+}
 
 } // namespace makga::database
