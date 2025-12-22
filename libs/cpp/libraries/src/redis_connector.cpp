@@ -3,13 +3,13 @@
 #include <stdexcept>
 #include <winsock2.h>
 #include <chrono>
+#include <format>
 #include "../../3rdparty/hiredis/hiredis.h"
 
 module makga.lib.database.redis.connector;
 
 import <string>;
 import <chrono>;
-import <format>;
 import makga.lib.lock;
 import makga.lib.logger;
 
