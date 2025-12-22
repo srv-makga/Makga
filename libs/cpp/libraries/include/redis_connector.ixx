@@ -76,9 +76,29 @@ public:
 	// Sorted Set
 	template<typename... Args>
 	bool ZAdd(std::string_view key, Args&&... args);
+	template<typename... Args>
+	bool ZRem(std::string_view key, Args&&... args);
 
 	std::vector<std::pair<std::string, double>> ZRangeWithScores(std::string_view key, int64_t start, int64_t stop);
+	std::vector<std::pair<std::string, double>> ZRevrangeWithScores(std::string_view key, int64_t start, int64_t stop);
+	std::size_t ZCount(std::string_view key, std::size_t min = 0, std::size_t max = 0);
 
+	template<typename T>
+	std::size_t ZRank(std::string_view key, T member);
+	template<typename T>
+	std::size_t ZRevRank(std::string_view key, T member);
+
+	// Hash
+	template<typename ...Args>
+	std::size_t HSet(std::string_view key, Args&&... args);
+	template<typename ...Args>
+	std::size_t HDel(std::string_view key, Args&&... args);
+
+	std::string HGet(std::string_view key, std::string_view field);
+	std::vector<std::string> HMGet(std::string_view key, const std::vector<std::string>& fields);
+
+	std::vector<std::string> HKeys(std::string_view key);
+	std::vector<std::string> HVals(std::string_view key);
 
 	bool Ping();
 
@@ -172,4 +192,99 @@ bool RedisConnector::ZAdd(std::string_view key, Args&&... args)
 	return SendCommandNoReply(command.str());
 }
 
+template<typename ...Args>
+bool RedisConnector::ZRem(std::string_view key, Args && ...args)
+{
+	static_assert((std::is_convertible_v<Args, std::string_view> && ...), "All additional arguments must be convertible to std::string_view");
+
+	std::ostringstream command;
+	command << "ZREM " << key;
+	((command << " " << args), ...);
+	return SendCommandNoReply(command.str());
+}
+
+template<typename T>
+std::size_t database::RedisConnector::ZRank(std::string_view key, T member)
+{
+	std::ostringstream command;
+	command << "ZRANGE " << key << " " << member;
+
+	UniqueRedisReply reply(SendCommand(command.str()));
+	if (nullptr == reply)
+	{
+		return static_cast<std::size_t>(-1);
+	}
+
+	if (REDIS_REPLY_INTEGER != reply->type)
+	{
+		return static_cast<std::size_t>(-1);
+	}
+
+	return static_cast<std::size_t>(reply->integer);
+}
+
+template<typename T>
+std::size_t RedisConnector::ZRevRank(std::string_view key, T member)
+{
+	std::ostringstream command;
+	command << "ZREVRANGE " << key << " " << member;
+
+	UniqueRedisReply reply(SendCommand(command.str()));
+	if (nullptr == reply)
+	{
+		return static_cast<std::size_t>(-1);
+	}
+
+	if (REDIS_REPLY_INTEGER != reply->type)
+	{
+		return static_cast<std::size_t>(-1);
+	}
+
+	return static_cast<std::size_t>(reply->integer);
+}
+
+template<typename ...Args>
+std::size_t RedisConnector::HSet(std::string_view key, Args && ...args)
+{
+	/*static_assert((std::is_convertible_v<Args, std::string_view> && ...), "All additional arguments must be convertible to std::string_view");*/
+	static_assert(sizeof...(Args) % 2 == 0, "HSet requires an even number of additional arguments (field, value pairs)");
+
+	std::ostringstream command;
+	command << "HSET " << key;
+	((command << " " << args), ...);
+
+	UniqueRedisReply reply(SendCommand(command.str()));
+	if (nullptr == reply)
+	{
+		return 0;
+	}
+
+	if (REDIS_REPLY_INTEGER != reply->type)
+	{
+		return 0;
+	}
+
+	return static_cast<std::size_t>(reply->integer);
+}
+
+template<typename ...Args>
+std::size_t RedisConnector::HDel(std::string_view key, Args && ...args)
+{
+	std::ostringstream command;
+	command << "HDEL " << key;
+	((command << " " << args), ...);
+
+	UniqueRedisReply reply(SendCommand(command.str()));
+	if (nullptr == reply)
+	{
+		return 0;
+	}
+
+	if (REDIS_REPLY_INTEGER != reply->type)
+	{
+		return 0;
+	}
+
+	return static_cast<std::size_t>(reply->integer);
+}
 } // namespace makga::database

@@ -151,7 +151,7 @@ std::vector<std::string> RedisConnector::MGet(const std::vector<std::string>& ke
 	std::vector<std::string> values;
 	values.reserve(reply->elements);
 
-	for (size_t i = 0; i < reply->elements; ++i)
+	for (std::size_t i = 0; i < reply->elements; ++i)
 	{
 		redisReply* element = reply->element[i];
 		if (REDIS_REPLY_STRING == element->type)
@@ -340,7 +340,7 @@ std::vector<std::pair<std::string, double>> RedisConnector::ZRangeWithScores(std
 	std::vector<std::pair<std::string, double>> result;
 	result.reserve(reply->elements / 2);
 
-	for (size_t i = 0; i < reply->elements; i += 2)
+	for (std::size_t i = 0; i < reply->elements; i += 2)
 	{
 		redisReply* member_reply = reply->element[i];
 		redisReply* score_reply = reply->element[i + 1];
@@ -355,6 +355,180 @@ std::vector<std::pair<std::string, double>> RedisConnector::ZRangeWithScores(std
 	}
 
 	return result;
+}
+
+std::vector<std::pair<std::string, double>> RedisConnector::ZRevrangeWithScores(std::string_view key, int64_t start, int64_t stop)
+{
+	std::ostringstream command;
+	command << "ZREVRANGE " << key << " " << start << " " << stop << " WITHSCORES";
+
+	UniqueRedisReply reply(SendCommand(command.str()));
+	if (nullptr == reply)
+	{
+		return std::vector<std::pair<std::string, double>>();
+	}
+
+	if (REDIS_REPLY_ARRAY != reply->type || 0 != reply->elements % 2)
+	{
+		return std::vector<std::pair<std::string, double>>();
+	}
+
+	std::vector<std::pair<std::string, double>> result;
+	result.reserve(reply->elements / 2);
+
+	for (std::size_t i = 0; i < reply->elements; i += 2)
+	{
+		redisReply* member_reply = reply->element[i];
+		redisReply* score_reply = reply->element[i + 1];
+
+		if (REDIS_REPLY_STRING != member_reply->type || REDIS_REPLY_STRING != score_reply->type)
+		{
+			continue;
+		}
+
+		std::string member(member_reply->str, member_reply->len);
+		double score = std::stod(std::string(score_reply->str, score_reply->len));
+		result.emplace_back(std::make_pair(std::move(member), score));
+	}
+
+	return result;
+}
+
+std::size_t RedisConnector::ZCount(std::string_view key, std::size_t min, std::size_t max)
+{
+	std::ostringstream command;
+	command << "ZCOUNT " << key
+		<< " " << (0 == min ? "-inf" : std::to_string(min))
+		<< " " << (0 == max ? "+inf" : std::to_string(max));
+
+	UniqueRedisReply reply(SendCommand(command.str()));
+	if (nullptr == reply)
+	{
+		return 0;
+	}
+	if (REDIS_REPLY_INTEGER != reply->type)
+	{
+		return 0;
+	}
+
+	return static_cast<std::size_t>(reply->integer);
+}
+
+std::string RedisConnector::HGet(std::string_view key, std::string_view field)
+{
+	UniqueRedisReply reply(SendCommand(std::format("HGET {0} {1}", key.data(), field.data())));
+	if (nullptr == reply)
+	{
+		return std::string();
+	}
+
+	if (REDIS_REPLY_STRING != reply->type)
+	{
+		return std::string();
+	}
+
+	return std::string(reply->str, reply->len);
+}
+
+std::vector<std::string> RedisConnector::HMGet(std::string_view key, const std::vector<std::string>& fields)
+{
+	std::ostringstream command;
+	command << "HMGET " << key;
+	for (const auto& field : fields)
+	{
+		command << ' ' << field;
+	}
+
+	UniqueRedisReply reply(SendCommand(command.str()));
+	if (nullptr == reply)
+	{
+		return std::vector<std::string>();
+	}
+
+	if (REDIS_REPLY_ARRAY != reply->type)
+	{
+		return std::vector<std::string>();
+	}
+
+	std::vector<std::string> values;
+	values.reserve(reply->elements);
+
+	for (std::size_t i = 0; i < reply->elements; ++i)
+	{
+		redisReply* element = reply->element[i];
+		if (REDIS_REPLY_STRING == element->type)
+		{
+			values.emplace_back(std::string(element->str, element->len));
+		}
+		else
+		{
+			values.emplace_back(std::string());
+		}
+	}
+
+	return values;
+}
+
+std::vector<std::string> RedisConnector::HKeys(std::string_view key)
+{
+	std::ostringstream command;
+	command << "HKEYS " << key;
+
+	UniqueRedisReply reply(SendCommand(command.str()));
+	if (nullptr == reply)
+	{
+		return std::vector<std::string>();
+	}
+
+	if (REDIS_REPLY_ARRAY != reply->type)
+	{
+		return std::vector<std::string>();
+	}
+
+	std::vector<std::string> keys;
+	keys.reserve(reply->elements);
+
+	for (std::size_t i = 0; i < reply->elements; ++i)
+	{
+		redisReply* element = reply->element[i];
+		if (REDIS_REPLY_STRING == element->type)
+		{
+			keys.emplace_back(std::string(element->str, element->len));
+		}
+	}
+
+	return keys;
+}
+
+std::vector<std::string> RedisConnector::HVals(std::string_view key)
+{
+	std::ostringstream command;
+	command << "HVALS " << key;
+
+	UniqueRedisReply reply(SendCommand(command.str()));
+	if (nullptr == reply)
+	{
+		return std::vector<std::string>();
+	}
+
+	if (REDIS_REPLY_ARRAY != reply->type)
+	{
+		return std::vector<std::string>();
+	}
+
+	std::vector<std::string> values;
+	values.reserve(reply->elements);
+
+	for (std::size_t i = 0; i < reply->elements; ++i)
+	{
+		redisReply* element = reply->element[i];
+		if (REDIS_REPLY_STRING == element->type)
+		{
+			values.emplace_back(std::string(element->str, element->len));
+		}
+	}
+
+	return values;
 }
 
 bool RedisConnector::Ping()
