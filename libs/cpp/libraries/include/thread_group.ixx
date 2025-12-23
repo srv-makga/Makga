@@ -1,10 +1,10 @@
 module;
 
+export module makga.lib.thread.group;
+
 import <thread>;
 import <functional>;
 import <vector>;
-
-export module makga.lib.thread.group;
 
 export namespace makga::lib {
 // @brief Multiple threads performing the same task
