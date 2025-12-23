@@ -1,5 +1,5 @@
-#include "WinSock2.h"
-#include "Windows.h"
+#include <WinSock2.h>
+#include <windows.h>
 #include <memory>
 #include <mutex>
 
@@ -174,6 +174,16 @@ void IocpAcceptor::ProcessAccept(IocpAcceptEvent* event)
 bool IocpAcceptor::CanAcceptSession() const
 {
 	return GetConnectCount() < GetMaxConnectCount();
+}
+
+std::size_t IocpAcceptor::GetConnectCount() const
+{
+	return service_ ? service_->GetConnectCount() : 0;
+}
+
+std::size_t IocpAcceptor::GetMaxConnectCount() const
+{
+	return service_ ? service_->GetMaxConnectCount() : 0;
 }
 
 HANDLE IocpAcceptor::GetHandle() const
