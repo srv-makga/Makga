@@ -15,13 +15,30 @@ void UserServer::CreateSession(std::size_t max_connect_count)
 {
 	for (std::size_t i = 0; i < max_connect_count; ++i)
 	{
-		auto session = std::make_shared<UserSession>(shared_from_this(), ++next_session_id_);
+		auto session = std::make_shared<UserSession>(shared_from_this());
 		if (nullptr == session)
 		{
 			continue;
 		}
 
+		session->SetSessionId(++next_session_id_);
+
 		free_sessions_.push(session);
 	}
+}
+
+bool UserServer::StartUp()
+{
+    return false;
+}
+
+bool UserServer::StartUpEnd()
+{
+	return false;
+}
+
+bool UserServer::Stop()
+{
+	return false;
 }
 

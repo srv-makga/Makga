@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "user_session.h"
 
-UserSession::UserSession()
+UserSession::UserSession(std::shared_ptr<makga::network::IocpService> service)
+	: makga::network::IocpSession(service)
 {
 }
 
