@@ -70,6 +70,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)..\bin\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -102,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(MSBuildStartupDirectory)\..\libs\cpp\libraries;$(MSBuildStartupDirectory)\..\libs\cpp\network;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\libs\cpp\libraries;..\..\libs\cpp\network;..\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <EnableModules>true</EnableModules>
@@ -134,12 +137,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
+    <ClCompile Include="job_thread.cpp" />
     <ClCompile Include="net_thread.cpp" />
+    <ClCompile Include="user_server.cpp" />
+    <ClCompile Include="user_session.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="job_thread.h" />
     <ClInclude Include="net_thread.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="user_server.h" />
+    <ClInclude Include="user_session.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\cpp\libraries\libraries.vcxproj">
+      <Project>{65f45b7d-c941-4b24-a612-113230fd4229}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libs\cpp\network\network.vcxproj">
+      <Project>{1500e32c-c2d3-4843-b713-daf205ce230a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\common\common.vcxproj">
+      <Project>{5277a493-567f-482a-8877-389c296e8218}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
