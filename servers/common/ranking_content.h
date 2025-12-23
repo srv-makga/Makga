@@ -1,8 +1,10 @@
 #pragma once
 
 #include <memory>
+#include "../3rdparty/hiredis/hiredis.h"
 
 import <string>;
+import makga.lib.database.redis.connector;
 
 // @brief Ranking content interface
 // @detail Register in RANKING_SYSTEM and use it.

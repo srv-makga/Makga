@@ -44,3 +44,11 @@ bool RankingSystem::RemoveContent(const Key& key)
 {
 	return 0 < ranking_contents_.erase(key);
 }
+
+void RankingSystem::Update()
+{
+	for (auto& [key, content] : ranking_contents_)
+	{
+		content->CalcRanking();
+	}
+}
