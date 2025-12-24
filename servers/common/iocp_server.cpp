@@ -41,7 +41,10 @@ bool IocpServer::Initialize(std::size_t max_connect_count, std::shared_ptr<NetHa
 	CreateSession(max_connect_count);
 
 	net_handler_ = net_handler;
+	net_handler_->Start();
+
 	job_handler_ = job_handler;
+	job_handler_->Start();
 
 	acceptor_ = std::make_shared<makga::network::IocpAcceptor>(shared_from_this());
 	if (nullptr == acceptor_)
