@@ -5,10 +5,34 @@
     <ClCompile Include="net_thread.cpp">
       <Filter>thread</Filter>
     </ClCompile>
+    <ClCompile Include="job_thread.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="user_session.cpp">
+      <Filter>network\session</Filter>
+    </ClCompile>
+    <ClCompile Include="user_server.cpp">
+      <Filter>network\server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="thread">
       <UniqueIdentifier>{163bc5ec-c87f-4d96-8515-89d593da50a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network">
+      <UniqueIdentifier>{fe74fb9c-431d-437a-9185-96a03ec70a28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\server">
+      <UniqueIdentifier>{c6976f26-5afc-4723-a868-ead509a07752}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\client">
+      <UniqueIdentifier>{b92ff816-ffe2-4d12-a7a2-862ab9df3e48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\session">
+      <UniqueIdentifier>{d597312a-5279-4d5f-865c-ed95be3d8429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system">
+      <UniqueIdentifier>{bc413893-dcf4-4cf0-a6d2-8ea8e5d462ef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -18,6 +42,12 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="job_thread.h">
       <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="user_session.h">
+      <Filter>network\session</Filter>
+    </ClInclude>
+    <ClInclude Include="user_server.h">
+      <Filter>network\server</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
