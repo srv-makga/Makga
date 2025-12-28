@@ -1,19 +1,23 @@
 module;
 
-export module makga.game.component;
+export module makga.lib.component;
 
-export namespace makga::game {
+export namespace makga::lib {
 export class Component
 {
 public:
 	enum Type
 	{
 		NONE = 0,
+		TRANSFORM,
+		RIGID_BODY,
+		COLLIDER,
 	};
 
 	Component(Type type)
 		: type_(type) {}
 	virtual ~Component() = default;
+
 	virtual bool Initialize() = 0;
 	virtual void Finalize() = 0;
 	virtual void Update() = 0;
