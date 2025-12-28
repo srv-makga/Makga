@@ -65,6 +65,12 @@
     <ClCompile Include="src\redis_connector.cpp">
       <Filter>database</Filter>
     </ClCompile>
+    <ClCompile Include="include\component.ixx">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="include\transform_component.ixx">
+      <Filter>component\detail</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">
@@ -96,6 +102,12 @@
     </Filter>
     <Filter Include="database">
       <UniqueIdentifier>{b6c2398f-763a-4b54-bd41-bbd7851a45b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="component">
+      <UniqueIdentifier>{8b2b3df2-eccc-4f85-870a-51d0ad3ffb0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="component\detail">
+      <UniqueIdentifier>{1f49c4fb-d965-402b-8df1-064756464538}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
