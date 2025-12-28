@@ -19,3 +19,4 @@ unit_test/unit_test.vcxproj.user
 /libs/cpp/3rdparty/hiredis/build/x64
 libs/cpp/3rdparty/hiredis/build/hiredis.vcxproj.user
 *.cpp
+*.exe

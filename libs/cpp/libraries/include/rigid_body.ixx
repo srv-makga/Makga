@@ -17,7 +17,7 @@ public:
 	void Finalize() override;
 	void Update() override;
 
-	void FixedUpdate(float delta_time);
+	void FixedUpdate(TransformComponent& transform, float delta_time);
 
 protected:
 	makga::math::Vector3 velocity_; // ¼Óµµ

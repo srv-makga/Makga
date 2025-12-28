@@ -71,6 +71,14 @@
     <ClCompile Include="include\transform_component.ixx">
       <Filter>component\detail</Filter>
     </ClCompile>
+    <ClCompile Include="include\vector3.ixx" />
+    <ClCompile Include="src\vector3.cpp" />
+    <ClCompile Include="include\rigid_body.ixx">
+      <Filter>component\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rigid_body.cpp">
+      <Filter>component\detail</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">
