@@ -16,6 +16,14 @@ Sphere vs Box	박스 내에서 구 중심과 가장 가까운 점을 찾고, 그 점과 구 중심의 거�
 Capsule vs Capsule	두 캡슐의 '중심 선분' 사이의 최단 거리를 구한 뒤, (반지름 합)과 비교
 */
 
+/*
+* Point
+* Line
+* Sphere
+* Box
+* Capsule
+*/
+
 export class Collider : public Component
 {
 public:
@@ -38,11 +46,24 @@ public:
 	bool CheckCollision(const Point& g1, const Capsule& g2);
 	bool CheckCollision(const Capsule& g1, const Point& g2) { return CheckCollision(g2, g1); }
 
-	bool CheckCollision(const Box& g1, const Sphere& g2);
-	bool CheckCollision(const Sphere& g1, const Box& g2) { return CheckCollision(g2, g1); }
+	bool CheckCollision(const Line& g1, const Sphere& g2);
+	bool CheckCollision(const Sphere& g1, const Line& g2) { return CheckCollision(g2, g1); }
+
+	bool CheckCollision(const Line& g1, const Box& g2);
+	bool CheckCollision(const Box& g1, const Line& g2) { return CheckCollision(g2, g1); }
+
+	bool CheckCollision(const Line& g1, const Capsule& g2);
+	bool CheckCollision(const Capsule& g1, const Line& g2) { return CheckCollision(g2, g1); }
 
 	bool CheckCollision(const Sphere& g1, const Capsule& g2);
 	bool CheckCollision(const Capsule& g1, const Sphere& g2) { return CheckCollision(g2, g1); }
+
+	bool CheckCollision(const Sphere& g1, const Box& g2) { return CheckCollision(g2, g1); }
+	bool CheckCollision(const Box& g1, const Sphere& g2);
+
+	bool CheckCollision(const Box& g1, const Capsule& g2);
+	bool CheckCollision(const Capsule& g1, const Box& g2) { return CheckCollision(g2, g1); }
+
 
 	bool CheckCollision(const Point& g1, const Point& g2);
 	bool CheckCollision(const Box& g1, const Box& g2);
