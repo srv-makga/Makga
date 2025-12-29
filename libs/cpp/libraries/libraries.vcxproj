@@ -147,11 +147,13 @@
     <ClCompile Include="include\ahocorasick.ixx" />
     <ClCompile Include="include\brain_tree.ixx" />
     <ClCompile Include="include\buffer.ixx" />
+    <ClCompile Include="include\collider.ixx" />
     <ClCompile Include="include\command_line.ixx" />
     <ClCompile Include="include\component.ixx" />
     <ClCompile Include="include\convert.ixx" />
     <ClCompile Include="include\datetime.ixx" />
     <ClCompile Include="include\double_queue.ixx" />
+    <ClCompile Include="include\geometry.ixx" />
     <ClCompile Include="include\lock.ixx" />
     <ClCompile Include="include\logger.ixx" />
     <ClCompile Include="include\observer.ixx" />
@@ -163,10 +165,11 @@
     <ClCompile Include="include\string.ixx" />
     <ClCompile Include="include\thread_group.ixx" />
     <ClCompile Include="include\thread_pool.ixx" />
-    <ClCompile Include="include\transform_component.ixx" />
+    <ClCompile Include="include\transform.ixx" />
     <ClCompile Include="include\util.ixx" />
     <ClCompile Include="include\vector3.ixx" />
     <ClCompile Include="src\ahocorasick.cpp" />
+    <ClCompile Include="src\collider.cpp" />
     <ClCompile Include="src\datetime.cpp" />
     <ClCompile Include="src\logger.cpp" />
     <ClCompile Include="src\redis_connector.cpp" />
@@ -174,6 +177,7 @@
     <ClCompile Include="src\string.cpp" />
     <ClCompile Include="src\thread_group.cpp" />
     <ClCompile Include="src\thread_pool.cpp" />
+    <ClCompile Include="src\transform.cpp" />
     <ClCompile Include="src\util.cpp" />
     <ClCompile Include="src\vector3.cpp" />
   </ItemGroup>
