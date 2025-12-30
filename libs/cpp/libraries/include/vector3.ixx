@@ -22,7 +22,7 @@ public:
 	Vector3 ClosestPointOnLineSegment(const Vector3& a, const Vector3& b) const;
 
 	/*ClosestDistanceSquaredBetweenLineSegments*/
-	Vector3 ClosestDistanceSquaredBetweenLineSegments(const Vector3& p1, const Vector3& q1, const Vector3& p2, const Vector3& q2, float& s, float& t) const;
+	Vector3 ClosestDistanceSquaredBetweenLineSegments(const Vector3& end, const Vector3& other_start, const Vector3& other_end, float& s, float& t) const;
 
 
 	Vector3 operator+(const Vector3& other) const;
@@ -39,4 +39,4 @@ public:
 	float y_;
 	float z_;
 };
-};
+}

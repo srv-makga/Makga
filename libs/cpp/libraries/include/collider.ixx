@@ -30,7 +30,7 @@ public:
 	Collider();
 	virtual ~Collider() = default;
 
-	bool Initialize() override {}
+	bool Initialize() override { return true; }
 	void Finalize() override {}
 	void Update() override {}
 
