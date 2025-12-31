@@ -29,7 +29,7 @@ public:
 
 	bool Connect();
 	void Disconnect();
-	void Send(std::shared_ptr<NetBuffer> send_buffer);
+	void Send(std::shared_ptr<NetPacket> send_buffer);
 
 	// @brief 동기 요청
 	int Recv();
@@ -87,16 +87,16 @@ protected:
 	std::atomic<std::time_t> sent_time_;
 	std::atomic<std::size_t> sent_size_;
 
-	std::shared_ptr<NetBuffer> recv_buffer_;
+	std::shared_ptr<NetPacket> recv_buffer_;
 
 	std::mutex send_mutex_;
-	std::queue<std::shared_ptr<NetBuffer>> send_buffer_queue_;
+	std::queue<std::shared_ptr<NetPacket>> send_buffer_queue_;
 	std::atomic<bool> is_send_registered_;
 
 	IocpRecvEvent recv_event_;
 	IocpConnectEvent connect_event_;
 	IocpDisconnectEvent disconnect_event_;
-	IocpSendEvent<NetBuffer> send_event_;
+	IocpSendEvent<NetPacket> send_event_;
 
 	std::shared_ptr<IocpService> service_;
 };

@@ -46,7 +46,7 @@ protected:
 	SOCKET socket_;
 	std::atomic<bool> is_connected_;
 
-	std::shared_ptr<IocpSession> session_;
+	std::shared_ptr<NetSession> session_;
 	IocpConnectEvent connect_event_;
 };
 } // namespace makga::network

@@ -9,7 +9,7 @@ module;
 #pragma comment(lib, "mswsock.lib")
 #endif
 
-export module makga.network.socket;
+export module makga.network.socket.util;
 
 import makga.network.endpoint;
 

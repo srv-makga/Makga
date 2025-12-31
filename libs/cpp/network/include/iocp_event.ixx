@@ -7,8 +7,9 @@ module;
 
 export module makga.network.iocp.event;
 
+import makga.network.session;
+
 export namespace makga::network {
-class IocpSession;
 class IocpObject;
 
 enum class IocpType
@@ -47,7 +48,7 @@ public:
 	}
 
 	IocpType type_;
-	std::shared_ptr<IocpObject> owner_;
+	std::shared_ptr<IocpObject> owner_; // dispatch
 };
 
 export class IocpAcceptEvent : public IocpEvent
@@ -61,7 +62,7 @@ public:
 	virtual ~IocpAcceptEvent() = default;
 
 public:
-	std::shared_ptr<IocpSession> session_ = nullptr; // acceptµÈ session
+	std::shared_ptr<NetSession> session_ = nullptr; // acceptµÈ session
 };
 
 export class IocpConnectEvent : public IocpEvent
@@ -73,6 +74,9 @@ public:
 	IocpConnectEvent& operator=(const IocpConnectEvent&) = delete;
 	IocpConnectEvent& operator=(IocpConnectEvent&&) = delete;
 	virtual ~IocpConnectEvent() = default;
+
+public:
+	std::shared_ptr<NetSession> session_ = nullptr; // connectµÈ session
 };
 
 export class IocpDisconnectEvent : public IocpEvent

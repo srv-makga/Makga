@@ -9,10 +9,10 @@ export import makga.network.nethandler;
 export import makga.network.jobhandler;
 export import makga.network.service;
 export import makga.network.endpoint;
+export import makga.network.session;
 export import makga.network.iocp.core;
 
 export namespace makga::network {
-class IocpSession;
 export class IocpService : public NetService
 {
 public:
@@ -38,8 +38,8 @@ public:
 	virtual std::size_t GetConnectCount() const = 0;
 	virtual std::size_t GetMaxConnectCount() const = 0;
 
-	virtual std::shared_ptr<IocpSession> AllocSession() = 0;
-	virtual void DeallocSession(std::shared_ptr<IocpSession> session) = 0;
+	virtual std::shared_ptr<NetSession> AllocSession() = 0;
+	virtual void DeallocSession(std::shared_ptr<NetSession> session) = 0;
 
 protected:
 	std::shared_ptr<IocpCore> core_;
