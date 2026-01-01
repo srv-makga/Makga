@@ -12,15 +12,15 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace unittest
 {
-	TEST_CLASS(netbuffer)
+	TEST_CLASS(NetPacket)
 	{
 	public:
-		TEST_METHOD(NetBufferTest)
+		TEST_METHOD(NetPacketTest)
 		{
 			try
 			{
 				std::size_t buffer_size = 1024;
-				makga::network::NetBuffer buffer;
+				makga::network::NetPacket buffer;
 				buffer.AllocateBuffer(buffer_size);
 
 				Assert::IsTrue(0 == buffer.UsingSize());
