@@ -3,8 +3,6 @@
 #include "dispatcher.h"
 #include "user.h"
 
-import makga.network.buffer;
-
 class UserDispatcher : public DispatcherTemplate<User>
 {
 public:

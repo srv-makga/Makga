@@ -22,5 +22,7 @@
 #include <ws2ipdef.h>
 #include <mstcpip.h>
 
+#include "define.h"
+
 import makga.lib.logger;
 using Logger = makga::lib::MakgaLogger;
