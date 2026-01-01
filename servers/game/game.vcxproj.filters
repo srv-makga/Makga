@@ -8,11 +8,14 @@
     <ClCompile Include="job_thread.cpp">
       <Filter>thread</Filter>
     </ClCompile>
-    <ClCompile Include="user_session.cpp">
-      <Filter>network\session</Filter>
+    <ClCompile Include="user_dispatcher.cpp">
+      <Filter>user</Filter>
     </ClCompile>
     <ClCompile Include="user_server.cpp">
-      <Filter>network\server</Filter>
+      <Filter>user</Filter>
+    </ClCompile>
+    <ClCompile Include="game_session.cpp">
+      <Filter>network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -22,17 +25,14 @@
     <Filter Include="network">
       <UniqueIdentifier>{fe74fb9c-431d-437a-9185-96a03ec70a28}</UniqueIdentifier>
     </Filter>
-    <Filter Include="network\server">
-      <UniqueIdentifier>{c6976f26-5afc-4723-a868-ead509a07752}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="network\client">
-      <UniqueIdentifier>{b92ff816-ffe2-4d12-a7a2-862ab9df3e48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="network\session">
-      <UniqueIdentifier>{d597312a-5279-4d5f-865c-ed95be3d8429}</UniqueIdentifier>
-    </Filter>
     <Filter Include="system">
       <UniqueIdentifier>{bc413893-dcf4-4cf0-a6d2-8ea8e5d462ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{d4d4016d-1e1f-49f9-a811-7c9858ca4f77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="user">
+      <UniqueIdentifier>{d5d26b6a-b139-47d7-a8ad-9a9574e21c70}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -43,11 +43,20 @@
     <ClInclude Include="job_thread.h">
       <Filter>thread</Filter>
     </ClInclude>
-    <ClInclude Include="user_session.h">
-      <Filter>network\session</Filter>
+    <ClInclude Include="define.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="user_dispatcher.h">
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="user.h">
+      <Filter>user</Filter>
     </ClInclude>
     <ClInclude Include="user_server.h">
-      <Filter>network\server</Filter>
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="game_session.h">
+      <Filter>network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

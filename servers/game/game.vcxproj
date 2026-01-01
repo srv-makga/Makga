@@ -139,15 +139,19 @@
     <ClCompile Include="app.cpp" />
     <ClCompile Include="job_thread.cpp" />
     <ClCompile Include="net_thread.cpp" />
+    <ClCompile Include="user_dispatcher.cpp" />
     <ClCompile Include="user_server.cpp" />
-    <ClCompile Include="user_session.cpp" />
+    <ClCompile Include="game_session.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="define.h" />
     <ClInclude Include="job_thread.h" />
     <ClInclude Include="net_thread.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="user.h" />
+    <ClInclude Include="user_dispatcher.h" />
     <ClInclude Include="user_server.h" />
-    <ClInclude Include="user_session.h" />
+    <ClInclude Include="game_session.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs\cpp\libraries\libraries.vcxproj">
