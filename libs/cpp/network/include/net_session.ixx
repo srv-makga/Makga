@@ -8,13 +8,17 @@ export module makga.network.session;
 import makga.network.service;
 import makga.network.endpoint;
 
-namespace makga::network {
+export namespace makga::network {
 export class NetSession
 {
 public:
 	using Id = uint64_t;
 
-	NetSession() = default;
+	NetSession()
+		: id_(0)
+		, ep_()
+	{
+	}
 	virtual ~NetSession() = default;
 
 	// @brief 비동기 요청의 결과로 호출
@@ -25,6 +29,9 @@ public:
 
 	virtual SOCKET GetSocket() const = 0;
 	virtual char* GetWritePosition() = 0;
+
+	Id GetSessionId() const;
+	void SetSessionId(Id id);
 
 	const IPEndPoint& GetEndPoint() const;
 	void SetEndPoint(SOCKADDR_IN addr);
