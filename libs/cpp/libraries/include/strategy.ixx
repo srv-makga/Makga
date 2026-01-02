@@ -32,6 +32,11 @@ public:
 		: strategy_(strategy)
 	{
 	}
+
+	virtual StrategyContext::~StrategyContext()
+	{
+		strategy_ = nullptr;
+	}
 	
 	void SetStrategy(std::shared_ptr<Strategy<T>> strategy)
 	{
