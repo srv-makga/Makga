@@ -33,7 +33,7 @@ public:
 	{
 	}
 
-	virtual StrategyContext::~StrategyContext()
+	virtual ~StrategyContext()
 	{
 		strategy_ = nullptr;
 	}
@@ -45,14 +45,9 @@ public:
 
 	void Execute()
 	{
-		std::shared_ptr<Strategy<T>> strategy_copy;
+		if (nullptr != strategy_)
 		{
-			std::shared_lock lock(mutex_);
-			strategy_copy = strategy_;
-		}
-		if (nullptr != strategy_copy)
-		{
-			strategy_copy->Execute();
+			strategy_->Execute();
 		}
 	}
 

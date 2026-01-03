@@ -95,6 +95,15 @@
     <ClCompile Include="src\collider.cpp">
       <Filter>component\collider</Filter>
     </ClCompile>
+    <ClCompile Include="include\strategy.ixx">
+      <Filter>pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="include\entity.ixx">
+      <Filter>pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="include\object_pool.ixx">
+      <Filter>pattern</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">

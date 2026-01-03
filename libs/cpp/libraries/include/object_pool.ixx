@@ -20,7 +20,7 @@ public:
 
 	virtual ~ObjectPool()
 	{
-		Release();
+		Finalize();
 	}
 
 	std::unique_ptr<T, std::function<void(T*)>> AcquireObject()
