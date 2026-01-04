@@ -1,0 +1,30 @@
+include "version.fbs";
+
+attribute "priority";
+
+namespace makga;
+
+enum ServerType : int
+{
+	Billing,
+	Login,
+	World,
+	Community,
+	DBAgent,
+	Game,
+	Instance,
+	Web,
+	Log,
+}
+
+enum DatabaseType : int
+{
+}
+
+enum RedisType : int
+{
+}
+
+enum AccountType : int
+{
+}

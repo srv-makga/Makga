@@ -1,0 +1,1 @@
+bin\flatc.exe --cpp -o out\cpp enum.fbs

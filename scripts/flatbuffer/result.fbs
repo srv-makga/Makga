@@ -1,0 +1,10 @@
+include "version.fbs";
+
+attribute "priority";
+
+namespace makga;
+
+enum Result
+{
+	Success = 0
+}

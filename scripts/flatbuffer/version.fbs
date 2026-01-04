@@ -1,0 +1,8 @@
+attribute "priority";
+
+namespace makga;
+
+enum Version : int
+{
+	Build = 100,
+}
