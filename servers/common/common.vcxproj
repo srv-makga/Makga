@@ -146,10 +146,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="define.h" />
+    <ClInclude Include="dispatcher.h" />
+    <ClInclude Include="flatbuffer\enum_generated.h" />
+    <ClInclude Include="flatbuffer\result_generated.h" />
+    <ClInclude Include="flatbuffer\version_generated.h" />
     <ClInclude Include="iocp_client.h" />
     <ClInclude Include="iocp_server.h" />
+    <ClInclude Include="iocp_session.h" />
+    <ClInclude Include="item_object.h" />
     <ClInclude Include="message_actor.h" />
+    <ClInclude Include="net_packet.h" />
     <ClInclude Include="ranking_content.h" />
+    <ClInclude Include="season.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="ranking_system.h" />
   </ItemGroup>
@@ -157,9 +165,12 @@
     <ClCompile Include="app.cpp" />
     <ClCompile Include="iocp_client.cpp" />
     <ClCompile Include="iocp_server.cpp" />
+    <ClCompile Include="iocp_session.cpp" />
     <ClCompile Include="message_actor.cpp" />
+    <ClCompile Include="net_packet.cpp" />
     <ClCompile Include="ranking_content.cpp" />
     <ClCompile Include="ranking_system.cpp" />
+    <ClCompile Include="season.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs\cpp\libraries\libraries.vcxproj">

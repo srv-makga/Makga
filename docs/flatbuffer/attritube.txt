@@ -1,0 +1,40 @@
+1. Attribute 사용 방법속성을 사용하려면 반드시 스키마 상단에 해당 속성을 선언(attribute "이름";)해야 합니다. (단, FlatBuffers에 내장된 속성은 선언 없이 사용 가능합니다.)
+
+
+// 사용자 정의 속성 선언 (반드시 상단에 정의)
+attribute "ui_name";
+attribute "priority";
+
+namespace MyGame.Data;
+
+enum Color:byte { Red = 0, Blue, Green }
+
+struct Vec3 {
+  x:float;
+  y:float;
+  z:float;
+}
+
+table Equipment {
+  id:string (key);                // key: 이 필드를 기준으로 리스트 정렬 및 이진 탐색 가능
+  name:string (required);         // required: 데이터 생성 시 반드시 값이 있어야 함
+  power:int = 100;                // 기본값 설정
+}
+
+table Monster {
+  pos:Vec3 (force_align: 16);     // force_align: 메모리 정렬을 16바이트로 강제 (SIMD 최적화 등)
+  
+  // id: 필드 순서와 관계없이 고정된 식별 번호 부여 (하위 호환성 유지의 핵심)
+  hp:short (id: 0, priority: "high"); 
+  mana:short (id: 2);             // id 1번을 건너뛰고 정의 가능
+  
+  name:string (id: 1, shared);    // shared: 중복된 이름이 많을 경우 메모리 절약
+  
+  inventory:[ubyte] (nested_flatbuffer: "Equipment"); // nested: 바이트 배열 안에 Equipment 테이블이 들어있음
+  
+  color:Color (bit_flags);        // bit_flags: enum을 비트 연산용 플래그로 사용
+  
+  old_field:int (deprecated);     // deprecated: 코드는 생성되지만 더 이상 읽고 쓰지 않음
+  
+  friendly_name:string (ui_name: "몬스터 이름"); // 사용자 정의 속성: 툴이나 리플렉션에서 활용
+}

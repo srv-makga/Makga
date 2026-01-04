@@ -4,7 +4,7 @@ attribute "priority";
 
 namespace makga;
 
-enum Result
+enum Result : int
 {
-	Success = 0
+	Success = 0,
 }

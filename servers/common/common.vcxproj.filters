@@ -16,6 +16,26 @@
     <ClInclude Include="ranking_content.h">
       <Filter>system\ranking</Filter>
     </ClInclude>
+    <ClInclude Include="dispatcher.h" />
+    <ClInclude Include="net_packet.h" />
+    <ClInclude Include="season.h">
+      <Filter>system\season</Filter>
+    </ClInclude>
+    <ClInclude Include="iocp_session.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="item_object.h">
+      <Filter>system\item</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffer\result_generated.h">
+      <Filter>flatbuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffer\version_generated.h">
+      <Filter>flatbuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffer\enum_generated.h">
+      <Filter>flatbuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
@@ -32,6 +52,13 @@
     <ClCompile Include="ranking_content.cpp">
       <Filter>system\ranking</Filter>
     </ClCompile>
+    <ClCompile Include="net_packet.cpp" />
+    <ClCompile Include="season.cpp">
+      <Filter>system\season</Filter>
+    </ClCompile>
+    <ClCompile Include="iocp_session.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="system">
@@ -42,6 +69,18 @@
     </Filter>
     <Filter Include="network">
       <UniqueIdentifier>{429e5cbc-f3a9-4efd-b1fb-1593b222d68a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\season">
+      <UniqueIdentifier>{85146354-a838-4292-a996-df0f425f7e1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\inventory">
+      <UniqueIdentifier>{a2d4031b-580b-43cc-aca5-23f8fb5e7ba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\item">
+      <UniqueIdentifier>{1e50330c-b52a-4f08-9d65-10b33df5f888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="flatbuffer">
+      <UniqueIdentifier>{6da5243c-5313-487f-8c95-eae4bc73d7e0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
