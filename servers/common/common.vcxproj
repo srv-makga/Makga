@@ -113,7 +113,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>..\..\libs\cpp\libraries;..\..\libs\cpp\network;$(PublicIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\libs\cpp\3rdparty\flatbuffer\include;..\..\libs\cpp\libraries;..\..\libs\cpp\network;$(PublicIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
       <TranslateIncludes>false</TranslateIncludes>
@@ -135,7 +135,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>..\..\libs\cpp\libraries\include;..\..\libs\cpp\network\include;$(PublicIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\libs\cpp\3rdparty\flatbuffer\include;..\..\libs\cpp\libraries\include;..\..\libs\cpp\network\include;$(PublicIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
     </ClCompile>
