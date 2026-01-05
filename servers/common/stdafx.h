@@ -29,9 +29,6 @@ typedef int SOCKET;
 #pragma comment(lib, "mswsock.lib")
 
 #include "define.h"
-#include <sstream>
-#include <format>
-#include <future>
 
 #pragma warning(disable: 4200) // zero-sized array in struct/union
 #pragma warning(disable: 4251) // DLL-interface warning
