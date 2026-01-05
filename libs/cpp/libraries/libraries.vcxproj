@@ -145,6 +145,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\ahocorasick.ixx" />
+    <ClCompile Include="include\batch_processor.ixx" />
     <ClCompile Include="include\brain_tree.ixx" />
     <ClCompile Include="include\buffer.ixx" />
     <ClCompile Include="include\collider.ixx" />
