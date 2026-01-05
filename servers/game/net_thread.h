@@ -1,10 +1,7 @@
 #pragma once
 
-import makga.network.iocp.core;
-//import makga.network.iocp.event;
-//import makga.network.iocp.object;
-//import makga.network.iocp.session;
 import makga.network.nethandler;
+import makga.network.iocp.core;
 import makga.lib.thread.group;
 
 class NetThread : public makga::network::NetHandler
@@ -24,6 +21,6 @@ public: // NetHandler
 
 protected:
 	std::shared_ptr<makga::network::IocpCore> core_;
-	makga::lib::ThreadGroup thread_group_;
 	std::size_t thread_count_;
+	makga::lib::ThreadGroup thread_group_;
 };
