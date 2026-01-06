@@ -17,6 +17,9 @@
     <ClCompile Include="game_session.cpp">
       <Filter>network</Filter>
     </ClCompile>
+    <ClCompile Include="user.cpp">
+      <Filter>user</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="thread">
@@ -33,6 +36,12 @@
     </Filter>
     <Filter Include="user">
       <UniqueIdentifier>{d5d26b6a-b139-47d7-a8ad-9a9574e21c70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="actor">
+      <UniqueIdentifier>{e62a7e04-fca3-4ea1-a2bf-5f108912a2f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="actor\detail">
+      <UniqueIdentifier>{038d412d-d093-4071-91da-874ea6c2fe3c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +66,21 @@
     </ClInclude>
     <ClInclude Include="game_session.h">
       <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="actor.h">
+      <Filter>actor</Filter>
+    </ClInclude>
+    <ClInclude Include="monster.h">
+      <Filter>actor\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="character.h">
+      <Filter>actor\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="gadget.h">
+      <Filter>actor\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>actor\detail</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

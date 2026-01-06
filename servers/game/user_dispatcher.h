@@ -1,8 +1,8 @@
 #pragma once
 
 #include "dispatcher.h"
-#include "user.h"
 
+class User;
 class UserDispatcher : public DispatcherTemplate<User>
 {
 public:

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../common/define.h"
+
 enum SessionType
 {
 	NONE = 0,
