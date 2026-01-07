@@ -9,107 +9,145 @@ export module makga.lib.convert;
 
 export namespace makga::lib
 {
-	export int32_t StringToInt32(const char* _value)
+	export template<>
+	bool Convert(const std::string& value, OUT int32_t& result)
 	{
-		return std::stoi(_value);
+		std::size_t end = 0;
+		result = std::stoi(value, &end);
+		return end == value.size();
 	}
 
-	export uint32_t StringToUInt32(const char* _value)
+	export template<>
+	bool Convert(const std::string& value, OUT long& result)
 	{
-		return static_cast<uint32_t>(std::stoul(_value));
+		std::size_t end = 0;
+		result = std::stol(value, &end);
+		return end == value.size();
 	}
 
-	export int64_t StringToInt64(const char* _value)
+	export template<>
+	bool Convert(const std::string& value, OUT unsigned long& result)
 	{
-		return static_cast<int64_t>(std::stoll(_value));
+		std::size_t end = 0;
+		result = std::stoul(value, &end);
+		return end == value.size();
 	}
 
-	export uint64_t StringToUInt64(const char* _value)
+	export template<>
+	bool Convert(const std::string& value, OUT float& result)
 	{
-		return static_cast<uint64_t>(std::stoull(_value));
+		std::size_t end = 0;
+		result = std::stof(value, &end);
+		return end == value.size();
 	}
 
-	export float StringToFloat(const char* _value)
+	export template<>
+	bool Convert(const std::string& value, OUT double& result)
 	{
-		return std::stof(_value);
+		std::size_t end = 0;
+		result = std::stod(value, &end);
+		return end == value.size();
 	}
 
-	export double StringToDouble(const char* _value)
+	export template<>
+	bool Convert(const std::string& value, OUT bool& result)
 	{
-		return std::stod(_value);
-	}
-
-	export bool StringToBool(const char* _value)
-	{
-		static const std::string s_true_str = "true";
-		static const std::size_t s_true_str_size = s_true_str.size();
-
-		std::string temp(_value);
-
-		if (s_true_str_size != temp.size())
+		if (value.size() != 4 && value.size() != 5)
 		{
 			return false;
 		}
 
-		for (std::size_t i = 0; i < s_true_str_size; ++i)
+		std::string temp = value;
+		for (char& c : temp)
 		{
-			if (s_true_str[i] != std::tolower(temp[i]))
-			{
-				return false;
-			}
+			c = static_cast<char>(std::tolower(c));
 		}
 
+		if (temp == "true")
+		{
+			result = true;
+			return true;
+		}
+		else if (temp == "false")
+		{
+			result = false;
+			return true;
+		}
+
+		return false;
+	}
+
+	export template<>
+	bool Convert(const std::string& value, OUT int64_t& result)
+	{
+		std::size_t end = 0;
+		result = std::stoll(value, &end);
+		return end == value.size();
+	}
+
+	export template<>
+	bool Convert(const std::string& value, OUT uint64_t& result)
+	{
+		std::size_t end = 0;
+		result = std::stoull(value, &end);
+		return end == value.size();
+	}
+
+	export template<typename T>
+	bool Convert(const std::string& value, OUT T& result)
+	{
+		return false;
+	}
+
+	bool Convert(const std::string& value, OUT std::wstring& result)
+	{
+		if (true == value.empty())
+		{
+			result.clear();
+			return true;
+		}
+
+		int required = ::MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, value.c_str(), -1, nullptr, 0);
+		if (0 == required)
+		{
+			return false;
+		}
+
+		result.resize(required);
+
+		int converted = ::MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, value.c_str(), -1, &result[0], required);
+		if (0 == converted)
+		{
+			return false;
+		}
+
+		result.resize(converted - 1);
 		return true;
 	}
 
-	export std::wstring StringToWString(const std::string& str)
+	export bool Convert(const std::wstring& str, OUT std::string& result)
 	{
 		if (true == str.empty())
 		{
-			return std::wstring();
+			result.clear();
+			return true;
 		}
 
-		// Get required size (includes terminating null)
-		int required = ::MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, str.c_str(), -1, nullptr, 0);
+		int required = ::WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, str.c_str(), -1, nullptr, 0, nullptr, nullptr);
 		if (0 == required)
 		{
-			return std::wstring();
+			return false;
 		}
 
-		std::wstring result(required, L'\0');
+		result.resize(required);
 
-		int converted = ::MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, str.c_str(), -1, &result[0], required);
+		int converted = ::WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, str.c_str(), -1, &result[0], required, nullptr, nullptr);
 		if (0 == converted)
 		{
-			return std::wstring();
+			return false;
 		}
 
 		result.resize(converted - 1);
-		return result;
-	}
-
-	export std::string WStringToString(const std::wstring& wstr)
-	{
-		if (true == wstr.empty())
-		{
-			return std::string();
-		}
-
-		int required = ::WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
-		if (0 == required)
-		{
-			return std::string();
-		}
-
-		std::string result(required, '\0');
-
-		int converted = ::WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, wstr.c_str(), -1, &result[0], required, nullptr, nullptr);
-		if (0 == converted)
-		{
-			return std::string();
-		}
-
-		result.resize(converted - 1);
-		return result;
+		return true;
 	}
 } // namespace makga::lib
