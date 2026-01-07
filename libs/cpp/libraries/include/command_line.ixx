@@ -57,36 +57,9 @@ public:
 			return T();
 		}
 
-		if constexpr (std::is_same_v<T, bool>)
-		{
-			return StringToBool(iter->second.c_str());
-		}
-		if constexpr (std::is_same_v<T, int64_t>)
-		{
-			return StringToInt64(iter->second.c_str());
-		}
-		if constexpr (std::is_same_v<T, uint64_t>)
-		{
-			return StringToUInt64(iter->second.c_str());
-		}
-		if constexpr (std::is_unsigned_v<T>)
-		{
-			return StringToUInt32(iter->second.c_str());
-		}
-		if constexpr (std::is_integral_v<T>)
-		{
-			return StringToInt32(iter->second.c_str());
-		}
-		if constexpr (std::is_floating_point_v<T>)
-		{
-			return StringToFloat(iter->second.c_str());
-		}
-		if constexpr (std::is_same_v<T, std::string> || std::is_same_v<T, const char*>)
-		{
-			return iter->second;
-		}
-
-		return T();
+		T value;
+		Convert<T>(iter->second, value);
+		return value;
 	}
 
 protected:
