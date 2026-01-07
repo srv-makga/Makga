@@ -43,14 +43,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -129,6 +129,8 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
+      <AdditionalIncludeDirectories>..\..\libs\cpp\libraries;..\..\libs\cpp\network;..\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalModuleDependencies>C:\Github\Makga\servers\..\libs\cpp\network;C:\Github\Makga\servers\..\libs\cpp\libraries;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,11 +151,13 @@
     <ClInclude Include="character.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="gadget.h" />
+    <ClInclude Include="instance.h" />
     <ClInclude Include="job_thread.h" />
     <ClInclude Include="monster.h" />
     <ClInclude Include="net_thread.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="stat.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="user_dispatcher.h" />
     <ClInclude Include="user_server.h" />
