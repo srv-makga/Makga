@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="community.h" />
+    <ClInclude Include="community_member.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="friend.h" />
     <ClInclude Include="guild.h" />
