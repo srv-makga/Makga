@@ -137,6 +137,9 @@
   <ItemGroup>
     <ClCompile Include="app.cpp" />
     <ClCompile Include="community.cpp" />
+    <ClCompile Include="community_member.cpp" />
+    <ClCompile Include="party.cpp" />
+    <ClCompile Include="party_member.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="community.h" />
@@ -145,6 +148,7 @@
     <ClInclude Include="friend.h" />
     <ClInclude Include="guild.h" />
     <ClInclude Include="party.h" />
+    <ClInclude Include="party_member.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

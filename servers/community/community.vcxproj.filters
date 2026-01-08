@@ -5,6 +5,15 @@
     <ClCompile Include="community.cpp">
       <Filter>content\community</Filter>
     </ClCompile>
+    <ClCompile Include="party_member.cpp">
+      <Filter>content\community\detail\party</Filter>
+    </ClCompile>
+    <ClCompile Include="party.cpp">
+      <Filter>content\community\detail\party</Filter>
+    </ClCompile>
+    <ClCompile Include="community_member.cpp">
+      <Filter>content\community</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="common">
@@ -19,19 +28,19 @@
     <Filter Include="content\community\detail">
       <UniqueIdentifier>{74abc948-e734-422c-b283-fa576c034eae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="content\community\detail\party">
+      <UniqueIdentifier>{2ea6a3d6-d82a-414e-b2fd-93a5fe4a1222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\community\detail\guild">
+      <UniqueIdentifier>{6063cc38-dae2-4613-89f6-6e3f27d45f21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\community\detail\friend">
+      <UniqueIdentifier>{7535f748-df19-4b20-8c1f-da7013acacf6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="community.h">
       <Filter>content\community</Filter>
-    </ClInclude>
-    <ClInclude Include="friend.h">
-      <Filter>content\community\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="party.h">
-      <Filter>content\community\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="guild.h">
-      <Filter>content\community\detail</Filter>
     </ClInclude>
     <ClInclude Include="define.h">
       <Filter>common</Filter>
@@ -39,6 +48,18 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="community_member.h">
       <Filter>content\community</Filter>
+    </ClInclude>
+    <ClInclude Include="friend.h">
+      <Filter>content\community\detail\friend</Filter>
+    </ClInclude>
+    <ClInclude Include="guild.h">
+      <Filter>content\community\detail\guild</Filter>
+    </ClInclude>
+    <ClInclude Include="party.h">
+      <Filter>content\community\detail\party</Filter>
+    </ClInclude>
+    <ClInclude Include="party_member.h">
+      <Filter>content\community\detail\party</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
