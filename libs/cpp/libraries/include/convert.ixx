@@ -9,6 +9,12 @@ export module makga.lib.convert;
 
 export namespace makga::lib
 {
+	export template<typename T>
+	bool Convert(const std::string& value, OUT T& result)
+	{
+		return false;
+	}
+
 	export template<>
 	bool Convert(const std::string& value, OUT int32_t& result)
 	{
@@ -91,12 +97,6 @@ export namespace makga::lib
 		std::size_t end = 0;
 		result = std::stoull(value, &end);
 		return end == value.size();
-	}
-
-	export template<typename T>
-	bool Convert(const std::string& value, OUT T& result)
-	{
-		return false;
 	}
 
 	bool Convert(const std::string& value, OUT std::wstring& result)
