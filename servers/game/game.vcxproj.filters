@@ -20,6 +20,9 @@
     <ClCompile Include="user.cpp">
       <Filter>user</Filter>
     </ClCompile>
+    <ClCompile Include="bt.cpp">
+      <Filter>content\behaviortree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="thread">
@@ -28,20 +31,26 @@
     <Filter Include="network">
       <UniqueIdentifier>{fe74fb9c-431d-437a-9185-96a03ec70a28}</UniqueIdentifier>
     </Filter>
-    <Filter Include="system">
-      <UniqueIdentifier>{bc413893-dcf4-4cf0-a6d2-8ea8e5d462ef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="common">
       <UniqueIdentifier>{d4d4016d-1e1f-49f9-a811-7c9858ca4f77}</UniqueIdentifier>
     </Filter>
     <Filter Include="user">
       <UniqueIdentifier>{d5d26b6a-b139-47d7-a8ad-9a9574e21c70}</UniqueIdentifier>
     </Filter>
-    <Filter Include="actor">
+    <Filter Include="content">
+      <UniqueIdentifier>{bc413893-dcf4-4cf0-a6d2-8ea8e5d462ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\instance">
+      <UniqueIdentifier>{1a5c7a28-35b6-4b36-9db1-d8043d79fabf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\actor">
       <UniqueIdentifier>{e62a7e04-fca3-4ea1-a2bf-5f108912a2f6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="actor\detail">
+    <Filter Include="content\actor\detail">
       <UniqueIdentifier>{038d412d-d093-4071-91da-874ea6c2fe3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\behaviortree">
+      <UniqueIdentifier>{bcacceba-96a4-4a9f-81e6-acab8aa173d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -68,19 +77,28 @@
       <Filter>network</Filter>
     </ClInclude>
     <ClInclude Include="actor.h">
-      <Filter>actor</Filter>
+      <Filter>content\actor</Filter>
     </ClInclude>
     <ClInclude Include="monster.h">
-      <Filter>actor\detail</Filter>
+      <Filter>content\actor\detail</Filter>
     </ClInclude>
     <ClInclude Include="character.h">
-      <Filter>actor\detail</Filter>
+      <Filter>content\actor\detail</Filter>
     </ClInclude>
     <ClInclude Include="gadget.h">
-      <Filter>actor\detail</Filter>
+      <Filter>content\actor\detail</Filter>
     </ClInclude>
     <ClInclude Include="object.h">
-      <Filter>actor\detail</Filter>
+      <Filter>content\actor\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="stat.h">
+      <Filter>content</Filter>
+    </ClInclude>
+    <ClInclude Include="instance.h">
+      <Filter>content\instance</Filter>
+    </ClInclude>
+    <ClInclude Include="bt.h">
+      <Filter>content\behaviortree</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

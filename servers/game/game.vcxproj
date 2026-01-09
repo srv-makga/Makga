@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
+    <ClCompile Include="bt.cpp" />
     <ClCompile Include="job_thread.cpp" />
     <ClCompile Include="net_thread.cpp" />
     <ClCompile Include="user.cpp" />
@@ -148,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actor.h" />
+    <ClInclude Include="bt.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="gadget.h" />
