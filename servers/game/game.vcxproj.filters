@@ -20,9 +20,6 @@
     <ClCompile Include="user.cpp">
       <Filter>user</Filter>
     </ClCompile>
-    <ClCompile Include="bt.cpp">
-      <Filter>content\behaviortree</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="thread">
@@ -48,9 +45,6 @@
     </Filter>
     <Filter Include="content\actor\detail">
       <UniqueIdentifier>{038d412d-d093-4071-91da-874ea6c2fe3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="content\behaviortree">
-      <UniqueIdentifier>{bcacceba-96a4-4a9f-81e6-acab8aa173d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,9 +90,6 @@
     </ClInclude>
     <ClInclude Include="instance.h">
       <Filter>content\instance</Filter>
-    </ClInclude>
-    <ClInclude Include="bt.h">
-      <Filter>content\behaviortree</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

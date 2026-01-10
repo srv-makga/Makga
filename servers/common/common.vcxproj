@@ -117,8 +117,8 @@
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
       <TranslateIncludes>false</TranslateIncludes>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,6 +138,8 @@
       <AdditionalIncludeDirectories>..\..\libs\cpp\3rdparty\flatbuffer\include;..\..\libs\cpp\libraries\include;..\..\libs\cpp\network\include;$(PublicIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,6 +147,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="bt.h" />
+    <ClInclude Include="bt_actor.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="dispatcher.h" />
     <ClInclude Include="flatbuffer\enum_generated.h" />
@@ -158,11 +162,13 @@
     <ClInclude Include="net_packet.h" />
     <ClInclude Include="ranking_content.h" />
     <ClInclude Include="season.h" />
-    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="ranking_system.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
+    <ClCompile Include="bt.cpp" />
+    <ClCompile Include="bt_actor.cpp" />
     <ClCompile Include="iocp_client.cpp" />
     <ClCompile Include="iocp_server.cpp" />
     <ClCompile Include="iocp_session.cpp" />
