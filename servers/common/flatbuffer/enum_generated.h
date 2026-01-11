@@ -149,6 +149,45 @@ inline const char *EnumNameAccountType(AccountType e) {
   return EnumNamesAccountType()[index];
 }
 
+enum AIType : int32_t {
+  AIType_Aggressive = 0,
+  AIType_NonAggressive = 1,
+  AIType_Coward = 2,
+  AIType_FieldBoss = 3,
+  AIType_InstanceBoss = 4,
+  AIType_MIN = AIType_Aggressive,
+  AIType_MAX = AIType_InstanceBoss
+};
+
+inline const AIType (&EnumValuesAIType())[5] {
+  static const AIType values[] = {
+    AIType_Aggressive,
+    AIType_NonAggressive,
+    AIType_Coward,
+    AIType_FieldBoss,
+    AIType_InstanceBoss
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesAIType() {
+  static const char * const names[6] = {
+    "Aggressive",
+    "NonAggressive",
+    "Coward",
+    "FieldBoss",
+    "InstanceBoss",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameAIType(AIType e) {
+  if (::flatbuffers::IsOutRange(e, AIType_Aggressive, AIType_InstanceBoss)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesAIType()[index];
+}
+
 }  // namespace makga
 
 #endif  // FLATBUFFERS_GENERATED_ENUM_MAKGA_H_

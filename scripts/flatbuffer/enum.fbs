@@ -28,3 +28,12 @@ enum RedisType : int
 enum AccountType : int
 {
 }
+
+enum AIType : int
+{
+	Aggressive,		// 순회하다가 주변에 적이 접근하면 공격 시작
+	NonAggressive,	// 순회하다가 공격을 받으면 반격 시작
+	Coward,			// 주변에 적이 접근하면 도망
+	FieldBoss,		// 필드 보스
+	InstanceBoss,	// 인스턴스 보스
+}

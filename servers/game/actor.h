@@ -15,6 +15,7 @@ public:
 	void Finalize();
 
 
+	flatbuffers::AIType GetAIType() const;
 
 	bool IsDead() const;
 };
