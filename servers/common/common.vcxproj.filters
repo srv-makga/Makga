@@ -36,7 +36,7 @@
     <ClInclude Include="flatbuffer\enum_generated.h">
       <Filter>flatbuffer</Filter>
     </ClInclude>
-    <ClInclude Include="bt.h">
+    <ClInclude Include="bt_node.h">
       <Filter>content\behaviortree</Filter>
     </ClInclude>
     <ClInclude Include="bt_actor.h">
@@ -64,9 +64,6 @@
     </ClCompile>
     <ClCompile Include="iocp_session.cpp">
       <Filter>network</Filter>
-    </ClCompile>
-    <ClCompile Include="bt.cpp">
-      <Filter>content\behaviortree</Filter>
     </ClCompile>
     <ClCompile Include="bt_actor.cpp">
       <Filter>content\behaviortree</Filter>

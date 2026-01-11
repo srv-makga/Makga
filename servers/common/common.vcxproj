@@ -147,7 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="bt.h" />
+    <ClInclude Include="bt_node.h" />
     <ClInclude Include="bt_actor.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="dispatcher.h" />
@@ -167,7 +167,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
-    <ClCompile Include="bt.cpp" />
     <ClCompile Include="bt_actor.cpp" />
     <ClCompile Include="iocp_client.cpp" />
     <ClCompile Include="iocp_server.cpp" />

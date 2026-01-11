@@ -20,6 +20,9 @@
     <ClCompile Include="user.cpp">
       <Filter>user</Filter>
     </ClCompile>
+    <ClCompile Include="ai_controller.cpp">
+      <Filter>content\ai</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="thread">
@@ -45,6 +48,9 @@
     </Filter>
     <Filter Include="content\actor\detail">
       <UniqueIdentifier>{038d412d-d093-4071-91da-874ea6c2fe3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\ai">
+      <UniqueIdentifier>{1e3f9bb2-6e48-433e-8e34-5f9cb6f2fe7b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +96,9 @@
     </ClInclude>
     <ClInclude Include="instance.h">
       <Filter>content\instance</Filter>
+    </ClInclude>
+    <ClInclude Include="ai_controller.h">
+      <Filter>content\ai</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
