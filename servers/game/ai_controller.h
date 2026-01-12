@@ -17,19 +17,17 @@ public:
 	void Update(float delta_time);
 	void Terminate();
 
-public:
-	static std::shared_ptr<makga::lib::Node> CreateAggressive(std::weak_ptr<AIController> ptr);
-	static std::shared_ptr<makga::lib::Node> CreateNonAggressive(std::weak_ptr<AIController> ptr);
-
 protected: // 행동 트리 노드들
 	// @brief 액터가 죽었는지 판단
-	makga::lib::Node::Status IsDead() const;
+	makga::lib::Node::Status IsDead();
 	// @brief 부활 시도
 	makga::lib::Node::Status TryResurrection();
 	// @brief 공격 범위 내인지 판단
 	makga::lib::Node::Status IsInsideAttackRange();
 	// @brief 타겟 공격
 	makga::lib::Node::Status AttackTarget();
+	// @brief 도망가기
+	makga::lib::Node::Status RunAway();
 	// @brief 스폰위치가 멀리 떨어져있는지 판단
 	makga::lib::Node::Status IsFarFromSpawnPoint();
 	// @brief 타겟 위치로 이동
@@ -44,6 +42,13 @@ protected: // 행동 트리 노드들
 	makga::lib::Node::Status FindTarget();
 	// @brief 타겟 설정
 	makga::lib::Node::Status SetTarget();
+
+protected:
+	static std::shared_ptr<makga::lib::Node> CreateAggressive(AIController* ptr);
+	static std::shared_ptr<makga::lib::Node> CreateNonAggressive(AIController* ptr);
+	static std::shared_ptr<makga::lib::Node> CreateCoward(AIController* ptr);
+	static std::shared_ptr<makga::lib::Node> CreateFieldBoss(AIController* ptr);
+	static std::shared_ptr<makga::lib::Node> CreateInstanceBoss(AIController* ptr);
 
 protected:
 	std::shared_ptr<Actor> actor_;
