@@ -188,6 +188,42 @@ inline const char *EnumNameAIType(AIType e) {
   return EnumNamesAIType()[index];
 }
 
+enum ActorType : int32_t {
+  ActorType_Character = 0,
+  ActorType_Monster = 1,
+  ActorType_Gadget = 2,
+  ActorType_Object = 3,
+  ActorType_MIN = ActorType_Character,
+  ActorType_MAX = ActorType_Object
+};
+
+inline const ActorType (&EnumValuesActorType())[4] {
+  static const ActorType values[] = {
+    ActorType_Character,
+    ActorType_Monster,
+    ActorType_Gadget,
+    ActorType_Object
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesActorType() {
+  static const char * const names[5] = {
+    "Character",
+    "Monster",
+    "Gadget",
+    "Object",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameActorType(ActorType e) {
+  if (::flatbuffers::IsOutRange(e, ActorType_Character, ActorType_Object)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesActorType()[index];
+}
+
 }  // namespace makga
 
 #endif  // FLATBUFFERS_GENERATED_ENUM_MAKGA_H_
