@@ -1,18 +1,16 @@
 #pragma once
 
-#include "bt_actor.h"
-
 import makga.lib.ai;
 
 template<typename T>
 class BtNode : public makga::lib::Node
 {
 public:
-	using Action = std::function<makga::lib::Node::Status(std::weak_ptr<T> actor)>;
+	using Action = std::function<makga::lib::Node::Status(T*)>;
 
-	BtNode(std::weak_ptr<T> actor, Action&& action)
+	BtNode(T* actor, Action action)
 		: actor_(actor)
-		, action_(std::move(action))
+		, action_(action)
 	{
 	}
 
@@ -21,7 +19,7 @@ public:
 public: // Node
 	Status update() override
 	{
-		if (actor_.expired())
+		if (nullptr == actor_)
 		{
 			return Status::Invalid;
 		}
@@ -35,6 +33,6 @@ public: // Node
 	}
 
 protected:
-	std::weak_ptr<T> actor_;
+	T* actor_;
 	Action action_;
 };

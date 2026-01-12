@@ -1,9 +1,10 @@
 #pragma once
 
-#include "bt_actor.h"
 #include "bt_node.h"
 
-class Actor : public BtActor
+import makga.math.vector3;
+
+class Actor
 {
 	friend class AIController;
 
@@ -14,8 +15,14 @@ public:
 	bool Initialize();
 	void Finalize();
 
+	bool SetMovePosition(float x, float y, float z);
+	bool SetMovePosition(const makga::math::Vector3& _vector);
 
-	flatbuffers::AIType GetAIType() const;
+	std::shared_ptr<Actor> FindTarget();
+	bool ChangeTarget(std::shared_ptr<Actor> target);
 
 	bool IsDead() const;
+	bool HasTarget() const;
+
+	makga::AIType GetAIType() const;
 };
