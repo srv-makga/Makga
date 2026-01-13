@@ -144,10 +144,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="archtype.ixx" />
-    <ClCompile Include="ecs.ixx" />
-    <ClCompile Include="entity.ixx" />
     <ClCompile Include="include\ahocorasick.ixx" />
+    <ClCompile Include="include\archtype.ixx" />
     <ClCompile Include="include\batch_processor.ixx" />
     <ClCompile Include="include\brain_tree.ixx" />
     <ClCompile Include="include\buffer.ixx" />
@@ -157,6 +155,7 @@
     <ClCompile Include="include\convert.ixx" />
     <ClCompile Include="include\datetime.ixx" />
     <ClCompile Include="include\double_queue.ixx" />
+    <ClCompile Include="include\ecs.ixx" />
     <ClCompile Include="include\entity.ixx" />
     <ClCompile Include="include\geometry.ixx" />
     <ClCompile Include="include\lock.ixx" />
@@ -170,6 +169,7 @@
     <ClCompile Include="include\singleton.ixx" />
     <ClCompile Include="include\strategy.ixx" />
     <ClCompile Include="include\string.ixx" />
+    <ClCompile Include="include\system.ixx" />
     <ClCompile Include="include\thread_group.ixx" />
     <ClCompile Include="include\thread_pool.ixx" />
     <ClCompile Include="include\transform.ixx" />
@@ -187,7 +187,6 @@
     <ClCompile Include="src\transform.cpp" />
     <ClCompile Include="src\util.cpp" />
     <ClCompile Include="src\vector3.cpp" />
-    <ClCompile Include="system.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\rapidjson.ixx" />

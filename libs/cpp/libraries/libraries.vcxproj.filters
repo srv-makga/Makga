@@ -95,27 +95,24 @@
     <ClCompile Include="include\strategy.ixx">
       <Filter>pattern</Filter>
     </ClCompile>
-    <ClCompile Include="include\entity.ixx">
-      <Filter>pattern</Filter>
-    </ClCompile>
     <ClCompile Include="include\object_pool.ixx">
       <Filter>pattern</Filter>
     </ClCompile>
     <ClCompile Include="include\batch_processor.ixx" />
-    <ClCompile Include="ecs.ixx">
-      <Filter>ecs</Filter>
-    </ClCompile>
     <ClCompile Include="include\component.ixx">
       <Filter>ecs\component</Filter>
     </ClCompile>
-    <ClCompile Include="entity.ixx">
+    <ClCompile Include="include\archtype.ixx">
+      <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\entity.ixx">
       <Filter>ecs\entity</Filter>
     </ClCompile>
-    <ClCompile Include="system.ixx">
-      <Filter>ecs\system</Filter>
-    </ClCompile>
-    <ClCompile Include="archtype.ixx">
+    <ClCompile Include="include\ecs.ixx">
       <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\system.ixx">
+      <Filter>ecs\system</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
