@@ -1,8 +1,9 @@
 module;
 
-#include <tuple>
-
 export module makga.lib.ecs.archtype;
+
+import <vector>;
+import <tuple>;
 
 export namespace makga::lib {
 export template<typename... Components>
@@ -43,7 +44,7 @@ public:
 	template<typename T>
 	T& GetComponent()
 	{
-		return std::get<T>(components_); 
+		return std::get<T>(chunks_);
 	}
 
 private:
