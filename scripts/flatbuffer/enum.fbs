@@ -37,3 +37,12 @@ enum AIType : int
 	FieldBoss,		// 필드 보스
 	InstanceBoss,	// 인스턴스 보스
 }
+
+enum ActorType : int
+{
+	None,
+	Character,
+	Monster,
+	Gadget,
+	Object,
+}
