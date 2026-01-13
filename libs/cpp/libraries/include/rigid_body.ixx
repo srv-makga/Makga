@@ -1,10 +1,10 @@
 module;
 
-export module makga.lib.component.rigid_body;
+export module makga.lib.ecs.component.rigid_body;
 
 import makga.math.vector3;
-import makga.lib.component;
-import makga.lib.component.transform;
+import makga.lib.ecs.component;
+import makga.lib.ecs.component.transform;
 
 export namespace makga::lib {
 export class RigidBody : public Component

@@ -1,10 +1,10 @@
 module;
 
-export module makga.lib.component.collider;
+export module makga.lib.ecs.component.collider;
 
 import makga.math.vector3;
-import makga.lib.component;
-import makga.lib.component.geometry;
+import makga.lib.ecs.component;
+import makga.lib.ecs.component.geometry;
 
 export namespace makga::lib {
 /*

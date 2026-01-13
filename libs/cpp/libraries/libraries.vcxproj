@@ -144,6 +144,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="archtype.ixx" />
+    <ClCompile Include="ecs.ixx" />
+    <ClCompile Include="entity.ixx" />
     <ClCompile Include="include\ahocorasick.ixx" />
     <ClCompile Include="include\batch_processor.ixx" />
     <ClCompile Include="include\brain_tree.ixx" />
@@ -184,6 +187,7 @@
     <ClCompile Include="src\transform.cpp" />
     <ClCompile Include="src\util.cpp" />
     <ClCompile Include="src\vector3.cpp" />
+    <ClCompile Include="system.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\rapidjson.ixx" />

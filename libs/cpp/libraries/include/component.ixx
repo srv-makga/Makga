@@ -1,6 +1,6 @@
 module;
 
-export module makga.lib.component;
+export module makga.lib.ecs.component;
 
 export namespace makga::lib {
 export class Component
@@ -31,4 +31,3 @@ protected:
 	Type type_;
 };
 };
-

@@ -1,9 +1,9 @@
 module;
 
-export module makga.lib.component.transform;
+export module makga.lib.ecs.component.transform;
 
 import makga.math.vector3;
-import makga.lib.component;
+import makga.lib.ecs.component;
 
 export namespace makga::lib {
 // @detail 위치, 회전, 스케일 정보를 담는 컴포넌트

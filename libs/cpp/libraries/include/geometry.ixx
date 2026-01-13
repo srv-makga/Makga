@@ -1,6 +1,6 @@
 module;
 
-export module makga.lib.component.geometry;
+export module makga.lib.ecs.component.geometry;
 
 import makga.math.vector3;
 

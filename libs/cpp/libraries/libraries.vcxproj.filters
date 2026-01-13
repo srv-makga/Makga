@@ -65,11 +65,8 @@
     <ClCompile Include="src\redis_connector.cpp">
       <Filter>database</Filter>
     </ClCompile>
-    <ClCompile Include="include\component.ixx">
-      <Filter>component</Filter>
-    </ClCompile>
     <ClCompile Include="include\collider.ixx">
-      <Filter>component\collider</Filter>
+      <Filter>ecs\component\collider</Filter>
     </ClCompile>
     <ClCompile Include="src\vector3.cpp">
       <Filter>math</Filter>
@@ -78,22 +75,22 @@
       <Filter>math</Filter>
     </ClCompile>
     <ClCompile Include="src\rigid_body.cpp">
-      <Filter>component\position</Filter>
+      <Filter>ecs\component\position</Filter>
     </ClCompile>
     <ClCompile Include="include\rigid_body.ixx">
-      <Filter>component\position</Filter>
+      <Filter>ecs\component\position</Filter>
     </ClCompile>
     <ClCompile Include="src\transform.cpp">
-      <Filter>component\position</Filter>
+      <Filter>ecs\component\position</Filter>
     </ClCompile>
     <ClCompile Include="include\transform.ixx">
-      <Filter>component\position</Filter>
+      <Filter>ecs\component\position</Filter>
     </ClCompile>
     <ClCompile Include="include\geometry.ixx">
-      <Filter>component\geometry</Filter>
+      <Filter>ecs\component\geometry</Filter>
     </ClCompile>
     <ClCompile Include="src\collider.cpp">
-      <Filter>component\collider</Filter>
+      <Filter>ecs\component\collider</Filter>
     </ClCompile>
     <ClCompile Include="include\strategy.ixx">
       <Filter>pattern</Filter>
@@ -105,6 +102,21 @@
       <Filter>pattern</Filter>
     </ClCompile>
     <ClCompile Include="include\batch_processor.ixx" />
+    <ClCompile Include="ecs.ixx">
+      <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\component.ixx">
+      <Filter>ecs\component</Filter>
+    </ClCompile>
+    <ClCompile Include="entity.ixx">
+      <Filter>ecs\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="system.ixx">
+      <Filter>ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="archtype.ixx">
+      <Filter>ecs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">
@@ -137,20 +149,29 @@
     <Filter Include="database">
       <UniqueIdentifier>{b6c2398f-763a-4b54-bd41-bbd7851a45b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="component">
-      <UniqueIdentifier>{8b2b3df2-eccc-4f85-870a-51d0ad3ffb0d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="component\collider">
-      <UniqueIdentifier>{947bc8f0-3608-4564-a333-de19fe41965b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="math">
       <UniqueIdentifier>{4dcfe49d-7ad6-4f99-a710-bc5f8bbc2a91}</UniqueIdentifier>
     </Filter>
-    <Filter Include="component\position">
+    <Filter Include="ecs">
+      <UniqueIdentifier>{a3edf3e3-ea94-4f70-baee-589b1385d741}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ecs\component">
+      <UniqueIdentifier>{8b2b3df2-eccc-4f85-870a-51d0ad3ffb0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ecs\component\collider">
+      <UniqueIdentifier>{947bc8f0-3608-4564-a333-de19fe41965b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ecs\component\position">
       <UniqueIdentifier>{0612721d-a58c-4c95-b022-b408dcdeec03}</UniqueIdentifier>
     </Filter>
-    <Filter Include="component\geometry">
+    <Filter Include="ecs\component\geometry">
       <UniqueIdentifier>{c1fb9e4f-6cce-4255-8228-f8b02f4f1011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ecs\entity">
+      <UniqueIdentifier>{9a02123b-a0c9-4685-9b17-990a8c0b2a6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ecs\system">
+      <UniqueIdentifier>{d4a85f0e-bb5c-4c6f-bae2-aaf28bb566c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
