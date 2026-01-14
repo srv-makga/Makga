@@ -2,6 +2,7 @@
 
 import makga.math.vector3;
 
+class Actor;
 class TerrainGrid;
 class Terrain
 {
@@ -16,12 +17,19 @@ public:
 	// @brief 위치를 받아 해당 그리드 반환
 	// @detail 높이 무시
 	TerrainGrid* GetGridAtPosition(const makga::math::Vector3& position);
+	TerrainGrid* GetGridAtPosition(Coord x, Coord y, Coord z);
 
 	// @brief n * n 을 받아 해당 그리드 반환
 	TerrainGrid* GetGridByIndex(int x, int z);
 
+	TerrainId GetTerrainId() const;
+	TerrainIdx GetTerrainIdx() const;
+
 protected:
 	void SetupNeighbors();
+
+protected:
+	TerrainId terrain_id_;
 
 	makga::math::Vector3 min_;
 	makga::math::Vector3 max_;

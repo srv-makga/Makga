@@ -1,19 +1,24 @@
 #pragma once
 
+import makga.math.vector3;
+
 class Terrain;
 class TerrainGrid
 {
 	friend class Terrain;
+
 public:
-	TerrainGrid(Terrain* terrain);
-	~TerrainGrid();
+	TerrainGrid(Terrain* terrain, const makga::math::Vector3& start, Coord grid_size);
+	virtual ~TerrainGrid();
 
 	bool Initialize();
 	void Finalize();
 
 protected:
-	Terrain terrain_;
-	std::vector<TerrainGrid*> neighbors_;
+	Terrain* terrain_;
+	makga::math::Vector3 min_;
+	makga::math::Vector3 max_;
+	makga::math::Vector3 center_;
 
-	TerrainIdx idx_;
+	std::vector<TerrainGrid*> neighbors_;
 };
