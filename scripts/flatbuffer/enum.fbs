@@ -46,3 +46,25 @@ enum ActorType : int
 	Gadget,
 	Object,
 }
+
+// 도시
+enum CityType : int
+{
+}
+
+enum PkType : int
+{
+	Safe,		// 평화 - 공격 불가능 (ex. 마을)
+	Lawful,		// 질서 - 공격은 가능하나, 공격시 페널티 (ex. 초보사냥터)
+	Conflict,	// 중립 - 다른 세력과만 공격 가능 (ex. 접경지역, 주요사냥터)
+	Hostile,	// 무법 - 누구나 공격 가능, 사망시 페널티 (ex. 고레벨 사냥터)
+	Arena,		// 전쟁 - 컨텐츠용 지역
+}
+
+enum AreaType : int
+{
+	City,		// 도시
+	Village,	// 마을
+	Field,		// 필드
+	Instance,	// 인스턴스
+}

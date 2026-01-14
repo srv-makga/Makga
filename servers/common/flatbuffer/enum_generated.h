@@ -189,16 +189,18 @@ inline const char *EnumNameAIType(AIType e) {
 }
 
 enum ActorType : int32_t {
-  ActorType_Character = 0,
-  ActorType_Monster = 1,
-  ActorType_Gadget = 2,
-  ActorType_Object = 3,
-  ActorType_MIN = ActorType_Character,
+  ActorType_None = 0,
+  ActorType_Character = 1,
+  ActorType_Monster = 2,
+  ActorType_Gadget = 3,
+  ActorType_Object = 4,
+  ActorType_MIN = ActorType_None,
   ActorType_MAX = ActorType_Object
 };
 
-inline const ActorType (&EnumValuesActorType())[4] {
+inline const ActorType (&EnumValuesActorType())[5] {
   static const ActorType values[] = {
+    ActorType_None,
     ActorType_Character,
     ActorType_Monster,
     ActorType_Gadget,
@@ -208,7 +210,8 @@ inline const ActorType (&EnumValuesActorType())[4] {
 }
 
 inline const char * const *EnumNamesActorType() {
-  static const char * const names[5] = {
+  static const char * const names[6] = {
+    "None",
     "Character",
     "Monster",
     "Gadget",
@@ -219,9 +222,111 @@ inline const char * const *EnumNamesActorType() {
 }
 
 inline const char *EnumNameActorType(ActorType e) {
-  if (::flatbuffers::IsOutRange(e, ActorType_Character, ActorType_Object)) return "";
+  if (::flatbuffers::IsOutRange(e, ActorType_None, ActorType_Object)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesActorType()[index];
+}
+
+enum CityType : int32_t {
+  CityType_NONE = 0,
+  CityType_MIN = CityType_NONE,
+  CityType_MAX = CityType_NONE
+};
+
+inline const CityType (&EnumValuesCityType())[1] {
+  static const CityType values[] = {
+    CityType_NONE
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesCityType() {
+  static const char * const names[2] = {
+    "NONE",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameCityType(CityType e) {
+  if (::flatbuffers::IsOutRange(e, CityType_NONE, CityType_NONE)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesCityType()[index];
+}
+
+enum PkType : int32_t {
+  PkType_Safe = 0,
+  PkType_Lawful = 1,
+  PkType_Conflict = 2,
+  PkType_Hostile = 3,
+  PkType_Arena = 4,
+  PkType_MIN = PkType_Safe,
+  PkType_MAX = PkType_Arena
+};
+
+inline const PkType (&EnumValuesPkType())[5] {
+  static const PkType values[] = {
+    PkType_Safe,
+    PkType_Lawful,
+    PkType_Conflict,
+    PkType_Hostile,
+    PkType_Arena
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesPkType() {
+  static const char * const names[6] = {
+    "Safe",
+    "Lawful",
+    "Conflict",
+    "Hostile",
+    "Arena",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNamePkType(PkType e) {
+  if (::flatbuffers::IsOutRange(e, PkType_Safe, PkType_Arena)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesPkType()[index];
+}
+
+enum AreaType : int32_t {
+  AreaType_City = 0,
+  AreaType_Village = 1,
+  AreaType_Field = 2,
+  AreaType_Instance = 3,
+  AreaType_MIN = AreaType_City,
+  AreaType_MAX = AreaType_Instance
+};
+
+inline const AreaType (&EnumValuesAreaType())[4] {
+  static const AreaType values[] = {
+    AreaType_City,
+    AreaType_Village,
+    AreaType_Field,
+    AreaType_Instance
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesAreaType() {
+  static const char * const names[5] = {
+    "City",
+    "Village",
+    "Field",
+    "Instance",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameAreaType(AreaType e) {
+  if (::flatbuffers::IsOutRange(e, AreaType_City, AreaType_Instance)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesAreaType()[index];
 }
 
 }  // namespace makga
