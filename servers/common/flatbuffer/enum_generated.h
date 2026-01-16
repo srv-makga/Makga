@@ -155,35 +155,38 @@ enum AIType : int32_t {
   AIType_Coward = 2,
   AIType_FieldBoss = 3,
   AIType_InstanceBoss = 4,
+  AIType_Character = 5,
   AIType_MIN = AIType_Aggressive,
-  AIType_MAX = AIType_InstanceBoss
+  AIType_MAX = AIType_Character
 };
 
-inline const AIType (&EnumValuesAIType())[5] {
+inline const AIType (&EnumValuesAIType())[6] {
   static const AIType values[] = {
     AIType_Aggressive,
     AIType_NonAggressive,
     AIType_Coward,
     AIType_FieldBoss,
-    AIType_InstanceBoss
+    AIType_InstanceBoss,
+    AIType_Character
   };
   return values;
 }
 
 inline const char * const *EnumNamesAIType() {
-  static const char * const names[6] = {
+  static const char * const names[7] = {
     "Aggressive",
     "NonAggressive",
     "Coward",
     "FieldBoss",
     "InstanceBoss",
+    "Character",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameAIType(AIType e) {
-  if (::flatbuffers::IsOutRange(e, AIType_Aggressive, AIType_InstanceBoss)) return "";
+  if (::flatbuffers::IsOutRange(e, AIType_Aggressive, AIType_Character)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesAIType()[index];
 }

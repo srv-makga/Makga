@@ -36,6 +36,7 @@ enum AIType : int
 	Coward,			// 주변에 적이 접근하면 도망
 	FieldBoss,		// 필드 보스
 	InstanceBoss,	// 인스턴스 보스
+	Character,		// 캐릭터(오프라인 모드등)
 }
 
 enum ActorType : int
