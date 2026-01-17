@@ -23,6 +23,15 @@
     <ClCompile Include="ai_controller.cpp">
       <Filter>content\ai</Filter>
     </ClCompile>
+    <ClCompile Include="actor.cpp">
+      <Filter>content\actor</Filter>
+    </ClCompile>
+    <ClCompile Include="terrain.cpp">
+      <Filter>content\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="terrain_grid.cpp">
+      <Filter>content\terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="thread">
@@ -51,6 +60,33 @@
     </Filter>
     <Filter Include="content\ai">
       <UniqueIdentifier>{1e3f9bb2-6e48-433e-8e34-5f9cb6f2fe7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\stat">
+      <UniqueIdentifier>{afbfc61c-7992-48a4-89f9-d107a1b52ea9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\terrain">
+      <UniqueIdentifier>{f337e32c-42c9-4050-9794-bb278bb261ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\aggro">
+      <UniqueIdentifier>{ce961ba9-030c-4678-8a2a-7ad150000103}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\terrain\navi_mesh">
+      <UniqueIdentifier>{8aa5f6e5-fd3a-4c6e-9304-f1e53a8042aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\event">
+      <UniqueIdentifier>{f002daf5-a699-4dbd-a678-0fe555bfcf84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\inventory">
+      <UniqueIdentifier>{d2efd7a6-827b-46f0-89e2-938ae1fc1b93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\item">
+      <UniqueIdentifier>{7913d443-3a58-4cc9-94b6-d2e7fd7ae54b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\party">
+      <UniqueIdentifier>{5a427693-eeca-47cd-817b-a3f2b0e2f339}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\guild">
+      <UniqueIdentifier>{06307409-12cf-4b5c-959a-6e4e5b319686}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -91,14 +127,23 @@
     <ClInclude Include="object.h">
       <Filter>content\actor\detail</Filter>
     </ClInclude>
-    <ClInclude Include="stat.h">
-      <Filter>content</Filter>
-    </ClInclude>
     <ClInclude Include="instance.h">
       <Filter>content\instance</Filter>
     </ClInclude>
     <ClInclude Include="ai_controller.h">
       <Filter>content\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="actor_board.h">
+      <Filter>content\actor</Filter>
+    </ClInclude>
+    <ClInclude Include="stat.h">
+      <Filter>content\stat</Filter>
+    </ClInclude>
+    <ClInclude Include="terrain.h">
+      <Filter>content\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="terrain_grid.h">
+      <Filter>content\terrain</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

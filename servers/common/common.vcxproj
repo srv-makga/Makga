@@ -117,7 +117,7 @@
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
       <TranslateIncludes>false</TranslateIncludes>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -138,7 +138,7 @@
       <AdditionalIncludeDirectories>..\..\libs\cpp\3rdparty\flatbuffer\include;..\..\libs\cpp\libraries\include;..\..\libs\cpp\network\include;$(PublicIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -148,7 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="bt_node.h" />
-    <ClInclude Include="bt_actor.h" />
+    <ClInclude Include="data_struct.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="dispatcher.h" />
     <ClInclude Include="flatbuffer\enum_generated.h" />
@@ -167,7 +167,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
-    <ClCompile Include="bt_actor.cpp" />
     <ClCompile Include="iocp_client.cpp" />
     <ClCompile Include="iocp_server.cpp" />
     <ClCompile Include="iocp_session.cpp" />

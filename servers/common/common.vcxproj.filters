@@ -39,8 +39,8 @@
     <ClInclude Include="bt_node.h">
       <Filter>content\behaviortree</Filter>
     </ClInclude>
-    <ClInclude Include="bt_actor.h">
-      <Filter>content\behaviortree</Filter>
+    <ClInclude Include="data_struct.h">
+      <Filter>data_table</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -64,9 +64,6 @@
     </ClCompile>
     <ClCompile Include="iocp_session.cpp">
       <Filter>network</Filter>
-    </ClCompile>
-    <ClCompile Include="bt_actor.cpp">
-      <Filter>content\behaviortree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +93,12 @@
     </Filter>
     <Filter Include="content\behaviortree">
       <UniqueIdentifier>{2df7f197-df55-412b-82e1-5f4195de5f0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="security">
+      <UniqueIdentifier>{e2efde99-3145-4e75-a64c-5069aa2a6ae6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data_table">
+      <UniqueIdentifier>{9e71c367-0a29-4e4f-90c8-4dec7595ccb3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

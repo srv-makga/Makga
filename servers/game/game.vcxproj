@@ -138,10 +138,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="actor.cpp" />
     <ClCompile Include="ai_controller.cpp" />
     <ClCompile Include="app.cpp" />
     <ClCompile Include="job_thread.cpp" />
     <ClCompile Include="net_thread.cpp" />
+    <ClCompile Include="terrain.cpp" />
+    <ClCompile Include="terrain_grid.cpp" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="user_dispatcher.cpp" />
     <ClCompile Include="user_server.cpp" />
@@ -149,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actor.h" />
+    <ClInclude Include="actor_board.h" />
     <ClInclude Include="ai_controller.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="define.h" />
@@ -160,6 +164,8 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="stat.h" />
+    <ClInclude Include="terrain.h" />
+    <ClInclude Include="terrain_grid.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="user_dispatcher.h" />
     <ClInclude Include="user_server.h" />
