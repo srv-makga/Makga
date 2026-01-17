@@ -9,7 +9,7 @@ public:
 	using Job = std::shared_ptr<makga::network::Job>;
 
 public:
-	MessageActor(ActorId_t actor_id);
+	MessageActor(ActorId actor_id);
 	virtual ~MessageActor();
 
 	bool Initialize();
@@ -21,6 +21,6 @@ protected:
 	virtual Job PopMessage();
 
 private:
-	ActorId_t actor_id_;
+	ActorId actor_id_;
 	makga::lib::DoubleQueue<Job> message_queue_;
 };
