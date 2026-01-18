@@ -2,6 +2,7 @@
 
 import makga.math.vector3;
 
+class Stat;
 class AIController;
 class Actor
 {
@@ -40,9 +41,9 @@ public:
 	bool IsInAttackRange(std::shared_ptr<Actor> target) const;
 	/// /////////////////////////////////////////////////////////////////////
 
-	makga::AIType GetAIType() const;
-
 public: // virtual
+	virtual void OnUpdate(float delta_time);
+	virtual makga::AIType GetAIType() const;
 	virtual makga::ActorType GetActorType() const = 0;
 
 public: // get/set
