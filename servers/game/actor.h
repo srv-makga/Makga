@@ -1,10 +1,11 @@
 #pragma once
 
 import makga.math.vector3;
+import makga.lib.lock;
 
 class Stat;
 class AIController;
-class Actor
+class Actor : public std::enable_shared_from_this<Actor>
 {
 	friend class AIController;
 
@@ -17,6 +18,9 @@ public:
 
 	bool SetMovePosition(float x, float y, float z);
 	bool SetMovePosition(const makga::math::Vector3& _vector);
+
+	// @brief private_stat_의 내용을 public_stat_으로 복사
+	void CopyPrivateStatToPublicStat();
 
 	// BT 관련 //////////////////////////////////////////////////////////////
 	// @brief 주변에서 타켓 찾기
@@ -52,6 +56,14 @@ public: // get/set
 
 protected:
 	ActorId id_;
+
+	std::unique_ptr<AIController> ai_controller_;
+
+	std::unique_ptr<Stat> private_stat_; // 내부 계산용
+
+	makga::lib::SharedMutex stat_mutex_;
+	std::shared_ptr<Stat> public_stat_; // 내부 계산 후 공개용
+
 	std::shared_ptr<Actor> target_;
 	std::shared_ptr<Actor> leader_;
 	std::shared_ptr<Actor> owner_;

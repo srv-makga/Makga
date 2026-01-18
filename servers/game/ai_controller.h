@@ -3,7 +3,7 @@
 #include "bt_node.h"
 
 class Actor;
-class AIController : public std::enable_shared_from_this<AIController>
+class AIController
 {
 public:
 	using Node = BtNode<AIController>;
