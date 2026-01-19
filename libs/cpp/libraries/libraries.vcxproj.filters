@@ -114,6 +114,9 @@
     <ClCompile Include="include\system.ixx">
       <Filter>ecs\system</Filter>
     </ClCompile>
+    <ClCompile Include="include\lock_free_queue.ixx">
+      <Filter>queue</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">
