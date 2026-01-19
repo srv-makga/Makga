@@ -117,6 +117,10 @@
     <ClCompile Include="include\lock_free_queue.ixx">
       <Filter>queue</Filter>
     </ClCompile>
+    <ClCompile Include="include\mpsc_queue.ixx">
+      <Filter>queue</Filter>
+    </ClCompile>
+    <ClCompile Include="include\thread_local_pool.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">

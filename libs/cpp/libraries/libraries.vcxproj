@@ -161,6 +161,7 @@
     <ClCompile Include="include\lock.ixx" />
     <ClCompile Include="include\lock_free_queue.ixx" />
     <ClCompile Include="include\logger.ixx" />
+    <ClCompile Include="include\mpsc_queue.ixx" />
     <ClCompile Include="include\object_pool.ixx" />
     <ClCompile Include="include\observer.ixx" />
     <ClCompile Include="include\random.ixx" />
@@ -172,6 +173,7 @@
     <ClCompile Include="include\string.ixx" />
     <ClCompile Include="include\system.ixx" />
     <ClCompile Include="include\thread_group.ixx" />
+    <ClCompile Include="include\thread_local_pool.ixx" />
     <ClCompile Include="include\thread_pool.ixx" />
     <ClCompile Include="include\transform.ixx" />
     <ClCompile Include="include\util.ixx" />
