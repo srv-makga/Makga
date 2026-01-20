@@ -14,7 +14,7 @@ public:
 	bool Initialize();
 	void Finalize();
 
-	void Update(float delta_time);
+	void OnUpdate(float delta_time);
 	void Terminate();
 
 protected: // 행동 트리 노드들
