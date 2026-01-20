@@ -1,26 +1,27 @@
 #pragma once
 
-import makga.lib.doublequeue;
-import makga.network.jobhandler;
+import makga.lib.mpsc_queue;
 
 class MessageActor
 {
 public:
-	using Job = std::shared_ptr<makga::network::Job>;
+	using Message = std::function<void(void)>;
+	using Queue = makga::lib::MPSCQueue<Message>;
 
 public:
-	MessageActor(ActorId actor_id);
+	MessageActor();
 	virtual ~MessageActor();
 
 	bool Initialize();
 	void Finalize();
 
-	void PushMessage(Job job);
+	void PushMessage(Message message);
+	void ProcessMessages();
+
+	Queue& GetMessageQueue();
 
 protected:
-	virtual Job PopMessage();
+	virtual bool PopMessage(Message& message);
 
-private:
-	ActorId actor_id_;
-	makga::lib::DoubleQueue<Job> message_queue_;
+	Queue message_queue_;
 };
