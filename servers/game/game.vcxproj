@@ -139,10 +139,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="actor.cpp" />
+    <ClCompile Include="actor_board.cpp" />
     <ClCompile Include="ai_controller.cpp" />
     <ClCompile Include="app.cpp" />
     <ClCompile Include="job_thread.cpp" />
     <ClCompile Include="net_thread.cpp" />
+    <ClCompile Include="stat.cpp" />
     <ClCompile Include="terrain.cpp" />
     <ClCompile Include="terrain_grid.cpp" />
     <ClCompile Include="user.cpp" />

@@ -32,6 +32,12 @@
     <ClCompile Include="terrain_grid.cpp">
       <Filter>content\terrain</Filter>
     </ClCompile>
+    <ClCompile Include="stat.cpp">
+      <Filter>content\stat</Filter>
+    </ClCompile>
+    <ClCompile Include="actor_board.cpp">
+      <Filter>content\actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="thread">
