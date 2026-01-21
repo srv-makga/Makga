@@ -50,6 +50,8 @@ protected: // 행동 트리 노드들
 	makga::lib::Node::Status FindTarget();
 	// @brief 타겟 설정
 	makga::lib::Node::Status SetTarget();
+	// @brief 모두 회복
+	makga::lib::Node::Status Recovery();
 
 protected:
 	static std::shared_ptr<makga::lib::Node> CreateAggressive(AIController* ptr);
@@ -58,6 +60,7 @@ protected:
 	static std::shared_ptr<makga::lib::Node> CreateFieldBoss(AIController* ptr);
 	static std::shared_ptr<makga::lib::Node> CreateInstanceBoss(AIController* ptr);
 	static std::shared_ptr<makga::lib::Node> CreateCharacter(AIController* ptr);
+	static std::shared_ptr<makga::lib::Node> CreateSandbag(AIController* ptr);
 
 protected:
 	std::shared_ptr<Actor> actor_;

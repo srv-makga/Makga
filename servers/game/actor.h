@@ -21,19 +21,16 @@ public:
 	bool SetMovePosition(float x, float y, float z);
 	bool SetMovePosition(const makga::math::Vector3& _vector);
 
-	// @brief private의 내용을 public으로 복사
-	void CopyPrivateToPublic();
-
 	// BT 관련 //////////////////////////////////////////////////////////////
 	// @brief 주변에서 타켓 찾기
 	std::shared_ptr<Actor> FindTarget();
 
 	// @brief 타겟 변경
 	bool ChangeTarget(std::shared_ptr<Actor> target);
+
 	bool HasTarget() const;
 	bool HasLeader() const;
 	bool HasOwner() const;
-
 	bool IsDead() const;
 	bool IsAlive() const;
 	bool IsMoveable() const;
@@ -46,11 +43,10 @@ public: // virtual
 	virtual makga::AIType GetAIType() const;
 	virtual makga::ActorType GetActorType() const = 0;
 
-public: // get/set
+public:
 	ActorId GetId() const;
-	void SetId(ActorId id);
 
-	std::shared_ptr<Stat> GetPublicStat() const;
+	const ActorBoard& GetBoard() const;
 
 	// @brief 현재 타겟 반환
 	std::shared_ptr<Actor> GetTarget() const;
@@ -59,35 +55,33 @@ public: // get/set
 	// @brief 오너 반환
 	std::shared_ptr<Actor> GetOwner() const;
 
-	Hp GetCurrentHp() const;
-	void SetCurrentHp(Hp hp);
-
+	Hp GetCurHp() const;
 	Hp GetMaxHp() const;
-	void SetMaxHp(Hp hp);
-
-	Mp GetCurrentMp() const;
-	void SetCurrentMp(Mp mp);
-
+	Mp GetCurMp() const;
 	Mp GetMaxMp() const;
+
+protected:
+	// @brief private의 내용을 public으로 복사
+	void CopyPrivateToPublic();
+
+	void SetCurHp(Hp hp);
+	void SetMaxHp(Hp hp);
+	void SetCurMp(Mp mp);
 	void SetMaxMp(Mp mp);
 
 protected:
+	inline static std::atomic<ActorId> next_id_ = 0;
+
 	ActorId id_;
 
 	std::unique_ptr<AIController> ai_controller_;
 
 	std::unique_ptr<ActorBoard> private_board_;
-	std::shared_ptr<ActorBoard> public_board_;
+	std::unique_ptr<ActorBoard> public_board_;
 
 	std::shared_ptr<Actor> target_;
 	std::shared_ptr<Actor> leader_;
 	std::shared_ptr<Actor> owner_;
-
-	Hp current_hp_;
-	Hp max_hp_;
-
-	Mp current_mp_;
-	Mp max_mp_;
 
 	Tick last_move_tick;
 };
