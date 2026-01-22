@@ -156,37 +156,40 @@ enum AIType : int32_t {
   AIType_FieldBoss = 3,
   AIType_InstanceBoss = 4,
   AIType_Character = 5,
+  AIType_Sandbag = 6,
   AIType_MIN = AIType_Aggressive,
-  AIType_MAX = AIType_Character
+  AIType_MAX = AIType_Sandbag
 };
 
-inline const AIType (&EnumValuesAIType())[6] {
+inline const AIType (&EnumValuesAIType())[7] {
   static const AIType values[] = {
     AIType_Aggressive,
     AIType_NonAggressive,
     AIType_Coward,
     AIType_FieldBoss,
     AIType_InstanceBoss,
-    AIType_Character
+    AIType_Character,
+    AIType_Sandbag
   };
   return values;
 }
 
 inline const char * const *EnumNamesAIType() {
-  static const char * const names[7] = {
+  static const char * const names[8] = {
     "Aggressive",
     "NonAggressive",
     "Coward",
     "FieldBoss",
     "InstanceBoss",
     "Character",
+    "Sandbag",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameAIType(AIType e) {
-  if (::flatbuffers::IsOutRange(e, AIType_Aggressive, AIType_Character)) return "";
+  if (::flatbuffers::IsOutRange(e, AIType_Aggressive, AIType_Sandbag)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesAIType()[index];
 }
@@ -330,6 +333,207 @@ inline const char *EnumNameAreaType(AreaType e) {
   if (::flatbuffers::IsOutRange(e, AreaType_City, AreaType_Instance)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesAreaType()[index];
+}
+
+enum AttributeType : int32_t {
+  AttributeType_None = 0,
+  AttributeType_Fire = 1,
+  AttributeType_Water = 2,
+  AttributeType_Wind = 3,
+  AttributeType_Earth = 4,
+  AttributeType_Holy = 5,
+  AttributeType_Dark = 6,
+  AttributeType_MIN = AttributeType_None,
+  AttributeType_MAX = AttributeType_Dark
+};
+
+inline const AttributeType (&EnumValuesAttributeType())[7] {
+  static const AttributeType values[] = {
+    AttributeType_None,
+    AttributeType_Fire,
+    AttributeType_Water,
+    AttributeType_Wind,
+    AttributeType_Earth,
+    AttributeType_Holy,
+    AttributeType_Dark
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesAttributeType() {
+  static const char * const names[8] = {
+    "None",
+    "Fire",
+    "Water",
+    "Wind",
+    "Earth",
+    "Holy",
+    "Dark",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameAttributeType(AttributeType e) {
+  if (::flatbuffers::IsOutRange(e, AttributeType_None, AttributeType_Dark)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesAttributeType()[index];
+}
+
+enum RaceType : int32_t {
+  RaceType_Human = 0,
+  RaceType_Elf = 1,
+  RaceType_Dwarf = 2,
+  RaceType_Orc = 3,
+  RaceType_Undead = 4,
+  RaceType_Dragon = 5,
+  RaceType_MIN = RaceType_Human,
+  RaceType_MAX = RaceType_Dragon
+};
+
+inline const RaceType (&EnumValuesRaceType())[6] {
+  static const RaceType values[] = {
+    RaceType_Human,
+    RaceType_Elf,
+    RaceType_Dwarf,
+    RaceType_Orc,
+    RaceType_Undead,
+    RaceType_Dragon
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesRaceType() {
+  static const char * const names[7] = {
+    "Human",
+    "Elf",
+    "Dwarf",
+    "Orc",
+    "Undead",
+    "Dragon",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameRaceType(RaceType e) {
+  if (::flatbuffers::IsOutRange(e, RaceType_Human, RaceType_Dragon)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesRaceType()[index];
+}
+
+enum CurrencyType : int32_t {
+  CurrencyType_Gold = 0,
+  CurrencyType_Ruby = 1,
+  CurrencyType_Mileage = 2,
+  CurrencyType_Honor = 3,
+  CurrencyType_GuildPoint = 4,
+  CurrencyType_MIN = CurrencyType_Gold,
+  CurrencyType_MAX = CurrencyType_GuildPoint
+};
+
+inline const CurrencyType (&EnumValuesCurrencyType())[5] {
+  static const CurrencyType values[] = {
+    CurrencyType_Gold,
+    CurrencyType_Ruby,
+    CurrencyType_Mileage,
+    CurrencyType_Honor,
+    CurrencyType_GuildPoint
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesCurrencyType() {
+  static const char * const names[6] = {
+    "Gold",
+    "Ruby",
+    "Mileage",
+    "Honor",
+    "GuildPoint",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameCurrencyType(CurrencyType e) {
+  if (::flatbuffers::IsOutRange(e, CurrencyType_Gold, CurrencyType_GuildPoint)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesCurrencyType()[index];
+}
+
+enum GradeType : int32_t {
+  GradeType_Normal = 0,
+  GradeType_Magic = 1,
+  GradeType_Rare = 2,
+  GradeType_Unique = 3,
+  GradeType_Epic = 4,
+  GradeType_Legendary = 5,
+  GradeType_Mythic = 6,
+  GradeType_MIN = GradeType_Normal,
+  GradeType_MAX = GradeType_Mythic
+};
+
+inline const GradeType (&EnumValuesGradeType())[7] {
+  static const GradeType values[] = {
+    GradeType_Normal,
+    GradeType_Magic,
+    GradeType_Rare,
+    GradeType_Unique,
+    GradeType_Epic,
+    GradeType_Legendary,
+    GradeType_Mythic
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesGradeType() {
+  static const char * const names[8] = {
+    "Normal",
+    "Magic",
+    "Rare",
+    "Unique",
+    "Epic",
+    "Legendary",
+    "Mythic",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameGradeType(GradeType e) {
+  if (::flatbuffers::IsOutRange(e, GradeType_Normal, GradeType_Mythic)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesGradeType()[index];
+}
+
+enum ItemReason : int32_t {
+  ItemReason_AddDrop = 0,
+  ItemReason_SubUse = 1,
+  ItemReason_MIN = ItemReason_AddDrop,
+  ItemReason_MAX = ItemReason_SubUse
+};
+
+inline const ItemReason (&EnumValuesItemReason())[2] {
+  static const ItemReason values[] = {
+    ItemReason_AddDrop,
+    ItemReason_SubUse
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesItemReason() {
+  static const char * const names[3] = {
+    "AddDrop",
+    "SubUse",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameItemReason(ItemReason e) {
+  if (::flatbuffers::IsOutRange(e, ItemReason_AddDrop, ItemReason_SubUse)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesItemReason()[index];
 }
 
 }  // namespace makga

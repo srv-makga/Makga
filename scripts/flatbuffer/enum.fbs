@@ -36,7 +36,8 @@ enum AIType : int
 	Coward,			// 주변에 적이 접근하면 도망
 	FieldBoss,		// 필드 보스
 	InstanceBoss,	// 인스턴스 보스
-	Character,		// 캐릭터(오프라인 모드등)
+	Character,		// 오프라인 모드용
+	Sandbag,		// 체력 무한리필용
 }
 
 enum ActorType : int
@@ -68,4 +69,59 @@ enum AreaType : int
 	Village,	// 마을
 	Field,		// 필드
 	Instance,	// 인스턴스
+}
+
+// 속성
+enum AttributeType : int
+{
+	None,		// 무속성
+	Fire,		// 화염
+	Water,		// 냉기
+	Wind,		// 전격
+	Earth,		// 대지
+	Holy,		// 신성
+	Dark,		// 암흑
+}
+
+// 종족
+enum RaceType : int
+{
+	Human,		// 인간
+	Elf,		// 엘프
+	Dwarf,		// 드워프
+	Orc,		// 오크
+	Undead,		// 언데드
+	Dragon,		// 드래곤
+}
+
+// 재화
+enum CurrencyType : int
+{
+	Gold,		// 골드 (일반 재화)
+	Ruby,		// 루비 (유료 재화)
+	Mileage,	// 마일리지
+	Honor,		// 명예 점수
+	GuildPoint,	// 길드 포인트
+}
+
+// 등급
+enum GradeType : int
+{
+	Normal,		// 일반
+	Magic,		// 매직
+	Rare,		// 레어
+	Unique,		// 유니크
+	Epic,		// 에픽
+	Legendary,	// 레전더리
+	Mythic,		// 신화
+}
+
+// 아이템 생성/소모 이유
+enum ItemReason : int
+{
+	// 생성
+	AddDrop,
+	
+	// 소모
+	SubUse,
 }
