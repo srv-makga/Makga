@@ -121,6 +121,7 @@
       <Filter>queue</Filter>
     </ClCompile>
     <ClCompile Include="include\thread_local_pool.ixx" />
+    <ClCompile Include="include\binary_writer.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">

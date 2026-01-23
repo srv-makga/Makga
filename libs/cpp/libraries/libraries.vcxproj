@@ -147,6 +147,7 @@
     <ClCompile Include="include\ahocorasick.ixx" />
     <ClCompile Include="include\archtype.ixx" />
     <ClCompile Include="include\batch_processor.ixx" />
+    <ClCompile Include="include\binary_writer.ixx" />
     <ClCompile Include="include\brain_tree.ixx" />
     <ClCompile Include="include\buffer.ixx" />
     <ClCompile Include="include\collider.ixx" />
