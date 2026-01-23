@@ -17,6 +17,9 @@
     <ClCompile Include="db_test.cpp">
       <Filter>libraries</Filter>
     </ClCompile>
+    <ClCompile Include="binary_writer_test.cpp">
+      <Filter>libraries</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

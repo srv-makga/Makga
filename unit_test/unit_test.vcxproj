@@ -167,6 +167,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="algorithm_test.cpp" />
+    <ClCompile Include="binary_writer_test.cpp" />
     <ClCompile Include="datetime_test.cpp" />
     <ClCompile Include="db_test.cpp" />
     <ClCompile Include="random_test.cpp" />

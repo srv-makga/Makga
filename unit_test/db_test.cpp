@@ -39,7 +39,9 @@ namespace unittest
 			}
 			catch (const std::exception& e)
 			{
-				Assert::Fail(std::format(L"RedisTest exception: {0}", makga::lib::StringToWString(e.what())).c_str());
+				std::wstring msg;
+				makga::lib::Convert(e.what(), msg);
+				Assert::Fail(std::format(L"RedisTest exception: {0}", msg).c_str());
 			}
 			catch (...)
 			{
