@@ -47,6 +47,7 @@ using UserUid = uint64_t;
 using Level = int32_t;
 using Exp = int64_t;
 
+using EffectValue = float;
 using Hp = int64_t;
 using Mp = int64_t;
 using Attack = int64_t;

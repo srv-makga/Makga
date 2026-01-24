@@ -116,6 +116,94 @@ enum GradeType : int
 	Mythic,		// 신화
 }
 
+// 스텟
+enum StatType : int
+{
+	// 기본 스텟
+	Strength,		// 힘 (물리 공격력/무게)
+	Agility,		// 민첩 (공격속도/회피)
+	Intelligence,	// 지능 (마법 공격력/마나량)
+	Stamina,		// 체력 (생명력/방어력)
+	Dexterity,		// 재주 (명중률/치명타)
+	Wisdom,			// 지혜 (마나 회복/마법 저항)
+	Luck,			// 행운 (드랍률/희귀 발동)
+	Constitution,	// 건강 (상태이상 저항)
+	Spirit,			// 정신 (회복 효과/의지)
+	Charisma,		// 매력 (NPC 상호작용/소환수 강화)
+
+	Hp,				// 체력
+	Mp,				// 마력
+	
+	HpRegen,		// 체력 회복
+	MpRegen,		// 마력 회복
+	
+	// 전투 스텟 (데미지 계산에 필요한)
+	AttackSpeed,
+	CastSpeed,
+	MoveSpeed,
+	
+	Accuracy,		// 명중률
+	Penetration,	// 방어 관통력
+	MagicPenetration,	// 마법 관통력
+	
+	SkillDamage,	// 스킬 피해 증폭
+	
+	BonusDamage,		// 추가 피해(고정)
+	DamageReduction,	// 피해 감소(고정)
+	
+	BossDamage,		// 보스 추가 데미지
+	
+	PhysicalAtk,	// 물리 공격력
+	PhysicalDef,	// 물리 방어력
+
+	MagicalAtk,		// 마법 공격력
+	MagicalDef,		// 마법 방어력
+	
+	FireDamage,		// 화염
+	FireReduction,	// 화염
+	WaterDamage,		// 물
+	WaterReduction,		// 물
+	WindDamage,		// 
+	WindReduction,		// 바람
+	EarthDamage,		// 대지
+	EarthReduction,		// 대지
+	HolyDamage,		// 신성
+	HolyReduction,		// 신성
+	DarkDamage,		// 암흑
+	DarkReduction,		// 암흑
+	
+	CriRate,		// 크리티컬 발동 확률
+	CriResist,		// 크리티컬 발동 확률 감소
+	
+	CriDamage,		// 크리티컬 데미지 증가
+	CriReduction,	// 크리티컬 데미지 감소
+	
+	BlockRate,		// 블로킹 확률
+	BlockResist,	// 블로킹 확률 감소
+	
+	
+	// 스킬 효과
+	ExecuteThreshold,
+	DoubleHitChance,	// 2회 데미지
+	IgnoreShield,		// 보호막 무시 확률
+	Vampirism,			// 흡혈
+	Shield,				// 쉴드
+	HealingUp,			// 힐량 증가
+	CoolTimeDown,		// 쿨타임 감소
+	ReflectDamage,		// 데미지 반사 확률
+
+	Burn,				// 도트데미지
+	Curse,				// 저주(능력치 감소)
+	Immortal,			// 무적
+}
+
+// 효과
+enum EffectType : int
+{
+	Blessing,		// 이로운 효과 증폭
+	Curse,			// 해로운 효과 약화
+}
+
 // 아이템 생성/소모 이유
 enum ItemReason : int
 {

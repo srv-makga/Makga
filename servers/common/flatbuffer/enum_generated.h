@@ -506,6 +506,231 @@ inline const char *EnumNameGradeType(GradeType e) {
   return EnumNamesGradeType()[index];
 }
 
+enum StatType : int32_t {
+  StatType_Strength = 0,
+  StatType_Agility = 1,
+  StatType_Intelligence = 2,
+  StatType_Stamina = 3,
+  StatType_Dexterity = 4,
+  StatType_Wisdom = 5,
+  StatType_Luck = 6,
+  StatType_Constitution = 7,
+  StatType_Spirit = 8,
+  StatType_Charisma = 9,
+  StatType_Hp = 10,
+  StatType_Mp = 11,
+  StatType_HpRegen = 12,
+  StatType_MpRegen = 13,
+  StatType_AttackSpeed = 14,
+  StatType_CastSpeed = 15,
+  StatType_MoveSpeed = 16,
+  StatType_Accuracy = 17,
+  StatType_Penetration = 18,
+  StatType_MagicPenetration = 19,
+  StatType_SkillDamage = 20,
+  StatType_BonusDamage = 21,
+  StatType_DamageReduction = 22,
+  StatType_BossDamage = 23,
+  StatType_PhysicalAtk = 24,
+  StatType_PhysicalDef = 25,
+  StatType_MagicalAtk = 26,
+  StatType_MagicalDef = 27,
+  StatType_FireDamage = 28,
+  StatType_FireReduction = 29,
+  StatType_WaterDamage = 30,
+  StatType_WaterReduction = 31,
+  StatType_WindDamage = 32,
+  StatType_WindReduction = 33,
+  StatType_EarthDamage = 34,
+  StatType_EarthReduction = 35,
+  StatType_HolyDamage = 36,
+  StatType_HolyReduction = 37,
+  StatType_DarkDamage = 38,
+  StatType_DarkReduction = 39,
+  StatType_CriRate = 40,
+  StatType_CriResist = 41,
+  StatType_CriDamage = 42,
+  StatType_CriReduction = 43,
+  StatType_BlockRate = 44,
+  StatType_BlockResist = 45,
+  StatType_ExecuteThreshold = 46,
+  StatType_DoubleHitChance = 47,
+  StatType_IgnoreShield = 48,
+  StatType_Vampirism = 49,
+  StatType_Shield = 50,
+  StatType_HealingUp = 51,
+  StatType_CoolTimeDown = 52,
+  StatType_ReflectDamage = 53,
+  StatType_Burn = 54,
+  StatType_Curse = 55,
+  StatType_Immortal = 56,
+  StatType_MIN = StatType_Strength,
+  StatType_MAX = StatType_Immortal
+};
+
+inline const StatType (&EnumValuesStatType())[57] {
+  static const StatType values[] = {
+    StatType_Strength,
+    StatType_Agility,
+    StatType_Intelligence,
+    StatType_Stamina,
+    StatType_Dexterity,
+    StatType_Wisdom,
+    StatType_Luck,
+    StatType_Constitution,
+    StatType_Spirit,
+    StatType_Charisma,
+    StatType_Hp,
+    StatType_Mp,
+    StatType_HpRegen,
+    StatType_MpRegen,
+    StatType_AttackSpeed,
+    StatType_CastSpeed,
+    StatType_MoveSpeed,
+    StatType_Accuracy,
+    StatType_Penetration,
+    StatType_MagicPenetration,
+    StatType_SkillDamage,
+    StatType_BonusDamage,
+    StatType_DamageReduction,
+    StatType_BossDamage,
+    StatType_PhysicalAtk,
+    StatType_PhysicalDef,
+    StatType_MagicalAtk,
+    StatType_MagicalDef,
+    StatType_FireDamage,
+    StatType_FireReduction,
+    StatType_WaterDamage,
+    StatType_WaterReduction,
+    StatType_WindDamage,
+    StatType_WindReduction,
+    StatType_EarthDamage,
+    StatType_EarthReduction,
+    StatType_HolyDamage,
+    StatType_HolyReduction,
+    StatType_DarkDamage,
+    StatType_DarkReduction,
+    StatType_CriRate,
+    StatType_CriResist,
+    StatType_CriDamage,
+    StatType_CriReduction,
+    StatType_BlockRate,
+    StatType_BlockResist,
+    StatType_ExecuteThreshold,
+    StatType_DoubleHitChance,
+    StatType_IgnoreShield,
+    StatType_Vampirism,
+    StatType_Shield,
+    StatType_HealingUp,
+    StatType_CoolTimeDown,
+    StatType_ReflectDamage,
+    StatType_Burn,
+    StatType_Curse,
+    StatType_Immortal
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesStatType() {
+  static const char * const names[58] = {
+    "Strength",
+    "Agility",
+    "Intelligence",
+    "Stamina",
+    "Dexterity",
+    "Wisdom",
+    "Luck",
+    "Constitution",
+    "Spirit",
+    "Charisma",
+    "Hp",
+    "Mp",
+    "HpRegen",
+    "MpRegen",
+    "AttackSpeed",
+    "CastSpeed",
+    "MoveSpeed",
+    "Accuracy",
+    "Penetration",
+    "MagicPenetration",
+    "SkillDamage",
+    "BonusDamage",
+    "DamageReduction",
+    "BossDamage",
+    "PhysicalAtk",
+    "PhysicalDef",
+    "MagicalAtk",
+    "MagicalDef",
+    "FireDamage",
+    "FireReduction",
+    "WaterDamage",
+    "WaterReduction",
+    "WindDamage",
+    "WindReduction",
+    "EarthDamage",
+    "EarthReduction",
+    "HolyDamage",
+    "HolyReduction",
+    "DarkDamage",
+    "DarkReduction",
+    "CriRate",
+    "CriResist",
+    "CriDamage",
+    "CriReduction",
+    "BlockRate",
+    "BlockResist",
+    "ExecuteThreshold",
+    "DoubleHitChance",
+    "IgnoreShield",
+    "Vampirism",
+    "Shield",
+    "HealingUp",
+    "CoolTimeDown",
+    "ReflectDamage",
+    "Burn",
+    "Curse",
+    "Immortal",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameStatType(StatType e) {
+  if (::flatbuffers::IsOutRange(e, StatType_Strength, StatType_Immortal)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesStatType()[index];
+}
+
+enum EffectType : int32_t {
+  EffectType_Blessing = 0,
+  EffectType_Curse = 1,
+  EffectType_MIN = EffectType_Blessing,
+  EffectType_MAX = EffectType_Curse
+};
+
+inline const EffectType (&EnumValuesEffectType())[2] {
+  static const EffectType values[] = {
+    EffectType_Blessing,
+    EffectType_Curse
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesEffectType() {
+  static const char * const names[3] = {
+    "Blessing",
+    "Curse",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameEffectType(EffectType e) {
+  if (::flatbuffers::IsOutRange(e, EffectType_Blessing, EffectType_Curse)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesEffectType()[index];
+}
+
 enum ItemReason : int32_t {
   ItemReason_AddDrop = 0,
   ItemReason_SubUse = 1,
