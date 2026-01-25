@@ -1,5 +1,15 @@
 #pragma once
 
+#include "detour/DetourAlloc.h"
+#include "detour/DetourAssert.h"
+#include "detour/DetourCommon.h"
+#include "detour/DetourMath.h"
+#include "detour/DetourNavMesh.h"
+#include "detour/DetourNavMeshBuilder.h"
+#include "detour/DetourNavMeshQuery.h"
+#include "detour/DetourNode.h"
+#include "detour/DetourStatus.h"
+
 import makga.math.vector3;
 
 class Actor;
@@ -27,6 +37,7 @@ public:
 
 protected:
 	void SetupNeighbors();
+	bool LoadNavMesh(const std::string& _file_name);
 
 protected:
 	TerrainId terrain_id_;
@@ -39,4 +50,8 @@ protected:
 	int count_z_;
 
 	std::vector<std::unique_ptr<TerrainGrid>> grids_;
+
+	dtNavMesh* nav_mesh_;
+	dtNavMeshQuery* nav_query_;
+	dtQueryFilter* nav_filter_;
 };

@@ -38,6 +38,36 @@
     <ClCompile Include="actor_board.cpp">
       <Filter>content\actor</Filter>
     </ClCompile>
+    <ClCompile Include="gadget.cpp">
+      <Filter>content\actor\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="monster.cpp">
+      <Filter>content\actor\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="character.cpp">
+      <Filter>content\actor\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="detour\DetourAlloc.cpp">
+      <Filter>content\terrain\navi_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="detour\DetourAssert.cpp">
+      <Filter>content\terrain\navi_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="detour\DetourCommon.cpp">
+      <Filter>content\terrain\navi_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="detour\DetourNavMesh.cpp">
+      <Filter>content\terrain\navi_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="detour\DetourNavMeshBuilder.cpp">
+      <Filter>content\terrain\navi_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="detour\DetourNavMeshQuery.cpp">
+      <Filter>content\terrain\navi_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="detour\DetourNode.cpp">
+      <Filter>content\terrain\navi_mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="thread">
@@ -94,6 +124,9 @@
     <Filter Include="content\guild">
       <UniqueIdentifier>{06307409-12cf-4b5c-959a-6e4e5b319686}</UniqueIdentifier>
     </Filter>
+    <Filter Include="content\skill">
+      <UniqueIdentifier>{8edfc90a-aee2-47dd-8bbf-6c50602163aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="net_thread.h">
@@ -130,9 +163,6 @@
     <ClInclude Include="gadget.h">
       <Filter>content\actor\detail</Filter>
     </ClInclude>
-    <ClInclude Include="object.h">
-      <Filter>content\actor\detail</Filter>
-    </ClInclude>
     <ClInclude Include="instance.h">
       <Filter>content\instance</Filter>
     </ClInclude>
@@ -150,6 +180,33 @@
     </ClInclude>
     <ClInclude Include="terrain_grid.h">
       <Filter>content\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="detour\DetourAlloc.h">
+      <Filter>content\terrain\navi_mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="detour\DetourAssert.h">
+      <Filter>content\terrain\navi_mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="detour\DetourCommon.h">
+      <Filter>content\terrain\navi_mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="detour\DetourMath.h">
+      <Filter>content\terrain\navi_mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="detour\DetourNavMesh.h">
+      <Filter>content\terrain\navi_mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="detour\DetourNavMeshBuilder.h">
+      <Filter>content\terrain\navi_mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="detour\DetourNavMeshQuery.h">
+      <Filter>content\terrain\navi_mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="detour\DetourNode.h">
+      <Filter>content\terrain\navi_mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="detour\DetourStatus.h">
+      <Filter>content\terrain\navi_mesh</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

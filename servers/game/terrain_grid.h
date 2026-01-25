@@ -14,6 +14,10 @@ public:
 	bool Initialize();
 	void Finalize();
 
+	bool AddActor(ActorId actor_id);
+	bool RemoveActor(ActorId actor_id);
+	bool HasActor(ActorId actor_id) const;
+
 protected:
 	Terrain* terrain_;
 	makga::math::Vector3 min_;
@@ -21,4 +25,6 @@ protected:
 	makga::math::Vector3 center_;
 
 	std::vector<TerrainGrid*> neighbors_;
+
+	std::unordered_set<ActorId> actor_ids_;
 };
