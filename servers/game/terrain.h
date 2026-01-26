@@ -19,6 +19,7 @@ class Terrain
 	friend class TerrainGrid;
 public:
 	Terrain(makga::math::Vector3 min, makga::math::Vector3 max, Coord grid_size);
+	Terrain(const* MapTable map_data);
 	virtual ~Terrain();
 
 	bool Initialize();
@@ -51,7 +52,7 @@ protected:
 
 	std::vector<std::unique_ptr<TerrainGrid>> grids_;
 
-	dtNavMesh* nav_mesh_;
-	dtNavMeshQuery* nav_query_;
-	dtQueryFilter* nav_filter_;
+	dtNavMesh* nav_mesh_; // 지형 데이터
+	static thread_local dtNavMeshQuery* nav_query_;
+	dtQueryFilter* nav_filter_; // 이동 규칙
 };
