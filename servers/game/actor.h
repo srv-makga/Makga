@@ -23,6 +23,11 @@ public:
 
 	// BT 관련 //////////////////////////////////////////////////////////////
 	// @brief 주변에서 타켓 찾기
+	bool IsUpdateAI() const;
+	void ActiveAI();
+	void DeactiveAI();
+
+
 	std::shared_ptr<Actor> FindTarget();
 
 	// @brief 타겟 변경
@@ -74,8 +79,11 @@ protected:
 
 	ActorId id_;
 
-	std::unique_ptr<AIController> ai_controller_;
+	Tick last_move_tick;
+	makga::math::Vector3 dest_position_;	// 이동 목적지
+	std::vector<dfPolyRef> route_path_;		// 이동 경로
 
+	// 타인에게 공유되어야할 정보
 	std::unique_ptr<ActorBoard> private_board_;
 	std::unique_ptr<ActorBoard> public_board_;
 
@@ -83,5 +91,6 @@ protected:
 	std::shared_ptr<Actor> leader_;
 	std::shared_ptr<Actor> owner_;
 
-	Tick last_move_tick;
+	bool is_update_ai_;
+	std::unique_ptr<AIController> ai_controller_;
 };
