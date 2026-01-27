@@ -553,22 +553,11 @@ enum StatType : int32_t {
   StatType_CriReduction = 43,
   StatType_BlockRate = 44,
   StatType_BlockResist = 45,
-  StatType_ExecuteThreshold = 46,
-  StatType_DoubleHitChance = 47,
-  StatType_IgnoreShield = 48,
-  StatType_Vampirism = 49,
-  StatType_Shield = 50,
-  StatType_HealingUp = 51,
-  StatType_CoolTimeDown = 52,
-  StatType_ReflectDamage = 53,
-  StatType_Burn = 54,
-  StatType_Curse = 55,
-  StatType_Immortal = 56,
   StatType_MIN = StatType_Strength,
-  StatType_MAX = StatType_Immortal
+  StatType_MAX = StatType_BlockResist
 };
 
-inline const StatType (&EnumValuesStatType())[57] {
+inline const StatType (&EnumValuesStatType())[46] {
   static const StatType values[] = {
     StatType_Strength,
     StatType_Agility,
@@ -615,24 +604,13 @@ inline const StatType (&EnumValuesStatType())[57] {
     StatType_CriDamage,
     StatType_CriReduction,
     StatType_BlockRate,
-    StatType_BlockResist,
-    StatType_ExecuteThreshold,
-    StatType_DoubleHitChance,
-    StatType_IgnoreShield,
-    StatType_Vampirism,
-    StatType_Shield,
-    StatType_HealingUp,
-    StatType_CoolTimeDown,
-    StatType_ReflectDamage,
-    StatType_Burn,
-    StatType_Curse,
-    StatType_Immortal
+    StatType_BlockResist
   };
   return values;
 }
 
 inline const char * const *EnumNamesStatType() {
-  static const char * const names[58] = {
+  static const char * const names[47] = {
     "Strength",
     "Agility",
     "Intelligence",
@@ -679,14 +657,72 @@ inline const char * const *EnumNamesStatType() {
     "CriReduction",
     "BlockRate",
     "BlockResist",
-    "ExecuteThreshold",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameStatType(StatType e) {
+  if (::flatbuffers::IsOutRange(e, StatType_Strength, StatType_BlockResist)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesStatType()[index];
+}
+
+enum AbilityType : int32_t {
+  AbilityType_Stun = 0,
+  AbilityType_Knockback = 1,
+  AbilityType_Slow = 2,
+  AbilityType_Provoke = 3,
+  AbilityType_Silence = 4,
+  AbilityType_Blessing = 5,
+  AbilityType_DoubleHitChance = 6,
+  AbilityType_IgnoreShield = 7,
+  AbilityType_LifeSteal = 8,
+  AbilityType_Shield = 9,
+  AbilityType_HealingUp = 10,
+  AbilityType_CoolTimeDown = 11,
+  AbilityType_Burn = 12,
+  AbilityType_Curse = 13,
+  AbilityType_Immortal = 14,
+  AbilityType_MIN = AbilityType_Stun,
+  AbilityType_MAX = AbilityType_Immortal
+};
+
+inline const AbilityType (&EnumValuesAbilityType())[15] {
+  static const AbilityType values[] = {
+    AbilityType_Stun,
+    AbilityType_Knockback,
+    AbilityType_Slow,
+    AbilityType_Provoke,
+    AbilityType_Silence,
+    AbilityType_Blessing,
+    AbilityType_DoubleHitChance,
+    AbilityType_IgnoreShield,
+    AbilityType_LifeSteal,
+    AbilityType_Shield,
+    AbilityType_HealingUp,
+    AbilityType_CoolTimeDown,
+    AbilityType_Burn,
+    AbilityType_Curse,
+    AbilityType_Immortal
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesAbilityType() {
+  static const char * const names[16] = {
+    "Stun",
+    "Knockback",
+    "Slow",
+    "Provoke",
+    "Silence",
+    "Blessing",
     "DoubleHitChance",
     "IgnoreShield",
-    "Vampirism",
+    "LifeSteal",
     "Shield",
     "HealingUp",
     "CoolTimeDown",
-    "ReflectDamage",
     "Burn",
     "Curse",
     "Immortal",
@@ -695,40 +731,118 @@ inline const char * const *EnumNamesStatType() {
   return names;
 }
 
-inline const char *EnumNameStatType(StatType e) {
-  if (::flatbuffers::IsOutRange(e, StatType_Strength, StatType_Immortal)) return "";
+inline const char *EnumNameAbilityType(AbilityType e) {
+  if (::flatbuffers::IsOutRange(e, AbilityType_Stun, AbilityType_Immortal)) return "";
   const size_t index = static_cast<size_t>(e);
-  return EnumNamesStatType()[index];
+  return EnumNamesAbilityType()[index];
 }
 
-enum EffectType : int32_t {
-  EffectType_Blessing = 0,
-  EffectType_Curse = 1,
-  EffectType_MIN = EffectType_Blessing,
-  EffectType_MAX = EffectType_Curse
+enum TargetType : int32_t {
+  TargetType_Caster = 0,
+  TargetType_Enemy = 1,
+  TargetType_Party = 2,
+  TargetType_Guild = 3,
+  TargetType_Ally = 4,
+  TargetType_All = 5,
+  TargetType_MIN = TargetType_Caster,
+  TargetType_MAX = TargetType_All
 };
 
-inline const EffectType (&EnumValuesEffectType())[2] {
-  static const EffectType values[] = {
-    EffectType_Blessing,
-    EffectType_Curse
+inline const TargetType (&EnumValuesTargetType())[6] {
+  static const TargetType values[] = {
+    TargetType_Caster,
+    TargetType_Enemy,
+    TargetType_Party,
+    TargetType_Guild,
+    TargetType_Ally,
+    TargetType_All
   };
   return values;
 }
 
-inline const char * const *EnumNamesEffectType() {
-  static const char * const names[3] = {
-    "Blessing",
-    "Curse",
+inline const char * const *EnumNamesTargetType() {
+  static const char * const names[7] = {
+    "Caster",
+    "Enemy",
+    "Party",
+    "Guild",
+    "Ally",
+    "All",
     nullptr
   };
   return names;
 }
 
-inline const char *EnumNameEffectType(EffectType e) {
-  if (::flatbuffers::IsOutRange(e, EffectType_Blessing, EffectType_Curse)) return "";
+inline const char *EnumNameTargetType(TargetType e) {
+  if (::flatbuffers::IsOutRange(e, TargetType_Caster, TargetType_All)) return "";
   const size_t index = static_cast<size_t>(e);
-  return EnumNamesEffectType()[index];
+  return EnumNamesTargetType()[index];
+}
+
+enum TargetingType : int32_t {
+  TargetingType_Self = 0,
+  TargetingType_Unit = 1,
+  TargetingType_Ground = 2,
+  TargetingType_MIN = TargetingType_Self,
+  TargetingType_MAX = TargetingType_Ground
+};
+
+inline const TargetingType (&EnumValuesTargetingType())[3] {
+  static const TargetingType values[] = {
+    TargetingType_Self,
+    TargetingType_Unit,
+    TargetingType_Ground
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesTargetingType() {
+  static const char * const names[4] = {
+    "Self",
+    "Unit",
+    "Ground",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameTargetingType(TargetingType e) {
+  if (::flatbuffers::IsOutRange(e, TargetingType_Self, TargetingType_Ground)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesTargetingType()[index];
+}
+
+enum CostType : int32_t {
+  CostType_Gold = 0,
+  CostType_Hp = 1,
+  CostType_Mp = 2,
+  CostType_MIN = CostType_Gold,
+  CostType_MAX = CostType_Mp
+};
+
+inline const CostType (&EnumValuesCostType())[3] {
+  static const CostType values[] = {
+    CostType_Gold,
+    CostType_Hp,
+    CostType_Mp
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesCostType() {
+  static const char * const names[4] = {
+    "Gold",
+    "Hp",
+    "Mp",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameCostType(CostType e) {
+  if (::flatbuffers::IsOutRange(e, CostType_Gold, CostType_Mp)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesCostType()[index];
 }
 
 enum ItemReason : int32_t {

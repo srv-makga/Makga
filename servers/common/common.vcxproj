@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="bt_node.h" />
     <ClInclude Include="data_struct.h" />
+    <ClInclude Include="data_table.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="dispatcher.h" />
     <ClInclude Include="flatbuffer\enum_generated.h" />
@@ -167,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
+    <ClCompile Include="data_table.cpp" />
     <ClCompile Include="iocp_client.cpp" />
     <ClCompile Include="iocp_server.cpp" />
     <ClCompile Include="iocp_session.cpp" />

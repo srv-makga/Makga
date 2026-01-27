@@ -1,10 +1,23 @@
 #pragma once
 
+#include <format>
+#include <functional>
+#include <future>
 #include <iostream>
+#include <optional>
 #include <sstream>
 #include <string>
-#include <format>
-#include <future>
+#include <unordered_map>
+#include <map>
+#include <vector>
+#include <ctime>
+#include <cstdint>
+#include <utility>
+#include <cmath>
+#include <memory>
+#include <algorithm>
+#include <set>
+#include <unordered_set>
 
 #include "flatbuffer/enum_generated.h"
 #include "flatbuffer/result_generated.h"
@@ -40,6 +53,7 @@ using CharacterIdx = TableIdx;
 using GadgetIdx = TableIdx;
 
 using SkillIdx = TableIdx;
+using SkillLevel = int32_t;
 
 using ActorId = uint32_t;
 using UserUid = uint64_t;

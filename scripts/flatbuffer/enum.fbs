@@ -142,66 +142,88 @@ enum StatType : int
 	CastSpeed,
 	MoveSpeed,
 	
-	Accuracy,		// 명중률
-	Penetration,	// 방어 관통력
+	Accuracy,			// 명중률
+	Penetration,		// 방어 관통력
 	MagicPenetration,	// 마법 관통력
 	
-	SkillDamage,	// 스킬 피해 증폭
+	SkillDamage,		// 스킬 피해 증폭
 	
 	BonusDamage,		// 추가 피해(고정)
 	DamageReduction,	// 피해 감소(고정)
 	
-	BossDamage,		// 보스 추가 데미지
+	BossDamage,			// 보스 추가 데미지
 	
-	PhysicalAtk,	// 물리 공격력
-	PhysicalDef,	// 물리 방어력
+	PhysicalAtk,		// 물리 공격력
+	PhysicalDef,		// 물리 방어력
 
-	MagicalAtk,		// 마법 공격력
-	MagicalDef,		// 마법 방어력
+	MagicalAtk,			// 마법 공격력
+	MagicalDef,			// 마법 방어력
 	
-	FireDamage,		// 화염
-	FireReduction,	// 화염
+	FireDamage,			// 화염
+	FireReduction,		// 화염
 	WaterDamage,		// 물
 	WaterReduction,		// 물
-	WindDamage,		// 
+	WindDamage,			// 바람
 	WindReduction,		// 바람
 	EarthDamage,		// 대지
 	EarthReduction,		// 대지
-	HolyDamage,		// 신성
+	HolyDamage,			// 신성
 	HolyReduction,		// 신성
-	DarkDamage,		// 암흑
+	DarkDamage,			// 암흑
 	DarkReduction,		// 암흑
 	
-	CriRate,		// 크리티컬 발동 확률
-	CriResist,		// 크리티컬 발동 확률 감소
+	CriRate,			// 크리티컬 발동 확률
+	CriResist,			// 크리티컬 발동 확률 감소
 	
-	CriDamage,		// 크리티컬 데미지 증가
-	CriReduction,	// 크리티컬 데미지 감소
+	CriDamage,			// 크리티컬 데미지 증가
+	CriReduction,		// 크리티컬 데미지 감소
 	
-	BlockRate,		// 블로킹 확률
-	BlockResist,	// 블로킹 확률 감소
-	
-	
-	// 스킬 효과
-	ExecuteThreshold,
+	BlockRate,			// 블로킹 확률
+	BlockResist,		// 블로킹 확률 감소
+}
+
+// 효과
+enum AbilityType : int
+{
+	Stun,				// 스턴
+	Knockback,			// 밀쳐내기
+	Slow,				// 감속
+	Provoke,			// 도발
+	Silence,			// 침묵
+	Blessing,			// 이로운 효과 증폭
 	DoubleHitChance,	// 2회 데미지
 	IgnoreShield,		// 보호막 무시 확률
-	Vampirism,			// 흡혈
+	LifeSteal,			// 흡혈
 	Shield,				// 쉴드
 	HealingUp,			// 힐량 증가
 	CoolTimeDown,		// 쿨타임 감소
-	ReflectDamage,		// 데미지 반사 확률
-
 	Burn,				// 도트데미지
 	Curse,				// 저주(능력치 감소)
 	Immortal,			// 무적
 }
 
-// 효과
-enum EffectType : int
+enum TargetType : int
 {
-	Blessing,		// 이로운 효과 증폭
-	Curse,			// 해로운 효과 약화
+	Caster,		// 시전자
+	Enemy,		// 타겟
+	Party,		// 파티
+	Guild,		// 길드
+	Ally,		// 아군
+	All,		// 모두
+}
+
+enum TargetingType : int
+{
+	Self,
+	Unit,		// 특정 대상
+	Ground,		// 특정 지점의 바닥
+}
+
+enum CostType : int
+{
+	Gold,			// 골드
+	Hp,
+	Mp,
 }
 
 // 아이템 생성/소모 이유

@@ -2,11 +2,11 @@
 
 #include "data_struct.h"
 
-template<typename T>
+template<typename Key, typename Value>
 class Table
 {
 public:
-	using Container = std::map<TableIdx, T>;
+	using Container = std::map<Key, Record>;
 	using Iterator = typename Container::iterator;
 	using ConstIterator = typename Container::const_iterator;
 
@@ -14,39 +14,39 @@ public:
 	~Table() = default;
 
 	// 조회: 포인터 반환 (없으면 nullptr)
-	std::optional<const T*> TryGet(TableIdx idx) const
+	std::optional<const Value*> TryGet(Key key) const
 	{
-		auto it = data_.find(idx);
+		auto it = data_.find(key);
 		if (it == data_.end()) return std::nullopt;
 		return &it->second;
 	}
 
-	T& Get(TableIdx idx)
+	T& Get(Key key)
 	{
-		return data_[idx];
+		return data_[key];
 	}
 
 	// emplace: 새 항목 추가 (존재하면 추가 실패)
-	std::pair<Iterator, bool> Emplace(TableIdx idx, T value)
+	std::pair<Iterator, bool> Emplace(Key key, Value value)
 	{
 		return data_.emplace(idx, std::move(value));
 	}
 
 	// insert_or_assign: 항상 삽입 또는 교체
-	void Insert(TableIdx idx, T value)
+	void Insert(Key key, Value value)
 	{
-		data_.insert_or_assign(idx, std::move(value));
+		data_.insert_or_assign(key, std::move(value));
 	}
 
 	// 존재	여부 확인
-	bool Contains(TableIdx idx) const
+	bool Contains(Key key) const
 	{
-		return data_.find(idx) != data_.end();
+		return data_.find(key) != data_.end();
 	}
 
-	bool Erase(TableIdx idx)
+	bool Erase(Key key)
 	{
-		return 0 < data_.erase(idx);
+		return 0 < data_.erase(key);
 	}
 
 	// 반복자/범위 기반 for 지원
@@ -92,9 +92,8 @@ public:
 	DataTable() = default;
 	~DataTable() = default;
 
-	// 타입 별 편의 alias
-	using MapTableTable = Table<MapTable>;
-	using MonsterTableTable = Table<MonsterTable>;
+	using MapTableTable = Table<TerrainIdx, MapTable>;
+	using MonsterTableTable = Table<MonsterIdx, MonsterTable>;
 
 	// 멤버 테이블 (공개하여 직접 접근/조작 가능)
 	MapTableTable map_table_;

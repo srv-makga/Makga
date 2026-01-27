@@ -42,6 +42,9 @@
     <ClInclude Include="data_struct.h">
       <Filter>data_table</Filter>
     </ClInclude>
+    <ClInclude Include="data_table.h">
+      <Filter>data_table</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
@@ -64,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="iocp_session.cpp">
       <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="data_table.cpp">
+      <Filter>data_table</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
