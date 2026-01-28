@@ -1,26 +1,35 @@
 #pragma once
 
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <cstdint>
+#include <ctime>
 #include <format>
 #include <functional>
 #include <future>
 #include <iostream>
+#include <map>
+#include <memory>
 #include <optional>
+#include <set>
 #include <sstream>
 #include <string>
+#include <tuple>
+#include <type_traits>
 #include <unordered_map>
-#include <map>
-#include <vector>
-#include <ctime>
-#include <cstdint>
-#include <utility>
-#include <cmath>
-#include <memory>
-#include <algorithm>
-#include <set>
 #include <unordered_set>
+#include <utility>
+#include <vector>
+#include <fstream>
 
 #include "flatbuffer/enum_generated.h"
 #include "flatbuffer/result_generated.h"
+
+#include "../../3rdparty/rapidjson/include/rapidjson/rapidjson.h"
+#include "../../3rdparty/rapidjson/include/rapidjson/document.h"
+#include "../../3rdparty/rapidjson/include/rapidjson/writer.h"
+#include "../../3rdparty/rapidjson/include/rapidjson/stringbuffer.h"
 
 // 사칙연산이 없으면 unsigned, 있으면 signed
 
@@ -39,9 +48,10 @@ using Tick = int64_t;
 using TableIdx = uint64_t;
 
 // 시스템
-using Percent = int32_t;
+using Percent = int32_t; // 표기 방식
 using Prob = int32_t; // 확률. 0 ~ 100,000,000
-using Rate = float;
+constexpr Prob max_prob = 100000000;
+using Rate = float; // 수치의 비율
 
 // 컨텐츠
 using TerrainIdx = TableIdx;

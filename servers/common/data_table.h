@@ -2,11 +2,13 @@
 
 #include "data_struct.h"
 
+import makga.lib.json;
+
 template<typename Key, typename Value>
 class Table
 {
 public:
-	using Container = std::map<Key, Record>;
+	using Container = std::map<Key, Value>;
 	using Iterator = typename Container::iterator;
 	using ConstIterator = typename Container::const_iterator;
 
@@ -21,7 +23,7 @@ public:
 		return &it->second;
 	}
 
-	T& Get(Key key)
+	Value& Get(Key key)
 	{
 		return data_[key];
 	}
@@ -88,14 +90,29 @@ private:
 class DataTable
 {
 public:
-	// 주로 key - value 쌍으로 이루어진 데이터를 다룸
-	DataTable() = default;
-	~DataTable() = default;
-
 	using MapTableTable = Table<TerrainIdx, MapTable>;
 	using MonsterTableTable = Table<MonsterIdx, MonsterTable>;
+	using SkillTableTable = Table<SkillIdx, SkillTable>;
 
-	// 멤버 테이블 (공개하여 직접 접근/조작 가능)
+	// 주로 key - value 쌍으로 이루어진 데이터를 다룸
+	DataTable() = default;
+	virtual ~DataTable() = default;
+
+	virtual bool LoadTable();
+
+protected:
+	bool DataVerification();
+	bool LoadFileToBuffer(const std::string& file_path, rapidjson::Document& doc);
+
+	bool LoadMapTable(const std::string& file_path);
+	bool LoadMonsterTable(const std::string& file_path);
+	bool LoadSkillTable(const std::string& file_path);
+
+protected:
+	std::vector<char> file_buffer_;
+
 	MapTableTable map_table_;
 	MonsterTableTable monster_table_;
+	SkillTableTable skill_table_;
+
 };
