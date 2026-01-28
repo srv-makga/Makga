@@ -9,9 +9,9 @@ export module makga.lib.json;
 
 import <string>;
 
-export namespace makga::lib {
-template<typename T>
-T GetJson(const rapidjson::Value& root, const char* key, T default_value = T())
+namespace makga::lib {
+export template<typename T>
+T TryGetJson(const rapidjson::Value& root, const char* key, T default_value = T())
 {
 	if (false == root.HasMember(key))
 	{
