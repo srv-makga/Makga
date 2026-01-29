@@ -1,10 +1,6 @@
 #pragma once
 
-#include "detour/DetourAssert.h"
-#include "detour/DetourCommon.h"
-#include "detour/DetourNavMeshBuilder.h"
-#include "detour/DetourNavMeshQuery.h"
-#include "detour/DetourNode.h"
+#include "actor.h"
 
 import makga.math.vector3;
 

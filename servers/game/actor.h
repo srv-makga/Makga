@@ -2,6 +2,15 @@
 
 #include "../common/message_actor.h"
 #include "actor_board.h"
+#include "detour/DetourAlloc.h"
+#include "detour/DetourAssert.h"
+#include "detour/DetourCommon.h"
+#include "detour/DetourMath.h"
+#include "detour/DetourNavMesh.h"
+#include "detour/DetourNavMeshBuilder.h"
+#include "detour/DetourNavMeshQuery.h"
+#include "detour/DetourNode.h"
+#include "detour/DetourStatus.h"
 
 import makga.math.vector3;
 import makga.lib.lock;
@@ -81,7 +90,7 @@ protected:
 
 	Tick last_move_tick;
 	makga::math::Vector3 dest_position_;	// 이동 목적지
-	std::vector<dfPolyRef> route_path_;		// 이동 경로
+	std::vector<dtPolyRef> route_path_;		// 이동 경로
 
 	// 타인에게 공유되어야할 정보
 	std::unique_ptr<ActorBoard> private_board_;
