@@ -6,14 +6,14 @@
 
 struct StatEffect
 {
-	StatType type;
+	makga::StatType type;
 	float value = 0.0f;
 	bool is_percentage = false;
 };
 
 struct AbilityEffect
 {
-	AbilityType type;
+	makga::AbilityType type;
 	float value = 0.0f; // 효과값
 	Tick duration = 0; // 지속시간
 };
@@ -83,7 +83,7 @@ struct SkillTable
 
 	Prob success_rate = max_prob; // 스킬 성공 확률
 
-	CostType cost_type = CostType_Gold;
+	makga::CostType cost_type = makga::CostType_Gold;
 	int32_t cost_value = 0;
 
 	int32_t casting_group = 0; // 같은 group 내 스킬들은 동시에 시전 불가

@@ -119,6 +119,7 @@
       <TranslateIncludes>false</TranslateIncludes>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalModuleDependencies>C:\Github\Makga\servers\..\libs\cpp\network;C:\Github\Makga\servers\..\libs\cpp\libraries;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,6 +141,7 @@
       <BuildStlModules>true</BuildStlModules>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalModuleDependencies>C:\Github\Makga\servers\..\libs\cpp\network;C:\Github\Makga\servers\..\libs\cpp\libraries;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

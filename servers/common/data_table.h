@@ -31,7 +31,7 @@ public:
 	// emplace: 새 항목 추가 (존재하면 추가 실패)
 	std::pair<Iterator, bool> Emplace(Key key, Value value)
 	{
-		return data_.emplace(idx, std::move(value));
+		return data_.emplace(key, std::move(value));
 	}
 
 	// insert_or_assign: 항상 삽입 또는 교체
