@@ -1,14 +1,10 @@
 #pragma once
 
-#include "detour/DetourAlloc.h"
 #include "detour/DetourAssert.h"
 #include "detour/DetourCommon.h"
-#include "detour/DetourMath.h"
-#include "detour/DetourNavMesh.h"
 #include "detour/DetourNavMeshBuilder.h"
 #include "detour/DetourNavMeshQuery.h"
 #include "detour/DetourNode.h"
-#include "detour/DetourStatus.h"
 
 import makga.math.vector3;
 
@@ -19,7 +15,6 @@ class Terrain
 	friend class TerrainGrid;
 public:
 	Terrain(makga::math::Vector3 min, makga::math::Vector3 max, Coord grid_size);
-	Terrain(const* MapTable map_data);
 	virtual ~Terrain();
 
 	bool Initialize();
