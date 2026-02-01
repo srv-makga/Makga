@@ -17,13 +17,27 @@ concept HasNotify = requires(T observer) { { observer.Notify() } -> std::same_as
 template <typename T>
 concept ObserverConcept = HasElementType<T> && std::is_same_v<T, std::shared_ptr<typename T::element_type>> && HasNotify<T>;
 
-export namespace makga::lib {
+namespace makga::lib {
+export template<typename Type, typename T>
+class ObserverEvent
+{
+public:
+	ObserverEvent() = default;
+	virtual ~ObserverEvent() = default;
+
+	virtual void Notify(Type type, T value) = 0;
+};
+
 export template<ObserverConcept T>
 class Observer
 {
 public:
 	Observer() = default;
-	virtual ~Observer() = default;
+	virtual ~Observer()
+	{
+		WriteLock lock(mutex_);
+		objects_.clear();
+	}
 
 	void Attach(T object)
 	{
