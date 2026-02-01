@@ -162,6 +162,7 @@
     <ClCompile Include="include\lock.ixx" />
     <ClCompile Include="include\lock_free_queue.ixx" />
     <ClCompile Include="include\logger.ixx" />
+    <ClCompile Include="include\message_broker.ixx" />
     <ClCompile Include="include\mpsc_queue.ixx" />
     <ClCompile Include="include\object_pool.ixx" />
     <ClCompile Include="include\observer.ixx" />
@@ -193,7 +194,7 @@
     <ClCompile Include="src\vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\rapidjson.ixx" />
+    <ClInclude Include="include\json.ixx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

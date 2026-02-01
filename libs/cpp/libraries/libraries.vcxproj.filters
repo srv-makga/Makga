@@ -122,6 +122,7 @@
     </ClCompile>
     <ClCompile Include="include\thread_local_pool.ixx" />
     <ClCompile Include="include\binary_writer.ixx" />
+    <ClCompile Include="include\message_broker.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">
@@ -180,7 +181,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\rapidjson.ixx">
+    <ClInclude Include="include\json.ixx">
       <Filter>string\json</Filter>
     </ClInclude>
   </ItemGroup>
