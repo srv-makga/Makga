@@ -1,5 +1,6 @@
 module;
 
+#include <string>
 #include "../../3rdparty/rapidjson/include/rapidjson/rapidjson.h"
 #include "../../3rdparty/rapidjson/include/rapidjson/document.h"
 #include "../../3rdparty/rapidjson/include/rapidjson/writer.h"
@@ -7,10 +8,13 @@ module;
 
 export module makga.lib.json;
 
-import <string>;
-
 namespace makga::lib {
-export template<typename T>
+export std::string Test()
+{
+	return "makga.lib.json";
+}
+
+template<typename T>
 T TryGetJson(const rapidjson::Value& root, const char* key, T default_value = T())
 {
 	if (false == root.HasMember(key))
@@ -48,4 +52,5 @@ T TryGetJson(const rapidjson::Value& root, const char* key, T default_value = T(
 	}
 
 	return default_value;
+}
 }
