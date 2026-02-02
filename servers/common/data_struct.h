@@ -2,6 +2,19 @@
 
 #include "pch.h"
 
+import makga.math.vector3;
+
+#include <vector>
+#include <random>
+#include <numeric>
+#include <optional>
+#include <algorithm>
+
+struct : DataTable
+{
+	TableIdx idx = 0;
+};
+
 // 공용 구조체
 
 struct StatEffect
@@ -24,14 +37,10 @@ struct SystemTable
 {
 };
 
-
-
-struct MapTable
+struct MapTable : DataTable
 {
-	TerrainIdx idx = 0;
-
+	TerrainIdx terrain_idx = 0;
 };
-
 
 struct MonsterTable
 {
@@ -77,6 +86,13 @@ struct SkillLevelTable
 	std::vector<BuffTable> buff_tables;
 };
 
+struct MovePathTable
+{
+	TableIdx idx = 0;
+	TerrainIdx terrain_idx = 0;
+	std::vector<makga::math::Vector3> waypoints;
+};
+
 struct SkillTable
 {
 	SkillIdx idx = 0;
@@ -100,4 +116,48 @@ struct SkillTable
 	bool is_only_instance = false;		// 인스턴스 던전에서만 사용 가능
 
 	std::map<SkillLevel, SkillLevelTable> level_table; // 스킬 레벨별 테이블
+};
+
+//////////////////////////////////////////////////////
+// Spawn 관련 데이터 구조 (데이터 테이블)
+/*
+  사용법 요약:
+  - 한 지점(SpawnPoint)에 여러 SpawnEntry 를 넣어 다양한 몬스터를 스폰할 수 있음.
+  - 같은 MonsterIdx 를 여러 SpawnPoint 에 반복해 넣으면 동일 몬스터를 여러 장소에서 스폰.
+  - 런타임에서는 SpawnManager 가 아래 구조를 읽어 오브젝트 풀에서 SpawnInstance 를 할당/해제.
+*/
+//////////////////////////////////////////////////////
+
+struct SpawnOption
+{
+	Level level = 0;
+};
+
+struct SpawnEntry
+{
+	TableIdx idx = 0;
+	MonsterIdx monster_idx = 0; // 스폰할 몬스터 테이블 인덱스
+
+	makga::math::Vector3 position; // 위치
+	float direction = 0.0f;
+
+	int32_t min_count = 1; // 선택되었을 때 최소 스폰 수
+	int32_t max_count = 1; // 선택되었을 때 최대 스폰 수
+
+	Tick respawn_term = 0; // 리스폰 주기(틱), 0 이면 즉시 스폰
+	std::string respawn_time_of_day; // 특정 시간 리스폰(HH:MM:SS), 비워두면 무시
+
+	SpawnOption option; // 생성할 때 액터에 추가될 옵션들
+};
+
+struct SpawnGroup
+{
+	TableIdx idx = 0;
+	std::vector<SpawnEntry> entry_idxs; // 그룹에 속한 SpawnEntry
+
+	bool is_first_leader = false; // 스폰 목록 처음이 리더
+
+	// 그룹 레벨 쿨다운 등 추가 옵션
+	Tick group_cooldown = 0;
+	bool auto_activate = true;
 };
