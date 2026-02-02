@@ -25,13 +25,13 @@ public:
 		message_queue_.Enqueue({ topic, message });
 	}
 
-	SubscriptionId Subscribe(const Topic& topic, CallBack& callback)
+	SubscriptionId Subscribe(const Topic& topic, CallBack&& callback)
 	{
 		SubscriptionId id = next_subscription_id_.fetch_add(1, std::memory_order_relaxed);
 
 		{
 			WriteLock lock(mutex_);
-			subscribers_[topic].emplace_back(id, callback);
+			subscribers_[topic].emplace_back(id, std::move(callback));
 		}
 
 		return id;
@@ -39,8 +39,6 @@ public:
 
 	bool Unsubscribe(SubscriptionId id)
 	{
-		bool is_remove = false;
-
 		WriteLock lock(mutex_);
 		for (auto& [topic, subscriber] : subscribers_)
 		{
@@ -48,12 +46,11 @@ public:
 			if (subscriber.end() != iter)
 			{
 				subscriber.erase(iter);
-				is_remove = true;
-				break;
+				return true;
 			}
 		}
 
-		return is_remove;
+		return false;
 	}
 
 	// @brief 메시지 큐에 쌓여있는 모든 메시지 처리
