@@ -1,7 +1,7 @@
 #pragma once
 
-#include "dispatcher.h"
-#include "iocp_session.h"
+#include "../common/dispatcher.h"
+#include "../common/iocp_session.h"
 
 import makga.network.iocp.event;
 import makga.network.iocp.service;

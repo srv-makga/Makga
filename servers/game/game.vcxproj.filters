@@ -68,6 +68,9 @@
     <ClCompile Include="detour\DetourNode.cpp">
       <Filter>content\terrain\navi_mesh</Filter>
     </ClCompile>
+    <ClCompile Include="spawn_controller.cpp">
+      <Filter>content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="thread">
@@ -207,6 +210,9 @@
     </ClInclude>
     <ClInclude Include="detour\DetourStatus.h">
       <Filter>content\terrain\navi_mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="spawn_controller.h">
+      <Filter>content</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

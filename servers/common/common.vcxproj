@@ -113,13 +113,15 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>..\..\libs\cpp\3rdparty\flatbuffer\include;..\..\libs\cpp\libraries;..\..\libs\cpp\network;$(PublicIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\libs\cpp\libraries\include;..\..\libs\cpp\network\include;..\..\libs\cpp\3rdparty\flatbuffer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
       <TranslateIncludes>false</TranslateIncludes>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalModuleDependencies>C:\Github\Makga\servers\..\libs\cpp\network;C:\Github\Makga\servers\..\libs\cpp\libraries;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+      <AdditionalModuleDependencies>
+      </AdditionalModuleDependencies>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,12 +138,14 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>..\..\libs\cpp\3rdparty\flatbuffer\include;..\..\libs\cpp\libraries\include;..\..\libs\cpp\network\include;$(PublicIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\libs\cpp\3rdparty\flatbuffer\include;..\..\libs\cpp\libraries\include;..\..\libs\cpp\network\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalModuleDependencies>C:\Github\Makga\servers\..\libs\cpp\network;C:\Github\Makga\servers\..\libs\cpp\libraries;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+      <AdditionalModuleDependencies>
+      </AdditionalModuleDependencies>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -163,6 +167,7 @@
     <ClInclude Include="item_object.h" />
     <ClInclude Include="message_actor.h" />
     <ClInclude Include="net_packet.h" />
+    <ClInclude Include="probability.h" />
     <ClInclude Include="ranking_content.h" />
     <ClInclude Include="season.h" />
     <ClInclude Include="pch.h" />
@@ -176,6 +181,7 @@
     <ClCompile Include="iocp_session.cpp" />
     <ClCompile Include="message_actor.cpp" />
     <ClCompile Include="net_packet.cpp" />
+    <ClCompile Include="probability.cpp" />
     <ClCompile Include="ranking_content.cpp" />
     <ClCompile Include="ranking_system.cpp" />
     <ClCompile Include="season.cpp" />

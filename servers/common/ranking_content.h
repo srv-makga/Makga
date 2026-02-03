@@ -1,7 +1,8 @@
 #pragma once
 
 #include <memory>
-#include "../3rdparty/hiredis/hiredis.h"
+#include <limits>
+#include "../../3rdparty/hiredis/hiredis.h"
 
 import <string>;
 import makga.lib.database.redis.connector;

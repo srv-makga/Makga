@@ -1,6 +1,6 @@
 #pragma once
 
-#include "dispatcher.h"
+#include "../common/dispatcher.h"
 
 class User;
 class UserDispatcher : public DispatcherTemplate<User>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "bt_node.h"
+#include "../common/bt_node.h"
 
 class Actor;
 class AIController

@@ -26,10 +26,10 @@
 #include "flatbuffer/enum_generated.h"
 #include "flatbuffer/result_generated.h"
 
-#include "../3rdparty/rapidjson/include/rapidjson/rapidjson.h"
-#include "../3rdparty/rapidjson/include/rapidjson/document.h"
-#include "../3rdparty/rapidjson/include/rapidjson/writer.h"
-#include "../3rdparty/rapidjson/include/rapidjson/stringbuffer.h"
+#include "../../3rdparty/rapidjson/include/rapidjson/rapidjson.h"
+#include "../../3rdparty/rapidjson/include/rapidjson/document.h"
+#include "../../3rdparty/rapidjson/include/rapidjson/writer.h"
+#include "../../3rdparty/rapidjson/include/rapidjson/stringbuffer.h"
 
 // 사칙연산이 없으면 unsigned, 있으면 signed
 
