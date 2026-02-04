@@ -26,6 +26,15 @@ public:
 		return *instance_;
 	}
 
+	static T& Get()
+	{
+		std::call_once(Singleton<T>::once_flag_, []() {
+			instance_.reset(new T);
+		});
+
+		return *instance_;
+	}
+
 private:
 	static std::unique_ptr<T> instance_;
 	static std::once_flag once_flag_;
