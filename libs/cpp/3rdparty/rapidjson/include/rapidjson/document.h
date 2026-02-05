@@ -1630,6 +1630,18 @@ public:
     ConstObject GetObject() const { RAPIDJSON_ASSERT(IsObject()); return ConstObject(*this); }
     ConstObject GetObj() const { RAPIDJSON_ASSERT(IsObject()); return ConstObject(*this); }
 
+	template<typename T>
+	std::optional<T> TryGet(const char* name) const
+	{
+		ConstMemberIterator itr = FindMember(name);
+		if (itr != MemberEnd())
+		{
+			return itr->value.Get<T>();
+		}
+
+		return std::nullopt;
+	}
+
     //@}
 
     //!@name Array
