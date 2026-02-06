@@ -1634,9 +1634,67 @@ public:
 	std::optional<T> TryGet(const char* name) const
 	{
 		ConstMemberIterator itr = FindMember(name);
-		if (itr != MemberEnd())
+		if (MemberEnd() == itr)
 		{
-			return itr->value.Get<T>();
+			return std::nullopt;
+
+		}
+
+		if constexpr (std::is_same_v<T, bool>)
+		{
+			if (itr->value.IsBool())
+			{
+				return itr->value.GetBool();
+			}
+		}
+		else if constexpr (std::is_same_v<T, int64_t>)
+		{
+			if (itr->value.IsInt64())
+			{
+				return itr->value.GetInt64();
+			}
+		}
+		else if constexpr (std::is_same_v<T, uint64_t>)
+		{
+			if (itr->value.IsUint64())
+			{
+				return itr->value.GetUint64();
+			}
+		}
+		else if constexpr (std::is_same_v<T, int32_t> || std::is_same_v<T, int16_t> || std::is_same_v<T, int8_t>)
+		{
+			if (itr->value.IsInt())
+			{
+				return itr->value.GetInt();
+			}
+		}
+		else if constexpr (std::is_same_v<T, uint32_t> || std::is_same_v<T, uint16_t> || std::is_same_v<T, uint8_t>)
+		{
+			if (itr->value.IsInt())
+			{
+				return itr->value.GetUint();
+			}
+		}
+		else if constexpr (std::is_same_v<T, float>)
+		{
+			if (itr->value.IsFloat())
+			{
+				return itr->value.GetFloat();
+			}
+		}
+		else if constexpr (std::is_same_v<T, double>)
+		{
+			if (itr->value.IsDouble())
+			{
+				return itr->value.GetDouble();
+			}
+		}
+		else if constexpr (std::is_same_v<T, std::string>)
+		{
+			if (itr->value.IsString())
+			{
+				return std::string(itr->value.GetString(), itr->value.GetStringLength());
+			}
 		}
 
 		return std::nullopt;
