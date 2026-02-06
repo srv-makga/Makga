@@ -2,7 +2,7 @@
 
 #include "data_struct.h"
 
-import makga.lib.json;
+import makga.lib.pattern.singleton;
 
 template<typename Key, typename Value>
 class Table
@@ -87,20 +87,20 @@ private:
 	Container data_;
 };
 
-class DataTable
+class DataTable : public makga::lib::Singleton<DataTable>
 {
 public:
 	using MapTableTable = Table<TerrainIdx, MapTable>;
 	using MonsterTableTable = Table<MonsterIdx, MonsterTable>;
 	using SkillTableTable = Table<SkillIdx, SkillTable>;
+	using SpawnGroupTableTable = Table<TableIdx, SpawnGroupTable>;
 
-	// 주로 key - value 쌍으로 이루어진 데이터를 다룸
 	DataTable() = default;
 	virtual ~DataTable() = default;
 
 	virtual bool LoadTable();
 
-protected:
+public:
 	bool DataVerification();
 	bool LoadFileToBuffer(const std::string& file_path, rapidjson::Document& doc);
 
@@ -108,11 +108,17 @@ protected:
 	bool LoadMonsterTable(const std::string& file_path);
 	bool LoadSkillTable(const std::string& file_path);
 
+	bool LoadSpawnGroupTable(const std::string& file_path);
+	std::optional<const SpawnGroupTable*> TryGetSpawnGroupTable(TableIdx idx) const
+	{
+		return spawn_group_table_.TryGet(idx);
+	}
+
 protected:
 	std::vector<char> file_buffer_;
 
 	MapTableTable map_table_;
 	MonsterTableTable monster_table_;
 	SkillTableTable skill_table_;
-
+	SpawnGroupTableTable spawn_group_table_;
 };
