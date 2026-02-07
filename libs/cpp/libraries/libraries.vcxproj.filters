@@ -143,9 +143,6 @@
     <Filter Include="queue">
       <UniqueIdentifier>{460f42f1-ede7-4b2b-80f6-123eac0b2aa3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="string\json">
-      <UniqueIdentifier>{fa30b812-99d9-4bdc-96ae-c072bcaeeb9c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="logger">
       <UniqueIdentifier>{3017f7e5-e09f-4b90-8cd2-cc3a90aa28da}</UniqueIdentifier>
     </Filter>
@@ -179,10 +176,5 @@
     <Filter Include="ecs\system">
       <UniqueIdentifier>{d4a85f0e-bb5c-4c6f-bae2-aaf28bb566c4}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\json.ixx">
-      <Filter>string\json</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

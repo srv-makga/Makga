@@ -193,9 +193,6 @@
     <ClCompile Include="src\util.cpp" />
     <ClCompile Include="src\vector3.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\json.ixx" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
