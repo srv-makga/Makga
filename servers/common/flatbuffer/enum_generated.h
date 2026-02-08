@@ -875,6 +875,36 @@ inline const char *EnumNameItemReason(ItemReason e) {
   return EnumNamesItemReason()[index];
 }
 
+enum MoveType : int32_t {
+  MoveType_Walk = 0,
+  MoveType_Teleport = 1,
+  MoveType_MIN = MoveType_Walk,
+  MoveType_MAX = MoveType_Teleport
+};
+
+inline const MoveType (&EnumValuesMoveType())[2] {
+  static const MoveType values[] = {
+    MoveType_Walk,
+    MoveType_Teleport
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesMoveType() {
+  static const char * const names[3] = {
+    "Walk",
+    "Teleport",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameMoveType(MoveType e) {
+  if (::flatbuffers::IsOutRange(e, MoveType_Walk, MoveType_Teleport)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesMoveType()[index];
+}
+
 }  // namespace makga
 
 #endif  // FLATBUFFERS_GENERATED_ENUM_MAKGA_H_

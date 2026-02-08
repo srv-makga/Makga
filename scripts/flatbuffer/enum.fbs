@@ -235,3 +235,9 @@ enum ItemReason : int
 	// 소모
 	SubUse,
 }
+
+enum MoveType : int
+{
+	Walk,
+	Teleport,
+}
