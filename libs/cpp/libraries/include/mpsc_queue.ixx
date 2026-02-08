@@ -39,10 +39,20 @@ public:
 		Pool::Deallocate(head_);
 	}
 
-	void Enquque(const T& value)
+	void Enqueue(const T& value)
 	{
 		Node* new_node = Pool::Allocate();
 		new_node->data = value;
+		new_node->next = nullptr;
+
+		Node* old_tail = tail_.exchange(new_node, std::memory_order_acq_rel);
+		old_tail->next = new_node;
+	}
+
+	void Enqueue(T&& value)
+	{
+		Node* new_node = Pool::Allocate();
+		new_node->data = std::move(value);
 		new_node->next = nullptr;
 
 		Node* old_tail = tail_.exchange(new_node, std::memory_order_acq_rel);
@@ -57,7 +67,7 @@ public:
 			return false;
 		}
 
-		value = next->data;
+		value = std::move(next->data);
 
 		Pool::Deallocate(head_);
 
