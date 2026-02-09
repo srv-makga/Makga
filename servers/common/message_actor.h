@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <functional>
+#include <tuple>
 
 import makga.lib.mpsc_queue;
 
@@ -47,19 +49,20 @@ struct Message
 	void operator()(MessageActor* actor) { Execute(actor); }
 };
 
-template<typename T>
+template<typename... Args>
 struct MessageT : public Message
 {
-	T data;
+	std::tuple<Args...> data;
 
-	MessageT(MessageActor::Id sender, MessageActor::Id receiver, Type msg_type, const T& msg_data)
-		: Message(sender, receiver, msg_type), data(msg_data)
+	MessageT(MessageActor::Id sender, MessageActor::Id receiver, Type msg_type, Args... args)
+		: Message(sender, receiver, msg_type), data(std::forward<Args>(args)...)
 	{
 	}
 
-	virtual void Execute(MessageActor* actor) override
+	void Execute(MessageActor* actor) override
 	{
-		actor->ProcessMessages(std::make_unique<MessageT<T>>(*this));
+		// ProcessMessages도 이 타입을 처리할 수 있어야 함
+		actor->ProcessMessages(std::make_unique<MessageT<Args...>>(*this));
 	}
 };
 
@@ -72,7 +75,7 @@ struct MessageLambda : public Message
 	{
 	}
 
-	virtual void Execute(MessageActor* actor) override
+	void Execute(MessageActor* actor) override
 	{
 		if (nullptr != func)
 		{

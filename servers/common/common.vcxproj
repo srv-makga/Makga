@@ -172,6 +172,8 @@
     <ClInclude Include="season.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ranking_system.h" />
+    <ClInclude Include="timer.h" />
+    <ClInclude Include="message_service.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
@@ -185,6 +187,8 @@
     <ClCompile Include="ranking_content.cpp" />
     <ClCompile Include="ranking_system.cpp" />
     <ClCompile Include="season.cpp" />
+    <ClCompile Include="timer.cpp" />
+    <ClCompile Include="message_service.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs\cpp\libraries\libraries.vcxproj">
