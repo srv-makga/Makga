@@ -5,5 +5,5 @@ module;
 export module makga.lib.ecs.entity;
 
 export namespace makga::lib {
-using Entity = uint64_t;
+using EntityId = uint64_t;
 }
