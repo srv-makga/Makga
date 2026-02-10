@@ -27,10 +27,10 @@
       <Filter>content\actor</Filter>
     </ClCompile>
     <ClCompile Include="terrain.cpp">
-      <Filter>content\terrain</Filter>
+      <Filter>world / map\terrain</Filter>
     </ClCompile>
     <ClCompile Include="terrain_grid.cpp">
-      <Filter>content\terrain</Filter>
+      <Filter>world / map\terrain</Filter>
     </ClCompile>
     <ClCompile Include="stat.cpp">
       <Filter>content\stat</Filter>
@@ -48,28 +48,31 @@
       <Filter>content\actor\detail</Filter>
     </ClCompile>
     <ClCompile Include="detour\DetourAlloc.cpp">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClCompile>
     <ClCompile Include="detour\DetourAssert.cpp">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClCompile>
     <ClCompile Include="detour\DetourCommon.cpp">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClCompile>
     <ClCompile Include="detour\DetourNavMesh.cpp">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClCompile>
     <ClCompile Include="detour\DetourNavMeshBuilder.cpp">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClCompile>
     <ClCompile Include="detour\DetourNavMeshQuery.cpp">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClCompile>
     <ClCompile Include="detour\DetourNode.cpp">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClCompile>
     <ClCompile Include="spawn_controller.cpp">
       <Filter>content</Filter>
+    </ClCompile>
+    <ClCompile Include="game_world.cpp">
+      <Filter>world / map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,9 +91,6 @@
     <Filter Include="content">
       <UniqueIdentifier>{bc413893-dcf4-4cf0-a6d2-8ea8e5d462ef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="content\instance">
-      <UniqueIdentifier>{1a5c7a28-35b6-4b36-9db1-d8043d79fabf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="content\actor">
       <UniqueIdentifier>{e62a7e04-fca3-4ea1-a2bf-5f108912a2f6}</UniqueIdentifier>
     </Filter>
@@ -103,14 +103,8 @@
     <Filter Include="content\stat">
       <UniqueIdentifier>{afbfc61c-7992-48a4-89f9-d107a1b52ea9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="content\terrain">
-      <UniqueIdentifier>{f337e32c-42c9-4050-9794-bb278bb261ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="content\aggro">
       <UniqueIdentifier>{ce961ba9-030c-4678-8a2a-7ad150000103}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="content\terrain\navi_mesh">
-      <UniqueIdentifier>{8aa5f6e5-fd3a-4c6e-9304-f1e53a8042aa}</UniqueIdentifier>
     </Filter>
     <Filter Include="content\event">
       <UniqueIdentifier>{f002daf5-a699-4dbd-a678-0fe555bfcf84}</UniqueIdentifier>
@@ -129,6 +123,39 @@
     </Filter>
     <Filter Include="content\skill">
       <UniqueIdentifier>{8edfc90a-aee2-47dd-8bbf-6c50602163aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\inventory\instance">
+      <UniqueIdentifier>{1a5c7a28-35b6-4b36-9db1-d8043d79fabf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\housing">
+      <UniqueIdentifier>{4d60434b-be46-47f2-beeb-b986a308a7b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\friend">
+      <UniqueIdentifier>{1c571a88-41b0-4d34-a3da-d183147286a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\voicechat">
+      <UniqueIdentifier>{b0386549-ee15-4264-a78a-3214d75d37ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system">
+      <UniqueIdentifier>{00ca7b40-58f9-41a6-9fb4-854b4621ec97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\metrics">
+      <UniqueIdentifier>{63107be2-b17d-4960-ab00-1e481d62d996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system\admin">
+      <UniqueIdentifier>{d030f508-4236-45a4-9b7c-9632c6cbb907}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world / map">
+      <UniqueIdentifier>{7c131b52-0be0-44ce-baaa-ba4882e04d32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world / map\terrain">
+      <UniqueIdentifier>{f337e32c-42c9-4050-9794-bb278bb261ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world / map\terrain\navi_mesh">
+      <UniqueIdentifier>{8aa5f6e5-fd3a-4c6e-9304-f1e53a8042aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="economy">
+      <UniqueIdentifier>{492882af-5679-4057-bd70-bd0054e843e7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -167,7 +194,7 @@
       <Filter>content\actor\detail</Filter>
     </ClInclude>
     <ClInclude Include="instance.h">
-      <Filter>content\instance</Filter>
+      <Filter>content\inventory\instance</Filter>
     </ClInclude>
     <ClInclude Include="ai_controller.h">
       <Filter>content\ai</Filter>
@@ -179,40 +206,46 @@
       <Filter>content\stat</Filter>
     </ClInclude>
     <ClInclude Include="terrain.h">
-      <Filter>content\terrain</Filter>
+      <Filter>world / map\terrain</Filter>
     </ClInclude>
     <ClInclude Include="terrain_grid.h">
-      <Filter>content\terrain</Filter>
+      <Filter>world / map\terrain</Filter>
     </ClInclude>
     <ClInclude Include="detour\DetourAlloc.h">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClInclude>
     <ClInclude Include="detour\DetourAssert.h">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClInclude>
     <ClInclude Include="detour\DetourCommon.h">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClInclude>
     <ClInclude Include="detour\DetourMath.h">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClInclude>
     <ClInclude Include="detour\DetourNavMesh.h">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClInclude>
     <ClInclude Include="detour\DetourNavMeshBuilder.h">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClInclude>
     <ClInclude Include="detour\DetourNavMeshQuery.h">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClInclude>
     <ClInclude Include="detour\DetourNode.h">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClInclude>
     <ClInclude Include="detour\DetourStatus.h">
-      <Filter>content\terrain\navi_mesh</Filter>
+      <Filter>world / map\terrain\navi_mesh</Filter>
     </ClInclude>
     <ClInclude Include="spawn_controller.h">
       <Filter>content</Filter>
+    </ClInclude>
+    <ClInclude Include="work_thread.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="game_world.h">
+      <Filter>world / map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

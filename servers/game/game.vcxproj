@@ -105,12 +105,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\libs\cpp\3rdparty\flatbuffer\include;..\..\libs\cpp\libraries;..\..\libs\cpp\network;..\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\libs\cpp\3rdparty\flatbuffer\include;..\..\libs\cpp\libraries\include;..\..\libs\cpp\network\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
-      <AdditionalModuleDependencies>C:\Github\Makga\servers\..\libs\cpp\network;C:\Github\Makga\servers\..\libs\cpp\libraries;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+      <AdditionalModuleDependencies>
+      </AdditionalModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,8 +130,9 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
-      <AdditionalIncludeDirectories>..\..\libs\cpp\3rdparty\flatbuffer\include;..\..\libs\cpp\libraries;..\..\libs\cpp\network;..\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalModuleDependencies>C:\Github\Makga\servers\..\libs\cpp\network;C:\Github\Makga\servers\..\libs\cpp\libraries;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+      <AdditionalIncludeDirectories>..\..\libs\cpp\3rdparty\flatbuffer\include;..\..\libs\cpp\libraries\include;..\..\libs\cpp\network\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalModuleDependencies>
+      </AdditionalModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,9 +153,11 @@
     <ClCompile Include="detour\DetourNavMeshQuery.cpp" />
     <ClCompile Include="detour\DetourNode.cpp" />
     <ClCompile Include="gadget.cpp" />
+    <ClCompile Include="game_world.cpp" />
     <ClCompile Include="job_thread.cpp" />
     <ClCompile Include="monster.cpp" />
     <ClCompile Include="net_thread.cpp" />
+    <ClCompile Include="spawn_controller.cpp" />
     <ClCompile Include="stat.cpp" />
     <ClCompile Include="terrain.cpp" />
     <ClCompile Include="terrain_grid.cpp" />
@@ -178,11 +182,13 @@
     <ClInclude Include="detour\DetourNode.h" />
     <ClInclude Include="detour\DetourStatus.h" />
     <ClInclude Include="gadget.h" />
+    <ClInclude Include="game_world.h" />
     <ClInclude Include="instance.h" />
     <ClInclude Include="job_thread.h" />
     <ClInclude Include="monster.h" />
     <ClInclude Include="net_thread.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="spawn_controller.h" />
     <ClInclude Include="stat.h" />
     <ClInclude Include="terrain.h" />
     <ClInclude Include="terrain_grid.h" />
@@ -190,6 +196,7 @@
     <ClInclude Include="user_dispatcher.h" />
     <ClInclude Include="user_server.h" />
     <ClInclude Include="game_session.h" />
+    <ClInclude Include="work_thread.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs\cpp\libraries\libraries.vcxproj">
