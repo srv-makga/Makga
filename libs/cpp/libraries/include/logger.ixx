@@ -1,6 +1,6 @@
 module;
 
-#include <mutex>
+#include <format>
 #include <sstream>
 #include <fstream>
 
@@ -8,10 +8,12 @@ export module makga.lib.logger;
 
 import <string>;
 import <unordered_map>;
+import <mutex>;
+
 import makga.lib.util;
 import makga.lib.pattern.singleton;
 
-export namespace makga::lib {
+namespace makga::lib {
 export enum LoggerType
 {
 	Custom,
@@ -50,6 +52,17 @@ struct MakgaLoggerSteam
 		}
 		return *this;
 	}
+
+	template<typename T>
+	MakgaLoggerSteam& operator<<(T&& data)
+	{
+		{
+			// @todo 시간, 스레드, 함수명등
+			std::lock_guard lock(mutex);
+			stream << data;
+		}
+		return *this;
+	}
 };
 
 export class MakgaLogger : public Logger, public Singleton<MakgaLogger>
@@ -63,6 +76,36 @@ public:
 	static void Warn(std::string&& log) { level_streams_[LogLevel::WARN] << log; }
 	static void Error(std::string&& log) { level_streams_[LogLevel::ERROR] << log; }
 	static void Fatal(std::string&& log) { level_streams_[LogLevel::FATAL] << log; }
+
+	template <typename... Args>
+	static void Debug(const std::format_string<Args...> format, Args&&... args)
+	{
+		level_streams_[LogLevel::DEBUG] << std::vformat(format.get(), _STD make_format_args(args...));
+	}
+
+	template <typename... Args>
+	static void Info(const std::format_string<Args...> format, Args&&... args)
+	{
+		level_streams_[LogLevel::INFO] << std::vformat(format.get(), _STD make_format_args(args...));
+	}
+
+	template <typename... Args>
+	static void Warn(const std::format_string<Args...> format, Args&&... args)
+	{
+		level_streams_[LogLevel::WARN] << std::vformat(format.get(), _STD make_format_args(args...));
+	}
+
+	template <typename... Args>
+	static void Error(const std::format_string<Args...> format, Args&&... args)
+	{
+		level_streams_[LogLevel::ERROR] << std::vformat(format.get(), _STD make_format_args(args...));
+	}
+
+	template <typename... Args>
+	static void Fatal(const std::format_string<Args...> format, Args&&... args)
+	{
+		level_streams_[LogLevel::FATAL] << std::vformat(format.get(), _STD make_format_args(args...));
+	}
 
 	inline static MakgaLoggerSteam& Debug() { return level_streams_[LogLevel::DEBUG]; }
 	inline static MakgaLoggerSteam& Info() { return level_streams_[LogLevel::INFO]; }
