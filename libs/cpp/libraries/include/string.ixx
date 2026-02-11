@@ -5,8 +5,8 @@ export module makga.lib.string;
 import <vector>;
 import <string>;
 
-export namespace makga::lib {
-class String
+namespace makga::lib {
+export class String
 {
 public:
 	String() = default;
