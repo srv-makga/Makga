@@ -4,7 +4,7 @@ module;
 
 export module makga.network.iocp.core;
 
-export namespace makga::network {
+namespace makga::network {
 export class IocpCore
 {
 public:

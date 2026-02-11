@@ -12,7 +12,7 @@ export import makga.network.endpoint;
 export import makga.network.session;
 export import makga.network.iocp.core;
 
-export namespace makga::network {
+namespace makga::network {
 export class IocpService : public NetService
 {
 public:

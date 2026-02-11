@@ -4,7 +4,7 @@ module;
 
 export module makga.network.nethandler;
 
-export namespace makga::network {
+namespace makga::network {
 export class NetHandler
 {
 public:

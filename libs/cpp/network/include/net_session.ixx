@@ -8,7 +8,7 @@ export module makga.network.session;
 import makga.network.service;
 import makga.network.endpoint;
 
-export namespace makga::network {
+namespace makga::network {
 export class NetSession
 {
 public:

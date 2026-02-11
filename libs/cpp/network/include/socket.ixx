@@ -13,7 +13,7 @@ export module makga.network.socket;
 
 import makga.network.endpoint;
 
-export namespace makga::network {
+namespace makga::network {
 export class Socket
 {
 public:

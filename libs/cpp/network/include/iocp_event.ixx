@@ -9,7 +9,7 @@ export module makga.network.iocp.event;
 
 import makga.network.session;
 
-export namespace makga::network {
+namespace makga::network {
 class IocpObject;
 
 enum class IocpType

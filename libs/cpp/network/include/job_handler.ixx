@@ -8,7 +8,7 @@ export module makga.network.jobhandler;
 
 import makga.network.session;
 
-export namespace makga::network {
+namespace makga::network {
 export class Job
 {
 public:
