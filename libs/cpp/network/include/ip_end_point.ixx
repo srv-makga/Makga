@@ -10,8 +10,8 @@ export module makga.network.endpoint;
 
 import <string>;
 
-export namespace makga::network {
-class IPEndPoint
+namespace makga::network {
+export class IPEndPoint
 {
 public:
 	using Type_t = enum { None, v4, v6};
