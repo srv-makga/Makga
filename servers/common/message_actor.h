@@ -18,11 +18,11 @@ public:
 	virtual ~MessageActor() = default;
 
 	virtual bool IsValid() const { return false; }
+	virtual void OnUpdate(float delta_time) {}
 
 	virtual void PushMessage(std::unique_ptr<Message> message) = 0;
 	virtual void ProcessMessages(std::unique_ptr<Message> message) = 0;
 
-	void OnUpdate(float delta_time) {}
 	Id GetId() const { return id_; }
 
 protected:
