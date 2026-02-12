@@ -15,6 +15,8 @@
 import makga.math.vector3;
 import makga.lib.lock;
 
+class TerrainGrid;
+class Terrain;
 class AIController;
 class Actor : public std::enable_shared_from_this<Actor>, public MessageActor
 {
@@ -24,8 +26,10 @@ public:
 	Actor();
 	virtual ~Actor();
 
-	bool Initialize();
-	void Finalize();
+	virtual bool Initialize();
+	virtual void Finalize();
+
+	virtual makga::Result DoMove(Coord x, Coord y, Coord z, makga::MoveType movetype = makga::MoveType_Walk);
 
 	bool SetMovePosition(float x, float y, float z);
 	bool SetMovePosition(const makga::math::Vector3& _vector);
@@ -52,10 +56,15 @@ public:
 	bool IsInAttackRange(std::shared_ptr<Actor> target) const;
 	/// /////////////////////////////////////////////////////////////////////
 
-public: // virtual
-	virtual void OnUpdate(float delta_time);
 	virtual makga::AIType GetAIType() const;
 	virtual makga::ActorType GetActorType() const = 0;
+
+public: // MessageActor overrides
+	virtual bool IsValid() const { return false; }
+	virtual void OnUpdate(float delta_time) override;
+
+	virtual void PushMessage(std::unique_ptr<Message> message) = 0;
+	virtual void ProcessMessages(std::unique_ptr<Message> message) = 0;
 
 public:
 	ActorId GetId() const;
@@ -86,8 +95,6 @@ protected:
 protected:
 	inline static std::atomic<ActorId> next_id_ = 0;
 
-	ActorId id_;
-
 	Tick last_move_tick;
 	makga::math::Vector3 dest_position_;	// 이동 목적지
 	std::vector<dtPolyRef> route_path_;		// 이동 경로
@@ -102,4 +109,8 @@ protected:
 
 	bool is_update_ai_;
 	std::unique_ptr<AIController> ai_controller_;
+
+	std::shared_ptr<TerrainGrid> terrain_grid_;
+
+	makga::lib::MPSCQueue<std::unique_ptr<Message>> message_queue_;
 };
