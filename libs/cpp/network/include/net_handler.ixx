@@ -1,8 +1,8 @@
 module;
 
-#include <memory>
-
 export module makga.network.nethandler;
+
+import <iostream>;
 
 namespace makga::network {
 export class NetHandler

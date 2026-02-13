@@ -62,7 +62,7 @@ public:
 	virtual ~IocpAcceptEvent() = default;
 
 public:
-	std::shared_ptr<NetSession> session_ = nullptr; // accept된 session
+	std::shared_ptr<NetSession> session_ = nullptr; // accept session
 };
 
 export class IocpConnectEvent : public IocpEvent
@@ -76,7 +76,7 @@ public:
 	virtual ~IocpConnectEvent() = default;
 
 public:
-	std::shared_ptr<NetSession> session_ = nullptr; // connect된 session
+	std::shared_ptr<NetSession> session_ = nullptr; // connect session
 };
 
 export class IocpDisconnectEvent : public IocpEvent
@@ -112,6 +112,6 @@ public:
 	IocpSendEvent& operator=(IocpSendEvent&&) = delete;
 	virtual ~IocpSendEvent() = default;
 
-	std::vector<std::shared_ptr<T>> send_buffer_; // T는 전송될 데이터가 있는 네트워크용 버퍼
+	std::vector<std::shared_ptr<T>> send_buffer_;
 };
 } // namespace makga::network

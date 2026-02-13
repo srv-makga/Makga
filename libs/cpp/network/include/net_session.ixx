@@ -1,10 +1,21 @@
 module;
 
-#include <WinSock2.h>
+#if defined(_WIN32)
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <mswsock.h>
+#include <Windows.h>
+// windows.h removed from module interface to avoid header conflicts
+//#pragma comment(lib, "ws2.lib")
+//#pragma comment(lib, "mswsock.lib")
+#endif
 #include <cstdint>
 
 export module makga.network.session;
 
+import makga.network.socket;
 import makga.network.service;
 import makga.network.endpoint;
 
@@ -21,7 +32,7 @@ public:
 	}
 	virtual ~NetSession() = default;
 
-	// @brief ºñµ¿±â ¿äÃ»ÀÇ °á°ú·Î È£Ãâ
+	// @brief ï¿½ñµ¿±ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
 	virtual void OnConnect() = 0;
 	virtual void OnDisconnect() = 0;
 	virtual void OnRecv(int bytes_transferred) = 0;

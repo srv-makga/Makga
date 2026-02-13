@@ -12,9 +12,10 @@ import makga.network.iocp.service;
 import makga.network.iocp.object;
 import makga.network.iocp.event;
 import makga.lib.lock;
+import makga.network.connector;
 
-export namespace makga::network {
-export class IocpConnector : public IocpObject
+namespace makga::network {
+export class IocpConnector : public IocpObject, public NetConnector
 {
 public:
 	IocpConnector(std::shared_ptr<IocpService> client);
@@ -28,13 +29,13 @@ public:
 	bool Initialize();
 	void Finalize();
 
-	bool Start();
-	void Stop();
+	bool Start() override;
+	void Stop() override;
 
 	bool RegisterConnect(IocpConnectEvent* event);
 	void ProcessConnect(IocpConnectEvent* event);
 
-	bool IsConnected() const { return is_connected_.load(); }
+	bool IsConnected() const override { return is_connected_.load(); }
 	void SetConnected(bool value) { is_connected_.store(value); }
 
 public: // IocpObject
