@@ -20,6 +20,21 @@
     <ClCompile Include="binary_writer_test.cpp">
       <Filter>libraries</Filter>
     </ClCompile>
+    <ClCompile Include="doublequeue_test.cpp">
+      <Filter>libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="mpsc_queue_test.cpp">
+      <Filter>libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="object_pool_test.cpp">
+      <Filter>libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="singleton_test.cpp">
+      <Filter>libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="vector3_test.cpp">
+      <Filter>libraries</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
