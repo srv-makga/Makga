@@ -1,17 +1,14 @@
 module;
 
-#if defined(_WIN32)
-#include <winsock2.h>
-#include <ws2tcpip.h>
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <WinSock2.h>
+#include <MSWSock.h>
 #include <windows.h>
-#include <mswsock.h>
-//#pragma comment(lib, "ws2.lib")
-#pragma comment(lib, "mswsock.lib")
 #endif
 
 export module makga.network.socket;
-
-import makga.network.endpoint;
 
 namespace makga::network {
 export class Socket

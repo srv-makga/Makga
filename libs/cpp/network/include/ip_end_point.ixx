@@ -1,14 +1,18 @@
 module;
 
-#include <WinSock2.h>
-#include <Windows.h>
-#include <ws2ipdef.h>
-#include <stdio.h>
 #include <sstream>
+#include <string>
+
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <WinSock2.h>
+#include <ws2tcpip.h>
+#include <MSWSock.h>
+#include <windows.h>
+#endif
 
 export module makga.network.endpoint;
-
-import <string>;
 
 namespace makga::network {
 export class IPEndPoint

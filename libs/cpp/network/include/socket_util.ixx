@@ -1,12 +1,11 @@
 module;
 
-#if defined(_WIN32)
-#include <winsock2.h>
-#include <ws2tcpip.h>
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <WinSock2.h>
+#include <MSWSock.h>
 #include <windows.h>
-#include <mswsock.h>
-//#pragma comment(lib, "ws2.lib")
-#pragma comment(lib, "mswsock.lib")
 #endif
 
 export module makga.network.socket.util;
@@ -14,7 +13,7 @@ export module makga.network.socket.util;
 import makga.network.endpoint;
 
 namespace makga::network {
-class SocketFunc
+export class SocketFunc
 {
 public:
 	SocketFunc()
@@ -27,6 +26,8 @@ public:
 	{
 		DWORD bytes = 0;
 
+		// Try to bind mswsock extension functions if available (mswsock.h defines WSAID_* GUIDs)
+		#ifdef WSAID_ACCEPTEX
 		GUID acceptex_guid = WSAID_ACCEPTEX;
 		::WSAIoctl(socket, SIO_GET_EXTENSION_FUNCTION_POINTER, &acceptex_guid, sizeof(acceptex_guid),
 			&AcceptEx, sizeof(LPFN_ACCEPTEX), &bytes, nullptr, nullptr);
@@ -42,6 +43,7 @@ public:
 		GUID disconnectex_guid = WSAID_DISCONNECTEX;
 		::WSAIoctl(socket, SIO_GET_EXTENSION_FUNCTION_POINTER, &disconnectex_guid, sizeof(disconnectex_guid),
 			&DisconnectEx, sizeof(LPFN_DISCONNECTEX), &bytes, nullptr, nullptr);
+		#endif
 	}
 
 #if defined(_WIN32)
@@ -52,7 +54,7 @@ public:
 
 	static SOCKET RioSocket()
 	{
-		return ::WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_REGISTERED_IO | WSA_FLAG_OVERLAPPED);
+		return ::WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED | WSA_FLAG_REGISTERED_IO);
 	}
 #endif
 
