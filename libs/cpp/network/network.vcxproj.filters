@@ -24,9 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\net_service.ixx" />
-    <ClCompile Include="include\net_session.ixx" />
-    <ClCompile Include="include\network.ixx" />
     <ClCompile Include="include\iocp_service.ixx">
       <Filter>tcp\iocp</Filter>
     </ClCompile>
@@ -69,7 +66,6 @@
     <ClCompile Include="include\ip_end_point.ixx">
       <Filter>endpoint</Filter>
     </ClCompile>
-    <ClCompile Include="src\net_service.cpp" />
     <ClCompile Include="include\job_handler.ixx">
       <Filter>handler</Filter>
     </ClCompile>
@@ -79,6 +75,69 @@
     <ClCompile Include="include\socket.ixx">
       <Filter>socket</Filter>
     </ClCompile>
+    <ClCompile Include="src\rio_acceptor.cpp">
+      <Filter>tcp\rio</Filter>
+    </ClCompile>
+    <ClCompile Include="include\rio_acceptor.ixx">
+      <Filter>tcp\rio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rio_connector.cpp">
+      <Filter>tcp\rio</Filter>
+    </ClCompile>
+    <ClCompile Include="include\rio_connector.ixx">
+      <Filter>tcp\rio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rio_core.cpp">
+      <Filter>tcp\rio</Filter>
+    </ClCompile>
+    <ClCompile Include="include\rio_core.ixx">
+      <Filter>tcp\rio</Filter>
+    </ClCompile>
+    <ClCompile Include="include\rio_event.ixx">
+      <Filter>tcp\rio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rio_service.cpp">
+      <Filter>tcp\rio</Filter>
+    </ClCompile>
+    <ClCompile Include="include\rio_service.ixx">
+      <Filter>tcp\rio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rio_session.cpp">
+      <Filter>tcp\rio</Filter>
+    </ClCompile>
+    <ClCompile Include="include\rio_session.ixx">
+      <Filter>tcp\rio</Filter>
+    </ClCompile>
+    <ClCompile Include="include\net_acceptor.ixx" />
+    <ClCompile Include="include\net_connector.ixx" />
+    <ClCompile Include="src\net_service.cpp" />
+    <ClCompile Include="include\net_service.ixx" />
     <ClCompile Include="src\net_session.cpp" />
+    <ClCompile Include="include\net_session.ixx" />
+    <ClCompile Include="include\network.ixx" />
+    <ClCompile Include="include\udp_socket.ixx">
+      <Filter>udp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\udp_control_service.cpp">
+      <Filter>udp</Filter>
+    </ClCompile>
+    <ClCompile Include="include\udp_control_service.ixx">
+      <Filter>udp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\udp_group.cpp">
+      <Filter>udp</Filter>
+    </ClCompile>
+    <ClCompile Include="include\udp_group.ixx">
+      <Filter>udp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\udp_peer.cpp">
+      <Filter>udp</Filter>
+    </ClCompile>
+    <ClCompile Include="include\udp_peer.ixx">
+      <Filter>udp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\udp_socket.cpp">
+      <Filter>udp</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -158,6 +158,27 @@
     <ClCompile Include="src\ip_end_point.cpp" />
     <ClCompile Include="src\net_service.cpp" />
     <ClCompile Include="src\net_session.cpp" />
+    <ClCompile Include="include\net_acceptor.ixx" />
+    <ClCompile Include="include\net_connector.ixx" />
+    <ClCompile Include="include\rio_acceptor.ixx" />
+    <ClCompile Include="include\rio_connector.ixx" />
+    <ClCompile Include="include\rio_core.ixx" />
+    <ClCompile Include="include\rio_event.ixx" />
+    <ClCompile Include="include\rio_service.ixx" />
+    <ClCompile Include="include\rio_session.ixx" />
+    <ClCompile Include="include\udp_group.ixx" />
+    <ClCompile Include="include\udp_control_service.ixx" />
+    <ClCompile Include="include\udp_socket.ixx" />
+    <ClCompile Include="include\udp_peer.ixx" />
+    <ClCompile Include="src\udp_group.cpp" />
+    <ClCompile Include="src\udp_control_service.cpp" />
+    <ClCompile Include="src\udp_socket.cpp" />
+    <ClCompile Include="src\udp_peer.cpp" />
+    <ClCompile Include="src\rio_acceptor.cpp" />
+    <ClCompile Include="src\rio_connector.cpp" />
+    <ClCompile Include="src\rio_core.cpp" />
+    <ClCompile Include="src\rio_service.cpp" />
+    <ClCompile Include="src\rio_session.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libraries\libraries.vcxproj">

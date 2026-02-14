@@ -1,21 +1,14 @@
 module;
 
-#if defined(_WIN32)
+#ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
 #include <winsock2.h>
-#include <ws2tcpip.h>
-#include <mswsock.h>
-#include <Windows.h>
-// windows.h removed from module interface to avoid header conflicts
-//#pragma comment(lib, "ws2.lib")
-//#pragma comment(lib, "mswsock.lib")
+#include <windows.h>
 #endif
 #include <cstdint>
 
 export module makga.network.session;
 
-import makga.network.socket;
 import makga.network.service;
 import makga.network.endpoint;
 
