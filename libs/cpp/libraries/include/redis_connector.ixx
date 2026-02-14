@@ -1,3 +1,5 @@
+module;
+
 #include <memory>
 #include <optional>
 #include <stdexcept>

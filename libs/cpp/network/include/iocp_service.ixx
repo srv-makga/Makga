@@ -1,9 +1,10 @@
 module;
 
-#if defined(_WIN32)
+#ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
-#include <winsock2.h>
-#include <mswsock.h>
+#define NOMINMAX
+#include <WinSock2.h>
+#include <MSWSock.h>
 #include <windows.h>
 #endif
 #include <memory>

@@ -1,18 +1,16 @@
 module;
 
-#include <WinSock2.h>
-#include <Windows.h>
 #include <vector>
 #include <memory>
+#include <winsock2.h>
 
 export module makga.network.iocp.event;
 
 import makga.network.session;
 
 namespace makga::network {
-class IocpObject;
 
-enum class IocpType
+export enum class IocpType
 {
 	ACCEPT,
 	CONNECT,
@@ -21,31 +19,22 @@ enum class IocpType
 	RECV
 };
 
+export class IocpObject; // forward declaration for use in IocpEvent
+
 export class IocpEvent : public OVERLAPPED
 {
 public:
 	IocpEvent() = delete;
 	IocpEvent(IocpType type)
-		: type_(type)
-		, owner_(nullptr)
-	{
-	}
+		: type_(type), owner_(nullptr) {}
 	IocpEvent(const IocpEvent&) = delete;
 	IocpEvent(IocpEvent&&) = delete;
 	IocpEvent& operator=(const IocpEvent&) = delete;
 	IocpEvent& operator=(IocpEvent&&) = delete;
 	virtual ~IocpEvent() = default;
 
-	bool Initialize()
-	{
-		owner_ = nullptr;
-		return true;
-	}
-
-	void Finalize()
-	{
-		owner_ = nullptr;
-	}
+	bool Initialize() { owner_ = nullptr; return true; }
+	void Finalize() { owner_ = nullptr; }
 
 	IocpType type_;
 	std::shared_ptr<IocpObject> owner_; // dispatch
@@ -114,4 +103,15 @@ public:
 
 	std::vector<std::shared_ptr<T>> send_buffer_;
 };
+
+export class IocpObject : public std::enable_shared_from_this<IocpObject>
+{
+public:
+	IocpObject() = default;
+	virtual ~IocpObject() = default;
+
+	virtual void Dispatch(IocpEvent* iocp_event, int bytes_transferred = 0) = 0;
+	virtual HANDLE GetHandle() const = 0;
+};
+
 } // namespace makga::network

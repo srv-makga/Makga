@@ -1,15 +1,20 @@
 module;
 
-#include "WinSock2.h"
-#include "Windows.h"
 #include <memory>
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <WinSock2.h>
+#include <MSWSock.h>
+#include <windows.h>
+#endif
 
 export module makga.network.iocp.connector;
 
 import <vector>;
 import <queue>;
 import makga.network.iocp.service;
-import makga.network.iocp.object;
+import makga.network.iocp.event;
 import makga.network.iocp.event;
 import makga.lib.lock;
 import makga.network.connector;

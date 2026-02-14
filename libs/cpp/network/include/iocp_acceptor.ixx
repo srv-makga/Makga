@@ -1,20 +1,26 @@
 module;
 
-#include "WinSock2.h"
-#include "Windows.h"
 #include <memory>
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <WinSock2.h>
+#include <MSWSock.h>
+#include <windows.h>
+#endif
 
 export module makga.network.iocp.acceptor;
 
 import <vector>;
 import <queue>;
+import makga.network.acceptor;
 import makga.network.iocp.service;
-import makga.network.iocp.object;
 import makga.network.iocp.event;
+import makga.network.iocp.object;
 import makga.lib.lock;
 
-export namespace makga::network {
-export class IocpAcceptor : public IocpObject
+namespace makga::network {
+export class IocpAcceptor : public IocpObject, public NetAcceptor
 {
 public:
 	IocpAcceptor(std::shared_ptr<IocpService> server);
@@ -28,16 +34,16 @@ public:
 	bool Initialize();
 	void Finalize();
 
-	bool Start();
-	void Stop();
+	bool Start() override;
+	void Stop() override;
 
 	bool RegisterAccept(IocpAcceptEvent* event);
 	void ProcessAccept(IocpAcceptEvent* event);
 
-	bool CanAcceptSession() const;
+	bool CanAcceptSession() const override;
 
-	std::size_t GetConnectCount() const;
-	std::size_t GetMaxConnectCount() const;
+	std::size_t GetConnectCount() const override;
+	std::size_t GetMaxConnectCount() const override;
 
 public: // IocpObject
 	HANDLE GetHandle() const override;
