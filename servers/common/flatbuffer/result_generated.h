@@ -19,27 +19,30 @@ namespace makga {
 
 enum Result : int32_t {
   Result_Success = 0,
+  Result_Fail = 1,
   Result_MIN = Result_Success,
-  Result_MAX = Result_Success
+  Result_MAX = Result_Fail
 };
 
-inline const Result (&EnumValuesResult())[1] {
+inline const Result (&EnumValuesResult())[2] {
   static const Result values[] = {
-    Result_Success
+    Result_Success,
+    Result_Fail
   };
   return values;
 }
 
 inline const char * const *EnumNamesResult() {
-  static const char * const names[2] = {
+  static const char * const names[3] = {
     "Success",
+    "Fail",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameResult(Result e) {
-  if (::flatbuffers::IsOutRange(e, Result_Success, Result_Success)) return "";
+  if (::flatbuffers::IsOutRange(e, Result_Success, Result_Fail)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesResult()[index];
 }
