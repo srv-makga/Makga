@@ -29,6 +29,16 @@ enum AccountType : int
 {
 }
 
+enum SessionType : int
+{
+	None = 0,
+	User,
+}
+
+enum MessageType : int
+{
+}
+
 enum AIType : int
 {
 	Aggressive,		// 순회하다가 주변에 적이 접근하면 공격 시작

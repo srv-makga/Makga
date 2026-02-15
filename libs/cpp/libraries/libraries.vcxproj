@@ -162,6 +162,10 @@
     <ClCompile Include="include\lock.ixx" />
     <ClCompile Include="include\lock_free_queue.ixx" />
     <ClCompile Include="include\logger.ixx" />
+    <ClCompile Include="include\math_collision.ixx" />
+    <ClCompile Include="include\math_geometry.ixx" />
+    <ClCompile Include="include\math_motion.ixx" />
+    <ClCompile Include="include\math_probability.ixx" />
     <ClCompile Include="include\message_broker.ixx" />
     <ClCompile Include="include\mpsc_queue.ixx" />
     <ClCompile Include="include\object_pool.ixx" />
@@ -184,6 +188,10 @@
     <ClCompile Include="src\collider.cpp" />
     <ClCompile Include="src\datetime.cpp" />
     <ClCompile Include="src\logger.cpp" />
+    <ClCompile Include="src\math_collision.cpp" />
+    <ClCompile Include="src\math_geometry.cpp" />
+    <ClCompile Include="src\math_motion.cpp" />
+    <ClCompile Include="src\math_probability.cpp" />
     <ClCompile Include="src\redis_connector.cpp" />
     <ClCompile Include="src\rigid_body.cpp" />
     <ClCompile Include="src\string.cpp" />

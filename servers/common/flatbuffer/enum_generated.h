@@ -149,6 +149,63 @@ inline const char *EnumNameAccountType(AccountType e) {
   return EnumNamesAccountType()[index];
 }
 
+enum SessionType : int32_t {
+  SessionType_None = 0,
+  SessionType_User = 1,
+  SessionType_MIN = SessionType_None,
+  SessionType_MAX = SessionType_User
+};
+
+inline const SessionType (&EnumValuesSessionType())[2] {
+  static const SessionType values[] = {
+    SessionType_None,
+    SessionType_User
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesSessionType() {
+  static const char * const names[3] = {
+    "None",
+    "User",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameSessionType(SessionType e) {
+  if (::flatbuffers::IsOutRange(e, SessionType_None, SessionType_User)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesSessionType()[index];
+}
+
+enum MessageType : int32_t {
+  MessageType_NONE = 0,
+  MessageType_MIN = MessageType_NONE,
+  MessageType_MAX = MessageType_NONE
+};
+
+inline const MessageType (&EnumValuesMessageType())[1] {
+  static const MessageType values[] = {
+    MessageType_NONE
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesMessageType() {
+  static const char * const names[2] = {
+    "NONE",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameMessageType(MessageType e) {
+  if (::flatbuffers::IsOutRange(e, MessageType_NONE, MessageType_NONE)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesMessageType()[index];
+}
+
 enum AIType : int32_t {
   AIType_Aggressive = 0,
   AIType_NonAggressive = 1,

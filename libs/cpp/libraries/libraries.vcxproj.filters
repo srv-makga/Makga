@@ -123,6 +123,30 @@
     <ClCompile Include="include\thread_local_pool.ixx" />
     <ClCompile Include="include\binary_writer.ixx" />
     <ClCompile Include="include\message_broker.ixx" />
+    <ClCompile Include="include\math_collision.ixx">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="include\math_probability.ixx">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math_collision.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math_probability.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math_geometry.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math_motion.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="include\math_geometry.ixx">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="include\math_motion.ixx">
+      <Filter>math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">
