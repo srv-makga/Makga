@@ -170,6 +170,10 @@
     <ClCompile Include="binary_writer_test.cpp" />
     <ClCompile Include="datetime_test.cpp" />
     <ClCompile Include="db_test.cpp" />
+    <ClCompile Include="math_collision_test.cpp" />
+    <ClCompile Include="math_geometry_test.cpp" />
+    <ClCompile Include="math_motion_test.cpp" />
+    <ClCompile Include="math_probability_test.cpp" />
     <ClCompile Include="random_test.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

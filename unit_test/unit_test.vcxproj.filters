@@ -35,6 +35,18 @@
     <ClCompile Include="vector3_test.cpp">
       <Filter>libraries</Filter>
     </ClCompile>
+    <ClCompile Include="math_motion_test.cpp">
+      <Filter>libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="math_probability_test.cpp">
+      <Filter>libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="math_collision_test.cpp">
+      <Filter>libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="math_geometry_test.cpp">
+      <Filter>libraries</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
