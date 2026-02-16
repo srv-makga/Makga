@@ -10,6 +10,10 @@ public:
 	Vector3(float x, float y, float z);
 	virtual ~Vector3();
 
+	// @brief 정규화
+	void Normalize();
+	// @brief 벡터의 길이
+	float Length() const;
 	// @brief 벡터 간의 제곱 거리
 	float SquareDistance(const Vector3& other) const;
 	// @brief 벡터 간의 거리
@@ -20,7 +24,6 @@ public:
 	Vector3 Cross(const Vector3& other) const;
 	// @brief 벡터 정규화
 	Vector3 ClosestPointOnLineSegment(const Vector3& a, const Vector3& b) const;
-
 	/*ClosestDistanceSquaredBetweenLineSegments*/
 	Vector3 ClosestDistanceSquaredBetweenLineSegments(const Vector3& end, const Vector3& other_start, const Vector3& other_end, float& s, float& t) const;
 
