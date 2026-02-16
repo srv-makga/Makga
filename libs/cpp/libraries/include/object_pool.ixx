@@ -23,7 +23,25 @@ public:
 		Finalize();
 	}
 
-	std::unique_ptr<T, std::function<void(T*)>> AcquireObject()
+	struct CustomDeleter
+	{
+		std::weak_ptr<bool> wp;
+		ObjectPool* pool;
+
+		void operator()(T* object) const {
+			auto sp = wp.lock();
+			if (sp && false == sp->load())
+			{
+				pool->pool_.emplace_back(object);
+			}
+			else
+			{
+				delete object;
+			}
+		}
+	};
+
+	std::unique_ptr<T, CustomDeleter> AcquireObject()
 	{
 		T* object = nullptr;
 
@@ -37,21 +55,9 @@ public:
 			pool_.pop_back();
 		}
 
-		auto wp = std::weak_ptr<bool>(is_release_);
-		auto deleter = [wp, this](T* obj)
-		{
-			auto sp = wp.lock();
-			if (sp && false == sp->load())
-			{
-				pool_.emplace_back(obj);
-			}
-			else
-			{
-				delete obj;
-			}
-		};
+		CustomDeleter deleter{ std::weak_ptr<bool>(is_release_), this };
 
-		return std::unique_ptr<T, decltype(deleter)>(object, deleter);
+		return std::unique_ptr<T, CustomDeleter>(object, deleter);
 	}
 
 	void CreateObject(std::size_t size)
@@ -66,7 +72,7 @@ public:
 
 	void Finalize()
 	{
-		is_release_.store(true);
+		*is_release_ = true;
 
 		for (auto obj : pool_)
 		{
