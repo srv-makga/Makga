@@ -35,8 +35,22 @@ enum SessionType : int
 	User,
 }
 
+// 스레드간 메시지 타입
 enum MessageType : int
 {
+	GridAddActor,
+	GridRemoveActor,
+	GridBroadcastMove,
+}
+
+// 게임 월드의 서브 시스템 틱 순위
+enum TickGroup : int
+{
+    PrePhysics = 0,
+    Physics,
+    PostPhysics,
+    PostUpdate,
+    Max
 }
 
 enum AIType : int

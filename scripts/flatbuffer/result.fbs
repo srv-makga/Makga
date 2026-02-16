@@ -7,4 +7,5 @@ namespace makga;
 enum Result : int
 {
 	Success = 0,
+	Fail,
 }

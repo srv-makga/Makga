@@ -180,30 +180,75 @@ inline const char *EnumNameSessionType(SessionType e) {
 }
 
 enum MessageType : int32_t {
-  MessageType_NONE = 0,
-  MessageType_MIN = MessageType_NONE,
-  MessageType_MAX = MessageType_NONE
+  MessageType_GridAddActor = 0,
+  MessageType_GridRemoveActor = 1,
+  MessageType_GridBroadcastMove = 2,
+  MessageType_MIN = MessageType_GridAddActor,
+  MessageType_MAX = MessageType_GridBroadcastMove
 };
 
-inline const MessageType (&EnumValuesMessageType())[1] {
+inline const MessageType (&EnumValuesMessageType())[3] {
   static const MessageType values[] = {
-    MessageType_NONE
+    MessageType_GridAddActor,
+    MessageType_GridRemoveActor,
+    MessageType_GridBroadcastMove
   };
   return values;
 }
 
 inline const char * const *EnumNamesMessageType() {
-  static const char * const names[2] = {
-    "NONE",
+  static const char * const names[4] = {
+    "GridAddActor",
+    "GridRemoveActor",
+    "GridBroadcastMove",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameMessageType(MessageType e) {
-  if (::flatbuffers::IsOutRange(e, MessageType_NONE, MessageType_NONE)) return "";
+  if (::flatbuffers::IsOutRange(e, MessageType_GridAddActor, MessageType_GridBroadcastMove)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesMessageType()[index];
+}
+
+enum TickGroup : int32_t {
+  TickGroup_PrePhysics = 0,
+  TickGroup_Physics = 1,
+  TickGroup_PostPhysics = 2,
+  TickGroup_PostUpdate = 3,
+  TickGroup_Max = 4,
+  TickGroup_MIN = TickGroup_PrePhysics,
+  TickGroup_MAX = TickGroup_Max
+};
+
+inline const TickGroup (&EnumValuesTickGroup())[5] {
+  static const TickGroup values[] = {
+    TickGroup_PrePhysics,
+    TickGroup_Physics,
+    TickGroup_PostPhysics,
+    TickGroup_PostUpdate,
+    TickGroup_Max
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesTickGroup() {
+  static const char * const names[6] = {
+    "PrePhysics",
+    "Physics",
+    "PostPhysics",
+    "PostUpdate",
+    "Max",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameTickGroup(TickGroup e) {
+  if (::flatbuffers::IsOutRange(e, TickGroup_PrePhysics, TickGroup_Max)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesTickGroup()[index];
 }
 
 enum AIType : int32_t {
