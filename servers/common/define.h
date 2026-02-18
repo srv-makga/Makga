@@ -48,6 +48,7 @@ using Tick = int64_t;
 using TableIdx = uint64_t;
 
 // 시스템
+using EntityId = uint64_t;
 using Percent = int32_t; // 표기 방식
 using Prob = int32_t; // 확률. 0 ~ 100,000,000
 constexpr Prob max_prob = 100000000;
@@ -56,6 +57,8 @@ using Rate = float; // 수치의 비율
 // 컨텐츠
 using TerrainIdx = TableIdx;
 using TerrainId = uint32_t;
+using GridId = uint32_t;
+
 using ChannelId = uint32_t;
 
 using MonsterIdx = TableIdx;
