@@ -3,10 +3,12 @@
 #include <memory>
 #include <functional>
 #include <tuple>
+#include "define.h"
 
 import makga.lib.mpsc_queue;
 
 struct Message;
+
 class MessageActor
 {
 public:
@@ -31,17 +33,11 @@ protected:
 
 struct Message
 {
-	enum class Type : uint16_t
-	{
-		Unknown = 0,
-		Move,
-	};
-
 	MessageActor::Id send_id = 0; // 메시지 발신자
 	MessageActor::Id id = 0; // 메시지 수신자
-	Type type = Type::Unknown;
+	makga::MessageType type;
 
-	Message(MessageActor::Id sender, MessageActor::Id receiver, Type msg_type)
+	Message(MessageActor::Id sender, MessageActor::Id receiver, makga::MessageType msg_type)
 		: send_id(sender), id(receiver), type(msg_type) {
 	}
 	virtual ~Message() = default;
@@ -54,7 +50,7 @@ struct MessageT : public Message
 {
 	std::tuple<Args...> data;
 
-	MessageT(MessageActor::Id sender, MessageActor::Id receiver, Type msg_type, Args... args)
+	MessageT(MessageActor::Id sender, MessageActor::Id receiver, makga::MessageType msg_type, Args... args)
 		: Message(sender, receiver, msg_type), data(std::forward<Args>(args)...)
 	{
 	}
@@ -66,12 +62,13 @@ struct MessageT : public Message
 	}
 };
 
+template<typename T>
 struct MessageLambda : public Message
 {
 	std::function<void(MessageActor*)> func;
 
-	MessageLambda(MessageActor::Id sender, MessageActor::Id receiver, std::function<void(MessageActor*)> f)
-		: Message(sender, receiver, Type::Unknown), func(f)
+	MessageLambda(MessageActor::Id sender, MessageActor::Id receiver, makga::MessageType msg_type, std::function<void(MessageActor*)> f)
+		: Message(sender, receiver, msg_type), func(f)
 	{
 	}
 

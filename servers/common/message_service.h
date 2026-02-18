@@ -23,7 +23,7 @@ public:
 	virtual void OnUpdate();
 
 protected:
-	virtual void ProcessMessages();
+	virtual void ProcessMessages() = 0;
 
 protected:
 	std::atomic<bool> is_running_;
