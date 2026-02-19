@@ -12,13 +12,22 @@
 #include "user_server.h"
 #include "net_thread.h"
 #include "job_thread.h"
-#include "terrain.h"
+#include "world_subsystem.h"
+#include "terrain_manager.h"
 #include "../common/timer.h"
+
+// New Component-based systems
+#include "component_manager.h"
+#include "movement_system.h"
+#include "physics_system.h"
+#include "ai_system.h"
+#include "combat_system.h"
+#include "tick_group_manager.h"
 
 import makga.lib.pattern.singleton;
 import makga.lib.pattern.objectpool;
 
-class GameWorld final : public makga::lib::Singleton<World>
+class GameWorld final : public makga::lib::Singleton<GameWorld>
 {
 public:
 	GameWorld() = default;
@@ -32,7 +41,30 @@ public:
 
 	void OnUpdate();
 
-private:
+	template<typename T>
+	T * GetSubsystem()
+	{
+		return static_cast<T*>(subsystems_[T::StaticTypeId()]);
+	}
+
+	// New component-based API
+	ComponentManager& GetComponentManager() { return component_manager_; }
+	TickGroupManager& GetTickGroupManager() { return tick_group_manager_; }
+	
+	template<typename T>
+	T* GetWorldSystem()
+	{
+		for (auto* system : world_systems_)
+		{
+			if (auto* casted = dynamic_cast<T*>(system))
+				return casted;
+		}
+		return nullptr;
+	}
+
+public:
+	Tick last_update_tick_;
+
 	// ----- Core -----
 	std::thread thread_;
 
@@ -43,9 +75,22 @@ private:
 	// 스케줄러 스레드
 	std::unique_ptr<Timer> timer_;
 
+	std::vector<std::unique_ptr<WorldSubsystem>> subsystems_;
+	std::array<std::vector<WorldSubsystem*>, makga::TickGroup_MAX> subsystems_tick_groups_;
+	
+	// ----- New Component-based Architecture -----
+	ComponentManager component_manager_;
+	TickGroupManager tick_group_manager_;
+	
+	std::vector<WorldSystem*> world_systems_;
+	std::unique_ptr<MovementSystem> movement_system_;
+	std::unique_ptr<PhysicsSystem> physics_system_;
+	std::unique_ptr<AISystem> ai_system_;
+	std::unique_ptr<CombatSystem> combat_system_;
+	
 	// ----- World Data -----
 	// 맵 목록
-	std::unordered_map<TerrainId, std::shared_ptr<Terrain>> terrains_;
+	TerrainManager terrain_manager_;
 
 	// ----- Global Systems -----
 	// 플레이어 정보
