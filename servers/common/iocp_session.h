@@ -29,10 +29,8 @@ public:
 	void Disconnect();
 	void Send(std::shared_ptr<NetPacket> send_buffer);
 
-	// @brief 동기 요청
 	int Recv();
 
-	// @brief 비동기 요청
 	bool RegisterConnect();
 	void RegisterDisconnect();
 	void RegisterZeroRecv();
@@ -45,7 +43,7 @@ public:
 	bool IsSendRegistered() const;
 	bool IsZeroReceive() const;
 
-public: // NetEvent의 처리 함수들(단일 데이터)
+public: // NetEvent
 	virtual void ProcConnect() = 0;
 	virtual void ProcDisconnect() = 0;
 	virtual std::size_t ProcRecv(char* data, std::size_t bytes_transferred) = 0;
