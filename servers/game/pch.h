@@ -10,6 +10,7 @@
 #include <thread>
 #include <unordered_set>
 #include <vector>
+#include <optional>
 
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
@@ -27,6 +28,7 @@
 
 
 #include "define.h"
+#include "game_world.h"
 
 import makga.lib.logger;
 using Logger = makga::lib::MakgaLogger;
