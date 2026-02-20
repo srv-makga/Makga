@@ -15,9 +15,9 @@
 import makga.math.vector3;
 import makga.lib.lock;
 
-class TerrainGrid;
 class Terrain;
 class AIController;
+
 class Actor : public std::enable_shared_from_this<Actor>, public MessageActor
 {
 	friend class AIController;
@@ -35,7 +35,7 @@ public:
 	bool SetMovePosition(const makga::math::Vector3& _vector);
 
 	// BT 관련 //////////////////////////////////////////////////////////////
-	// @brief 주변에서 타켓 찾기
+	// @brief 주변에서 타겟 찾기
 	bool IsUpdateAI() const;
 	void ActiveAI();
 	void DeactiveAI();
@@ -75,13 +75,21 @@ public:
 	std::shared_ptr<Actor> GetTarget() const;
 	// @brief 리더 반환
 	std::shared_ptr<Actor> GetLeader() const;
-	// @brief 오너 반환
+	// @brief 소유자 반환
 	std::shared_ptr<Actor> GetOwner() const;
 
 	Hp GetCurHp() const;
 	Hp GetMaxHp() const;
 	Mp GetCurMp() const;
 	Mp GetMaxMp() const;
+
+	// 위치 관련 메서드 추가
+	makga::math::Vector3 GetPosition() const;
+	void SetPosition(const makga::math::Vector3& pos);
+
+	// Terrain 접근 (TerrainGrid 대신 Terrain 참조)
+	std::shared_ptr<Terrain> GetTerrain() const { return terrain_; }
+	void SetTerrain(std::shared_ptr<Terrain> terrain) { terrain_ = terrain; }
 
 protected:
 	// @brief private의 내용을 public으로 복사
@@ -91,6 +99,11 @@ protected:
 	void SetMaxHp(Hp hp);
 	void SetCurMp(Mp mp);
 	void SetMaxMp(Mp mp);
+
+	// 다른 Actor 이동 알림 처리
+	virtual void OnOtherActorMove(ActorId actor_id, 
+	                               const makga::math::Vector3& old_pos,
+	                               const makga::math::Vector3& new_pos) {}
 
 protected:
 	inline static std::atomic<ActorId> next_id_ = 0;
@@ -110,7 +123,7 @@ protected:
 	bool is_update_ai_;
 	std::unique_ptr<AIController> ai_controller_;
 
-	std::shared_ptr<TerrainGrid> terrain_grid_;
+	std::shared_ptr<Terrain> terrain_;
 
 	makga::lib::MPSCQueue<std::unique_ptr<Message>> message_queue_;
 };
