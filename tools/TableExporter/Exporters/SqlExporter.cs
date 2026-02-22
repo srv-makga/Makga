@@ -85,14 +85,19 @@ public class SqlExporter : IExporter
         string tableName = WrapName(table.TableName);
         string colList   = string.Join(", ", table.Columns.Select(WrapName));
 
-        foreach (var row in table.Rows)
+        sb.Append($"INSERT INTO {tableName} ({colList}) VALUES");
+
+        for (int i = 0; i < table.Rows.Count; i++)
         {
-            var values = row.Select((v, i) => QuoteValue(v)).ToList();
+            var values = table.Rows[i].Select(QuoteValue).ToList();
             // 행이 컬럼 수보다 짧을 경우 NULL 패딩
             while (values.Count < table.Columns.Count)
                 values.Add("NULL");
 
-            sb.AppendLine($"INSERT INTO {tableName} ({colList}) VALUES ({string.Join(", ", values)});");
+            bool isLast = i == table.Rows.Count - 1;
+            sb.AppendLine(isLast
+                ? $"  ({string.Join(", ", values)});"
+                : $"  ({string.Join(", ", values)}),");
         }
     }
 
