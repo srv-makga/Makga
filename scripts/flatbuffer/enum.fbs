@@ -265,3 +265,268 @@ enum MoveType : int
 	Walk,
 	Teleport,
 }
+
+// 직업
+enum JobType : int
+{
+	Warrior,		// 전사
+	Berserker,		// 버서커
+	Knight,			// 기사
+	Paladin,		// 성기사
+	DarkKnight,		// 암흑기사
+	Priest,			// 성직자
+	Bishop,			// 주교
+	SoulKeeper,		// 영혼수호자
+	Necromancer,	// 강령술사
+	Wizard,			// 마법사
+	Pyromancer,		// 화염술사
+	Cryomancer,		// 빙결술사
+	Stormcaller,	// 폭풍술사
+	Geomancer,		// 지형술사
+	Ranger,			// 레인저
+	Hunter,			// 헌터
+	Assassin,		// 어쌔신
+	ShadowBlade,	// 그림자검사
+	Druid,			// 드루이드
+	Summoner,		// 소환사
+	Bard,			// 음유시인
+	Alchemist,		// 연금술사
+}
+
+// 아이템 종류
+enum ItemType : int
+{
+	Weapon,			// 무기
+	Armor,			// 방어구
+	Accessory,		// 장신구
+	Consumable,		// 소비품 (포션, 음식 등)
+	Material,		// 재료 (제작용)
+	QuestItem,		// 퀘스트 아이템
+	Skillbook,		// 스킬북 (스킬 습득)
+	Blueprint,		// 설계도 (제작 레시피)
+	Relic,			// 유물 (특수 장비 슬롯용)
+	EnchantStone,	// 인챈트 스톤 (속성 부여/강화 재료)
+	Mount,			// 탈것
+	Pet,			// 펫
+	Misc,			// 기타
+}
+
+// 무기 종류
+enum WeaponType : int
+{
+	Sword,			// 한손검
+	TwoHandSword,	// 두손검
+	Axe,			// 한손 도끼
+	TwoHandAxe,		// 두손 도끼
+	Mace,			// 한손 둔기
+	TwoHandMace,	// 두손 둔기
+	Spear,			// 창
+	Dagger,			// 단검
+	Katana,			// 카타나
+	Scythe,			// 대낫
+	Staff,			// 지팡이
+	Wand,			// 완드
+	Tome,			// 마법서
+	Bow,			// 활
+	Crossbow,		// 석궁
+	Shield,			// 방패 (오프핸드)
+}
+
+// 방어구 종류
+enum ArmorType : int
+{
+	HeavyArmor,		// 중갑 (전사/기사 계열)
+	MediumArmor,	// 중경갑 (레인저/헌터/드루이드 계열)
+	LightArmor,		// 경갑 (어쌔신/음유시인 계열)
+	Robe,			// 로브 (마법사 계열)
+	Cloth,			// 천 (성직자/소환사 계열)
+}
+
+// 장비 슬롯
+enum EquipSlot : int
+{
+	Helm,				// 투구
+	Chest,				// 갑옷
+	Legs,				// 각반
+	Gloves,				// 장갑
+	Boots,				// 신발
+	Cloak,				// 망토
+	Weapon,				// 주 무기
+	OffHand,			// 보조 무기 / 방패
+	Ring1,				// 반지 1
+	Ring2,				// 반지 2
+	Necklace,			// 목걸이
+	Earring,			// 귀걸이
+	Belt,				// 허리띠
+	Relic,				// 유물 슬롯 (특수 장비 전용)
+}
+
+// 스킬 유형
+enum SkillType : int
+{
+	Active,				// 액티브: 수동 발동
+	Passive,			// 패시브: 자동 적용
+	Ultimate,			// 궁극기: 특수 조건 발동
+	Toggle,				// 토글: 유지/해제 전환
+	Reaction,			// 반응형: 조건 충족시 자동 발동
+}
+
+// 스킬 카테고리
+enum SkillCategory : int
+{
+	MeleeAttack,		// 근접 공격
+	RangedAttack,		// 원거리 공격
+	MagicAttack,		// 마법 공격 (무속성)
+	ElementalAttack,	// 속성 공격 (화염/냉기/전격/대지/신성/암흑 공통)
+	Heal,				// 회복
+	Buff,				// 버프 (아군 강화)
+	Debuff,				// 디버프 (적 약화)
+	Summon,				// 소환
+	Movement,			// 이동기
+	Defense,			// 방어기
+	Support,			// 지원 (버프·디버프 외 유틸)
+}
+
+// 데미지 유형 (속성 계산에 사용)
+enum DamageType : int
+{
+	Physical,			// 물리 데미지
+	Magical,			// 마법 데미지 (무속성)
+	True,				// 고정 데미지 (방어 무시)
+	Holy,				// 신성 데미지: 빛 속성 — 언데드/악마 대상 대폭 증가
+	Dark,				// 암흑 데미지: 신성 계열 대상 특효
+	Fire,				// 화염 데미지
+	Ice,				// 냉기 데미지
+	Lightning,			// 전격 데미지
+	Earth,				// 대지 데미지
+	Bleed,				// 출혈 (지속 물리 데미지)
+	Poison,				// 독 (지속 마법 데미지)
+}
+
+// 몬스터 종류 (속성 상성에 영향)
+enum MonsterType : int
+{
+	Beast,				// 야수: 자연/대지 속성에 약함
+	Undead,				// 언데드: 신성/빛 속성에 특효, 암흑 속성 흡수
+	Demon,				// 악마: 신성/빛 속성에 특효
+	Dragon,				// 드래곤: 모든 속성에 강함
+	Elemental,			// 정령: 반대 속성에 약함
+	HolyBeing,			// 신성 존재: 암흑 속성에 특효
+	DarkBeing,			// 암흑 존재: 신성/빛 속성에 특효
+	Human,				// 인간형
+	Plant,				// 식물형: 화염 속성에 약함
+	Construct,			// 기계/골렘형: 전격 속성에 약함
+}
+
+// 상태이상 종류 (빛/어둠 계열 포함)
+enum StatusEffectType : int
+{
+	// ── 물리계 ──
+	Bleed,				// 출혈: 지속 물리 데미지
+	Fracture,			// 골절: 이동속도/공격속도 감소
+	Root,				// 속박: 이동 불가
+
+	// ── 마법계 ──
+	Poison,				// 중독: 지속 마법 데미지
+	Freeze,				// 빙결: 행동 불가 (냉기 속성)
+	Electrify,			// 감전: 주기적 스턴 (전격 속성)
+	Ignite,				// 점화: 화염 지속 데미지 (화염 속성)
+	Petrify,			// 석화: 완전 행동 불가 (대지 속성)
+
+	// ── 빛/신성 계열 ──
+	Blind,				// 실명: 명중률 대폭 감소 — 빛 속성
+	Reveal,				// 폭로: 은신 해제, 디버프 저항 감소 — 빛 속성
+	HolyMark,			// 성흔: 대상에게 신성 데미지 증폭 — 빛 속성
+
+	// ── 암흑 계열 ──
+	Curse,				// 저주: 능력치 감소 — 암흑 속성
+	Fear,				// 공포: 도주 강제 — 암흑 속성
+	Decay,				// 부식: 방어력 지속 감소 — 암흑 속성
+	DarkMark,			// 암흑 낙인: 대상에게 암흑 데미지 증폭 — 암흑 속성
+
+	// ── 공통 제어계 ──
+	Stun,				// 스턴: 행동 불가
+	Sleep,				// 수면: 공격 받으면 해제
+	Silence,			// 침묵: 스킬 사용 불가
+	Slow,				// 감속
+	Knockback,			// 넉백
+}
+
+// 구역 속성 (맵 존의 속성 — 해당 속성 스킬 강화/반대 속성 약화)
+enum ZoneAttributeType : int
+{
+	Neutral,			// 중립 (기본, 속성 보정 없음)
+	Holy,				// 신성: 빛 속성 스킬 강화, 암흑 속성 약화
+	Dark,				// 암흑: 암흑 속성 스킬 강화, 빛 속성 약화
+	Fire,				// 화염: 화염 스킬 강화, 냉기 약화
+	Ice,				// 냉기: 냉기 스킬 강화, 화염 약화
+	Lightning,			// 전격: 전격 스킬 강화, 대지 약화
+	Earth,				// 대지: 대지 스킬 강화, 전격 약화
+	Cursed,				// 저주받은: 모든 회복 효과 감소, 상태이상 저항 감소
+	Sacred,				// 성역: 모든 회복 효과 증가, 상태이상 저항 증가
+}
+
+// 맵 종류
+enum MapType : int
+{
+	Town,		// 마을 (안전지대)
+	Field,		// 일반 필드
+	Dungeon,	// 던전 (파티/솔로)
+	Raid,		// 레이드
+	PvP,		// PvP 전장
+	Instance,	// 인스턴스 (스토리 전용)
+}
+
+// 던전 종류
+enum DungeonType : int
+{
+	Normal,		// 일반 던전
+	Solo,		// 솔로 던전
+	Elite,		// 엘리트 던전
+	Hard,		// 하드 모드
+	Challenge,	// 도전 던전
+	Raid,		// 레이드 던전
+	Special,	// 특수/이벤트 던전
+}
+
+// 퀘스트 종류
+enum QuestType : int
+{
+	Main,			// 메인 퀘스트
+	Sub,			// 서브 퀘스트
+	Daily,			// 일일 퀘스트
+	Weekly,			// 주간 퀘스트
+	Guild,			// 길드 퀘스트
+	Bounty,			// 현상금 퀘스트
+	ClassQuest,		// 직업 전용 퀘스트
+	Repeatable,		// 반복 퀘스트
+}
+
+// NPC 종류
+enum NPCType : int
+{
+	Merchant,		// 상인
+	QuestGiver,		// 퀘스트 제공자
+	Guard,			// 경비
+	Blacksmith,		// 대장장이 (제작/강화)
+	Enchanter,		// 인챈터 (속성 부여/강화)
+	Alchemist,		// 연금술사 (포션/인챈트 스톤 제작)
+	Trainer,		// 직업 강사 (스킬 습득/전직)
+	GuildMaster,	// 길드 마스터
+	AuctionClerk,	// 경매소 관리인
+	Banker,			// 창고지기
+	Teleporter,		// 이동 NPC (텔레포트)
+}
+
+// 제작 분야
+enum CraftType : int
+{
+	Blacksmithing,	// 대장장이 (무기/방어구)
+	Tailoring,		// 재봉 (천/로브)
+	Leatherwork,	// 가죽 세공 (경갑/중경갑)
+	Alchemy,		// 연금술 (포션/재료)
+	Cooking,		// 요리 (음식 버프)
+	Enchanting,		// 인챈팅 (속성 부여/강화)
+	Jeweling,		// 보석 세공 (장신구)
+	Inscription,	// 필사 (스킬북/설계도)
+}
