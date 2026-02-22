@@ -11,7 +11,9 @@ public static class EndpointMapper
         var topCacheTTL = int.TryParse(
             app.Configuration["RankingCache:TopExpirationSeconds"], out var s) ? s : 10;
 
+        app.MapGet("/version", () => "1.0.0");
         app.MapGet("/ping", () => "pong");
+        app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
 
         var ranking = app.MapGroup("/ranking");
         ScoreEndpoints.V1(ranking);
