@@ -1,0 +1,547 @@
+@model AdminTool.Models.TableViewModel
+@{
+    ViewData["Title"] = $"{L["GameData_Title"].Value} — {Model.TableName}";
+    var pkCol = Model.Columns.FirstOrDefault(c => c.IsPrimaryKey);
+    var canEdit = User.IsInRole("superadmin") || User.IsInRole("admin");
+    var canDelete = User.IsInRole("superadmin");
+}
+
+<div class="d-flex gap-3">
+    <!-- Table list sidebar -->
+    <div class="flex-shrink-0" style="width:180px;">
+        <div class="card">
+            <div class="card-header py-2 small fw-semibold">@L["GameData_TableList"]</div>
+            <div class="list-group list-group-flush" style="max-height:70vh;overflow-y:auto;">
+                @foreach (var t in Model.AllTables.Where(t => !t.StartsWith("admin_")))
+                {
+                    <a href="/GameData/Table/@t"
+                       class="list-group-item list-group-item-action py-1 small @(t == Model.TableName ? "active" : "")">
+                        @t
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="flex-grow-1 overflow-hidden">
+        <!-- Toolbar -->
+        <div class="d-flex align-items-center gap-2 mb-3 flex-wrap">
+            <form method="get" asp-action="Table" asp-route-table="@Model.TableName"
+                  class="d-flex gap-2 flex-grow-1">
+                <input type="text" name="search" value="@Model.Search"
+                       class="form-control form-control-sm"
+                       placeholder="@L["Btn_Search"]..." style="max-width:260px;" />
+                <button type="submit" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-search"></i>
+                </button>
+                @if (!string.IsNullOrEmpty(Model.Search))
+                {
+                    <a href="/GameData/Table/@Model.TableName"
+                       class="btn btn-sm btn-outline-secondary">@L["Btn_Reset"]</a>
+                }
+            </form>
+
+            <span class="text-muted small">@string.Format(L["GameData_TotalRows"].Value, Model.Total.ToString("N0"))</span>
+
+            @if (canEdit)
+            {
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#insertModal">
+                    <i class="bi bi-plus-lg me-1"></i>@L["Btn_Add"]
+                </button>
+            }
+        </div>
+
+        <!-- Table -->
+        <div class="card">
+            <div class="card-body p-0 table-responsive">
+                <table class="table table-hover table-sm mb-0 data-table">
+                    <thead>
+                        <tr>
+                            @foreach (var col in Model.Columns)
+                            {
+                                <th title="@col.Type">
+                                    @col.Name
+                                    @if (col.IsPrimaryKey) { <i class="bi bi-key text-warning ms-1" title="PK"></i> }
+                                </th>
+                            }
+                            @if (canEdit) { <th></th> }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var row in Model.Rows)
+                        {
+                            <tr>
+                                @foreach (var col in Model.Columns)
+                                {
+                                    var val = row.GetValueOrDefault(col.Name)?.ToString() ?? "";
+                                    <td title="@val" class="@(col.IsLongText ? "text-truncate" : "")"
+                                        style="max-width:180px;">@val</td>
+                                }
+                                @if (canEdit)
+                                {
+                                    <td class="text-nowrap">
+                                        <button class="btn btn-xs btn-outline-secondary me-1"
+                                                onclick="openEditModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                                                    Model.Columns.ToDictionary(c => c.Name,
+                                                    c => row.GetValueOrDefault(c.Name)?.ToString() ?? ""))))">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        @if (canDelete && pkCol != null)
+                                        {
+                                            <form method="post" asp-action="DeleteRow" class="d-inline"
+                                                  onsubmit="return confirm('@L["GameData_ConfirmDelete"].Value')">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="table" value="@Model.TableName" />
+                                                <input type="hidden" name="pkCol" value="@pkCol.Name" />
+                                                <input type="hidden" name="pkValue" value="@row.GetValueOrDefault(pkCol.Name)" />
+                                                <button class="btn btn-xs btn-outline-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        @if (Model.TotalPages > 1)
+        {
+            <nav class="mt-3">
+                <ul class="pagination pagination-sm justify-content-center mb-0">
+                    @for (int p = Math.Max(1, Model.Page - 4);
+                          p <= Math.Min(Model.TotalPages, Model.Page + 4); p++)
+                    {
+                        <li class="page-item @(p == Model.Page ? "active" : "")">
+                            <a class="page-link"
+                               href="/GameData/Table/@Model.TableName?page=@p&pageSize=@Model.PageSize&search=@Model.Search">
+                                @p
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@L["GameData_EditRow"] — @Model.TableName</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="editForm">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="table" value="@Model.TableName" />
+                <div class="modal-body">
+                    <div class="row g-3" id="editFields"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@L["Btn_Cancel"]</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i>@L["Btn_Save"]
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Insert Modal -->
+@if (canEdit)
+{
+    <div class="modal fade" id="insertModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@L["GameData_InsertRow"] — @Model.TableName</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="insertForm">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="table" value="@Model.TableName" />
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            @foreach (var col in Model.Columns.Where(c => !c.IsAutoIncrement))
+                            {
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold">
+                                        @col.Name
+                                        <span class="text-muted fw-normal">(@col.Type)</span>
+                                        @if (col.IsPrimaryKey) { <i class="bi bi-key text-warning ms-1"></i> }
+                                    </label>
+                                    @if (col.IsLongText)
+                                    {
+                                        <textarea name="@col.Name" class="form-control form-control-sm" rows="2"></textarea>
+                                    }
+                                    else if (col.InputType == "checkbox")
+                                    {
+                                        <select name="@col.Name" class="form-select form-select-sm">
+                                            <option value="0">false</option>
+                                            <option value="1">true</option>
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <input type="@col.InputType" name="@col.Name"
+                                               class="form-control form-control-sm"
+                                               step="@(col.InputType == "number" ? "any" : null)" />
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@L["Btn_Cancel"]</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-plus-lg me-1"></i>@L["Btn_Add"]
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+<script>
+const columns = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+    Model.Columns.Select(c => new { c.Name, c.Type, c.InputType, c.IsPrimaryKey, c.IsAutoIncrement, c.IsLongText })));
+
+function openEditModal(rowData) {
+    const container = document.getElementById('editFields');
+    container.innerHTML = '';
+    columns.forEach(col => {
+        const val = rowData[col.name] ?? '';
+        const isPk = col.isPrimaryKey;
+        const div = document.createElement('div');
+        div.className = 'col-md-6';
+        let input = '';
+        if (col.isLongText) {
+            input = `<textarea name="${col.name}" class="form-control form-control-sm" rows="2"${isPk ? ' readonly' : ''}>${val}</textarea>`;
+        } else if (col.inputType === 'checkbox') {
+            input = `<select name="${col.name}" class="form-select form-select-sm">
+                <option value="0"${val == '0' || val == 'False' ? ' selected' : ''}>false</option>
+                <option value="1"${val == '1' || val == 'True' ? ' selected' : ''}>true</option>
+            </select>`;
+        } else {
+            input = `<input type="${col.inputType}" name="${col.name}" value="${val}"
+                class="form-control form-control-sm" ${isPk ? 'readonly' : ''}
+                step="${col.inputType === 'number' ? 'any' : ''}" />`;
+        }
+        div.innerHTML = `<label class="form-label small fw-semibold">${col.name}
+            <span class="text-muted fw-normal">(${col.type})</span>
+            ${isPk ? '<i class="bi bi-key text-warning ms-1"></i>' : ''}</label>${input}`;
+        container.appendChild(div);
+    });
+    new bootstrap.Modal(document.getElementById('editModal')).show();
+}
+
+// Edit form submit
+document.getElementById('editForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const token = fd.get('__RequestVerificationToken');
+    const resp = await fetch('/GameData/UpdateRow', {
+        method: 'POST',
+        headers: { 'RequestVerificationToken': token },
+        body: fd
+    });
+    const json = await resp.json();
+    if (json.success) { location.reload(); }
+    else { showToast(json.error || '@L["Common_Error"].Value', 'danger'); }
+});
+
+// Insert form submit
+document.getElementById('insertForm')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const token = fd.get('__RequestVerificationToken');
+    const resp = await fetch('/GameData/InsertRow', {
+        method: 'POST',
+        headers: { 'RequestVerificationToken': token },
+        body: fd
+    });
+    const json = await resp.json();
+    if (json.success) { location.reload(); }
+    else { showToast(json.error || '@L["Common_Error"].Value', 'danger'); }
+});
+</script>
+}
+
+<div class="d-flex gap-3">
+    <!-- Table list sidebar -->
+    <div class="flex-shrink-0" style="width:180px;">
+        <div class="card">
+            <div class="card-header py-2 small fw-semibold">테이블 목록</div>
+            <div class="list-group list-group-flush" style="max-height:70vh;overflow-y:auto;">
+                @foreach (var t in Model.AllTables.Where(t => !t.StartsWith("admin_")))
+                {
+                    <a href="/GameData/Table/@t"
+                       class="list-group-item list-group-item-action py-1 small @(t == Model.TableName ? "active" : "")">
+                        @t
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="flex-grow-1 overflow-hidden">
+        <!-- Toolbar -->
+        <div class="d-flex align-items-center gap-2 mb-3 flex-wrap">
+            <form method="get" asp-action="Table" asp-route-table="@Model.TableName"
+                  class="d-flex gap-2 flex-grow-1">
+                <input type="text" name="search" value="@Model.Search"
+                       class="form-control form-control-sm" placeholder="검색..." style="max-width:260px;" />
+                <button type="submit" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-search"></i>
+                </button>
+                @if (!string.IsNullOrEmpty(Model.Search))
+                {
+                    <a href="/GameData/Table/@Model.TableName" class="btn btn-sm btn-outline-secondary">초기화</a>
+                }
+            </form>
+
+            <span class="text-muted small">총 @Model.Total.ToString("N0")행</span>
+
+            @if (canEdit)
+            {
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#insertModal">
+                    <i class="bi bi-plus-lg me-1"></i>추가
+                </button>
+            }
+        </div>
+
+        <!-- Table -->
+        <div class="card">
+            <div class="card-body p-0 table-responsive">
+                <table class="table table-hover table-sm mb-0 data-table">
+                    <thead>
+                        <tr>
+                            @foreach (var col in Model.Columns)
+                            {
+                                <th title="@col.Type">
+                                    @col.Name
+                                    @if (col.IsPrimaryKey) { <i class="bi bi-key text-warning ms-1" title="PK"></i> }
+                                </th>
+                            }
+                            @if (canEdit) { <th></th> }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var row in Model.Rows)
+                        {
+                            <tr>
+                                @foreach (var col in Model.Columns)
+                                {
+                                    var val = row.GetValueOrDefault(col.Name)?.ToString() ?? "";
+                                    <td title="@val" class="@(col.IsLongText ? "text-truncate" : "")"
+                                        style="max-width:180px;">@val</td>
+                                }
+                                @if (canEdit)
+                                {
+                                    <td class="text-nowrap">
+                                        <button class="btn btn-xs btn-outline-secondary me-1"
+                                                onclick="openEditModal(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                                                    Model.Columns.ToDictionary(c => c.Name,
+                                                    c => row.GetValueOrDefault(c.Name)?.ToString() ?? ""))))">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        @if (canDelete && pkCol != null)
+                                        {
+                                            <form method="post" asp-action="DeleteRow" class="d-inline"
+                                                  onsubmit="return confirm('이 행을 삭제하시겠습니까?')">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="table" value="@Model.TableName" />
+                                                <input type="hidden" name="pkCol" value="@pkCol.Name" />
+                                                <input type="hidden" name="pkValue" value="@row.GetValueOrDefault(pkCol.Name)" />
+                                                <button class="btn btn-xs btn-outline-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        @if (Model.TotalPages > 1)
+        {
+            <nav class="mt-3">
+                <ul class="pagination pagination-sm justify-content-center mb-0">
+                    @for (int p = Math.Max(1, Model.Page - 4);
+                          p <= Math.Min(Model.TotalPages, Model.Page + 4); p++)
+                    {
+                        <li class="page-item @(p == Model.Page ? "active" : "")">
+                            <a class="page-link"
+                               href="/GameData/Table/@Model.TableName?page=@p&pageSize=@Model.PageSize&search=@Model.Search">
+                                @p
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">행 수정 — @Model.TableName</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="editForm">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="table" value="@Model.TableName" />
+                <div class="modal-body">
+                    <div class="row g-3" id="editFields"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i>저장
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Insert Modal -->
+@if (canEdit)
+{
+    <div class="modal fade" id="insertModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">행 추가 — @Model.TableName</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="insertForm">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="table" value="@Model.TableName" />
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            @foreach (var col in Model.Columns.Where(c => !c.IsAutoIncrement))
+                            {
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold">
+                                        @col.Name
+                                        <span class="text-muted fw-normal">(@col.Type)</span>
+                                        @if (col.IsPrimaryKey) { <i class="bi bi-key text-warning ms-1"></i> }
+                                    </label>
+                                    @if (col.IsLongText)
+                                    {
+                                        <textarea name="@col.Name" class="form-control form-control-sm" rows="2"></textarea>
+                                    }
+                                    else if (col.InputType == "checkbox")
+                                    {
+                                        <select name="@col.Name" class="form-select form-select-sm">
+                                            <option value="0">false</option>
+                                            <option value="1">true</option>
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <input type="@col.InputType" name="@col.Name"
+                                               class="form-control form-control-sm"
+                                               step="@(col.InputType == "number" ? "any" : null)" />
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-plus-lg me-1"></i>추가
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+<script>
+const columns = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+    Model.Columns.Select(c => new { c.Name, c.Type, c.InputType, c.IsPrimaryKey, c.IsAutoIncrement, c.IsLongText })));
+
+function openEditModal(rowData) {
+    const container = document.getElementById('editFields');
+    container.innerHTML = '';
+    columns.forEach(col => {
+        const val = rowData[col.name] ?? '';
+        const isPk = col.isPrimaryKey;
+        const div = document.createElement('div');
+        div.className = 'col-md-6';
+        let input = '';
+        if (col.isLongText) {
+            input = `<textarea name="${col.name}" class="form-control form-control-sm" rows="2"${isPk ? ' readonly' : ''}>${val}</textarea>`;
+        } else if (col.inputType === 'checkbox') {
+            input = `<select name="${col.name}" class="form-select form-select-sm">
+                <option value="0"${val == '0' || val == 'False' ? ' selected' : ''}>false</option>
+                <option value="1"${val == '1' || val == 'True' ? ' selected' : ''}>true</option>
+            </select>`;
+        } else {
+            input = `<input type="${col.inputType}" name="${col.name}" value="${val}"
+                class="form-control form-control-sm" ${isPk ? 'readonly' : ''}
+                step="${col.inputType === 'number' ? 'any' : ''}" />`;
+        }
+        div.innerHTML = `<label class="form-label small fw-semibold">${col.name}
+            <span class="text-muted fw-normal">(${col.type})</span>
+            ${isPk ? '<i class="bi bi-key text-warning ms-1"></i>' : ''}</label>${input}`;
+        container.appendChild(div);
+    });
+    new bootstrap.Modal(document.getElementById('editModal')).show();
+}
+
+// Edit form submit
+document.getElementById('editForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const token = fd.get('__RequestVerificationToken');
+    const resp = await fetch('/GameData/UpdateRow', {
+        method: 'POST',
+        headers: { 'RequestVerificationToken': token },
+        body: fd
+    });
+    const json = await resp.json();
+    if (json.success) { location.reload(); }
+    else { showToast(json.error || '오류 발생', 'danger'); }
+});
+
+// Insert form submit
+document.getElementById('insertForm')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const token = fd.get('__RequestVerificationToken');
+    const resp = await fetch('/GameData/InsertRow', {
+        method: 'POST',
+        headers: { 'RequestVerificationToken': token },
+        body: fd
+    });
+    const json = await resp.json();
+    if (json.success) { location.reload(); }
+    else { showToast(json.error || '오류 발생', 'danger'); }
+});
+</script>
+}

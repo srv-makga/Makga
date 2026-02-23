@@ -1,0 +1,54 @@
+@model AdminTool.Models.EditAccountViewModel
+@{
+    ViewData["Title"] = L["Account_EditTitle"].Value;
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body p-4">
+                <form method="post" asp-action="Edit">
+                    @Html.AntiForgeryToken()
+                    <input asp-for="Id" type="hidden" />
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">@L["Field_Username"]</label>
+                        <input asp-for="Username" class="form-control" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">@L["Field_Role"]</label>
+                        <select asp-for="Role" class="form-select">
+                            <option value="viewer">viewer</option>
+                            <option value="admin">admin</option>
+                            <option value="superadmin">superadmin</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input asp-for="IsActive" type="checkbox" class="form-check-input" role="switch" />
+                            <label asp-for="IsActive" class="form-check-label fw-semibold">@L["Account_ActiveLabel"]</label>
+                        </div>
+                    </div>
+
+                    <hr class="my-3" />
+                    <p class="text-muted small">@L["Account_ChangePasswordOptional"]</p>
+                    <div class="mb-3">
+                        <label class="form-label">@L["Account_NewPassword"]</label>
+                        <input asp-for="NewPassword" type="password" class="form-control" />
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">@L["Account_ConfirmNewPassword"]</label>
+                        <input asp-for="ConfirmPassword" type="password" class="form-control" />
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save me-1"></i>@L["Btn_Save"]
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">@L["Btn_Cancel"]</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

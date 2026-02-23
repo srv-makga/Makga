@@ -1,0 +1,105 @@
+/* ── Sidebar ─────────────────────────────────────────────────────────────── */
+.admin-sidebar {
+    width: 220px;
+    min-width: 220px;
+    background: #0f1729;
+    color: #a0aec0;
+    border-right: 1px solid #1e2a3b;
+}
+
+.admin-sidebar .sidebar-header {
+    border-bottom: 1px solid #1e2a3b;
+}
+
+.admin-sidebar .sidebar-footer {
+    border-top: 1px solid #1e2a3b;
+}
+
+.admin-sidebar .nav-link {
+    color: #a0aec0;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.4rem;
+    font-size: 0.875rem;
+    transition: background 0.12s, color 0.12s;
+}
+
+.admin-sidebar .nav-link:hover {
+    background: #1e2a3b;
+    color: #e2e8f0;
+}
+
+.admin-sidebar .nav-link.active {
+    background: #3b82f6;
+    color: #fff;
+}
+
+/* ── Status dots ─────────────────────────────────────────────────────────── */
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+.status-dot.online  { background: #22c55e; box-shadow: 0 0 5px #22c55e88; }
+.status-dot.offline { background: #ef4444; }
+
+/* ── Cards ───────────────────────────────────────────────────────────────── */
+.stat-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+
+/* ── Tables ──────────────────────────────────────────────────────────────── */
+.data-table thead th {
+    background: #f8f9fa;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6b7280;
+    white-space: nowrap;
+    padding: 0.5rem 0.75rem;
+}
+.data-table td {
+    font-size: 0.85rem;
+    vertical-align: middle;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0.4rem 0.75rem;
+}
+
+/* ── Hex / code display ──────────────────────────────────────────────────── */
+.hex-display, pre.hex-display {
+    font-family: 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
+    font-size: 0.8rem;
+    background: #1e2a3b;
+    color: #a3e635;
+    border-radius: 0.5rem;
+    padding: 0.875rem 1rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+    min-height: 2.5rem;
+}
+
+/* ── Extra-small button ──────────────────────────────────────────────────── */
+.btn-xs {
+    padding: 0.15rem 0.45rem;
+    font-size: 0.78rem;
+    border-radius: 0.3rem;
+    line-height: 1.4;
+}
+
+/* ── Toast container ─────────────────────────────────────────────────────── */
+#toastContainer {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}

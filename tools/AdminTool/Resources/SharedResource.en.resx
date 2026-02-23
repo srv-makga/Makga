@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="xml:space" use="default" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter</value></resheader>
+
+  <!-- ── App ── -->
+  <data name="AppTitle"    xml:space="preserve"><value>Makga Admin</value></data>
+  <data name="AppSubtitle" xml:space="preserve"><value>Game Server Admin Tool</value></data>
+
+  <!-- ── Navigation ── -->
+  <data name="Nav_Dashboard"       xml:space="preserve"><value>Dashboard</value></data>
+  <data name="Nav_Accounts"        xml:space="preserve"><value>Admin Accounts</value></data>
+  <data name="Nav_Players"         xml:space="preserve"><value>Players</value></data>
+  <data name="Nav_GameData"        xml:space="preserve"><value>Game Data</value></data>
+  <data name="Nav_Servers"         xml:space="preserve"><value>Servers</value></data>
+  <data name="Nav_Redis"           xml:space="preserve"><value>Redis</value></data>
+  <data name="Nav_Api"             xml:space="preserve"><value>API Call</value></data>
+  <data name="Nav_ChangePassword"  xml:space="preserve"><value>Change Password</value></data>
+  <data name="Nav_Logout"          xml:space="preserve"><value>Logout</value></data>
+
+  <!-- ── Buttons ── -->
+  <data name="Btn_Save"      xml:space="preserve"><value>Save</value></data>
+  <data name="Btn_Create"    xml:space="preserve"><value>Create</value></data>
+  <data name="Btn_Edit"      xml:space="preserve"><value>Edit</value></data>
+  <data name="Btn_Delete"    xml:space="preserve"><value>Delete</value></data>
+  <data name="Btn_Cancel"    xml:space="preserve"><value>Cancel</value></data>
+  <data name="Btn_Search"    xml:space="preserve"><value>Search</value></data>
+  <data name="Btn_Add"       xml:space="preserve"><value>Add</value></data>
+  <data name="Btn_Send"      xml:space="preserve"><value>Send</value></data>
+  <data name="Btn_Refresh"   xml:space="preserve"><value>Refresh</value></data>
+  <data name="Btn_Reset"     xml:space="preserve"><value>Reset</value></data>
+  <data name="Btn_PingAll"   xml:space="preserve"><value>Ping All</value></data>
+  <data name="Btn_Browse"    xml:space="preserve"><value>Browse</value></data>
+  <data name="Btn_SelectAll" xml:space="preserve"><value>Select All</value></data>
+  <data name="Btn_Login"     xml:space="preserve"><value>Login</value></data>
+  <data name="Btn_Flush"     xml:space="preserve"><value>FLUSHDB</value></data>
+
+  <!-- ── Status ── -->
+  <data name="Status_Connected"  xml:space="preserve"><value>Connected</value></data>
+  <data name="Status_Failed"     xml:space="preserve"><value>Connection Failed</value></data>
+  <data name="Status_Online"     xml:space="preserve"><value>Online</value></data>
+  <data name="Status_Offline"    xml:space="preserve"><value>Offline</value></data>
+  <data name="Status_Active"     xml:space="preserve"><value>Active</value></data>
+  <data name="Status_Inactive"   xml:space="preserve"><value>Inactive</value></data>
+  <data name="Status_Loading"    xml:space="preserve"><value>Loading...</value></data>
+  <data name="Status_NoResults"  xml:space="preserve"><value>No results</value></data>
+  <data name="Status_NoData"     xml:space="preserve"><value>Unable to load data.</value></data>
+
+  <!-- ── Fields ── -->
+  <data name="Field_Username"        xml:space="preserve"><value>Username</value></data>
+  <data name="Field_Password"        xml:space="preserve"><value>Password</value></data>
+  <data name="Field_NewPassword"     xml:space="preserve"><value>New Password</value></data>
+  <data name="Field_ConfirmPassword" xml:space="preserve"><value>Confirm Password</value></data>
+  <data name="Field_CurrentPassword" xml:space="preserve"><value>Current Password</value></data>
+  <data name="Field_Role"            xml:space="preserve"><value>Role</value></data>
+  <data name="Field_IsActive"        xml:space="preserve"><value>Active Account</value></data>
+  <data name="Field_LastLogin"       xml:space="preserve"><value>Last Login</value></data>
+  <data name="Field_CreatedAt"       xml:space="preserve"><value>Created At</value></data>
+  <data name="Field_SearchQuery"     xml:space="preserve"><value>Search query</value></data>
+  <data name="Field_SearchTable"     xml:space="preserve"><value>Search Table</value></data>
+  <data name="Field_Server"          xml:space="preserve"><value>Server</value></data>
+  <data name="Field_Address"         xml:space="preserve"><value>Address</value></data>
+  <data name="Field_Status"          xml:space="preserve"><value>Status</value></data>
+  <data name="Field_Latency"         xml:space="preserve"><value>Latency</value></data>
+  <data name="Field_PacketId"        xml:space="preserve"><value>Packet ID</value></data>
+  <data name="Field_PacketKey"       xml:space="preserve"><value>Packet Key</value></data>
+  <data name="Field_Payload"         xml:space="preserve"><value>Payload</value></data>
+  <data name="Field_Value"           xml:space="preserve"><value>Value</value></data>
+  <data name="Field_TTL"             xml:space="preserve"><value>TTL (sec, -1=forever)</value></data>
+  <data name="Field_Pattern"         xml:space="preserve"><value>Pattern</value></data>
+  <data name="Field_Response"        xml:space="preserve"><value>Response</value></data>
+  <data name="Field_Auth"            xml:space="preserve"><value>Auth</value></data>
+  <data name="Field_Headers"         xml:space="preserve"><value>Headers (JSON)</value></data>
+  <data name="Field_Body"            xml:space="preserve"><value>Body</value></data>
+  <data name="Field_Url"             xml:space="preserve"><value>URL</value></data>
+  <data name="Field_Method"          xml:space="preserve"><value>Method</value></data>
+  <data name="Field_ItemId"          xml:space="preserve"><value>Item ID</value></data>
+  <data name="Field_Count"           xml:space="preserve"><value>Count</value></data>
+  <data name="Field_Currency"        xml:space="preserve"><value>Currency</value></data>
+  <data name="Field_BanReason"       xml:space="preserve"><value>Ban Reason</value></data>
+
+  <!-- ── Login ── -->
+  <data name="Login_Title"              xml:space="preserve"><value>Makga Admin — Login</value></data>
+  <data name="Login_Subtitle"           xml:space="preserve"><value>Sign in with your admin account</value></data>
+  <data name="Login_Required"           xml:space="preserve"><value>Login required.</value></data>
+  <data name="Login_InvalidCredentials" xml:space="preserve"><value>Invalid username or password.</value></data>
+  <data name="Login_AccessDenied"       xml:space="preserve"><value>Access Denied</value></data>
+
+  <!-- ── Dashboard ── -->
+  <data name="Dashboard_Title"         xml:space="preserve"><value>Dashboard</value></data>
+  <data name="Dashboard_Database"      xml:space="preserve"><value>Database</value></data>
+  <data name="Dashboard_Redis"         xml:space="preserve"><value>Redis</value></data>
+  <data name="Dashboard_Servers"       xml:space="preserve"><value>Servers</value></data>
+  <data name="Dashboard_ServerStatus"  xml:space="preserve"><value>Server Status</value></data>
+  <data name="Dashboard_GameStats"     xml:space="preserve"><value>Game Data Stats</value></data>
+  <data name="Dashboard_OnlineCount"   xml:space="preserve"><value>online</value></data>
+
+  <!-- ── Accounts ── -->
+  <data name="Account_Title"           xml:space="preserve"><value>Admin Account Management</value></data>
+  <data name="Account_CreateTitle"     xml:space="preserve"><value>Create Account</value></data>
+  <data name="Account_EditTitle"       xml:space="preserve"><value>Edit Account</value></data>
+  <data name="Account_ChangePassword"  xml:space="preserve"><value>Change Password</value></data>
+  <data name="Account_OptionalPw"      xml:space="preserve"><value>Change Password (optional)</value></data>
+  <data name="Account_Role_Superadmin" xml:space="preserve"><value>superadmin — Full access</value></data>
+  <data name="Account_Role_Admin"      xml:space="preserve"><value>admin — Can edit</value></data>
+  <data name="Account_Role_Viewer"     xml:space="preserve"><value>viewer — Read only</value></data>
+  <data name="Account_Created"         xml:space="preserve"><value>Account '{0}' has been created.</value></data>
+  <data name="Account_Updated"         xml:space="preserve"><value>Account has been updated.</value></data>
+  <data name="Account_Deleted"         xml:space="preserve"><value>Account has been deleted.</value></data>
+  <data name="Account_PwChanged"       xml:space="preserve"><value>Password has been changed.</value></data>
+  <data name="Account_PwMismatch"      xml:space="preserve"><value>Passwords do not match.</value></data>
+  <data name="Account_PwWrong"         xml:space="preserve"><value>Current password is incorrect.</value></data>
+  <data name="Account_DupUsername"     xml:space="preserve"><value>Username already exists.</value></data>
+  <data name="Account_CannotSelfDeactivate" xml:space="preserve"><value>You cannot deactivate your own account.</value></data>
+  <data name="Account_CannotSelfDelete"    xml:space="preserve"><value>You cannot delete your own account.</value></data>
+  <data name="Account_ConfirmDelete"       xml:space="preserve"><value>Delete account '{0}'?</value></data>
+  <data name="Account_NewPwMismatch"   xml:space="preserve"><value>New passwords do not match.</value></data>
+
+  <!-- ── Players ── -->
+  <data name="Player_Title"           xml:space="preserve"><value>Player Management</value></data>
+  <data name="Player_DetailTitle"     xml:space="preserve"><value>Player Detail</value></data>
+  <data name="Player_SearchHint"      xml:space="preserve"><value>ID, name, UID, etc.</value></data>
+  <data name="Player_NoPlayerTables"  xml:space="preserve"><value>No player-related tables found.</value></data>
+  <data name="Player_NoDetail"        xml:space="preserve"><value>No data found for this player.</value></data>
+  <data name="Player_GiveItem"        xml:space="preserve"><value>Give Item</value></data>
+  <data name="Player_GiveItemDone"    xml:space="preserve"><value>Item granted</value></data>
+  <data name="Player_SetCurrency"     xml:space="preserve"><value>Set Currency</value></data>
+  <data name="Player_SetCurrencyDone" xml:space="preserve"><value>Currency updated</value></data>
+  <data name="Player_QuickActions"    xml:space="preserve"><value>Quick Actions</value></data>
+  <data name="Player_Banned"          xml:space="preserve"><value>Player {0} has been banned.</value></data>
+  <data name="Player_Unbanned"        xml:space="preserve"><value>Player {0} has been unbanned.</value></data>
+  <data name="Player_EnterItemId"     xml:space="preserve"><value>Please enter item ID and quantity.</value></data>
+  <data name="Player_EnterValue"      xml:space="preserve"><value>Please enter a value.</value></data>
+  <data name="Player_SearchResults"   xml:space="preserve"><value>Results ({0})</value></data>
+  <data name="Player_Table"           xml:space="preserve"><value>Table</value></data>
+
+  <!-- ── Game Data ── -->
+  <data name="GameData_Title"         xml:space="preserve"><value>Game Data</value></data>
+  <data name="GameData_TableList"     xml:space="preserve"><value>Table List</value></data>
+  <data name="GameData_TotalRows"     xml:space="preserve"><value>Total {0} rows</value></data>
+  <data name="GameData_EditRow"       xml:space="preserve"><value>Edit Row</value></data>
+  <data name="GameData_InsertRow"     xml:space="preserve"><value>Insert Row</value></data>
+  <data name="GameData_RowDeleted"    xml:space="preserve"><value>Row deleted.</value></data>
+  <data name="GameData_ConfirmDelete" xml:space="preserve"><value>Delete this row?</value></data>
+  <data name="GameData_SearchHint"    xml:space="preserve"><value>Search...</value></data>
+
+  <!-- ── Servers ── -->
+  <data name="Server_Title"         xml:space="preserve"><value>Server Management</value></data>
+  <data name="Server_PacketSend"    xml:space="preserve"><value>Send Packet</value></data>
+  <data name="Server_Response"      xml:space="preserve"><value>Response</value></data>
+  <data name="Server_RespPacketId"  xml:space="preserve"><value>Response Packet ID</value></data>
+  <data name="Server_RespKey"       xml:space="preserve"><value>Response Key</value></data>
+  <data name="Server_RespHex"       xml:space="preserve"><value>Response Payload (hex)</value></data>
+  <data name="Server_NotFound"      xml:space="preserve"><value>Server not found</value></data>
+  <data name="Server_Checking"      xml:space="preserve"><value>Checking...</value></data>
+  <data name="Server_ConnTimeout"   xml:space="preserve"><value>Connection timeout</value></data>
+  <data name="Server_InvalidHex"    xml:space="preserve"><value>Invalid hex payload</value></data>
+
+  <!-- ── Redis ── -->
+  <data name="Redis_Title"          xml:space="preserve"><value>Redis Browser</value></data>
+  <data name="Redis_SearchHint"     xml:space="preserve"><value>Pattern (e.g. user:*, *)</value></data>
+  <data name="Redis_SelectKey"      xml:space="preserve"><value>Select a key.</value></data>
+  <data name="Redis_KeyDetail"      xml:space="preserve"><value>Key Detail</value></data>
+  <data name="Redis_NoKeys"         xml:space="preserve"><value>No results</value></data>
+  <data name="Redis_ScanHint"       xml:space="preserve"><value>Click search to load keys</value></data>
+  <data name="Redis_KeyCount"       xml:space="preserve"><value>{0} keys</value></data>
+  <data name="Redis_SaveDone"       xml:space="preserve"><value>Saved</value></data>
+  <data name="Redis_DeleteDone"     xml:space="preserve"><value>Deleted</value></data>
+  <data name="Redis_FlushDone"      xml:space="preserve"><value>FLUSHDB completed</value></data>
+  <data name="Redis_ConfirmFlush"   xml:space="preserve"><value>This will delete all keys in the current Redis DB. Continue?</value></data>
+  <data name="Redis_ConfirmDelete"  xml:space="preserve"><value>Delete key '{0}'?</value></data>
+  <data name="Redis_StringValue"    xml:space="preserve"><value>Value (String)</value></data>
+  <data name="Redis_Infinite"       xml:space="preserve"><value>∞</value></data>
+
+  <!-- ── API ── -->
+  <data name="Api_Title"            xml:space="preserve"><value>API Call</value></data>
+  <data name="Api_RequestConfig"    xml:space="preserve"><value>Request Config</value></data>
+  <data name="Api_InsertHeaderEx"   xml:space="preserve"><value>Insert example</value></data>
+  <data name="Api_InsertExample"    xml:space="preserve"><value>Insert example</value></data>
+  <data name="Api_AuthNone"         xml:space="preserve"><value>None</value></data>
+  <data name="Api_Auth"             xml:space="preserve"><value>Auth</value></data>
+  <data name="Api_Headers"          xml:space="preserve"><value>Headers (JSON)</value></data>
+  <data name="Api_AuthValuePlaceholder" xml:space="preserve"><value>token or user:pass</value></data>
+  <data name="Api_BodyPlaceholder"  xml:space="preserve"><value>Request body (JSON etc.)</value></data>
+  <data name="Api_FormatJson"       xml:space="preserve"><value>Format JSON</value></data>
+  <data name="Api_Clear"            xml:space="preserve"><value>Clear</value></data>
+  <data name="Api_Response"         xml:space="preserve"><value>Response</value></data>
+  <data name="Api_EnterUrl"         xml:space="preserve"><value>Please enter a URL.</value></data>
+  <data name="Api_SendError"        xml:space="preserve"><value>Send error: </value></data>
+  <data name="Api_ResponseEmpty"    xml:space="preserve"><value>Send a request to see the response here.</value></data>
+  <data name="Api_Tab_Body"         xml:space="preserve"><value>Body</value></data>
+  <data name="Api_Tab_Headers"      xml:space="preserve"><value>Headers</value></data>
+
+  <!-- ── Messages ── -->
+  <data name="Msg_SaveOk"        xml:space="preserve"><value>Saved</value></data>
+  <data name="Msg_Error"         xml:space="preserve"><value>An error occurred</value></data>
+  <data name="Msg_InvalidField"  xml:space="preserve"><value>Invalid field</value></data>
+  <data name="Msg_TableNotFound" xml:space="preserve"><value>Currency table not found</value></data>
+  <data name="Msg_BackToList"    xml:space="preserve"><value>Back to list</value></data>
+  <data name="Common_Error"      xml:space="preserve"><value>An error occurred</value></data>
+  <data name="Common_Loading"    xml:space="preserve"><value>Loading...</value></data>
+  <data name="Common_Value"      xml:space="preserve"><value>Value</value></data>
+  <data name="Common_Rows"       xml:space="preserve"><value>rows</value></data>
+  <data name="Common_EnterValue" xml:space="preserve"><value>Please enter a value.</value></data>
+  <data name="Common_InvalidField" xml:space="preserve"><value>Invalid field</value></data>
+
+  <!-- ── Additional Fields ── -->
+  <data name="Field_Table"          xml:space="preserve"><value>Table</value></data>
+  <data name="Field_ConfirmPassword" xml:space="preserve"><value>Confirm Password</value></data>
+
+  <!-- ── Additional Buttons ── -->
+  <data name="Btn_Give"       xml:space="preserve"><value>Give</value></data>
+  <data name="Btn_Set"        xml:space="preserve"><value>Set</value></data>
+  <data name="Btn_Clear"      xml:space="preserve"><value>Clear</value></data>
+  <data name="Btn_BackToList" xml:space="preserve"><value>Back</value></data>
+
+  <!-- ── Additional Status ── -->
+  <data name="Status_Checking" xml:space="preserve"><value>Checking...</value></data>
+
+  <!-- ── Additional Account ── -->
+  <data name="Account_ActiveLabel"            xml:space="preserve"><value>Active Account</value></data>
+  <data name="Account_ChangePasswordOptional" xml:space="preserve"><value>Change Password (optional)</value></data>
+  <data name="Account_NewPassword"            xml:space="preserve"><value>New Password</value></data>
+  <data name="Account_ConfirmNewPassword"     xml:space="preserve"><value>Confirm New Password</value></data>
+  <data name="Account_PasswordMismatch"       xml:space="preserve"><value>Passwords do not match.</value></data>
+  <data name="Account_AlreadyExists"          xml:space="preserve"><value>Username already exists.</value></data>
+  <data name="Account_CannotDeactivateSelf"   xml:space="preserve"><value>Cannot deactivate your own account.</value></data>
+  <data name="Account_NewPasswordMismatch"    xml:space="preserve"><value>New passwords do not match.</value></data>
+  <data name="Account_CannotDeleteSelf"       xml:space="preserve"><value>Cannot delete your own account.</value></data>
+  <data name="Account_CurrentPasswordWrong"   xml:space="preserve"><value>Current password is incorrect.</value></data>
+  <data name="Account_PasswordChanged"        xml:space="preserve"><value>Password has been changed.</value></data>
+
+  <!-- ── Roles ── -->
+  <data name="Role_Viewer"    xml:space="preserve"><value>Read-only</value></data>
+  <data name="Role_Admin"     xml:space="preserve"><value>Can edit</value></data>
+  <data name="Role_Superadmin" xml:space="preserve"><value>Full access</value></data>
+
+  <!-- ── Additional Player ── -->
+  <data name="Player_SearchTable"        xml:space="preserve"><value>Search Table</value></data>
+  <data name="Player_NoTables"           xml:space="preserve"><value>No player-related tables found.</value></data>
+  <data name="Player_SearchKeyword"      xml:space="preserve"><value>Search Query</value></data>
+  <data name="Player_SearchPlaceholder"  xml:space="preserve"><value>ID, name, UID, etc.</value></data>
+  <data name="Player_ResultCount"        xml:space="preserve"><value>Results ({0})</value></data>
+  <data name="Player_NotFound"           xml:space="preserve"><value>No data found for player ({0}).</value></data>
+  <data name="Player_ItemId"             xml:space="preserve"><value>Item ID</value></data>
+  <data name="Player_Quantity"           xml:space="preserve"><value>Qty</value></data>
+  <data name="Player_GiveItemValidation" xml:space="preserve"><value>Enter item ID and quantity.</value></data>
+  <data name="Player_GiveItemSuccess"    xml:space="preserve"><value>Item granted.</value></data>
+  <data name="Player_SetCurrencySuccess" xml:space="preserve"><value>Currency set.</value></data>
+  <data name="Player_CurrencyTableNotFound" xml:space="preserve"><value>Currency table not found</value></data>
+
+  <!-- ── Currency ── -->
+  <data name="Currency_Gold"    xml:space="preserve"><value>Gold</value></data>
+  <data name="Currency_Ruby"    xml:space="preserve"><value>Ruby</value></data>
+  <data name="Currency_Mileage" xml:space="preserve"><value>Mileage</value></data>
+  <data name="Currency_Honor"   xml:space="preserve"><value>Honor</value></data>
+
+  <!-- ── Additional Server ── -->
+  <data name="Server_PacketId"      xml:space="preserve"><value>Packet ID</value></data>
+  <data name="Server_PacketKey"     xml:space="preserve"><value>Packet Key</value></data>
+  <data name="Server_PayloadHint"   xml:space="preserve"><value>hex, optional</value></data>
+  <data name="Server_RespPayloadHex" xml:space="preserve"><value>Response Payload (hex)</value></data>
+
+  <!-- ── Additional Redis ── -->
+  <data name="Redis_PatternPlaceholder"  xml:space="preserve"><value>Pattern (e.g. user:*, *)</value></data>
+  <data name="Redis_PressSearchToLoad"   xml:space="preserve"><value>Click search to load keys</value></data>
+  <data name="Redis_TtlPlaceholder"      xml:space="preserve"><value>TTL (sec, -1=forever)</value></data>
+  <data name="Redis_DeleteKey"           xml:space="preserve"><value>Delete Key</value></data>
+  <data name="Redis_SaveSuccess"         xml:space="preserve"><value>Saved</value></data>
+  <data name="Redis_DeleteSuccess"       xml:space="preserve"><value>Deleted</value></data>
+  <data name="Redis_FlushSuccess"        xml:space="preserve"><value>FLUSHDB completed</value></data>
+
+  <!-- ── Errors ── -->
+  <data name="Error_AccessDenied"       xml:space="preserve"><value>Access Denied</value></data>
+  <data name="GameData_NoPrimaryKey"    xml:space="preserve"><value>Primary key not found</value></data>
+  <data name="GameData_PkValueMissing"  xml:space="preserve"><value>Primary key value missing</value></data>
+</root>

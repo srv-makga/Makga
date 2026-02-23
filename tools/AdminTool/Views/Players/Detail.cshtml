@@ -1,0 +1,136 @@
+@model AdminTool.Models.PlayerDetailViewModel
+@{
+    ViewData["Title"] = $"{L["Player_DetailTitle"].Value} — {Model.PlayerId}";
+}
+
+<div class="mb-3">
+    <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>@L["Btn_BackToList"]
+    </a>
+</div>
+
+@if (Model.Tables.Count == 0)
+{
+    <div class="alert alert-warning">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        @string.Format(L["Player_NotFound"].Value, Model.PlayerId)
+    </div>
+}
+
+@foreach (var (tableName, data) in Model.Tables)
+{
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span class="fw-semibold"><i class="bi bi-table me-2"></i>@tableName</span>
+            <span class="badge bg-secondary-subtle text-secondary border">@data.Rows.Count @L["Common_Rows"]</span>
+        </div>
+        <div class="card-body p-0 table-responsive">
+            <table class="table table-sm table-hover mb-0 data-table">
+                <thead>
+                    <tr>
+                        @foreach (var col in data.Columns)
+                        { <th>@col.Name</th> }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in data.Rows)
+                    {
+                        <tr>
+                            @foreach (var col in data.Columns)
+                            {
+                                <td>@(row.GetValueOrDefault(col.Name)?.ToString() ?? "")</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+<!-- Quick Actions -->
+<div class="card">
+    <div class="card-header fw-semibold">
+        <i class="bi bi-lightning me-2"></i>@L["Player_QuickActions"]
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            <!-- Give Item -->
+            <div class="col-md-6">
+                <div class="border rounded p-3">
+                    <h6 class="fw-semibold mb-3"><i class="bi bi-bag-plus me-2"></i>@L["Player_GiveItem"]</h6>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <input type="number" id="giveItemId" class="form-control form-control-sm"
+                                   placeholder="@L["Player_ItemId"].Value" />
+                        </div>
+                        <div class="col-3">
+                            <input type="number" id="giveItemCount" class="form-control form-control-sm"
+                                   placeholder="@L["Player_Quantity"].Value" value="1" min="1" />
+                        </div>
+                        <div class="col-3">
+                            <button class="btn btn-sm btn-primary w-100"
+                                    onclick="giveItem('@Model.PlayerId')">@L["Btn_Give"]</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Currency -->
+            <div class="col-md-6">
+                <div class="border rounded p-3">
+                    <h6 class="fw-semibold mb-3"><i class="bi bi-coin me-2"></i>@L["Player_SetCurrency"]</h6>
+                    <div class="row g-2">
+                        <div class="col-5">
+                            <select id="currencyField" class="form-select form-select-sm">
+                                <option value="gold">@L["Currency_Gold"]</option>
+                                <option value="ruby">@L["Currency_Ruby"]</option>
+                                <option value="mileage">@L["Currency_Mileage"]</option>
+                                <option value="honor">@L["Currency_Honor"]</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <input type="number" id="currencyValue" class="form-control form-control-sm"
+                                   placeholder="@L["Common_Value"].Value" />
+                        </div>
+                        <div class="col-3">
+                            <button class="btn btn-sm btn-warning w-100"
+                                    onclick="setCurrency('@Model.PlayerId')">@L["Btn_Set"]</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+const csrfToken = document.querySelector('input[name="__RequestVerificationToken"]')?.value
+    || '@Html.AntiForgeryToken()'.match(/value="([^"]+)"/)?.[1] || '';
+
+async function postJson(url, data) {
+    const r = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': csrfToken },
+        body: JSON.stringify(data)
+    });
+    return r.json();
+}
+
+async function giveItem(uid) {
+    const itemId = parseInt(document.getElementById('giveItemId').value);
+    const count  = parseInt(document.getElementById('giveItemCount').value);
+    if (!itemId || !count) { showToast('@L["Player_GiveItemValidation"].Value', 'warning'); return; }
+    const res = await postJson('/Players/GiveItem', { userId: uid, itemId, count });
+    showToast(res.success ? '@L["Player_GiveItemSuccess"].Value' : res.error, res.success ? 'success' : 'danger');
+}
+
+async function setCurrency(uid) {
+    const field = document.getElementById('currencyField').value;
+    const value = parseInt(document.getElementById('currencyValue').value);
+    if (isNaN(value)) { showToast('@L["Common_EnterValue"].Value', 'warning'); return; }
+    const res = await postJson('/Players/SetCurrency', { userId: uid, field, value });
+    showToast(res.success ? '@L["Player_SetCurrencySuccess"].Value' : res.error, res.success ? 'success' : 'danger');
+}
+</script>
+}

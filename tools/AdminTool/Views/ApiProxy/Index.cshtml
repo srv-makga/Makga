@@ -1,0 +1,377 @@
+@{
+    ViewData["Title"] = L["Api_Title"].Value;
+}
+
+<div class="row g-4">
+    <!-- Request -->
+    <div class="col-lg-5">
+        <div class="card">
+            <div class="card-header fw-semibold"><i class="bi bi-send me-2"></i>@L["Api_RequestConfig"]</div>
+            <div class="card-body">
+                <!-- URL + Method -->
+                <div class="input-group mb-3">
+                    <select id="apiMethod" class="form-select" style="max-width:100px;">
+                        <option>GET</option><option>POST</option><option>PUT</option>
+                        <option>PATCH</option><option>DELETE</option>
+                    </select>
+                    <input type="url" id="apiUrl" class="form-control"
+                           placeholder="https://api.example.com/endpoint" />
+                </div>
+
+                <!-- Auth -->
+                <div class="row g-2 mb-3">
+                    <div class="col-4">
+                        <label class="form-label small fw-semibold">@L["Api_Auth"]</label>
+                        <select id="authType" class="form-select form-select-sm">
+                            <option value="">@L["Api_AuthNone"]</option>
+                            <option value="Bearer">Bearer Token</option>
+                            <option value="Basic">Basic Auth</option>
+                        </select>
+                    </div>
+                    <div class="col-8">
+                        <label class="form-label small fw-semibold">@L["Common_Value"]</label>
+                        <input type="text" id="authValue" class="form-control form-control-sm"
+                               placeholder="@L["Api_AuthValuePlaceholder"].Value" />
+                    </div>
+                </div>
+
+                <!-- Headers -->
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold">
+                        @L["Api_Headers"]
+                        <a href="#" onclick="insertHeaderExample(); return false;"
+                           class="ms-2 small">@L["Api_InsertExample"]</a>
+                    </label>
+                    <textarea id="apiHeaders" class="form-control font-monospace"
+                              rows="3" placeholder='{"Content-Type": "application/json"}'></textarea>
+                </div>
+
+                <!-- Body -->
+                <div class="mb-3" id="bodySection">
+                    <label class="form-label small fw-semibold">Body</label>
+                    <textarea id="apiBody" class="form-control font-monospace" rows="8"
+                              placeholder="@L["Api_BodyPlaceholder"].Value"></textarea>
+                    <div class="d-flex gap-2 mt-1">
+                        <button class="btn btn-xs btn-outline-secondary"
+                                onclick="formatBody()">@L["Api_FormatJson"]</button>
+                        <button class="btn btn-xs btn-outline-secondary"
+                                onclick="clearBody()">@L["Btn_Clear"]</button>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary w-100" onclick="sendRequest()">
+                    <i class="bi bi-send me-1"></i>@L["Btn_Send"]
+                    <span id="sendSpinner" class="spinner-border spinner-border-sm ms-2 d-none"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Response -->
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="fw-semibold"><i class="bi bi-arrow-down-circle me-2"></i>@L["Api_Response"]</span>
+                <div id="responseStatus" class="d-flex gap-2 align-items-center"></div>
+            </div>
+            <div class="card-body p-0">
+                <ul class="nav nav-tabs px-3 pt-2" id="responseTabs">
+                    <li class="nav-item">
+                        <button class="nav-link active" onclick="showTab('body')">Body</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" onclick="showTab('headers')">Headers</button>
+                    </li>
+                </ul>
+                <div class="p-3">
+                    <div id="tabBody">
+                        <div id="responseEmpty" class="text-muted small py-4 text-center">
+                            @L["Api_ResponseEmpty"]
+                        </div>
+                        <pre id="responseBody" class="hex-display d-none"
+                             style="max-height:55vh;overflow-y:auto;"></pre>
+                    </div>
+                    <div id="tabHeaders" class="d-none">
+                        <pre id="responseHeaders" class="hex-display"
+                             style="max-height:55vh;overflow-y:auto;"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+const csrfToken = '@Html.AntiForgeryToken()'.match(/value="([^"]+)"/)?.[1];
+
+async function sendRequest() {
+    const url = document.getElementById('apiUrl').value.trim();
+    if (!url) { showToast('@L["Api_EnterUrl"].Value', 'warning'); return; }
+
+    const spinner = document.getElementById('sendSpinner');
+    spinner.classList.remove('d-none');
+
+    const req = {
+        url,
+        method:    document.getElementById('apiMethod').value,
+        headersJson: document.getElementById('apiHeaders').value.trim() || null,
+        body:      document.getElementById('apiBody').value.trim() || null,
+        authType:  document.getElementById('authType').value || null,
+        authValue: document.getElementById('authValue').value.trim() || null,
+    };
+
+    try {
+        const r = await fetch('/ApiProxy/Send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': csrfToken },
+            body: JSON.stringify(req)
+        });
+        const d = await r.json();
+        spinner.classList.add('d-none');
+        renderResponse(d);
+    } catch (e) {
+        spinner.classList.add('d-none');
+        showToast('@L["Api_SendError"].Value' + e.message, 'danger');
+    }
+}
+
+function renderResponse(d) {
+    const status = document.getElementById('responseStatus');
+    document.getElementById('responseEmpty').classList.add('d-none');
+    const bodyEl   = document.getElementById('responseBody');
+    const headersEl = document.getElementById('responseHeaders');
+    bodyEl.classList.remove('d-none');
+
+    if (d.error && !d.success) {
+        status.innerHTML = `<span class="badge bg-danger">@L["Common_Error"].Value</span>`;
+        bodyEl.textContent = d.error;
+        return;
+    }
+
+    const badgeClass = d.statusCode < 300 ? 'bg-success' : d.statusCode < 400 ? 'bg-warning text-dark' : 'bg-danger';
+    status.innerHTML = `<span class="badge ${badgeClass}">${d.statusCode} ${d.statusText ?? ''}</span>
+        <span class="text-muted small">${d.elapsedMs}ms</span>`;
+
+    // Body — try to pretty-print JSON
+    let body = d.body ?? '';
+    try { body = JSON.stringify(JSON.parse(body), null, 2); } catch {}
+    bodyEl.textContent = body;
+
+    // Headers
+    let headers = d.responseHeaders ?? '';
+    try { headers = JSON.stringify(JSON.parse(headers), null, 2); } catch {}
+    headersEl.textContent = headers;
+}
+
+function showTab(name) {
+    document.getElementById('tabBody').classList.toggle('d-none', name !== 'body');
+    document.getElementById('tabHeaders').classList.toggle('d-none', name !== 'headers');
+    document.querySelectorAll('#responseTabs .nav-link').forEach(el => {
+        el.classList.toggle('active', el.textContent.toLowerCase().includes(name));
+    });
+}
+
+function formatBody() {
+    const el = document.getElementById('apiBody');
+    try { el.value = JSON.stringify(JSON.parse(el.value), null, 2); } catch {}
+}
+function clearBody() { document.getElementById('apiBody').value = ''; }
+function insertHeaderExample() {
+    document.getElementById('apiHeaders').value = '{\n  "Content-Type": "application/json",\n  "Accept": "application/json"\n}';
+}
+
+// Show/hide body section based on method
+document.getElementById('apiMethod').addEventListener('change', e => {
+    const show = ['POST','PUT','PATCH'].includes(e.target.value);
+    document.getElementById('bodySection').style.display = show ? '' : 'none';
+});
+</script>
+}
+
+<div class="row g-4">
+    <!-- Request -->
+    <div class="col-lg-5">
+        <div class="card">
+            <div class="card-header fw-semibold"><i class="bi bi-send me-2"></i>요청 설정</div>
+            <div class="card-body">
+                <!-- URL + Method -->
+                <div class="input-group mb-3">
+                    <select id="apiMethod" class="form-select" style="max-width:100px;">
+                        <option>GET</option><option>POST</option><option>PUT</option>
+                        <option>PATCH</option><option>DELETE</option>
+                    </select>
+                    <input type="url" id="apiUrl" class="form-control"
+                           placeholder="https://api.example.com/endpoint" />
+                </div>
+
+                <!-- Auth -->
+                <div class="row g-2 mb-3">
+                    <div class="col-4">
+                        <label class="form-label small fw-semibold">인증</label>
+                        <select id="authType" class="form-select form-select-sm">
+                            <option value="">없음</option>
+                            <option value="Bearer">Bearer Token</option>
+                            <option value="Basic">Basic Auth</option>
+                        </select>
+                    </div>
+                    <div class="col-8">
+                        <label class="form-label small fw-semibold">값</label>
+                        <input type="text" id="authValue" class="form-control form-control-sm"
+                               placeholder="token 또는 user:pass" />
+                    </div>
+                </div>
+
+                <!-- Headers -->
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold">
+                        헤더 (JSON)
+                        <a href="#" onclick="insertHeaderExample(); return false;"
+                           class="ms-2 small">예시 삽입</a>
+                    </label>
+                    <textarea id="apiHeaders" class="form-control font-monospace"
+                              rows="3" placeholder='{"Content-Type": "application/json"}'></textarea>
+                </div>
+
+                <!-- Body -->
+                <div class="mb-3" id="bodySection">
+                    <label class="form-label small fw-semibold">Body</label>
+                    <textarea id="apiBody" class="form-control font-monospace" rows="8"
+                              placeholder="요청 본문 (JSON 등)"></textarea>
+                    <div class="d-flex gap-2 mt-1">
+                        <button class="btn btn-xs btn-outline-secondary"
+                                onclick="formatBody()">JSON 포맷</button>
+                        <button class="btn btn-xs btn-outline-secondary"
+                                onclick="clearBody()">지우기</button>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary w-100" onclick="sendRequest()">
+                    <i class="bi bi-send me-1"></i>전송
+                    <span id="sendSpinner" class="spinner-border spinner-border-sm ms-2 d-none"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Response -->
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="fw-semibold"><i class="bi bi-arrow-down-circle me-2"></i>응답</span>
+                <div id="responseStatus" class="d-flex gap-2 align-items-center"></div>
+            </div>
+            <div class="card-body p-0">
+                <ul class="nav nav-tabs px-3 pt-2" id="responseTabs">
+                    <li class="nav-item">
+                        <button class="nav-link active" onclick="showTab('body')">Body</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" onclick="showTab('headers')">Headers</button>
+                    </li>
+                </ul>
+                <div class="p-3">
+                    <div id="tabBody">
+                        <div id="responseEmpty" class="text-muted small py-4 text-center">
+                            요청을 전송하면 응답이 여기에 표시됩니다.
+                        </div>
+                        <pre id="responseBody" class="hex-display d-none"
+                             style="max-height:55vh;overflow-y:auto;"></pre>
+                    </div>
+                    <div id="tabHeaders" class="d-none">
+                        <pre id="responseHeaders" class="hex-display"
+                             style="max-height:55vh;overflow-y:auto;"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+const csrfToken = '@Html.AntiForgeryToken()'.match(/value="([^"]+)"/)?.[1];
+
+async function sendRequest() {
+    const url = document.getElementById('apiUrl').value.trim();
+    if (!url) { showToast('URL을 입력하세요.', 'warning'); return; }
+
+    const spinner = document.getElementById('sendSpinner');
+    spinner.classList.remove('d-none');
+
+    const req = {
+        url,
+        method:    document.getElementById('apiMethod').value,
+        headersJson: document.getElementById('apiHeaders').value.trim() || null,
+        body:      document.getElementById('apiBody').value.trim() || null,
+        authType:  document.getElementById('authType').value || null,
+        authValue: document.getElementById('authValue').value.trim() || null,
+    };
+
+    try {
+        const r = await fetch('/ApiProxy/Send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': csrfToken },
+            body: JSON.stringify(req)
+        });
+        const d = await r.json();
+        spinner.classList.add('d-none');
+        renderResponse(d);
+    } catch (e) {
+        spinner.classList.add('d-none');
+        showToast('전송 오류: ' + e.message, 'danger');
+    }
+}
+
+function renderResponse(d) {
+    const status = document.getElementById('responseStatus');
+    document.getElementById('responseEmpty').classList.add('d-none');
+    const bodyEl   = document.getElementById('responseBody');
+    const headersEl = document.getElementById('responseHeaders');
+    bodyEl.classList.remove('d-none');
+
+    if (d.error && !d.success) {
+        status.innerHTML = `<span class="badge bg-danger">오류</span>`;
+        bodyEl.textContent = d.error;
+        return;
+    }
+
+    const badgeClass = d.statusCode < 300 ? 'bg-success' : d.statusCode < 400 ? 'bg-warning text-dark' : 'bg-danger';
+    status.innerHTML = `<span class="badge ${badgeClass}">${d.statusCode} ${d.statusText ?? ''}</span>
+        <span class="text-muted small">${d.elapsedMs}ms</span>`;
+
+    // Body — try to pretty-print JSON
+    let body = d.body ?? '';
+    try { body = JSON.stringify(JSON.parse(body), null, 2); } catch {}
+    bodyEl.textContent = body;
+
+    // Headers
+    let headers = d.responseHeaders ?? '';
+    try { headers = JSON.stringify(JSON.parse(headers), null, 2); } catch {}
+    headersEl.textContent = headers;
+}
+
+function showTab(name) {
+    document.getElementById('tabBody').classList.toggle('d-none', name !== 'body');
+    document.getElementById('tabHeaders').classList.toggle('d-none', name !== 'headers');
+    document.querySelectorAll('#responseTabs .nav-link').forEach(el => {
+        el.classList.toggle('active', el.textContent.toLowerCase().includes(name));
+    });
+}
+
+function formatBody() {
+    const el = document.getElementById('apiBody');
+    try { el.value = JSON.stringify(JSON.parse(el.value), null, 2); } catch {}
+}
+function clearBody() { document.getElementById('apiBody').value = ''; }
+function insertHeaderExample() {
+    document.getElementById('apiHeaders').value = '{\n  "Content-Type": "application/json",\n  "Accept": "application/json"\n}';
+}
+
+// Show/hide body section based on method
+document.getElementById('apiMethod').addEventListener('change', e => {
+    const show = ['POST','PUT','PATCH'].includes(e.target.value);
+    document.getElementById('bodySection').style.display = show ? '' : 'none';
+});
+</script>
+}

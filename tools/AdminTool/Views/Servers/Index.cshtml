@@ -1,0 +1,349 @@
+@{
+    ViewData["Title"] = L["Server_Title"].Value;
+    var servers = (List<AdminTool.Models.ServerInfo>)ViewBag.Servers;
+    var canSend = User.IsInRole("superadmin") || User.IsInRole("admin");
+}
+
+<!-- Server Status Cards -->
+<div class="row g-3 mb-4" id="serverCards">
+    @foreach (var srv in servers)
+    {
+        <div class="col-sm-6 col-lg-4" id="card-@srv.Name">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h6 class="fw-bold mb-0">@srv.Name</h6>
+                        <span class="badge bg-secondary server-badge" id="badge-@srv.Name">@L["Status_Checking"]</span>
+                    </div>
+                    <div class="text-muted small mb-2">@srv.Host:@srv.Port</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="small text-muted" id="latency-@srv.Name">—</span>
+                        <button class="btn btn-xs btn-outline-secondary"
+                                onclick="pingServer('@srv.Name')">
+                            <i class="bi bi-arrow-repeat"></i> Ping
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="d-flex justify-content-end mb-4">
+    <button class="btn btn-outline-primary btn-sm" onclick="pingAll()">
+        <i class="bi bi-arrow-repeat me-1"></i>@L["Btn_PingAll"]
+    </button>
+</div>
+
+<!-- Packet Sender -->
+@if (canSend)
+{
+    <div class="card">
+        <div class="card-header fw-semibold">
+            <i class="bi bi-send me-2"></i>@L["Server_PacketSend"]
+        </div>
+        <div class="card-body">
+            <div class="row g-3 mb-3">
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">@L["Field_Server"]</label>
+                    <select id="pktServer" class="form-select">
+                        @foreach (var srv in servers)
+                        { <option value="@srv.Name">@srv.Name (@srv.Host:@srv.Port)</option> }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">@L["Server_PacketId"] <small class="text-muted">(uint16)</small></label>
+                    <input type="number" id="pktId" class="form-control" min="0" max="65535" value="1" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">@L["Server_PacketKey"] <small class="text-muted">(uint8)</small></label>
+                    <input type="number" id="pktKey" class="form-control" min="0" max="255" value="0" />
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label fw-semibold">
+                        Payload <small class="text-muted">(@L["Server_PayloadHint"])</small>
+                    </label>
+                    <input type="text" id="pktPayload" class="form-control font-monospace"
+                           placeholder="e.g. 0A001234 AABB" />
+                </div>
+            </div>
+            <div class="d-flex gap-2 mb-3">
+                <button class="btn btn-primary" onclick="sendPacket()">
+                    <i class="bi bi-send me-1"></i>@L["Btn_Send"]
+                </button>
+                <button class="btn btn-outline-secondary" onclick="clearResponse()">@L["Btn_Reset"]</button>
+            </div>
+
+            <!-- Response -->
+            <div id="pktResponseArea" class="d-none">
+                <hr />
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="fw-semibold">@L["Server_Response"]</span>
+                    <span id="pktElapsed" class="text-muted small"></span>
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="small text-muted mb-1">@L["Server_RespPacketId"]</div>
+                        <div id="pktRespId" class="fw-bold">—</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="small text-muted mb-1">@L["Server_RespKey"]</div>
+                        <div id="pktRespKey" class="fw-bold">—</div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="small text-muted mb-1">@L["Server_RespPayloadHex"]</div>
+                    <div id="pktRespHex" class="hex-display">—</div>
+                </div>
+                <div id="pktError" class="alert alert-danger mt-2 d-none"></div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+<script>
+const csrfToken = '@Html.AntiForgeryToken()'.match(/value="([^"]+)"/)?.[1];
+
+async function pingServer(name) {
+    const badge = document.getElementById('badge-' + name);
+    const lat   = document.getElementById('latency-' + name);
+    badge.className = 'badge bg-secondary';
+    badge.textContent = '@L["Status_Checking"].Value';
+    try {
+        const r = await fetch('/Servers/Ping', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ serverName: name })
+        });
+        const d = await r.json();
+        if (d.online) {
+            badge.className = 'badge bg-success'; badge.textContent = '@L["Status_Online"].Value';
+            lat.textContent = d.ms + 'ms';
+        } else {
+            badge.className = 'badge bg-danger'; badge.textContent = '@L["Status_Offline"].Value';
+            lat.textContent = '—';
+        }
+    } catch {
+        badge.className = 'badge bg-danger'; badge.textContent = '@L["Common_Error"].Value';
+    }
+}
+
+async function pingAll() {
+    document.querySelectorAll('[id^="badge-"]').forEach(b => {
+        const name = b.id.replace('badge-', '');
+        pingServer(name);
+    });
+}
+
+async function sendPacket() {
+    const req = {
+        serverName: document.getElementById('pktServer').value,
+        packetId:   parseInt(document.getElementById('pktId').value),
+        packetKey:  parseInt(document.getElementById('pktKey').value),
+        payloadHex: document.getElementById('pktPayload').value.trim() || null
+    };
+    const r = await fetch('/Servers/Send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': csrfToken },
+        body: JSON.stringify(req)
+    });
+    const d = await r.json();
+    const area = document.getElementById('pktResponseArea');
+    area.classList.remove('d-none');
+    document.getElementById('pktElapsed').textContent = d.elapsedMs + 'ms';
+    document.getElementById('pktError').classList.add('d-none');
+    if (d.success) {
+        document.getElementById('pktRespId').textContent  = d.responsePacketId;
+        document.getElementById('pktRespKey').textContent = d.responseKey;
+        document.getElementById('pktRespHex').textContent = d.responseHex || '(empty)';
+    } else {
+        document.getElementById('pktRespId').textContent  = '—';
+        document.getElementById('pktRespKey').textContent = '—';
+        document.getElementById('pktRespHex').textContent = '—';
+        const err = document.getElementById('pktError');
+        err.classList.remove('d-none');
+        err.textContent = d.error;
+    }
+}
+
+function clearResponse() {
+    document.getElementById('pktResponseArea').classList.add('d-none');
+}
+
+// Initial ping on load
+window.addEventListener('DOMContentLoaded', pingAll);
+</script>
+}
+
+<!-- Server Status Cards -->
+<div class="row g-3 mb-4" id="serverCards">
+    @foreach (var srv in servers)
+    {
+        <div class="col-sm-6 col-lg-4" id="card-@srv.Name">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h6 class="fw-bold mb-0">@srv.Name</h6>
+                        <span class="badge bg-secondary server-badge" id="badge-@srv.Name">확인 중...</span>
+                    </div>
+                    <div class="text-muted small mb-2">@srv.Host:@srv.Port</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="small text-muted" id="latency-@srv.Name">—</span>
+                        <button class="btn btn-xs btn-outline-secondary"
+                                onclick="pingServer('@srv.Name')">
+                            <i class="bi bi-arrow-repeat"></i> Ping
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="d-flex justify-content-end mb-4">
+    <button class="btn btn-outline-primary btn-sm" onclick="pingAll()">
+        <i class="bi bi-arrow-repeat me-1"></i>전체 Ping
+    </button>
+</div>
+
+<!-- Packet Sender -->
+@if (canSend)
+{
+    <div class="card">
+        <div class="card-header fw-semibold">
+            <i class="bi bi-send me-2"></i>패킷 전송
+        </div>
+        <div class="card-body">
+            <div class="row g-3 mb-3">
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">서버</label>
+                    <select id="pktServer" class="form-select">
+                        @foreach (var srv in servers)
+                        { <option value="@srv.Name">@srv.Name (@srv.Host:@srv.Port)</option> }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">패킷 ID <small class="text-muted">(uint16)</small></label>
+                    <input type="number" id="pktId" class="form-control" min="0" max="65535" value="1" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">패킷 Key <small class="text-muted">(uint8)</small></label>
+                    <input type="number" id="pktKey" class="form-control" min="0" max="255" value="0" />
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label fw-semibold">
+                        Payload <small class="text-muted">(hex, 선택)</small>
+                    </label>
+                    <input type="text" id="pktPayload" class="form-control font-monospace"
+                           placeholder="e.g. 0A001234 AABB" />
+                </div>
+            </div>
+            <div class="d-flex gap-2 mb-3">
+                <button class="btn btn-primary" onclick="sendPacket()">
+                    <i class="bi bi-send me-1"></i>전송
+                </button>
+                <button class="btn btn-outline-secondary" onclick="clearResponse()">초기화</button>
+            </div>
+
+            <!-- Response -->
+            <div id="pktResponseArea" class="d-none">
+                <hr />
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="fw-semibold">응답</span>
+                    <span id="pktElapsed" class="text-muted small"></span>
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="small text-muted mb-1">응답 패킷 ID</div>
+                        <div id="pktRespId" class="fw-bold">—</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="small text-muted mb-1">응답 Key</div>
+                        <div id="pktRespKey" class="fw-bold">—</div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="small text-muted mb-1">응답 Payload (hex)</div>
+                    <div id="pktRespHex" class="hex-display">—</div>
+                </div>
+                <div id="pktError" class="alert alert-danger mt-2 d-none"></div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+<script>
+const csrfToken = '@Html.AntiForgeryToken()'.match(/value="([^"]+)"/)?.[1];
+
+async function pingServer(name) {
+    const badge = document.getElementById('badge-' + name);
+    const lat   = document.getElementById('latency-' + name);
+    badge.className = 'badge bg-secondary';
+    badge.textContent = '확인 중...';
+    try {
+        const r = await fetch('/Servers/Ping', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ serverName: name })
+        });
+        const d = await r.json();
+        if (d.online) {
+            badge.className = 'badge bg-success'; badge.textContent = '온라인';
+            lat.textContent = d.ms + 'ms';
+        } else {
+            badge.className = 'badge bg-danger'; badge.textContent = '오프라인';
+            lat.textContent = '—';
+        }
+    } catch {
+        badge.className = 'badge bg-danger'; badge.textContent = '오류';
+    }
+}
+
+async function pingAll() {
+    document.querySelectorAll('[id^="badge-"]').forEach(b => {
+        const name = b.id.replace('badge-', '');
+        pingServer(name);
+    });
+}
+
+async function sendPacket() {
+    const req = {
+        serverName: document.getElementById('pktServer').value,
+        packetId:   parseInt(document.getElementById('pktId').value),
+        packetKey:  parseInt(document.getElementById('pktKey').value),
+        payloadHex: document.getElementById('pktPayload').value.trim() || null
+    };
+    const r = await fetch('/Servers/Send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': csrfToken },
+        body: JSON.stringify(req)
+    });
+    const d = await r.json();
+    const area = document.getElementById('pktResponseArea');
+    area.classList.remove('d-none');
+    document.getElementById('pktElapsed').textContent = d.elapsedMs + 'ms';
+    document.getElementById('pktError').classList.add('d-none');
+    if (d.success) {
+        document.getElementById('pktRespId').textContent  = d.responsePacketId;
+        document.getElementById('pktRespKey').textContent = d.responseKey;
+        document.getElementById('pktRespHex').textContent = d.responseHex || '(empty)';
+    } else {
+        document.getElementById('pktRespId').textContent  = '—';
+        document.getElementById('pktRespKey').textContent = '—';
+        document.getElementById('pktRespHex').textContent = '—';
+        const err = document.getElementById('pktError');
+        err.classList.remove('d-none');
+        err.textContent = d.error;
+    }
+}
+
+function clearResponse() {
+    document.getElementById('pktResponseArea').classList.add('d-none');
+}
+
+// Initial ping on load
+window.addEventListener('DOMContentLoaded', pingAll);
+</script>
+}

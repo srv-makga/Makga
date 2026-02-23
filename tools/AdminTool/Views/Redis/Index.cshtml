@@ -1,0 +1,423 @@
+@{
+    ViewData["Title"] = L["Redis_Title"].Value;
+    var canEdit = User.IsInRole("superadmin") || User.IsInRole("admin");
+    var canFlush = User.IsInRole("superadmin");
+}
+
+<div class="row g-4">
+    <!-- Left: key browser -->
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-header">
+                <div class="d-flex gap-2">
+                    <input type="text" id="scanPattern" class="form-control form-control-sm"
+                           value="@ViewBag.Pattern" placeholder="@L["Redis_PatternPlaceholder"].Value" />
+                    <button class="btn btn-sm btn-primary" onclick="scanKeys()">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    @if (canFlush)
+                    {
+                        <button class="btn btn-sm btn-danger" onclick="flushDb()"
+                                title="FLUSHDB">
+                            <i class="bi bi-trash3"></i>
+                        </button>
+                    }
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div id="keyList" class="list-group list-group-flush"
+                     style="max-height:65vh;overflow-y:auto;">
+                    <div class="list-group-item text-muted small text-center py-4">
+                        @L["Redis_PressSearchToLoad"]
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer small text-muted" id="keyCount"></div>
+        </div>
+    </div>
+
+    <!-- Right: key detail -->
+    <div class="col-lg-7">
+        <div class="card h-100">
+            <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+                <span id="detailKeyName">@L["Redis_KeyDetail"]</span>
+                <span id="detailBadges" class="d-flex gap-2"></span>
+            </div>
+            <div class="card-body">
+                <div id="detailEmpty" class="text-muted small">@L["Redis_SelectKey"]</div>
+
+                <!-- String editor -->
+                <div id="detailString" class="d-none">
+                    <label class="form-label small fw-semibold">@L["Redis_StringValue"]</label>
+                    <textarea id="strValue" class="form-control font-monospace mb-2" rows="6"></textarea>
+                    @if (canEdit)
+                    {
+                        <div class="d-flex gap-2 align-items-center">
+                            <input type="number" id="strTtl" class="form-control form-control-sm"
+                                   style="width:120px;" placeholder="@L["Redis_TtlPlaceholder"].Value" value="-1" />
+                            <button class="btn btn-sm btn-primary" onclick="saveString()">
+                                <i class="bi bi-save me-1"></i>@L["Btn_Save"]
+                            </button>
+                        </div>
+                    }
+                </div>
+
+                <!-- Hash viewer -->
+                <div id="detailHash" class="d-none">
+                    <div class="table-responsive" style="max-height:55vh;overflow-y:auto;">
+                        <table class="table table-sm data-table mb-0" id="hashTable">
+                            <thead><tr><th>Field</th><th>Value</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- List/Set viewer -->
+                <div id="detailList" class="d-none">
+                    <div style="max-height:55vh;overflow-y:auto;">
+                        <ol id="listItems" class="ps-3 small"></ol>
+                    </div>
+                </div>
+
+                <!-- ZSet viewer -->
+                <div id="detailZset" class="d-none">
+                    <div class="table-responsive" style="max-height:55vh;overflow-y:auto;">
+                        <table class="table table-sm data-table mb-0" id="zsetTable">
+                            <thead><tr><th>Member</th><th>Score</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                @if (canEdit)
+                {
+                    <div id="deleteBtn" class="d-none mt-3">
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteKey()">
+                            <i class="bi bi-trash me-1"></i>@L["Redis_DeleteKey"]
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+const csrfToken = '@Html.AntiForgeryToken()'.match(/value="([^"]+)"/)?.[1];
+let currentKey = null;
+
+async function scanKeys() {
+    const pattern = document.getElementById('scanPattern').value || '*';
+    const list = document.getElementById('keyList');
+    list.innerHTML = `<div class="list-group-item text-muted text-center small py-3">@L["Common_Loading"].Value</div>`;
+    const r = await fetch('/Redis/Scan?pattern=' + encodeURIComponent(pattern));
+    const d = await r.json();
+    if (!d.success) { showToast(d.error, 'danger'); return; }
+    document.getElementById('keyCount').textContent = `${d.keys.length} @L["Redis_KeyCount"].Value`;
+    list.innerHTML = d.keys.map(k =>
+        `<button class="list-group-item list-group-item-action py-1 px-3 small text-truncate"
+            style="font-family:monospace;" onclick="loadKey('${k.replace(/'/g,"\\'")}')">
+            ${escHtml(k)}
+        </button>`
+    ).join('') || `<div class="list-group-item text-muted small text-center py-4">@L["Status_NoResults"].Value</div>`;
+}
+
+async function loadKey(key) {
+    currentKey = key;
+    document.getElementById('detailKeyName').textContent = key;
+    ['detailEmpty','detailString','detailHash','detailList','detailZset','deleteBtn']
+        .forEach(id => document.getElementById(id)?.classList.add('d-none'));
+
+    const r = await fetch('/Redis/KeyInfo?key=' + encodeURIComponent(key));
+    const d = await r.json();
+    if (!d.success) { showToast(d.error, 'danger'); return; }
+
+    const info = d.info;
+    const badges = document.getElementById('detailBadges');
+    badges.innerHTML = `<span class="badge bg-primary">${info.type}</span>` +
+        `<span class="badge bg-secondary-subtle text-secondary border">TTL: ${info.ttl < 0 ? '∞' : info.ttl + 's'}</span>`;
+
+    document.getElementById('deleteBtn')?.classList.remove('d-none');
+
+    switch (info.type) {
+        case 'string':
+            document.getElementById('strValue').value = info.stringValue ?? '';
+            document.getElementById('detailString').classList.remove('d-none');
+            break;
+        case 'hash':
+            const hTbody = document.querySelector('#hashTable tbody');
+            hTbody.innerHTML = Object.entries(info.hashValue || {})
+                .map(([f,v]) => `<tr><td class="font-monospace small">${escHtml(f)}</td><td class="small">${escHtml(v)}</td></tr>`).join('');
+            document.getElementById('detailHash').classList.remove('d-none');
+            break;
+        case 'list': case 'set':
+            const items = info.listValue ?? info.setValue ?? [];
+            document.getElementById('listItems').innerHTML =
+                items.map(i => `<li class="font-monospace">${escHtml(i)}</li>`).join('');
+            document.getElementById('detailList').classList.remove('d-none');
+            break;
+        case 'zset':
+            const zTbody = document.querySelector('#zsetTable tbody');
+            zTbody.innerHTML = (info.zSetValue || [])
+                .map(e => `<tr><td class="font-monospace small">${escHtml(e.member)}</td><td>${e.score}</td></tr>`).join('');
+            document.getElementById('detailZset').classList.remove('d-none');
+            break;
+    }
+}
+
+async function saveString() {
+    const value = document.getElementById('strValue').value;
+    const ttl   = parseInt(document.getElementById('strTtl').value);
+    const r = await fetch('/Redis/SetKey', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': csrfToken },
+        body: JSON.stringify({ key: currentKey, value, ttl })
+    });
+    const d = await r.json();
+    showToast(d.success ? '@L["Redis_SaveSuccess"].Value' : d.error, d.success ? 'success' : 'danger');
+}
+
+async function deleteKey() {
+    if (!currentKey || !confirm(`'${currentKey}' @L["Redis_ConfirmDelete"].Value`)) return;
+    const r = await fetch('/Redis/DeleteKey', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': csrfToken },
+        body: JSON.stringify({ key: currentKey })
+    });
+    const d = await r.json();
+    if (d.success) {
+        showToast('@L["Redis_DeleteSuccess"].Value', 'success');
+        currentKey = null;
+        scanKeys();
+    } else { showToast(d.error, 'danger'); }
+}
+
+async function flushDb() {
+    if (!confirm('@L["Redis_ConfirmFlush"].Value')) return;
+    const r = await fetch('/Redis/Flush', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': csrfToken },
+        body: '{}'
+    });
+    const d = await r.json();
+    showToast(d.success ? '@L["Redis_FlushSuccess"].Value' : d.error, d.success ? 'success' : 'danger');
+    if (d.success) scanKeys();
+}
+
+function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+window.addEventListener('DOMContentLoaded', scanKeys);
+</script>
+}
+
+<div class="row g-4">
+    <!-- Left: key browser -->
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-header">
+                <div class="d-flex gap-2">
+                    <input type="text" id="scanPattern" class="form-control form-control-sm"
+                           value="@ViewBag.Pattern" placeholder="패턴 (예: user:*, *)" />
+                    <button class="btn btn-sm btn-primary" onclick="scanKeys()">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    @if (canFlush)
+                    {
+                        <button class="btn btn-sm btn-danger" onclick="flushDb()"
+                                title="FLUSHDB">
+                            <i class="bi bi-trash3"></i>
+                        </button>
+                    }
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div id="keyList" class="list-group list-group-flush"
+                     style="max-height:65vh;overflow-y:auto;">
+                    <div class="list-group-item text-muted small text-center py-4">
+                        검색 버튼을 눌러 키를 불러오세요
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer small text-muted" id="keyCount"></div>
+        </div>
+    </div>
+
+    <!-- Right: key detail -->
+    <div class="col-lg-7">
+        <div class="card h-100">
+            <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+                <span id="detailKeyName">키 상세</span>
+                <span id="detailBadges" class="d-flex gap-2"></span>
+            </div>
+            <div class="card-body">
+                <div id="detailEmpty" class="text-muted small">키를 선택하세요.</div>
+
+                <!-- String editor -->
+                <div id="detailString" class="d-none">
+                    <label class="form-label small fw-semibold">값 (String)</label>
+                    <textarea id="strValue" class="form-control font-monospace mb-2" rows="6"></textarea>
+                    @if (canEdit)
+                    {
+                        <div class="d-flex gap-2 align-items-center">
+                            <input type="number" id="strTtl" class="form-control form-control-sm"
+                                   style="width:120px;" placeholder="TTL (초, -1=영구)" value="-1" />
+                            <button class="btn btn-sm btn-primary" onclick="saveString()">
+                                <i class="bi bi-save me-1"></i>저장
+                            </button>
+                        </div>
+                    }
+                </div>
+
+                <!-- Hash viewer -->
+                <div id="detailHash" class="d-none">
+                    <div class="table-responsive" style="max-height:55vh;overflow-y:auto;">
+                        <table class="table table-sm data-table mb-0" id="hashTable">
+                            <thead><tr><th>Field</th><th>Value</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- List/Set viewer -->
+                <div id="detailList" class="d-none">
+                    <div style="max-height:55vh;overflow-y:auto;">
+                        <ol id="listItems" class="ps-3 small"></ol>
+                    </div>
+                </div>
+
+                <!-- ZSet viewer -->
+                <div id="detailZset" class="d-none">
+                    <div class="table-responsive" style="max-height:55vh;overflow-y:auto;">
+                        <table class="table table-sm data-table mb-0" id="zsetTable">
+                            <thead><tr><th>Member</th><th>Score</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                @if (canEdit)
+                {
+                    <div id="deleteBtn" class="d-none mt-3">
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteKey()">
+                            <i class="bi bi-trash me-1"></i>키 삭제
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+const csrfToken = '@Html.AntiForgeryToken()'.match(/value="([^"]+)"/)?.[1];
+let currentKey = null;
+
+async function scanKeys() {
+    const pattern = document.getElementById('scanPattern').value || '*';
+    const list = document.getElementById('keyList');
+    list.innerHTML = '<div class="list-group-item text-muted text-center small py-3">로딩 중...</div>';
+    const r = await fetch('/Redis/Scan?pattern=' + encodeURIComponent(pattern));
+    const d = await r.json();
+    if (!d.success) { showToast(d.error, 'danger'); return; }
+    document.getElementById('keyCount').textContent = `${d.keys.length}개 키`;
+    list.innerHTML = d.keys.map(k =>
+        `<button class="list-group-item list-group-item-action py-1 px-3 small text-truncate"
+            style="font-family:monospace;" onclick="loadKey('${k.replace(/'/g,"\\'")}')">
+            ${escHtml(k)}
+        </button>`
+    ).join('') || '<div class="list-group-item text-muted small text-center py-4">결과 없음</div>';
+}
+
+async function loadKey(key) {
+    currentKey = key;
+    document.getElementById('detailKeyName').textContent = key;
+    ['detailEmpty','detailString','detailHash','detailList','detailZset','deleteBtn']
+        .forEach(id => document.getElementById(id)?.classList.add('d-none'));
+
+    const r = await fetch('/Redis/KeyInfo?key=' + encodeURIComponent(key));
+    const d = await r.json();
+    if (!d.success) { showToast(d.error, 'danger'); return; }
+
+    const info = d.info;
+    const badges = document.getElementById('detailBadges');
+    badges.innerHTML = `<span class="badge bg-primary">${info.type}</span>` +
+        `<span class="badge bg-secondary-subtle text-secondary border">TTL: ${info.ttl < 0 ? '∞' : info.ttl + 's'}</span>`;
+
+    document.getElementById('deleteBtn')?.classList.remove('d-none');
+
+    switch (info.type) {
+        case 'string':
+            document.getElementById('strValue').value = info.stringValue ?? '';
+            document.getElementById('detailString').classList.remove('d-none');
+            break;
+        case 'hash':
+            const hTbody = document.querySelector('#hashTable tbody');
+            hTbody.innerHTML = Object.entries(info.hashValue || {})
+                .map(([f,v]) => `<tr><td class="font-monospace small">${escHtml(f)}</td><td class="small">${escHtml(v)}</td></tr>`).join('');
+            document.getElementById('detailHash').classList.remove('d-none');
+            break;
+        case 'list': case 'set':
+            const items = info.listValue ?? info.setValue ?? [];
+            document.getElementById('listItems').innerHTML =
+                items.map(i => `<li class="font-monospace">${escHtml(i)}</li>`).join('');
+            document.getElementById('detailList').classList.remove('d-none');
+            break;
+        case 'zset':
+            const zTbody = document.querySelector('#zsetTable tbody');
+            zTbody.innerHTML = (info.zSetValue || [])
+                .map(e => `<tr><td class="font-monospace small">${escHtml(e.member)}</td><td>${e.score}</td></tr>`).join('');
+            document.getElementById('detailZset').classList.remove('d-none');
+            break;
+    }
+}
+
+async function saveString() {
+    const value = document.getElementById('strValue').value;
+    const ttl   = parseInt(document.getElementById('strTtl').value);
+    const r = await fetch('/Redis/SetKey', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': csrfToken },
+        body: JSON.stringify({ key: currentKey, value, ttl })
+    });
+    const d = await r.json();
+    showToast(d.success ? '저장 완료' : d.error, d.success ? 'success' : 'danger');
+}
+
+async function deleteKey() {
+    if (!currentKey || !confirm(`'${currentKey}' 키를 삭제하시겠습니까?`)) return;
+    const r = await fetch('/Redis/DeleteKey', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': csrfToken },
+        body: JSON.stringify({ key: currentKey })
+    });
+    const d = await r.json();
+    if (d.success) {
+        showToast('삭제 완료', 'success');
+        currentKey = null;
+        scanKeys();
+    } else { showToast(d.error, 'danger'); }
+}
+
+async function flushDb() {
+    if (!confirm('현재 Redis DB를 모두 삭제합니다. 계속하시겠습니까?')) return;
+    const r = await fetch('/Redis/Flush', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': csrfToken },
+        body: '{}'
+    });
+    const d = await r.json();
+    showToast(d.success ? 'FLUSHDB 완료' : d.error, d.success ? 'success' : 'danger');
+    if (d.success) scanKeys();
+}
+
+function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+window.addEventListener('DOMContentLoaded', scanKeys);
+</script>
+}

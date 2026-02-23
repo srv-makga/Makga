@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="xml:space" use="default" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter</value></resheader>
+
+  <!-- ── 앱 공통 ── -->
+  <data name="AppTitle" xml:space="preserve"><value>Makga Admin</value></data>
+  <data name="AppSubtitle" xml:space="preserve"><value>게임 서버 어드민 툴</value></data>
+
+  <!-- ── 내비게이션 ── -->
+  <data name="Nav_Dashboard"       xml:space="preserve"><value>대시보드</value></data>
+  <data name="Nav_Accounts"        xml:space="preserve"><value>어드민 계정</value></data>
+  <data name="Nav_Players"         xml:space="preserve"><value>플레이어</value></data>
+  <data name="Nav_GameData"        xml:space="preserve"><value>게임 데이터</value></data>
+  <data name="Nav_Servers"         xml:space="preserve"><value>서버 관리</value></data>
+  <data name="Nav_Redis"           xml:space="preserve"><value>Redis</value></data>
+  <data name="Nav_Api"             xml:space="preserve"><value>API 호출</value></data>
+  <data name="Nav_ChangePassword"  xml:space="preserve"><value>비밀번호 변경</value></data>
+  <data name="Nav_Logout"          xml:space="preserve"><value>로그아웃</value></data>
+
+  <!-- ── 공통 버튼 ── -->
+  <data name="Btn_Save"      xml:space="preserve"><value>저장</value></data>
+  <data name="Btn_Create"    xml:space="preserve"><value>생성</value></data>
+  <data name="Btn_Edit"      xml:space="preserve"><value>수정</value></data>
+  <data name="Btn_Delete"    xml:space="preserve"><value>삭제</value></data>
+  <data name="Btn_Cancel"    xml:space="preserve"><value>취소</value></data>
+  <data name="Btn_Search"    xml:space="preserve"><value>검색</value></data>
+  <data name="Btn_Add"       xml:space="preserve"><value>추가</value></data>
+  <data name="Btn_Send"      xml:space="preserve"><value>전송</value></data>
+  <data name="Btn_Refresh"   xml:space="preserve"><value>새로고침</value></data>
+  <data name="Btn_Reset"     xml:space="preserve"><value>초기화</value></data>
+  <data name="Btn_PingAll"   xml:space="preserve"><value>전체 Ping</value></data>
+  <data name="Btn_Browse"    xml:space="preserve"><value>찾아보기</value></data>
+  <data name="Btn_SelectAll" xml:space="preserve"><value>전체 선택</value></data>
+  <data name="Btn_Login"     xml:space="preserve"><value>로그인</value></data>
+  <data name="Btn_Flush"     xml:space="preserve"><value>FLUSHDB</value></data>
+
+  <!-- ── 공통 상태 ── -->
+  <data name="Status_Connected"    xml:space="preserve"><value>연결됨</value></data>
+  <data name="Status_Failed"       xml:space="preserve"><value>연결 실패</value></data>
+  <data name="Status_Online"       xml:space="preserve"><value>온라인</value></data>
+  <data name="Status_Offline"      xml:space="preserve"><value>오프라인</value></data>
+  <data name="Status_Active"       xml:space="preserve"><value>활성</value></data>
+  <data name="Status_Inactive"     xml:space="preserve"><value>비활성</value></data>
+  <data name="Status_Loading"      xml:space="preserve"><value>로딩 중...</value></data>
+  <data name="Status_NoResults"    xml:space="preserve"><value>결과 없음</value></data>
+  <data name="Status_NoData"       xml:space="preserve"><value>데이터를 불러올 수 없습니다.</value></data>
+
+  <!-- ── 공통 필드 ── -->
+  <data name="Field_Username"        xml:space="preserve"><value>아이디</value></data>
+  <data name="Field_Password"        xml:space="preserve"><value>비밀번호</value></data>
+  <data name="Field_NewPassword"     xml:space="preserve"><value>새 비밀번호</value></data>
+  <data name="Field_ConfirmPassword" xml:space="preserve"><value>비밀번호 확인</value></data>
+  <data name="Field_CurrentPassword" xml:space="preserve"><value>현재 비밀번호</value></data>
+  <data name="Field_Role"            xml:space="preserve"><value>권한</value></data>
+  <data name="Field_IsActive"        xml:space="preserve"><value>활성 계정</value></data>
+  <data name="Field_LastLogin"       xml:space="preserve"><value>최근 로그인</value></data>
+  <data name="Field_CreatedAt"       xml:space="preserve"><value>생성일</value></data>
+  <data name="Field_SearchQuery"     xml:space="preserve"><value>검색어</value></data>
+  <data name="Field_SearchTable"     xml:space="preserve"><value>검색 테이블</value></data>
+  <data name="Field_Server"          xml:space="preserve"><value>서버</value></data>
+  <data name="Field_Address"         xml:space="preserve"><value>주소</value></data>
+  <data name="Field_Status"          xml:space="preserve"><value>상태</value></data>
+  <data name="Field_Latency"         xml:space="preserve"><value>레이턴시</value></data>
+  <data name="Field_PacketId"        xml:space="preserve"><value>패킷 ID</value></data>
+  <data name="Field_PacketKey"       xml:space="preserve"><value>패킷 Key</value></data>
+  <data name="Field_Payload"         xml:space="preserve"><value>Payload</value></data>
+  <data name="Field_Value"           xml:space="preserve"><value>값</value></data>
+  <data name="Field_TTL"             xml:space="preserve"><value>TTL (초, -1=영구)</value></data>
+  <data name="Field_Pattern"         xml:space="preserve"><value>패턴</value></data>
+  <data name="Field_Response"        xml:space="preserve"><value>응답</value></data>
+  <data name="Field_Auth"            xml:space="preserve"><value>인증</value></data>
+  <data name="Field_Headers"         xml:space="preserve"><value>헤더 (JSON)</value></data>
+  <data name="Field_Body"            xml:space="preserve"><value>Body</value></data>
+  <data name="Field_Url"             xml:space="preserve"><value>URL</value></data>
+  <data name="Field_Method"          xml:space="preserve"><value>메서드</value></data>
+  <data name="Field_ItemId"          xml:space="preserve"><value>아이템 ID</value></data>
+  <data name="Field_Count"           xml:space="preserve"><value>수량</value></data>
+  <data name="Field_Currency"        xml:space="preserve"><value>재화 종류</value></data>
+  <data name="Field_BanReason"       xml:space="preserve"><value>정지 사유</value></data>
+
+  <!-- ── 로그인 ── -->
+  <data name="Login_Title"               xml:space="preserve"><value>Makga Admin — 로그인</value></data>
+  <data name="Login_Subtitle"            xml:space="preserve"><value>어드민 계정으로 로그인하세요</value></data>
+  <data name="Login_Required"            xml:space="preserve"><value>로그인이 필요합니다.</value></data>
+  <data name="Login_InvalidCredentials"  xml:space="preserve"><value>아이디 또는 비밀번호가 올바르지 않습니다.</value></data>
+  <data name="Login_AccessDenied"        xml:space="preserve"><value>접근 거부</value></data>
+
+  <!-- ── 대시보드 ── -->
+  <data name="Dashboard_Title"         xml:space="preserve"><value>대시보드</value></data>
+  <data name="Dashboard_Database"      xml:space="preserve"><value>데이터베이스</value></data>
+  <data name="Dashboard_Redis"         xml:space="preserve"><value>Redis</value></data>
+  <data name="Dashboard_Servers"       xml:space="preserve"><value>서버</value></data>
+  <data name="Dashboard_ServerStatus"  xml:space="preserve"><value>서버 상태</value></data>
+  <data name="Dashboard_GameStats"     xml:space="preserve"><value>게임 데이터 현황</value></data>
+  <data name="Dashboard_OnlineCount"   xml:space="preserve"><value>온라인</value></data>
+
+  <!-- ── 계정 관리 ── -->
+  <data name="Account_Title"           xml:space="preserve"><value>어드민 계정 관리</value></data>
+  <data name="Account_CreateTitle"     xml:space="preserve"><value>계정 생성</value></data>
+  <data name="Account_EditTitle"       xml:space="preserve"><value>계정 수정</value></data>
+  <data name="Account_ChangePassword"  xml:space="preserve"><value>비밀번호 변경</value></data>
+  <data name="Account_OptionalPw"      xml:space="preserve"><value>비밀번호 변경 (선택 사항)</value></data>
+  <data name="Account_Role_Superadmin" xml:space="preserve"><value>superadmin — 전체 권한</value></data>
+  <data name="Account_Role_Admin"      xml:space="preserve"><value>admin — 편집 가능</value></data>
+  <data name="Account_Role_Viewer"     xml:space="preserve"><value>viewer — 읽기 전용</value></data>
+  <data name="Account_Created"         xml:space="preserve"><value>'{0}' 계정이 생성되었습니다.</value></data>
+  <data name="Account_Updated"         xml:space="preserve"><value>계정이 수정되었습니다.</value></data>
+  <data name="Account_Deleted"         xml:space="preserve"><value>계정이 삭제되었습니다.</value></data>
+  <data name="Account_PwChanged"       xml:space="preserve"><value>비밀번호가 변경되었습니다.</value></data>
+  <data name="Account_PwMismatch"      xml:space="preserve"><value>비밀번호가 일치하지 않습니다.</value></data>
+  <data name="Account_PwWrong"         xml:space="preserve"><value>현재 비밀번호가 올바르지 않습니다.</value></data>
+  <data name="Account_DupUsername"     xml:space="preserve"><value>이미 존재하는 아이디입니다.</value></data>
+  <data name="Account_CannotSelfDeactivate" xml:space="preserve"><value>자신의 계정을 비활성화할 수 없습니다.</value></data>
+  <data name="Account_CannotSelfDelete"    xml:space="preserve"><value>자신의 계정은 삭제할 수 없습니다.</value></data>
+  <data name="Account_ConfirmDelete"       xml:space="preserve"><value>{0} 계정을 삭제하시겠습니까?</value></data>
+  <data name="Account_NewPwMismatch"   xml:space="preserve"><value>새 비밀번호가 일치하지 않습니다.</value></data>
+
+  <!-- ── 플레이어 ── -->
+  <data name="Player_Title"           xml:space="preserve"><value>플레이어 관리</value></data>
+  <data name="Player_DetailTitle"     xml:space="preserve"><value>플레이어 상세</value></data>
+  <data name="Player_SearchHint"      xml:space="preserve"><value>아이디, 이름, UID 등</value></data>
+  <data name="Player_NoPlayerTables"  xml:space="preserve"><value>플레이어 관련 테이블이 없습니다.</value></data>
+  <data name="Player_NoDetail"        xml:space="preserve"><value>해당 플레이어에 대한 데이터를 찾을 수 없습니다.</value></data>
+  <data name="Player_GiveItem"        xml:space="preserve"><value>아이템 지급</value></data>
+  <data name="Player_GiveItemDone"    xml:space="preserve"><value>아이템 지급 완료</value></data>
+  <data name="Player_SetCurrency"     xml:space="preserve"><value>재화 설정</value></data>
+  <data name="Player_SetCurrencyDone" xml:space="preserve"><value>재화 설정 완료</value></data>
+  <data name="Player_QuickActions"    xml:space="preserve"><value>빠른 작업</value></data>
+  <data name="Player_Banned"          xml:space="preserve"><value>플레이어 {0}가 정지되었습니다.</value></data>
+  <data name="Player_Unbanned"        xml:space="preserve"><value>플레이어 {0} 정지가 해제되었습니다.</value></data>
+  <data name="Player_EnterItemId"     xml:space="preserve"><value>아이템 ID와 수량을 입력하세요.</value></data>
+  <data name="Player_EnterValue"      xml:space="preserve"><value>값을 입력하세요.</value></data>
+  <data name="Player_SearchResults"   xml:space="preserve"><value>검색 결과 ({0}건)</value></data>
+  <data name="Player_Table"          xml:space="preserve"><value>테이블</value></data>
+
+  <!-- ── 게임 데이터 ── -->
+  <data name="GameData_Title"        xml:space="preserve"><value>게임 데이터</value></data>
+  <data name="GameData_TableList"    xml:space="preserve"><value>테이블 목록</value></data>
+  <data name="GameData_TotalRows"    xml:space="preserve"><value>총 {0}행</value></data>
+  <data name="GameData_EditRow"      xml:space="preserve"><value>행 수정</value></data>
+  <data name="GameData_InsertRow"    xml:space="preserve"><value>행 추가</value></data>
+  <data name="GameData_RowDeleted"   xml:space="preserve"><value>행이 삭제되었습니다.</value></data>
+  <data name="GameData_ConfirmDelete" xml:space="preserve"><value>이 행을 삭제하시겠습니까?</value></data>
+  <data name="GameData_SearchHint"   xml:space="preserve"><value>검색...</value></data>
+
+  <!-- ── 서버 관리 ── -->
+  <data name="Server_Title"          xml:space="preserve"><value>서버 관리</value></data>
+  <data name="Server_PacketSend"     xml:space="preserve"><value>패킷 전송</value></data>
+  <data name="Server_Response"       xml:space="preserve"><value>응답</value></data>
+  <data name="Server_RespPacketId"   xml:space="preserve"><value>응답 패킷 ID</value></data>
+  <data name="Server_RespKey"        xml:space="preserve"><value>응답 Key</value></data>
+  <data name="Server_RespHex"        xml:space="preserve"><value>응답 Payload (hex)</value></data>
+  <data name="Server_NotFound"       xml:space="preserve"><value>Server not found</value></data>
+  <data name="Server_Checking"       xml:space="preserve"><value>확인 중...</value></data>
+  <data name="Server_ConnTimeout"    xml:space="preserve"><value>Connection timeout</value></data>
+  <data name="Server_InvalidHex"     xml:space="preserve"><value>Invalid hex payload</value></data>
+
+  <!-- ── Redis ── -->
+  <data name="Redis_Title"           xml:space="preserve"><value>Redis 브라우저</value></data>
+  <data name="Redis_SearchHint"      xml:space="preserve"><value>패턴 (예: user:*, *)</value></data>
+  <data name="Redis_SelectKey"       xml:space="preserve"><value>키를 선택하세요.</value></data>
+  <data name="Redis_KeyDetail"       xml:space="preserve"><value>키 상세</value></data>
+  <data name="Redis_NoKeys"          xml:space="preserve"><value>결과 없음</value></data>
+  <data name="Redis_ScanHint"        xml:space="preserve"><value>검색 버튼을 눌러 키를 불러오세요</value></data>
+  <data name="Redis_KeyCount"        xml:space="preserve"><value>{0}개 키</value></data>
+  <data name="Redis_SaveDone"        xml:space="preserve"><value>저장 완료</value></data>
+  <data name="Redis_DeleteDone"      xml:space="preserve"><value>삭제 완료</value></data>
+  <data name="Redis_FlushDone"       xml:space="preserve"><value>FLUSHDB 완료</value></data>
+  <data name="Redis_ConfirmFlush"    xml:space="preserve"><value>현재 Redis DB를 모두 삭제합니다. 계속하시겠습니까?</value></data>
+  <data name="Redis_ConfirmDelete"   xml:space="preserve"><value>'{0}' 키를 삭제하시겠습니까?</value></data>
+  <data name="Redis_StringValue"     xml:space="preserve"><value>값 (String)</value></data>
+  <data name="Redis_Infinite"        xml:space="preserve"><value>∞</value></data>
+
+  <!-- ── API 호출 ── -->
+  <data name="Api_Title"             xml:space="preserve"><value>API 호출</value></data>
+  <data name="Api_RequestConfig"     xml:space="preserve"><value>요청 설정</value></data>
+  <data name="Api_InsertHeaderEx"    xml:space="preserve"><value>예시 삽입</value></data>
+  <data name="Api_InsertExample"     xml:space="preserve"><value>예시 삽입</value></data>
+  <data name="Api_AuthNone"          xml:space="preserve"><value>없음</value></data>
+  <data name="Api_Auth"              xml:space="preserve"><value>인증</value></data>
+  <data name="Api_Headers"           xml:space="preserve"><value>헤더 (JSON)</value></data>
+  <data name="Api_AuthValuePlaceholder" xml:space="preserve"><value>token 또는 user:pass</value></data>
+  <data name="Api_BodyPlaceholder"   xml:space="preserve"><value>요청 본문 (JSON 등)</value></data>
+  <data name="Api_FormatJson"        xml:space="preserve"><value>JSON 포맷</value></data>
+  <data name="Api_Clear"             xml:space="preserve"><value>지우기</value></data>
+  <data name="Api_Response"          xml:space="preserve"><value>응답</value></data>
+  <data name="Api_EnterUrl"          xml:space="preserve"><value>URL을 입력하세요.</value></data>
+  <data name="Api_SendError"         xml:space="preserve"><value>전송 오류: </value></data>
+  <data name="Api_ResponseEmpty"     xml:space="preserve"><value>요청을 전송하면 응답이 여기에 표시됩니다.</value></data>
+  <data name="Api_Tab_Body"          xml:space="preserve"><value>Body</value></data>
+  <data name="Api_Tab_Headers"       xml:space="preserve"><value>Headers</value></data>
+
+  <!-- ── 공통 확인/오류 메시지 ── -->
+  <data name="Msg_SaveOk"         xml:space="preserve"><value>저장 완료</value></data>
+  <data name="Msg_Error"          xml:space="preserve"><value>오류 발생</value></data>
+  <data name="Msg_InvalidField"   xml:space="preserve"><value>Invalid field</value></data>
+  <data name="Msg_TableNotFound"  xml:space="preserve"><value>Currency table not found</value></data>
+  <data name="Msg_BackToList"     xml:space="preserve"><value>목록</value></data>
+  <data name="Common_Error"       xml:space="preserve"><value>오류 발생</value></data>
+  <data name="Common_Loading"     xml:space="preserve"><value>로딩 중...</value></data>
+  <data name="Common_Value"       xml:space="preserve"><value>값</value></data>
+  <data name="Common_Rows"        xml:space="preserve"><value>행</value></data>
+  <data name="Common_EnterValue"  xml:space="preserve"><value>값을 입력하세요.</value></data>
+  <data name="Common_InvalidField" xml:space="preserve"><value>Invalid field</value></data>
+
+  <!-- ── 추가 필드 ── -->
+  <data name="Field_Table"         xml:space="preserve"><value>테이블</value></data>
+  <data name="Field_ConfirmPassword" xml:space="preserve"><value>비밀번호 확인</value></data>
+
+  <!-- ── 추가 버튼 ── -->
+  <data name="Btn_Give"       xml:space="preserve"><value>지급</value></data>
+  <data name="Btn_Set"        xml:space="preserve"><value>설정</value></data>
+  <data name="Btn_Clear"      xml:space="preserve"><value>지우기</value></data>
+  <data name="Btn_BackToList" xml:space="preserve"><value>목록</value></data>
+
+  <!-- ── 추가 상태 ── -->
+  <data name="Status_Checking" xml:space="preserve"><value>확인 중...</value></data>
+
+  <!-- ── 추가 계정 ── -->
+  <data name="Account_ActiveLabel"            xml:space="preserve"><value>활성 계정</value></data>
+  <data name="Account_ChangePasswordOptional" xml:space="preserve"><value>비밀번호 변경 (선택 사항)</value></data>
+  <data name="Account_NewPassword"            xml:space="preserve"><value>새 비밀번호</value></data>
+  <data name="Account_ConfirmNewPassword"     xml:space="preserve"><value>새 비밀번호 확인</value></data>
+  <data name="Account_PasswordMismatch"       xml:space="preserve"><value>비밀번호가 일치하지 않습니다.</value></data>
+  <data name="Account_AlreadyExists"          xml:space="preserve"><value>이미 존재하는 아이디입니다.</value></data>
+  <data name="Account_CannotDeactivateSelf"   xml:space="preserve"><value>자신의 계정을 비활성화할 수 없습니다.</value></data>
+  <data name="Account_NewPasswordMismatch"    xml:space="preserve"><value>새 비밀번호가 일치하지 않습니다.</value></data>
+  <data name="Account_CannotDeleteSelf"       xml:space="preserve"><value>자신의 계정은 삭제할 수 없습니다.</value></data>
+  <data name="Account_CurrentPasswordWrong"   xml:space="preserve"><value>현재 비밀번호가 올바르지 않습니다.</value></data>
+  <data name="Account_PasswordChanged"        xml:space="preserve"><value>비밀번호가 변경되었습니다.</value></data>
+
+  <!-- ── 역할 ── -->
+  <data name="Role_Viewer"    xml:space="preserve"><value>읽기 전용</value></data>
+  <data name="Role_Admin"     xml:space="preserve"><value>편집 가능</value></data>
+  <data name="Role_Superadmin" xml:space="preserve"><value>전체 권한</value></data>
+
+  <!-- ── 추가 플레이어 ── -->
+  <data name="Player_SearchTable"        xml:space="preserve"><value>검색 테이블</value></data>
+  <data name="Player_NoTables"           xml:space="preserve"><value>플레이어 관련 테이블이 없습니다.</value></data>
+  <data name="Player_SearchKeyword"      xml:space="preserve"><value>검색어</value></data>
+  <data name="Player_SearchPlaceholder"  xml:space="preserve"><value>아이디, 이름, UID 등</value></data>
+  <data name="Player_ResultCount"        xml:space="preserve"><value>검색 결과 ({0}건)</value></data>
+  <data name="Player_NotFound"           xml:space="preserve"><value>플레이어({0})에 해당하는 데이터를 찾을 수 없습니다.</value></data>
+  <data name="Player_ItemId"             xml:space="preserve"><value>아이템 ID</value></data>
+  <data name="Player_Quantity"           xml:space="preserve"><value>수량</value></data>
+  <data name="Player_GiveItemValidation" xml:space="preserve"><value>아이템 ID와 수량을 입력하세요.</value></data>
+  <data name="Player_GiveItemSuccess"    xml:space="preserve"><value>아이템 지급 완료</value></data>
+  <data name="Player_SetCurrencySuccess" xml:space="preserve"><value>재화 설정 완료</value></data>
+  <data name="Player_CurrencyTableNotFound" xml:space="preserve"><value>Currency table not found</value></data>
+
+  <!-- ── 통화 ── -->
+  <data name="Currency_Gold"    xml:space="preserve"><value>골드</value></data>
+  <data name="Currency_Ruby"    xml:space="preserve"><value>루비</value></data>
+  <data name="Currency_Mileage" xml:space="preserve"><value>마일리지</value></data>
+  <data name="Currency_Honor"   xml:space="preserve"><value>명예</value></data>
+
+  <!-- ── 추가 서버 ── -->
+  <data name="Server_PacketId"      xml:space="preserve"><value>패킷 ID</value></data>
+  <data name="Server_PacketKey"     xml:space="preserve"><value>패킷 Key</value></data>
+  <data name="Server_PayloadHint"   xml:space="preserve"><value>hex, 선택</value></data>
+  <data name="Server_RespPayloadHex" xml:space="preserve"><value>응답 Payload (hex)</value></data>
+
+  <!-- ── 추가 Redis ── -->
+  <data name="Redis_PatternPlaceholder"  xml:space="preserve"><value>패턴 (예: user:*, *)</value></data>
+  <data name="Redis_PressSearchToLoad"   xml:space="preserve"><value>검색 버튼을 눌러 키를 불러오세요</value></data>
+  <data name="Redis_TtlPlaceholder"      xml:space="preserve"><value>TTL (초, -1=영구)</value></data>
+  <data name="Redis_DeleteKey"           xml:space="preserve"><value>키 삭제</value></data>
+  <data name="Redis_SaveSuccess"         xml:space="preserve"><value>저장 완료</value></data>
+  <data name="Redis_DeleteSuccess"       xml:space="preserve"><value>삭제 완료</value></data>
+  <data name="Redis_FlushSuccess"        xml:space="preserve"><value>FLUSHDB 완료</value></data>
+
+  <!-- ── 오류 ── -->
+  <data name="Error_AccessDenied"       xml:space="preserve"><value>접근 거부</value></data>
+  <data name="GameData_NoPrimaryKey"    xml:space="preserve"><value>Primary key not found</value></data>
+  <data name="GameData_PkValueMissing"  xml:space="preserve"><value>Primary key value missing</value></data>
+</root>
