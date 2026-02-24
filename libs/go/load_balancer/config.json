@@ -1,0 +1,25 @@
+{
+  "frontends": [
+    {
+      "protocol": "http",
+      "listen": "0.0.0.0:8080",
+      "balancer": "round_robin",
+      "health_check_secs": 5,
+      "backends": [
+        { "address": "127.0.0.1:9001" },
+        { "address": "127.0.0.1:9002" },
+        { "address": "127.0.0.1:9003" }
+      ]
+    },
+    {
+      "protocol": "tcp",
+      "listen": "0.0.0.0:7070",
+      "balancer": "least_conn",
+      "health_check_secs": 3,
+      "backends": [
+        { "address": "127.0.0.1:8001" },
+        { "address": "127.0.0.1:8002" }
+      ]
+    }
+  ]
+}
