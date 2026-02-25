@@ -1,0 +1,153 @@
+@page "/agents"
+@inject AgentRegistry Registry
+
+<PageTitle>Agents - DeployTool Manager</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Agents</h2>
+</div>
+
+@* 그룹 탭 *@
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <button class="nav-link @(_selectedGroup == null ? "active" : "")"
+                @onclick="() => SelectGroup(null)">
+            전체 <span class="badge bg-secondary ms-1">@_agents.Count</span>
+        </button>
+    </li>
+    @foreach (var group in _groups)
+    {
+        var g = group;
+        var count = _agents.Count(a => a.Info.Group == g);
+        <li class="nav-item">
+            <button class="nav-link @(_selectedGroup == g ? "active" : "")"
+                    @onclick="() => SelectGroup(g)">
+                @g <span class="badge bg-secondary ms-1">@count</span>
+            </button>
+        </li>
+    }
+</ul>
+
+@* 검색 + 태그 필터 *@
+<div class="card p-3 mb-3">
+    <div class="mb-2">
+        <input class="form-control bg-dark text-white border-secondary"
+               placeholder="이름 / 설명 / 호스트 검색..."
+               @bind="_searchText" @bind:event="oninput" />
+    </div>
+    @if (_allTags.Count > 0)
+    {
+        <div class="d-flex flex-wrap gap-1">
+            @foreach (var tag in _allTags)
+            {
+                var t = tag;
+                var active = _selectedTags.Contains(t);
+                <button class="btn btn-sm @(active ? "btn-info" : "btn-outline-info")"
+                        @onclick="() => ToggleTag(t)">
+                    #@t
+                </button>
+            }
+            @if (_selectedTags.Count > 0)
+            {
+                <button class="btn btn-sm btn-outline-secondary" @onclick="ClearTags">초기화</button>
+            }
+        </div>
+    }
+</div>
+
+@* Agent 테이블 *@
+<div class="card p-3">
+    <table class="table table-dark table-hover mb-0">
+        <thead>
+            <tr>
+                <th>이름</th><th>설명</th><th>호스트</th><th>그룹</th><th>태그</th><th>상태</th><th>작업</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var agent in Filtered)
+            {
+                <tr>
+                    <td><strong>@agent.Info.Name</strong></td>
+                    <td>@agent.Info.Description</td>
+                    <td>@agent.Info.Host:@agent.Info.Port</td>
+                    <td>@agent.Info.Group</td>
+                    <td>
+                        @foreach (var tag in agent.Info.Tags)
+                        {
+                            <span class="badge bg-info text-dark me-1">#@tag</span>
+                        }
+                    </td>
+                    <td>
+                        <span class="badge @(agent.IsConnected ? "badge-online" : "badge-offline")">
+                            @(agent.IsConnected ? "온라인" : "오프라인")
+                        </span>
+                    </td>
+                    <td>
+                        <a href="/agents/@agent.Info.Name" class="btn btn-sm btn-outline-info">상세</a>
+                        <a href="/agents/@agent.Info.Name/config" class="btn btn-sm btn-outline-warning">설정</a>
+                        <a href="/agents/@agent.Info.Name/log" class="btn btn-sm btn-outline-secondary">로그</a>
+                        <a href="/commands/@agent.Info.Name" class="btn btn-sm btn-outline-success">명령</a>
+                        <button class="btn btn-sm btn-outline-light"
+                                @onclick="() => PingAsync(agent)">Ping</button>
+                    </td>
+                </tr>
+            }
+            @if (!Filtered.Any())
+            {
+                <tr><td colspan="7" class="text-center text-muted py-3">조건에 맞는 Agent가 없습니다.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (!string.IsNullOrEmpty(_pingMsg))
+{
+    <div class="alert @(_pingOk ? "alert-success" : "alert-danger") mt-3">@_pingMsg</div>
+}
+
+@code {
+    private IReadOnlyCollection<AgentClient> _agents     = Array.Empty<AgentClient>();
+    private List<string>                     _groups     = new();
+    private List<string>                     _allTags    = new();
+    private HashSet<string>                  _selectedTags = new();
+    private string?                          _selectedGroup;
+    private string                           _searchText = "";
+    private string                           _pingMsg    = "";
+    private bool                             _pingOk;
+
+    private IEnumerable<AgentClient> Filtered =>
+        _agents
+            .Where(a => _selectedGroup == null || a.Info.Group == _selectedGroup)
+            .Where(a => string.IsNullOrEmpty(_searchText) ||
+                        a.Info.Name.Contains(_searchText, StringComparison.OrdinalIgnoreCase) ||
+                        a.Info.Description.Contains(_searchText, StringComparison.OrdinalIgnoreCase) ||
+                        a.Info.Host.Contains(_searchText, StringComparison.OrdinalIgnoreCase))
+            .Where(a => _selectedTags.Count == 0 || _selectedTags.All(t => a.Info.Tags.Contains(t)));
+
+    protected override void OnInitialized()
+    {
+        _agents  = Registry.All;
+        _groups  = _agents.Select(a => a.Info.Group).Where(g => !string.IsNullOrEmpty(g)).Distinct().Order().ToList();
+        _allTags = _agents.SelectMany(a => a.Info.Tags).Distinct().Order().ToList();
+    }
+
+    private void SelectGroup(string? group)
+    {
+        _selectedGroup = group;
+    }
+
+    private void ToggleTag(string tag)
+    {
+        if (!_selectedTags.Remove(tag))
+            _selectedTags.Add(tag);
+    }
+
+    private void ClearTags() => _selectedTags.Clear();
+
+    private async Task PingAsync(AgentClient agent)
+    {
+        var ok   = await agent.ConnectAsync();
+        _pingOk  = ok;
+        _pingMsg = ok ? $"{agent.Info.Name}: Pong!" : $"{agent.Info.Name}: 연결 실패";
+    }
+}

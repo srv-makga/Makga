@@ -1,0 +1,118 @@
+@page "/agents/{Name}"
+@inject AgentRegistry Registry
+
+<PageTitle>@Name 상세 - DeployTool Manager</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>@Name</h2>
+    <div>
+        <a href="/agents/@Name/config" class="btn btn-outline-warning btn-sm">설정</a>
+        <a href="/agents/@Name/log" class="btn btn-outline-secondary btn-sm">로그</a>
+        <a href="/commands/@Name" class="btn btn-outline-success btn-sm">명령</a>
+    </div>
+</div>
+
+@if (_notFound)
+{
+    <div class="alert alert-danger">Agent '@Name' 을 찾을 수 없습니다.</div>
+}
+else
+{
+    @if (_info != null)
+    {
+        <div class="card p-3 mb-4">
+            <h5>Agent 정보</h5>
+            <dl class="row mb-0">
+                <dt class="col-sm-2">OS</dt>       <dd class="col-sm-10">@_info.Os</dd>
+                <dt class="col-sm-2">Hostname</dt> <dd class="col-sm-10">@_info.Hostname</dd>
+                <dt class="col-sm-2">WorkDir</dt>  <dd class="col-sm-10">@_info.WorkDir</dd>
+                <dt class="col-sm-2">Version</dt>  <dd class="col-sm-10">@_info.Version</dd>
+                <dt class="col-sm-2">Uptime</dt>   <dd class="col-sm-10">@_info.UptimeSec 초</dd>
+            </dl>
+        </div>
+    }
+
+    <!-- 리소스 -->
+    <div class="card p-3 mb-4">
+        <h5>리소스 <button class="btn btn-sm btn-outline-light ms-2" @onclick="LoadResourceAsync">새로고침</button></h5>
+        @if (_resource != null)
+        {
+            <div class="row mt-2">
+                <div class="col-md-3"><div class="card p-2 text-center"><b>CPU</b><br />@_resource.CpuPct.ToString("0.0")%</div></div>
+                <div class="col-md-3"><div class="card p-2 text-center"><b>메모리</b><br />@_resource.MemUsedMb / @_resource.MemTotalMb MB</div></div>
+                <div class="col-md-3"><div class="card p-2 text-center"><b>디스크</b><br />@_resource.DiskUsedGb.ToString("0.0") / @_resource.DiskTotalGb.ToString("0.0") GB</div></div>
+                <div class="col-md-3"><div class="card p-2 text-center"><b>OS</b><br />@_resource.Os</div></div>
+            </div>
+        }
+    </div>
+
+    <!-- 파일 탐색기 -->
+    <div class="card p-3 mb-4">
+        <h5>파일 탐색기</h5>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control bg-dark text-white"
+                   placeholder="경로 (비어있으면 WorkDir)"
+                   @bind="_filePath" @bind:event="oninput" />
+            <button class="btn btn-outline-light" @onclick="LoadFilesAsync">조회</button>
+        </div>
+        @if (_files != null)
+        {
+            <table class="table table-dark table-sm">
+                <thead><tr><th>이름</th><th>크기</th></tr></thead>
+                <tbody>
+                    @foreach (var f in _files)
+                    {
+                        <tr>
+                            <td>@(f.IsDir ? "📁" : "📄") @f.Name</td>
+                            <td>@(f.IsDir ? "" : f.Size.ToString())</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+}
+
+@code {
+    [Parameter] public string Name { get; set; } = "";
+
+    private AgentClient?         _client;
+    private bool                 _notFound;
+    private AgentInfoResponse?   _info;
+    private ResourceInfoResponse? _resource;
+    private List<FileEntry>?     _files;
+    private string               _filePath = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _client = Registry.Get(Name);
+        if (null == _client)
+        {
+            _notFound = true;
+            return;
+        }
+
+        var resp = await _client.SendEmptyAsync(PacketId.GetInfo);
+        if (resp.HasValue)
+            _info = PacketSerializer.Deserialize<AgentInfoResponse>(resp.Value.payload);
+    }
+
+    private async Task LoadResourceAsync()
+    {
+        if (null == _client) return;
+        var resp = await _client.SendEmptyAsync(PacketId.GetResource);
+        if (resp.HasValue)
+            _resource = PacketSerializer.Deserialize<ResourceInfoResponse>(resp.Value.payload);
+    }
+
+    private async Task LoadFilesAsync()
+    {
+        if (null == _client) return;
+        var resp = await _client.SendAsync(PacketId.ListFiles, new ListFilesRequest { Path = _filePath });
+        if (resp.HasValue)
+        {
+            var result = PacketSerializer.Deserialize<FileListResponse>(resp.Value.payload);
+            _files = result?.Files;
+        }
+    }
+}

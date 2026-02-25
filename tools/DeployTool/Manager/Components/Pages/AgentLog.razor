@@ -1,0 +1,62 @@
+@page "/agents/{Name}/log"
+@inject AgentRegistry Registry
+
+<PageTitle>@Name 로그 - DeployTool Manager</PageTitle>
+
+<h2>@Name — 로그</h2>
+
+@if (_notFound)
+{
+    <div class="alert alert-danger">Agent '@Name' 을 찾을 수 없습니다.</div>
+}
+else
+{
+    <div class="card p-3 mb-3">
+        <div class="input-group">
+            <input type="text" class="form-control bg-dark text-white"
+                   placeholder="로그 파일 경로"
+                   @bind="_logFile" />
+            <input type="number" class="form-control bg-dark text-white"
+                   style="max-width:100px"
+                   @bind="_lines" />
+            <button class="btn btn-outline-light" @onclick="LoadLogAsync">불러오기</button>
+        </div>
+    </div>
+
+    @if (_logContent != null)
+    {
+        <div class="card p-3">
+            <pre class="mb-0" style="white-space:pre-wrap;word-break:break-all;max-height:600px;overflow:auto;">@_logContent</pre>
+        </div>
+    }
+}
+
+@code {
+    [Parameter] public string Name { get; set; } = "";
+
+    private AgentClient? _client;
+    private bool         _notFound;
+    private string       _logFile    = "";
+    private int          _lines      = 100;
+    private string?      _logContent;
+
+    protected override void OnInitialized()
+    {
+        _client = Registry.Get(Name);
+        if (null == _client)
+            _notFound = true;
+    }
+
+    private async Task LoadLogAsync()
+    {
+        if (null == _client || string.IsNullOrEmpty(_logFile)) return;
+
+        var resp = await _client.SendAsync(PacketId.GetLog,
+            new GetLogRequest { Path = _logFile, Lines = _lines });
+        if (resp.HasValue)
+        {
+            var log = PacketSerializer.Deserialize<LogDataResponse>(resp.Value.payload);
+            _logContent = log?.Content;
+        }
+    }
+}

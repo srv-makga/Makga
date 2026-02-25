@@ -1,0 +1,70 @@
+@page "/agents/{Name}/config"
+@inject AgentRegistry Registry
+
+<PageTitle>@Name 설정 - DeployTool Manager</PageTitle>
+
+<h2>@Name — 설정</h2>
+
+@if (_notFound)
+{
+    <div class="alert alert-danger">Agent '@Name' 을 찾을 수 없습니다.</div>
+}
+else
+{
+    <div class="card p-3">
+        @if (!string.IsNullOrEmpty(_message))
+        {
+            <div class="alert alert-success">@_message</div>
+        }
+        <div class="mb-3">
+            <label class="form-label">appsettings.json</label>
+            <textarea class="form-control bg-dark text-white font-monospace"
+                      rows="20"
+                      @bind="_configJson"></textarea>
+        </div>
+        <button class="btn btn-warning" @onclick="SaveAsync" disabled="@_saving">
+            @(_saving ? "저장 중..." : "저장")
+        </button>
+        <a href="/agents/@Name" class="btn btn-outline-light ms-2">취소</a>
+    </div>
+}
+
+@code {
+    [Parameter] public string Name { get; set; } = "";
+
+    private AgentClient? _client;
+    private bool         _notFound;
+    private string       _configJson = "{}";
+    private string       _message    = "";
+    private bool         _saving;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _client = Registry.Get(Name);
+        if (null == _client)
+        {
+            _notFound = true;
+            return;
+        }
+
+        var resp = await _client.SendEmptyAsync(PacketId.GetConfig);
+        if (resp.HasValue)
+        {
+            var data = PacketSerializer.Deserialize<ConfigDataResponse>(resp.Value.payload);
+            _configJson = data?.Json ?? "{}";
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        if (null == _client) return;
+        _saving  = true;
+        _message = "";
+
+        var changes = new Dictionary<string, string> { { "_raw", _configJson } };
+        await _client.SendAsync(PacketId.SetConfig, new SetConfigRequest { Changes = changes });
+
+        _message = "설정 저장 완료";
+        _saving  = false;
+    }
+}

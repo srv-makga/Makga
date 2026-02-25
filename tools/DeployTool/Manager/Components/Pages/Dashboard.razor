@@ -1,0 +1,65 @@
+@page "/"
+@inject AgentRegistry Registry
+
+<PageTitle>Dashboard - DeployTool Manager</PageTitle>
+
+<h2 class="mb-4">Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card p-3 text-center">
+            <h1 class="display-4">@_agents.Count</h1>
+            <p class="text-muted">등록된 Agent</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 text-center">
+            <h1 class="display-4 text-success">@_agents.Count(a => a.IsConnected)</h1>
+            <p class="text-muted">연결됨</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 text-center">
+            <h1 class="display-4 text-danger">@_agents.Count(a => !a.IsConnected)</h1>
+            <p class="text-muted">오프라인</p>
+        </div>
+    </div>
+</div>
+
+<div class="card p-3">
+    <table class="table table-dark table-hover mb-0">
+        <thead>
+            <tr>
+                <th>이름</th><th>호스트</th><th>그룹</th><th>태그</th><th>상태</th><th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var agent in _agents)
+            {
+                <tr>
+                    <td>@agent.Info.Name</td>
+                    <td>@agent.Info.Host:@agent.Info.Port</td>
+                    <td>@agent.Info.Group</td>
+                    <td>@string.Join(", ", agent.Info.Tags)</td>
+                    <td>
+                        <span class="badge @(agent.IsConnected ? "badge-online" : "badge-offline")">
+                            @(agent.IsConnected ? "온라인" : "오프라인")
+                        </span>
+                    </td>
+                    <td>
+                        <a href="/agents/@agent.Info.Name" class="btn btn-sm btn-outline-light">상세</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    private IReadOnlyCollection<AgentClient> _agents = Array.Empty<AgentClient>();
+
+    protected override void OnInitialized()
+    {
+        _agents = Registry.All;
+    }
+}

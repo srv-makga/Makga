@@ -1,0 +1,22 @@
+{
+  "servers": [
+    {
+      "name": "game-server-1",
+      "host": "192.168.1.10",
+      "port": 7700,
+      "token": "secret1",
+      "description": "게임 서버 1존",
+      "group": "production",
+      "tags": ["game", "zone1"]
+    },
+    {
+      "name": "game-server-2",
+      "host": "192.168.1.11",
+      "port": 7700,
+      "token": "secret2",
+      "description": "게임 서버 2존",
+      "group": "production",
+      "tags": ["game", "zone2"]
+    }
+  ]
+}

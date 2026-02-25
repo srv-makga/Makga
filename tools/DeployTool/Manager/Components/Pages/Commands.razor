@@ -1,0 +1,121 @@
+@page "/commands/{Name}"
+@inject AgentRegistry Registry
+
+<PageTitle>@Name 명령 - DeployTool Manager</PageTitle>
+
+<h2>@Name — 명령</h2>
+
+@if (_notFound)
+{
+    <div class="alert alert-danger">Agent '@Name' 을 찾을 수 없습니다.</div>
+}
+else
+{
+    <!-- 셸 명령 -->
+    <div class="card p-3 mb-3">
+        <h5>셸 명령</h5>
+        <div class="input-group">
+            <input type="text" class="form-control bg-dark text-white"
+                   placeholder="명령어 입력"
+                   @bind="_shellCmd"
+                   @onkeydown="OnShellKeyDown" />
+            <button class="btn btn-outline-success" @onclick="RunShellAsync">실행</button>
+        </div>
+        <pre class="mt-2 p-2 bg-black text-success" style="min-height:60px;white-space:pre-wrap;">@_shellOut</pre>
+    </div>
+
+    <!-- 프로세스 실행 -->
+    <div class="card p-3 mb-3">
+        <h5>프로세스 실행</h5>
+        <div class="row g-2">
+            <div class="col-md-4">
+                <input type="text" class="form-control bg-dark text-white"
+                       placeholder="프로그램 경로"
+                       @bind="_execProg" />
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control bg-dark text-white"
+                       placeholder="인수 (공백 구분)"
+                       @bind="_execArgs" />
+            </div>
+            <div class="col-md-2">
+                <div class="form-check mt-2">
+                    <input id="execDetach" class="form-check-input" type="checkbox"
+                           @bind="_execDetach" />
+                    <label class="form-check-label" for="execDetach">Detach</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-outline-warning w-100" @onclick="RunExecAsync">실행</button>
+            </div>
+        </div>
+        <pre class="mt-2 p-2 bg-black text-warning" style="min-height:40px;">@_execOut</pre>
+    </div>
+}
+
+@code {
+    [Parameter] public string Name { get; set; } = "";
+
+    private AgentClient? _client;
+    private bool         _notFound;
+
+    private string _shellCmd = "";
+    private string _shellOut = "";
+
+    private string _execProg   = "";
+    private string _execArgs   = "";
+    private bool   _execDetach = false;
+    private string _execOut    = "";
+
+    protected override void OnInitialized()
+    {
+        _client = Registry.Get(Name);
+        if (null == _client)
+            _notFound = true;
+    }
+
+    private async Task OnShellKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+            await RunShellAsync();
+    }
+
+    private async Task RunShellAsync()
+    {
+        if (null == _client || string.IsNullOrWhiteSpace(_shellCmd)) return;
+
+        var resp = await _client.SendAsync(PacketId.Shell,
+            new ShellRequest { Command = _shellCmd });
+
+        if (resp.HasValue)
+        {
+            var d = PacketSerializer.Deserialize<ShellOutputResponse>(resp.Value.payload);
+            _shellOut = d is null
+                ? "Error"
+                : $"[exit {d.ExitCode}]\n{d.Stdout}{(string.IsNullOrEmpty(d.Stderr) ? "" : "\n[stderr]\n" + d.Stderr)}";
+        }
+        else
+        {
+            _shellOut = "Error";
+        }
+    }
+
+    private async Task RunExecAsync()
+    {
+        if (null == _client || string.IsNullOrWhiteSpace(_execProg)) return;
+
+        var argList = _execArgs.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
+        var resp = await _client.SendAsync(PacketId.Execute,
+            new ExecuteRequest { Program = _execProg, Args = argList, WorkDir = "", Detach = _execDetach });
+
+        if (resp.HasValue)
+        {
+            var d = PacketSerializer.Deserialize<ResultResponse>(resp.Value.payload);
+            _execOut = d is null ? "Error" : $"success={d.Success} code={d.Code} {d.Message}";
+        }
+        else
+        {
+            _execOut = "Error";
+        }
+    }
+}
