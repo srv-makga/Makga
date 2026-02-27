@@ -2,7 +2,7 @@ using System.Buffers.Binary;
 using System.Text;
 using System.Text.Json;
 
-namespace DeployTool.Protocol.Net;
+namespace DeployTool.Common.Net;
 
 // 7바이트 헤더: [packet_id: uint16 LE][packet_size: uint32 LE][packet_key: uint8]
 public static class PacketHeader

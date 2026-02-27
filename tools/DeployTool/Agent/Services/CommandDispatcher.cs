@@ -1,6 +1,6 @@
-using DeployTool.Protocol;
-using DeployTool.Protocol.Net;
-using DeployTool.Protocol.Packets;
+using DeployTool.Common;
+using DeployTool.Common.Net;
+using DeployTool.Common.Packets;
 using Microsoft.Extensions.Logging;
 
 namespace DeployTool.Agent.Services;

@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Sockets;
-using DeployTool.Protocol.Net;
-using DeployTool.Protocol.Packets;
+using DeployTool.Common.Net;
+using DeployTool.Common.Packets;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -71,7 +71,7 @@ public class AgentServer : BackgroundService
 					// 첫 패킷은 반드시 Ping(인증)
 					if (!authed)
 					{
-						if (id != Protocol.PacketId.Ping)
+						if (id != Common.PacketId.Ping)
 						{
 							_log.LogWarning("First packet not Ping from {Remote}", remote);
 							break;
@@ -82,7 +82,7 @@ public class AgentServer : BackgroundService
 						{
 							_log.LogWarning("Auth failed from {Remote}", remote);
 							await stream.WriteAsync(PacketSerializer.Serialize(
-								Protocol.PacketId.Result,
+								Common.PacketId.Result,
 								new ResultResponse { Success = false, Message = "Unauthorized", Code = 401 }), ct);
 							break;
 						}
@@ -90,7 +90,7 @@ public class AgentServer : BackgroundService
 						authed = true;
 						var uptime = (ulong)(DateTime.UtcNow - startTime).TotalSeconds;
 						await stream.WriteAsync(PacketSerializer.Serialize(
-							Protocol.PacketId.Pong, new PongResponse { UptimeSec = uptime }), ct);
+							Common.PacketId.Pong, new PongResponse { UptimeSec = uptime }), ct);
 						continue;
 					}
 

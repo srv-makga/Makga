@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
-using DeployTool.Protocol.Packets;
+using DeployTool.Common.Packets;
 using Microsoft.Extensions.Options;
 
 namespace DeployTool.Agent.Services;

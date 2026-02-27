@@ -1,8 +1,8 @@
 using System.Net.Sockets;
-using DeployTool.Protocol;
-using DeployTool.Protocol.Models;
-using DeployTool.Protocol.Net;
-using DeployTool.Protocol.Packets;
+using DeployTool.Common;
+using DeployTool.Common.Models;
+using DeployTool.Common.Net;
+using DeployTool.Common.Packets;
 
 namespace DeployTool.Manager.Services;
 

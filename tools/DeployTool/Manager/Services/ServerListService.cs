@@ -1,5 +1,5 @@
 using System.Text.Json;
-using DeployTool.Protocol.Models;
+using DeployTool.Common.Models;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

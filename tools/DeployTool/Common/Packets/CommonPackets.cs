@@ -1,4 +1,4 @@
-namespace DeployTool.Protocol.Packets;
+namespace DeployTool.Common.Packets;
 
 // ── Manager → Agent: 연결 ──────────────────────────────────────
 public class PingRequest

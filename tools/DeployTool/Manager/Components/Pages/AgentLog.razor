@@ -1,25 +1,25 @@
 @page "/agents/{Name}/log"
 @inject AgentRegistry Registry
 
-<PageTitle>@Name 로그 - DeployTool Manager</PageTitle>
+<PageTitle>@string.Format(L["PageTitle_Log"], Name)</PageTitle>
 
-<h2>@Name — 로그</h2>
+<h2>@Name — @L["Btn_Log"]</h2>
 
 @if (_notFound)
 {
-    <div class="alert alert-danger">Agent '@Name' 을 찾을 수 없습니다.</div>
+    <div class="alert alert-danger">@string.Format(L["Agent_NotFound"], Name)</div>
 }
 else
 {
     <div class="card p-3 mb-3">
         <div class="input-group">
             <input type="text" class="form-control bg-dark text-white"
-                   placeholder="로그 파일 경로"
+                   placeholder="@L["Log_PathHint"]"
                    @bind="_logFile" />
             <input type="number" class="form-control bg-dark text-white"
                    style="max-width:100px"
                    @bind="_lines" />
-            <button class="btn btn-outline-light" @onclick="LoadLogAsync">불러오기</button>
+            <button class="btn btn-outline-light" @onclick="LoadLogAsync">@L["Btn_Load"]</button>
         </div>
     </div>
 

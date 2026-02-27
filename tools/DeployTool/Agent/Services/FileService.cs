@@ -1,6 +1,6 @@
 using System.IO.Compression;
 using System.Security.Cryptography;
-using DeployTool.Protocol.Packets;
+using DeployTool.Common.Packets;
 using Microsoft.Extensions.Options;
 
 namespace DeployTool.Agent.Services;

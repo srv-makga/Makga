@@ -1,41 +1,39 @@
 @page "/commands/{Name}"
 @inject AgentRegistry Registry
 
-<PageTitle>@Name 명령 - DeployTool Manager</PageTitle>
+<PageTitle>@string.Format(L["PageTitle_Commands"], Name)</PageTitle>
 
-<h2>@Name — 명령</h2>
+<h2>@Name — @L["Btn_Command"]</h2>
 
 @if (_notFound)
 {
-    <div class="alert alert-danger">Agent '@Name' 을 찾을 수 없습니다.</div>
+    <div class="alert alert-danger">@string.Format(L["Agent_NotFound"], Name)</div>
 }
 else
 {
-    <!-- 셸 명령 -->
     <div class="card p-3 mb-3">
-        <h5>셸 명령</h5>
+        <h5>@L["Section_Shell"]</h5>
         <div class="input-group">
             <input type="text" class="form-control bg-dark text-white"
-                   placeholder="명령어 입력"
+                   placeholder="@L["Shell_Placeholder"]"
                    @bind="_shellCmd"
                    @onkeydown="OnShellKeyDown" />
-            <button class="btn btn-outline-success" @onclick="RunShellAsync">실행</button>
+            <button class="btn btn-outline-success" @onclick="RunShellAsync">@L["Btn_Run"]</button>
         </div>
         <pre class="mt-2 p-2 bg-black text-success" style="min-height:60px;white-space:pre-wrap;">@_shellOut</pre>
     </div>
 
-    <!-- 프로세스 실행 -->
     <div class="card p-3 mb-3">
-        <h5>프로세스 실행</h5>
+        <h5>@L["Section_Process"]</h5>
         <div class="row g-2">
             <div class="col-md-4">
                 <input type="text" class="form-control bg-dark text-white"
-                       placeholder="프로그램 경로"
+                       placeholder="@L["Process_ProgramHint"]"
                        @bind="_execProg" />
             </div>
             <div class="col-md-4">
                 <input type="text" class="form-control bg-dark text-white"
-                       placeholder="인수 (공백 구분)"
+                       placeholder="@L["Process_ArgsHint"]"
                        @bind="_execArgs" />
             </div>
             <div class="col-md-2">
@@ -46,7 +44,7 @@ else
                 </div>
             </div>
             <div class="col-md-2">
-                <button class="btn btn-outline-warning w-100" @onclick="RunExecAsync">실행</button>
+                <button class="btn btn-outline-warning w-100" @onclick="RunExecAsync">@L["Btn_Run"]</button>
             </div>
         </div>
         <pre class="mt-2 p-2 bg-black text-warning" style="min-height:40px;">@_execOut</pre>

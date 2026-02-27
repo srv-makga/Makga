@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="xml:space" use="default" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter</value></resheader>
+
+  <!-- ── 상태 ── -->
+  <data name="Status_Online"     xml:space="preserve"><value>온라인</value></data>
+  <data name="Status_Offline"    xml:space="preserve"><value>오프라인</value></data>
+  <data name="Status_ConnFailed" xml:space="preserve"><value>연결 실패</value></data>
+
+  <!-- ── 버튼 ── -->
+  <data name="Btn_All"     xml:space="preserve"><value>전체</value></data>
+  <data name="Btn_Detail"  xml:space="preserve"><value>상세</value></data>
+  <data name="Btn_Config"  xml:space="preserve"><value>설정</value></data>
+  <data name="Btn_Log"     xml:space="preserve"><value>로그</value></data>
+  <data name="Btn_Command" xml:space="preserve"><value>명령</value></data>
+  <data name="Btn_Refresh" xml:space="preserve"><value>새로고침</value></data>
+  <data name="Btn_Browse"  xml:space="preserve"><value>조회</value></data>
+  <data name="Btn_Reset"   xml:space="preserve"><value>초기화</value></data>
+  <data name="Btn_Run"     xml:space="preserve"><value>실행</value></data>
+  <data name="Btn_Save"    xml:space="preserve"><value>저장</value></data>
+  <data name="Btn_Cancel"  xml:space="preserve"><value>취소</value></data>
+  <data name="Btn_Load"    xml:space="preserve"><value>불러오기</value></data>
+  <data name="Btn_Ping"    xml:space="preserve"><value>Ping</value></data>
+  <data name="Btn_Saving"  xml:space="preserve"><value>저장 중...</value></data>
+
+  <!-- ── 필드 헤더 ── -->
+  <data name="Field_Name"        xml:space="preserve"><value>이름</value></data>
+  <data name="Field_Description" xml:space="preserve"><value>설명</value></data>
+  <data name="Field_Host"        xml:space="preserve"><value>호스트</value></data>
+  <data name="Field_Group"       xml:space="preserve"><value>그룹</value></data>
+  <data name="Field_Tags"        xml:space="preserve"><value>태그</value></data>
+  <data name="Field_Status"      xml:space="preserve"><value>상태</value></data>
+  <data name="Field_Actions"     xml:space="preserve"><value>작업</value></data>
+  <data name="Field_Size"        xml:space="preserve"><value>크기</value></data>
+
+  <!-- ── 섹션 제목 ── -->
+  <data name="Section_Resources"    xml:space="preserve"><value>리소스</value></data>
+  <data name="Section_FileExplorer" xml:space="preserve"><value>파일 탐색기</value></data>
+  <data name="Section_Shell"        xml:space="preserve"><value>셸 명령</value></data>
+  <data name="Section_Process"      xml:space="preserve"><value>프로세스 실행</value></data>
+
+  <!-- ── Agent ── -->
+  <data name="Agent_NotFound"     xml:space="preserve"><value>Agent '{0}' 을 찾을 수 없습니다.</value></data>
+  <data name="Agent_Info"         xml:space="preserve"><value>Agent 정보</value></data>
+  <data name="Agent_UptimeSuffix" xml:space="preserve"><value>초</value></data>
+
+  <!-- ── 리소스 ── -->
+  <data name="Resource_Memory" xml:space="preserve"><value>메모리</value></data>
+  <data name="Resource_Disk"   xml:space="preserve"><value>디스크</value></data>
+
+  <!-- ── 대시보드 ── -->
+  <data name="Dashboard_RegisteredAgents" xml:space="preserve"><value>등록된 Agent</value></data>
+  <data name="Dashboard_Connected"        xml:space="preserve"><value>연결됨</value></data>
+
+  <!-- ── Agents 목록 ── -->
+  <data name="Agents_SearchPlaceholder" xml:space="preserve"><value>이름 / 설명 / 호스트 검색...</value></data>
+  <data name="Agents_NoResults"         xml:space="preserve"><value>조건에 맞는 Agent가 없습니다.</value></data>
+
+  <!-- ── 설정 ── -->
+  <data name="Config_SaveDone" xml:space="preserve"><value>설정 저장 완료</value></data>
+
+  <!-- ── 플레이스홀더 ── -->
+  <data name="Shell_Placeholder"       xml:space="preserve"><value>명령어 입력</value></data>
+  <data name="Process_ProgramHint"     xml:space="preserve"><value>프로그램 경로</value></data>
+  <data name="Process_ArgsHint"        xml:space="preserve"><value>인수 (공백 구분)</value></data>
+  <data name="Log_PathHint"            xml:space="preserve"><value>로그 파일 경로</value></data>
+  <data name="File_PathHint"           xml:space="preserve"><value>경로 (비어있으면 WorkDir)</value></data>
+
+  <!-- ── 페이지 제목 ── -->
+  <data name="PageTitle_Dashboard" xml:space="preserve"><value>Dashboard - DeployTool Manager</value></data>
+  <data name="PageTitle_Agents"    xml:space="preserve"><value>Agents - DeployTool Manager</value></data>
+  <data name="PageTitle_Detail"    xml:space="preserve"><value>{0} 상세 - DeployTool Manager</value></data>
+  <data name="PageTitle_Config"    xml:space="preserve"><value>{0} 설정 - DeployTool Manager</value></data>
+  <data name="PageTitle_Commands"  xml:space="preserve"><value>{0} 명령 - DeployTool Manager</value></data>
+  <data name="PageTitle_Log"       xml:space="preserve"><value>{0} 로그 - DeployTool Manager</value></data>
+</root>

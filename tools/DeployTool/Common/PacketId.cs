@@ -1,4 +1,4 @@
-namespace DeployTool.Protocol;
+namespace DeployTool.Common;
 
 public enum PacketId : ushort
 {

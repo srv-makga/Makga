@@ -1,4 +1,4 @@
-namespace DeployTool.Protocol.Packets;
+namespace DeployTool.Common.Packets;
 
 // ── Manager → Agent ───────────────────────────────────────────
 public class CheckPortRequest { public int Port { get; set; } }

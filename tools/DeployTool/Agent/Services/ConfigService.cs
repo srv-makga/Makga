@@ -1,6 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using DeployTool.Protocol.Packets;
+using DeployTool.Common.Packets;
 using Microsoft.Extensions.Configuration;
 
 namespace DeployTool.Agent.Services;

@@ -1,7 +1,7 @@
 @page "/"
 @inject AgentRegistry Registry
 
-<PageTitle>Dashboard - DeployTool Manager</PageTitle>
+<PageTitle>@L["PageTitle_Dashboard"]</PageTitle>
 
 <h2 class="mb-4">Dashboard</h2>
 
@@ -9,19 +9,19 @@
     <div class="col-md-4">
         <div class="card p-3 text-center">
             <h1 class="display-4">@_agents.Count</h1>
-            <p class="text-muted">등록된 Agent</p>
+            <p class="text-muted">@L["Dashboard_RegisteredAgents"]</p>
         </div>
     </div>
     <div class="col-md-4">
         <div class="card p-3 text-center">
             <h1 class="display-4 text-success">@_agents.Count(a => a.IsConnected)</h1>
-            <p class="text-muted">연결됨</p>
+            <p class="text-muted">@L["Dashboard_Connected"]</p>
         </div>
     </div>
     <div class="col-md-4">
         <div class="card p-3 text-center">
             <h1 class="display-4 text-danger">@_agents.Count(a => !a.IsConnected)</h1>
-            <p class="text-muted">오프라인</p>
+            <p class="text-muted">@L["Status_Offline"]</p>
         </div>
     </div>
 </div>
@@ -30,7 +30,7 @@
     <table class="table table-dark table-hover mb-0">
         <thead>
             <tr>
-                <th>이름</th><th>호스트</th><th>그룹</th><th>태그</th><th>상태</th><th></th>
+                <th>@L["Field_Name"]</th><th>@L["Field_Host"]</th><th>@L["Field_Group"]</th><th>@L["Field_Tags"]</th><th>@L["Field_Status"]</th><th></th>
             </tr>
         </thead>
         <tbody>
@@ -43,11 +43,11 @@
                     <td>@string.Join(", ", agent.Info.Tags)</td>
                     <td>
                         <span class="badge @(agent.IsConnected ? "badge-online" : "badge-offline")">
-                            @(agent.IsConnected ? "온라인" : "오프라인")
+                            @(agent.IsConnected ? L["Status_Online"].Value : L["Status_Offline"].Value)
                         </span>
                     </td>
                     <td>
-                        <a href="/agents/@agent.Info.Name" class="btn btn-sm btn-outline-light">상세</a>
+                        <a href="/agents/@agent.Info.Name" class="btn btn-sm btn-outline-light">@L["Btn_Detail"]</a>
                     </td>
                 </tr>
             }

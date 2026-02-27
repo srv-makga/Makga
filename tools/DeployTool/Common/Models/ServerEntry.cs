@@ -1,4 +1,4 @@
-namespace DeployTool.Protocol.Models;
+namespace DeployTool.Common.Models;
 
 public class ServerEntry
 {

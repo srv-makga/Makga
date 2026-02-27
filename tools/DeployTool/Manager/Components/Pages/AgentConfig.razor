@@ -1,13 +1,13 @@
 @page "/agents/{Name}/config"
 @inject AgentRegistry Registry
 
-<PageTitle>@Name 설정 - DeployTool Manager</PageTitle>
+<PageTitle>@string.Format(L["PageTitle_Config"], Name)</PageTitle>
 
-<h2>@Name — 설정</h2>
+<h2>@Name — @L["Btn_Config"]</h2>
 
 @if (_notFound)
 {
-    <div class="alert alert-danger">Agent '@Name' 을 찾을 수 없습니다.</div>
+    <div class="alert alert-danger">@string.Format(L["Agent_NotFound"], Name)</div>
 }
 else
 {
@@ -23,9 +23,9 @@ else
                       @bind="_configJson"></textarea>
         </div>
         <button class="btn btn-warning" @onclick="SaveAsync" disabled="@_saving">
-            @(_saving ? "저장 중..." : "저장")
+            @(_saving ? L["Btn_Saving"].Value : L["Btn_Save"].Value)
         </button>
-        <a href="/agents/@Name" class="btn btn-outline-light ms-2">취소</a>
+        <a href="/agents/@Name" class="btn btn-outline-light ms-2">@L["Btn_Cancel"]</a>
     </div>
 }
 
@@ -64,7 +64,7 @@ else
         var changes = new Dictionary<string, string> { { "_raw", _configJson } };
         await _client.SendAsync(PacketId.SetConfig, new SetConfigRequest { Changes = changes });
 
-        _message = "설정 저장 완료";
+        _message = L["Config_SaveDone"];
         _saving  = false;
     }
 }

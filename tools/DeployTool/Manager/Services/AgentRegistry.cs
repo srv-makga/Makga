@@ -1,5 +1,5 @@
 using System.Collections.Concurrent;
-using DeployTool.Protocol.Models;
+using DeployTool.Common.Models;
 
 namespace DeployTool.Manager.Services;
 

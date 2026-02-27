@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
-using DeployTool.Protocol.Packets;
+using DeployTool.Common.Packets;
 
 namespace DeployTool.Agent.Services;
 

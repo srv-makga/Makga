@@ -2,9 +2,12 @@
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.Extensions.Localization
 @using DeployTool.Manager.Components
 @using DeployTool.Manager.Components.Layout
+@using DeployTool.Manager.Resources
 @using DeployTool.Manager.Services
-@using DeployTool.Protocol
-@using DeployTool.Protocol.Net
-@using DeployTool.Protocol.Packets
+@using DeployTool.Common
+@using DeployTool.Common.Net
+@using DeployTool.Common.Packets
+@inject IStringLocalizer<SharedResource> L
