@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\web_common\web_common.csproj" />
+    <ProjectReference Include="..\web_common\CSharp.Common.csproj" />
   </ItemGroup>
 
 </Project>
