@@ -65,8 +65,12 @@
   <data name="Agent_UptimeSuffix" xml:space="preserve"><value>sec</value></data>
 
   <!-- ── Resource ── -->
-  <data name="Resource_Memory" xml:space="preserve"><value>Memory</value></data>
-  <data name="Resource_Disk"   xml:space="preserve"><value>Disk</value></data>
+  <data name="Resource_Memory"    xml:space="preserve"><value>Memory</value></data>
+  <data name="Resource_Disk"      xml:space="preserve"><value>Disk</value></data>
+  <data name="Resource_Network"   xml:space="preserve"><value>Network</value></data>
+  <data name="Resource_Interface" xml:space="preserve"><value>Interface</value></data>
+  <data name="Resource_Sent"      xml:space="preserve"><value>Sent</value></data>
+  <data name="Resource_Received"  xml:space="preserve"><value>Received</value></data>
 
   <!-- ── Dashboard ── -->
   <data name="Dashboard_RegisteredAgents" xml:space="preserve"><value>Registered Agents</value></data>
@@ -75,6 +79,7 @@
   <!-- ── Agents List ── -->
   <data name="Agents_SearchPlaceholder" xml:space="preserve"><value>Search by name / description / host...</value></data>
   <data name="Agents_NoResults"         xml:space="preserve"><value>No agents match the filter.</value></data>
+  <data name="Agents_LastHeartbeat"     xml:space="preserve"><value>Last heartbeat</value></data>
 
   <!-- ── Config ── -->
   <data name="Config_SaveDone" xml:space="preserve"><value>Settings saved.</value></data>
@@ -93,4 +98,30 @@
   <data name="PageTitle_Config"    xml:space="preserve"><value>{0} Config - DeployTool Manager</value></data>
   <data name="PageTitle_Commands"  xml:space="preserve"><value>{0} Commands - DeployTool Manager</value></data>
   <data name="PageTitle_Log"       xml:space="preserve"><value>{0} Log - DeployTool Manager</value></data>
+  <data name="PageTitle_Settings"  xml:space="preserve"><value>Manager Settings - DeployTool Manager</value></data>
+
+  <!-- ── Navigation ── -->
+  <data name="Nav_Settings" xml:space="preserve"><value>Settings</value></data>
+  <data name="Nav_Patch"    xml:space="preserve"><value>File Patch</value></data>
+
+  <!-- ── Manager Settings ── -->
+  <data name="Settings_RetryInterval"         xml:space="preserve"><value>Agent Reconnect Interval</value></data>
+  <data name="Settings_RetryIntervalDesc"     xml:space="preserve"><value>Seconds to wait before retrying a failed Agent connection</value></data>
+  <data name="Settings_HeartbeatInterval"     xml:space="preserve"><value>Heartbeat Interval</value></data>
+  <data name="Settings_HeartbeatIntervalDesc" xml:space="preserve"><value>How often (seconds) to fetch resource (CPU/RAM) from each Agent</value></data>
+  <data name="Settings_SaveDone" xml:space="preserve"><value>Settings saved. Changes take effect on next cycle.</value></data>
+
+  <!-- ── File Patch ── -->
+  <data name="PageTitle_Patch"    xml:space="preserve"><value>File Patch - DeployTool Manager</value></data>
+  <data name="Patch_Files"        xml:space="preserve"><value>Patch Files</value></data>
+  <data name="Patch_DropHint"     xml:space="preserve"><value>Drag files here or click to select</value></data>
+  <data name="Patch_DestPath"     xml:space="preserve"><value>Destination Path</value></data>
+  <data name="Patch_DestPathHint" xml:space="preserve"><value>Path on the Agent (e.g. /opt/server/)</value></data>
+  <data name="Patch_SelectAgents" xml:space="preserve"><value>Select Target Agents</value></data>
+  <data name="Patch_Start"        xml:space="preserve"><value>Start Patch</value></data>
+  <data name="Patch_InProgress"   xml:space="preserve"><value>Patching...</value></data>
+  <data name="Patch_Progress"     xml:space="preserve"><value>Progress</value></data>
+  <data name="Patch_Done"         xml:space="preserve"><value>Done</value></data>
+  <data name="Patch_Skipped"      xml:space="preserve"><value>Offline (skipped)</value></data>
+  <data name="Patch_Order"        xml:space="preserve"><value>Order</value></data>
 </root>

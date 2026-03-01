@@ -1,5 +1,6 @@
 @page "/agents"
 @inject AgentRegistry Registry
+@implements IDisposable
 
 <PageTitle>@L["PageTitle_Agents"]</PageTitle>
 
@@ -60,12 +61,21 @@
     <table class="table table-dark table-hover mb-0">
         <thead>
             <tr>
-                <th>@L["Field_Name"]</th><th>@L["Field_Description"]</th><th>@L["Field_Host"]</th><th>@L["Field_Group"]</th><th>@L["Field_Tags"]</th><th>@L["Field_Status"]</th><th>@L["Field_Actions"]</th>
+                <th>@L["Field_Name"]</th>
+                <th>@L["Field_Description"]</th>
+                <th>@L["Field_Host"]</th>
+                <th>@L["Field_Group"]</th>
+                <th>@L["Field_Tags"]</th>
+                <th>@L["Field_Status"]</th>
+                <th>CPU</th>
+                <th>RAM</th>
+                <th>@L["Field_Actions"]</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var agent in Filtered)
             {
+                var res = agent.LastResource;
                 <tr>
                     <td><strong>@agent.Info.Name</strong></td>
                     <td>@agent.Info.Description</td>
@@ -78,42 +88,60 @@
                         }
                     </td>
                     <td>
-                        <span class="badge @(agent.IsConnected ? "badge-online" : "badge-offline")">
+                        @{
+                            var since = agent.LastHeartbeatAt.HasValue
+                                ? $"{(int)(DateTime.UtcNow - agent.LastHeartbeatAt.Value).TotalSeconds}s ago"
+                                : "-";
+                        }
+                        <span class="badge @(agent.IsConnected ? "badge-online" : "badge-offline")"
+                              title="@L["Agents_LastHeartbeat"]: @since">
                             @(agent.IsConnected ? L["Status_Online"].Value : L["Status_Offline"].Value)
                         </span>
+                    </td>
+                    <td class="text-nowrap">
+                        @if (res != null)
+                        {
+                            <span>@res.CpuPct.ToString("0.0")%</span>
+                        }
+                        else
+                        {
+                            <span class="text-muted">-</span>
+                        }
+                    </td>
+                    <td class="text-nowrap">
+                        @if (res != null)
+                        {
+                            <span>@res.MemUsedMb / @res.MemTotalMb MB</span>
+                        }
+                        else
+                        {
+                            <span class="text-muted">-</span>
+                        }
                     </td>
                     <td>
                         <a href="/agents/@agent.Info.Name" class="btn btn-sm btn-outline-info">@L["Btn_Detail"]</a>
                         <a href="/agents/@agent.Info.Name/config" class="btn btn-sm btn-outline-warning">@L["Btn_Config"]</a>
                         <a href="/agents/@agent.Info.Name/log" class="btn btn-sm btn-outline-secondary">@L["Btn_Log"]</a>
                         <a href="/commands/@agent.Info.Name" class="btn btn-sm btn-outline-success">@L["Btn_Command"]</a>
-                        <button class="btn btn-sm btn-outline-light"
-                                @onclick="() => PingAsync(agent)">@L["Btn_Ping"]</button>
                     </td>
                 </tr>
             }
             @if (!Filtered.Any())
             {
-                <tr><td colspan="7" class="text-center text-muted py-3">@L["Agents_NoResults"]</td></tr>
+                <tr><td colspan="9" class="text-center text-muted py-3">@L["Agents_NoResults"]</td></tr>
             }
         </tbody>
     </table>
 </div>
 
-@if (!string.IsNullOrEmpty(_pingMsg))
-{
-    <div class="alert @(_pingOk ? "alert-success" : "alert-danger") mt-3">@_pingMsg</div>
-}
-
 @code {
-    private IReadOnlyCollection<AgentClient> _agents     = Array.Empty<AgentClient>();
-    private List<string>                     _groups     = new();
-    private List<string>                     _allTags    = new();
+    private IReadOnlyCollection<AgentClient> _agents       = Array.Empty<AgentClient>();
+    private List<string>                     _groups       = new();
+    private List<string>                     _allTags      = new();
     private HashSet<string>                  _selectedTags = new();
     private string?                          _selectedGroup;
-    private string                           _searchText = "";
-    private string                           _pingMsg    = "";
-    private bool                             _pingOk;
+    private string                           _searchText   = "";
+    private System.Timers.Timer?             _timer;
 
     private IEnumerable<AgentClient> Filtered =>
         _agents
@@ -129,12 +157,14 @@
         _agents  = Registry.All;
         _groups  = _agents.Select(a => a.Info.Group).Where(g => !string.IsNullOrEmpty(g)).Distinct().Order().ToList();
         _allTags = _agents.SelectMany(a => a.Info.Tags).Distinct().Order().ToList();
+
+        // 하트비트 캐시를 3초마다 UI에 반영
+        _timer = new System.Timers.Timer(TimeSpan.FromSeconds(3));
+        _timer.Elapsed += async (_, _) => await InvokeAsync(StateHasChanged);
+        _timer.Start();
     }
 
-    private void SelectGroup(string? group)
-    {
-        _selectedGroup = group;
-    }
+    private void SelectGroup(string? group) => _selectedGroup = group;
 
     private void ToggleTag(string tag)
     {
@@ -144,10 +174,5 @@
 
     private void ClearTags() => _selectedTags.Clear();
 
-    private async Task PingAsync(AgentClient agent)
-    {
-        var ok   = await agent.ConnectAsync();
-        _pingOk  = ok;
-        _pingMsg = ok ? $"{agent.Info.Name}: Pong!" : $"{agent.Info.Name}: {L["Status_ConnFailed"]}";
-    }
+    public void Dispose() => _timer?.Dispose();
 }

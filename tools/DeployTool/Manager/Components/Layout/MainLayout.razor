@@ -1,4 +1,5 @@
 @inherits LayoutComponentBase
+@inject NavigationManager Nav
 
 <nav class="navbar navbar-expand-lg navbar-dark mb-4">
     <div class="container">
@@ -7,7 +8,13 @@
             <ul class="navbar-nav me-auto">
                 <li class="nav-item"><NavLink class="nav-link" href="/" Match="NavLinkMatch.All">Dashboard</NavLink></li>
                 <li class="nav-item"><NavLink class="nav-link" href="/agents">Agents</NavLink></li>
+                <li class="nav-item"><NavLink class="nav-link" href="/settings">@L["Nav_Settings"]</NavLink></li>
+                <li class="nav-item"><NavLink class="nav-link" href="/patch">@L["Nav_Patch"]</NavLink></li>
             </ul>
+            <div class="d-flex gap-2">
+                <a class="btn btn-sm btn-outline-light" href="@GetCultureUrl("ko")">한국어</a>
+                <a class="btn btn-sm btn-outline-light" href="@GetCultureUrl("en")">English</a>
+            </div>
         </div>
     </div>
 </nav>
@@ -15,3 +22,11 @@
 <div class="container">
     @Body
 </div>
+
+@code {
+    private string GetCultureUrl(string culture)
+    {
+        var returnUrl = Uri.EscapeDataString(new Uri(Nav.Uri).PathAndQuery);
+        return $"/culture/set?culture={culture}&returnUrl={returnUrl}";
+    }
+}

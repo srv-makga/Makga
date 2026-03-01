@@ -9,8 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<ManagerConfig>(builder.Configuration.GetSection("DeployManager"));
 builder.Services.AddSingleton<AgentRegistry>();
+builder.Services.AddSingleton<ManagerSettingsService>();
+builder.Services.AddSingleton<UploadService>();
 builder.Services.AddHostedService<ServerListService>();
-builder.Services.AddLocalization(opts => opts.ResourcesPath = "Resources");
+builder.Services.AddLocalization(opts => opts.ResourcesPath = "");
 builder.Services.AddRazorComponents()
 	.AddInteractiveServerComponents();
 
@@ -35,6 +37,17 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 		new CookieRequestCultureProvider(),
 		new AcceptLanguageHeaderRequestCultureProvider(),
 	}
+});
+
+// ─── 언어 전환 endpoint ──────────────────────────
+app.MapGet("/culture/set", (string culture, string returnUrl, HttpContext ctx) =>
+{
+	ctx.Response.Cookies.Append(
+		CookieRequestCultureProvider.DefaultCookieName,
+		CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+		new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true }
+	);
+	return Results.LocalRedirect(returnUrl);
 });
 
 app.UseAntiforgery();

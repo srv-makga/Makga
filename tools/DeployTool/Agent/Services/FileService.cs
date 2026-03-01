@@ -16,6 +16,10 @@ public class FileService
 		_workDir = _cfg.WorkDir;
 	}
 
+	// @brief 패치 파일의 저장 루트. PatchRootDir 이 비어있으면 WorkDir 를 사용
+	private string PatchRoot =>
+		string.IsNullOrWhiteSpace(_cfg.PatchRootDir) ? _workDir : _cfg.PatchRootDir;
+
 	public Task<ResultResponse> SetWorkDirAsync(SetWorkDirRequest req)
 	{
 		if (!Directory.Exists(req.Path))
@@ -61,17 +65,38 @@ public class FileService
 
 	public async Task<ResultResponse> PutFileAsync(PutFileRequest req)
 	{
-		var path  = Resolve(req.Path);
-		var bytes = Convert.FromBase64String(req.DataBase64);
+		// 파일명만 추출 (directory traversal 방지)
+		var fileName = Path.GetFileName(req.Path);
+		if (string.IsNullOrWhiteSpace(fileName))
+			return Fail("Invalid file name");
 
+		var bytes = Convert.FromBase64String(req.DataBase64);
 		if (bytes.Length > _cfg.MaxFileSizeBytes)
 			return Fail($"File exceeds max size ({_cfg.MaxFileSizeBytes} bytes)");
 
-		if (File.Exists(path) && !req.Overwrite)
+		var patchRoot = PatchRoot;
+		Directory.CreateDirectory(patchRoot);
+		var destPath = Path.Combine(patchRoot, fileName);
+
+		if (File.Exists(destPath) && !req.Overwrite)
 			return Fail("File already exists");
 
-		Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-		await File.WriteAllBytesAsync(path, bytes);
+		await File.WriteAllBytesAsync(destPath, bytes);
+
+		// ─── zip 파일: 압축 해제 후 원본 삭제 ────────────────
+		if (destPath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+		{
+			try
+			{
+				ZipFile.ExtractToDirectory(destPath, patchRoot, overwriteFiles: true);
+				File.Delete(destPath);
+			}
+			catch (Exception ex)
+			{
+				return Fail($"Unzip failed: {ex.Message}");
+			}
+		}
+
 		return Ok();
 	}
 

@@ -105,8 +105,8 @@
   <data name="Nav_Patch"    xml:space="preserve"><value>파일 패치</value></data>
 
   <!-- ── Manager 설정 ── -->
-  <data name="Settings_RetryInterval"     xml:space="preserve"><value>Agent 재연결 대기 시간</value></data>
-  <data name="Settings_RetryIntervalDesc" xml:space="preserve"><value>Agent 연결 실패 후 재시도까지 대기하는 시간(초)</value></data>
+  <data name="Settings_RetryInterval"         xml:space="preserve"><value>Agent 재연결 대기 시간</value></data>
+  <data name="Settings_RetryIntervalDesc"     xml:space="preserve"><value>Agent 연결 실패 후 재시도까지 대기하는 시간(초)</value></data>
   <data name="Settings_HeartbeatInterval"     xml:space="preserve"><value>하트비트 주기</value></data>
   <data name="Settings_HeartbeatIntervalDesc" xml:space="preserve"><value>리소스(CPU/RAM) 정보를 가져오는 주기(초)</value></data>
   <data name="Settings_SaveDone" xml:space="preserve"><value>설정이 저장되었습니다. 다음 주기부터 반영됩니다.</value></data>

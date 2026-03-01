@@ -1,18 +1,24 @@
 using System.Net;
 using System.Net.Sockets;
-using DeployTool.Common.Net;
-using DeployTool.Common.Packets;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace DeployTool.Agent.Services;
 
+// @brief TCP Listen + IP별 세션 관리.
+//   - 살아있는 세션이 있으면 중복 접속 거절
+//   - RunTask.IsCompleted 로 생존 여부 판단 → 죽었으면 교체, 살아있으면 거절
+//   - ContinueWith 는 동일 세션 참조일 때만 dict 에서 제거 (교체 후 race 방지)
 public class AgentServer : BackgroundService
 {
-	private readonly AgentConfig        _cfg;
-	private readonly CommandDispatcher  _dispatcher;
+	private readonly AgentConfig          _cfg;
+	private readonly CommandDispatcher    _dispatcher;
 	private readonly ILogger<AgentServer> _log;
+	private readonly DateTime             _startTime = DateTime.UtcNow;
+
+	private readonly Dictionary<string, (AgentSession Session, Task RunTask)> _sessions = new();
+	private readonly object _sessLock = new();
 
 	public AgentServer(IOptions<AgentConfig> cfg, CommandDispatcher dispatcher, ILogger<AgentServer> log)
 	{
@@ -31,8 +37,37 @@ public class AgentServer : BackgroundService
 		{
 			try
 			{
-				var client = await listener.AcceptTcpClientAsync(ct);
-				_ = HandleClientAsync(client, ct);
+				var client   = await listener.AcceptTcpClientAsync(ct);
+				var remoteIp = ((IPEndPoint)client.Client.RemoteEndPoint!).Address.ToString();
+
+				lock (_sessLock)
+				{
+					// 살아있는 세션이 있으면 중복 접속 거절
+					if (_sessions.TryGetValue(remoteIp, out var existing) && !existing.RunTask.IsCompleted)
+					{
+						_log.LogWarning("[AgentServer] Rejecting duplicate connection from {IP}", remoteIp);
+						client.Dispose();
+						continue;
+					}
+
+					// 이전 세션이 죽었거나 없으면 교체
+					existing.Session?.Dispose();
+
+					var session = new AgentSession(client, _dispatcher, _cfg, _log, _startTime);
+					var runTask = session.RunAsync(ct);
+					_sessions[remoteIp] = (session, runTask);
+
+					// 세션 종료 후 dict 에서 제거 (동일 세션일 때만 — race 방지)
+					_ = runTask.ContinueWith(_ =>
+					{
+						lock (_sessLock)
+						{
+							if (_sessions.TryGetValue(remoteIp, out var cur) &&
+							    ReferenceEquals(cur.Session, session))
+								_sessions.Remove(remoteIp);
+						}
+					}, TaskContinuationOptions.ExecuteSynchronously);
+				}
 			}
 			catch (OperationCanceledException)
 			{
@@ -44,67 +79,13 @@ public class AgentServer : BackgroundService
 			}
 		}
 
-		listener.Stop();
-	}
-
-	private async Task HandleClientAsync(TcpClient client, CancellationToken ct)
-	{
-		var remote = client.Client.RemoteEndPoint?.ToString() ?? "unknown";
-		_log.LogInformation("Connection from {Remote}", remote);
-
-		using (client)
+		lock (_sessLock)
 		{
-			var stream    = client.GetStream();
-			var startTime = DateTime.UtcNow;
-			var authed    = false;
-
-			try
-			{
-				while (!ct.IsCancellationRequested)
-				{
-					var packet = await PacketSerializer.ReadPacketAsync(stream, ct);
-					if (null == packet)
-						break;
-
-					var (id, payload, _) = packet.Value;
-
-					// 첫 패킷은 반드시 Ping(인증)
-					if (!authed)
-					{
-						if (id != Common.PacketId.Ping)
-						{
-							_log.LogWarning("First packet not Ping from {Remote}", remote);
-							break;
-						}
-
-						var ping = PacketSerializer.Deserialize<PingRequest>(payload);
-						if (null == ping || ping.Token != _cfg.Token)
-						{
-							_log.LogWarning("Auth failed from {Remote}", remote);
-							await stream.WriteAsync(PacketSerializer.Serialize(
-								Common.PacketId.Result,
-								new ResultResponse { Success = false, Message = "Unauthorized", Code = 401 }), ct);
-							break;
-						}
-
-						authed = true;
-						var uptime = (ulong)(DateTime.UtcNow - startTime).TotalSeconds;
-						await stream.WriteAsync(PacketSerializer.Serialize(
-							Common.PacketId.Pong, new PongResponse { UptimeSec = uptime }), ct);
-						continue;
-					}
-
-					var response = await _dispatcher.DispatchAsync(id, payload, ct);
-					if (null != response)
-						await stream.WriteAsync(response, ct);
-				}
-			}
-			catch (Exception ex) when (ex is not OperationCanceledException)
-			{
-				_log.LogError(ex, "Client error {Remote}", remote);
-			}
+			foreach (var (s, _) in _sessions.Values)
+				s.Dispose();
+			_sessions.Clear();
 		}
 
-		_log.LogInformation("Disconnected {Remote}", remote);
+		listener.Stop();
 	}
 }

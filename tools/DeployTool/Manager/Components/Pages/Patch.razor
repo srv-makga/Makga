@@ -1,0 +1,353 @@
+@page "/patch"
+@using DeployTool.Common
+@using DeployTool.Common.Net
+@using DeployTool.Common.Packets
+@using DeployTool.Manager.Services
+@inject AgentRegistry Registry
+@inject UploadService Uploads
+@inject IStringLocalizer<SharedResource> L
+@implements IDisposable
+
+<PageTitle>@L["PageTitle_Patch"]</PageTitle>
+
+<h2 class="mb-4 text-white">@L["Nav_Patch"]</h2>
+
+@* ─── 파일 업로드 ── *@
+<div class="card border-secondary p-3 mb-3" style="background:rgba(255,255,255,.05)">
+    <h5 class="text-white mb-3">@L["Patch_Files"]</h5>
+
+    <InputFile OnChange="HandleFilesSelected" multiple
+               class="form-control bg-dark text-white border-secondary mb-1" />
+    <div class="text-white-50 small">@L["Patch_DropHint"]</div>
+
+    @if (_uploading)
+    {
+        <div class="text-white-50 mt-2">⏳ 업로드 중...</div>
+    }
+
+    @if (_files.Count > 0)
+    {
+        <table class="table table-dark table-sm mt-3 mb-0">
+            <thead>
+                <tr>
+                    <th style="width:2rem">
+                        <input type="checkbox"
+                               checked="@AllFilesChecked"
+                               @onchange="e => ToggleAllFiles((bool)e.Value!)" />
+                    </th>
+                    <th class="text-white" style="width:2.5rem">#</th>
+                    <th class="text-white">@L["Field_Name"]</th>
+                    <th class="text-white">@L["Field_Size"]</th>
+                    <th class="text-white text-center" style="width:6rem">@L["Patch_Order"]</th>
+                    <th style="width:2.5rem"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < _files.Count; i++)
+                {
+                    var idx      = i;
+                    var fileName = _files[i].Name;
+                    <tr>
+                        <td class="align-middle">
+                            <input type="checkbox"
+                                   checked="@_checkedFiles.Contains(fileName)"
+                                   @onchange="e => ToggleFile(fileName, (bool)e.Value!)" />
+                        </td>
+                        <td class="text-white align-middle">@(i + 1)</td>
+                        <td class="text-white align-middle">@fileName</td>
+                        <td class="text-white align-middle">@FormatBytes(_files[i].Size)</td>
+                        <td class="text-center align-middle">
+                            <button class="btn btn-sm btn-outline-light me-1"
+                                    @onclick="() => MoveUp(idx)"
+                                    disabled="@(idx == 0 || _patching)">↑</button>
+                            <button class="btn btn-sm btn-outline-light"
+                                    @onclick="() => MoveDown(idx)"
+                                    disabled="@(idx == _files.Count - 1 || _patching)">↓</button>
+                        </td>
+                        <td class="align-middle">
+                            <button class="btn btn-sm btn-outline-danger"
+                                    @onclick="() => DeleteFile(idx)"
+                                    disabled="@_patching">✕</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    @if (_files.Count == 0 && !_uploading)
+    {
+        <div class="text-white-50 mt-2 small">Upload 폴더가 비어 있습니다.</div>
+    }
+</div>
+
+@* ─── Agent 선택 ── *@
+<div class="card border-secondary p-3 mb-3" style="background:rgba(255,255,255,.05)">
+    <h5 class="text-white">@L["Patch_SelectAgents"]</h5>
+    @foreach (var agent in _agents)
+    {
+        var agentName = agent.Info.Name;
+        var connected = agent.IsConnected;
+        <div class="form-check mb-1">
+            <input class="form-check-input" type="checkbox" id="ag_@agentName"
+                   checked="@_selectedAgents.Contains(agentName)"
+                   disabled="@(!connected || _patching)"
+                   @onchange="e => ToggleAgent(agentName, (bool)e.Value!)" />
+            <label class="form-check-label text-white @(!connected ? "opacity-50" : "")"
+                   for="ag_@agentName">
+                @agentName
+                <span class="badge ms-1 @(connected ? "badge-online" : "badge-offline")">
+                    @(connected ? L["Status_Online"].Value : L["Status_Offline"].Value)
+                </span>
+            </label>
+        </div>
+    }
+    @if (!_agents.Any())
+    {
+        <span class="text-white-50">@L["Agents_NoResults"]</span>
+    }
+</div>
+
+@* ─── 패치 시작 ── *@
+<div class="mb-4">
+    <button class="btn btn-success" @onclick="StartPatchAsync" disabled="@(!CanPatch)">
+        @(_patching ? L["Patch_InProgress"].Value : L["Patch_Start"].Value)
+    </button>
+</div>
+
+@* ─── 진행 상황 ── *@
+@if (_progress.Count > 0)
+{
+    <div class="card border-secondary p-3" style="background:rgba(255,255,255,.05)">
+        <h5 class="text-white">@L["Patch_Progress"]</h5>
+        <table class="table table-dark table-sm mb-0">
+            <thead>
+                <tr>
+                    <th class="text-white">Agent</th>
+                    <th class="text-white">@L["Field_Status"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var (agent, status) in _progress)
+                {
+                    <tr>
+                        <td class="text-white">@agent</td>
+                        <td>
+                            @if (status == "done")
+                            {
+                                <span class="text-success">✓ @L["Patch_Done"]</span>
+                            }
+                            else if (status.StartsWith("fail:"))
+                            {
+                                <span class="text-danger">✗ @status[5..]</span>
+                            }
+                            else if (status == "offline")
+                            {
+                                <span class="text-white-50">@L["Patch_Skipped"]</span>
+                            }
+                            else
+                            {
+                                <span class="text-warning">⏳ @status</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private record FileEntry(string Name, long Size);
+
+    private IReadOnlyCollection<AgentClient>    _agents         = Array.Empty<AgentClient>();
+    private List<FileEntry>                     _files          = new();
+    private HashSet<string>                     _checkedFiles   = new();
+    private HashSet<string>                     _selectedAgents = new();
+    private List<(string Agent, string Status)> _progress       = new();
+    private bool                                _patching;
+    private bool                                _uploading;
+
+    private bool AllFilesChecked =>
+        _files.Count > 0 && _files.All(f => _checkedFiles.Contains(f.Name));
+
+    private bool CanPatch =>
+        !_patching && !_uploading &&
+        _files.Any(f => _checkedFiles.Contains(f.Name)) &&
+        _selectedAgents.Count > 0;
+
+    protected override void OnInitialized()
+    {
+        _agents = Registry.All;
+        RefreshFileList();
+    }
+
+    // @brief Upload 디렉토리에서 파일 목록을 다시 읽어 _files 에 반영한다.
+    //        이미 순서가 조정돼 있다면 새 파일만 끝에 추가한다.
+    private void RefreshFileList()
+    {
+        var diskFiles = Uploads.GetFiles();
+
+        // 디스크에서 삭제된 항목 제거
+        var diskNames = diskFiles.Select(f => f.Name).ToHashSet();
+        _files.RemoveAll(e => !diskNames.Contains(e.Name));
+        _checkedFiles.RemoveWhere(n => !diskNames.Contains(n));
+
+        // 디스크에만 있는 신규 파일은 끝에 추가 (기본 선택)
+        var existing = _files.Select(e => e.Name).ToHashSet();
+        foreach (var fi in diskFiles.Where(f => !existing.Contains(f.Name)))
+        {
+            _files.Add(new FileEntry(fi.Name, fi.Length));
+            _checkedFiles.Add(fi.Name);
+        }
+    }
+
+    // ─── 파일 업로드 (브라우저 → Manager Upload 디렉토리) ────
+    private async Task HandleFilesSelected(InputFileChangeEventArgs e)
+    {
+        _uploading = true;
+        await InvokeAsync(StateHasChanged);
+
+        const long maxSize = 500L * 1024 * 1024;
+        try
+        {
+            foreach (var file in e.GetMultipleFiles(50))
+            {
+                using var stream = file.OpenReadStream(maxSize);
+                await Uploads.SaveAsync(file.Name, stream);
+            }
+            RefreshFileList();
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"[Patch] Upload error: {ex.Message}");
+        }
+        finally
+        {
+            _uploading = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    // ─── 파일 목록 조작 ─────────────────────────────────────
+    private void ToggleAllFiles(bool selected)
+    {
+        if (selected) foreach (var f in _files) _checkedFiles.Add(f.Name);
+        else          _checkedFiles.Clear();
+    }
+
+    private void ToggleFile(string name, bool selected)
+    {
+        if (selected) _checkedFiles.Add(name);
+        else          _checkedFiles.Remove(name);
+    }
+
+    private void DeleteFile(int idx)
+    {
+        if (idx < 0 || idx >= _files.Count) return;
+        var name = _files[idx].Name;
+        Uploads.Delete(name);
+        _checkedFiles.Remove(name);
+        _files.RemoveAt(idx);
+    }
+
+    private void MoveUp(int idx)
+    {
+        if (idx <= 0) return;
+        (_files[idx], _files[idx - 1]) = (_files[idx - 1], _files[idx]);
+    }
+
+    private void MoveDown(int idx)
+    {
+        if (idx >= _files.Count - 1) return;
+        (_files[idx], _files[idx + 1]) = (_files[idx + 1], _files[idx]);
+    }
+
+    private void ToggleAgent(string name, bool selected)
+    {
+        if (selected) _selectedAgents.Add(name);
+        else          _selectedAgents.Remove(name);
+    }
+
+    // ─── 패치 실행 ───────────────────────────────────────────
+    // Agent 별로 순서대로 처리하며, 각 파일이 완료된 후 다음 파일을 전송한다.
+    private async Task StartPatchAsync()
+    {
+        _patching = true;
+        _progress = _selectedAgents.Select(a => (a, "대기 중")).ToList();
+
+        var filesToPatch = _files.Where(f => _checkedFiles.Contains(f.Name)).ToList();
+
+        for (var ai = 0; ai < _progress.Count; ai++)
+        {
+            var agentName = _progress[ai].Agent;
+            var client    = Registry.Get(agentName);
+
+            if (null == client || !client.IsConnected)
+            {
+                _progress[ai] = (agentName, "offline");
+                await InvokeAsync(StateHasChanged);
+                continue;
+            }
+
+            var failed = false;
+            for (var fi = 0; fi < filesToPatch.Count; fi++)
+            {
+                var entry = filesToPatch[fi];
+                _progress[ai] = (agentName, $"{entry.Name} ({fi + 1}/{filesToPatch.Count})");
+                await InvokeAsync(StateHasChanged);
+
+                // 디스크에서 파일 읽기 → Agent 로 전송
+                byte[] bytes;
+                try
+                {
+                    bytes = await File.ReadAllBytesAsync(Uploads.FilePath(entry.Name));
+                }
+                catch (Exception ex)
+                {
+                    _progress[ai] = (agentName, $"fail:파일 읽기 오류 - {ex.Message}");
+                    await InvokeAsync(StateHasChanged);
+                    failed = true;
+                    break;
+                }
+
+                var resp = await client.SendAsync(PacketId.PutFile, new PutFileRequest
+                {
+                    Path       = entry.Name,   // 파일명만 — Agent 가 PatchRootDir 에 저장
+                    DataBase64 = Convert.ToBase64String(bytes),
+                    Overwrite  = true
+                });
+
+                ResultResponse? result = null;
+                if (null != resp)
+                    result = PacketSerializer.Deserialize<ResultResponse>(resp.Value.payload);
+
+                if (result?.Success == false)
+                {
+                    _progress[ai] = (agentName, $"fail:{result.Message}");
+                    await InvokeAsync(StateHasChanged);
+                    failed = true;
+                    break;
+                }
+            }
+
+            if (!failed)
+            {
+                _progress[ai] = (agentName, "done");
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+
+        _patching = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private static string FormatBytes(long bytes)
+    {
+        if (bytes >= 1_073_741_824) return $"{bytes / 1_073_741_824.0:0.0} GB";
+        if (bytes >= 1_048_576)     return $"{bytes / 1_048_576.0:0.0} MB";
+        if (bytes >= 1_024)         return $"{bytes / 1_024.0:0.0} KB";
+        return $"{bytes} B";
+    }
+
+    public void Dispose() { }
+}

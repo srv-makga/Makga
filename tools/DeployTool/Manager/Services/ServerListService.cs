@@ -58,7 +58,7 @@ public class ServerListService : IHostedService, IDisposable
 				new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
 			if (null != servers)
-				_registry.UpdateServers(servers.Servers);
+				_ = _registry.UpdateServers(servers.Servers);
 
 			_log.LogInformation("Loaded {Count} servers from serverlist.json", servers?.Servers.Count ?? 0);
 		}

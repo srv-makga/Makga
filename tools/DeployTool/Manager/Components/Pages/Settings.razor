@@ -1,0 +1,69 @@
+@page "/settings"
+@inject ManagerSettingsService SettingsSvc
+
+<PageTitle>@L["PageTitle_Settings"]</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>@L["Nav_Settings"]</h2>
+</div>
+
+<div class="card p-4" style="max-width:480px">
+    @if (!string.IsNullOrEmpty(_message))
+    {
+        <div class="alert @(_isError ? "alert-danger" : "alert-success") mb-3">@_message</div>
+    }
+
+    <div class="mb-3">
+        <label class="form-label">@L["Settings_RetryInterval"] (초)</label>
+        <input type="number" class="form-control bg-dark text-white" min="1" max="300"
+               @bind="_retryIntervalSec" />
+        <div class="form-text text-muted">@L["Settings_RetryIntervalDesc"]</div>
+    </div>
+
+    <div class="mb-4">
+        <label class="form-label">@L["Settings_HeartbeatInterval"] (초)</label>
+        <input type="number" class="form-control bg-dark text-white" min="1" max="60"
+               @bind="_heartbeatIntervalSec" />
+        <div class="form-text text-muted">@L["Settings_HeartbeatIntervalDesc"]</div>
+    </div>
+
+    <button class="btn btn-warning" @onclick="SaveAsync" disabled="@_saving">
+        @(_saving ? L["Btn_Saving"].Value : L["Btn_Save"].Value)
+    </button>
+</div>
+
+@code {
+    private int    _retryIntervalSec;
+    private int    _heartbeatIntervalSec;
+    private string _message  = "";
+    private bool   _isError;
+    private bool   _saving;
+
+    protected override void OnInitialized()
+    {
+        var cfg = SettingsSvc.Current;
+        _retryIntervalSec     = cfg.RetryIntervalSec;
+        _heartbeatIntervalSec = cfg.HeartbeatIntervalSec;
+    }
+
+    private async Task SaveAsync()
+    {
+        _saving  = true;
+        _message = "";
+        try
+        {
+            await SettingsSvc.SaveAsync(_retryIntervalSec, _heartbeatIntervalSec);
+            _isError = false;
+            _message = L["Settings_SaveDone"];
+        }
+        catch (Exception ex)
+        {
+            _isError = true;
+            _message = ex.Message;
+        }
+        finally
+        {
+            _saving = false;
+        }
+    }
+}
