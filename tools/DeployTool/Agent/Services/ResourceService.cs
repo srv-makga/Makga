@@ -6,13 +6,29 @@ using Microsoft.Extensions.Options;
 
 namespace DeployTool.Agent.Services;
 
+/// <summary>
+/// 메모리, 디스크, 네트워크 및 포트 상태를 포함한 시스템 리소스 정보를 제공합니다.
+/// </summary>
 public class ResourceService
 {
 	private readonly AgentConfig _cfg;
 	private readonly DateTime    _startTime = DateTime.UtcNow;
+	private readonly ExternalServiceMonitor _serviceMonitor;
 
-	public ResourceService(IOptions<AgentConfig> cfg) => _cfg = cfg.Value;
+	/// <summary>
+	/// ResourceService 클래스의 새 인스턴스를 초기화합니다.
+	/// </summary>
+	/// <param name="cfg">에이전트 설정 옵션</param>
+	public ResourceService(IOptions<AgentConfig> cfg)
+	{
+		_cfg = cfg.Value;
+		_serviceMonitor = new ExternalServiceMonitor(_cfg.Services);
+	}
 
+	/// <summary>
+	/// 버전, OS, 호스트명, 작업 디렉터리 및 가동 시간을 포함한 에이전트 정보를 검색합니다.
+	/// </summary>
+	/// <returns>에이전트 정보를 포함하는 응답</returns>
 	public Task<AgentInfoResponse> GetAgentInfoAsync()
 	{
 		return Task.FromResult(new AgentInfoResponse
@@ -25,6 +41,10 @@ public class ResourceService
 		});
 	}
 
+	/// <summary>
+	/// 메모리 및 디스크 사용량을 포함한 시스템 리소스 정보를 검색합니다.
+	/// </summary>
+	/// <returns>리소스 통계를 포함하는 응답</returns>
 	public Task<ResourceInfoResponse> GetResourceAsync()
 	{
 		var info = new ResourceInfoResponse
@@ -70,6 +90,10 @@ public class ResourceService
 		return Task.FromResult(info);
 	}
 
+	/// <summary>
+	/// 송수신한 바이트를 포함한 네트워크 인터페이스 통계를 검색합니다.
+	/// </summary>
+	/// <returns>네트워크 인터페이스 정보를 포함하는 응답</returns>
 	public Task<NetworkInfoResponse> GetNetworkAsync()
 	{
 		var ifaces = new List<NetworkInterfaceEntry>();
@@ -86,12 +110,31 @@ public class ResourceService
 		return Task.FromResult(new NetworkInfoResponse { Interfaces = ifaces });
 	}
 
+	/// <summary>
+	/// 특정 TCP 포트가 수신 대기 중인지 확인합니다.
+	/// </summary>
+	/// <param name="req">포트 번호를 포함하는 요청</param>
+	/// <returns>포트가 수신 대기 중인지 여부를 나타내는 응답</returns>
 	public Task<PortStatusResponse> CheckPortAsync(CheckPortRequest req)
 	{
 		var props     = IPGlobalProperties.GetIPGlobalProperties();
 		var listeners = props.GetActiveTcpListeners();
 		var listening = listeners.Any(ep => ep.Port == req.Port);
 		return Task.FromResult(new PortStatusResponse { Port = req.Port, Listening = listening });
+	}
+
+	/// <summary>
+	/// 설정된 모든 외부 서비스(MySQL, MSSQL, Redis 등)의 상태를 검색합니다.
+	/// </summary>
+	/// <returns>외부 서비스 상태 목록을 포함하는 응답</returns>
+	public async Task<ExternalServicesInfoResponse> GetExternalServicesAsync()
+	{
+		var services = await _serviceMonitor.GetAllServicesAsync();
+		return new ExternalServicesInfoResponse
+		{
+			Services = services,
+			CollectedAtUtc = DateTime.UtcNow
+		};
 	}
 
 	private static long ParseMemInfoKb(string line)

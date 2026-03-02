@@ -9,7 +9,7 @@ var host = Host.CreateDefaultBuilder(args)
 	{
 		cfg.SetBasePath(AppContext.BaseDirectory);
 		cfg.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-	})
+    })
 	.ConfigureServices((ctx, svc) =>
 	{
 		svc.Configure<AgentConfig>(ctx.Configuration.GetSection("DeployAgent"));
@@ -22,10 +22,7 @@ var host = Host.CreateDefaultBuilder(args)
 		svc.AddSingleton<CommandDispatcher>();
 		svc.AddHostedService<AgentServer>();
 	})
-	.ConfigureLogging(log =>
-	{
-		log.AddConsole();
-	})
+	.ConfigureLogging(log => log.AddConsole())
 	.Build();
 
 await host.RunAsync();

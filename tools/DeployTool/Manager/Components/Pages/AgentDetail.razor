@@ -92,61 +92,69 @@ else
             </table>
         }
     </div>
+
+    @* ─── External Services ─── *@
+    @if (_services?.Services.Count > 0)
+    {
+        <div class="card p-3 mb-4">
+            <h5>External Services <button class="btn btn-sm btn-outline-light ms-2" @onclick="LoadResourceAsync">@L["Btn_Refresh"]</button></h5>
+            <div class="table-responsive">
+                <table class="table table-dark table-sm mb-0">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Type</th>
+                            <th>Host:Port</th>
+                            <th>Status</th>
+                            <th>Response</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var svc in _services.Services)
+                        {
+                            <tr>
+                                <td><strong>@svc.DisplayName</strong></td>
+                                <td>@svc.ServiceType</td>
+                                <td>@svc.Host:@svc.Port</td>
+                                <td>
+                                    @if (svc.Status == "Connected")
+                                    {
+                                        <span class="badge bg-success">✓ Connected</span>
+                                    }
+                                    else if (svc.Status == "Timeout")
+                                    {
+                                        <span class="badge bg-warning">⏱ Timeout</span>
+                                    }
+                                    else if (svc.Status == "AuthFailed")
+                                    {
+                                        <span class="badge bg-danger">🔒 Auth Failed</span>
+                                    }
+                                    else if (svc.Status == "Offline")
+                                    {
+                                        <span class="badge bg-danger">✗ Offline</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">? Unknown</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (svc.ResponseTimeMs >= 0)
+                                    {
+                                        <small>@svc.ResponseTimeMs ms</small>
+                                    }
+                                    else if (!string.IsNullOrEmpty(svc.ErrorMessage))
+                                    {
+                                        <small class="text-danger">@svc.ErrorMessage</small>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
 }
 
-@code {
-    [Parameter] public string Name { get; set; } = "";
 
-    private AgentClient?         _client;
-    private bool                 _notFound;
-    private AgentInfoResponse?   _info;
-    private ResourceInfoResponse? _resource;
-    private NetworkInfoResponse?  _network;
-    private List<FileEntry>?     _files;
-    private string               _filePath = "";
-
-    protected override async Task OnInitializedAsync()
-    {
-        _client = Registry.Get(Name);
-        if (null == _client)
-        {
-            _notFound = true;
-            return;
-        }
-
-        var resp = await _client.SendEmptyAsync(PacketId.GetInfo);
-        if (resp.HasValue)
-            _info = PacketSerializer.Deserialize<AgentInfoResponse>(resp.Value.payload);
-    }
-
-    private async Task LoadResourceAsync()
-    {
-        if (null == _client) return;
-        var resp = await _client.SendEmptyAsync(PacketId.GetResource);
-        if (resp.HasValue)
-            _resource = PacketSerializer.Deserialize<ResourceInfoResponse>(resp.Value.payload);
-
-        var netResp = await _client.SendEmptyAsync(PacketId.GetNetwork);
-        if (netResp.HasValue)
-            _network = PacketSerializer.Deserialize<NetworkInfoResponse>(netResp.Value.payload);
-    }
-
-    private static string FormatBytes(long bytes)
-    {
-        if (bytes >= 1_073_741_824) return $"{bytes / 1_073_741_824.0:0.0} GB";
-        if (bytes >= 1_048_576)     return $"{bytes / 1_048_576.0:0.0} MB";
-        if (bytes >= 1_024)         return $"{bytes / 1_024.0:0.0} KB";
-        return $"{bytes} B";
-    }
-
-    private async Task LoadFilesAsync()
-    {
-        if (null == _client) return;
-        var resp = await _client.SendAsync(PacketId.ListFiles, new ListFilesRequest { Path = _filePath });
-        if (resp.HasValue)
-        {
-            var result = PacketSerializer.Deserialize<FileListResponse>(resp.Value.payload);
-            _files = result?.Files;
-        }
-    }
-}

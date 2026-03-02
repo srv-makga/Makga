@@ -4,13 +4,21 @@ using DeployTool.Common.Packets;
 
 namespace DeployTool.Agent.Services;
 
+/// <summary>
+/// Windows 서비스(Windows) 및 systemd 서비스(Linux)를 시작, 중지 및 상태 작업으로 관리합니다.
+/// </summary>
 public class ServiceManagerService
 {
+	/// <summary>
+	/// Windows 서비스 또는 systemd 서비스를 시작합니다.
+	/// </summary>
+	/// <param name="req">서비스 이름을 포함하는 요청</param>
+	/// <returns>서비스 상태를 포함하는 응답</returns>
 	public async Task<ServiceStatusResponse> StartAsync(ServiceNameRequest req)
 	{
 		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 		{
-			var sc = new ServiceController(req.Name);
+			using var sc = new ServiceController(req.Name);
 			if (sc.Status != ServiceControllerStatus.Running)
 			{
 				sc.Start();
@@ -26,11 +34,16 @@ public class ServiceManagerService
 		}
 	}
 
+	/// <summary>
+	/// Windows 서비스 또는 systemd 서비스를 중지합니다.
+	/// </summary>
+	/// <param name="req">서비스 이름을 포함하는 요청</param>
+	/// <returns>서비스 상태를 포함하는 응답</returns>
 	public async Task<ServiceStatusResponse> StopAsync(ServiceNameRequest req)
 	{
 		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 		{
-			var sc = new ServiceController(req.Name);
+			using var sc = new ServiceController(req.Name);
 			if (sc.Status != ServiceControllerStatus.Stopped)
 			{
 				sc.Stop();
@@ -46,16 +59,25 @@ public class ServiceManagerService
 		}
 	}
 
+	/// <summary>
+	/// 서비스의 현재 상태를 가져옵니다.
+	/// </summary>
+	/// <param name="req">서비스 이름을 포함하는 요청</param>
+	/// <returns>현재 서비스 상태를 포함하는 응답</returns>
 	public async Task<ServiceStatusResponse> GetStatusAsync(ServiceNameRequest req)
 	{
 		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 		{
-			var sc = new ServiceController(req.Name);
+			using var sc = new ServiceController(req.Name);
 			return new ServiceStatusResponse { Name = req.Name, Status = sc.Status.ToString() };
 		}
 		return new ServiceStatusResponse { Name = req.Name, Status = await GetSystemctlStatusAsync(req.Name) };
 	}
 
+	/// <summary>
+	/// 사용 가능한 모든 Windows 서비스를 나열합니다 (Windows만 해당).
+	/// </summary>
+	/// <returns>서비스 목록을 포함하는 응답</returns>
 	public Task<ServiceListResponse> ListAsync()
 	{
 		var list = new List<ServiceEntry>();

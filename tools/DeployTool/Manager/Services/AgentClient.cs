@@ -7,39 +7,49 @@ using Microsoft.Extensions.Options;
 
 namespace DeployTool.Manager.Services;
 
-// @brief Agent 1개와의 지속 TCP 연결 관리.
-//   - 생성 즉시 백그라운드 루프 시작 (연결 → 하트비트 → 재연결 반복)
-//   - 하트비트마다 GetResource를 요청하고 LastResource에 캐싱
-//   - RetryIntervalSec / HeartbeatIntervalSec 는 IOptionsMonitor 로 실시간 반영
+/// <summary>
+/// 단일 에이전트와의 영구 TCP 연결을 관리합니다.
+/// 인증, 하트비트 모니터링 및 패킷 기반 RPC 통신을 처리합니다.
+/// 연결 손실 시 자동으로 다시 연결을 시도합니다.
+/// </summary>
 public class AgentClient : IAsyncDisposable
 {
-	public  ServerEntry             Info            { get; }
-	public  bool                    IsConnected     { get; private set; }
-	public  ResourceInfoResponse?   LastResource    { get; private set; }
-	public  DateTime?               LastHeartbeatAt { get; private set; }
+	/// <summary>서버 설정 정보</summary>
+	public ServerEntry Info { get; }
+	/// <summary>현재 에이전트에 연결되고 인증되었으면 true</summary>
+	public bool IsConnected { get; private set; }
+	/// <summary>하트비트에서 수신한 마지막 리소스 정보</summary>
+	public ResourceInfoResponse? LastResource { get; private set; }
+	/// <summary>마지막 성공한 하트비트의 타임스탬프</summary>
+	public DateTime? LastHeartbeatAt { get; private set; }
 
-	// UI 컴포넌트가 구독해 StateHasChanged 를 호출할 수 있도록 노출
+	/// <summary>연결 상태 변경 시 발생</summary>
 	public event Action? OnStateChanged;
 
 	private readonly IOptionsMonitor<ManagerConfig> _options;
-	private int RetryIntervalSec     => _options.CurrentValue.RetryIntervalSec;
+	private int RetryIntervalSec => _options.CurrentValue.RetryIntervalSec;
 	private int HeartbeatIntervalSec => _options.CurrentValue.HeartbeatIntervalSec;
 
-	private TcpClient?     _tcp;
+	private TcpClient? _tcp;
 	private NetworkStream? _stream;
 
-	// 하트비트와 명령 송수신이 같은 소켓 스트림을 공유하므로 직렬화
 	private readonly SemaphoreSlim _lock = new(1, 1);
 	private readonly CancellationTokenSource _cts = new();
+	private readonly Task _runLoop;
 
+	/// <summary>
+	/// AgentClient 클래스의 새 인스턴스를 초기화합니다.
+	/// 연결 및 하트비트 백그라운드 루프를 즉시 시작합니다.
+	/// </summary>
+	/// <param name="info">서버 항목 설정</param>
+	/// <param name="options">재시도/하트비트 간격을 위한 매니저 설정 옵션</param>
 	public AgentClient(ServerEntry info, IOptionsMonitor<ManagerConfig> options)
 	{
-		Info     = info;
+		Info = info;
 		_options = options;
-		_ = RunLoopAsync(_cts.Token);
+		_runLoop = RunLoopAsync(_cts.Token);
 	}
 
-	// ─── 백그라운드 연결 루프 ────────────────────────────────
 	private async Task RunLoopAsync(CancellationToken ct)
 	{
 		while (!ct.IsCancellationRequested)
@@ -68,10 +78,9 @@ public class AgentClient : IAsyncDisposable
 		}
 	}
 
-	// @brief TCP 연결 + Ping 인증
 	private async Task EstablishAsync(CancellationToken ct)
 	{
-		_tcp    = new TcpClient();
+		_tcp = new TcpClient();
 		await _tcp.ConnectAsync(Info.Host, Info.Port, ct);
 		_stream = _tcp.GetStream();
 
@@ -86,7 +95,6 @@ public class AgentClient : IAsyncDisposable
 		NotifyStateChanged();
 	}
 
-	// @brief 연결된 상태에서 HeartbeatIntervalSec 마다 GetResource 를 호출해 리소스 캐싱
 	private async Task HeartbeatLoopAsync(CancellationToken ct)
 	{
 		while (!ct.IsCancellationRequested)
@@ -115,15 +123,25 @@ public class AgentClient : IAsyncDisposable
 		}
 	}
 
-	// ─── 명령 송수신 (UI → Agent) ────────────────────────────
-	// @brief 페이로드 있는 명령 전송
+	/// <summary>
+	/// Sends a typed request to the Agent and receives a response.
+	/// Returns null if not connected or if the request times out.
+	/// </summary>
+	/// <typeparam name="T">Type of request payload</typeparam>
+	/// <param name="id">Packet ID for the request</param>
+	/// <param name="payload">Request payload object</param>
+	/// <param name="ct">Cancellation token</param>
+	/// <returns>Response packet tuple or null if unavailable</returns>
 	public async Task<(PacketId id, byte[] payload, byte key)?> SendAsync<T>(
 		PacketId id, T payload, CancellationToken ct = default)
 	{
 		if (!IsConnected)
 			return null;
 
-		await _lock.WaitAsync(ct);
+		bool acquired = await _lock.WaitAsync(TimeSpan.FromSeconds(10), ct);
+		if (!acquired)
+			return null;
+
 		try
 		{
 			await _stream!.WriteAsync(PacketSerializer.Serialize(id, payload), ct);
@@ -140,14 +158,22 @@ public class AgentClient : IAsyncDisposable
 		}
 	}
 
-	// @brief 페이로드 없는 명령 전송
+	/// <summary>
+	/// Sends a header-only request (no payload) and receives a response.
+	/// </summary>
+	/// <param name="id">Packet ID for the request</param>
+	/// <param name="ct">Cancellation token</param>
+	/// <returns>Response packet tuple or null if unavailable</returns>
 	public async Task<(PacketId id, byte[] payload, byte key)?> SendEmptyAsync(
 		PacketId id, CancellationToken ct = default)
 	{
 		if (!IsConnected)
 			return null;
 
-		await _lock.WaitAsync(ct);
+		bool acquired = await _lock.WaitAsync(TimeSpan.FromSeconds(10), ct);
+		if (!acquired)
+			return null;
+
 		try
 		{
 			await _stream!.WriteAsync(PacketSerializer.SerializeEmpty(id), ct);
@@ -164,14 +190,27 @@ public class AgentClient : IAsyncDisposable
 		}
 	}
 
-	// ─── 내부 유틸 ───────────────────────────────────────────
+	/// <summary>
+	/// Retrieves external services status (MySQL, MSSQL, Redis, etc.) from the Agent.
+	/// </summary>
+	/// <param name="ct">Cancellation token</param>
+	/// <returns>External services information or null if not available</returns>
+	public async Task<ExternalServicesInfoResponse?> GetExternalServicesAsync(CancellationToken ct = default)
+	{
+		var resp = await SendEmptyAsync(PacketId.GetExternalServices, ct);
+		if (null == resp)
+			return null;
+
+		return PacketSerializer.Deserialize<ExternalServicesInfoResponse>(resp.Value.payload);
+	}
+
 	private void SetDisconnected()
 	{
 		IsConnected = false;
 		_stream?.Dispose();
 		_tcp?.Dispose();
 		_stream = null;
-		_tcp    = null;
+		_tcp = null;
 		NotifyStateChanged();
 	}
 
@@ -180,13 +219,17 @@ public class AgentClient : IAsyncDisposable
 		try { OnStateChanged?.Invoke(); } catch { }
 	}
 
-	public ValueTask DisposeAsync()
+	/// <summary>
+	/// Cleans up the connection and resources.
+	/// </summary>
+	/// <returns>Completion task</returns>
+	public async ValueTask DisposeAsync()
 	{
 		_cts.Cancel();
+		try { await _runLoop; } catch { }
 		_cts.Dispose();
 		_lock.Dispose();
 		_stream?.Dispose();
 		_tcp?.Dispose();
-		return ValueTask.CompletedTask;
 	}
 }

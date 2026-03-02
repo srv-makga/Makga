@@ -6,10 +6,10 @@ using Microsoft.Extensions.Options;
 
 namespace DeployTool.Agent.Services;
 
-// @brief TCP Listen + IP별 세션 관리.
-//   - 살아있는 세션이 있으면 중복 접속 거절
-//   - RunTask.IsCompleted 로 생존 여부 판단 → 죽었으면 교체, 살아있으면 거절
-//   - ContinueWith 는 동일 세션 참조일 때만 dict 에서 제거 (교체 후 race 방지)
+/// <summary>
+/// 매니저 연결을 수신 대기하고 IP 주소별로 세션을 관리하는 TCP 서버.
+/// 중복 연결을 방지하고 세션 수명 주기를 처리합니다.
+/// </summary>
 public class AgentServer : BackgroundService
 {
 	private readonly AgentConfig          _cfg;
@@ -20,6 +20,12 @@ public class AgentServer : BackgroundService
 	private readonly Dictionary<string, (AgentSession Session, Task RunTask)> _sessions = new();
 	private readonly object _sessLock = new();
 
+	/// <summary>
+	/// 지정된 설정 및 디스패처를 사용하여 AgentServer 클래스의 새 인스턴스를 초기화합니다.
+	/// </summary>
+	/// <param name="cfg">에이전트 설정 옵션</param>
+	/// <param name="dispatcher">패킷 라우팅을 위한 명령 디스패처</param>
+	/// <param name="log">로거 인스턴스</param>
 	public AgentServer(IOptions<AgentConfig> cfg, CommandDispatcher dispatcher, ILogger<AgentServer> log)
 	{
 		_cfg        = cfg.Value;
@@ -27,11 +33,16 @@ public class AgentServer : BackgroundService
 		_log        = log;
 	}
 
+	/// <summary>
+	/// 백그라운드 서비스를 실행하여 들어오는 TCP 연결을 수신 대기하고 세션을 관리합니다.
+	/// </summary>
+	/// <param name="ct">서비스를 중지할 취소 토큰</param>
+	/// <returns>수신 대기 루프를 나타내는 작업</returns>
 	protected override async Task ExecuteAsync(CancellationToken ct)
 	{
 		var listener = new TcpListener(IPAddress.Any, _cfg.ListenPort);
 		listener.Start();
-		_log.LogInformation("Agent listening on port {Port}", _cfg.ListenPort);
+		_log.LogInformation("에이전트 포트 {Port}에서 수신 대기 중", _cfg.ListenPort);
 
 		while (!ct.IsCancellationRequested)
 		{
@@ -40,12 +51,20 @@ public class AgentServer : BackgroundService
 				var client   = await listener.AcceptTcpClientAsync(ct);
 				var remoteIp = ((IPEndPoint)client.Client.RemoteEndPoint!).Address.ToString();
 
+				// IP 화이트리스트 검사 — AllowedManagerHosts가 비어있으면 모든 IP 허용
+				if (_cfg.AllowedManagerHosts.Count > 0 && !_cfg.AllowedManagerHosts.Contains(remoteIp))
+				{
+					_log.LogWarning("[AgentServer] 나열되지 않은 IP {IP} 거절", remoteIp);
+					client.Dispose();
+					continue;
+				}
+
 				lock (_sessLock)
 				{
 					// 살아있는 세션이 있으면 중복 접속 거절
 					if (_sessions.TryGetValue(remoteIp, out var existing) && !existing.RunTask.IsCompleted)
 					{
-						_log.LogWarning("[AgentServer] Rejecting duplicate connection from {IP}", remoteIp);
+						_log.LogWarning("[AgentServer] {IP}로부터의 중복 연결 거절", remoteIp);
 						client.Dispose();
 						continue;
 					}
@@ -75,7 +94,7 @@ public class AgentServer : BackgroundService
 			}
 			catch (Exception ex)
 			{
-				_log.LogError(ex, "Accept error");
+				_log.LogError(ex, "수락 오류");
 			}
 		}
 

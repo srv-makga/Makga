@@ -5,10 +5,10 @@ using Microsoft.Extensions.Logging;
 
 namespace DeployTool.Agent.Services;
 
-// @brief Manager 와의 단일 TCP 세션을 전담 관리.
-//   - 인증(Ping/Pong) 후 패킷 수신 루프를 유지
-//   - 연결이 끊기거나 Cancel() 이 호출되면 RunAsync 가 완료된다.
-//   - AgentServer 는 Listen 과 세션 교체만 담당하고 실제 통신은 이 클래스에 위임
+/// <summary>
+/// 매니저 클라이언트와의 단일 TCP 세션을 관리합니다.
+/// Ping/Pong을 통한 인증을 처리하고 패킷 수신 루프를 유지하며 명령을 처리합니다.
+/// </summary>
 public sealed class AgentSession : IDisposable
 {
 	private readonly TcpClient          _tcp;
@@ -18,6 +18,14 @@ public sealed class AgentSession : IDisposable
 	private readonly DateTime           _agentStartTime;
 	private readonly CancellationTokenSource _cts = new();
 
+	/// <summary>
+	/// AgentSession 클래스의 새 인스턴스를 초기화합니다.
+	/// </summary>
+	/// <param name="tcp">매니저에 연결된 TCP 클라이언트</param>
+	/// <param name="dispatcher">패킷 라우팅을 위한 명령 디스패처</param>
+	/// <param name="cfg">에이전트 설정</param>
+	/// <param name="log">로거 인스턴스</param>
+	/// <param name="agentStartTime">가동 시간 계산을 위한 에이전트의 시작 시간</param>
 	public AgentSession(
 		TcpClient tcp, CommandDispatcher dispatcher,
 		AgentConfig cfg, ILogger log, DateTime agentStartTime)
@@ -29,7 +37,11 @@ public sealed class AgentSession : IDisposable
 		_agentStartTime = agentStartTime;
 	}
 
-	// @brief 연결이 끊기거나 외부에서 취소될 때까지 블로킹
+	/// <summary>
+	/// 연결이 닫히거나 취소될 때까지 세션 루프를 실행하여 인증 및 패킷 처리를 처리합니다.
+	/// </summary>
+	/// <param name="externalCt">외부 취소 토큰</param>
+	/// <returns>세션 수명 주기를 나타내는 작업</returns>
 	public async Task RunAsync(CancellationToken externalCt)
 	{
 		using var linked = CancellationTokenSource.CreateLinkedTokenSource(externalCt, _cts.Token);
@@ -51,7 +63,7 @@ public sealed class AgentSession : IDisposable
 
 					var (id, payload, _) = packet.Value;
 
-					// ─── 첫 패킷은 반드시 Ping(인증) ───────────────
+					// ─── 첫 패킷은 반드시 Ping(인증)이어야 합니다 ───────────────
 					if (!authed)
 					{
 						if (id != Common.PacketId.Ping)
@@ -92,9 +104,14 @@ public sealed class AgentSession : IDisposable
 		_log.LogInformation("[Session] Disconnected: {Remote}", remote);
 	}
 
-	// @brief 외부에서 세션을 강제 종료할 때 호출
+	/// <summary>
+	/// 세션을 취소하여 RunAsync 루프의 강제 종료를 시작합니다.
+	/// </summary>
 	public void Cancel() => _cts.Cancel();
 
+	/// <summary>
+	/// 세션이 사용하는 리소스를 해제하고 세션을 취소하며 TCP 클라이언트를 정리합니다.
+	/// </summary>
 	public void Dispose()
 	{
 		_cts.Cancel();

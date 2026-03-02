@@ -1,78 +1,142 @@
 namespace DeployTool.Common;
 
+/// <summary>
+/// 매니저와 에이전트 간 통신을 위한 패킷 ID를 정의합니다.
+/// 값 1-99는 매니저 → 에이전트 요청이고 101+는 에이전트 → 매니저 응답입니다.
+/// </summary>
 public enum PacketId : ushort
 {
 	None = 0,
 
-	// ── Manager → Agent ────────────────────────
-	Ping         = 1,   // 연결 확인 + 인증 토큰
-	GetInfo      = 2,   // Agent 기본 정보 요청
+	// ── 매니저 → 에이전트 (요청) ────────────────────────
+	/// <summary>토큰을 사용한 연결 인증</summary>
+	Ping         = 1,
+	/// <summary>에이전트 정보 요청</summary>
+	GetInfo      = 2,
 
-	// 파일
-	SetWorkDir   = 10,  // 작업 디렉토리 변경
-	ListFiles    = 11,  // 파일/디렉토리 목록 조회
-	GetFile      = 12,  // 파일 내려받기
-	PutFile      = 13,  // 파일 업로드 (패치)
-	DeleteFile   = 14,  // 파일/디렉토리 삭제
-	MoveFile     = 15,  // 파일/디렉토리 이동·이름 변경
-	MakeDir      = 16,  // 디렉토리 생성
-	GetFileHash  = 17,  // 파일 해시(SHA-256) 조회
-	SyncDir      = 18,  // 로컬↔원격 파일 해시 비교 (diff 목록 반환)
-	BackupDir    = 19,  // 디렉토리를 압축 백업
+	// 파일 작업 (10-29)
+	/// <summary>작업 디렉터리 변경</summary>
+	SetWorkDir   = 10,
+	/// <summary>파일 및 디렉터리 나열</summary>
+	ListFiles    = 11,
+	/// <summary>파일 내용 다운로드</summary>
+	GetFile      = 12,
+	/// <summary>파일 업로드 (패치 배포)</summary>
+	PutFile      = 13,
+	/// <summary>파일 또는 디렉터리 삭제</summary>
+	DeleteFile   = 14,
+	/// <summary>파일/디렉터리 이동 또는 이름 변경</summary>
+	MoveFile     = 15,
+	/// <summary>디렉터리 생성</summary>
+	MakeDir      = 16,
+	/// <summary>파일 SHA-256 해시 가져오기</summary>
+	GetFileHash  = 17,
+	/// <summary>로컬 및 원격 파일 해시 비교</summary>
+	SyncDir      = 18,
+	/// <summary>디렉터리의 압축 백업 생성</summary>
+	BackupDir    = 19,
 
-	// 압축
-	Compress     = 20,  // 압축
-	Decompress   = 21,  // 압축 해제
+	// 압축 (20-29)
+	/// <summary>디렉터리를 ZIP 또는 TAR.GZ로 압축</summary>
+	Compress     = 20,
+	/// <summary>ZIP 또는 TAR.GZ 아카이브 압축 해제</summary>
+	Decompress   = 21,
 
-	// 프로세스
-	Execute      = 30,  // 프로세스 실행
-	Kill         = 31,  // 프로세스 종료 (PID)
-	ListProcess  = 32,  // 실행 중인 프로세스 목록
+	// 프로세스 작업 (30-39)
+	/// <summary>외부 프로세스 실행</summary>
+	Execute      = 30,
+	/// <summary>PID별 프로세스 종료</summary>
+	Kill         = 31,
+	/// <summary>실행 중인 프로세스 나열</summary>
+	ListProcess  = 32,
 
-	// 서비스 (Windows Service / systemd)
-	ServiceStart  = 40, // 서비스 시작
-	ServiceStop   = 41, // 서비스 중지
-	ServiceStatus = 42, // 서비스 상태 조회
-	ServiceList   = 43, // 등록된 서비스 목록
+	// 서비스 작업 (40-49)
+	/// <summary>Windows/systemd 서비스 시작</summary>
+	ServiceStart  = 40,
+	/// <summary>Windows/systemd 서비스 중지</summary>
+	ServiceStop   = 41,
+	/// <summary>서비스 상태 가져오기</summary>
+	ServiceStatus = 42,
+	/// <summary>사용 가능한 서비스 나열</summary>
+	ServiceList   = 43,
 
-	// 리소스
-	GetResource  = 50,  // CPU/Memory/Disk 조회
-	GetNetwork   = 51,  // 네트워크 인터페이스/트래픽 조회
-	CheckPort    = 52,  // 특정 포트 Listen 여부 확인
+	// 리소스 정보 (50-59)
+	/// <summary>CPU/메모리/디스크 정보 가져오기</summary>
+	GetResource  = 50,
+	/// <summary>네트워크 인터페이스 통계 가져오기</summary>
+	GetNetwork   = 51,
+	/// <summary>포트가 수신 대기 중인지 확인</summary>
+	CheckPort    = 52,
+	/// <summary>외부 서비스 상태 가져오기 (MySQL, MSSQL, Redis 등)</summary>
+	GetExternalServices = 53,
 
-	// 로그
-	GetLog       = 60,  // 로그 파일 tail
-	WatchLog     = 61,  // 로그 실시간 스트리밍 시작
-	StopWatchLog = 62,  // 로그 스트리밍 중지
+	// 로그 작업 (60-69)
+	/// <summary>로그 파일의 마지막 N개 라인 가져오기</summary>
+	GetLog       = 60,
+	/// <summary>로그 스트리밍 시작</summary>
+	WatchLog     = 61,
+	/// <summary>로그 스트리밍 중지</summary>
+	StopWatchLog = 62,
 
-	// 셸
-	Shell        = 70,  // 임의 셸 명령 실행 (stdout/stderr 반환)
+	// 셸 작업 (70-79)
+	/// <summary>셸 명령 실행</summary>
+	Shell        = 70,
 
-	// 설정
-	GetConfig    = 80,  // Agent 설정(appsettings.json) 조회
-	SetConfig    = 81,  // Agent 설정 항목 수정 (부분 업데이트)
-	ReloadConfig = 82,  // 설정 재로드 (디스크 재읽기)
+	// 설정 (80-89)
+	/// <summary>에이전트 설정 가져오기 (appsettings.json)</summary>
+	GetConfig    = 80,
+	/// <summary>에이전트 설정 업데이트</summary>
+	SetConfig    = 81,
+	/// <summary>디스크에서 에이전트 설정 다시 로드</summary>
+	ReloadConfig = 82,
 
-	// ── Agent → Manager ────────────────────────
-	Pong         = 101, // Ping 응답
-	AgentInfo    = 102, // Agent 기본 정보
-	Result       = 103, // 범용 성공/실패 응답
+	// ── 에이전트 → 매니저 (응답) ────────────────────────
+	/// <summary>가동 시간이 있는 Ping 응답</summary>
+	Pong         = 101,
+	/// <summary>에이전트 정보 응답</summary>
+	AgentInfo    = 102,
+	/// <summary>일반 성공/실패 응답</summary>
+	Result       = 103,
 
-	FileList     = 111, // 파일 목록
-	FileData     = 112, // 파일 내용 (바이너리 Base64)
-	FileHash     = 113, // 파일 해시
-	SyncDiff     = 114, // SyncDir diff 목록
+	// 파일 작업 응답 (111-119)
+	/// <summary>파일 목록 응답</summary>
+	FileList     = 111,
+	/// <summary>파일 내용 응답 (이진 Base64)</summary>
+	FileData     = 112,
+	/// <summary>파일 해시 응답</summary>
+	FileHash     = 113,
+	/// <summary>동기화 비교 결과</summary>
+	SyncDiff     = 114,
 
-	ProcessList   = 121, // 프로세스 목록
-	ServiceResult = 131, // 서비스 상태
-	ServiceItems  = 132, // 서비스 목록
+	// 프로세스 응답 (121)
+	/// <summary>프로세스 목록 응답</summary>
+	ProcessList   = 121,
 
-	ResourceInfo = 141, // 리소스 정보
-	NetworkInfo  = 142, // 네트워크 정보
-	PortStatus   = 143, // 포트 Listen 여부
+	// 서비스 응답 (131-132)
+	/// <summary>서비스 작업 결과</summary>
+	ServiceResult = 131,
+	/// <summary>서비스 목록 응답</summary>
+	ServiceItems  = 132,
 
-	LogData      = 151, // 로그 데이터 (tail / stream chunk)
-	ShellOutput  = 161, // 셸 명령 결과
+	// 리소스 정보 응답 (141-144)
+	/// <summary>리소스 정보 응답</summary>
+	ResourceInfo = 141,
+	/// <summary>네트워크 정보 응답</summary>
+	NetworkInfo  = 142,
+	/// <summary>포트 상태 응답</summary>
+	PortStatus   = 143,
+	/// <summary>외부 서비스 상태 응답</summary>
+	ExternalServicesInfo = 144,
 
-	ConfigData   = 171, // Agent 설정 내용
+	// 로그 응답 (151)
+	/// <summary>로그 데이터 응답 (tail 또는 스트리밍 청크)</summary>
+	LogData      = 151,
+
+	// 셸 응답 (161)
+	/// <summary>셸 명령 출력 응답</summary>
+	ShellOutput  = 161,
+
+	// 설정 응답 (171)
+	/// <summary>설정 데이터 응답</summary>
+	ConfigData   = 171,
 }

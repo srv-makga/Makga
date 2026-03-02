@@ -31,32 +31,4 @@ else
     }
 }
 
-@code {
-    [Parameter] public string Name { get; set; } = "";
 
-    private AgentClient? _client;
-    private bool         _notFound;
-    private string       _logFile    = "";
-    private int          _lines      = 100;
-    private string?      _logContent;
-
-    protected override void OnInitialized()
-    {
-        _client = Registry.Get(Name);
-        if (null == _client)
-            _notFound = true;
-    }
-
-    private async Task LoadLogAsync()
-    {
-        if (null == _client || string.IsNullOrEmpty(_logFile)) return;
-
-        var resp = await _client.SendAsync(PacketId.GetLog,
-            new GetLogRequest { Path = _logFile, Lines = _lines });
-        if (resp.HasValue)
-        {
-            var log = PacketSerializer.Deserialize<LogDataResponse>(resp.Value.payload);
-            _logContent = log?.Content;
-        }
-    }
-}
