@@ -1,8 +1,11 @@
 @page "/patch"
+@using System
+@using System.Linq
 @using DeployTool.Common
 @using DeployTool.Common.Net
 @using DeployTool.Common.Packets
 @using DeployTool.Manager.Services
+@using Microsoft.AspNetCore.Components.Forms
 @inject AgentRegistry Registry
 @inject UploadService Uploads
 @inject IStringLocalizer<SharedResource> L
@@ -17,12 +20,21 @@
     <h5 class="text-white mb-3">@L["Patch_Files"]</h5>
 
     <InputFile OnChange="HandleFilesSelected" multiple
-               class="form-control bg-dark text-white border-secondary mb-1" />
-    <div class="text-white-50 small">@L["Patch_DropHint"]</div>
+               class="form-control bg-dark text-white border-secondary mb-1"
+               @key="_inputKey" />
+    <div class="d-flex gap-2 align-items-center mt-1">
+        <button class="btn btn-sm btn-primary" type="button" @onclick="UploadPendingAsync"
+                disabled="@(!HasPendingUploads || _uploading || _patching)">
+            @(_uploading ? "업로드 중..." : "선택 파일 업로드")
+        </button>
+        <span class="small text-white-50">@L["Patch_DropHint"]</span>
+    </div>
 
-    @if (_uploading)
+    @if (_pendingUploads.Any())
     {
-        <div class="text-white-50 mt-2">⏳ 업로드 중...</div>
+        <div class="text-white-50 small mt-2">
+            업로드 예정: @string.Join(", ", _pendingUploads.Select(f => f.Name))
+        </div>
     }
 
     @if (_files.Count > 0)
@@ -80,28 +92,75 @@
     }
 </div>
 
-@* ─── Agent 선택 ── *@
+@* ─── Agent 선택 (그룹 / 태그 리스트) ── *@
 <div class="card border-secondary p-3 mb-3" style="background:rgba(255,255,255,.05)">
     <h5 class="text-white">@L["Patch_SelectAgents"]</h5>
-    @foreach (var agent in _agents)
+
+    @if (_agents.Any())
     {
-        var agentName = agent.Info.Name;
-        var connected = agent.IsConnected;
-        <div class="form-check mb-1">
-            <input class="form-check-input" type="checkbox" id="ag_@agentName"
-                   checked="@_selectedAgents.Contains(agentName)"
-                   disabled="@(!connected || _patching)"
-                   @onchange="e => ToggleAgent(agentName, (bool)e.Value!)" />
-            <label class="form-check-label text-white @(!connected ? "opacity-50" : "")"
-                   for="ag_@agentName">
-                @agentName
-                <span class="badge ms-1 @(connected ? "badge-online" : "badge-offline")">
-                    @(connected ? L["Status_Online"].Value : L["Status_Offline"].Value)
-                </span>
-            </label>
+        <div class="d-flex flex-wrap gap-2 mb-2">
+            @foreach (var group in AgentGroups)
+            {
+                var groupStyle = IsGroupFilterActive(group) ? "btn-primary" : "btn-outline-primary";
+                <button class="btn btn-sm @groupStyle"
+                        @onclick="() => ToggleAgentGroup(group)">
+                    그룹: @group
+                </button>
+            }
+        </div>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+            @foreach (var tag in AgentTags)
+            {
+                var tagStyle = IsTagFilterActive(tag) ? "btn-secondary" : "btn-outline-secondary";
+                <button class="btn btn-sm @tagStyle"
+                        @onclick="() => ToggleAgentTag(tag)">
+                    태그: @tag
+                </button>
+            }
+        </div>
+
+        <div class="list-group list-group-flush">
+            @foreach (var agent in _agents)
+            {
+                var agentName = agent.Info.Name;
+                var connected = agent.IsConnected;
+                var matchesFilter = IsAgentFilterMatch(agent);
+                <div class="list-group-item list-group-item-dark d-flex align-items-start gap-3">
+                    <div>
+                        <input class="form-check-input mt-0" type="checkbox"
+                               checked="@_selectedAgents.Contains(agentName)"
+                               disabled="@(!connected || _patching || !matchesFilter)"
+                               @onchange="e => ToggleAgent(agentName, (bool)e.Value!)" />
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                            <strong class="text-white">@agentName</strong>
+                            <span class="badge @(connected ? "badge-online" : "badge-offline")">
+                                @(connected ? L["Status_Online"].Value : L["Status_Offline"].Value)
+                            </span>
+                        </div>
+                        <div class="small text-white-50 mt-1">
+                            <span>그룹: @(string.IsNullOrWhiteSpace(agent.Info.Group) ? "없음" : agent.Info.Group)</span>
+                            <span class="ms-3">태그:
+                                @if (agent.Info.Tags?.Any() == true)
+                                {
+                                    foreach (var tag in agent.Info.Tags)
+                                    {
+                                        <span class="badge bg-transparent border border-secondary text-white-50 me-1">@tag</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="text-white-50">없음</span>
+                                }
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     }
-    @if (!_agents.Any())
+    else
     {
         <span class="text-white-50">@L["Agents_NoResults"]</span>
     }
@@ -158,28 +217,49 @@
 
 @code {
     private record FileEntry(string Name, long Size);
+    private record PendingUpload(string Name, IBrowserFile File);
 
     private IReadOnlyCollection<AgentClient>    _agents         = Array.Empty<AgentClient>();
     private List<FileEntry>                     _files          = new();
+    private List<PendingUpload>                 _pendingUploads = new();
     private HashSet<string>                     _checkedFiles   = new();
-    private HashSet<string>                     _selectedAgents = new();
+    private HashSet<string>                     _selectedAgents = new(StringComparer.OrdinalIgnoreCase);
+    private readonly HashSet<string>            _activeGroups   = new(StringComparer.OrdinalIgnoreCase);
+    private readonly HashSet<string>            _activeTags     = new(StringComparer.OrdinalIgnoreCase);
     private List<(string Agent, string Status)> _progress       = new();
     private bool                                _patching;
     private bool                                _uploading;
+    private string                              _inputKey       = Guid.NewGuid().ToString();
 
     private bool AllFilesChecked =>
         _files.Count > 0 && _files.All(f => _checkedFiles.Contains(f.Name));
 
+    private bool HasPendingUploads => _pendingUploads.Count > 0;
+    private bool HasReadyFiles => _files.Any(f => _checkedFiles.Contains(f.Name));
+    private bool HasSelectedAgents => _selectedAgents.Count > 0;
+
     private bool CanPatch =>
         !_patching && !_uploading &&
-        _files.Any(f => _checkedFiles.Contains(f.Name)) &&
-        _selectedAgents.Count > 0;
+        HasReadyFiles &&
+        HasSelectedAgents;
+ 
+    private IEnumerable<string> AgentGroups =>
+        _agents.Select(a => a.Info.Group ?? "")
+               .Where(g => !string.IsNullOrWhiteSpace(g))
+               .Distinct(StringComparer.OrdinalIgnoreCase);
+
+    private IEnumerable<string> AgentTags =>
+        _agents.SelectMany(a => a.Info.Tags ?? Enumerable.Empty<string>())
+               .Where(t => !string.IsNullOrWhiteSpace(t))
+               .Distinct(StringComparer.OrdinalIgnoreCase);
 
     protected override void OnInitialized()
     {
         _agents = Registry.All;
         RefreshFileList();
     }
+
+    private const long UploadLimit = 500L * 1024 * 1024;
 
     // @brief Upload 디렉토리에서 파일 목록을 다시 읽어 _files 에 반영한다.
     //        이미 순서가 조정돼 있다면 새 파일만 끝에 추가한다.
@@ -204,18 +284,32 @@
     // ─── 파일 업로드 (브라우저 → Manager Upload 디렉토리) ────
     private async Task HandleFilesSelected(InputFileChangeEventArgs e)
     {
+        foreach (var file in e.GetMultipleFiles(50))
+        {
+            QueuePendingUpload(file);
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task UploadPendingAsync()
+    {
+        if (!_pendingUploads.Any())
+            return;
+
         _uploading = true;
         await InvokeAsync(StateHasChanged);
-
-        const long maxSize = 500L * 1024 * 1024;
         try
         {
-            foreach (var file in e.GetMultipleFiles(50))
+            foreach (var pending in _pendingUploads)
             {
-                using var stream = file.OpenReadStream(maxSize);
-                await Uploads.SaveAsync(file.Name, stream);
+                await using var stream = pending.File.OpenReadStream(UploadLimit);
+                await Uploads.SaveAsync(pending.Name, stream);
             }
+
+            _pendingUploads.Clear();
             RefreshFileList();
+            ResetFileInput();
         }
         catch (Exception ex)
         {
@@ -233,12 +327,14 @@
     {
         if (selected) foreach (var f in _files) _checkedFiles.Add(f.Name);
         else          _checkedFiles.Clear();
+        StateHasChanged();
     }
 
     private void ToggleFile(string name, bool selected)
     {
         if (selected) _checkedFiles.Add(name);
         else          _checkedFiles.Remove(name);
+        StateHasChanged();
     }
 
     private void DeleteFile(int idx)
@@ -248,24 +344,109 @@
         Uploads.Delete(name);
         _checkedFiles.Remove(name);
         _files.RemoveAt(idx);
+        StateHasChanged();
     }
 
     private void MoveUp(int idx)
     {
         if (idx <= 0) return;
         (_files[idx], _files[idx - 1]) = (_files[idx - 1], _files[idx]);
+        StateHasChanged();
     }
 
     private void MoveDown(int idx)
     {
         if (idx >= _files.Count - 1) return;
         (_files[idx], _files[idx + 1]) = (_files[idx + 1], _files[idx]);
+        StateHasChanged();
     }
 
     private void ToggleAgent(string name, bool selected)
     {
         if (selected) _selectedAgents.Add(name);
         else          _selectedAgents.Remove(name);
+        StateHasChanged();
+    }
+
+    private void ToggleAgentGroup(string group)
+    {
+        if (_activeGroups.Contains(group))
+            _activeGroups.Remove(group);
+        else
+            _activeGroups.Add(group);
+
+        PruneSelectedAgents();
+        StateHasChanged();
+    }
+
+    private void ToggleAgentTag(string tag)
+    {
+        if (_activeTags.Contains(tag))
+            _activeTags.Remove(tag);
+        else
+            _activeTags.Add(tag);
+
+        PruneSelectedAgents();
+        StateHasChanged();
+    }
+
+    private bool IsGroupFilterActive(string group) =>
+        _activeGroups.Contains(group);
+
+    private bool IsTagFilterActive(string tag) =>
+        _activeTags.Contains(tag);
+
+    private void PruneSelectedAgents()
+    {
+        if (_activeGroups.Count == 0 && _activeTags.Count == 0)
+            return;
+
+        if (_selectedAgents.Count == 0)
+            return;
+
+        var allowed = new HashSet<string>(
+            _agents.Where(IsAgentFilterMatch).Select(a => a.Info.Name),
+            StringComparer.OrdinalIgnoreCase);
+
+        foreach (var agentName in _selectedAgents.ToList())
+        {
+            if (!allowed.Contains(agentName))
+            {
+                _selectedAgents.Remove(agentName);
+            }
+        }
+    }
+
+    private bool IsAgentFilterMatch(AgentClient agent)
+    {
+        if (_activeGroups.Count > 0)
+        {
+            var group = agent.Info.Group ?? string.Empty;
+            if (!_activeGroups.Contains(group))
+                return false;
+        }
+
+        if (_activeTags.Count > 0)
+        {
+            var tags = agent.Info.Tags ?? Enumerable.Empty<string>();
+            if (!tags.Any(t => _activeTags.Contains(t)))
+                return false;
+        }
+
+        return true;
+    }
+
+    private void QueuePendingUpload(IBrowserFile file)
+    {
+        if (_pendingUploads.Any(p => p.Name == file.Name))
+            return;
+
+        _pendingUploads.Add(new PendingUpload(file.Name, file));
+    }
+
+    private void ResetFileInput()
+    {
+        _inputKey = Guid.NewGuid().ToString();
     }
 
     // ─── 패치 실행 ───────────────────────────────────────────
