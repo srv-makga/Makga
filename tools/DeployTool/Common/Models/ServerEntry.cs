@@ -9,8 +9,6 @@ public class ServerEntry
 	public string       Host        { get; set; } = "";
 	/// <summary>TCP port for agent connection (default: 7700)</summary>
 	public int          Port        { get; set; } = 7700;
-	/// <summary>Authentication token for secure connection</summary>
-	public string       Token       { get; set; } = "";
 	/// <summary>Human-readable server description</summary>
 	public string       Description { get; set; } = "";
 	/// <summary>Server group for organization and filtering</summary>

@@ -11,11 +11,6 @@ public class AgentConfig
 	public int ListenPort { get; set; } = 7700;
 
 	/// <summary>
-	/// 매니저 연결을 위한 인증 토큰
-	/// </summary>
-	public string Token { get; set; } = "";
-
-	/// <summary>
 	/// 파일 작업의 기본 작업 디렉터리
 	/// </summary>
 	public string WorkDir { get; set; } = ".";
@@ -49,6 +44,11 @@ public class AgentConfig
 	/// 외부 데이터베이스 및 캐시 서비스 설정 (MySQL, MSSQL, Redis 등)
 	/// </summary>
 	public Dictionary<string, ServiceConnectionConfig> Services { get; set; } = new();
+
+	/// <summary>
+	/// 감시할 프로세스 목록 설정 파일 경로 (process-watchlist.json)
+	/// </summary>
+	public string ProcessWatchlistPath { get; set; } = "process-watchlist.json";
 }
 
 /// <summary>

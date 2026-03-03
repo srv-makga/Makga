@@ -1,6 +1,18 @@
 @inherits LayoutComponentBase
 @inject NavigationManager Nav
 
+<style>
+	:root {
+		color-scheme: dark;
+	}
+	body {
+		color: white;
+		background-color: #1a1a1a;
+	}
+	.text-white { color: white !important; }
+	.text-muted { color: #999 !important; }
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-dark mb-4">
     <div class="container">
         <a class="navbar-brand fw-bold" href="/">🚀 DeployTool</a>
@@ -8,6 +20,7 @@
             <ul class="navbar-nav me-auto">
                 <li class="nav-item"><NavLink class="nav-link" href="/" Match="NavLinkMatch.All">Dashboard</NavLink></li>
                 <li class="nav-item"><NavLink class="nav-link" href="/agents">Agents</NavLink></li>
+                <li class="nav-item"><NavLink class="nav-link" href="/process-chain">프로세스 체인</NavLink></li>
                 <li class="nav-item"><NavLink class="nav-link" href="/settings">@L["Nav_Settings"]</NavLink></li>
                 <li class="nav-item"><NavLink class="nav-link" href="/patch">@L["Nav_Patch"]</NavLink></li>
             </ul>

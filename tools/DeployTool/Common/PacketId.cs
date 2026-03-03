@@ -49,6 +49,18 @@ public enum PacketId : ushort
 	Kill         = 31,
 	/// <summary>실행 중인 프로세스 나열</summary>
 	ListProcess  = 32,
+	/// <summary>감시 중인 프로세스 상태 조회</summary>
+	GetMonitoredProcesses = 33,
+	/// <summary>감시 프로세스 추가/수정</summary>
+	UpsertMonitoredProcess = 34,
+	/// <summary>감시 프로세스 삭제</summary>
+	DeleteMonitoredProcess = 35,
+	/// <summary>감시 프로세스 재시작</summary>
+	RestartMonitoredProcess = 36,
+	/// <summary>감시 프로세스 시작</summary>
+	StartMonitoredProcess = 37,
+	/// <summary>감시 프로세스 중지</summary>
+	StopMonitoredProcess = 38,
 
 	// 서비스 작업 (40-49)
 	/// <summary>Windows/systemd 서비스 시작</summary>
@@ -108,9 +120,11 @@ public enum PacketId : ushort
 	/// <summary>동기화 비교 결과</summary>
 	SyncDiff     = 114,
 
-	// 프로세스 응답 (121)
+	// 프로세스 응답 (121-122)
 	/// <summary>프로세스 목록 응답</summary>
 	ProcessList   = 121,
+	/// <summary>감시 중인 프로세스 상태 응답</summary>
+	MonitoredProcesses = 122,
 
 	// 서비스 응답 (131-132)
 	/// <summary>서비스 작업 결과</summary>

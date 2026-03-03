@@ -1,0 +1,364 @@
+@page "/agents/{Name}/processes"
+@inject AgentRegistry Registry
+@inject IJSRuntime JSRuntime
+@using DeployTool.Common.Packets
+
+<PageTitle>@string.Format(L["PageTitle_ProcessMonitor"], Name)</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+	<h2>@L["Section_ProcessMonitor"]</h2>
+	<div>
+		<button class="btn btn-primary btn-sm" @onclick="OpenAddModal">@L["Btn_Add"]</button>
+		<button class="btn btn-outline-light btn-sm" @onclick="RefreshAsync">@L["Btn_Refresh"]</button>
+	</div>
+</div>
+
+@if (_notFound)
+{
+	<div class="alert alert-danger">@string.Format(L["Agent_NotFound"], Name)</div>
+}
+else if (_loading)
+{
+	<div class="alert alert-info">@L["Loading"]...</div>
+}
+else if (_processes != null && _processes.Count > 0)
+{
+	<div class="card">
+		<div class="card-body">
+			<div class="list-group list-group-flush">
+				@foreach (var proc in _processes)
+				{
+					<div class="list-group-item bg-dark border-secondary d-flex justify-content-between align-items-center">
+						<div class="flex-grow-1">
+							<h6 class="mb-1">
+								@proc.DisplayName
+								@if (proc.Status == "Running")
+								{
+									<span class="badge bg-success">Running</span>
+								}
+								else
+								{
+									<span class="badge bg-danger">Stopped</span>
+								}
+							</h6>
+							<small class="text-muted">@proc.Name (@proc.Priority)</small>
+							@if (proc.Pids != null && proc.Pids.Count > 0)
+							{
+								<br />
+								<small class="text-muted">PIDs: @string.Join(", ", proc.Pids)</small>
+							}
+							<br />
+							<small class="text-muted">Memory: @proc.TotalMemMb.ToString("0.0") MB</small>
+						</div>
+						<div class="ms-3">
+							@if (proc.Status == "Running")
+							{
+								<button class="btn btn-sm btn-outline-warning" @onclick="() => StopProcessAsync(proc.Uid)" title="Stop">
+									<i class="bi bi-stop-fill"></i>
+								</button>
+								<button class="btn btn-sm btn-outline-info" @onclick="() => RestartProcessAsync(proc.Name)" title="Restart">
+									<i class="bi bi-arrow-clockwise"></i>
+								</button>
+							}
+							else
+							{
+								<button class="btn btn-sm btn-outline-success" @onclick="() => StartProcessAsync(proc.Uid)" title="Start">
+									<i class="bi bi-play-fill"></i>
+								</button>
+							}
+							<button class="btn btn-sm btn-outline-secondary" @onclick="() => OpenEditModal(proc)" title="Edit">
+								<i class="bi bi-pencil"></i>
+							</button>
+							<button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteProcessAsync(proc.Name)" title="Delete">
+								<i class="bi bi-trash"></i>
+							</button>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+}
+else
+{
+	<div class="alert alert-warning">@L["ProcessMonitor_NoProcesses"]</div>
+}
+
+<!-- Add/Edit Modal -->
+<div class="modal @(_showModal ? "show" : "")" style="display: @(_showModal ? "block" : "none");" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content bg-dark">
+			<div class="modal-header">
+				<h5 class="modal-title">@(_isEditing ? L["Btn_Edit"] : L["Btn_Add"]) @L["Section_ProcessMonitor"]</h5>
+				<button type="button" class="btn-close btn-close-white" @onclick="CloseModal"></button>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="mb-3">
+						<label class="form-label">@L["ProcessMonitor_Name"]</label>
+						<input type="text" class="form-control" @bind="_editConfig.Name" disabled="@_isEditing" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">@L["ProcessMonitor_DisplayName"]</label>
+						<input type="text" class="form-control" @bind="_editConfig.DisplayName" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">@L["ProcessMonitor_Path"] *</label>
+						<input type="text" class="form-control" @bind="_editConfig.Path" placeholder="e.g., /usr/sbin/nginx or C:\Program Files\App\app.exe" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">@L["ProcessMonitor_Arguments"]</label>
+						<input type="text" class="form-control" @bind="_argumentsText" placeholder="e.g., -g daemon off; (one per line)" />
+						<small class="form-text text-muted">@L["ProcessMonitor_ArgumentsHelp"]</small>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">@L["ProcessMonitor_Description"]</label>
+						<input type="text" class="form-control" @bind="_editConfig.Description" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">@L["ProcessMonitor_Priority"]</label>
+						<select class="form-select" @bind="_editConfig.Priority">
+							<option value="critical">Critical</option>
+							<option value="high">High</option>
+							<option value="medium">Medium</option>
+							<option value="low">Low</option>
+						</select>
+					</div>
+					<div class="mb-3 form-check">
+						<input type="checkbox" class="form-check-input" id="autoRestart" @bind="_editConfig.AutoRestart" />
+						<label class="form-check-label" for="autoRestart">@L["ProcessMonitor_AutoRestart"]</label>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" @onclick="CloseModal">@L["Btn_Cancel"]</button>
+				<button type="button" class="btn btn-primary" @onclick="SaveAsync">@L["Btn_Save"]</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+@if (_showModal)
+{
+	<div class="modal-backdrop fade show"></div>
+}
+
+@code {
+	[Parameter]
+	public string? Name { get; set; }
+
+	private List<MonitoredProcessStatus>? _processes;
+	private bool _loading = true;
+	private bool _notFound = false;
+	private bool _showModal = false;
+	private bool _isEditing = false;
+	private string? _oldName;
+	private MonitoredProcessConfig _editConfig = new();
+	private string _argumentsText = "";
+	private AgentClient? _client;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (string.IsNullOrEmpty(Name))
+		{
+			_notFound = true;
+			return;
+		}
+
+		_client = Registry.Get(Name);
+		if (_client == null)
+		{
+			_notFound = true;
+			return;
+		}
+
+		await RefreshAsync();
+	}
+
+	private async Task RefreshAsync()
+	{
+		_loading = true;
+		if (_client?.IsConnected == true)
+		{
+			try
+			{
+				var resp = await _client.GetMonitoredProcessesAsync();
+				if (resp != null)
+				{
+					_processes = resp.Processes;
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error loading processes: {ex.Message}");
+			}
+		}
+		_loading = false;
+	}
+
+	private void OpenAddModal()
+	{
+		_isEditing = false;
+		_oldName = null;
+		_editConfig = new();
+		_argumentsText = "";
+		_showModal = true;
+	}
+
+	private void OpenEditModal(MonitoredProcessStatus proc)
+	{
+		_isEditing = true;
+		_oldName = proc.Name;
+		_editConfig = new()
+		{
+			Uid = proc.Uid,
+			Name = proc.Name,
+			DisplayName = proc.DisplayName,
+			Description = proc.Description,
+			Priority = proc.Priority,
+			AutoRestart = false,
+			Path = "",
+			Arguments = new()
+		};
+		_argumentsText = "";
+		_showModal = true;
+	}
+
+	private void CloseModal()
+	{
+		_showModal = false;
+		_editConfig = new();
+		_argumentsText = "";
+	}
+
+	private async Task SaveAsync()
+	{
+		if (string.IsNullOrWhiteSpace(_editConfig.Name) || string.IsNullOrWhiteSpace(_editConfig.Path))
+		{
+			Console.WriteLine("Name and Path are required");
+			return;
+		}
+
+		// Parse arguments from text (split by newline)
+		_editConfig.Arguments = _argumentsText
+			.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+			.ToList();
+
+		if (_client?.IsConnected == true)
+		{
+			try
+			{
+				var result = await _client.UpsertMonitoredProcessAsync(_editConfig, _isEditing ? _oldName : null);
+				if (result?.Success == true)
+				{
+					CloseModal();
+					await RefreshAsync();
+				}
+				else
+				{
+					Console.WriteLine($"Error: {result?.Message}");
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error saving process: {ex.Message}");
+			}
+		}
+	}
+
+	private async Task RestartProcessAsync(string name)
+	{
+		if (_client?.IsConnected == true)
+		{
+			try
+			{
+				var result = await _client.RestartMonitoredProcessAsync(name);
+				if (result?.Success == true)
+				{
+					await RefreshAsync();
+				}
+				else
+				{
+					Console.WriteLine($"Error: {result?.Message}");
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error restarting process: {ex.Message}");
+			}
+		}
+	}
+
+	private async Task StartProcessAsync(string uid)
+	{
+		if (_client?.IsConnected == true)
+		{
+			try
+			{
+				var result = await _client.StartMonitoredProcessAsync(uid);
+				if (result?.Success == true)
+				{
+					await RefreshAsync();
+				}
+				else
+				{
+					Console.WriteLine($"Error: {result?.Message}");
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error starting process: {ex.Message}");
+			}
+		}
+	}
+
+	private async Task StopProcessAsync(string uid)
+	{
+		if (_client?.IsConnected == true)
+		{
+			try
+			{
+				var result = await _client.StopMonitoredProcessAsync(uid);
+				if (result?.Success == true)
+				{
+					await RefreshAsync();
+				}
+				else
+				{
+					Console.WriteLine($"Error: {result?.Message}");
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error stopping process: {ex.Message}");
+			}
+		}
+	}
+
+	private async Task DeleteProcessAsync(string name)
+	{
+		var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete '{name}'?");
+		if (!confirmed)
+			return;
+
+		if (_client?.IsConnected == true)
+		{
+			try
+			{
+				var result = await _client.DeleteMonitoredProcessAsync(name);
+				if (result?.Success == true)
+				{
+					await RefreshAsync();
+				}
+				else
+				{
+					Console.WriteLine($"Error: {result?.Message}");
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error deleting process: {ex.Message}");
+			}
+		}
+	}
+}

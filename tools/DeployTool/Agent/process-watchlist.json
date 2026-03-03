@@ -1,0 +1,47 @@
+[
+  {
+    "name": "sqlserver",
+    "displayName": "SQL Server",
+    "description": "Microsoft SQL Server database service",
+    "priority": "critical",
+    "autoRestart": false,
+    "path": "sqlservr.exe",
+    "arguments": []
+  },
+  {
+    "name": "mysql",
+    "displayName": "MySQL",
+    "description": "MySQL database service",
+    "priority": "critical",
+    "autoRestart": false,
+    "path": "mysqld.exe",
+    "arguments": []
+  },
+  {
+    "name": "nginx",
+    "displayName": "Nginx",
+    "description": "Web server",
+    "priority": "high",
+    "autoRestart": true,
+    "path": "/usr/sbin/nginx",
+    "arguments": ["-g", "daemon off;"]
+  },
+  {
+    "name": "redis-server",
+    "displayName": "Redis",
+    "description": "Redis cache service",
+    "priority": "high",
+    "autoRestart": false,
+    "path": "redis-server.exe",
+    "arguments": []
+  },
+  {
+    "name": "dotnet",
+    "displayName": ".NET Application",
+    "description": ".NET managed applications",
+    "priority": "medium",
+    "autoRestart": false,
+    "path": "dotnet.exe",
+    "arguments": ["MyApp.dll"]
+  }
+]

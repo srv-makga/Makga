@@ -109,6 +109,10 @@
                     태그: @tag
                 </button>
             }
+            @if (_activeGroups.Count > 0 || _activeTags.Count > 0)
+            {
+                <button class="btn btn-sm btn-outline-danger" @onclick="ClearFilters">초기화</button>
+            }
         </div>
 
         <div class="list-group list-group-flush">

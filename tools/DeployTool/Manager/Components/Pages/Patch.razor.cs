@@ -315,6 +315,15 @@ public partial class Patch
 		.Distinct()
 		.Order();
 
+	/// <summary>Clears all active group and tag filters.</summary>
+	private void ClearFilters()
+	{
+		_activeGroups.Clear();
+		_activeTags.Clear();
+		_selectedAgents.Clear();
+		StateHasChanged();
+	}
+
 	/// <summary>Disposes resources.</summary>
 	public void Dispose() { }
 }

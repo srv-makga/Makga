@@ -3,8 +3,6 @@ namespace DeployTool.Common.Packets;
 /// <summary>매니저에서 에이전트로의 연결 토큰을 사용한 인증 요청</summary>
 public class PingRequest
 {
-	/// <summary>연결 확인을 위한 인증 토큰</summary>
-	public string Token { get; set; } = "";
 }
 
 /// <summary>가동 시간 정보가 있는 에이전트의 인증 응답</summary>

@@ -5,133 +5,181 @@
 <PageTitle>@L["PageTitle_Agents"]</PageTitle>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Agents</h2>
+	<h2 class="text-white">Agents</h2>
 </div>
 
 @* 그룹 탭 *@
 <ul class="nav nav-tabs mb-3">
-    <li class="nav-item">
-        <button class="nav-link @(_selectedGroup == null ? "active" : "")"
-                @onclick="() => SelectGroup(null)">
-            @L["Btn_All"] <span class="badge bg-secondary ms-1">@_agents.Count</span>
-        </button>
-    </li>
-    @foreach (var group in _groups)
-    {
-        var g = group;
-        var count = _agents.Count(a => a.Info.Group == g);
-        <li class="nav-item">
-            <button class="nav-link @(_selectedGroup == g ? "active" : "")"
-                    @onclick="() => SelectGroup(g)">
-                @g <span class="badge bg-secondary ms-1">@count</span>
-            </button>
-        </li>
-    }
+	<li class="nav-item">
+		<button class="nav-link @(_selectedGroup == null ? "active" : "")"
+				@onclick="() => SelectGroup(null)">
+			@L["Btn_All"] <span class="badge bg-secondary ms-1">@_agents.Count</span>
+		</button>
+	</li>
+	@foreach (var group in _groups)
+	{
+		var g = group;
+		var count = _agents.Count(a => a.Info.Group == g);
+		<li class="nav-item">
+			<button class="nav-link @(_selectedGroup == g ? "active" : "")"
+					@onclick="() => SelectGroup(g)">
+				@g <span class="badge bg-secondary ms-1">@count</span>
+			</button>
+		</li>
+	}
 </ul>
 
 @* 검색 + 태그 필터 *@
-<div class="card p-3 mb-3">
-    <div class="mb-2">
-        <input class="form-control bg-dark text-white border-secondary"
-               placeholder="@L["Agents_SearchPlaceholder"]"
-               @bind="_searchText" @bind:event="oninput" />
-    </div>
-    @if (_allTags.Count > 0)
-    {
-        <div class="d-flex flex-wrap gap-1">
-            @foreach (var tag in _allTags)
-            {
-                var t = tag;
-                var active = _selectedTags.Contains(t);
-                <button class="btn btn-sm @(active ? "btn-info" : "btn-outline-info")"
-                        @onclick="() => ToggleTag(t)">
-                    #@t
-                </button>
-            }
-            @if (_selectedTags.Count > 0)
-            {
-                <button class="btn btn-sm btn-outline-secondary" @onclick="ClearTags">@L["Btn_Reset"]</button>
-            }
-        </div>
-    }
+<div class="card p-3 mb-3 bg-dark border-secondary">
+	<div class="mb-2">
+		<input class="form-control bg-dark text-white border-secondary"
+			   placeholder="@L["Agents_SearchPlaceholder"]"
+			   @bind="_searchText" @bind:event="oninput" />
+	</div>
+	@if (_allTags.Count > 0)
+	{
+		<div class="d-flex flex-wrap gap-1">
+			@foreach (var tag in _allTags)
+			{
+				var t = tag;
+				var active = _selectedTags.Contains(t);
+				<button class="btn btn-sm @(active ? "btn-info" : "btn-outline-info")"
+						@onclick="() => ToggleTag(t)">
+					#@t
+				</button>
+			}
+			@if (_selectedTags.Count > 0)
+			{
+				<button class="btn btn-sm btn-outline-secondary" @onclick="ClearTags">@L["Btn_Reset"]</button>
+			}
+		</div>
+	}
 </div>
 
-@* Agent 테이블 *@
-<div class="card p-3">
-    <table class="table table-dark table-hover mb-0">
-        <thead>
-            <tr>
-                <th>@L["Field_Name"]</th>
-                <th>@L["Field_Description"]</th>
-                <th>@L["Field_Host"]</th>
-                <th>@L["Field_Group"]</th>
-                <th>@L["Field_Tags"]</th>
-                <th>@L["Field_Status"]</th>
-                <th>CPU</th>
-                <th>RAM</th>
-                <th>@L["Field_Actions"]</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var agent in Filtered)
-            {
-                var res = agent.LastResource;
-                <tr>
-                    <td><strong>@agent.Info.Name</strong></td>
-                    <td>@agent.Info.Description</td>
-                    <td>@agent.Info.Host:@agent.Info.Port</td>
-                    <td>@agent.Info.Group</td>
-                    <td>
-                        @foreach (var tag in agent.Info.Tags)
-                        {
-                            <span class="badge bg-info text-dark me-1">#@tag</span>
-                        }
-                    </td>
-                    <td>
-                        @{
-                            var since = agent.LastHeartbeatAt.HasValue
-                                ? $"{(int)(DateTime.UtcNow - agent.LastHeartbeatAt.Value).TotalSeconds}s ago"
-                                : "-";
-                        }
-                        <span class="badge @(agent.IsConnected ? "badge-online" : "badge-offline")"
-                              title="@L["Agents_LastHeartbeat"]: @since">
-                            @(agent.IsConnected ? L["Status_Online"].Value : L["Status_Offline"].Value)
-                        </span>
-                    </td>
-                    <td class="text-nowrap">
-                        @if (res != null)
-                        {
-                            <span>@res.CpuPct.ToString("0.0")%</span>
-                        }
-                        else
-                        {
-                            <span class="text-muted">-</span>
-                        }
-                    </td>
-                    <td class="text-nowrap">
-                        @if (res != null)
-                        {
-                            <span>@res.MemUsedMb / @res.MemTotalMb MB</span>
-                        }
-                        else
-                        {
-                            <span class="text-muted">-</span>
-                        }
-                    </td>
-                    <td>
-                        <a href="/agents/@agent.Info.Name" class="btn btn-sm btn-outline-info">@L["Btn_Detail"]</a>
-                        <a href="/agents/@agent.Info.Name/config" class="btn btn-sm btn-outline-warning">@L["Btn_Config"]</a>
-                        <a href="/agents/@agent.Info.Name/log" class="btn btn-sm btn-outline-secondary">@L["Btn_Log"]</a>
-                        <a href="/commands/@agent.Info.Name" class="btn btn-sm btn-outline-success">@L["Btn_Command"]</a>
-                    </td>
-                </tr>
-            }
-            @if (!Filtered.Any())
-            {
-                <tr><td colspan="9" class="text-center text-muted py-3">@L["Agents_NoResults"]</td></tr>
-            }
-        </tbody>
-    </table>
+@* Agent 카드 목록 (폴딩 가능한 프로세스) *@
+<div class="list-group list-group-flush">
+	@foreach (var agent in Filtered)
+	{
+		var res = agent.LastResource;
+		var agentKey = agent.Info.Name;
+		var isExpanded = _expandedAgents.Contains(agentKey);
+		var processes = GetProcessesCached(agent.Info.Name);
+
+		<div class="list-group-item bg-dark border-secondary">
+			<!-- Agent 헤더 -->
+			<div class="d-flex align-items-center justify-content-between" @onclick="() => ToggleAgentExpand(agentKey)" style="cursor: pointer;">
+				<div class="d-flex align-items-center flex-grow-1">
+					<i class="bi @(isExpanded ? "bi-chevron-down" : "bi-chevron-right") me-2 text-white"></i>
+					<div class="text-white">
+						<h6 class="mb-1">
+							<strong>@agent.Info.Name</strong>
+							<span class="badge @(agent.IsConnected ? "badge-online" : "badge-offline") ms-2">
+								@(agent.IsConnected ? L["Status_Online"].Value : L["Status_Offline"].Value)
+							</span>
+						</h6>
+						<small class="text-muted">@agent.Info.Description | @agent.Info.Host:@agent.Info.Port</small>
+					</div>
+				</div>
+				<div class="text-white">
+					@if (res != null)
+					{
+						<span class="badge bg-info text-dark me-2">CPU: @res.CpuPct.ToString("0.0")%</span>
+						<span class="badge bg-info text-dark">RAM: @res.MemUsedMb/@res.MemTotalMb MB</span>
+					}
+				</div>
+			</div>
+
+			<!-- 프로세스 목록 (폴드) -->
+			@if (isExpanded)
+			{
+				<div class="mt-3 ps-4 border-start border-secondary">
+					@if (processes?.Processes.Count > 0)
+					{
+						<div class="mb-3">
+							<h6 class="text-white mb-2">
+								<i class="bi bi-cpu"></i> 감시 프로세스 (@processes.Processes.Count)
+							</h6>
+							<div class="d-flex gap-2 mb-2">
+								<button class="btn btn-sm btn-success" 
+										@onclick="() => StartSelectedProcessesAsync(agentKey, processes.Processes)"
+										disabled="@GetStartDisabled(agentKey)">
+									▶ 시작
+								</button>
+								<button class="btn btn-sm btn-danger" 
+										@onclick="() => StopSelectedProcessesAsync(agentKey, processes.Processes)"
+										disabled="@GetStopDisabled(agentKey)">
+									⏹ 중지
+								</button>
+							</div>
+							@foreach (var proc in processes.Processes)
+							{
+								var processKey = $"{agentKey}#{proc.Uid}";
+								var isSelected = _selectedProcesses.Any(p => p.Uid == proc.Uid && p.AgentName == agentKey);
+
+								<div class="d-flex align-items-start mb-2 p-2 bg-secondary bg-opacity-10 rounded">
+									<div class="form-check mt-1">
+										<input class="form-check-input" type="checkbox" id="@processKey"
+											   checked="@isSelected"
+											   disabled="@_controllingProcess"
+											   @onchange="@((ChangeEventArgs e) => ToggleProcessSelection(agentKey, proc, (bool)e.Value!))" />
+									</div>
+									<div class="flex-grow-1 ms-2 text-white">
+										<label for="@processKey" class="form-check-label d-block">
+											<strong>@proc.DisplayName</strong>
+											@if (proc.Status == "Running")
+											{
+												<span class="badge bg-success ms-2">▶ 실행 중</span>
+											}
+											else
+											{
+												<span class="badge bg-danger ms-2">■ 중지됨</span>
+											}
+										</label>
+										<small class="text-muted d-block">이름: @proc.Name</small>
+										<small class="text-muted d-block">우선순위: @proc.Priority</small>
+										<small class="text-muted d-block">경로: @proc.Path</small>
+										@if (proc.Pids.Count > 0)
+										{
+											<small class="text-muted d-block">PID: @string.Join(", ", proc.Pids)</small>
+										}
+										@if (proc.TotalMemMb > 0 || proc.TotalCpuPct > 0)
+										{
+											<small class="text-warning d-block">
+												리소스: 
+												@if (proc.TotalMemMb > 0)
+												{
+													<span>메모리 @proc.TotalMemMb.ToString("0.0") MB</span>
+												}
+												@if (proc.TotalCpuPct > 0)
+												{
+													<span class="ms-2">CPU @proc.TotalCpuPct.ToString("0.0")%</span>
+												}
+											</small>
+										}
+									</div>
+								</div>
+							}
+						</div>
+					}
+					else
+					{
+						<div class="alert alert-secondary text-white mb-0">프로세스 없음</div>
+					}
+				</div>
+			}
+
+			<!-- 액션 버튼 -->
+			<div class="mt-2 pt-2 border-top border-secondary">
+				<a href="/agents/@agent.Info.Name" class="btn btn-sm btn-outline-info me-1">@L["Btn_Detail"]</a>
+				<a href="/agents/@agent.Info.Name/config" class="btn btn-sm btn-outline-warning me-1">@L["Btn_Config"]</a>
+				<a href="/agents/@agent.Info.Name/log" class="btn btn-sm btn-outline-secondary me-1">@L["Btn_Log"]</a>
+				<a href="/commands/@agent.Info.Name" class="btn btn-sm btn-outline-success">@L["Btn_Command"]</a>
+			</div>
+		</div>
+	}
+
+	@if (!Filtered.Any())
+	{
+		<div class="alert alert-warning text-center text-white mt-3">@L["Agents_NoResults"]</div>
+	}
 </div>
-
-

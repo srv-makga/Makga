@@ -73,7 +73,7 @@ public sealed class AgentSession : IDisposable
 						}
 
 						var ping = PacketSerializer.Deserialize<PingRequest>(payload);
-						if (null == ping || ping.Token != _cfg.Token)
+						if (null == ping)
 						{
 							_log.LogWarning("[Session] Auth failed from {Remote}", remote);
 							await stream.WriteAsync(PacketSerializer.Serialize(

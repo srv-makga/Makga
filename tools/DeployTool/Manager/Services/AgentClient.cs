@@ -85,7 +85,7 @@ public class AgentClient : IAsyncDisposable
 		_stream = _tcp.GetStream();
 
 		await _stream.WriteAsync(
-			PacketSerializer.Serialize(PacketId.Ping, new PingRequest { Token = Info.Token }), ct);
+			PacketSerializer.Serialize(PacketId.Ping, new PingRequest{}), ct);
 
 		var resp = await PacketSerializer.ReadPacketAsync(_stream, ct);
 		if (null == resp || resp.Value.id != PacketId.Pong)
@@ -202,6 +202,101 @@ public class AgentClient : IAsyncDisposable
 			return null;
 
 		return PacketSerializer.Deserialize<ExternalServicesInfoResponse>(resp.Value.payload);
+	}
+
+	/// <summary>
+	/// 감시 중인 프로세스 상태를 에이전트에서 검색합니다.
+	/// </summary>
+	/// <param name="ct">Cancellation token</param>
+	/// <returns>감시 프로세스 정보 또는 사용 불가능한 경우 null</returns>
+	public async Task<MonitoredProcessesResponse?> GetMonitoredProcessesAsync(CancellationToken ct = default)
+	{
+		var resp = await SendEmptyAsync(PacketId.GetMonitoredProcesses, ct);
+		if (null == resp)
+			return null;
+
+		return PacketSerializer.Deserialize<MonitoredProcessesResponse>(resp.Value.payload);
+	}
+
+	/// <summary>
+	/// 감시 프로세스 설정을 추가하거나 수정합니다.
+	/// </summary>
+	/// <param name="config">추가/수정할 프로세스 설정</param>
+	/// <param name="oldName">기존 프로세스 이름 (수정하는 경우)</param>
+	/// <param name="ct">Cancellation token</param>
+	/// <returns>성공/실패 응답</returns>
+	public async Task<ResultResponse?> UpsertMonitoredProcessAsync(MonitoredProcessConfig config, string? oldName = null, CancellationToken ct = default)
+	{
+		var req = new UpsertMonitoredProcessRequest { Config = config, OldName = oldName };
+		var resp = await SendAsync(PacketId.UpsertMonitoredProcess, req, ct);
+		if (null == resp)
+			return null;
+
+		return PacketSerializer.Deserialize<ResultResponse>(resp.Value.payload);
+	}
+
+	/// <summary>
+	/// 감시 프로세스 설정을 삭제합니다.
+	/// </summary>
+	/// <param name="name">삭제할 프로세스 이름</param>
+	/// <param name="ct">Cancellation token</param>
+	/// <returns>성공/실패 응답</returns>
+	public async Task<ResultResponse?> DeleteMonitoredProcessAsync(string name, CancellationToken ct = default)
+	{
+		var req = new DeleteMonitoredProcessRequest { Name = name };
+		var resp = await SendAsync(PacketId.DeleteMonitoredProcess, req, ct);
+		if (null == resp)
+			return null;
+
+		return PacketSerializer.Deserialize<ResultResponse>(resp.Value.payload);
+	}
+
+	/// <summary>
+	/// 감시 프로세스를 재시작합니다.
+	/// </summary>
+	/// <param name="name">재시작할 프로세스 이름</param>
+	/// <param name="ct">Cancellation token</param>
+	/// <returns>성공/실패 응답</returns>
+	public async Task<ResultResponse?> RestartMonitoredProcessAsync(string name, CancellationToken ct = default)
+	{
+		var req = new RestartMonitoredProcessRequest { Name = name };
+		var resp = await SendAsync(PacketId.RestartMonitoredProcess, req, ct);
+		if (null == resp)
+			return null;
+
+		return PacketSerializer.Deserialize<ResultResponse>(resp.Value.payload);
+	}
+
+	/// <summary>
+	/// 감시 프로세스를 시작합니다.
+	/// </summary>
+	/// <param name="uid">시작할 프로세스의 UUID</param>
+	/// <param name="ct">Cancellation token</param>
+	/// <returns>성공/실패 응답</returns>
+	public async Task<ResultResponse?> StartMonitoredProcessAsync(string uid, CancellationToken ct = default)
+	{
+		var req = new StartMonitoredProcessRequest { Uid = uid };
+		var resp = await SendAsync(PacketId.StartMonitoredProcess, req, ct);
+		if (null == resp)
+			return null;
+
+		return PacketSerializer.Deserialize<ResultResponse>(resp.Value.payload);
+	}
+
+	/// <summary>
+	/// 감시 프로세스를 중지합니다.
+	/// </summary>
+	/// <param name="uid">중지할 프로세스의 UUID</param>
+	/// <param name="ct">Cancellation token</param>
+	/// <returns>성공/실패 응답</returns>
+	public async Task<ResultResponse?> StopMonitoredProcessAsync(string uid, CancellationToken ct = default)
+	{
+		var req = new StopMonitoredProcessRequest { Uid = uid };
+		var resp = await SendAsync(PacketId.StopMonitoredProcess, req, ct);
+		if (null == resp)
+			return null;
+
+		return PacketSerializer.Deserialize<ResultResponse>(resp.Value.payload);
 	}
 
 	private void SetDisconnected()
