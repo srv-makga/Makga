@@ -138,6 +138,10 @@
 										<small class="text-muted d-block">이름: @proc.Name</small>
 										<small class="text-muted d-block">우선순위: @proc.Priority</small>
 										<small class="text-muted d-block">경로: @proc.Path</small>
+										@if (proc.Arguments?.Count > 0)
+										{
+											<small class="text-muted d-block">인자: @string.Join(" ", proc.Arguments)</small>
+										}
 										@if (proc.Pids.Count > 0)
 										{
 											<small class="text-muted d-block">PID: @string.Join(", ", proc.Pids)</small>

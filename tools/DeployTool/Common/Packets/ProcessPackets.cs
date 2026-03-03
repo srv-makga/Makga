@@ -114,6 +114,8 @@ public class MonitoredProcessStatus
 	public string Status { get; set; } = "Unknown";
 	/// <summary>일치하는 프로세스의 PID 목록</summary>
 	public List<int> Pids { get; set; } = new();
+	/// <summary>프로세스 시작 시 전달할 명령줄 인수</summary>
+	public List<string> Arguments { get; set; } = new();
 	/// <summary>총 CPU 사용률 합계 (여러 프로세스인 경우)</summary>
 	public float TotalCpuPct { get; set; }
 	/// <summary>총 메모리 사용량(메가바이트)</summary>

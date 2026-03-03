@@ -4,6 +4,10 @@ using System.Text.Json;
 using DeployTool.Common.Packets;
 using Microsoft.Extensions.Options;
 
+#if WINDOWS
+	using System.Management;
+#endif
+
 namespace DeployTool.Agent.Services;
 
 /// <summary>
@@ -155,7 +159,8 @@ public class ProcessService
 		foreach (var config in _watchlist)
 		{
 			var matchingProcesses = allProcesses
-				.Where(p => p.ProcessName.Equals(config.Name, StringComparison.OrdinalIgnoreCase))
+				.Where(p => p.ProcessName.Equals(config.Name, StringComparison.OrdinalIgnoreCase) &&
+						   ProcessArgumentsMatch(p.Id, config.Arguments))
 				.ToList();
 
 			var status = new MonitoredProcessStatus
@@ -166,6 +171,7 @@ public class ProcessService
 				Description = config.Description,
 				Path = config.Path,
 				Priority = config.Priority,
+				Arguments = config.Arguments,
 				Status = matchingProcesses.Count > 0 ? "Running" : "Stopped",
 				Pids = matchingProcesses.Select(p => p.Id).ToList(),
 				LastCheckUtc = DateTime.UtcNow
@@ -422,4 +428,72 @@ public class ProcessService
 
 	private static ResultResponse Ok()                 => new() { Success = true };
 	private static ResultResponse Fail(string message) => new() { Success = false, Message = message, Code = 400 };
+
+	/// <summary>
+	/// 실행 중인 프로세스의 명령줄을 가져옵니다. (크로스플랫폼)
+	/// </summary>
+	private static string GetProcessCommandLine(int pid)
+	{
+#if WINDOWS
+		try
+		{
+			using (var searcher = new ManagementObjectSearcher($"SELECT CommandLine FROM Win32_Process WHERE ProcessId = {pid}"))
+			{
+				foreach (ManagementObject obj in searcher.Get())
+				{
+					return obj["CommandLine"]?.ToString() ?? "";
+				}
+			}
+		}
+		catch { }
+#else
+		// Linux에서 /proc/{pid}/cmdline 파일 읽기
+		try
+		{
+			var cmdlinePath = $"/proc/{pid}/cmdline";
+			if (File.Exists(cmdlinePath))
+			{
+				var content = File.ReadAllBytes(cmdlinePath);
+				// null 문자로 구분된 인자를 공백으로 변환
+				var cmdline = System.Text.Encoding.UTF8.GetString(content);
+				return cmdline.Replace('\0', ' ').Trim();
+			}
+		}
+		catch { }
+#endif
+		return "";
+	}
+
+	/// <summary>
+	/// 프로세스의 명령줄 인자가 설정과 일치하는지 확인합니다. (크로스플랫폼)
+	/// </summary>
+	private static bool ProcessArgumentsMatch(int pid, List<string> expectedArgs)
+	{
+		if (expectedArgs == null || expectedArgs.Count == 0)
+			return true;
+
+		var cmdLine = GetProcessCommandLine(pid);
+		if (string.IsNullOrEmpty(cmdLine))
+			return false;
+
+		// 명령줄에서 인자 부분 추출 (첫 번째 공백 이후)
+		var parts = cmdLine.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+		if (parts.Length <= 1)
+			return expectedArgs.Count == 0;
+
+		var actualArgs = parts.Skip(1).ToList();
+
+		// 인자 개수가 같은지 확인
+		if (actualArgs.Count != expectedArgs.Count)
+			return false;
+
+		// 각 인자가 정확히 일치하는지 확인
+		for (int i = 0; i < expectedArgs.Count; i++)
+		{
+			if (!actualArgs[i].Equals(expectedArgs[i], StringComparison.OrdinalIgnoreCase))
+				return false;
+		}
+
+		return true;
+	}
 }
