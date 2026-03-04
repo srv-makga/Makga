@@ -12,6 +12,7 @@ public class FileService
 {
 	private readonly AgentConfig _cfg;
 	private string _workDir;
+	private readonly string _downloadDir;
 
 	/// <summary>
 	/// FileService 클래스의 새 인스턴스를 초기화합니다.
@@ -19,13 +20,15 @@ public class FileService
 	/// <param name="cfg">에이전트 설정 옵션</param>
 	public FileService(IOptions<AgentConfig> cfg)
 	{
-		_cfg     = cfg.Value;
-		_workDir = _cfg.WorkDir;
+		_cfg         = cfg.Value;
+		_workDir     = _cfg.WorkDir;
+		_downloadDir = Path.Combine(AppContext.BaseDirectory, "Download");
+		Directory.CreateDirectory(_downloadDir);
 	}
 
-	// @brief 패치 파일의 저장 루트. PatchRootDir 이 비어있으면 WorkDir 를 사용
-	private string PatchRoot =>
-		string.IsNullOrWhiteSpace(_cfg.PatchRootDir) ? _workDir : _cfg.PatchRootDir;
+	// @brief 패치 파일의 저장 대상 디렉터리들. PatchDirs 가 비어있으면 WorkDir 를 사용
+	private List<string> PatchDirs =>
+		_cfg.PatchDirs?.Count > 0 ? _cfg.PatchDirs : new List<string> { _workDir };
 
 	/// <summary>
 	/// 작업 디렉터리를 지정된 경로로 변경하여 해당 경로가 존재하는지 확인합니다.
@@ -101,26 +104,150 @@ public class FileService
 		if (bytes.Length > _cfg.MaxFileSizeBytes)
 			return Fail($"File exceeds max size ({_cfg.MaxFileSizeBytes} bytes)");
 
-		var patchRoot = PatchRoot;
-		Directory.CreateDirectory(patchRoot);
-		var destPath = Path.Combine(patchRoot, fileName);
+		// 임시 디렉토리에 파일 저장 (고정 경로 — 패치 후에도 확인 가능)
+		var tempDir = Path.Combine(Path.GetTempPath(), "DeployTool");
+		Directory.CreateDirectory(tempDir);
 
-		if (File.Exists(destPath) && !req.Overwrite)
-			return Fail("File already exists");
+		var tempFile = Path.Combine(tempDir, fileName);
+		await File.WriteAllBytesAsync(tempFile, bytes);
 
-		await File.WriteAllBytesAsync(destPath, bytes);
-
-		// ─── zip 파일: 압축 해제 후 원본 삭제 ────────────────
-		if (destPath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+		// ZIP 파일인 경우 임시 디렉토리에서 압축해제
+		if (tempFile.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
 		{
 			try
 			{
-				ZipFile.ExtractToDirectory(destPath, patchRoot, overwriteFiles: true);
-				File.Delete(destPath);
+				ZipFile.ExtractToDirectory(tempFile, tempDir, overwriteFiles: true);
+				File.Delete(tempFile);
 			}
 			catch (Exception ex)
 			{
 				return Fail($"Unzip failed: {ex.Message}");
+			}
+		}
+
+		// 임시 디렉토리의 모든 파일을 각 패치 디렉터리에 복사
+		var patchDirs = PatchDirs;
+		foreach (var targetDir in patchDirs)
+		{
+			try
+			{
+				Directory.CreateDirectory(targetDir);
+
+				foreach (var sourceFile in Directory.GetFiles(tempDir, "*", SearchOption.AllDirectories))
+				{
+					var relativePath = Path.GetRelativePath(tempDir, sourceFile);
+					var destFile = Path.Combine(targetDir, relativePath);
+
+					var destFileDir = Path.GetDirectoryName(destFile);
+					if (!string.IsNullOrEmpty(destFileDir))
+						Directory.CreateDirectory(destFileDir);
+
+					if (File.Exists(destFile) && !req.Overwrite)
+						continue;
+
+					File.Copy(sourceFile, destFile, overwrite: req.Overwrite);
+				}
+			}
+			catch (Exception ex)
+			{
+				return Fail($"Copy to {targetDir} failed: {ex.Message}");
+			}
+		}
+
+		return Ok();
+	}
+
+	/// <summary>
+	/// 청크 단위 파일 업로드를 처리합니다. 청크를 Download 폴더에 순서대로 조립하고
+	/// 마지막 청크에서 SHA-256을 검증한 뒤 PatchDirs에 배포합니다.
+	/// </summary>
+	/// <param name="req">청크 데이터 및 메타데이터를 포함하는 요청</param>
+	/// <returns>성공 또는 실패를 나타내는 결과 응답</returns>
+	public async Task<ResultResponse> UploadChunkAsync(UploadChunkRequest req)
+	{
+		var fileName = Path.GetFileName(req.FileName);
+		if (string.IsNullOrWhiteSpace(fileName))
+			return Fail("Invalid file name");
+
+		byte[] chunkBytes;
+		try { chunkBytes = Convert.FromBase64String(req.ChunkDataBase64); }
+		catch { return Fail("Invalid chunk data"); }
+
+		var tempFile = Path.Combine(_downloadDir, fileName + ".tmp");
+
+		// 첫 청크면 이전 임시 파일 초기화
+		if (0 == req.ChunkIndex && File.Exists(tempFile))
+			File.Delete(tempFile);
+
+		// 청크 데이터 추가
+		await using (var fs = new FileStream(tempFile, FileMode.Append, FileAccess.Write, FileShare.None))
+			await fs.WriteAsync(chunkBytes);
+
+		// 마지막 청크가 아니면 다음 청크 대기
+		if (req.ChunkIndex < req.TotalChunks - 1)
+			return Ok();
+
+		// ── 마지막 청크: 검증 및 배포 ───────────────────────────────
+		var assembled = await File.ReadAllBytesAsync(tempFile);
+
+		// 크기 검증
+		if (assembled.Length > _cfg.MaxFileSizeBytes)
+		{
+			File.Delete(tempFile);
+			return Fail($"File exceeds max size ({_cfg.MaxFileSizeBytes} bytes)");
+		}
+
+		// SHA-256 검증
+		var actual = Convert.ToHexString(SHA256.HashData(assembled)).ToLowerInvariant();
+		if (!string.Equals(actual, req.Sha256Hash, StringComparison.OrdinalIgnoreCase))
+		{
+			File.Delete(tempFile);
+			return Fail($"Hash mismatch: expected {req.Sha256Hash}, got {actual}");
+		}
+
+		// 최종 파일로 이동
+		var finalFile = Path.Combine(_downloadDir, fileName);
+		if (File.Exists(finalFile)) File.Delete(finalFile);
+		File.Move(tempFile, finalFile);
+
+		// ZIP이면 압축 해제 후 내용물 배포, 아니면 파일 직접 배포
+		if (finalFile.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+		{
+			var extractDir = Path.Combine(_downloadDir, Path.GetFileNameWithoutExtension(fileName) + "_extracted");
+			if (Directory.Exists(extractDir)) Directory.Delete(extractDir, true);
+			try { ZipFile.ExtractToDirectory(finalFile, extractDir, overwriteFiles: true); }
+			catch (Exception ex) { return Fail($"Unzip failed: {ex.Message}"); }
+
+			foreach (var targetDir in PatchDirs)
+			{
+				try
+				{
+					Directory.CreateDirectory(targetDir);
+					foreach (var src in Directory.GetFiles(extractDir, "*", SearchOption.AllDirectories))
+					{
+						var rel     = Path.GetRelativePath(extractDir, src);
+						var dest    = Path.Combine(targetDir, rel);
+						var destDir = Path.GetDirectoryName(dest);
+						if (!string.IsNullOrEmpty(destDir)) Directory.CreateDirectory(destDir);
+						if (!File.Exists(dest) || req.Overwrite)
+							File.Copy(src, dest, overwrite: req.Overwrite);
+					}
+				}
+				catch (Exception ex) { return Fail($"Copy to {targetDir} failed: {ex.Message}"); }
+			}
+		}
+		else
+		{
+			foreach (var targetDir in PatchDirs)
+			{
+				try
+				{
+					Directory.CreateDirectory(targetDir);
+					var dest = Path.Combine(targetDir, fileName);
+					if (!File.Exists(dest) || req.Overwrite)
+						File.Copy(finalFile, dest, overwrite: req.Overwrite);
+				}
+				catch (Exception ex) { return Fail($"Copy to {targetDir} failed: {ex.Message}"); }
 			}
 		}
 

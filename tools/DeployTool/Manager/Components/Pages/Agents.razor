@@ -114,7 +114,7 @@
 							@foreach (var proc in processes.Processes)
 							{
 								var processKey = $"{agentKey}#{proc.Uid}";
-								var isSelected = _selectedProcesses.Any(p => p.Uid == proc.Uid && p.AgentName == agentKey);
+								var isSelected = _selectedProcesses.Contains((agentKey, proc.Uid));
 
 								<div class="d-flex align-items-start mb-2 p-2 bg-secondary bg-opacity-10 rounded">
 									<div class="form-check mt-1">

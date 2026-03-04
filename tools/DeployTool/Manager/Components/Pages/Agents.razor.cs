@@ -13,7 +13,8 @@ public partial class Agents
 	private string _searchText = "";
 	private HashSet<string> _selectedTags = new();
 	private HashSet<string> _expandedAgents = new();
-	private List<(string AgentName, string Uid, string Status, string DisplayName)> _selectedProcesses = new();
+	// (AgentName, Uid) — Status는 저장하지 않고 캐시에서 실시간으로 조회
+	private HashSet<(string AgentName, string Uid)> _selectedProcesses = new();
 	private Dictionary<string, MonitoredProcessesResponse?> _processCache = new();
 	private bool _controllingProcess = false;
 	private System.Timers.Timer? _timer;
@@ -69,16 +70,22 @@ public partial class Agents
 	/// <summary>Toggles process selection for start/stop operations.</summary>
 	private void ToggleProcessSelection(string agentName, MonitoredProcessStatus proc, bool selected)
 	{
-		var key = (agentName, proc.Uid, proc.Status, proc.DisplayName);
+		var key = (agentName, proc.Uid);
 		if (selected)
-		{
-			if (!_selectedProcesses.Any(p => p.Uid == proc.Uid && p.AgentName == agentName))
-				_selectedProcesses.Add(key);
-		}
+			_selectedProcesses.Add(key);
 		else
+			_selectedProcesses.Remove(key);
+	}
+
+	/// <summary>캐시에서 해당 에이전트 + uid의 현재 Status를 반환합니다.</summary>
+	private string GetCachedStatus(string agentName, string uid)
+	{
+		if (_processCache.TryGetValue(agentName, out var resp) && resp != null)
 		{
-			_selectedProcesses.RemoveAll(p => p.Uid == proc.Uid && p.AgentName == agentName);
+			var p = resp.Processes.FirstOrDefault(p => p.Uid == uid);
+			if (p != null) return p.Status;
 		}
+		return "Unknown";
 	}
 
 	/// <summary>Gets cached processes for an agent, returns null if not loaded.</summary>
@@ -90,13 +97,19 @@ public partial class Agents
 	/// <summary>Checks if start button should be disabled.</summary>
 	private bool GetStartDisabled(string agentName)
 	{
-		return _controllingProcess || !_selectedProcesses.Any(p => p.AgentName == agentName && p.Status != "Running");
+		if (_controllingProcess) return true;
+		return !_selectedProcesses
+			.Where(p => p.AgentName == agentName)
+			.Any(p => GetCachedStatus(agentName, p.Uid) != "Running");
 	}
 
 	/// <summary>Checks if stop button should be disabled.</summary>
 	private bool GetStopDisabled(string agentName)
 	{
-		return _controllingProcess || !_selectedProcesses.Any(p => p.AgentName == agentName && p.Status == "Running");
+		if (_controllingProcess) return true;
+		return !_selectedProcesses
+			.Where(p => p.AgentName == agentName)
+			.Any(p => GetCachedStatus(agentName, p.Uid) == "Running");
 	}
 
 	/// <summary>Refreshes process list for all connected agents.</summary>
@@ -120,12 +133,15 @@ public partial class Agents
 		_controllingProcess = true;
 		try
 		{
-			var selected = _selectedProcesses.Where(p => p.AgentName == agentName && p.Status != "Running").ToList();
+			var selected = _selectedProcesses
+				.Where(p => p.AgentName == agentName && GetCachedStatus(agentName, p.Uid) != "Running")
+				.Select(p => p.Uid)
+				.ToList();
 			var client = Registry.Get(agentName);
 
 			if (client == null || !client.IsConnected) return;
 
-			foreach (var (_, uid, _, _) in selected)
+			foreach (var uid in selected)
 			{
 				await client.StartMonitoredProcessAsync(uid);
 				await Task.Delay(500);
@@ -146,12 +162,15 @@ public partial class Agents
 		_controllingProcess = true;
 		try
 		{
-			var selected = _selectedProcesses.Where(p => p.AgentName == agentName && p.Status == "Running").ToList();
+			var selected = _selectedProcesses
+				.Where(p => p.AgentName == agentName && GetCachedStatus(agentName, p.Uid) == "Running")
+				.Select(p => p.Uid)
+				.ToList();
 			var client = Registry.Get(agentName);
 
 			if (client == null || !client.IsConnected) return;
 
-			foreach (var (_, uid, _, _) in selected)
+			foreach (var uid in selected)
 			{
 				await client.StopMonitoredProcessAsync(uid);
 				await Task.Delay(500);

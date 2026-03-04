@@ -103,6 +103,23 @@ public class DecompressRequest
 	public string OutputPath { get; set; } = "";
 }
 
+/// <summary>청크 단위 파일 업로드 요청. 마지막 청크에 SHA-256 해시를 포함합니다.</summary>
+public class UploadChunkRequest
+{
+	/// <summary>업로드할 파일명 (경로 없이 파일명만)</summary>
+	public string FileName        { get; set; } = "";
+	/// <summary>0 기반 청크 인덱스</summary>
+	public int    ChunkIndex      { get; set; }
+	/// <summary>전체 청크 수</summary>
+	public int    TotalChunks     { get; set; }
+	/// <summary>Base64 인코딩된 청크 데이터</summary>
+	public string ChunkDataBase64 { get; set; } = "";
+	/// <summary>SHA-256 해시 (16진수, 마지막 청크에만 설정)</summary>
+	public string Sha256Hash      { get; set; } = "";
+	/// <summary>기존 파일 덮어쓰기 여부</summary>
+	public bool   Overwrite       { get; set; } = true;
+}
+
 // ── 에이전트 → 매니저 ───────────────────────────────────────────
 /// <summary>파일 목록에 대한 디렉터리 항목 메타데이터</summary>
 public class FileEntry

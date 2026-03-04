@@ -121,11 +121,17 @@
                 var agentName = agent.Info.Name;
                 var connected = agent.IsConnected;
                 var matchesFilter = IsAgentFilterMatch(agent);
+                
+                @if (!matchesFilter && (_activeGroups.Count > 0 || _activeTags.Count > 0))
+                {
+                    continue;
+                }
+                
                 <div class="list-group-item list-group-item-dark d-flex align-items-start gap-3">
                     <div>
                         <input class="form-check-input mt-0" type="checkbox"
                                checked="@_selectedAgents.Contains(agentName)"
-                               disabled="@(!connected || _patching || !matchesFilter)"
+                               disabled="@(!connected || _patching)"
                                @onchange="e => ToggleAgent(agentName, (bool)e.Value!)" />
                     </div>
                     <div class="flex-grow-1">

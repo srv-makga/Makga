@@ -105,7 +105,7 @@ public static class PacketSerializer
 	public static async Task<(PacketId id, byte[] payload, byte key)?> ReadPacketAsync(
 		Stream stream, CancellationToken ct = default)
 	{
-		const int MaxPayloadSize = 52_428_800; // 50MB 제한
+		const int MaxPayloadSize = 209_715_200; // 200MB — base64 인코딩된 100MB 파일(~133MB) + 여유
 		var headerBuf = new byte[PacketHeader.Size];
 		if (!await ReadExactAsync(stream, headerBuf, ct))
 			return null;

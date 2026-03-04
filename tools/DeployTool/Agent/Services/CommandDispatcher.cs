@@ -68,6 +68,7 @@ public class CommandDispatcher
 				PacketId.BackupDir    => Serialize(PacketId.Result,       await _file.BackupDirAsync(Des<BackupDirRequest>(payload))),
 				PacketId.Compress     => Serialize(PacketId.Result,       await _file.CompressAsync(Des<CompressRequest>(payload))),
 				PacketId.Decompress   => Serialize(PacketId.Result,       await _file.DecompressAsync(Des<DecompressRequest>(payload))),
+				PacketId.UploadChunk  => Serialize(PacketId.Result,       await _file.UploadChunkAsync(Des<UploadChunkRequest>(payload))),
 				PacketId.Execute      => Serialize(PacketId.Result,       await _process.ExecuteAsync(Des<ExecuteRequest>(payload))),
 				PacketId.Kill         => Serialize(PacketId.Result,       await _process.KillAsync(Des<KillRequest>(payload))),
 				PacketId.ListProcess  => Serialize(PacketId.ProcessList,  await _process.ListProcessAsync()),

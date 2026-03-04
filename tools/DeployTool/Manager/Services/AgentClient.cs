@@ -299,9 +299,54 @@ public class AgentClient : IAsyncDisposable
 		return PacketSerializer.Deserialize<ResultResponse>(resp.Value.payload);
 	}
 
-	private void SetDisconnected()
+	/// <summary>
+	/// 파일을 청크 단위로 에이전트에 전송합니다. 마지막 청크에 SHA-256 해시를 포함하여 검증합니다.
+	/// </summary>
+	/// <param name="fileName">전송할 파일명</param>
+	/// <param name="data">파일 전체 바이트</param>
+	/// <param name="sha256">파일 전체의 SHA-256 해시 (16진수 소문자)</param>
+	/// <param name="overwrite">기존 파일 덮어쓰기 여부</param>
+	/// <param name="chunkSize">청크 크기 (기본값: 4MB)</param>
+	/// <param name="onChunk">청크 진행 콜백 (현재 청크, 전체 청크)</param>
+	/// <param name="ct">취소 토큰</param>
+	/// <returns>최종 결과 응답 또는 연결 실패 시 null</returns>
+	public async Task<ResultResponse?> PutFileChunkedAsync(
+		string fileName, byte[] data, string sha256, bool overwrite = true,
+		int chunkSize = 4 * 1024 * 1024,
+		Action<int, int>? onChunk = null,
+		CancellationToken ct = default)
 	{
-		IsConnected = false;
+		var totalChunks = Math.Max(1, (int)Math.Ceiling((double)data.Length / chunkSize));
+
+		for (var i = 0; i < totalChunks; i++)
+		{
+			var offset = i * chunkSize;
+			var len    = Math.Min(chunkSize, data.Length - offset);
+
+			var req = new UploadChunkRequest
+			{
+				FileName        = fileName,
+				ChunkIndex      = i,
+				TotalChunks     = totalChunks,
+				ChunkDataBase64 = Convert.ToBase64String(data, offset, len),
+				Sha256Hash      = i == totalChunks - 1 ? sha256 : "",
+				Overwrite       = overwrite
+			};
+
+			onChunk?.Invoke(i + 1, totalChunks);
+
+			var resp = await SendAsync(PacketId.UploadChunk, req, ct);
+			if (null == resp) return null;
+
+			var result = PacketSerializer.Deserialize<ResultResponse>(resp.Value.payload);
+			if (result?.Success == false) return result;
+		}
+
+		return new ResultResponse { Success = true };
+	}
+
+	private void SetDisconnected()
+	{IsConnected = false;
 		_stream?.Dispose();
 		_tcp?.Dispose();
 		_stream = null;

@@ -1,5 +1,4 @@
-using DeployTool.Common;
-using DeployTool.Common.Net;
+using System.Security.Cryptography;
 using DeployTool.Common.Packets;
 using DeployTool.Manager.Services;
 using Microsoft.AspNetCore.Components.Forms;
@@ -253,16 +252,16 @@ public partial class Patch
 					break;
 				}
 
-				var resp = await client.SendAsync(PacketId.PutFile, new PutFileRequest
-				{
-					Path       = entry.Name,
-					DataBase64 = Convert.ToBase64String(bytes),
-					Overwrite  = true
-				});
-
-				ResultResponse? result = null;
-				if (null != resp)
-					result = PacketSerializer.Deserialize<ResultResponse>(resp.Value.payload);
+				var sha256 = Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant();
+				var result = await client.PutFileChunkedAsync(
+					entry.Name, bytes, sha256, overwrite: true,
+					onChunk: (current, total) =>
+					{
+						_progress[ai] = (agentName, total > 1
+							? $"{entry.Name} ({fi + 1}/{filesToPatch.Count}) [{current}/{total}청크]"
+							: $"{entry.Name} ({fi + 1}/{filesToPatch.Count})");
+						_ = InvokeAsync(StateHasChanged);
+					});
 
 				if (result?.Success == false)
 				{

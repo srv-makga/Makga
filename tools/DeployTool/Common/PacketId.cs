@@ -41,6 +41,8 @@ public enum PacketId : ushort
 	Compress     = 20,
 	/// <summary>ZIP 또는 TAR.GZ 아카이브 압축 해제</summary>
 	Decompress   = 21,
+	/// <summary>청크 단위 파일 업로드 (패치 배포용)</summary>
+	UploadChunk  = 22,
 
 	// 프로세스 작업 (30-39)
 	/// <summary>외부 프로세스 실행</summary>

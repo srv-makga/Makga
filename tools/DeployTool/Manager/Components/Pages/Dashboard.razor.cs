@@ -7,14 +7,23 @@ namespace DeployTool.Manager.Components.Pages;
 public partial class Dashboard
 {
 	private List<AgentClient> _agents = new();
+	private List<string> _allTags = new();
+	private HashSet<string> _selectedTags = new();
 	private Dictionary<string, ExternalServicesInfoResponse?> _servicesCache = new();
 	private Dictionary<string, MonitoredProcessesResponse?> _processesCache = new();
 	private System.Timers.Timer? _timer;
+
+	/// <summary>Agent list filtered by selected tags.</summary>
+	private IEnumerable<AgentClient> FilteredAgents =>
+		_selectedTags.Count == 0
+			? _agents
+			: _agents.Where(a => _selectedTags.All(t => a.Info.Tags.Contains(t)));
 
 	/// <summary>Initializes the page and starts UI refresh timer.</summary>
 	protected override void OnInitialized()
 	{
 		_agents = Registry.All.ToList();
+		_allTags = _agents.SelectMany(a => a.Info.Tags).Distinct().Order().ToList();
 
 		_timer = new System.Timers.Timer(TimeSpan.FromSeconds(5));
 		_timer.Elapsed += async (_, _) => await RefreshDataAsync();
@@ -22,6 +31,16 @@ public partial class Dashboard
 		
 		RefreshDataAsync().ConfigureAwait(false);
 	}
+
+	/// <summary>Toggles a tag filter selection.</summary>
+	private void ToggleTag(string tag)
+	{
+		if (!_selectedTags.Remove(tag))
+			_selectedTags.Add(tag);
+	}
+
+	/// <summary>Clears all selected tag filters.</summary>
+	private void ClearTags() => _selectedTags.Clear();
 
 	/// <summary>Refreshes external services and monitored processes status for all connected agents.</summary>
 	private async Task RefreshDataAsync()

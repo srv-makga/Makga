@@ -21,9 +21,9 @@ public class AgentConfig
 	public string LogDir { get; set; } = ".";
 
 	/// <summary>
-	/// 패치 파일의 루트 디렉터리. 비어 있으면 WorkDir 사용
+	/// 패치 파일의 복사 대상 디렉터리들. 여러 개 지정 가능. 비어 있으면 WorkDir 사용
 	/// </summary>
-	public string PatchRootDir { get; set; } = "";
+	public List<string> PatchDirs { get; set; } = new();
 
 	/// <summary>
 	/// 셸 명령 실행 활성화 (위험함)
