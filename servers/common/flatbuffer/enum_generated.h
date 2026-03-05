@@ -183,31 +183,37 @@ enum MessageType : int32_t {
   MessageType_GridAddActor = 0,
   MessageType_GridRemoveActor = 1,
   MessageType_GridBroadcastMove = 2,
+  MessageType_TerrainRegisterActor = 3,
+  MessageType_TerrainUnregisterActor = 4,
   MessageType_MIN = MessageType_GridAddActor,
-  MessageType_MAX = MessageType_GridBroadcastMove
+  MessageType_MAX = MessageType_TerrainUnregisterActor
 };
 
-inline const MessageType (&EnumValuesMessageType())[3] {
+inline const MessageType (&EnumValuesMessageType())[5] {
   static const MessageType values[] = {
     MessageType_GridAddActor,
     MessageType_GridRemoveActor,
-    MessageType_GridBroadcastMove
+    MessageType_GridBroadcastMove,
+    MessageType_TerrainRegisterActor,
+    MessageType_TerrainUnregisterActor
   };
   return values;
 }
 
 inline const char * const *EnumNamesMessageType() {
-  static const char * const names[4] = {
+  static const char * const names[6] = {
     "GridAddActor",
     "GridRemoveActor",
     "GridBroadcastMove",
+    "TerrainRegisterActor",
+    "TerrainUnregisterActor",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameMessageType(MessageType e) {
-  if (::flatbuffers::IsOutRange(e, MessageType_GridAddActor, MessageType_GridBroadcastMove)) return "";
+  if (::flatbuffers::IsOutRange(e, MessageType_GridAddActor, MessageType_TerrainUnregisterActor)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesMessageType()[index];
 }

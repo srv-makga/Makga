@@ -1,0 +1,27 @@
+include "game_packet_id.fbs";
+include "enum.fbs";
+
+namespace makga;
+
+// ── Move (PacketId::Move = 1001) ──────────────────────────────
+
+// C2S: 클라이언트가 이동 요청
+table C2S_Move
+{
+	x         : float;
+	y         : float;
+	z         : float;
+	yaw       : float;
+	move_type : MoveType = Walk;
+}
+
+// S2C: 서버가 인근 클라이언트에 이동 결과 브로드캐스트
+table S2C_Move
+{
+	actor_id  : uint64;
+	x         : float;
+	y         : float;
+	z         : float;
+	yaw       : float;
+	move_type : MoveType = Walk;
+}

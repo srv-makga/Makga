@@ -41,6 +41,8 @@ enum MessageType : int
 	GridAddActor,
 	GridRemoveActor,
 	GridBroadcastMove,
+	TerrainRegisterActor,    // 다른 Terrain에서 이 Terrain으로 Actor 입장 (Terrain 경계 이동)
+	TerrainUnregisterActor,  // 이 Terrain에서 다른 Terrain으로 Actor 퇴장 (Terrain 경계 이동)
 }
 
 // 게임 월드의 서브 시스템 틱 순위

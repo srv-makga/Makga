@@ -1,0 +1,12 @@
+namespace makga;
+
+// Game 서버 패킷 ID
+// 규칙: C2S/S2C 테이블 이름의 기반이 됨
+//   → PacketId::<Name> ↔ C2S_<Name> / S2C_<Name>
+enum PacketId : uint16
+{
+	None = 0,
+
+	// ── 이동 ──────────────────────────────
+	Move = 1001,
+}
