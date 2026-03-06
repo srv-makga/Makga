@@ -18,25 +18,24 @@ import makga.network.endpoint;
 import makga.network.session;
 
 namespace makga::network {
-
-export class RioConnector : public NetConnector {
+export class RioConnector : public NetConnector
+{
 public:
-  RioConnector(std::shared_ptr<RioService> service);
-  virtual ~RioConnector();
+	RioConnector(std::shared_ptr<RioService> service);
+	virtual ~RioConnector();
 
-  bool Start() override;
-  void Stop() override;
+	bool Start() override;
+	void Stop() override;
 
-  bool IsConnected() const override;
+	bool IsConnected() const override;
 
-  bool Connect(const IPEndPoint &endpoint);
+	bool Connect(const IPEndPoint& endpoint);
 
 private:
-  std::shared_ptr<RioService> service_;
-  SOCKET socket_;
-  std::atomic<bool> is_connected_;
+	std::shared_ptr<RioService> service_;
+	SOCKET socket_;
+	std::atomic<bool> is_connected_;
 
-  std::shared_ptr<NetSession> session_;
+	std::shared_ptr<NetSession> session_;
 };
-
 } // namespace makga::network
