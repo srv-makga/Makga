@@ -24,6 +24,7 @@
     <ProjectGuid>{39bd739e-c7cb-43be-aede-f2c1ab241179}</ProjectGuid>
     <RootNamespace>community</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Community</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -101,9 +102,12 @@
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>..\..\libs\cpp\3rdparty\flatbuffer\include;..\..\libs\cpp\libraries;..\..\libs\cpp\network;..\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalModuleDependencies>C:\Github\Makga\servers\..\libs\cpp\network;C:\Github\Makga\servers\..\libs\cpp\libraries;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+      <AdditionalModuleDependencies>$(MSBuildProjectDirectory)\..\..\libs\cpp\libraries\x64\Debug;$(MSBuildProjectDirectory)\..\..\libs\cpp\network\x64\Debug;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -121,9 +125,11 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..\libs\cpp\3rdparty\flatbuffer\include;..\..\libs\cpp\libraries;..\..\libs\cpp\network;..\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalModuleDependencies>C:\Github\Makga\servers\..\libs\cpp\network;C:\Github\Makga\servers\..\libs\cpp\libraries;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+      <AdditionalModuleDependencies>$(MSBuildProjectDirectory)\..\..\libs\cpp\libraries\x64\Release;$(MSBuildProjectDirectory)\..\..\libs\cpp\network\x64\Release;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -138,6 +144,14 @@
     <ClCompile Include="app.cpp" />
     <ClCompile Include="community.cpp" />
     <ClCompile Include="community_member.cpp" />
+    <ClCompile Include="friend.cpp" />
+    <ClCompile Include="friend_manager.cpp" />
+    <ClCompile Include="friend_member.cpp" />
+    <ClCompile Include="guild.cpp" />
+    <ClCompile Include="guild_craft.cpp" />
+    <ClCompile Include="guild_inventory.cpp" />
+    <ClCompile Include="guild_member.cpp" />
+    <ClCompile Include="guild_shop.cpp" />
     <ClCompile Include="party.cpp" />
     <ClCompile Include="party_member.cpp" />
   </ItemGroup>
@@ -146,7 +160,14 @@
     <ClInclude Include="community_member.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="friend.h" />
+    <ClInclude Include="friend_manager.h" />
+    <ClInclude Include="friend_member.h" />
     <ClInclude Include="guild.h" />
+    <ClInclude Include="guild_achievement.h" />
+    <ClInclude Include="guild_craft.h" />
+    <ClInclude Include="guild_inventory.h" />
+    <ClInclude Include="guild_member.h" />
+    <ClInclude Include="guild_shop.h" />
     <ClInclude Include="party.h" />
     <ClInclude Include="party_member.h" />
     <ClInclude Include="pch.h" />

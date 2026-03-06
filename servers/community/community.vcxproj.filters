@@ -14,6 +14,30 @@
     <ClCompile Include="community_member.cpp">
       <Filter>content\community</Filter>
     </ClCompile>
+    <ClCompile Include="friend_manager.cpp">
+      <Filter>content\community\detail\friend</Filter>
+    </ClCompile>
+    <ClCompile Include="friend_member.cpp">
+      <Filter>content\community\detail\friend</Filter>
+    </ClCompile>
+    <ClCompile Include="friend.cpp">
+      <Filter>content\community\detail\friend</Filter>
+    </ClCompile>
+    <ClCompile Include="guild_craft.cpp">
+      <Filter>content\community\detail\guild</Filter>
+    </ClCompile>
+    <ClCompile Include="guild_inventory.cpp">
+      <Filter>content\community\detail\guild</Filter>
+    </ClCompile>
+    <ClCompile Include="guild_member.cpp">
+      <Filter>content\community\detail\guild</Filter>
+    </ClCompile>
+    <ClCompile Include="guild_shop.cpp">
+      <Filter>content\community\detail\guild</Filter>
+    </ClCompile>
+    <ClCompile Include="guild.cpp">
+      <Filter>content\community\detail\guild</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="common">
@@ -60,6 +84,27 @@
     </ClInclude>
     <ClInclude Include="party_member.h">
       <Filter>content\community\detail\party</Filter>
+    </ClInclude>
+    <ClInclude Include="friend_manager.h">
+      <Filter>content\community\detail\friend</Filter>
+    </ClInclude>
+    <ClInclude Include="friend_member.h">
+      <Filter>content\community\detail\friend</Filter>
+    </ClInclude>
+    <ClInclude Include="guild_achievement.h">
+      <Filter>content\community\detail\guild</Filter>
+    </ClInclude>
+    <ClInclude Include="guild_craft.h">
+      <Filter>content\community\detail\guild</Filter>
+    </ClInclude>
+    <ClInclude Include="guild_inventory.h">
+      <Filter>content\community\detail\guild</Filter>
+    </ClInclude>
+    <ClInclude Include="guild_member.h">
+      <Filter>content\community\detail\guild</Filter>
+    </ClInclude>
+    <ClInclude Include="guild_shop.h">
+      <Filter>content\community\detail\guild</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
