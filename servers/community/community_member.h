@@ -17,8 +17,21 @@ public:
 	std::shared_ptr<Community> GetCommunity() const;
 	void SetCommunity(std::weak_ptr<Community> community);
 
+	Time GetJoinTime() const;
+	void SetJoinTime(Time t);
+
+	Time GetLastLoginTime() const;
+	void UpdateLastLoginTime();
+
+	bool IsOnline() const;
+	void SetOnline(bool online);
+
 protected:
-	Id id_;
-	UserUid user_uid_;
+	Id id_ = 0;
+	UserUid user_uid_ = 0;
 	std::weak_ptr<Community> community_;
+
+	Time join_time_ = 0;
+	Time last_login_time_ = 0;
+	bool is_online_ = false;
 };
