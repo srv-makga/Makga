@@ -26,35 +26,35 @@
 #include "flatbuffer/enum_generated.h"
 #include "flatbuffer/result_generated.h"
 
-#include "../../3rdparty/rapidjson/include/rapidjson/rapidjson.h"
-#include "../../3rdparty/rapidjson/include/rapidjson/document.h"
-#include "../../3rdparty/rapidjson/include/rapidjson/writer.h"
-#include "../../3rdparty/rapidjson/include/rapidjson/stringbuffer.h"
+#include "../../libs/cpp/3rdparty/rapidjson/include/rapidjson/rapidjson.h"
+#include "../../libs/cpp/3rdparty/rapidjson/include/rapidjson/document.h"
+#include "../../libs/cpp/3rdparty/rapidjson/include/rapidjson/writer.h"
+#include "../../libs/cpp/3rdparty/rapidjson/include/rapidjson/stringbuffer.h"
 
-// »çÄ¢¿¬»êÀÌ ¾øÀ¸¸é unsigned, ÀÖÀ¸¸é signed
+// ï¿½ï¿½Ä¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ unsigned, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ signed
 
-// idx = µ¥ÀÌÅÍ Å×ÀÌºíÀÇ °íÀ¯ÇÑ ÀÎµ¦½º
-// id = ÀÏÈ¸¼º °íÀ¯ÇÑ ¹øÈ£. ¼­¹ö°¡ Àç½ÃÀÛµÇ¸é ´Ù½Ã ³Ñ¹ö¸µ
-// uid = ¿µ±¸Àû °íÀ¯ÇÑ ¹øÈ£. ¼­¹ö°¡ Àç½ÃÀÛ µÇ¾îµµ °íÀ¯ÇÔÀÌ À¯Áö
+// idx = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½
+// id = ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ÛµÇ¸ï¿½ ï¿½Ù½ï¿½ ï¿½Ñ¹ï¿½ï¿½ï¿½
+// uid = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾îµµ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-// ³×Æ®¿öÅ©
+// ï¿½ï¿½Æ®ï¿½ï¿½Å©
 using Port = uint16_t;
 
-// ½Ã°£
+// ï¿½Ã°ï¿½
 using Time = std::time_t;
 using Tick = int64_t;
 
-// Å×ÀÌºí
+// ï¿½ï¿½ï¿½Ìºï¿½
 using TableIdx = uint64_t;
 
-// ½Ã½ºÅÛ
+// ï¿½Ã½ï¿½ï¿½ï¿½
 using EntityId = uint64_t;
-using Percent = int32_t; // Ç¥±â ¹æ½Ä
-using Prob = int32_t; // È®·ü. 0 ~ 100,000,000
+using Percent = int32_t; // Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½
+using Prob = int32_t; // È®ï¿½ï¿½. 0 ~ 100,000,000
 constexpr Prob max_prob = 100000000;
-using Rate = float; // ¼öÄ¡ÀÇ ºñÀ²
+using Rate = float; // ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-// ÄÁÅÙÃ÷
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 using TerrainIdx = TableIdx;
 using TerrainId = uint32_t;
 using GridId = uint32_t;
