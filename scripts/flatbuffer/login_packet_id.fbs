@@ -1,0 +1,18 @@
+namespace makga;
+
+// 로그인 시퀀스 패킷 ID (1–99)
+// 규칙: C2S/S2C 테이블 이름의 기반이 됨
+//   → LoginPacketId::<Name> ↔ C2S_<Name> / S2C_<Name>
+enum LoginPacketId : uint16
+{
+	None            = 0,
+
+	// ── 인증 ─────────────────────────────────────────────────────────────
+	Login           = 1,    // C2S_Login / S2C_Login  (SessionToken 인증 + 캐릭터 목록)
+
+	// ── 캐릭터 선택 ──────────────────────────────────────────────────────
+	SelectCharacter = 2,    // C2S_SelectCharacter     (캐릭터 선택 요청)
+
+	// ── 월드 입장 ────────────────────────────────────────────────────────
+	EnterWorld      = 3,    // S2C_EnterWorld           (월드 입장 결과)
+}

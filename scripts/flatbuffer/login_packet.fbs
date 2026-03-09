@@ -1,0 +1,54 @@
+include "login_packet_id.fbs";
+include "enum.fbs";
+include "result.fbs";
+
+namespace makga;
+
+// ── 캐릭터 목록 항목 ──────────────────────────────────────────────────────────
+
+table CharacterInfo
+{
+	character_uid : uint64;
+	name          : string;
+	level         : int32 = 1;
+	job           : JobType;
+	race          : RaceType;
+}
+
+// ── Login (LoginPacketId::Login = 1) ─────────────────────────────────────────
+
+// C2S: 게임 서버 TCP 연결 후 SessionToken으로 인증 요청
+table C2S_Login
+{
+	session_token : string;   // 로그인 서버가 발급한 32자 SessionToken
+	account_uid   : uint64;
+}
+
+// S2C: 인증 결과 + 캐릭터 목록 반환
+table S2C_Login
+{
+	result     : Result;
+	characters : [CharacterInfo];
+}
+
+// ── SelectCharacter (LoginPacketId::SelectCharacter = 2) ─────────────────────
+
+// C2S: 로그인 후 입장할 캐릭터 선택
+table C2S_SelectCharacter
+{
+	character_uid : uint64;
+}
+
+// ── EnterWorld (LoginPacketId::EnterWorld = 3) ───────────────────────────────
+
+// S2C: 캐릭터 월드 입장 결과 (스폰 위치 포함)
+table S2C_EnterWorld
+{
+	result   : Result;
+	actor_id : uint64;
+	x        : float;
+	y        : float;
+	z        : float;
+	yaw      : float;
+	map_id   : string;
+}
