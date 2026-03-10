@@ -10,4 +10,12 @@ public:
 	virtual ~UserDispatcher() = default;
 
 	bool Execute(std::shared_ptr<User> owner, std::shared_ptr<NetPacket> packet) override;
+
+private:
+	// ── 로그인 시퀀스 ────────────────────────────────────────────────────────
+	bool Login(std::shared_ptr<User> owner, std::shared_ptr<NetPacket> packet);
+	bool SelectCharacter(std::shared_ptr<User> owner, std::shared_ptr<NetPacket> packet);
+
+	// ── 인게임 ───────────────────────────────────────────────────────────────
+	bool Move(std::shared_ptr<User> owner, std::shared_ptr<NetPacket> packet);
 };
