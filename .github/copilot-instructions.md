@@ -24,40 +24,7 @@ Windows-only monorepo. C++ game/community servers (ECS, IOCP/RIO), C# services (
 
 ---
 
-## Build Commands (root: C:\Github\Makga)
-
-```powershell
-msbuild .\servers\servers.sln /p:Configuration=Debug /p:Platform=x64
-msbuild .\servers\servers.sln /p:Configuration=Release /p:Platform=x64
-msbuild .\unit_test\unit_test.vcxproj /p:Configuration=Debug /p:Platform=x64
-scripts\flatbuffer\compile.bat                          # run after any .fbs change
-
-cd servers\login   && dotnet restore && dotnet run      # :6000
-cd servers\ranking && dotnet restore && dotnet run
-cd servers\queue   && dotnet restore && dotnet run
-cd tools\AdminTool && dotnet restore && dotnet run      # :5000
-cd tools\DeployTool\Agent   && dotnet restore && dotnet run   # :7700
-cd tools\DeployTool\Manager && dotnet restore && dotnet run   # :5000
-```
-
-**Single test:** VS Test Explorer → `unit_test\unit_test.vcxproj`, filter by name (e.g. `mpsc_queue_test`).
-
----
-
-## Game Server ECS (`servers/game/`)
-
-```
-GameWorld (Singleton)
-├── ComponentManager  SoA: ComponentArray<T> = dense vector + sparse map, std::shared_mutex
-│   └── Transform / Physics / Stat / AI / Combat / Terrain components
-├── Systems (logic only)  Physics → Movement → Combat → AI  (per-frame order)
-├── TickGroupManager  CPU-core-count groups, round-robin, each group = 1 thread
-└── NewActor  data-only container, ActorId + MPSC ConcurrentQueue<ActorMessage>
-```
-
-**Legacy vs New (migration Phase 5–6 pending):** `Actor→Character/Monster/Gadget` = legacy. `NewActor` = new ECS. **Do not mix.** Prefer `NewActor` for new features.
-
-Network: `net_service`/`net_session` abstract interface → IOCP or RIO implementation. Community: `Party`, `Guild`, `Friend` all inherit `Community` base.
+Network: `net_service`/`net_session` abstract interface → IOCP or RIO implementation.
 
 ---
 
