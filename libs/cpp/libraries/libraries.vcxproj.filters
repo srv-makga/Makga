@@ -147,6 +147,40 @@
     <ClCompile Include="include\math_motion.ixx">
       <Filter>math</Filter>
     </ClCompile>
+    <ClCompile Include="src\db_connector.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="include\db_connector.ixx">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mssql_connector.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="include\mssql_connector.ixx">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mysql_connector.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="include\mysql_connector.ixx">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="src\postgresql_connector.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="include\postgresql_connector.ixx">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="include\container.ixx" />
+    <ClCompile Include="src\conversion_string.cpp">
+      <Filter>string</Filter>
+    </ClCompile>
+    <ClCompile Include="include\conversion_string.ixx">
+      <Filter>string</Filter>
+    </ClCompile>
+    <ClCompile Include="include\json.ixx">
+      <Filter>string</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="algorithm">

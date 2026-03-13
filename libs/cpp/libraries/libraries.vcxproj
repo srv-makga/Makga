@@ -24,6 +24,7 @@
     <ProjectGuid>{65f45b7d-c941-4b24-a612-113230fd4229}</ProjectGuid>
     <RootNamespace>libraries</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Libraries</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -73,6 +74,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)..\bin\</OutDir>
   </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -109,14 +113,15 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
+      <AdditionalIncludeDirectories>$(MYSQL_HOME)\include;$(PGSQL_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>..\3rdparty\hiredis\build\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>hiredisd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\3rdparty\hiredis\build\$(Configuration);$(MYSQL_HOME)\lib;$(PGSQL_HOME)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>hiredisd.lib;libmysql.lib;odbc32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -131,19 +136,26 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
+      <AdditionalIncludeDirectories>$(MYSQL_HOME)\include;$(PGSQL_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\3rdparty\hiredis\build\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>hiredisd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\3rdparty\hiredis\build\$(Configuration);$(MYSQL_HOME)\lib;$(PGSQL_HOME)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>hiredisd.lib;libmysql.lib;odbc32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>hiredisd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\3rdparty\hiredis\build\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>hiredisd.lib;libmysql.lib;odbc32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\3rdparty\hiredis\build\$(Configuration);$(MYSQL_HOME)\lib;$(PGSQL_HOME)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\container.ixx" />
+    <ClCompile Include="include\conversion_string.ixx" />
+    <ClCompile Include="include\db_connector.ixx" />
+    <ClCompile Include="include\mysql_connector.ixx" />
+    <ClCompile Include="include\mssql_connector.ixx" />
+    <ClCompile Include="include\postgresql_connector.ixx" />
     <ClCompile Include="include\ahocorasick.ixx" />
     <ClCompile Include="include\archtype.ixx" />
     <ClCompile Include="include\batch_processor.ixx" />
@@ -159,6 +171,7 @@
     <ClCompile Include="include\ecs.ixx" />
     <ClCompile Include="include\entity.ixx" />
     <ClCompile Include="include\geometry.ixx" />
+    <ClCompile Include="include\json.ixx" />
     <ClCompile Include="include\lock.ixx" />
     <ClCompile Include="include\lock_free_queue.ixx" />
     <ClCompile Include="include\logger.ixx" />
@@ -184,6 +197,11 @@
     <ClCompile Include="include\transform.ixx" />
     <ClCompile Include="include\util.ixx" />
     <ClCompile Include="include\vector3.ixx" />
+    <ClCompile Include="src\conversion_string.cpp" />
+    <ClCompile Include="src\db_connector.cpp" />
+    <ClCompile Include="src\mysql_connector.cpp" />
+    <ClCompile Include="src\mssql_connector.cpp" />
+    <ClCompile Include="src\postgresql_connector.cpp" />
     <ClCompile Include="src\ahocorasick.cpp" />
     <ClCompile Include="src\collider.cpp" />
     <ClCompile Include="src\datetime.cpp" />

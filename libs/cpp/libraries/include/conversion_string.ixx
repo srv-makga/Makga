@@ -34,8 +34,8 @@ public:
 	operator std::string()  const;
 	operator std::wstring() const;
 
-	const std::string&  GetString()  const;
-	const std::wstring& GetWString() const;
+	std::string&  GetString();
+	std::wstring& GetWString();
 
 private:
 	std::string  string_;
