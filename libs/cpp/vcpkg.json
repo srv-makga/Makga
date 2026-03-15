@@ -1,6 +1,7 @@
 {
   "dependencies": [
     "fmt",
+    "libpq",
     "mysql-connector-cpp"
   ]
 }
