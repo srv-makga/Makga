@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "community_member.h"
 #include "party.h"	// InstanceDungeonInfo 재사용
@@ -14,17 +14,17 @@ public:
 	virtual ~GuildMember();
 
 	GuildGrade GetGrade() const;
-	void       SetGrade(GuildGrade grade);
-	bool       IsGuildMaster() const;
+	void SetGrade(GuildGrade grade);
+	bool IsGuildMaster() const;
 
-	Exp  GetContribution() const;
+	Exp GetContribution() const;
 	void AddContribution(Exp amount);
 
 	Level GetCachedLevel() const;
-	void  SetCachedLevel(Level level);
+	void SetCachedLevel(Level level);
 
 	const std::string& GetPersonalMemo() const;
-	bool SetPersonalMemo(const std::string& memo);   // 100자 초과 시 false
+	bool SetPersonalMemo(const std::string& memo); // 100자 초과 시 false
 
 	// 등급별 권한
 	bool CanEditNotice() const;
@@ -35,8 +35,8 @@ public:
 private:
 	static constexpr std::size_t MaxMemoLength = 100;
 
-	GuildGrade  grade_         = GuildGrade::Member;
-	Exp         contribution_  = 0;
-	Level       cached_level_  = 1;
+	GuildGrade grade_ = GuildGrade::Member;
+	Exp contribution_ = 0;
+	Level cached_level_ = 1;
 	std::string personal_memo_;
 };

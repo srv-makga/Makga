@@ -1,21 +1,23 @@
-#pragma once
+﻿#pragma once
 
 #include "guild_member.h"
 #include "guild_inventory.h"
 
+import makga.lib.lock;
+
 // ─── GuildCraft ────────────────────────────────────────────────
 struct CraftSlot
 {
-	UserUid    contributor = 0;
-	TableIdx   item_idx    = 0;
-	StackCount count       = 0;
+	UserUid contributor = 0;
+	TableIdx item_idx = 0;
+	StackCount count = 0;
 };
 
 struct GuildCraftRecipe
 {
-	uint32_t              recipe_id    = 0;
-	TableIdx              result_idx   = 0;
-	StackCount            result_count = 1;
+	uint32_t recipe_id = 0;
+	TableIdx result_idx = 0;
+	StackCount result_count = 1;
 	std::vector<CraftSlot> required;
 };
 
@@ -39,11 +41,11 @@ public:
 	const std::vector<CraftSlot>& GetDepositedMaterials() const;
 
 private:
-	const GuildCraftRecipe* find_recipe(uint32_t recipe_id) const;
-	bool has_materials(const GuildCraftRecipe& recipe) const;
-	void consume_materials(const GuildCraftRecipe& recipe);
+	const GuildCraftRecipe* FindRecipe(uint32_t recipe_id) const;
+	bool HasMaterials(const GuildCraftRecipe& recipe) const;
+	void ConsumeMaterials(const GuildCraftRecipe& recipe);
 
-	std::vector<CraftSlot>        deposited_;
+	std::vector<CraftSlot> deposited_;
 	std::vector<GuildCraftRecipe> recipes_;
-	mutable std::mutex            craft_mutex_;
+	mutable makga::lib::Mutex craft_mutex_;
 };

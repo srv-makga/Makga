@@ -1,110 +1,110 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-    <ClCompile Include="app.cpp" />
-    <ClCompile Include="community.cpp">
-      <Filter>content\community</Filter>
-    </ClCompile>
-    <ClCompile Include="party_member.cpp">
-      <Filter>content\community\detail\party</Filter>
-    </ClCompile>
-    <ClCompile Include="party.cpp">
-      <Filter>content\community\detail\party</Filter>
-    </ClCompile>
-    <ClCompile Include="community_member.cpp">
-      <Filter>content\community</Filter>
-    </ClCompile>
-    <ClCompile Include="friend_manager.cpp">
-      <Filter>content\community\detail\friend</Filter>
-    </ClCompile>
-    <ClCompile Include="friend_member.cpp">
-      <Filter>content\community\detail\friend</Filter>
-    </ClCompile>
-    <ClCompile Include="friend.cpp">
-      <Filter>content\community\detail\friend</Filter>
-    </ClCompile>
-    <ClCompile Include="guild_craft.cpp">
-      <Filter>content\community\detail\guild</Filter>
-    </ClCompile>
-    <ClCompile Include="guild_inventory.cpp">
-      <Filter>content\community\detail\guild</Filter>
-    </ClCompile>
-    <ClCompile Include="guild_member.cpp">
-      <Filter>content\community\detail\guild</Filter>
-    </ClCompile>
-    <ClCompile Include="guild_shop.cpp">
-      <Filter>content\community\detail\guild</Filter>
-    </ClCompile>
-    <ClCompile Include="guild.cpp">
-      <Filter>content\community\detail\guild</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="common">
-      <UniqueIdentifier>{818ca883-4bf0-4ad7-90ce-f4f6c2f41abc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="content">
-      <UniqueIdentifier>{3a7c2e72-cae9-4494-bce2-a1880434c9b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="content\community">
-      <UniqueIdentifier>{39abf60b-a907-4afa-87b0-5dbc5ebf57ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="content\community\detail">
-      <UniqueIdentifier>{74abc948-e734-422c-b283-fa576c034eae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="content\community\detail\party">
-      <UniqueIdentifier>{2ea6a3d6-d82a-414e-b2fd-93a5fe4a1222}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="content\community\detail\guild">
-      <UniqueIdentifier>{6063cc38-dae2-4613-89f6-6e3f27d45f21}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="content\community\detail\friend">
-      <UniqueIdentifier>{7535f748-df19-4b20-8c1f-da7013acacf6}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="community.h">
-      <Filter>content\community</Filter>
-    </ClInclude>
-    <ClInclude Include="define.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="community_member.h">
-      <Filter>content\community</Filter>
-    </ClInclude>
-    <ClInclude Include="friend.h">
-      <Filter>content\community\detail\friend</Filter>
-    </ClInclude>
-    <ClInclude Include="guild.h">
-      <Filter>content\community\detail\guild</Filter>
-    </ClInclude>
-    <ClInclude Include="party.h">
-      <Filter>content\community\detail\party</Filter>
-    </ClInclude>
-    <ClInclude Include="party_member.h">
-      <Filter>content\community\detail\party</Filter>
-    </ClInclude>
-    <ClInclude Include="friend_manager.h">
-      <Filter>content\community\detail\friend</Filter>
-    </ClInclude>
-    <ClInclude Include="friend_member.h">
-      <Filter>content\community\detail\friend</Filter>
-    </ClInclude>
-    <ClInclude Include="guild_achievement.h">
-      <Filter>content\community\detail\guild</Filter>
-    </ClInclude>
-    <ClInclude Include="guild_craft.h">
-      <Filter>content\community\detail\guild</Filter>
-    </ClInclude>
-    <ClInclude Include="guild_inventory.h">
-      <Filter>content\community\detail\guild</Filter>
-    </ClInclude>
-    <ClInclude Include="guild_member.h">
-      <Filter>content\community\detail\guild</Filter>
-    </ClInclude>
-    <ClInclude Include="guild_shop.h">
-      <Filter>content\community\detail\guild</Filter>
-    </ClInclude>
-  </ItemGroup>
+ <ItemGroup>
+ <ClCompile Include="app.cpp" />
+ <ClCompile Include="community.cpp">
+ <Filter>content\community</Filter>
+ </ClCompile>
+ <ClCompile Include="party_member.cpp">
+ <Filter>content\community\detail\party</Filter>
+ </ClCompile>
+ <ClCompile Include="party.cpp">
+ <Filter>content\community\detail\party</Filter>
+ </ClCompile>
+ <ClCompile Include="community_member.cpp">
+ <Filter>content\community</Filter>
+ </ClCompile>
+ <ClCompile Include="friend_manager.cpp">
+ <Filter>content\community\detail\friend</Filter>
+ </ClCompile>
+ <ClCompile Include="friend_member.cpp">
+ <Filter>content\community\detail\friend</Filter>
+ </ClCompile>
+ <ClCompile Include="friend.cpp">
+ <Filter>content\community\detail\friend</Filter>
+ </ClCompile>
+ <ClCompile Include="guild_craft.cpp">
+ <Filter>content\community\detail\guild</Filter>
+ </ClCompile>
+ <ClCompile Include="guild_inventory.cpp">
+ <Filter>content\community\detail\guild</Filter>
+ </ClCompile>
+ <ClCompile Include="guild_member.cpp">
+ <Filter>content\community\detail\guild</Filter>
+ </ClCompile>
+ <ClCompile Include="guild_shop.cpp">
+ <Filter>content\community\detail\guild</Filter>
+ </ClCompile>
+ <ClCompile Include="guild.cpp">
+ <Filter>content\community\detail\guild</Filter>
+ </ClCompile>
+ </ItemGroup>
+ <ItemGroup>
+ <Filter Include="common">
+ <UniqueIdentifier>{818ca883-4bf0-4ad7-90ce-f4f6c2f41abc}</UniqueIdentifier>
+ </Filter>
+ <Filter Include="content">
+ <UniqueIdentifier>{3a7c2e72-cae9-4494-bce2-a1880434c9b2}</UniqueIdentifier>
+ </Filter>
+ <Filter Include="content\community">
+ <UniqueIdentifier>{39abf60b-a907-4afa-87b0-5dbc5ebf57ee}</UniqueIdentifier>
+ </Filter>
+ <Filter Include="content\community\detail">
+ <UniqueIdentifier>{74abc948-e734-422c-b283-fa576c034eae}</UniqueIdentifier>
+ </Filter>
+ <Filter Include="content\community\detail\party">
+ <UniqueIdentifier>{2ea6a3d6-d82a-414e-b2fd-93a5fe4a1222}</UniqueIdentifier>
+ </Filter>
+ <Filter Include="content\community\detail\guild">
+ <UniqueIdentifier>{6063cc38-dae2-4613-89f6-6e3f27d45f21}</UniqueIdentifier>
+ </Filter>
+ <Filter Include="content\community\detail\friend">
+ <UniqueIdentifier>{7535f748-df19-4b20-8c1f-da7013acacf6}</UniqueIdentifier>
+ </Filter>
+ </ItemGroup>
+ <ItemGroup>
+ <ClInclude Include="community.h">
+ <Filter>content\community</Filter>
+ </ClInclude>
+ <ClInclude Include="define.h">
+ <Filter>common</Filter>
+ </ClInclude>
+ <ClInclude Include="pch.h" />
+ <ClInclude Include="community_member.h">
+ <Filter>content\community</Filter>
+ </ClInclude>
+ <ClInclude Include="friend.h">
+ <Filter>content\community\detail\friend</Filter>
+ </ClInclude>
+ <ClInclude Include="guild.h">
+ <Filter>content\community\detail\guild</Filter>
+ </ClInclude>
+ <ClInclude Include="party.h">
+ <Filter>content\community\detail\party</Filter>
+ </ClInclude>
+ <ClInclude Include="party_member.h">
+ <Filter>content\community\detail\party</Filter>
+ </ClInclude>
+ <ClInclude Include="friend_manager.h">
+ <Filter>content\community\detail\friend</Filter>
+ </ClInclude>
+ <ClInclude Include="friend_member.h">
+ <Filter>content\community\detail\friend</Filter>
+ </ClInclude>
+ <ClInclude Include="guild_achievement.h">
+ <Filter>content\community\detail\guild</Filter>
+ </ClInclude>
+ <ClInclude Include="guild_craft.h">
+ <Filter>content\community\detail\guild</Filter>
+ </ClInclude>
+ <ClInclude Include="guild_inventory.h">
+ <Filter>content\community\detail\guild</Filter>
+ </ClInclude>
+ <ClInclude Include="guild_member.h">
+ <Filter>content\community\detail\guild</Filter>
+ </ClInclude>
+ <ClInclude Include="guild_shop.h">
+ <Filter>content\community\detail\guild</Filter>
+ </ClInclude>
+ </ItemGroup>
 </Project>

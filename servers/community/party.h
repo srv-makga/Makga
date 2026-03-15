@@ -1,19 +1,12 @@
-#pragma once
+﻿#pragma once
 
 #include "community.h"
 #include "party_member.h"
 
-// ─── Party enums ───────────────────────────────────────────────
-enum class PartyRole    { Leader, Member };
-enum class PartyState   { Idle, InDungeon, InCombat };
-enum class ExpShareType { Equal, Contribution };
-enum class LootType     { FreeForAll, RoundRobin, NeedGreed };
-enum class PartyGoalType { Field, Dungeon };
-
 struct JoinCondition
 {
-	Level min_level = 0;   // 0 = 제한 없음
-	Level max_level = 0;   // 0 = 제한 없음
+	Level min_level = 0; // 0 = 제한 없음
+	Level max_level = 0; // 0 = 제한 없음
 
 	bool Check(Level user_level) const
 	{
@@ -31,16 +24,16 @@ struct JoinCondition
 
 struct PartyGoal
 {
-	PartyGoalType type        = PartyGoalType::Field;
-	uint32_t      map_id      = 0;
-	std::string   description;
+	makga::PartyGoalType type= makga::PartyGoalType_Field;
+	uint32_t map_id = 0;
+	std::string description;
 };
 
 struct InstanceDungeonInfo
 {
-	uint64_t instance_id  = 0;
-	TableIdx dungeon_idx  = 0;
-	Time     enter_time   = 0;
+	uint64_t instance_id = 0;
+	TableIdx dungeon_idx = 0;
+	Time enter_time = 0;
 };
 
 // ─── Party ─────────────────────────────────────────────────────
@@ -66,27 +59,27 @@ public:
 
 public:
 	// 상태
-	PartyState   GetState() const;
-	void         SetState(PartyState state);
+	makga::PartyState GetState() const;
+	void SetState(makga::PartyState state);
 
-	ExpShareType GetExpShareType() const;
-	void         SetExpShareType(ExpShareType type);
+	makga::ExpShareType GetExpShareType() const;
+	void SetExpShareType(makga::ExpShareType type);
 
-	LootType     GetLootType() const;
-	void         SetLootType(LootType type);
+	makga::LootType GetLootType() const;
+	void SetLootType(makga::LootType type);
 
 	// 목표 맵
 	const PartyGoal& GetGoal() const;
-	void             SetGoal(const PartyGoal& goal);
+	void SetGoal(const PartyGoal& goal);
 
 	// 가입 조건
 	const JoinCondition& GetJoinCondition() const;
-	void                 SetJoinCondition(const JoinCondition& cond);
-	bool                 CanJoin(Level user_level) const;
+	void SetJoinCondition(const JoinCondition& cond);
+	bool CanJoin(Level user_level) const;
 
 	// 채팅 채널 (ChatServer 생성 후 세팅)
-	uint64_t           GetChatChannelId() const;
-	void               SetChatChannel(uint64_t channel_id, const std::string& name);
+	uint64_t GetChatChannelId() const;
+	void SetChatChannel(uint64_t channel_id, const std::string& name);
 	const std::string& GetChatChannelName() const;
 
 	// 소환 (파티장 전용) — CommunityServer → GameServer 소환 요청 위임
@@ -102,13 +95,13 @@ public:
 	void BroadcastRecruitment(const std::string& channel);
 
 private:
-	PartyState   state_        = PartyState::Idle;
-	ExpShareType exp_share_    = ExpShareType::Equal;
-	LootType     loot_type_    = LootType::FreeForAll;
-	PartyGoal    goal_;
+	makga::PartyState state_ = makga::PartyState_Idle;
+	makga::ExpShareType exp_share_ = makga::ExpShareType_Equal;
+	makga::LootType loot_type_ = makga::LootType_FreeForAll;
+	PartyGoal goal_;
 	JoinCondition join_condition_;
 	InstanceDungeonInfo dungeon_info_;
 
-	uint64_t    chat_channel_id_  = 0;
+	uint64_t chat_channel_id_ = 0;
 	std::string chat_channel_name_;
 };

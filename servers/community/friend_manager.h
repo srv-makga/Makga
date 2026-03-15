@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "friend.h"
 #include "friend_member.h"

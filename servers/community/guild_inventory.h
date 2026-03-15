@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "guild_member.h"
 #include "../common/inventory.h"
@@ -9,9 +9,9 @@ class GuildInventory : public Inventory
 public:
 	struct WithdrawPolicy
 	{
-		StackCount master_limit     = -1;   // -1 = 무제한
+		StackCount master_limit = -1; // -1 = 무제한
 		StackCount sub_master_limit = 100;
-		StackCount member_limit     = 20;
+		StackCount member_limit = 20;
 	};
 
 	explicit GuildInventory(std::size_t max_slots = 200);
@@ -31,7 +31,7 @@ public:
 private:
 	StackCount get_limit(GuildGrade grade) const;
 
-	WithdrawPolicy                          policy_;
+	WithdrawPolicy policy_;
 	std::unordered_map<UserUid, StackCount> today_withdrawn_;
-	std::mutex                              withdraw_mutex_;
+	std::mutex withdraw_mutex_;
 };

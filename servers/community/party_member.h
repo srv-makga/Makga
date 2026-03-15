@@ -9,18 +9,18 @@ public:
 	PartyMember();
 	virtual ~PartyMember();
 
-	PartyRole GetRole() const;
-	void      SetRole(PartyRole role);
-	bool      IsLeader() const;
+	makga::PartyRole GetRole() const;
+	void SetRole(makga::PartyRole role);
+	bool IsLeader() const;
 
 	bool IsReady() const;
 	void SetReady(bool ready);
 
 	float GetHpRatio() const;
-	void  SetHpRatio(float ratio);
+	void SetHpRatio(float ratio);
 
 private:
-	PartyRole role_     = PartyRole::Member;
-	bool      ready_    = false;
-	float     hp_ratio_ = 1.0f;
+	makga::PartyRole role_ = makga::PartyRole_Member;
+	bool ready_ = false;
+	float hp_ratio_ = 1.0f;
 };
