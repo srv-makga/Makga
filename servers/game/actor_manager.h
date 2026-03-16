@@ -1,7 +1,9 @@
-#pragma once
+﻿#pragma once
 
 #include "../common/message_actor.h"
+
 import makga.lib.pattern.singleton;
+import makga.lib.lock;
 
 class Actor;
 
@@ -28,6 +30,6 @@ public:
 
 private:
 	// ActorId -> Actor weak_ptr 맵핑 (thread-safe)
-	std::shared_mutex actors_mutex_;
+	makga::lib::SharedMutex actors_mutex_;
 	std::unordered_map<ActorId, std::weak_ptr<Actor>> actors_;
 };
