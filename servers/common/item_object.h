@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 
 #include "define.h"
 
-// @brief ¾ÆÀÌÅÛ ÀÎÅÍÆäÀÌ½º
+// @brief ì•„ì´í…œ ê°ì²´. ì•„ì´í…œ ì¸ìŠ¤í„´ìŠ¤ì˜ ìƒíƒœì™€ í–‰ë™ì„ ìº¡ìŠí™”
 class ItemObject
 {
 public:

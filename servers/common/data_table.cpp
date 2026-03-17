@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "data_table.h"
 #include "../../3rdparty/rapidjson/include/rapidjson/document.h"
 
@@ -89,9 +89,8 @@ bool DataTable::LoadFileToBuffer(const std::string& file_path, rapidjson::Docume
 		return false;
 	}
 
-	file_buffer_[static_cast<size_t>(sz)] = '\0'; // RapidJSON insitu�� �� ����
+	file_buffer_[static_cast<size_t>(sz)] = '\0';
 
-	// ParseInsitu�� ���۸� �����ϹǷ�, ���� ������ �ʿ��ϸ� �����ϰų� Parse ���
 	rapidjson::ParseResult pr = doc.ParseInsitu(file_buffer_.data());
 	return !pr.IsError();
 }
@@ -220,161 +219,6 @@ bool DataTable::LoadSpawnGroupTable(const std::string& file_path)
 	{
 		makga::lib::MakgaLogger::Error() << "No spawn group table data found:" << file_path;
 		return false;
-	}
-
-	return true;
-}
-
-// ─── Simple table loaders ────────────────────────────────────────────────────
-
-#define DEFINE_SIMPLE_LOADER(FnName, TableType, MemberTable) \
-bool DataTable::FnName(const std::string& file_path) \
-{ \
-	rapidjson::Document doc; \
-	if (false == LoadFileToBuffer(file_path, doc)) \
-	{ \
-		makga::lib::MakgaLogger::Error() << "Failed to load file:" << file_path; \
-		return false; \
-	} \
-	auto array = doc.GetArray(); \
-	for (auto& v : array) \
-	{ \
-		if (false == v.IsObject()) continue; \
-		TableType t{}; \
-		if (false == t.LoadFromJson(v)) \
-		{ \
-			makga::lib::MakgaLogger::Error() << "Failed to parse " #TableType " entry:" << file_path; \
-			return false; \
-		} \
-		MemberTable.Insert(t.idx, std::move(t)); \
-	} \
-	if (true == MemberTable.Empty()) \
-	{ \
-		makga::lib::MakgaLogger::Error() << "No " #TableType " data found:" << file_path; \
-		return false; \
-	} \
-	return true; \
-}
-
-DEFINE_SIMPLE_LOADER(LoadSpawnTable,          SpawnTable,          spawn_table_)
-DEFINE_SIMPLE_LOADER(LoadAchievementTable,    AchievementTable,    achievement_table_)
-DEFINE_SIMPLE_LOADER(LoadBuffTable,           BuffTable,           buff_table_)
-DEFINE_SIMPLE_LOADER(LoadCharacterClassTable, CharacterClassTable, character_class_table_)
-DEFINE_SIMPLE_LOADER(LoadCraftRecipeTable,    CraftRecipeTable,    craft_recipe_table_)
-DEFINE_SIMPLE_LOADER(LoadCurrencyTable,       CurrencyTable,       currency_table_)
-DEFINE_SIMPLE_LOADER(LoadDungeonTable,        DungeonTable,        dungeon_table_)
-DEFINE_SIMPLE_LOADER(LoadEffectTable,         EffectTable,         effect_table_)
-DEFINE_SIMPLE_LOADER(LoadGachaTable,          GachaTable,          gacha_table_)
-DEFINE_SIMPLE_LOADER(LoadItemTable,           ItemTable,           item_table_)
-DEFINE_SIMPLE_LOADER(LoadItemConsumeTable,    ItemConsumeTable,    item_consume_table_)
-DEFINE_SIMPLE_LOADER(LoadItemEquipTable,      ItemEquipTable,      item_equip_table_)
-DEFINE_SIMPLE_LOADER(LoadItemSetTable,        ItemSetTable,        item_set_table_)
-DEFINE_SIMPLE_LOADER(LoadLevelExpTable,       LevelExpTable,       level_exp_table_)
-DEFINE_SIMPLE_LOADER(LoadMapObjectTable,      MapObjectTable,      map_object_table_)
-DEFINE_SIMPLE_LOADER(LoadMonsterStatTable,    MonsterStatTable,    monster_stat_table_)
-DEFINE_SIMPLE_LOADER(LoadNpcTable,            NpcTable,            npc_table_)
-DEFINE_SIMPLE_LOADER(LoadQuestTable,          QuestTable,          quest_table_)
-DEFINE_SIMPLE_LOADER(LoadRankingRewardTable,  RankingRewardTable,  ranking_reward_table_)
-DEFINE_SIMPLE_LOADER(LoadSeasonTable,         SeasonTable,         season_table_)
-DEFINE_SIMPLE_LOADER(LoadShopTable,           ShopTable,           shop_table_)
-DEFINE_SIMPLE_LOADER(LoadSkillConditionTable, SkillConditionTable, skill_condition_table_)
-DEFINE_SIMPLE_LOADER(LoadStatGrowthTable,     StatGrowthTable,     stat_growth_table_)
-DEFINE_SIMPLE_LOADER(LoadTitleTable,          TitleTable,          title_table_)
-
-#undef DEFINE_SIMPLE_LOADER
-
-// ─── 1:N table loaders ──────────────────────────────────────────────────────
-
-#define DEFINE_MULTI_LOADER(FnName, TableType, MapMember, FkField) \
-bool DataTable::FnName(const std::string& file_path) \
-{ \
-	rapidjson::Document doc; \
-	if (false == LoadFileToBuffer(file_path, doc)) \
-	{ \
-		makga::lib::MakgaLogger::Error() << "Failed to load file:" << file_path; \
-		return false; \
-	} \
-	auto array = doc.GetArray(); \
-	for (auto& v : array) \
-	{ \
-		if (false == v.IsObject()) continue; \
-		TableType t{}; \
-		if (false == t.LoadFromJson(v)) \
-		{ \
-			makga::lib::MakgaLogger::Error() << "Failed to parse " #TableType " entry:" << file_path; \
-			return false; \
-		} \
-		MapMember[t.FkField].push_back(std::move(t)); \
-	} \
-	return true; \
-}
-
-DEFINE_MULTI_LOADER(LoadCraftMaterialTable,  CraftMaterialTable,  craft_material_map_,  recipe_id)
-DEFINE_MULTI_LOADER(LoadGachaItemTable,      GachaItemTable,      gacha_item_map_,      gacha_id)
-DEFINE_MULTI_LOADER(LoadItemEffectTable,     ItemEffectTable,     item_effect_map_,     item_id)
-DEFINE_MULTI_LOADER(LoadItemSetEffectTable,  ItemSetEffectTable,  item_set_effect_map_, set_id)
-DEFINE_MULTI_LOADER(LoadMonsterDropTable,    MonsterDropTable,    monster_drop_map_,    monster_id)
-DEFINE_MULTI_LOADER(LoadMonsterSkillTable,   MonsterSkillTable,   monster_skill_map_,   monster_id)
-DEFINE_MULTI_LOADER(LoadQuestConditionTable, QuestConditionTable, quest_condition_map_, quest_id)
-DEFINE_MULTI_LOADER(LoadQuestRewardTable,    QuestRewardTable,    quest_reward_map_,    quest_id)
-DEFINE_MULTI_LOADER(LoadShopItemTable,       ShopItemTable,       shop_item_map_,       shop_id)
-DEFINE_MULTI_LOADER(LoadSkillEffectTable,    SkillEffectTable,    skill_effect_map_,    skill_id)
-
-#undef DEFINE_MULTI_LOADER
-
-// ─── Special loaders ─────────────────────────────────────────────────────────
-
-bool DataTable::LoadSkillLevelTable(const std::string& file_path)
-{
-	rapidjson::Document doc;
-	if (false == LoadFileToBuffer(file_path, doc))
-	{
-		makga::lib::MakgaLogger::Error() << "Failed to load file:" << file_path;
-		return false;
-	}
-
-	auto array = doc.GetArray();
-	for (auto& v : array)
-	{
-		if (false == v.IsObject()) continue;
-		SkillLevelTable t{};
-		if (false == t.LoadFromJson(v))
-		{
-			makga::lib::MakgaLogger::Error() << "Failed to parse SkillLevelTable entry:" << file_path;
-			return false;
-		}
-		auto opt = skill_table_.TryGet(t.idx);
-		if (!opt.has_value())
-		{
-			makga::lib::MakgaLogger::Error() << "SkillLevelTable references unknown skill_id in:" << file_path;
-			return false;
-		}
-		const_cast<SkillTable*>(*opt)->level_table[t.level] = std::move(t);
-	}
-
-	return true;
-}
-
-bool DataTable::LoadItemUpgradeTable(const std::string& file_path)
-{
-	rapidjson::Document doc;
-	if (false == LoadFileToBuffer(file_path, doc))
-	{
-		makga::lib::MakgaLogger::Error() << "Failed to load file:" << file_path;
-		return false;
-	}
-
-	auto array = doc.GetArray();
-	for (auto& v : array)
-	{
-		if (false == v.IsObject()) continue;
-		ItemUpgradeTable t{};
-		if (false == t.LoadFromJson(v))
-		{
-			makga::lib::MakgaLogger::Error() << "Failed to parse ItemUpgradeTable entry:" << file_path;
-			return false;
-		}
-		item_upgrade_map_[t.base_item_grade][t.upgrade_level_val] = std::move(t);
 	}
 
 	return true;

@@ -54,6 +54,7 @@
     <ClInclude Include="timer.h">
       <Filter>system</Filter>
     </ClInclude>
+    <ClInclude Include="inventory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
@@ -89,6 +90,7 @@
     <ClCompile Include="timer.cpp">
       <Filter>system</Filter>
     </ClCompile>
+    <ClCompile Include="inventory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="network">

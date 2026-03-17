@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <memory>
 #include <functional>
@@ -23,7 +23,7 @@ public:
 	virtual void OnUpdate(float delta_time) {}
 
 	virtual void PushMessage(std::unique_ptr<Message> message) = 0;
-	virtual void ProcessMessages(std::unique_ptr<Message> message) = 0;
+	virtual void ProcessMessages(std::unique_ptr<Message> message) {}
 
 	Id GetId() const { return id_; }
 
@@ -33,8 +33,8 @@ protected:
 
 struct Message
 {
-	MessageActor::Id send_id = 0; // ¸Ş½ÃÁö ¹ß½ÅÀÚ
-	MessageActor::Id id = 0; // ¸Ş½ÃÁö ¼ö½ÅÀÚ
+	MessageActor::Id send_id = 0;
+	MessageActor::Id id = 0;
 	makga::MessageType type;
 
 	Message(MessageActor::Id sender, MessageActor::Id receiver, makga::MessageType msg_type)
@@ -42,6 +42,7 @@ struct Message
 	}
 	virtual ~Message() = default;
 	virtual void Execute(MessageActor* actor) = 0;
+	virtual std::unique_ptr<Message> Clone() const = 0;
 	void operator()(MessageActor* actor) { Execute(actor); }
 };
 
@@ -57,8 +58,13 @@ struct MessageT : public Message
 
 	void Execute(MessageActor* actor) override
 	{
-		// ProcessMessagesµµ ÀÌ Å¸ÀÔÀ» Ã³¸®ÇÒ ¼ö ÀÖ¾î¾ß ÇÔ
+		// ProcessMessagesì— ê° íƒ€ì…ë³„ ì²˜ë¦¬ê°€ êµ¬í˜„ë˜ì–´ ìˆì–´ì•¼ í•¨
 		actor->ProcessMessages(std::make_unique<MessageT<Args...>>(*this));
+	}
+
+	std::unique_ptr<Message> Clone() const override
+	{
+		return std::make_unique<MessageT<Args...>>(*this);
 	}
 };
 
@@ -75,8 +81,11 @@ struct MessageLambda : public Message
 	void Execute(MessageActor* actor) override
 	{
 		if (nullptr != func)
-		{
 			func(actor);
-		}
+	}
+
+	std::unique_ptr<Message> Clone() const override
+	{
+		return std::make_unique<MessageLambda<T>>(send_id, id, type, func);
 	}
 };

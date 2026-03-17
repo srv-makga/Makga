@@ -24,6 +24,7 @@
     <ProjectGuid>{5277a493-567f-482a-8877-389c296e8218}</ProjectGuid>
     <RootNamespace>common</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Common</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -71,13 +72,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <PublicIncludeDirectories>
-    </PublicIncludeDirectories>
+    <PublicIncludeDirectories>$(MSBuildThisFileDirectory).</PublicIncludeDirectories>
     <OutDir>$(SolutionDir)..\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <PublicIncludeDirectories>
-    </PublicIncludeDirectories>
+    <PublicIncludeDirectories>$(MSBuildThisFileDirectory).</PublicIncludeDirectories>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>false</VcpkgEnableManifest>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -138,7 +140,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>..\..\libs\cpp\3rdparty\flatbuffer\include;..\..\libs\cpp\libraries\include;..\..\libs\cpp\network\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\libs\cpp\libraries\include;..\..\libs\cpp\network\include;..\..\libs\cpp\3rdparty\flatbuffer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -161,6 +163,7 @@
     <ClInclude Include="flatbuffer\enum_generated.h" />
     <ClInclude Include="flatbuffer\result_generated.h" />
     <ClInclude Include="flatbuffer\version_generated.h" />
+    <ClInclude Include="inventory.h" />
     <ClInclude Include="iocp_client.h" />
     <ClInclude Include="iocp_server.h" />
     <ClInclude Include="iocp_session.h" />
@@ -178,6 +181,7 @@
   <ItemGroup>
     <ClCompile Include="app.cpp" />
     <ClCompile Include="data_table.cpp" />
+    <ClCompile Include="inventory.cpp" />
     <ClCompile Include="iocp_client.cpp" />
     <ClCompile Include="iocp_server.cpp" />
     <ClCompile Include="iocp_session.cpp" />

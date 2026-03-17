@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <algorithm>
 #include <array>
@@ -31,30 +31,25 @@
 #include "../../libs/cpp/3rdparty/rapidjson/include/rapidjson/writer.h"
 #include "../../libs/cpp/3rdparty/rapidjson/include/rapidjson/stringbuffer.h"
 
-// ��Ģ������ ������ unsigned, ������ signed
+// 사칙연산이 없으면 unsigned, 있으면 signed
 
-// idx = ������ ���̺��� ������ �ε���
-// id = ��ȸ�� ������ ��ȣ. ������ ����۵Ǹ� �ٽ� �ѹ���
-// uid = ������ ������ ��ȣ. ������ ����� �Ǿ �������� ����
+// idx = 테이블의 인덱스
+// id = 서버에서 부여하는 식별자. 서버 재시작시 초기화됨.
+// uid = 서버에서 부여하는 식별자. 서버 재시작시 초기화되지 않음.
 
-// ��Ʈ��ũ
 using Port = uint16_t;
 
-// �ð�
 using Time = std::time_t;
 using Tick = int64_t;
 
-// ���̺�
-using TableIdx = uint64_t;
+using TableIdx = int64_t;
 
-// �ý���
 using EntityId = uint64_t;
-using Percent = int32_t; // ǥ�� ���
-using Prob = int32_t; // Ȯ��. 0 ~ 100,000,000
+using Percent = int32_t; // 백분율
+using Prob = int32_t; // 확률. 0 ~ max_prob 사이의 값으로 표현. 예: 50% = 50000000
 constexpr Prob max_prob = 100000000;
-using Rate = float; // ��ġ�� ����
+using Rate = float; // 증가율. 0.0 ~ 1.0 사이의 값으로 표현. 예: 50% = 0.5
 
-// ������
 using TerrainIdx = TableIdx;
 using TerrainId = uint32_t;
 using GridId = uint32_t;

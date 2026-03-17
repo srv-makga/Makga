@@ -185,35 +185,77 @@ enum MessageType : int32_t {
   MessageType_GridBroadcastMove = 2,
   MessageType_TerrainRegisterActor = 3,
   MessageType_TerrainUnregisterActor = 4,
+  MessageType_ActorRequestMove = 5,
+  MessageType_ActorSetTarget = 6,
+  MessageType_ActorSetLeader = 7,
+  MessageType_ActorSetOwner = 8,
+  MessageType_ActorDelete = 9,
+  MessageType_ActorAttack = 10,
+  MessageType_ActorAttackResponse = 11,
+  MessageType_ActorMoveResponse = 12,
+  MessageType_ActorSee = 13,
+  MessageType_CharacterSpawn = 14,
+  MessageType_CharacterDespawn = 15,
+  MessageType_MonsterSpawn = 16,
+  MessageType_MonsterDespawn = 17,
+  MessageType_MonsterAggravate = 18,
   MessageType_MIN = MessageType_GridAddActor,
-  MessageType_MAX = MessageType_TerrainUnregisterActor
+  MessageType_MAX = MessageType_MonsterAggravate
 };
 
-inline const MessageType (&EnumValuesMessageType())[5] {
+inline const MessageType (&EnumValuesMessageType())[19] {
   static const MessageType values[] = {
     MessageType_GridAddActor,
     MessageType_GridRemoveActor,
     MessageType_GridBroadcastMove,
     MessageType_TerrainRegisterActor,
-    MessageType_TerrainUnregisterActor
+    MessageType_TerrainUnregisterActor,
+    MessageType_ActorRequestMove,
+    MessageType_ActorSetTarget,
+    MessageType_ActorSetLeader,
+    MessageType_ActorSetOwner,
+    MessageType_ActorDelete,
+    MessageType_ActorAttack,
+    MessageType_ActorAttackResponse,
+    MessageType_ActorMoveResponse,
+    MessageType_ActorSee,
+    MessageType_CharacterSpawn,
+    MessageType_CharacterDespawn,
+    MessageType_MonsterSpawn,
+    MessageType_MonsterDespawn,
+    MessageType_MonsterAggravate
   };
   return values;
 }
 
 inline const char * const *EnumNamesMessageType() {
-  static const char * const names[6] = {
+  static const char * const names[20] = {
     "GridAddActor",
     "GridRemoveActor",
     "GridBroadcastMove",
     "TerrainRegisterActor",
     "TerrainUnregisterActor",
+    "ActorRequestMove",
+    "ActorSetTarget",
+    "ActorSetLeader",
+    "ActorSetOwner",
+    "ActorDelete",
+    "ActorAttack",
+    "ActorAttackResponse",
+    "ActorMoveResponse",
+    "ActorSee",
+    "CharacterSpawn",
+    "CharacterDespawn",
+    "MonsterSpawn",
+    "MonsterDespawn",
+    "MonsterAggravate",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameMessageType(MessageType e) {
-  if (::flatbuffers::IsOutRange(e, MessageType_GridAddActor, MessageType_TerrainUnregisterActor)) return "";
+  if (::flatbuffers::IsOutRange(e, MessageType_GridAddActor, MessageType_MonsterAggravate)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesMessageType()[index];
 }
@@ -1923,6 +1965,162 @@ inline const char *EnumNameCraftType(CraftType e) {
   if (::flatbuffers::IsOutRange(e, CraftType_Blacksmithing, CraftType_Inscription)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesCraftType()[index];
+}
+
+enum PartyRole : int32_t {
+  PartyRole_Leader = 0,
+  PartyRole_Member = 1,
+  PartyRole_MIN = PartyRole_Leader,
+  PartyRole_MAX = PartyRole_Member
+};
+
+inline const PartyRole (&EnumValuesPartyRole())[2] {
+  static const PartyRole values[] = {
+    PartyRole_Leader,
+    PartyRole_Member
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesPartyRole() {
+  static const char * const names[3] = {
+    "Leader",
+    "Member",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNamePartyRole(PartyRole e) {
+  if (::flatbuffers::IsOutRange(e, PartyRole_Leader, PartyRole_Member)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesPartyRole()[index];
+}
+
+enum PartyState : int32_t {
+  PartyState_Idle = 0,
+  PartyState_InDungeon = 1,
+  PartyState_InCombat = 2,
+  PartyState_MIN = PartyState_Idle,
+  PartyState_MAX = PartyState_InCombat
+};
+
+inline const PartyState (&EnumValuesPartyState())[3] {
+  static const PartyState values[] = {
+    PartyState_Idle,
+    PartyState_InDungeon,
+    PartyState_InCombat
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesPartyState() {
+  static const char * const names[4] = {
+    "Idle",
+    "InDungeon",
+    "InCombat",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNamePartyState(PartyState e) {
+  if (::flatbuffers::IsOutRange(e, PartyState_Idle, PartyState_InCombat)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesPartyState()[index];
+}
+
+enum ExpShareType : int32_t {
+  ExpShareType_Equal = 0,
+  ExpShareType_Contribution = 1,
+  ExpShareType_MIN = ExpShareType_Equal,
+  ExpShareType_MAX = ExpShareType_Contribution
+};
+
+inline const ExpShareType (&EnumValuesExpShareType())[2] {
+  static const ExpShareType values[] = {
+    ExpShareType_Equal,
+    ExpShareType_Contribution
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesExpShareType() {
+  static const char * const names[3] = {
+    "Equal",
+    "Contribution",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameExpShareType(ExpShareType e) {
+  if (::flatbuffers::IsOutRange(e, ExpShareType_Equal, ExpShareType_Contribution)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesExpShareType()[index];
+}
+
+enum LootType : int32_t {
+  LootType_FreeForAll = 0,
+  LootType_RoundRobin = 1,
+  LootType_NeedGreed = 2,
+  LootType_MIN = LootType_FreeForAll,
+  LootType_MAX = LootType_NeedGreed
+};
+
+inline const LootType (&EnumValuesLootType())[3] {
+  static const LootType values[] = {
+    LootType_FreeForAll,
+    LootType_RoundRobin,
+    LootType_NeedGreed
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesLootType() {
+  static const char * const names[4] = {
+    "FreeForAll",
+    "RoundRobin",
+    "NeedGreed",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameLootType(LootType e) {
+  if (::flatbuffers::IsOutRange(e, LootType_FreeForAll, LootType_NeedGreed)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesLootType()[index];
+}
+
+enum PartyGoalType : int32_t {
+  PartyGoalType_Field = 0,
+  PartyGoalType_Dungeon = 1,
+  PartyGoalType_MIN = PartyGoalType_Field,
+  PartyGoalType_MAX = PartyGoalType_Dungeon
+};
+
+inline const PartyGoalType (&EnumValuesPartyGoalType())[2] {
+  static const PartyGoalType values[] = {
+    PartyGoalType_Field,
+    PartyGoalType_Dungeon
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesPartyGoalType() {
+  static const char * const names[3] = {
+    "Field",
+    "Dungeon",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNamePartyGoalType(PartyGoalType e) {
+  if (::flatbuffers::IsOutRange(e, PartyGoalType_Field, PartyGoalType_Dungeon)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesPartyGoalType()[index];
 }
 
 }  // namespace makga

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "data_struct.h"
 
@@ -77,46 +77,46 @@ class DataTable : public makga::lib::Singleton<DataTable>
 {
 public:
 	// ─── Simple tables (keyed by primary ID) ───────────────────────────────
-	using MapTableTable          = Table<TableIdx, MapTable>;
-	using MonsterTableTable      = Table<TableIdx, MonsterTable>;
-	using SkillTableTable        = Table<TableIdx, SkillTable>;
-	using SpawnGroupTableTable   = Table<TableIdx, SpawnGroupTable>;
-	using SpawnTableTable        = Table<TableIdx, SpawnTable>;
-	using AchievementTableTable  = Table<TableIdx, AchievementTable>;
-	using BuffTableTable         = Table<TableIdx, BuffTable>;
+	using MapTableTable = Table<TableIdx, MapTable>;
+	using MonsterTableTable = Table<TableIdx, MonsterTable>;
+	using SkillTableTable = Table<TableIdx, SkillTable>;
+	using SpawnGroupTableTable = Table<TableIdx, SpawnGroupTable>;
+	using SpawnTableTable = Table<TableIdx, SpawnTable>;
+	using AchievementTableTable = Table<TableIdx, AchievementTable>;
+	using BuffTableTable = Table<TableIdx, BuffTable>;
 	using CharacterClassTableTable = Table<TableIdx, CharacterClassTable>;
-	using CraftRecipeTableTable  = Table<TableIdx, CraftRecipeTable>;
-	using CurrencyTableTable     = Table<TableIdx, CurrencyTable>;
-	using DungeonTableTable      = Table<TableIdx, DungeonTable>;
-	using EffectTableTable       = Table<TableIdx, EffectTable>;
-	using GachaTableTable        = Table<TableIdx, GachaTable>;
-	using ItemTableTable         = Table<TableIdx, ItemTable>;
-	using ItemConsumeTableTable  = Table<TableIdx, ItemConsumeTable>;
-	using ItemEquipTableTable    = Table<TableIdx, ItemEquipTable>;
-	using ItemSetTableTable      = Table<TableIdx, ItemSetTable>;
-	using LevelExpTableTable     = Table<TableIdx, LevelExpTable>;
-	using MapObjectTableTable    = Table<TableIdx, MapObjectTable>;
-	using MonsterStatTableTable  = Table<TableIdx, MonsterStatTable>;
-	using NpcTableTable          = Table<TableIdx, NpcTable>;
-	using QuestTableTable        = Table<TableIdx, QuestTable>;
+	using CraftRecipeTableTable = Table<TableIdx, CraftRecipeTable>;
+	using CurrencyTableTable = Table<TableIdx, CurrencyTable>;
+	using DungeonTableTable = Table<TableIdx, DungeonTable>;
+	using EffectTableTable = Table<TableIdx, EffectTable>;
+	using GachaTableTable = Table<TableIdx, GachaTable>;
+	using ItemTableTable = Table<TableIdx, ItemTable>;
+	using ItemConsumeTableTable = Table<TableIdx, ItemConsumeTable>;
+	using ItemEquipTableTable = Table<TableIdx, ItemEquipTable>;
+	using ItemSetTableTable = Table<TableIdx, ItemSetTable>;
+	using LevelExpTableTable = Table<TableIdx, LevelExpTable>;
+	using MapObjectTableTable = Table<TableIdx, MapObjectTable>;
+	using MonsterStatTableTable = Table<TableIdx, MonsterStatTable>;
+	using NpcTableTable = Table<TableIdx, NpcTable>;
+	using QuestTableTable = Table<TableIdx, QuestTable>;
 	using RankingRewardTableTable = Table<TableIdx, RankingRewardTable>;
-	using SeasonTableTable       = Table<TableIdx, SeasonTable>;
-	using ShopTableTable         = Table<TableIdx, ShopTable>;
+	using SeasonTableTable = Table<TableIdx, SeasonTable>;
+	using ShopTableTable = Table<TableIdx, ShopTable>;
 	using SkillConditionTableTable = Table<TableIdx, SkillConditionTable>;
-	using StatGrowthTableTable   = Table<TableIdx, StatGrowthTable>;
-	using TitleTableTable        = Table<TableIdx, TitleTable>;
+	using StatGrowthTableTable = Table<TableIdx, StatGrowthTable>;
+	using TitleTableTable = Table<TableIdx, TitleTable>;
 
 	// ─── 1:N tables (keyed by foreign/parent ID → vector) ─────────────────
-	using CraftMaterialMap   = std::unordered_map<TableIdx, std::vector<CraftMaterialTable>>;
-	using GachaItemMap       = std::unordered_map<TableIdx, std::vector<GachaItemTable>>;
-	using ItemEffectMap      = std::unordered_map<TableIdx, std::vector<ItemEffectTable>>;
-	using ItemSetEffectMap   = std::unordered_map<TableIdx, std::vector<ItemSetEffectTable>>;
-	using MonsterDropMap     = std::unordered_map<TableIdx, std::vector<MonsterDropTable>>;
-	using MonsterSkillMap    = std::unordered_map<TableIdx, std::vector<MonsterSkillTable>>;
-	using QuestConditionMap  = std::unordered_map<TableIdx, std::vector<QuestConditionTable>>;
-	using QuestRewardMap     = std::unordered_map<TableIdx, std::vector<QuestRewardTable>>;
-	using ShopItemMap        = std::unordered_map<TableIdx, std::vector<ShopItemTable>>;
-	using SkillEffectMap     = std::unordered_map<TableIdx, std::vector<SkillEffectTable>>;
+	using CraftMaterialMap = std::unordered_map<TableIdx, std::vector<CraftMaterialTable>>;
+	using GachaItemMap = std::unordered_map<TableIdx, std::vector<GachaItemTable>>;
+	using ItemEffectMap = std::unordered_map<TableIdx, std::vector<ItemEffectTable>>;
+	using ItemSetEffectMap = std::unordered_map<TableIdx, std::vector<ItemSetEffectTable>>;
+	using MonsterDropMap = std::unordered_map<TableIdx, std::vector<MonsterDropTable>>;
+	using MonsterSkillMap = std::unordered_map<TableIdx, std::vector<MonsterSkillTable>>;
+	using QuestConditionMap = std::unordered_map<TableIdx, std::vector<QuestConditionTable>>;
+	using QuestRewardMap = std::unordered_map<TableIdx, std::vector<QuestRewardTable>>;
+	using ShopItemMap = std::unordered_map<TableIdx, std::vector<ShopItemTable>>;
+	using SkillEffectMap = std::unordered_map<TableIdx, std::vector<SkillEffectTable>>;
 
 	// ─── Item upgrade: keyed by grade → (level → data) ────────────────────
 	using ItemUpgradeMap = std::unordered_map<std::string, std::map<int32_t, ItemUpgradeTable>>;
@@ -213,26 +213,31 @@ public:
 		auto it = craft_material_map_.find(recipe_id);
 		return it != craft_material_map_.end() ? &it->second : nullptr;
 	}
+
 	const std::vector<GachaItemTable>* TryGetGachaItems(TableIdx gacha_id) const
 	{
 		auto it = gacha_item_map_.find(gacha_id);
 		return it != gacha_item_map_.end() ? &it->second : nullptr;
 	}
+
 	const std::vector<ItemEffectTable>* TryGetItemEffects(TableIdx item_id) const
 	{
 		auto it = item_effect_map_.find(item_id);
 		return it != item_effect_map_.end() ? &it->second : nullptr;
 	}
+
 	const std::vector<ItemSetEffectTable>* TryGetItemSetEffects(TableIdx set_id) const
 	{
 		auto it = item_set_effect_map_.find(set_id);
 		return it != item_set_effect_map_.end() ? &it->second : nullptr;
 	}
+
 	const std::vector<MonsterDropTable>* TryGetMonsterDrops(TableIdx monster_id) const
 	{
 		auto it = monster_drop_map_.find(monster_id);
 		return it != monster_drop_map_.end() ? &it->second : nullptr;
 	}
+
 	const std::vector<MonsterSkillTable>* TryGetMonsterSkills(TableIdx monster_id) const
 	{
 		auto it = monster_skill_map_.find(monster_id);
@@ -243,21 +248,25 @@ public:
 		auto it = quest_condition_map_.find(quest_id);
 		return it != quest_condition_map_.end() ? &it->second : nullptr;
 	}
+
 	const std::vector<QuestRewardTable>* TryGetQuestRewards(TableIdx quest_id) const
 	{
 		auto it = quest_reward_map_.find(quest_id);
 		return it != quest_reward_map_.end() ? &it->second : nullptr;
 	}
+
 	const std::vector<ShopItemTable>* TryGetShopItems(TableIdx shop_id) const
 	{
 		auto it = shop_item_map_.find(shop_id);
 		return it != shop_item_map_.end() ? &it->second : nullptr;
 	}
+
 	const std::vector<SkillEffectTable>* TryGetSkillEffects(TableIdx skill_id) const
 	{
 		auto it = skill_effect_map_.find(skill_id);
 		return it != skill_effect_map_.end() ? &it->second : nullptr;
 	}
+
 	std::optional<const ItemUpgradeTable*> TryGetItemUpgrade(const std::string& grade, int32_t upgrade_level) const
 	{
 		auto grade_it = item_upgrade_map_.find(grade);

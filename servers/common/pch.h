@@ -1,14 +1,14 @@
-#pragma once
+ï»¿#pragma once
 
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 
 #if defined(_WIN32)
-#include <winsock2.h> // ¼ÒÄÏ »ı¼º, ¿¬°á, Àü¼Ûµé WInsock2 API ±â´É Æ÷ÇÔ
-#include <ws2tcpip.h> // getaddrinfo, inet_ntopµî ÁÖ¼Ò º¯È¯ ÇÔ¼ö (ipv6µî)
-#include <mswsock.h> // AcceptEx, ConnectEx µî °í±Ş ¼ÒÄÏ ÇÔ¼ö Æ÷ÇÔ
-#include <windows.h> // À©µµ¿ì Àü¹İÀûÀÎ API Æ÷ÇÔ
-#include <iphlpapi.h> // À©µµ¿ì Àü¹İÀûÀÎ API Æ÷ÇÔ
+#include <winsock2.h> // WInsock2 API
+#include <ws2tcpip.h> // getaddrinfo, inet_ntop (ipv6)
+#include <mswsock.h> // AcceptEx, ConnectEx
+#include <windows.h> // Windows API
+#include <iphlpapi.h> // GetAdaptersInfo
 #else defined (__linux__)
 #include <arpa/inet.h>
 #include <fcntl.h>
@@ -23,10 +23,10 @@ typedef int SOCKET;
 #define closesocket(s) close(s)
 #endif
 
-#pragma comment(lib, "ws2_32.lib") // ¼ÒÄÏ ÇÔ¼öµéÀÇ ½ÇÁ¦ ±¸ÇöÃ¼
+#pragma comment(lib, "ws2_32.lib") // Winsock2 API
 #pragma comment(lib, "winmm.lib") // timeGetTime
 #pragma comment(lib, "iphlpapi.lib") // GetAdaptersInfo
-#pragma comment(lib, "mswsock.lib")
+#pragma comment(lib, "mswsock.lib") // AcceptEx, ConnectEx (Windows 7 SDK ì´ìƒì—ì„œ ìë™ ë§í¬, ê·¸ ì´í•˜ ë²„ì „ì€ ìˆ˜ë™ ë§í¬ í•„ìš”)
 
 #include "define.h"
 

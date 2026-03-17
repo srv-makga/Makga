@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "pch.h"
 
@@ -10,8 +10,6 @@ import makga.math.vector3;
 #include <optional>
 #include <algorithm>
 
-// ���� ����ü
-
 struct StatEffect
 {
 	makga::StatType type;
@@ -22,11 +20,9 @@ struct StatEffect
 struct AbilityEffect
 {
 	makga::AbilityType type;
-	float value = 0.0f; // ȿ����
-	Tick duration = 0; // ���ӽð�
+	float value = 0.0f;
+	Tick duration = 0;
 };
-
-// ������ ���̺� ����ü
 
 struct TableStruct
 {

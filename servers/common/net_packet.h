@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 import makga.lib.buffer;
 
@@ -23,4 +23,5 @@ public:
 	Id GetPacketId() const;
 	Size GetPacketSize() const;
 	Key GetPacketKey() const;
+	const char* GetPayload() const;
 };
