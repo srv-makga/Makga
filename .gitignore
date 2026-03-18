@@ -67,3 +67,11 @@ unit_test/unit_test.vcxproj.user
 /servers/game/Game/x64
 /servers/world/bin/Debug
 /servers/world/obj
+/servers/bin/Debug
+/servers/vcpkg_installed/vcpkg/blds
+/servers/vcpkg_installed/vcpkg/pkgs
+/servers/vcpkg_installed
+/libs/cpp/vcpkg_installed/vcpkg
+/libs/cpp/vcpkg_installed/x64-windows/bin
+/libs/cpp/vcpkg_installed/x64-windows/debug
+/libs/cpp/vcpkg_installed
