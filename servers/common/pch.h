@@ -36,3 +36,4 @@ typedef int SOCKET;
 #pragma warning(disable: 4996) // deprecated function warning
 
 import makga.lib.logger;
+using Logger = makga::lib::MakgaLogger;
