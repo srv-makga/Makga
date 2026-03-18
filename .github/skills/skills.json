@@ -1,0 +1,60 @@
+{
+  "skills": [
+    {
+      "id": "query_game_db",
+      "description": "MySQL 게임 데이터베이스에서 사용자 정보, 아이템 데이터 등을 조회합니다. 읽기 전용 쿼리만 실행 가능합니다.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "sql_query": {
+            "type": "string",
+            "description": "실행할 SELECT SQL 문 (예: SELECT * FROM users WHERE id = 1)"
+          },
+          "target_env": {
+            "type": "string",
+            "enum": ["development", "staging"],
+            "description": "쿼리를 실행할 환경"
+          }
+        },
+        "required": ["sql_query"]
+      }
+    },
+    {
+      "id": "generate_cpp_module",
+      "description": "C++20 표준을 준수하는 .ixx 모듈 인터페이스 파일을 생성합니다. 프로젝트의 'Makga' 라이브러리 규격을 따릅니다.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "module_name": {
+            "type": "string",
+            "description": "생성할 모듈의 이름 (예: makga.network.packet)"
+          },
+          "exported_classes": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "export 키워드를 붙여 외부로 노출할 클래스나 함수 목록"
+          }
+        },
+        "required": ["module_name"]
+      }
+    },
+    {
+      "id": "analyze_performance_log",
+      "description": "서버 로그 파일을 분석하여 병목 지점이나 에러 패턴을 찾아냅니다.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "log_path": {
+            "type": "string",
+            "description": "분석할 로그 파일의 경로"
+          },
+          "filter_keyword": {
+            "type": "string",
+            "description": "특정 키워드(예: 'Critical', 'Timeout') 위주로 분석할 때 사용"
+          }
+        },
+        "required": ["log_path"]
+      }
+    }
+  ]
+}
