@@ -1538,6 +1538,51 @@ inline const char *EnumNameDamageType(DamageType e) {
   return EnumNamesDamageType()[index];
 }
 
+enum MonsterFaction : int32_t {
+  MonsterFaction_None = 0,
+  MonsterFaction_WolfPack = 1,
+  MonsterFaction_GoblinTribe = 2,
+  MonsterFaction_OrcClan = 3,
+  MonsterFaction_UndeadLegion = 4,
+  MonsterFaction_ForestSpirit = 5,
+  MonsterFaction_DragonKind = 6,
+  MonsterFaction_MIN = MonsterFaction_None,
+  MonsterFaction_MAX = MonsterFaction_DragonKind
+};
+
+inline const MonsterFaction (&EnumValuesMonsterFaction())[7] {
+  static const MonsterFaction values[] = {
+    MonsterFaction_None,
+    MonsterFaction_WolfPack,
+    MonsterFaction_GoblinTribe,
+    MonsterFaction_OrcClan,
+    MonsterFaction_UndeadLegion,
+    MonsterFaction_ForestSpirit,
+    MonsterFaction_DragonKind
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesMonsterFaction() {
+  static const char * const names[8] = {
+    "None",
+    "WolfPack",
+    "GoblinTribe",
+    "OrcClan",
+    "UndeadLegion",
+    "ForestSpirit",
+    "DragonKind",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameMonsterFaction(MonsterFaction e) {
+  if (::flatbuffers::IsOutRange(e, MonsterFaction_None, MonsterFaction_DragonKind)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesMonsterFaction()[index];
+}
+
 enum MonsterType : int32_t {
   MonsterType_Beast = 0,
   MonsterType_Undead = 1,
