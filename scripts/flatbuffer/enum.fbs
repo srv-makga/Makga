@@ -43,6 +43,28 @@ enum MessageType : int
 	GridBroadcastMove,
 	TerrainRegisterActor,    // 다른 Terrain에서 이 Terrain으로 Actor 입장 (Terrain 경계 이동)
 	TerrainUnregisterActor,  // 이 Terrain에서 다른 Terrain으로 Actor 퇴장 (Terrain 경계 이동)
+
+	// Actor 메시지 타입
+	ActorRequestMove,        // 이동 요청 (클라이언트 → Actor)
+	ActorSetTarget,          // 타겟 설정
+	ActorSetLeader,          // 리더 설정
+	ActorSetOwner,           // 오너 설정
+	ActorDelete,             // Actor 삭제
+
+	// 전투 메시지
+	ActorAttack,             // 공격 요청 (Actor → Actor)
+	ActorAttackResponse,     // 공격 결과 응답
+	ActorMoveResponse,       // 이동 결과 응답 (클라이언트 동기화용)
+	ActorSee,                // 시야 진입 알림
+
+	// Character 전용
+	CharacterSpawn,
+	CharacterDespawn,
+
+	// Monster 전용
+	MonsterSpawn,
+	MonsterDespawn,
+	MonsterAggravate,        // 어그로 전파
 }
 
 // 게임 월드의 서브 시스템 틱 순위
@@ -405,6 +427,18 @@ enum DamageType : int
 	Poison,				// 독 (지속 마법 데미지)
 }
 
+// 몬스터 진영 (같은 진영끼리 우호, 다른 진영끼리 적대)
+enum MonsterFaction : int
+{
+	None = 0,			// 무소속 (다른 몬스터 무시)
+	WolfPack,			// 늑대 무리
+	GoblinTribe,		// 고블린 부족
+	OrcClan,			// 오크 부족
+	UndeadLegion,		// 언데드 군단
+	ForestSpirit,		// 숲의 정령
+	DragonKind,			// 드래곤 종족
+}
+
 // 몬스터 종류 (속성 상성에 영향)
 enum MonsterType : int
 {
@@ -531,4 +565,36 @@ enum CraftType : int
 	Enchanting,		// 인챈팅 (속성 부여/강화)
 	Jeweling,		// 보석 세공 (장신구)
 	Inscription,	// 필사 (스킬북/설계도)
+}
+
+enum PartyRole : int
+{
+	Leader = 0,
+	Member = 1
+}
+
+enum PartyState : int
+{
+	Idle = 0,
+	InDungeon = 1,
+	InCombat = 2
+}
+
+enum ExpShareType : int
+{
+	Equal = 0,
+	Contribution = 1
+}
+
+enum LootType : int
+{
+	FreeForAll = 0,
+	RoundRobin = 1,
+	NeedGreed = 2
+}
+
+enum PartyGoalType : int
+{
+	Field = 0,
+	Dungeon = 1
 }
