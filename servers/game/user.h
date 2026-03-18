@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "user_dispatcher.h"
 #include "game_db_connector.h"
