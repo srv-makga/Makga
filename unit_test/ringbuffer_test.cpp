@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CppUnitTest.h"
 #include <format>
 #include <vector>
@@ -22,7 +22,7 @@ namespace unittest
 
 			try
 			{
-				//// ÃÊ±â »óÅÂ
+				//// ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½ï¿½
 				Assert::IsTrue(!rb.ValidBuffer());
 
 				rb.AllocateBuffer(buffer_size);
@@ -34,7 +34,7 @@ namespace unittest
 				Assert::IsTrue(real_buffer_size == buffer_size);
 				Assert::IsTrue(available_size == rb.AvailableWriteSize());
 
-				//// »ðÀÔ
+				//// ï¿½ï¿½ï¿½ï¿½
 				int a = 10;
 				rb.Write(&a, 1);
 
