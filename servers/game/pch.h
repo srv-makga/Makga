@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <atomic>
 #include <cstdlib>
@@ -6,6 +6,7 @@
 #include <functional>
 #include <iostream>
 #include <memory>
+#include <random>
 #include <string>
 #include <thread>
 #include <unordered_set>
@@ -16,7 +17,7 @@
 #define NOMINMAX
 #define _WIN32_WINNT 0x0A00
 
-// ¸µÅ· Ws2_32.lib (¹× ÇÊ¿äÇÏ¸é Mswsock.lib
+// ï¿½ï¿½Å· Ws2_32.lib (ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï¸ï¿½ Mswsock.lib
 
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -26,9 +27,17 @@
 #include <ws2ipdef.h>
 #include <mstcpip.h>
 
+#include "../common/flatbuffer/enum_generated.h"
+#include "../common/flatbuffer/result_generated.h"
+#include "../common/flatbuffer/game_packet_generated.h"
+#include "../common/flatbuffer/game_packet_id_generated.h"
+#include "../common/flatbuffer/login_packet_generated.h"
+#include "../common/flatbuffer/login_packet_id_generated.h"
+
 
 #include "define.h"
 #include "game_world.h"
+#include "game_pools.h"
 
 import makga.lib.logger;
 using Logger = makga::lib::MakgaLogger;
