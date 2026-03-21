@@ -1,4 +1,4 @@
-/* src/config.h.in.  Generated from configure.ac by autoheader.  */
+﻿/* src/config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Namespace for Google classes */
 #define GOOGLE_NAMESPACE google
