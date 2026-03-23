@@ -65,6 +65,9 @@ enum MessageType : int
 	MonsterSpawn,
 	MonsterDespawn,
 	MonsterAggravate,        // 어그로 전파
+
+	// 드랍/아이템
+	CharacterReceiveLoot,    // 드랍 아이템 인벤토리 수령
 }
 
 // 게임 월드의 서브 시스템 틱 순위
@@ -250,15 +253,6 @@ enum AbilityType : int
 	Immortal,			// 무적
 }
 
-enum TargetType : int
-{
-	Caster,		// 시전자
-	Enemy,		// 타겟
-	Party,		// 파티
-	Guild,		// 길드
-	Ally,		// 아군
-	All,		// 모두
-}
 
 enum TargetingType : int
 {
@@ -284,132 +278,12 @@ enum ItemReason : int
 	SubUse,
 }
 
-enum MoveType : int
-{
-	Walk,
-	Teleport,
-}
 
-// 직업
-enum JobType : int
-{
-	Warrior,		// 전사
-	Berserker,		// 버서커
-	Knight,			// 기사
-	Paladin,		// 성기사
-	DarkKnight,		// 암흑기사
-	Priest,			// 성직자
-	Bishop,			// 주교
-	SoulKeeper,		// 영혼수호자
-	Necromancer,	// 강령술사
-	Wizard,			// 마법사
-	Pyromancer,		// 화염술사
-	Cryomancer,		// 빙결술사
-	Stormcaller,	// 폭풍술사
-	Geomancer,		// 지형술사
-	Ranger,			// 레인저
-	Hunter,			// 헌터
-	Assassin,		// 어쌔신
-	ShadowBlade,	// 그림자검사
-	Druid,			// 드루이드
-	Summoner,		// 소환사
-	Bard,			// 음유시인
-	Alchemist,		// 연금술사
-}
 
-// 아이템 종류
-enum ItemType : int
-{
-	Weapon,			// 무기
-	Armor,			// 방어구
-	Accessory,		// 장신구
-	Consumable,		// 소비품 (포션, 음식 등)
-	Material,		// 재료 (제작용)
-	QuestItem,		// 퀘스트 아이템
-	Skillbook,		// 스킬북 (스킬 습득)
-	Blueprint,		// 설계도 (제작 레시피)
-	Relic,			// 유물 (특수 장비 슬롯용)
-	EnchantStone,	// 인챈트 스톤 (속성 부여/강화 재료)
-	Mount,			// 탈것
-	Pet,			// 펫
-	Misc,			// 기타
-}
 
-// 무기 종류
-enum WeaponType : int
-{
-	Sword,			// 한손검
-	TwoHandSword,	// 두손검
-	Axe,			// 한손 도끼
-	TwoHandAxe,		// 두손 도끼
-	Mace,			// 한손 둔기
-	TwoHandMace,	// 두손 둔기
-	Spear,			// 창
-	Dagger,			// 단검
-	Katana,			// 카타나
-	Scythe,			// 대낫
-	Staff,			// 지팡이
-	Wand,			// 완드
-	Tome,			// 마법서
-	Bow,			// 활
-	Crossbow,		// 석궁
-	Shield,			// 방패 (오프핸드)
-}
 
-// 방어구 종류
-enum ArmorType : int
-{
-	HeavyArmor,		// 중갑 (전사/기사 계열)
-	MediumArmor,	// 중경갑 (레인저/헌터/드루이드 계열)
-	LightArmor,		// 경갑 (어쌔신/음유시인 계열)
-	Robe,			// 로브 (마법사 계열)
-	Cloth,			// 천 (성직자/소환사 계열)
-}
 
-// 장비 슬롯
-enum EquipSlot : int
-{
-	Helm,				// 투구
-	Chest,				// 갑옷
-	Legs,				// 각반
-	Gloves,				// 장갑
-	Boots,				// 신발
-	Cloak,				// 망토
-	Weapon,				// 주 무기
-	OffHand,			// 보조 무기 / 방패
-	Ring1,				// 반지 1
-	Ring2,				// 반지 2
-	Necklace,			// 목걸이
-	Earring,			// 귀걸이
-	Belt,				// 허리띠
-	Relic,				// 유물 슬롯 (특수 장비 전용)
-}
 
-// 스킬 유형
-enum SkillType : int
-{
-	Active,				// 액티브: 수동 발동
-	Passive,			// 패시브: 자동 적용
-	Ultimate,			// 궁극기: 특수 조건 발동
-	Toggle,				// 토글: 유지/해제 전환
-	Reaction,			// 반응형: 조건 충족시 자동 발동
-}
-
-// 스킬 카테고리
-enum SkillCategory : int
-{
-	MeleeAttack,		// 근접 공격
-	RangedAttack,		// 원거리 공격
-	MagicAttack,		// 마법 공격 (무속성)
-	ElementalAttack,	// 속성 공격 (화염/냉기/전격/대지/신성/암흑 공통)
-	Heal,				// 회복
-	Buff,				// 버프 (아군 강화)
-	Debuff,				// 디버프 (적 약화)
-	Summon,				// 소환
-	Movement,			// 이동기
-	Defense,			// 방어기
-	Support,			// 지원 (버프·디버프 외 유틸)
-}
 
 // 데미지 유형 (속성 계산에 사용)
 enum DamageType : int
@@ -427,17 +301,6 @@ enum DamageType : int
 	Poison,				// 독 (지속 마법 데미지)
 }
 
-// 몬스터 진영 (같은 진영끼리 우호, 다른 진영끼리 적대)
-enum MonsterFaction : int
-{
-	None = 0,			// 무소속 (다른 몬스터 무시)
-	WolfPack,			// 늑대 무리
-	GoblinTribe,		// 고블린 부족
-	OrcClan,			// 오크 부족
-	UndeadLegion,		// 언데드 군단
-	ForestSpirit,		// 숲의 정령
-	DragonKind,			// 드래곤 종족
-}
 
 // 몬스터 종류 (속성 상성에 영향)
 enum MonsterType : int
@@ -488,30 +351,7 @@ enum StatusEffectType : int
 	Knockback,			// 넉백
 }
 
-// 구역 속성 (맵 존의 속성 — 해당 속성 스킬 강화/반대 속성 약화)
-enum ZoneAttributeType : int
-{
-	Neutral,			// 중립 (기본, 속성 보정 없음)
-	Holy,				// 신성: 빛 속성 스킬 강화, 암흑 속성 약화
-	Dark,				// 암흑: 암흑 속성 스킬 강화, 빛 속성 약화
-	Fire,				// 화염: 화염 스킬 강화, 냉기 약화
-	Ice,				// 냉기: 냉기 스킬 강화, 화염 약화
-	Lightning,			// 전격: 전격 스킬 강화, 대지 약화
-	Earth,				// 대지: 대지 스킬 강화, 전격 약화
-	Cursed,				// 저주받은: 모든 회복 효과 감소, 상태이상 저항 감소
-	Sacred,				// 성역: 모든 회복 효과 증가, 상태이상 저항 증가
-}
 
-// 맵 종류
-enum MapType : int
-{
-	Town,		// 마을 (안전지대)
-	Field,		// 일반 필드
-	Dungeon,	// 던전 (파티/솔로)
-	Raid,		// 레이드
-	PvP,		// PvP 전장
-	Instance,	// 인스턴스 (스토리 전용)
-}
 
 // 던전 종류
 enum DungeonType : int
@@ -597,4 +437,170 @@ enum PartyGoalType : int
 {
 	Field = 0,
 	Dungeon = 1
+}
+
+
+// 장비 슬롯
+enum EquipSlot : int
+{
+    None        = 0,
+    Helm        = 1,    // 투구
+    Chest       = 2,    // 갑옷
+    Legs        = 3,    // 다리
+    Gloves      = 4,    // 장갑
+    Boots       = 5,    // 신발
+    Cloak       = 6,    // 망토
+    Weapon      = 7,    // 무기
+    OffHand     = 8,    // 보조 (방패/보조무기)
+    Ring1       = 9,    // 반지 1
+    Ring2       = 10,   // 반지 2
+    Necklace    = 11,   // 목걸이
+    Earring     = 12,   // 귀걸이
+    Belt        = 13,   // 벨트
+    Relic       = 14,   // 유물
+}
+
+// 아이템 타입
+enum ItemType : int
+{
+    None        = 0,
+    Weapon      = 1,    // 무기
+    Armor       = 2,    // 방어구
+    Accessory   = 3,    // 장신구
+    Consumable  = 4,    // 소비 아이템
+    Material    = 5,    // 재료
+    QuestItem   = 6,    // 퀘스트 아이템
+    Skillbook   = 7,    // 스킬북
+    Blueprint   = 8,    // 설계도
+    Relic       = 9,    // 유물
+    EnchantStone= 10,   // 강화석
+    Mount       = 11,   // 탈것
+    Pet         = 12,   // 펫
+    Misc        = 13,   // 기타
+}
+
+// 무기 타입
+enum WeaponType : int
+{
+    None        = 0,
+    Sword,          // 한손검
+    TwoHandSword,   // 양손검
+    Axe,            // 한손도끼
+    TwoHandAxe,     // 양손도끼
+    Mace,           // 한손둔기
+    TwoHandMace,    // 양손둔기
+    Spear,          // 창
+    Dagger,         // 단검
+    Katana,         // 카타나
+    Scythe,         // 대낫
+    Staff,          // 지팡이
+    Wand,           // 완드
+    Tome,           // 마도서
+    Bow,            // 활
+    Crossbow,       // 석궁
+    Shield,         // 방패
+}
+
+// 방어구 타입
+enum ArmorType : int
+{
+    None        = 0,
+    HeavyArmor,     // 중갑
+    MediumArmor,    // 중경갑
+    LightArmor,     // 경갑
+    Robe,           // 로브
+    Cloth,          // 천
+}
+
+// 이동 타입
+enum MoveType : int
+{
+    Walk        = 0,
+    Run         = 1,
+    Teleport    = 2,
+    Knockback   = 3,
+}
+
+// 맵 타입
+enum MapType : int
+{
+    Town        = 0,
+    Field       = 1,
+    Dungeon     = 2,
+    Raid        = 3,
+    PvP         = 4,
+    Instance    = 5,
+}
+
+// 몬스터 진영
+enum MonsterFaction : int
+{
+    None        = 0,
+    WolfPack,       // 늑대 무리
+    GoblinTribe,    // 고블린 부족
+    OrcClan,        // 오크 씨족
+    UndeadLegion,   // 언데드 군단
+    ForestSpirit,   // 숲의 정령
+    DragonKind,     // 드래곤 종족
+}
+
+// 직업 타입
+enum JobType : int
+{
+    None        = 0,
+    // 전사 계열
+    Warrior     = 101,  // 전사
+    Berserker   = 102,  // 버서커
+    Knight      = 103,  // 기사
+    Paladin     = 104,  // 팔라딘
+    DarkKnight  = 105,  // 다크나이트
+    // 성직자 계열
+    Priest      = 201,  // 사제
+    Bishop      = 202,  // 주교
+    SoulKeeper  = 203,  // 소울키퍼
+    Necromancer = 204,  // 네크로맨서
+    // 마법사 계열
+    Wizard      = 301,  // 마법사
+    Pyromancer  = 302,  // 화염술사
+    Cryomancer  = 303,  // 냉기술사
+    Stormcaller = 304,  // 폭풍술사
+    Geomancer   = 305,  // 대지술사
+    // 궁수 계열
+    Ranger      = 401,  // 레인저
+    Hunter      = 402,  // 헌터
+    Assassin    = 403,  // 어새신
+    ShadowBlade = 404,  // 섀도우블레이드
+    // 자연 계열
+    Druid       = 501,  // 드루이드
+    Summoner    = 502,  // 소환사
+    Bard        = 503,  // 음유시인
+    Alchemist   = 504,  // 연금술사
+}
+
+// 스킬 타입
+enum SkillType : int
+{
+    Active      = 0,    // 액티브 스킬
+    Passive     = 1,    // 패시브 스킬
+    Ultimate    = 2,    // 궁극기
+    Toggle      = 3,    // 토글 스킬
+    Reaction    = 4,    // 반응 스킬
+}
+
+
+// 타겟 타입
+
+
+// 구역 속성
+enum ZoneAttributeType : int
+{
+    Neutral = 0,
+    Holy,
+    Dark,
+    Fire,
+    Ice,
+    Lightning,
+    Earth,
+    Cursed,
+    Sacred,
 }

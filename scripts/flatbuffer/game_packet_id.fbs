@@ -1,12 +1,151 @@
-namespace makga;
+﻿namespace makga;
 
 // Game 서버 패킷 ID
 // 규칙: C2S/S2C 테이블 이름의 기반이 됨
 //   → PacketId::<Name> ↔ C2S_<Name> / S2C_<Name>
 enum PacketId : uint16
 {
-	None = 0,
+    None = 0,
 
-	// ── 이동 ──────────────────────────────
-	Move = 1001,
+    // ── 이동 (1001~1099) ──────────────────────────────────────────────
+    Move            = 1001,
+
+    // ── 전투 (1101~1199) ──────────────────────────────────────────────
+    Attack          = 1101,
+    AttackResult    = 1102,
+    SkillUse        = 1103,
+    SkillResult     = 1104,
+    SkillList       = 1105,
+    BuffApply       = 1106,
+    BuffRemove      = 1107,
+    ActorDeath      = 1108,
+    ActorResurrect  = 1109,
+    HpMpSync        = 1110,
+
+    // ── 아이템 / 인벤토리 (1201~1299) ────────────────────────────────
+    InventoryList   = 1201,
+    ItemPickup      = 1202,
+    ItemDrop        = 1203,
+    ItemUse         = 1204,
+    ItemMove        = 1205,
+    ItemSplit       = 1206,
+    ItemLock        = 1207,
+    EquipItem       = 1208,
+    UnequipItem     = 1209,
+    EquipList       = 1210,
+
+    // ── 상점 (1301~1399) ──────────────────────────────────────────────
+    ShopOpen        = 1301,
+    ShopBuy         = 1302,
+    ShopSell        = 1303,
+    ShopList        = 1304,
+
+    // ── 거래 (1401~1499) ──────────────────────────────────────────────
+    TradeRequest    = 1401,
+    TradeAccept     = 1402,
+    TradeDecline    = 1403,
+    TradeAddItem    = 1404,
+    TradeRemoveItem = 1405,
+    TradeAddGold    = 1406,
+    TradeReady      = 1407,
+    TradeConfirm    = 1408,
+    TradeCancel     = 1409,
+    TradeResult     = 1410,
+
+    // ── 경매장 (1501~1599) ────────────────────────────────────────────
+    AuctionSearch   = 1501,
+    AuctionList     = 1502,
+    AuctionRegister = 1503,
+    AuctionBid      = 1504,
+    AuctionBuyNow   = 1505,
+    AuctionCancel   = 1506,
+    AuctionMyList   = 1507,
+    AuctionResult   = 1508,
+
+    // ── 제작 (1601~1699) ──────────────────────────────────────────────
+    CraftList       = 1601,
+    CraftRequest    = 1602,
+    CraftResult     = 1603,
+
+    // ── 강화/인챈트 (1701~1799) ───────────────────────────────────────
+    EnchantRequest  = 1701,
+    EnchantResult   = 1702,
+
+    // ── 파티 (1801~1899) ──────────────────────────────────────────────
+    PartyInvite     = 1801,
+    PartyInviteResp = 1802,
+    PartyLeave      = 1803,
+    PartyKick       = 1804,
+    PartyDisband    = 1805,
+    PartyInfo       = 1806,
+    PartyMemberSync = 1807,
+    PartyLeaderChange = 1808,
+    PartyLootChange = 1809,
+
+    // ── 길드 (1901~1999) ──────────────────────────────────────────────
+    GuildCreate     = 1901,
+    GuildDisband    = 1902,
+    GuildInvite     = 1903,
+    GuildInviteResp = 1904,
+    GuildLeave      = 1905,
+    GuildKick       = 1906,
+    GuildInfo       = 1907,
+    GuildMemberList = 1908,
+    GuildRankChange = 1909,
+    GuildNotice     = 1910,
+    GuildDeposit    = 1911,
+    GuildWithdraw   = 1912,
+
+    // ── 던전 (2001~2099) ──────────────────────────────────────────────
+    DungeonEnter    = 2001,
+    DungeonEnterResp= 2002,
+    DungeonExit     = 2003,
+    DungeonClear    = 2004,
+    DungeonInfo     = 2005,
+    BossPhaseChange = 2006,
+
+    // ── 퀘스트 (2101~2199) ────────────────────────────────────────────
+    QuestList       = 2101,
+    QuestAccept     = 2102,
+    QuestAbandon    = 2103,
+    QuestComplete   = 2104,
+    QuestProgress   = 2105,
+
+    // ── 친구 (2201~2299) ──────────────────────────────────────────────
+    FriendList      = 2201,
+    FriendAdd       = 2202,
+    FriendAddResp   = 2203,
+    FriendRemove    = 2204,
+    FriendBlock     = 2205,
+    FriendUnblock   = 2206,
+    Whisper         = 2207,
+    FriendOnline    = 2208,
+
+    // ── 채팅 (2301~2399) ──────────────────────────────────────────────
+    ChatNormal      = 2301,
+    ChatZone        = 2302,
+    ChatWorld       = 2303,
+    ChatParty       = 2304,
+    ChatGuild       = 2305,
+
+    // ── 업적 / 칭호 (2401~2499) ──────────────────────────────────────
+    AchievementList   = 2401,
+    AchievementUnlock = 2402,
+    TitleList         = 2403,
+    TitleEquip        = 2404,
+    TitleUnequip      = 2405,
+
+    // ── 랭킹 (2501~2599) ──────────────────────────────────────────────
+    RankingList     = 2501,
+
+    // ── 시즌 (2601~2699) ──────────────────────────────────────────────
+    SeasonInfo      = 2601,
+    SeasonReward    = 2602,
+    SeasonMission   = 2603,
+
+    // ── 히든 시스템 (2701~2799) ───────────────────────────────────────
+    HiddenQuestTrigger  = 2701,
+    LegendaryForge      = 2702,
+    FateFragment        = 2703,
+    SecretDungeonUnlock = 2704,
 }

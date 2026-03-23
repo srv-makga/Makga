@@ -1,27 +1,1053 @@
-include "game_packet_id.fbs";
+﻿include "game_packet_id.fbs";
 include "enum.fbs";
+include "result.fbs";
 
 namespace makga;
 
-// ── Move (PacketId::Move = 1001) ──────────────────────────────
+// ── 공용 구조체 ──────────────────────────────────────────────────────────────
+
+// @brief 인벤토리 아이템 정보 (클라 전송용)
+table ItemInfo
+{
+    item_uid    : uint64;
+    item_idx    : int64;
+    stack_count : int64 = 1;
+    refine_level: int16 = 0;
+    is_locked   : bool  = false;
+    slot_index  : int32 = -1;   // -1 = 장착 중
+    equip_slot  : EquipSlot = None;
+    expire_time : int64 = 0;    // Unix timestamp, 0 = 무제한
+}
+
+// @brief 스킬 정보
+table SkillInfo
+{
+    skill_idx   : int64;
+    skill_level : int32 = 1;
+    cooldown_ms : int32 = 0;    // 남은 쿨타임(ms)
+    is_learned  : bool  = true;
+}
+
+// @brief 버프/디버프 정보
+table BuffInfo
+{
+    buff_idx    : int64;
+    buff_type   : StatusEffectType;
+    duration_ms : int32;
+    stack       : int32 = 1;
+    caster_id   : uint64;
+}
+
+// @brief 파티원 정보
+table PartyMemberInfo
+{
+    actor_id    : uint64;
+    name        : string;
+    level       : int32;
+    job         : JobType;
+    cur_hp      : int64;
+    max_hp      : int64;
+    cur_mp      : int64;
+    max_mp      : int64;
+    is_online   : bool = true;
+}
+
+// @brief 퀘스트 진행 정보
+table QuestProgressInfo
+{
+    quest_idx   : int64;
+    status      : int32;        // 0=수락가능 1=진행중 2=완료대기 3=완료
+    cur_value   : int32 = 0;
+    max_value   : int32 = 0;
+}
+
+// @brief 친구 정보
+table FriendInfo
+{
+    user_uid    : uint64;
+    name        : string;
+    level       : int32;
+    job         : JobType;
+    is_online   : bool = false;
+    is_blocked  : bool = false;
+    last_login  : int64;
+}
+
+// @brief 경매장 아이템 정보
+table AuctionItemInfo
+{
+    auction_id      : uint64;
+    seller_name     : string;
+    item_idx        : int64;
+    item_uid        : uint64;
+    refine_level    : int16;
+    stack_count     : int64;
+    current_bid     : int64;
+    buyout_price    : int64;   // 0 = 없음
+    end_time        : int64;   // Unix timestamp
+}
+
+// @brief 랭킹 항목
+table RankingEntry
+{
+    rank        : int32;
+    user_uid    : uint64;
+    name        : string;
+    level       : int32;
+    job         : JobType;
+    score       : int64;
+}
+
+// ── 이동 (PacketId::Move = 1001) ─────────────────────────────────────────────
 
 // C2S: 클라이언트가 이동 요청
 table C2S_Move
 {
-	x         : float;
-	y         : float;
-	z         : float;
-	yaw       : float;
-	move_type : MoveType = Walk;
+    x           : float;
+    y           : float;
+    z           : float;
+    yaw         : float;
+    move_type   : MoveType = Walk;
 }
 
 // S2C: 서버가 인근 클라이언트에 이동 결과 브로드캐스트
 table S2C_Move
 {
-	actor_id  : uint64;
-	x         : float;
-	y         : float;
-	z         : float;
-	yaw       : float;
-	move_type : MoveType = Walk;
+    actor_id    : uint64;
+    x           : float;
+    y           : float;
+    z           : float;
+    yaw         : float;
+    move_type   : MoveType = Walk;
+}
+
+// ── 전투 (1101~1110) ─────────────────────────────────────────────────────────
+
+// C2S: 기본 공격 요청
+table C2S_Attack
+{
+    target_id   : uint64;
+}
+
+// S2C: 공격 결과 브로드캐스트
+table S2C_AttackResult
+{
+    attacker_id     : uint64;
+    target_id       : uint64;
+    damage          : int64;
+    is_critical     : bool = false;
+    is_miss         : bool = false;
+    damage_type     : DamageType;
+    target_cur_hp   : int64;
+}
+
+// C2S: 스킬 시전 요청
+table C2S_SkillUse
+{
+    skill_idx   : int64;
+    skill_level : int32;
+    target_id   : uint64;   // 단일/자신 타겟용, 범위는 0
+    target_x    : float;    // AoE 중심 좌표
+    target_y    : float;
+    target_z    : float;
+}
+
+// S2C: 스킬 결과 브로드캐스트
+table S2C_SkillResult
+{
+    caster_id       : uint64;
+    skill_idx       : int64;
+    target_ids      : [uint64];     // 피해를 받은 모든 대상
+    damages         : [int64];      // target_ids 와 1:1 대응
+    is_critical     : bool = false;
+    cooldown_ms     : int32;
+    mp_cost         : int32;
+}
+
+// S2C: 스킬 목록 응답
+table S2C_SkillList
+{
+    skills          : [SkillInfo];
+}
+
+// S2C: 버프 적용
+table S2C_BuffApply
+{
+    actor_id    : uint64;
+    buff        : BuffInfo;
+}
+
+// S2C: 버프 해제
+table S2C_BuffRemove
+{
+    actor_id    : uint64;
+    buff_idx    : int64;
+    buff_type   : StatusEffectType;
+}
+
+// S2C: Actor 사망
+table S2C_ActorDeath
+{
+    actor_id    : uint64;
+    killer_id   : uint64;
+    drop_exp    : int64;
+}
+
+// C2S: 부활 요청
+table C2S_ActorResurrect
+{
+    resurrect_type  : int32 = 0;    // 0=마을귀환 1=현장부활(루비)
+}
+
+// S2C: HP/MP 동기화
+table S2C_HpMpSync
+{
+    actor_id    : uint64;
+    cur_hp      : int64;
+    max_hp      : int64;
+    cur_mp      : int64;
+    max_mp      : int64;
+}
+
+// ── 인벤토리 (1201~1210) ────────────────────────────────────────────────────
+
+// C2S: 인벤토리 목록 요청
+table C2S_InventoryList {}
+
+// S2C: 인벤토리 목록 응답
+table S2C_InventoryList
+{
+    items       : [ItemInfo];
+    max_slots   : int32;
+    used_slots  : int32;
+    gold        : int64;
+    ruby        : int64;
+}
+
+// C2S: 아이템 줍기
+table C2S_ItemPickup
+{
+    drop_object_id  : uint64;
+}
+
+// C2S: 아이템 버리기
+table C2S_ItemDrop
+{
+    item_uid    : uint64;
+    count       : int64 = 1;
+}
+
+// C2S: 아이템 사용
+table C2S_ItemUse
+{
+    item_uid    : uint64;
+    use_count   : int64 = 1;
+    target_id   : uint64;   // 힐 아이템 등 타겟 필요시
+}
+
+// S2C: 아이템 사용 결과
+table S2C_ItemUse
+{
+    result      : Result;
+    item_uid    : uint64;
+    remaining   : int64;
+}
+
+// C2S: 인벤토리 슬롯 이동
+table C2S_ItemMove
+{
+    item_uid    : uint64;
+    from_slot   : int32;
+    to_slot     : int32;
+}
+
+// C2S: 아이템 스택 분리
+table C2S_ItemSplit
+{
+    item_uid    : uint64;
+    split_count : int64;
+}
+
+// C2S: 아이템 잠금
+table C2S_ItemLock
+{
+    item_uid    : uint64;
+    is_locked   : bool;
+}
+
+// C2S: 장비 착용
+table C2S_EquipItem
+{
+    item_uid    : uint64;
+    equip_slot  : EquipSlot;
+}
+
+// C2S: 장비 해제
+table C2S_UnequipItem
+{
+    equip_slot  : EquipSlot;
+}
+
+// S2C: 장착 장비 목록
+table S2C_EquipList
+{
+    items       : [ItemInfo];   // equip_slot이 설정된 아이템들
+}
+
+// ── 상점 (1301~1304) ─────────────────────────────────────────────────────────
+
+// C2S: 상점 열기
+table C2S_ShopOpen
+{
+    npc_id      : uint64;
+}
+
+// S2C: 상점 목록 응답
+table S2C_ShopList
+{
+    shop_idx    : int64;
+    result      : Result;
+    items       : [ShopItemInfo];
+}
+
+table ShopItemInfo
+{
+    shop_item_idx   : int64;
+    item_idx        : int64;
+    price           : int64;
+    currency_type   : CurrencyType;
+    stock           : int32;        // -1 = 무제한
+    required_level  : int32;
+}
+
+// C2S: 상점 구매
+table C2S_ShopBuy
+{
+    shop_idx        : int64;
+    shop_item_idx   : int64;
+    count           : int32 = 1;
+}
+
+// S2C: 상점 구매/판매 결과
+table S2C_ShopResult
+{
+    result          : Result;
+    currency_type   : CurrencyType;
+    remaining_gold  : int64;
+    item_info       : ItemInfo;
+}
+
+// C2S: 상점 판매
+table C2S_ShopSell
+{
+    item_uid        : uint64;
+    count           : int64 = 1;
+}
+
+// ── 거래 (1401~1410) ─────────────────────────────────────────────────────────
+
+// C2S: 거래 요청
+table C2S_TradeRequest
+{
+    target_actor_id : uint64;
+}
+
+// S2C: 거래 요청 수신 (상대방에게)
+table S2C_TradeRequest
+{
+    requester_id    : uint64;
+    requester_name  : string;
+}
+
+// C2S: 거래 응답
+table C2S_TradeAccept
+{
+    trade_id    : uint64;
+    accept      : bool;
+}
+
+// C2S: 거래창 아이템 추가
+table C2S_TradeAddItem
+{
+    trade_id    : uint64;
+    item_uid    : uint64;
+    count       : int64;
+}
+
+// C2S: 거래창 골드 설정
+table C2S_TradeAddGold
+{
+    trade_id    : uint64;
+    gold        : int64;
+}
+
+// C2S: 거래 준비 완료 토글
+table C2S_TradeReady
+{
+    trade_id    : uint64;
+    ready       : bool;
+}
+
+// C2S: 거래 최종 확정
+table C2S_TradeConfirm
+{
+    trade_id    : uint64;
+}
+
+// S2C: 거래 상태 업데이트
+table S2C_TradeUpdate
+{
+    trade_id        : uint64;
+    my_items        : [ItemInfo];
+    their_items     : [ItemInfo];
+    my_gold         : int64;
+    their_gold      : int64;
+    my_ready        : bool;
+    their_ready     : bool;
+}
+
+// S2C: 거래 결과
+table S2C_TradeResult
+{
+    result          : Result;
+    trade_id        : uint64;
+}
+
+// ── 경매장 (1501~1508) ───────────────────────────────────────────────────────
+
+// C2S: 경매장 검색
+table C2S_AuctionSearch
+{
+    item_name       : string;
+    item_type       : ItemType;
+    min_level       : int32 = 0;
+    max_level       : int32 = 9999;
+    grade           : GradeType;
+    sort_type       : int32 = 0;    // 0=최신 1=가격낮은순 2=가격높은순
+    page            : int32 = 0;
+}
+
+// S2C: 경매장 목록
+table S2C_AuctionList
+{
+    result          : Result;
+    items           : [AuctionItemInfo];
+    total_count     : int32;
+    page            : int32;
+}
+
+// C2S: 경매 등록
+table C2S_AuctionRegister
+{
+    item_uid        : uint64;
+    stack_count     : int64 = 1;
+    start_bid       : int64;
+    buyout_price    : int64 = 0;
+    duration_hours  : int32 = 24;   // 12/24/48/72 중 선택
+}
+
+// C2S: 입찰
+table C2S_AuctionBid
+{
+    auction_id      : uint64;
+    bid_amount      : int64;
+}
+
+// C2S: 즉시 구매
+table C2S_AuctionBuyNow
+{
+    auction_id      : uint64;
+}
+
+// C2S: 경매 취소
+table C2S_AuctionCancel
+{
+    auction_id      : uint64;
+}
+
+// S2C: 경매 결과
+table S2C_AuctionResult
+{
+    result          : Result;
+    auction_id      : uint64;
+    remaining_gold  : int64;
+}
+
+// ── 제작 (1601~1603) ─────────────────────────────────────────────────────────
+
+// C2S: 제작 목록 요청
+table C2S_CraftList
+{
+    craft_type      : CraftType;
+}
+
+// S2C: 제작 목록 응답
+table S2C_CraftList
+{
+    craft_type      : CraftType;
+    recipes         : [CraftRecipeInfo];
+}
+
+table CraftRecipeInfo
+{
+    recipe_idx      : int64;
+    result_item_idx : int64;
+    result_count    : int32;
+    success_rate    : float;
+    craft_level_req : int32;
+    craft_type      : CraftType;
+    materials       : [CraftMaterialInfo];
+}
+
+table CraftMaterialInfo
+{
+    item_idx        : int64;
+    required_count  : int32;
+    owned_count     : int32;
+}
+
+// C2S: 제작 요청
+table C2S_CraftRequest
+{
+    recipe_idx      : int64;
+    count           : int32 = 1;
+}
+
+// S2C: 제작 결과
+table S2C_CraftResult
+{
+    result          : Result;
+    recipe_idx      : int64;
+    success         : bool;
+    result_item     : ItemInfo;
+    exp_gained      : int32;    // 제작 숙련도 경험치
+}
+
+// ── 강화/인챈트 (1701~1702) ──────────────────────────────────────────────────
+
+// C2S: 강화 요청
+table C2S_EnchantRequest
+{
+    target_item_uid : uint64;       // 강화할 장비
+    material_uid    : uint64;       // 강화석 아이템 UID (0 = 자동 선택)
+    use_protection  : bool = false; // 파괴/하락 방지 주문서 사용
+}
+
+// S2C: 강화 결과
+table S2C_EnchantResult
+{
+    result          : Result;
+    item_uid        : uint64;
+    new_refine_level: int16;
+    success         : bool;
+    is_destroyed    : bool = false;
+    is_downgraded   : bool = false;
+    gold_cost       : int64;
+}
+
+// ── 파티 (1801~1809) ─────────────────────────────────────────────────────────
+
+// C2S: 파티 초대
+table C2S_PartyInvite
+{
+    target_actor_id : uint64;
+}
+
+// S2C: 파티 초대 수신
+table S2C_PartyInvite
+{
+    party_id        : uint64;
+    leader_id       : uint64;
+    leader_name     : string;
+}
+
+// C2S: 파티 초대 응답
+table C2S_PartyInviteResp
+{
+    party_id        : uint64;
+    accept          : bool;
+}
+
+// C2S: 파티 탈퇴
+table C2S_PartyLeave {}
+
+// C2S: 파티원 추방 (파티장만)
+table C2S_PartyKick
+{
+    target_actor_id : uint64;
+}
+
+// C2S: 파티 해산 (파티장만)
+table C2S_PartyDisband {}
+
+// S2C: 파티 정보 전체
+table S2C_PartyInfo
+{
+    party_id        : uint64;
+    leader_id       : uint64;
+    members         : [PartyMemberInfo];
+    loot_type       : LootType;
+    exp_share_type  : ExpShareType;
+    state           : PartyState;
+}
+
+// S2C: 파티원 HP/MP 동기화 (주기적)
+table S2C_PartyMemberSync
+{
+    party_id        : uint64;
+    member_id       : uint64;
+    cur_hp          : int64;
+    max_hp          : int64;
+    cur_mp          : int64;
+    max_mp          : int64;
+}
+
+// C2S: 파티장 위임
+table C2S_PartyLeaderChange
+{
+    target_actor_id : uint64;
+}
+
+// C2S: 루팅 방식 변경 (파티장만)
+table C2S_PartyLootChange
+{
+    loot_type       : LootType;
+}
+
+// ── 길드 (1901~1912) ─────────────────────────────────────────────────────────
+
+// C2S: 길드 창설
+table C2S_GuildCreate
+{
+    guild_name      : string;
+    guild_mark_id   : int32;
+}
+
+// C2S: 길드 해산 (마스터만)
+table C2S_GuildDisband {}
+
+// C2S: 길드 초대
+table C2S_GuildInvite
+{
+    target_name     : string;
+}
+
+// S2C: 길드 초대 수신
+table S2C_GuildInvite
+{
+    guild_id        : uint64;
+    guild_name      : string;
+    inviter_name    : string;
+}
+
+// C2S: 길드 초대 응답
+table C2S_GuildInviteResp
+{
+    guild_id        : uint64;
+    accept          : bool;
+}
+
+// C2S: 길드 탈퇴
+table C2S_GuildLeave {}
+
+// C2S: 길드원 추방
+table C2S_GuildKick
+{
+    target_name     : string;
+}
+
+// S2C: 길드 정보
+table S2C_GuildInfo
+{
+    guild_id        : uint64;
+    guild_name      : string;
+    guild_mark_id   : int32;
+    master_name     : string;
+    member_count    : int32;
+    max_members     : int32;
+    level           : int32;
+    guild_exp       : int64;
+    treasury_gold   : int64;
+    notice          : string;
+    result          : Result;
+}
+
+// S2C: 길드원 목록
+table S2C_GuildMemberList
+{
+    guild_id        : uint64;
+    members         : [GuildMemberInfo];
+}
+
+table GuildMemberInfo
+{
+    user_uid        : uint64;
+    name            : string;
+    level           : int32;
+    job             : JobType;
+    guild_rank      : int32;    // 0=마스터 1=부마스터 2=간부 3=일반
+    contribution    : int64;
+    is_online       : bool;
+    last_login      : int64;
+}
+
+// C2S: 길드 직위 변경
+table C2S_GuildRankChange
+{
+    target_name     : string;
+    new_rank        : int32;
+}
+
+// C2S: 길드 공지 수정
+table C2S_GuildNotice
+{
+    notice          : string;
+}
+
+// C2S: 길드 금고 입금
+table C2S_GuildDeposit
+{
+    gold            : int64;
+}
+
+// C2S: 길드 금고 출금
+table C2S_GuildWithdraw
+{
+    gold            : int64;
+}
+
+// S2C: 길드 금고 결과
+table S2C_GuildTreasuryResult
+{
+    result          : Result;
+    treasury_gold   : int64;
+    my_gold         : int64;
+}
+
+// ── 던전 (2001~2006) ─────────────────────────────────────────────────────────
+
+// C2S: 던전 입장
+table C2S_DungeonEnter
+{
+    dungeon_idx     : int64;
+    difficulty      : int32 = 0;    // 0=Normal 1=Hard 2=Challenge
+}
+
+// S2C: 던전 입장 결과
+table S2C_DungeonEnterResp
+{
+    result          : Result;
+    instance_id     : uint64;
+    dungeon_idx     : int64;
+    map_id          : string;
+    spawn_x         : float;
+    spawn_y         : float;
+    spawn_z         : float;
+    time_limit_sec  : int32;
+    remaining_entry : int32;    // 오늘 남은 입장 횟수
+}
+
+// C2S: 던전 퇴장
+table C2S_DungeonExit {}
+
+// S2C: 던전 클리어 결과
+table S2C_DungeonClear
+{
+    instance_id     : uint64;
+    dungeon_idx     : int64;
+    clear_time_sec  : int32;
+    exp_reward      : int64;
+    gold_reward     : int64;
+    item_rewards    : [ItemInfo];
+    is_first_clear  : bool = false;
+    star_rating     : int32 = 0;    // 별점 0~3
+}
+
+// S2C: 보스 페이즈 변경
+table S2C_BossPhaseChange
+{
+    boss_actor_id   : uint64;
+    phase           : int32;
+    hp_percent      : float;
+}
+
+// ── 퀘스트 (2101~2105) ───────────────────────────────────────────────────────
+
+// C2S: 퀘스트 목록 요청
+table C2S_QuestList {}
+
+// S2C: 퀘스트 목록 응답
+table S2C_QuestList
+{
+    quests          : [QuestProgressInfo];
+}
+
+// C2S: 퀘스트 수락
+table C2S_QuestAccept
+{
+    quest_idx       : int64;
+    npc_id          : uint64;
+}
+
+// C2S: 퀘스트 포기
+table C2S_QuestAbandon
+{
+    quest_idx       : int64;
+}
+
+// C2S: 퀘스트 완료 (NPC 대화)
+table C2S_QuestComplete
+{
+    quest_idx       : int64;
+    npc_id          : uint64;
+}
+
+// S2C: 퀘스트 완료 결과
+table S2C_QuestComplete
+{
+    result          : Result;
+    quest_idx       : int64;
+    exp_reward      : int64;
+    gold_reward     : int64;
+    item_rewards    : [ItemInfo];
+}
+
+// S2C: 퀘스트 진행 업데이트
+table S2C_QuestProgress
+{
+    quest_idx       : int64;
+    cur_value       : int32;
+    max_value       : int32;
+    status          : int32;
+}
+
+// ── 친구 (2201~2208) ─────────────────────────────────────────────────────────
+
+// C2S: 친구 목록 요청
+table C2S_FriendList {}
+
+// S2C: 친구 목록 응답
+table S2C_FriendList
+{
+    friends         : [FriendInfo];
+}
+
+// C2S: 친구 추가 요청
+table C2S_FriendAdd
+{
+    target_name     : string;
+}
+
+// S2C: 친구 추가 요청 수신 (상대방에게)
+table S2C_FriendAdd
+{
+    requester_uid   : uint64;
+    requester_name  : string;
+}
+
+// C2S: 친구 추가 응답
+table C2S_FriendAddResp
+{
+    requester_uid   : uint64;
+    accept          : bool;
+}
+
+// C2S: 친구 삭제
+table C2S_FriendRemove
+{
+    target_uid      : uint64;
+}
+
+// C2S: 차단
+table C2S_FriendBlock
+{
+    target_uid      : uint64;
+}
+
+// C2S: 귓속말
+table C2S_Whisper
+{
+    target_name     : string;
+    message         : string;
+}
+
+// S2C: 귓속말 수신
+table S2C_Whisper
+{
+    sender_name     : string;
+    message         : string;
+}
+
+// S2C: 친구 온라인 상태 알림
+table S2C_FriendOnline
+{
+    friend_uid      : uint64;
+    friend_name     : string;
+    is_online       : bool;
+}
+
+// ── 채팅 (2301~2305) ─────────────────────────────────────────────────────────
+
+// C2S: 채팅 공통
+table C2S_Chat
+{
+    message         : string;
+    channel_type    : int32;    // 1=일반 2=지역 3=전체 4=파티 5=길드
+}
+
+// S2C: 채팅 수신 공통
+table S2C_Chat
+{
+    sender_id       : uint64;
+    sender_name     : string;
+    message         : string;
+    channel_type    : int32;
+    timestamp       : int64;
+}
+
+// ── 업적 / 칭호 (2401~2405) ──────────────────────────────────────────────────
+
+table AchievementInfo
+{
+    achievement_idx : int64;
+    title           : string;
+    cur_value       : int32;
+    max_value       : int32;
+    is_hidden       : bool = false;
+    is_unlocked     : bool = false;
+    unlocked_at     : int64;
+}
+
+// S2C: 업적 목록
+table S2C_AchievementList
+{
+    achievements    : [AchievementInfo];
+}
+
+// S2C: 업적 달성 알림
+table S2C_AchievementUnlock
+{
+    achievement_idx : int64;
+    title           : string;
+    reward_title_idx: int64;    // 획득 칭호 (없으면 0)
+}
+
+// S2C: 칭호 목록
+table S2C_TitleList
+{
+    titles          : [TitleInfo];
+}
+
+table TitleInfo
+{
+    title_idx       : int64;
+    name            : string;
+    description     : string;
+    stat_bonus_type : StatType;
+    stat_bonus_val  : float;
+    is_equipped     : bool = false;
+}
+
+// C2S: 칭호 장착/해제
+table C2S_TitleEquip
+{
+    title_idx       : int64;
+}
+
+// ── 랭킹 (2501) ──────────────────────────────────────────────────────────────
+
+// C2S: 랭킹 조회
+table C2S_RankingList
+{
+    rank_type       : int32;    // 0=레벨 1=전투력 2=길드 3=던전
+    page            : int32 = 0;
+}
+
+// S2C: 랭킹 응답
+table S2C_RankingList
+{
+    rank_type       : int32;
+    entries         : [RankingEntry];
+    my_rank         : int32;
+    my_score        : int64;
+    total_count     : int32;
+}
+
+// ── 시즌 (2601~2603) ─────────────────────────────────────────────────────────
+
+// S2C: 시즌 정보
+table S2C_SeasonInfo
+{
+    season_id       : int32;
+    season_name     : string;
+    season_level    : int32;
+    season_exp      : int64;
+    next_level_exp  : int64;
+    end_time        : int64;
+    is_premium      : bool = false;
+}
+
+// C2S: 시즌 보상 수령
+table C2S_SeasonReward
+{
+    season_id       : int32;
+    reward_level    : int32;
+}
+
+// S2C: 시즌 미션 목록
+table S2C_SeasonMission
+{
+    missions        : [SeasonMissionInfo];
+}
+
+table SeasonMissionInfo
+{
+    mission_idx     : int64;
+    title           : string;
+    reset_type      : int32;    // 0=일일 1=주간 2=시즌
+    cur_value       : int32;
+    max_value       : int32;
+    is_completed    : bool;
+    exp_reward      : int32;
+}
+
+// ── 히든 시스템 (2701~2704) ──────────────────────────────────────────────────
+
+// S2C: 히든 퀘스트 발동
+table S2C_HiddenQuestTrigger
+{
+    quest_idx       : int64;
+    title           : string;
+    description     : string;
+}
+
+// C2S: 전설 무기 제작 시도
+table C2S_LegendaryForge
+{
+    recipe_idx      : int64;
+}
+
+// S2C: 전설 무기 제작 결과
+table S2C_LegendaryForge
+{
+    result          : Result;
+    item_info       : ItemInfo;
+    lore_text       : string;   // 완성시 서사 텍스트
+}
+
+// S2C: 운명의 조각 획득
+table S2C_FateFragment
+{
+    fragment_idx    : int64;
+    description     : string;
+    total_collected : int32;
+    total_required  : int32;
+}
+
+// S2C: 비밀 던전 개방
+table S2C_SecretDungeonUnlock
+{
+    dungeon_idx     : int64;
+    dungeon_name    : string;
+    description     : string;
 }

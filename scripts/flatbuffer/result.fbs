@@ -6,6 +6,65 @@ namespace makga;
 
 enum Result : int
 {
-	Success = 0,
-	Fail,
+	Success             = 0,
+	Fail                = 1,
+
+	// ── 공통 오류 (10~99) ─────────────────────────────────────────────
+	InvalidRequest      = 10,
+	NotFound            = 11,
+	AccessDenied        = 12,
+	SystemError         = 13,
+	SessionExpired      = 14,
+
+	// ── 캐릭터/레벨 (100~199) ────────────────────────────────────────
+	NotEnoughLevel      = 100,
+	LevelTooHigh        = 101,
+
+	// ── 통화/재화 (200~299) ───────────────────────────────────────────
+	NotEnoughGold       = 200,
+	NotEnoughRuby       = 201,
+	GoldOverflow        = 202,
+
+	// ── 인벤토리 (300~399) ────────────────────────────────────────────
+	InventoryFull       = 300,
+	ItemNotFound        = 301,
+	NotEnoughItem       = 302,
+	ItemLocked          = 303,
+	InvalidItemCount    = 304,
+
+	// ── 상점 (400~499) ────────────────────────────────────────────────
+	ShopNotFound        = 400,
+	ShopItemNotFound    = 401,
+	NotEnoughStock      = 402,
+
+	// ── 거래 (500~599) ────────────────────────────────────────────────
+	TradeNotFound       = 500,
+	TradeAlreadyExists  = 501,
+	TradeTargetBusy     = 502,
+	TradeAlreadyReady   = 503,
+	TradeNotReady       = 504,
+	TradeItemOwnership  = 505,
+	TradeCancelPenalty  = 506,
+
+	// ── 경매 (600~699) ────────────────────────────────────────────────
+	AuctionNotFound     = 600,
+	AuctionListingFull  = 601,
+	AuctionBidTooLow    = 602,
+	AuctionExpired      = 603,
+	AuctionNotSeller    = 604,
+	AuctionAlreadySold  = 605,
+	AuctionFeeNotEnough = 606,
+
+	// ── 제작 (700~799) ────────────────────────────────────────────────
+	RecipeNotFound      = 700,
+	CraftLevelTooLow    = 701,
+	CraftMaterialInsufficient = 702,
+	CraftFailed         = 703,
+
+	// ── 강화/인챈트 (800~899) ──────────────────────────────────────────
+	EnchantMaxLevel     = 800,
+	EnchantMaterialMissing = 801,
+	EnchantItemDestroyed = 802,
+	EnchantItemDowngraded = 803,
+	EnchantGoldInsufficient = 804,
 }
