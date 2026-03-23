@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2015 Дмитрий Бахвалов (Dmitry Bakhvalov)
  *
  * Permission for license update:
