@@ -1,4 +1,4 @@
-#ifndef __HIREDIS_EXAMPLE_QT_H
+﻿#ifndef __HIREDIS_EXAMPLE_QT_H
 #define __HIREDIS_EXAMPLE_QT_H
 
 #include <adapters/qt.h>
