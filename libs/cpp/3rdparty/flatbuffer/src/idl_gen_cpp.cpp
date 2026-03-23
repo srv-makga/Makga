@@ -1656,9 +1656,9 @@ class CppGenerator : public BaseGenerator {
       code_ += "";
 	  code_ += "inline {{ENUM_NAME}} EnumString{{ENUM_NAME}}(const char* const str) {";
 	  for (const auto& ev : enum_def.Vals()) {
-		code_ += "  if(strcmp(str, " + Name(*ev) + "))" + ": return \"" + GetEnumValUse(enum_def, *ev) + "\";";
+		code_ += "  if(0 == strcmp(str, \"" + Name(*ev) + "\"))" + " return " + GetEnumValUse(enum_def, *ev) + ";";
 	  }
-	  code_ += "  return " + Name(*enum_def.MinValue());
+	  code_ += "  return " + GetEnumValUse(enum_def, *enum_def.MinValue()) + ";";
 	  code_ += "}";
 	  code_ += "";
     }
