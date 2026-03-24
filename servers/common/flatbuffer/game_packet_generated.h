@@ -501,7 +501,7 @@ inline ::flatbuffers::Offset<ItemInfo> CreateItemInfo(
     int16_t refine_level = 0,
     bool is_locked = false,
     int32_t slot_index = -1,
-    makga::EquipSlot equip_slot = makga::EquipSlot::None,
+    makga::EquipSlot equip_slot = makga::EquipSlot_None,
     int64_t expire_time = 0) {
   ItemInfoBuilder builder_(_fbb);
   builder_.add_expire_time(expire_time);
@@ -656,7 +656,7 @@ struct BuffInfoBuilder {
 inline ::flatbuffers::Offset<BuffInfo> CreateBuffInfo(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     int64_t buff_idx = 0,
-    makga::StatusEffectType buff_type = makga::StatusEffectType::Bleed,
+    makga::StatusEffectType buff_type = makga::StatusEffectType_Bleed,
     int32_t duration_ms = 0,
     int32_t stack = 1,
     uint64_t caster_id = 0) {
@@ -773,7 +773,7 @@ inline ::flatbuffers::Offset<PartyMemberInfo> CreatePartyMemberInfo(
     uint64_t actor_id = 0,
     ::flatbuffers::Offset<::flatbuffers::String> name = 0,
     int32_t level = 0,
-    makga::JobType job = makga::JobType::None,
+    makga::JobType job = makga::JobType_None,
     int64_t cur_hp = 0,
     int64_t max_hp = 0,
     int64_t cur_mp = 0,
@@ -797,7 +797,7 @@ inline ::flatbuffers::Offset<PartyMemberInfo> CreatePartyMemberInfoDirect(
     uint64_t actor_id = 0,
     const char *name = nullptr,
     int32_t level = 0,
-    makga::JobType job = makga::JobType::None,
+    makga::JobType job = makga::JobType_None,
     int64_t cur_hp = 0,
     int64_t max_hp = 0,
     int64_t cur_mp = 0,
@@ -977,7 +977,7 @@ inline ::flatbuffers::Offset<FriendInfo> CreateFriendInfo(
     uint64_t user_uid = 0,
     ::flatbuffers::Offset<::flatbuffers::String> name = 0,
     int32_t level = 0,
-    makga::JobType job = makga::JobType::None,
+    makga::JobType job = makga::JobType_None,
     bool is_online = false,
     bool is_blocked = false,
     int64_t last_login = 0) {
@@ -997,7 +997,7 @@ inline ::flatbuffers::Offset<FriendInfo> CreateFriendInfoDirect(
     uint64_t user_uid = 0,
     const char *name = nullptr,
     int32_t level = 0,
-    makga::JobType job = makga::JobType::None,
+    makga::JobType job = makga::JobType_None,
     bool is_online = false,
     bool is_blocked = false,
     int64_t last_login = 0) {
@@ -1242,7 +1242,7 @@ inline ::flatbuffers::Offset<RankingEntry> CreateRankingEntry(
     uint64_t user_uid = 0,
     ::flatbuffers::Offset<::flatbuffers::String> name = 0,
     int32_t level = 0,
-    makga::JobType job = makga::JobType::None,
+    makga::JobType job = makga::JobType_None,
     int64_t score = 0) {
   RankingEntryBuilder builder_(_fbb);
   builder_.add_score(score);
@@ -1260,7 +1260,7 @@ inline ::flatbuffers::Offset<RankingEntry> CreateRankingEntryDirect(
     uint64_t user_uid = 0,
     const char *name = nullptr,
     int32_t level = 0,
-    makga::JobType job = makga::JobType::None,
+    makga::JobType job = makga::JobType_None,
     int64_t score = 0) {
   auto name__ = name ? _fbb.CreateString(name) : 0;
   return makga::CreateRankingEntry(
@@ -1345,7 +1345,7 @@ inline ::flatbuffers::Offset<C2S_Move> CreateC2S_Move(
     float y = 0.0f,
     float z = 0.0f,
     float yaw = 0.0f,
-    makga::MoveType move_type = makga::MoveType::Walk) {
+    makga::MoveType move_type = makga::MoveType_Walk) {
   C2S_MoveBuilder builder_(_fbb);
   builder_.add_move_type(move_type);
   builder_.add_yaw(yaw);
@@ -1436,7 +1436,7 @@ inline ::flatbuffers::Offset<S2C_Move> CreateS2C_Move(
     float y = 0.0f,
     float z = 0.0f,
     float yaw = 0.0f,
-    makga::MoveType move_type = makga::MoveType::Walk) {
+    makga::MoveType move_type = makga::MoveType_Walk) {
   S2C_MoveBuilder builder_(_fbb);
   builder_.add_actor_id(actor_id);
   builder_.add_move_type(move_type);
@@ -1578,7 +1578,7 @@ inline ::flatbuffers::Offset<S2C_AttackResult> CreateS2C_AttackResult(
     int64_t damage = 0,
     bool is_critical = false,
     bool is_miss = false,
-    makga::DamageType damage_type = makga::DamageType::Physical,
+    makga::DamageType damage_type = makga::DamageType_Physical,
     int64_t target_cur_hp = 0) {
   S2C_AttackResultBuilder builder_(_fbb);
   builder_.add_target_cur_hp(target_cur_hp);
@@ -1969,7 +1969,7 @@ inline ::flatbuffers::Offset<S2C_BuffRemove> CreateS2C_BuffRemove(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint64_t actor_id = 0,
     int64_t buff_idx = 0,
-    makga::StatusEffectType buff_type = makga::StatusEffectType::Bleed) {
+    makga::StatusEffectType buff_type = makga::StatusEffectType_Bleed) {
   S2C_BuffRemoveBuilder builder_(_fbb);
   builder_.add_buff_idx(buff_idx);
   builder_.add_actor_id(actor_id);
@@ -2502,7 +2502,7 @@ struct S2C_ItemUseBuilder {
 
 inline ::flatbuffers::Offset<S2C_ItemUse> CreateS2C_ItemUse(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     uint64_t item_uid = 0,
     int64_t remaining = 0) {
   S2C_ItemUseBuilder builder_(_fbb);
@@ -2723,7 +2723,7 @@ struct C2S_EquipItemBuilder {
 inline ::flatbuffers::Offset<C2S_EquipItem> CreateC2S_EquipItem(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint64_t item_uid = 0,
-    makga::EquipSlot equip_slot = makga::EquipSlot::None) {
+    makga::EquipSlot equip_slot = makga::EquipSlot_None) {
   C2S_EquipItemBuilder builder_(_fbb);
   builder_.add_item_uid(item_uid);
   builder_.add_equip_slot(equip_slot);
@@ -2766,7 +2766,7 @@ struct C2S_UnequipItemBuilder {
 
 inline ::flatbuffers::Offset<C2S_UnequipItem> CreateC2S_UnequipItem(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::EquipSlot equip_slot = makga::EquipSlot::None) {
+    makga::EquipSlot equip_slot = makga::EquipSlot_None) {
   C2S_UnequipItemBuilder builder_(_fbb);
   builder_.add_equip_slot(equip_slot);
   return builder_.Finish();
@@ -2922,7 +2922,7 @@ struct S2C_ShopListBuilder {
 inline ::flatbuffers::Offset<S2C_ShopList> CreateS2C_ShopList(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     int64_t shop_idx = 0,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<makga::ShopItemInfo>>> items = 0) {
   S2C_ShopListBuilder builder_(_fbb);
   builder_.add_shop_idx(shop_idx);
@@ -2934,7 +2934,7 @@ inline ::flatbuffers::Offset<S2C_ShopList> CreateS2C_ShopList(
 inline ::flatbuffers::Offset<S2C_ShopList> CreateS2C_ShopListDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     int64_t shop_idx = 0,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     const std::vector<::flatbuffers::Offset<makga::ShopItemInfo>> *items = nullptr) {
   auto items__ = items ? _fbb.CreateVector<::flatbuffers::Offset<makga::ShopItemInfo>>(*items) : 0;
   return makga::CreateS2C_ShopList(
@@ -3023,7 +3023,7 @@ inline ::flatbuffers::Offset<ShopItemInfo> CreateShopItemInfo(
     int64_t shop_item_idx = 0,
     int64_t item_idx = 0,
     int64_t price = 0,
-    makga::CurrencyType currency_type = makga::CurrencyType::Gold,
+    makga::CurrencyType currency_type = makga::CurrencyType_Gold,
     int32_t stock = 0,
     int32_t required_level = 0) {
   ShopItemInfoBuilder builder_(_fbb);
@@ -3159,8 +3159,8 @@ struct S2C_ShopResultBuilder {
 
 inline ::flatbuffers::Offset<S2C_ShopResult> CreateS2C_ShopResult(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::Result result = makga::Result::Success,
-    makga::CurrencyType currency_type = makga::CurrencyType::Gold,
+    makga::Result result = makga::Result_Success,
+    makga::CurrencyType currency_type = makga::CurrencyType_Gold,
     int64_t remaining_gold = 0,
     ::flatbuffers::Offset<makga::ItemInfo> item_info = 0) {
   S2C_ShopResultBuilder builder_(_fbb);
@@ -3761,7 +3761,7 @@ struct S2C_TradeResultBuilder {
 
 inline ::flatbuffers::Offset<S2C_TradeResult> CreateS2C_TradeResult(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     uint64_t trade_id = 0) {
   S2C_TradeResultBuilder builder_(_fbb);
   builder_.add_trade_id(trade_id);
@@ -3855,10 +3855,10 @@ struct C2S_AuctionSearchBuilder {
 inline ::flatbuffers::Offset<C2S_AuctionSearch> CreateC2S_AuctionSearch(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<::flatbuffers::String> item_name = 0,
-    makga::ItemType item_type = makga::ItemType::None,
+    makga::ItemType item_type = makga::ItemType_None,
     int32_t min_level = 0,
     int32_t max_level = 9999,
-    makga::GradeType grade = makga::GradeType::Normal,
+    makga::GradeType grade = makga::GradeType_Normal,
     int32_t sort_type = 0,
     int32_t page = 0) {
   C2S_AuctionSearchBuilder builder_(_fbb);
@@ -3875,10 +3875,10 @@ inline ::flatbuffers::Offset<C2S_AuctionSearch> CreateC2S_AuctionSearch(
 inline ::flatbuffers::Offset<C2S_AuctionSearch> CreateC2S_AuctionSearchDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     const char *item_name = nullptr,
-    makga::ItemType item_type = makga::ItemType::None,
+    makga::ItemType item_type = makga::ItemType_None,
     int32_t min_level = 0,
     int32_t max_level = 9999,
-    makga::GradeType grade = makga::GradeType::Normal,
+    makga::GradeType grade = makga::GradeType_Normal,
     int32_t sort_type = 0,
     int32_t page = 0) {
   auto item_name__ = item_name ? _fbb.CreateString(item_name) : 0;
@@ -3955,7 +3955,7 @@ struct S2C_AuctionListBuilder {
 
 inline ::flatbuffers::Offset<S2C_AuctionList> CreateS2C_AuctionList(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<makga::AuctionItemInfo>>> items = 0,
     int32_t total_count = 0,
     int32_t page = 0) {
@@ -3969,7 +3969,7 @@ inline ::flatbuffers::Offset<S2C_AuctionList> CreateS2C_AuctionList(
 
 inline ::flatbuffers::Offset<S2C_AuctionList> CreateS2C_AuctionListDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     const std::vector<::flatbuffers::Offset<makga::AuctionItemInfo>> *items = nullptr,
     int32_t total_count = 0,
     int32_t page = 0) {
@@ -4252,7 +4252,7 @@ struct S2C_AuctionResultBuilder {
 
 inline ::flatbuffers::Offset<S2C_AuctionResult> CreateS2C_AuctionResult(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     uint64_t auction_id = 0,
     int64_t remaining_gold = 0) {
   S2C_AuctionResultBuilder builder_(_fbb);
@@ -4298,7 +4298,7 @@ struct C2S_CraftListBuilder {
 
 inline ::flatbuffers::Offset<C2S_CraftList> CreateC2S_CraftList(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::CraftType craft_type = makga::CraftType::Blacksmithing) {
+    makga::CraftType craft_type = makga::CraftType_Blacksmithing) {
   C2S_CraftListBuilder builder_(_fbb);
   builder_.add_craft_type(craft_type);
   return builder_.Finish();
@@ -4350,7 +4350,7 @@ struct S2C_CraftListBuilder {
 
 inline ::flatbuffers::Offset<S2C_CraftList> CreateS2C_CraftList(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::CraftType craft_type = makga::CraftType::Blacksmithing,
+    makga::CraftType craft_type = makga::CraftType_Blacksmithing,
     ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<makga::CraftRecipeInfo>>> recipes = 0) {
   S2C_CraftListBuilder builder_(_fbb);
   builder_.add_recipes(recipes);
@@ -4360,7 +4360,7 @@ inline ::flatbuffers::Offset<S2C_CraftList> CreateS2C_CraftList(
 
 inline ::flatbuffers::Offset<S2C_CraftList> CreateS2C_CraftListDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::CraftType craft_type = makga::CraftType::Blacksmithing,
+    makga::CraftType craft_type = makga::CraftType_Blacksmithing,
     const std::vector<::flatbuffers::Offset<makga::CraftRecipeInfo>> *recipes = nullptr) {
   auto recipes__ = recipes ? _fbb.CreateVector<::flatbuffers::Offset<makga::CraftRecipeInfo>>(*recipes) : 0;
   return makga::CreateS2C_CraftList(
@@ -4460,7 +4460,7 @@ inline ::flatbuffers::Offset<CraftRecipeInfo> CreateCraftRecipeInfo(
     int32_t result_count = 0,
     float success_rate = 0.0f,
     int32_t craft_level_req = 0,
-    makga::CraftType craft_type = makga::CraftType::Blacksmithing,
+    makga::CraftType craft_type = makga::CraftType_Blacksmithing,
     ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<makga::CraftMaterialInfo>>> materials = 0) {
   CraftRecipeInfoBuilder builder_(_fbb);
   builder_.add_result_item_idx(result_item_idx);
@@ -4480,7 +4480,7 @@ inline ::flatbuffers::Offset<CraftRecipeInfo> CreateCraftRecipeInfoDirect(
     int32_t result_count = 0,
     float success_rate = 0.0f,
     int32_t craft_level_req = 0,
-    makga::CraftType craft_type = makga::CraftType::Blacksmithing,
+    makga::CraftType craft_type = makga::CraftType_Blacksmithing,
     const std::vector<::flatbuffers::Offset<makga::CraftMaterialInfo>> *materials = nullptr) {
   auto materials__ = materials ? _fbb.CreateVector<::flatbuffers::Offset<makga::CraftMaterialInfo>>(*materials) : 0;
   return makga::CreateCraftRecipeInfo(
@@ -4677,7 +4677,7 @@ struct S2C_CraftResultBuilder {
 
 inline ::flatbuffers::Offset<S2C_CraftResult> CreateS2C_CraftResult(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     int64_t recipe_idx = 0,
     bool success = false,
     ::flatbuffers::Offset<makga::ItemInfo> result_item = 0,
@@ -4837,7 +4837,7 @@ struct S2C_EnchantResultBuilder {
 
 inline ::flatbuffers::Offset<S2C_EnchantResult> CreateS2C_EnchantResult(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     uint64_t item_uid = 0,
     int16_t new_refine_level = 0,
     bool success = false,
@@ -5208,9 +5208,9 @@ inline ::flatbuffers::Offset<S2C_PartyInfo> CreateS2C_PartyInfo(
     uint64_t party_id = 0,
     uint64_t leader_id = 0,
     ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<makga::PartyMemberInfo>>> members = 0,
-    makga::LootType loot_type = makga::LootType::FreeForAll,
-    makga::ExpShareType exp_share_type = makga::ExpShareType::Equal,
-    makga::PartyState state = makga::PartyState::Idle) {
+    makga::LootType loot_type = makga::LootType_FreeForAll,
+    makga::ExpShareType exp_share_type = makga::ExpShareType_Equal,
+    makga::PartyState state = makga::PartyState_Idle) {
   S2C_PartyInfoBuilder builder_(_fbb);
   builder_.add_leader_id(leader_id);
   builder_.add_party_id(party_id);
@@ -5226,9 +5226,9 @@ inline ::flatbuffers::Offset<S2C_PartyInfo> CreateS2C_PartyInfoDirect(
     uint64_t party_id = 0,
     uint64_t leader_id = 0,
     const std::vector<::flatbuffers::Offset<makga::PartyMemberInfo>> *members = nullptr,
-    makga::LootType loot_type = makga::LootType::FreeForAll,
-    makga::ExpShareType exp_share_type = makga::ExpShareType::Equal,
-    makga::PartyState state = makga::PartyState::Idle) {
+    makga::LootType loot_type = makga::LootType_FreeForAll,
+    makga::ExpShareType exp_share_type = makga::ExpShareType_Equal,
+    makga::PartyState state = makga::PartyState_Idle) {
   auto members__ = members ? _fbb.CreateVector<::flatbuffers::Offset<makga::PartyMemberInfo>>(*members) : 0;
   return makga::CreateS2C_PartyInfo(
       _fbb,
@@ -5410,7 +5410,7 @@ struct C2S_PartyLootChangeBuilder {
 
 inline ::flatbuffers::Offset<C2S_PartyLootChange> CreateC2S_PartyLootChange(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::LootType loot_type = makga::LootType::FreeForAll) {
+    makga::LootType loot_type = makga::LootType_FreeForAll) {
   C2S_PartyLootChangeBuilder builder_(_fbb);
   builder_.add_loot_type(loot_type);
   return builder_.Finish();
@@ -5903,7 +5903,7 @@ inline ::flatbuffers::Offset<S2C_GuildInfo> CreateS2C_GuildInfo(
     int64_t guild_exp = 0,
     int64_t treasury_gold = 0,
     ::flatbuffers::Offset<::flatbuffers::String> notice = 0,
-    makga::Result result = makga::Result::Success) {
+    makga::Result result = makga::Result_Success) {
   S2C_GuildInfoBuilder builder_(_fbb);
   builder_.add_treasury_gold(treasury_gold);
   builder_.add_guild_exp(guild_exp);
@@ -5931,7 +5931,7 @@ inline ::flatbuffers::Offset<S2C_GuildInfo> CreateS2C_GuildInfoDirect(
     int64_t guild_exp = 0,
     int64_t treasury_gold = 0,
     const char *notice = nullptr,
-    makga::Result result = makga::Result::Success) {
+    makga::Result result = makga::Result_Success) {
   auto guild_name__ = guild_name ? _fbb.CreateString(guild_name) : 0;
   auto master_name__ = master_name ? _fbb.CreateString(master_name) : 0;
   auto notice__ = notice ? _fbb.CreateString(notice) : 0;
@@ -6111,7 +6111,7 @@ inline ::flatbuffers::Offset<GuildMemberInfo> CreateGuildMemberInfo(
     uint64_t user_uid = 0,
     ::flatbuffers::Offset<::flatbuffers::String> name = 0,
     int32_t level = 0,
-    makga::JobType job = makga::JobType::None,
+    makga::JobType job = makga::JobType_None,
     int32_t guild_rank = 0,
     int64_t contribution = 0,
     bool is_online = false,
@@ -6133,7 +6133,7 @@ inline ::flatbuffers::Offset<GuildMemberInfo> CreateGuildMemberInfoDirect(
     uint64_t user_uid = 0,
     const char *name = nullptr,
     int32_t level = 0,
-    makga::JobType job = makga::JobType::None,
+    makga::JobType job = makga::JobType_None,
     int32_t guild_rank = 0,
     int64_t contribution = 0,
     bool is_online = false,
@@ -6403,7 +6403,7 @@ struct S2C_GuildTreasuryResultBuilder {
 
 inline ::flatbuffers::Offset<S2C_GuildTreasuryResult> CreateS2C_GuildTreasuryResult(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     int64_t treasury_gold = 0,
     int64_t my_gold = 0) {
   S2C_GuildTreasuryResultBuilder builder_(_fbb);
@@ -6566,7 +6566,7 @@ struct S2C_DungeonEnterRespBuilder {
 
 inline ::flatbuffers::Offset<S2C_DungeonEnterResp> CreateS2C_DungeonEnterResp(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     uint64_t instance_id = 0,
     int64_t dungeon_idx = 0,
     ::flatbuffers::Offset<::flatbuffers::String> map_id = 0,
@@ -6590,7 +6590,7 @@ inline ::flatbuffers::Offset<S2C_DungeonEnterResp> CreateS2C_DungeonEnterResp(
 
 inline ::flatbuffers::Offset<S2C_DungeonEnterResp> CreateS2C_DungeonEnterRespDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     uint64_t instance_id = 0,
     int64_t dungeon_idx = 0,
     const char *map_id = nullptr,
@@ -7141,7 +7141,7 @@ struct S2C_QuestCompleteBuilder {
 
 inline ::flatbuffers::Offset<S2C_QuestComplete> CreateS2C_QuestComplete(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     int64_t quest_idx = 0,
     int64_t exp_reward = 0,
     int64_t gold_reward = 0,
@@ -7157,7 +7157,7 @@ inline ::flatbuffers::Offset<S2C_QuestComplete> CreateS2C_QuestComplete(
 
 inline ::flatbuffers::Offset<S2C_QuestComplete> CreateS2C_QuestCompleteDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     int64_t quest_idx = 0,
     int64_t exp_reward = 0,
     int64_t gold_reward = 0,
@@ -8340,7 +8340,7 @@ inline ::flatbuffers::Offset<TitleInfo> CreateTitleInfo(
     int64_t title_idx = 0,
     ::flatbuffers::Offset<::flatbuffers::String> name = 0,
     ::flatbuffers::Offset<::flatbuffers::String> description = 0,
-    makga::StatType stat_bonus_type = makga::StatType::Strength,
+    makga::StatType stat_bonus_type = makga::StatType_Strength,
     float stat_bonus_val = 0.0f,
     bool is_equipped = false) {
   TitleInfoBuilder builder_(_fbb);
@@ -8358,7 +8358,7 @@ inline ::flatbuffers::Offset<TitleInfo> CreateTitleInfoDirect(
     int64_t title_idx = 0,
     const char *name = nullptr,
     const char *description = nullptr,
-    makga::StatType stat_bonus_type = makga::StatType::Strength,
+    makga::StatType stat_bonus_type = makga::StatType_Strength,
     float stat_bonus_val = 0.0f,
     bool is_equipped = false) {
   auto name__ = name ? _fbb.CreateString(name) : 0;
@@ -9095,7 +9095,7 @@ struct S2C_LegendaryForgeBuilder {
 
 inline ::flatbuffers::Offset<S2C_LegendaryForge> CreateS2C_LegendaryForge(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     ::flatbuffers::Offset<makga::ItemInfo> item_info = 0,
     ::flatbuffers::Offset<::flatbuffers::String> lore_text = 0) {
   S2C_LegendaryForgeBuilder builder_(_fbb);
@@ -9107,7 +9107,7 @@ inline ::flatbuffers::Offset<S2C_LegendaryForge> CreateS2C_LegendaryForge(
 
 inline ::flatbuffers::Offset<S2C_LegendaryForge> CreateS2C_LegendaryForgeDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    makga::Result result = makga::Result::Success,
+    makga::Result result = makga::Result_Success,
     ::flatbuffers::Offset<makga::ItemInfo> item_info = 0,
     const char *lore_text = nullptr) {
   auto lore_text__ = lore_text ? _fbb.CreateString(lore_text) : 0;

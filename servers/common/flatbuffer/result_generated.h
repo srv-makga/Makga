@@ -17,150 +17,197 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
 
 namespace makga {
 
-enum class Result : int32_t {
-  Success = 0,
-  Fail = 1,
-  InvalidRequest = 10,
-  NotFound = 11,
-  AccessDenied = 12,
-  SystemError = 13,
-  SessionExpired = 14,
-  NotEnoughLevel = 100,
-  LevelTooHigh = 101,
-  NotEnoughGold = 200,
-  NotEnoughRuby = 201,
-  GoldOverflow = 202,
-  InventoryFull = 300,
-  ItemNotFound = 301,
-  NotEnoughItem = 302,
-  ItemLocked = 303,
-  InvalidItemCount = 304,
-  ShopNotFound = 400,
-  ShopItemNotFound = 401,
-  NotEnoughStock = 402,
-  TradeNotFound = 500,
-  TradeAlreadyExists = 501,
-  TradeTargetBusy = 502,
-  TradeAlreadyReady = 503,
-  TradeNotReady = 504,
-  TradeItemOwnership = 505,
-  TradeCancelPenalty = 506,
-  AuctionNotFound = 600,
-  AuctionListingFull = 601,
-  AuctionBidTooLow = 602,
-  AuctionExpired = 603,
-  AuctionNotSeller = 604,
-  AuctionAlreadySold = 605,
-  AuctionFeeNotEnough = 606,
-  RecipeNotFound = 700,
-  CraftLevelTooLow = 701,
-  CraftMaterialInsufficient = 702,
-  CraftFailed = 703,
-  EnchantMaxLevel = 800,
-  EnchantMaterialMissing = 801,
-  EnchantItemDestroyed = 802,
-  EnchantItemDowngraded = 803,
-  EnchantGoldInsufficient = 804,
-  MIN = Success,
-  MAX = EnchantGoldInsufficient
+enum Result : int32_t {
+  Result_Success = 0,
+  Result_Fail = 1,
+  Result_InvalidRequest = 10,
+  Result_NotFound = 11,
+  Result_AccessDenied = 12,
+  Result_SystemError = 13,
+  Result_SessionExpired = 14,
+  Result_NotEnoughLevel = 100,
+  Result_LevelTooHigh = 101,
+  Result_NotEnoughGold = 200,
+  Result_NotEnoughRuby = 201,
+  Result_GoldOverflow = 202,
+  Result_InventoryFull = 300,
+  Result_ItemNotFound = 301,
+  Result_NotEnoughItem = 302,
+  Result_ItemLocked = 303,
+  Result_InvalidItemCount = 304,
+  Result_ShopNotFound = 400,
+  Result_ShopItemNotFound = 401,
+  Result_NotEnoughStock = 402,
+  Result_TradeNotFound = 500,
+  Result_TradeAlreadyExists = 501,
+  Result_TradeTargetBusy = 502,
+  Result_TradeAlreadyReady = 503,
+  Result_TradeNotReady = 504,
+  Result_TradeItemOwnership = 505,
+  Result_TradeCancelPenalty = 506,
+  Result_AuctionNotFound = 600,
+  Result_AuctionListingFull = 601,
+  Result_AuctionBidTooLow = 602,
+  Result_AuctionExpired = 603,
+  Result_AuctionNotSeller = 604,
+  Result_AuctionAlreadySold = 605,
+  Result_AuctionFeeNotEnough = 606,
+  Result_RecipeNotFound = 700,
+  Result_CraftLevelTooLow = 701,
+  Result_CraftMaterialInsufficient = 702,
+  Result_CraftFailed = 703,
+  Result_EnchantMaxLevel = 800,
+  Result_EnchantMaterialMissing = 801,
+  Result_EnchantItemDestroyed = 802,
+  Result_EnchantItemDowngraded = 803,
+  Result_EnchantGoldInsufficient = 804,
+  Result_MIN = Result_Success,
+  Result_MAX = Result_EnchantGoldInsufficient
 };
 
 inline const Result (&EnumValuesResult())[43] {
   static const Result values[] = {
-    Result::Success,
-    Result::Fail,
-    Result::InvalidRequest,
-    Result::NotFound,
-    Result::AccessDenied,
-    Result::SystemError,
-    Result::SessionExpired,
-    Result::NotEnoughLevel,
-    Result::LevelTooHigh,
-    Result::NotEnoughGold,
-    Result::NotEnoughRuby,
-    Result::GoldOverflow,
-    Result::InventoryFull,
-    Result::ItemNotFound,
-    Result::NotEnoughItem,
-    Result::ItemLocked,
-    Result::InvalidItemCount,
-    Result::ShopNotFound,
-    Result::ShopItemNotFound,
-    Result::NotEnoughStock,
-    Result::TradeNotFound,
-    Result::TradeAlreadyExists,
-    Result::TradeTargetBusy,
-    Result::TradeAlreadyReady,
-    Result::TradeNotReady,
-    Result::TradeItemOwnership,
-    Result::TradeCancelPenalty,
-    Result::AuctionNotFound,
-    Result::AuctionListingFull,
-    Result::AuctionBidTooLow,
-    Result::AuctionExpired,
-    Result::AuctionNotSeller,
-    Result::AuctionAlreadySold,
-    Result::AuctionFeeNotEnough,
-    Result::RecipeNotFound,
-    Result::CraftLevelTooLow,
-    Result::CraftMaterialInsufficient,
-    Result::CraftFailed,
-    Result::EnchantMaxLevel,
-    Result::EnchantMaterialMissing,
-    Result::EnchantItemDestroyed,
-    Result::EnchantItemDowngraded,
-    Result::EnchantGoldInsufficient
+    Result_Success,
+    Result_Fail,
+    Result_InvalidRequest,
+    Result_NotFound,
+    Result_AccessDenied,
+    Result_SystemError,
+    Result_SessionExpired,
+    Result_NotEnoughLevel,
+    Result_LevelTooHigh,
+    Result_NotEnoughGold,
+    Result_NotEnoughRuby,
+    Result_GoldOverflow,
+    Result_InventoryFull,
+    Result_ItemNotFound,
+    Result_NotEnoughItem,
+    Result_ItemLocked,
+    Result_InvalidItemCount,
+    Result_ShopNotFound,
+    Result_ShopItemNotFound,
+    Result_NotEnoughStock,
+    Result_TradeNotFound,
+    Result_TradeAlreadyExists,
+    Result_TradeTargetBusy,
+    Result_TradeAlreadyReady,
+    Result_TradeNotReady,
+    Result_TradeItemOwnership,
+    Result_TradeCancelPenalty,
+    Result_AuctionNotFound,
+    Result_AuctionListingFull,
+    Result_AuctionBidTooLow,
+    Result_AuctionExpired,
+    Result_AuctionNotSeller,
+    Result_AuctionAlreadySold,
+    Result_AuctionFeeNotEnough,
+    Result_RecipeNotFound,
+    Result_CraftLevelTooLow,
+    Result_CraftMaterialInsufficient,
+    Result_CraftFailed,
+    Result_EnchantMaxLevel,
+    Result_EnchantMaterialMissing,
+    Result_EnchantItemDestroyed,
+    Result_EnchantItemDowngraded,
+    Result_EnchantGoldInsufficient
   };
   return values;
 }
 
 inline const char *EnumNameResult(Result e) {
   switch (e) {
-    case Result::Success: return "Success";
-    case Result::Fail: return "Fail";
-    case Result::InvalidRequest: return "InvalidRequest";
-    case Result::NotFound: return "NotFound";
-    case Result::AccessDenied: return "AccessDenied";
-    case Result::SystemError: return "SystemError";
-    case Result::SessionExpired: return "SessionExpired";
-    case Result::NotEnoughLevel: return "NotEnoughLevel";
-    case Result::LevelTooHigh: return "LevelTooHigh";
-    case Result::NotEnoughGold: return "NotEnoughGold";
-    case Result::NotEnoughRuby: return "NotEnoughRuby";
-    case Result::GoldOverflow: return "GoldOverflow";
-    case Result::InventoryFull: return "InventoryFull";
-    case Result::ItemNotFound: return "ItemNotFound";
-    case Result::NotEnoughItem: return "NotEnoughItem";
-    case Result::ItemLocked: return "ItemLocked";
-    case Result::InvalidItemCount: return "InvalidItemCount";
-    case Result::ShopNotFound: return "ShopNotFound";
-    case Result::ShopItemNotFound: return "ShopItemNotFound";
-    case Result::NotEnoughStock: return "NotEnoughStock";
-    case Result::TradeNotFound: return "TradeNotFound";
-    case Result::TradeAlreadyExists: return "TradeAlreadyExists";
-    case Result::TradeTargetBusy: return "TradeTargetBusy";
-    case Result::TradeAlreadyReady: return "TradeAlreadyReady";
-    case Result::TradeNotReady: return "TradeNotReady";
-    case Result::TradeItemOwnership: return "TradeItemOwnership";
-    case Result::TradeCancelPenalty: return "TradeCancelPenalty";
-    case Result::AuctionNotFound: return "AuctionNotFound";
-    case Result::AuctionListingFull: return "AuctionListingFull";
-    case Result::AuctionBidTooLow: return "AuctionBidTooLow";
-    case Result::AuctionExpired: return "AuctionExpired";
-    case Result::AuctionNotSeller: return "AuctionNotSeller";
-    case Result::AuctionAlreadySold: return "AuctionAlreadySold";
-    case Result::AuctionFeeNotEnough: return "AuctionFeeNotEnough";
-    case Result::RecipeNotFound: return "RecipeNotFound";
-    case Result::CraftLevelTooLow: return "CraftLevelTooLow";
-    case Result::CraftMaterialInsufficient: return "CraftMaterialInsufficient";
-    case Result::CraftFailed: return "CraftFailed";
-    case Result::EnchantMaxLevel: return "EnchantMaxLevel";
-    case Result::EnchantMaterialMissing: return "EnchantMaterialMissing";
-    case Result::EnchantItemDestroyed: return "EnchantItemDestroyed";
-    case Result::EnchantItemDowngraded: return "EnchantItemDowngraded";
-    case Result::EnchantGoldInsufficient: return "EnchantGoldInsufficient";
+    case Result_Success: return "Success";
+    case Result_Fail: return "Fail";
+    case Result_InvalidRequest: return "InvalidRequest";
+    case Result_NotFound: return "NotFound";
+    case Result_AccessDenied: return "AccessDenied";
+    case Result_SystemError: return "SystemError";
+    case Result_SessionExpired: return "SessionExpired";
+    case Result_NotEnoughLevel: return "NotEnoughLevel";
+    case Result_LevelTooHigh: return "LevelTooHigh";
+    case Result_NotEnoughGold: return "NotEnoughGold";
+    case Result_NotEnoughRuby: return "NotEnoughRuby";
+    case Result_GoldOverflow: return "GoldOverflow";
+    case Result_InventoryFull: return "InventoryFull";
+    case Result_ItemNotFound: return "ItemNotFound";
+    case Result_NotEnoughItem: return "NotEnoughItem";
+    case Result_ItemLocked: return "ItemLocked";
+    case Result_InvalidItemCount: return "InvalidItemCount";
+    case Result_ShopNotFound: return "ShopNotFound";
+    case Result_ShopItemNotFound: return "ShopItemNotFound";
+    case Result_NotEnoughStock: return "NotEnoughStock";
+    case Result_TradeNotFound: return "TradeNotFound";
+    case Result_TradeAlreadyExists: return "TradeAlreadyExists";
+    case Result_TradeTargetBusy: return "TradeTargetBusy";
+    case Result_TradeAlreadyReady: return "TradeAlreadyReady";
+    case Result_TradeNotReady: return "TradeNotReady";
+    case Result_TradeItemOwnership: return "TradeItemOwnership";
+    case Result_TradeCancelPenalty: return "TradeCancelPenalty";
+    case Result_AuctionNotFound: return "AuctionNotFound";
+    case Result_AuctionListingFull: return "AuctionListingFull";
+    case Result_AuctionBidTooLow: return "AuctionBidTooLow";
+    case Result_AuctionExpired: return "AuctionExpired";
+    case Result_AuctionNotSeller: return "AuctionNotSeller";
+    case Result_AuctionAlreadySold: return "AuctionAlreadySold";
+    case Result_AuctionFeeNotEnough: return "AuctionFeeNotEnough";
+    case Result_RecipeNotFound: return "RecipeNotFound";
+    case Result_CraftLevelTooLow: return "CraftLevelTooLow";
+    case Result_CraftMaterialInsufficient: return "CraftMaterialInsufficient";
+    case Result_CraftFailed: return "CraftFailed";
+    case Result_EnchantMaxLevel: return "EnchantMaxLevel";
+    case Result_EnchantMaterialMissing: return "EnchantMaterialMissing";
+    case Result_EnchantItemDestroyed: return "EnchantItemDestroyed";
+    case Result_EnchantItemDowngraded: return "EnchantItemDowngraded";
+    case Result_EnchantGoldInsufficient: return "EnchantGoldInsufficient";
     default: return "";
   }
+}
+
+inline bool EnumStringResult(const char* const str, Result e) {
+  if(0 == strcmp(str, "Success")) { e = Result_Success; return true; }
+  if(0 == strcmp(str, "Fail")) { e = Result_Fail; return true; }
+  if(0 == strcmp(str, "InvalidRequest")) { e = Result_InvalidRequest; return true; }
+  if(0 == strcmp(str, "NotFound")) { e = Result_NotFound; return true; }
+  if(0 == strcmp(str, "AccessDenied")) { e = Result_AccessDenied; return true; }
+  if(0 == strcmp(str, "SystemError")) { e = Result_SystemError; return true; }
+  if(0 == strcmp(str, "SessionExpired")) { e = Result_SessionExpired; return true; }
+  if(0 == strcmp(str, "NotEnoughLevel")) { e = Result_NotEnoughLevel; return true; }
+  if(0 == strcmp(str, "LevelTooHigh")) { e = Result_LevelTooHigh; return true; }
+  if(0 == strcmp(str, "NotEnoughGold")) { e = Result_NotEnoughGold; return true; }
+  if(0 == strcmp(str, "NotEnoughRuby")) { e = Result_NotEnoughRuby; return true; }
+  if(0 == strcmp(str, "GoldOverflow")) { e = Result_GoldOverflow; return true; }
+  if(0 == strcmp(str, "InventoryFull")) { e = Result_InventoryFull; return true; }
+  if(0 == strcmp(str, "ItemNotFound")) { e = Result_ItemNotFound; return true; }
+  if(0 == strcmp(str, "NotEnoughItem")) { e = Result_NotEnoughItem; return true; }
+  if(0 == strcmp(str, "ItemLocked")) { e = Result_ItemLocked; return true; }
+  if(0 == strcmp(str, "InvalidItemCount")) { e = Result_InvalidItemCount; return true; }
+  if(0 == strcmp(str, "ShopNotFound")) { e = Result_ShopNotFound; return true; }
+  if(0 == strcmp(str, "ShopItemNotFound")) { e = Result_ShopItemNotFound; return true; }
+  if(0 == strcmp(str, "NotEnoughStock")) { e = Result_NotEnoughStock; return true; }
+  if(0 == strcmp(str, "TradeNotFound")) { e = Result_TradeNotFound; return true; }
+  if(0 == strcmp(str, "TradeAlreadyExists")) { e = Result_TradeAlreadyExists; return true; }
+  if(0 == strcmp(str, "TradeTargetBusy")) { e = Result_TradeTargetBusy; return true; }
+  if(0 == strcmp(str, "TradeAlreadyReady")) { e = Result_TradeAlreadyReady; return true; }
+  if(0 == strcmp(str, "TradeNotReady")) { e = Result_TradeNotReady; return true; }
+  if(0 == strcmp(str, "TradeItemOwnership")) { e = Result_TradeItemOwnership; return true; }
+  if(0 == strcmp(str, "TradeCancelPenalty")) { e = Result_TradeCancelPenalty; return true; }
+  if(0 == strcmp(str, "AuctionNotFound")) { e = Result_AuctionNotFound; return true; }
+  if(0 == strcmp(str, "AuctionListingFull")) { e = Result_AuctionListingFull; return true; }
+  if(0 == strcmp(str, "AuctionBidTooLow")) { e = Result_AuctionBidTooLow; return true; }
+  if(0 == strcmp(str, "AuctionExpired")) { e = Result_AuctionExpired; return true; }
+  if(0 == strcmp(str, "AuctionNotSeller")) { e = Result_AuctionNotSeller; return true; }
+  if(0 == strcmp(str, "AuctionAlreadySold")) { e = Result_AuctionAlreadySold; return true; }
+  if(0 == strcmp(str, "AuctionFeeNotEnough")) { e = Result_AuctionFeeNotEnough; return true; }
+  if(0 == strcmp(str, "RecipeNotFound")) { e = Result_RecipeNotFound; return true; }
+  if(0 == strcmp(str, "CraftLevelTooLow")) { e = Result_CraftLevelTooLow; return true; }
+  if(0 == strcmp(str, "CraftMaterialInsufficient")) { e = Result_CraftMaterialInsufficient; return true; }
+  if(0 == strcmp(str, "CraftFailed")) { e = Result_CraftFailed; return true; }
+  if(0 == strcmp(str, "EnchantMaxLevel")) { e = Result_EnchantMaxLevel; return true; }
+  if(0 == strcmp(str, "EnchantMaterialMissing")) { e = Result_EnchantMaterialMissing; return true; }
+  if(0 == strcmp(str, "EnchantItemDestroyed")) { e = Result_EnchantItemDestroyed; return true; }
+  if(0 == strcmp(str, "EnchantItemDowngraded")) { e = Result_EnchantItemDowngraded; return true; }
+  if(0 == strcmp(str, "EnchantGoldInsufficient")) { e = Result_EnchantGoldInsufficient; return true; }
+  return false;
 }
 
 }  // namespace makga

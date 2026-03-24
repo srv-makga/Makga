@@ -15,342 +15,453 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
 
 namespace makga {
 
-enum class PacketId : uint16_t {
-  None = 0,
-  Move = 1001,
-  Attack = 1101,
-  AttackResult = 1102,
-  SkillUse = 1103,
-  SkillResult = 1104,
-  SkillList = 1105,
-  BuffApply = 1106,
-  BuffRemove = 1107,
-  ActorDeath = 1108,
-  ActorResurrect = 1109,
-  HpMpSync = 1110,
-  InventoryList = 1201,
-  ItemPickup = 1202,
-  ItemDrop = 1203,
-  ItemUse = 1204,
-  ItemMove = 1205,
-  ItemSplit = 1206,
-  ItemLock = 1207,
-  EquipItem = 1208,
-  UnequipItem = 1209,
-  EquipList = 1210,
-  ShopOpen = 1301,
-  ShopBuy = 1302,
-  ShopSell = 1303,
-  ShopList = 1304,
-  TradeRequest = 1401,
-  TradeAccept = 1402,
-  TradeDecline = 1403,
-  TradeAddItem = 1404,
-  TradeRemoveItem = 1405,
-  TradeAddGold = 1406,
-  TradeReady = 1407,
-  TradeConfirm = 1408,
-  TradeCancel = 1409,
-  TradeResult = 1410,
-  AuctionSearch = 1501,
-  AuctionList = 1502,
-  AuctionRegister = 1503,
-  AuctionBid = 1504,
-  AuctionBuyNow = 1505,
-  AuctionCancel = 1506,
-  AuctionMyList = 1507,
-  AuctionResult = 1508,
-  CraftList = 1601,
-  CraftRequest = 1602,
-  CraftResult = 1603,
-  EnchantRequest = 1701,
-  EnchantResult = 1702,
-  PartyInvite = 1801,
-  PartyInviteResp = 1802,
-  PartyLeave = 1803,
-  PartyKick = 1804,
-  PartyDisband = 1805,
-  PartyInfo = 1806,
-  PartyMemberSync = 1807,
-  PartyLeaderChange = 1808,
-  PartyLootChange = 1809,
-  GuildCreate = 1901,
-  GuildDisband = 1902,
-  GuildInvite = 1903,
-  GuildInviteResp = 1904,
-  GuildLeave = 1905,
-  GuildKick = 1906,
-  GuildInfo = 1907,
-  GuildMemberList = 1908,
-  GuildRankChange = 1909,
-  GuildNotice = 1910,
-  GuildDeposit = 1911,
-  GuildWithdraw = 1912,
-  DungeonEnter = 2001,
-  DungeonEnterResp = 2002,
-  DungeonExit = 2003,
-  DungeonClear = 2004,
-  DungeonInfo = 2005,
-  BossPhaseChange = 2006,
-  QuestList = 2101,
-  QuestAccept = 2102,
-  QuestAbandon = 2103,
-  QuestComplete = 2104,
-  QuestProgress = 2105,
-  FriendList = 2201,
-  FriendAdd = 2202,
-  FriendAddResp = 2203,
-  FriendRemove = 2204,
-  FriendBlock = 2205,
-  FriendUnblock = 2206,
-  Whisper = 2207,
-  FriendOnline = 2208,
-  ChatNormal = 2301,
-  ChatZone = 2302,
-  ChatWorld = 2303,
-  ChatParty = 2304,
-  ChatGuild = 2305,
-  AchievementList = 2401,
-  AchievementUnlock = 2402,
-  TitleList = 2403,
-  TitleEquip = 2404,
-  TitleUnequip = 2405,
-  RankingList = 2501,
-  SeasonInfo = 2601,
-  SeasonReward = 2602,
-  SeasonMission = 2603,
-  HiddenQuestTrigger = 2701,
-  LegendaryForge = 2702,
-  FateFragment = 2703,
-  SecretDungeonUnlock = 2704,
-  MIN = None,
-  MAX = SecretDungeonUnlock
+enum PacketId : uint16_t {
+  PacketId_None = 0,
+  PacketId_Move = 1001,
+  PacketId_Attack = 1101,
+  PacketId_AttackResult = 1102,
+  PacketId_SkillUse = 1103,
+  PacketId_SkillResult = 1104,
+  PacketId_SkillList = 1105,
+  PacketId_BuffApply = 1106,
+  PacketId_BuffRemove = 1107,
+  PacketId_ActorDeath = 1108,
+  PacketId_ActorResurrect = 1109,
+  PacketId_HpMpSync = 1110,
+  PacketId_InventoryList = 1201,
+  PacketId_ItemPickup = 1202,
+  PacketId_ItemDrop = 1203,
+  PacketId_ItemUse = 1204,
+  PacketId_ItemMove = 1205,
+  PacketId_ItemSplit = 1206,
+  PacketId_ItemLock = 1207,
+  PacketId_EquipItem = 1208,
+  PacketId_UnequipItem = 1209,
+  PacketId_EquipList = 1210,
+  PacketId_ShopOpen = 1301,
+  PacketId_ShopBuy = 1302,
+  PacketId_ShopSell = 1303,
+  PacketId_ShopList = 1304,
+  PacketId_TradeRequest = 1401,
+  PacketId_TradeAccept = 1402,
+  PacketId_TradeDecline = 1403,
+  PacketId_TradeAddItem = 1404,
+  PacketId_TradeRemoveItem = 1405,
+  PacketId_TradeAddGold = 1406,
+  PacketId_TradeReady = 1407,
+  PacketId_TradeConfirm = 1408,
+  PacketId_TradeCancel = 1409,
+  PacketId_TradeResult = 1410,
+  PacketId_AuctionSearch = 1501,
+  PacketId_AuctionList = 1502,
+  PacketId_AuctionRegister = 1503,
+  PacketId_AuctionBid = 1504,
+  PacketId_AuctionBuyNow = 1505,
+  PacketId_AuctionCancel = 1506,
+  PacketId_AuctionMyList = 1507,
+  PacketId_AuctionResult = 1508,
+  PacketId_CraftList = 1601,
+  PacketId_CraftRequest = 1602,
+  PacketId_CraftResult = 1603,
+  PacketId_EnchantRequest = 1701,
+  PacketId_EnchantResult = 1702,
+  PacketId_PartyInvite = 1801,
+  PacketId_PartyInviteResp = 1802,
+  PacketId_PartyLeave = 1803,
+  PacketId_PartyKick = 1804,
+  PacketId_PartyDisband = 1805,
+  PacketId_PartyInfo = 1806,
+  PacketId_PartyMemberSync = 1807,
+  PacketId_PartyLeaderChange = 1808,
+  PacketId_PartyLootChange = 1809,
+  PacketId_GuildCreate = 1901,
+  PacketId_GuildDisband = 1902,
+  PacketId_GuildInvite = 1903,
+  PacketId_GuildInviteResp = 1904,
+  PacketId_GuildLeave = 1905,
+  PacketId_GuildKick = 1906,
+  PacketId_GuildInfo = 1907,
+  PacketId_GuildMemberList = 1908,
+  PacketId_GuildRankChange = 1909,
+  PacketId_GuildNotice = 1910,
+  PacketId_GuildDeposit = 1911,
+  PacketId_GuildWithdraw = 1912,
+  PacketId_DungeonEnter = 2001,
+  PacketId_DungeonEnterResp = 2002,
+  PacketId_DungeonExit = 2003,
+  PacketId_DungeonClear = 2004,
+  PacketId_DungeonInfo = 2005,
+  PacketId_BossPhaseChange = 2006,
+  PacketId_QuestList = 2101,
+  PacketId_QuestAccept = 2102,
+  PacketId_QuestAbandon = 2103,
+  PacketId_QuestComplete = 2104,
+  PacketId_QuestProgress = 2105,
+  PacketId_FriendList = 2201,
+  PacketId_FriendAdd = 2202,
+  PacketId_FriendAddResp = 2203,
+  PacketId_FriendRemove = 2204,
+  PacketId_FriendBlock = 2205,
+  PacketId_FriendUnblock = 2206,
+  PacketId_Whisper = 2207,
+  PacketId_FriendOnline = 2208,
+  PacketId_ChatNormal = 2301,
+  PacketId_ChatZone = 2302,
+  PacketId_ChatWorld = 2303,
+  PacketId_ChatParty = 2304,
+  PacketId_ChatGuild = 2305,
+  PacketId_AchievementList = 2401,
+  PacketId_AchievementUnlock = 2402,
+  PacketId_TitleList = 2403,
+  PacketId_TitleEquip = 2404,
+  PacketId_TitleUnequip = 2405,
+  PacketId_RankingList = 2501,
+  PacketId_SeasonInfo = 2601,
+  PacketId_SeasonReward = 2602,
+  PacketId_SeasonMission = 2603,
+  PacketId_HiddenQuestTrigger = 2701,
+  PacketId_LegendaryForge = 2702,
+  PacketId_FateFragment = 2703,
+  PacketId_SecretDungeonUnlock = 2704,
+  PacketId_MIN = PacketId_None,
+  PacketId_MAX = PacketId_SecretDungeonUnlock
 };
 
 inline const PacketId (&EnumValuesPacketId())[107] {
   static const PacketId values[] = {
-    PacketId::None,
-    PacketId::Move,
-    PacketId::Attack,
-    PacketId::AttackResult,
-    PacketId::SkillUse,
-    PacketId::SkillResult,
-    PacketId::SkillList,
-    PacketId::BuffApply,
-    PacketId::BuffRemove,
-    PacketId::ActorDeath,
-    PacketId::ActorResurrect,
-    PacketId::HpMpSync,
-    PacketId::InventoryList,
-    PacketId::ItemPickup,
-    PacketId::ItemDrop,
-    PacketId::ItemUse,
-    PacketId::ItemMove,
-    PacketId::ItemSplit,
-    PacketId::ItemLock,
-    PacketId::EquipItem,
-    PacketId::UnequipItem,
-    PacketId::EquipList,
-    PacketId::ShopOpen,
-    PacketId::ShopBuy,
-    PacketId::ShopSell,
-    PacketId::ShopList,
-    PacketId::TradeRequest,
-    PacketId::TradeAccept,
-    PacketId::TradeDecline,
-    PacketId::TradeAddItem,
-    PacketId::TradeRemoveItem,
-    PacketId::TradeAddGold,
-    PacketId::TradeReady,
-    PacketId::TradeConfirm,
-    PacketId::TradeCancel,
-    PacketId::TradeResult,
-    PacketId::AuctionSearch,
-    PacketId::AuctionList,
-    PacketId::AuctionRegister,
-    PacketId::AuctionBid,
-    PacketId::AuctionBuyNow,
-    PacketId::AuctionCancel,
-    PacketId::AuctionMyList,
-    PacketId::AuctionResult,
-    PacketId::CraftList,
-    PacketId::CraftRequest,
-    PacketId::CraftResult,
-    PacketId::EnchantRequest,
-    PacketId::EnchantResult,
-    PacketId::PartyInvite,
-    PacketId::PartyInviteResp,
-    PacketId::PartyLeave,
-    PacketId::PartyKick,
-    PacketId::PartyDisband,
-    PacketId::PartyInfo,
-    PacketId::PartyMemberSync,
-    PacketId::PartyLeaderChange,
-    PacketId::PartyLootChange,
-    PacketId::GuildCreate,
-    PacketId::GuildDisband,
-    PacketId::GuildInvite,
-    PacketId::GuildInviteResp,
-    PacketId::GuildLeave,
-    PacketId::GuildKick,
-    PacketId::GuildInfo,
-    PacketId::GuildMemberList,
-    PacketId::GuildRankChange,
-    PacketId::GuildNotice,
-    PacketId::GuildDeposit,
-    PacketId::GuildWithdraw,
-    PacketId::DungeonEnter,
-    PacketId::DungeonEnterResp,
-    PacketId::DungeonExit,
-    PacketId::DungeonClear,
-    PacketId::DungeonInfo,
-    PacketId::BossPhaseChange,
-    PacketId::QuestList,
-    PacketId::QuestAccept,
-    PacketId::QuestAbandon,
-    PacketId::QuestComplete,
-    PacketId::QuestProgress,
-    PacketId::FriendList,
-    PacketId::FriendAdd,
-    PacketId::FriendAddResp,
-    PacketId::FriendRemove,
-    PacketId::FriendBlock,
-    PacketId::FriendUnblock,
-    PacketId::Whisper,
-    PacketId::FriendOnline,
-    PacketId::ChatNormal,
-    PacketId::ChatZone,
-    PacketId::ChatWorld,
-    PacketId::ChatParty,
-    PacketId::ChatGuild,
-    PacketId::AchievementList,
-    PacketId::AchievementUnlock,
-    PacketId::TitleList,
-    PacketId::TitleEquip,
-    PacketId::TitleUnequip,
-    PacketId::RankingList,
-    PacketId::SeasonInfo,
-    PacketId::SeasonReward,
-    PacketId::SeasonMission,
-    PacketId::HiddenQuestTrigger,
-    PacketId::LegendaryForge,
-    PacketId::FateFragment,
-    PacketId::SecretDungeonUnlock
+    PacketId_None,
+    PacketId_Move,
+    PacketId_Attack,
+    PacketId_AttackResult,
+    PacketId_SkillUse,
+    PacketId_SkillResult,
+    PacketId_SkillList,
+    PacketId_BuffApply,
+    PacketId_BuffRemove,
+    PacketId_ActorDeath,
+    PacketId_ActorResurrect,
+    PacketId_HpMpSync,
+    PacketId_InventoryList,
+    PacketId_ItemPickup,
+    PacketId_ItemDrop,
+    PacketId_ItemUse,
+    PacketId_ItemMove,
+    PacketId_ItemSplit,
+    PacketId_ItemLock,
+    PacketId_EquipItem,
+    PacketId_UnequipItem,
+    PacketId_EquipList,
+    PacketId_ShopOpen,
+    PacketId_ShopBuy,
+    PacketId_ShopSell,
+    PacketId_ShopList,
+    PacketId_TradeRequest,
+    PacketId_TradeAccept,
+    PacketId_TradeDecline,
+    PacketId_TradeAddItem,
+    PacketId_TradeRemoveItem,
+    PacketId_TradeAddGold,
+    PacketId_TradeReady,
+    PacketId_TradeConfirm,
+    PacketId_TradeCancel,
+    PacketId_TradeResult,
+    PacketId_AuctionSearch,
+    PacketId_AuctionList,
+    PacketId_AuctionRegister,
+    PacketId_AuctionBid,
+    PacketId_AuctionBuyNow,
+    PacketId_AuctionCancel,
+    PacketId_AuctionMyList,
+    PacketId_AuctionResult,
+    PacketId_CraftList,
+    PacketId_CraftRequest,
+    PacketId_CraftResult,
+    PacketId_EnchantRequest,
+    PacketId_EnchantResult,
+    PacketId_PartyInvite,
+    PacketId_PartyInviteResp,
+    PacketId_PartyLeave,
+    PacketId_PartyKick,
+    PacketId_PartyDisband,
+    PacketId_PartyInfo,
+    PacketId_PartyMemberSync,
+    PacketId_PartyLeaderChange,
+    PacketId_PartyLootChange,
+    PacketId_GuildCreate,
+    PacketId_GuildDisband,
+    PacketId_GuildInvite,
+    PacketId_GuildInviteResp,
+    PacketId_GuildLeave,
+    PacketId_GuildKick,
+    PacketId_GuildInfo,
+    PacketId_GuildMemberList,
+    PacketId_GuildRankChange,
+    PacketId_GuildNotice,
+    PacketId_GuildDeposit,
+    PacketId_GuildWithdraw,
+    PacketId_DungeonEnter,
+    PacketId_DungeonEnterResp,
+    PacketId_DungeonExit,
+    PacketId_DungeonClear,
+    PacketId_DungeonInfo,
+    PacketId_BossPhaseChange,
+    PacketId_QuestList,
+    PacketId_QuestAccept,
+    PacketId_QuestAbandon,
+    PacketId_QuestComplete,
+    PacketId_QuestProgress,
+    PacketId_FriendList,
+    PacketId_FriendAdd,
+    PacketId_FriendAddResp,
+    PacketId_FriendRemove,
+    PacketId_FriendBlock,
+    PacketId_FriendUnblock,
+    PacketId_Whisper,
+    PacketId_FriendOnline,
+    PacketId_ChatNormal,
+    PacketId_ChatZone,
+    PacketId_ChatWorld,
+    PacketId_ChatParty,
+    PacketId_ChatGuild,
+    PacketId_AchievementList,
+    PacketId_AchievementUnlock,
+    PacketId_TitleList,
+    PacketId_TitleEquip,
+    PacketId_TitleUnequip,
+    PacketId_RankingList,
+    PacketId_SeasonInfo,
+    PacketId_SeasonReward,
+    PacketId_SeasonMission,
+    PacketId_HiddenQuestTrigger,
+    PacketId_LegendaryForge,
+    PacketId_FateFragment,
+    PacketId_SecretDungeonUnlock
   };
   return values;
 }
 
 inline const char *EnumNamePacketId(PacketId e) {
   switch (e) {
-    case PacketId::None: return "None";
-    case PacketId::Move: return "Move";
-    case PacketId::Attack: return "Attack";
-    case PacketId::AttackResult: return "AttackResult";
-    case PacketId::SkillUse: return "SkillUse";
-    case PacketId::SkillResult: return "SkillResult";
-    case PacketId::SkillList: return "SkillList";
-    case PacketId::BuffApply: return "BuffApply";
-    case PacketId::BuffRemove: return "BuffRemove";
-    case PacketId::ActorDeath: return "ActorDeath";
-    case PacketId::ActorResurrect: return "ActorResurrect";
-    case PacketId::HpMpSync: return "HpMpSync";
-    case PacketId::InventoryList: return "InventoryList";
-    case PacketId::ItemPickup: return "ItemPickup";
-    case PacketId::ItemDrop: return "ItemDrop";
-    case PacketId::ItemUse: return "ItemUse";
-    case PacketId::ItemMove: return "ItemMove";
-    case PacketId::ItemSplit: return "ItemSplit";
-    case PacketId::ItemLock: return "ItemLock";
-    case PacketId::EquipItem: return "EquipItem";
-    case PacketId::UnequipItem: return "UnequipItem";
-    case PacketId::EquipList: return "EquipList";
-    case PacketId::ShopOpen: return "ShopOpen";
-    case PacketId::ShopBuy: return "ShopBuy";
-    case PacketId::ShopSell: return "ShopSell";
-    case PacketId::ShopList: return "ShopList";
-    case PacketId::TradeRequest: return "TradeRequest";
-    case PacketId::TradeAccept: return "TradeAccept";
-    case PacketId::TradeDecline: return "TradeDecline";
-    case PacketId::TradeAddItem: return "TradeAddItem";
-    case PacketId::TradeRemoveItem: return "TradeRemoveItem";
-    case PacketId::TradeAddGold: return "TradeAddGold";
-    case PacketId::TradeReady: return "TradeReady";
-    case PacketId::TradeConfirm: return "TradeConfirm";
-    case PacketId::TradeCancel: return "TradeCancel";
-    case PacketId::TradeResult: return "TradeResult";
-    case PacketId::AuctionSearch: return "AuctionSearch";
-    case PacketId::AuctionList: return "AuctionList";
-    case PacketId::AuctionRegister: return "AuctionRegister";
-    case PacketId::AuctionBid: return "AuctionBid";
-    case PacketId::AuctionBuyNow: return "AuctionBuyNow";
-    case PacketId::AuctionCancel: return "AuctionCancel";
-    case PacketId::AuctionMyList: return "AuctionMyList";
-    case PacketId::AuctionResult: return "AuctionResult";
-    case PacketId::CraftList: return "CraftList";
-    case PacketId::CraftRequest: return "CraftRequest";
-    case PacketId::CraftResult: return "CraftResult";
-    case PacketId::EnchantRequest: return "EnchantRequest";
-    case PacketId::EnchantResult: return "EnchantResult";
-    case PacketId::PartyInvite: return "PartyInvite";
-    case PacketId::PartyInviteResp: return "PartyInviteResp";
-    case PacketId::PartyLeave: return "PartyLeave";
-    case PacketId::PartyKick: return "PartyKick";
-    case PacketId::PartyDisband: return "PartyDisband";
-    case PacketId::PartyInfo: return "PartyInfo";
-    case PacketId::PartyMemberSync: return "PartyMemberSync";
-    case PacketId::PartyLeaderChange: return "PartyLeaderChange";
-    case PacketId::PartyLootChange: return "PartyLootChange";
-    case PacketId::GuildCreate: return "GuildCreate";
-    case PacketId::GuildDisband: return "GuildDisband";
-    case PacketId::GuildInvite: return "GuildInvite";
-    case PacketId::GuildInviteResp: return "GuildInviteResp";
-    case PacketId::GuildLeave: return "GuildLeave";
-    case PacketId::GuildKick: return "GuildKick";
-    case PacketId::GuildInfo: return "GuildInfo";
-    case PacketId::GuildMemberList: return "GuildMemberList";
-    case PacketId::GuildRankChange: return "GuildRankChange";
-    case PacketId::GuildNotice: return "GuildNotice";
-    case PacketId::GuildDeposit: return "GuildDeposit";
-    case PacketId::GuildWithdraw: return "GuildWithdraw";
-    case PacketId::DungeonEnter: return "DungeonEnter";
-    case PacketId::DungeonEnterResp: return "DungeonEnterResp";
-    case PacketId::DungeonExit: return "DungeonExit";
-    case PacketId::DungeonClear: return "DungeonClear";
-    case PacketId::DungeonInfo: return "DungeonInfo";
-    case PacketId::BossPhaseChange: return "BossPhaseChange";
-    case PacketId::QuestList: return "QuestList";
-    case PacketId::QuestAccept: return "QuestAccept";
-    case PacketId::QuestAbandon: return "QuestAbandon";
-    case PacketId::QuestComplete: return "QuestComplete";
-    case PacketId::QuestProgress: return "QuestProgress";
-    case PacketId::FriendList: return "FriendList";
-    case PacketId::FriendAdd: return "FriendAdd";
-    case PacketId::FriendAddResp: return "FriendAddResp";
-    case PacketId::FriendRemove: return "FriendRemove";
-    case PacketId::FriendBlock: return "FriendBlock";
-    case PacketId::FriendUnblock: return "FriendUnblock";
-    case PacketId::Whisper: return "Whisper";
-    case PacketId::FriendOnline: return "FriendOnline";
-    case PacketId::ChatNormal: return "ChatNormal";
-    case PacketId::ChatZone: return "ChatZone";
-    case PacketId::ChatWorld: return "ChatWorld";
-    case PacketId::ChatParty: return "ChatParty";
-    case PacketId::ChatGuild: return "ChatGuild";
-    case PacketId::AchievementList: return "AchievementList";
-    case PacketId::AchievementUnlock: return "AchievementUnlock";
-    case PacketId::TitleList: return "TitleList";
-    case PacketId::TitleEquip: return "TitleEquip";
-    case PacketId::TitleUnequip: return "TitleUnequip";
-    case PacketId::RankingList: return "RankingList";
-    case PacketId::SeasonInfo: return "SeasonInfo";
-    case PacketId::SeasonReward: return "SeasonReward";
-    case PacketId::SeasonMission: return "SeasonMission";
-    case PacketId::HiddenQuestTrigger: return "HiddenQuestTrigger";
-    case PacketId::LegendaryForge: return "LegendaryForge";
-    case PacketId::FateFragment: return "FateFragment";
-    case PacketId::SecretDungeonUnlock: return "SecretDungeonUnlock";
+    case PacketId_None: return "None";
+    case PacketId_Move: return "Move";
+    case PacketId_Attack: return "Attack";
+    case PacketId_AttackResult: return "AttackResult";
+    case PacketId_SkillUse: return "SkillUse";
+    case PacketId_SkillResult: return "SkillResult";
+    case PacketId_SkillList: return "SkillList";
+    case PacketId_BuffApply: return "BuffApply";
+    case PacketId_BuffRemove: return "BuffRemove";
+    case PacketId_ActorDeath: return "ActorDeath";
+    case PacketId_ActorResurrect: return "ActorResurrect";
+    case PacketId_HpMpSync: return "HpMpSync";
+    case PacketId_InventoryList: return "InventoryList";
+    case PacketId_ItemPickup: return "ItemPickup";
+    case PacketId_ItemDrop: return "ItemDrop";
+    case PacketId_ItemUse: return "ItemUse";
+    case PacketId_ItemMove: return "ItemMove";
+    case PacketId_ItemSplit: return "ItemSplit";
+    case PacketId_ItemLock: return "ItemLock";
+    case PacketId_EquipItem: return "EquipItem";
+    case PacketId_UnequipItem: return "UnequipItem";
+    case PacketId_EquipList: return "EquipList";
+    case PacketId_ShopOpen: return "ShopOpen";
+    case PacketId_ShopBuy: return "ShopBuy";
+    case PacketId_ShopSell: return "ShopSell";
+    case PacketId_ShopList: return "ShopList";
+    case PacketId_TradeRequest: return "TradeRequest";
+    case PacketId_TradeAccept: return "TradeAccept";
+    case PacketId_TradeDecline: return "TradeDecline";
+    case PacketId_TradeAddItem: return "TradeAddItem";
+    case PacketId_TradeRemoveItem: return "TradeRemoveItem";
+    case PacketId_TradeAddGold: return "TradeAddGold";
+    case PacketId_TradeReady: return "TradeReady";
+    case PacketId_TradeConfirm: return "TradeConfirm";
+    case PacketId_TradeCancel: return "TradeCancel";
+    case PacketId_TradeResult: return "TradeResult";
+    case PacketId_AuctionSearch: return "AuctionSearch";
+    case PacketId_AuctionList: return "AuctionList";
+    case PacketId_AuctionRegister: return "AuctionRegister";
+    case PacketId_AuctionBid: return "AuctionBid";
+    case PacketId_AuctionBuyNow: return "AuctionBuyNow";
+    case PacketId_AuctionCancel: return "AuctionCancel";
+    case PacketId_AuctionMyList: return "AuctionMyList";
+    case PacketId_AuctionResult: return "AuctionResult";
+    case PacketId_CraftList: return "CraftList";
+    case PacketId_CraftRequest: return "CraftRequest";
+    case PacketId_CraftResult: return "CraftResult";
+    case PacketId_EnchantRequest: return "EnchantRequest";
+    case PacketId_EnchantResult: return "EnchantResult";
+    case PacketId_PartyInvite: return "PartyInvite";
+    case PacketId_PartyInviteResp: return "PartyInviteResp";
+    case PacketId_PartyLeave: return "PartyLeave";
+    case PacketId_PartyKick: return "PartyKick";
+    case PacketId_PartyDisband: return "PartyDisband";
+    case PacketId_PartyInfo: return "PartyInfo";
+    case PacketId_PartyMemberSync: return "PartyMemberSync";
+    case PacketId_PartyLeaderChange: return "PartyLeaderChange";
+    case PacketId_PartyLootChange: return "PartyLootChange";
+    case PacketId_GuildCreate: return "GuildCreate";
+    case PacketId_GuildDisband: return "GuildDisband";
+    case PacketId_GuildInvite: return "GuildInvite";
+    case PacketId_GuildInviteResp: return "GuildInviteResp";
+    case PacketId_GuildLeave: return "GuildLeave";
+    case PacketId_GuildKick: return "GuildKick";
+    case PacketId_GuildInfo: return "GuildInfo";
+    case PacketId_GuildMemberList: return "GuildMemberList";
+    case PacketId_GuildRankChange: return "GuildRankChange";
+    case PacketId_GuildNotice: return "GuildNotice";
+    case PacketId_GuildDeposit: return "GuildDeposit";
+    case PacketId_GuildWithdraw: return "GuildWithdraw";
+    case PacketId_DungeonEnter: return "DungeonEnter";
+    case PacketId_DungeonEnterResp: return "DungeonEnterResp";
+    case PacketId_DungeonExit: return "DungeonExit";
+    case PacketId_DungeonClear: return "DungeonClear";
+    case PacketId_DungeonInfo: return "DungeonInfo";
+    case PacketId_BossPhaseChange: return "BossPhaseChange";
+    case PacketId_QuestList: return "QuestList";
+    case PacketId_QuestAccept: return "QuestAccept";
+    case PacketId_QuestAbandon: return "QuestAbandon";
+    case PacketId_QuestComplete: return "QuestComplete";
+    case PacketId_QuestProgress: return "QuestProgress";
+    case PacketId_FriendList: return "FriendList";
+    case PacketId_FriendAdd: return "FriendAdd";
+    case PacketId_FriendAddResp: return "FriendAddResp";
+    case PacketId_FriendRemove: return "FriendRemove";
+    case PacketId_FriendBlock: return "FriendBlock";
+    case PacketId_FriendUnblock: return "FriendUnblock";
+    case PacketId_Whisper: return "Whisper";
+    case PacketId_FriendOnline: return "FriendOnline";
+    case PacketId_ChatNormal: return "ChatNormal";
+    case PacketId_ChatZone: return "ChatZone";
+    case PacketId_ChatWorld: return "ChatWorld";
+    case PacketId_ChatParty: return "ChatParty";
+    case PacketId_ChatGuild: return "ChatGuild";
+    case PacketId_AchievementList: return "AchievementList";
+    case PacketId_AchievementUnlock: return "AchievementUnlock";
+    case PacketId_TitleList: return "TitleList";
+    case PacketId_TitleEquip: return "TitleEquip";
+    case PacketId_TitleUnequip: return "TitleUnequip";
+    case PacketId_RankingList: return "RankingList";
+    case PacketId_SeasonInfo: return "SeasonInfo";
+    case PacketId_SeasonReward: return "SeasonReward";
+    case PacketId_SeasonMission: return "SeasonMission";
+    case PacketId_HiddenQuestTrigger: return "HiddenQuestTrigger";
+    case PacketId_LegendaryForge: return "LegendaryForge";
+    case PacketId_FateFragment: return "FateFragment";
+    case PacketId_SecretDungeonUnlock: return "SecretDungeonUnlock";
     default: return "";
   }
+}
+
+inline bool EnumStringPacketId(const char* const str, PacketId e) {
+  if(0 == strcmp(str, "None")) { e = PacketId_None; return true; }
+  if(0 == strcmp(str, "Move")) { e = PacketId_Move; return true; }
+  if(0 == strcmp(str, "Attack")) { e = PacketId_Attack; return true; }
+  if(0 == strcmp(str, "AttackResult")) { e = PacketId_AttackResult; return true; }
+  if(0 == strcmp(str, "SkillUse")) { e = PacketId_SkillUse; return true; }
+  if(0 == strcmp(str, "SkillResult")) { e = PacketId_SkillResult; return true; }
+  if(0 == strcmp(str, "SkillList")) { e = PacketId_SkillList; return true; }
+  if(0 == strcmp(str, "BuffApply")) { e = PacketId_BuffApply; return true; }
+  if(0 == strcmp(str, "BuffRemove")) { e = PacketId_BuffRemove; return true; }
+  if(0 == strcmp(str, "ActorDeath")) { e = PacketId_ActorDeath; return true; }
+  if(0 == strcmp(str, "ActorResurrect")) { e = PacketId_ActorResurrect; return true; }
+  if(0 == strcmp(str, "HpMpSync")) { e = PacketId_HpMpSync; return true; }
+  if(0 == strcmp(str, "InventoryList")) { e = PacketId_InventoryList; return true; }
+  if(0 == strcmp(str, "ItemPickup")) { e = PacketId_ItemPickup; return true; }
+  if(0 == strcmp(str, "ItemDrop")) { e = PacketId_ItemDrop; return true; }
+  if(0 == strcmp(str, "ItemUse")) { e = PacketId_ItemUse; return true; }
+  if(0 == strcmp(str, "ItemMove")) { e = PacketId_ItemMove; return true; }
+  if(0 == strcmp(str, "ItemSplit")) { e = PacketId_ItemSplit; return true; }
+  if(0 == strcmp(str, "ItemLock")) { e = PacketId_ItemLock; return true; }
+  if(0 == strcmp(str, "EquipItem")) { e = PacketId_EquipItem; return true; }
+  if(0 == strcmp(str, "UnequipItem")) { e = PacketId_UnequipItem; return true; }
+  if(0 == strcmp(str, "EquipList")) { e = PacketId_EquipList; return true; }
+  if(0 == strcmp(str, "ShopOpen")) { e = PacketId_ShopOpen; return true; }
+  if(0 == strcmp(str, "ShopBuy")) { e = PacketId_ShopBuy; return true; }
+  if(0 == strcmp(str, "ShopSell")) { e = PacketId_ShopSell; return true; }
+  if(0 == strcmp(str, "ShopList")) { e = PacketId_ShopList; return true; }
+  if(0 == strcmp(str, "TradeRequest")) { e = PacketId_TradeRequest; return true; }
+  if(0 == strcmp(str, "TradeAccept")) { e = PacketId_TradeAccept; return true; }
+  if(0 == strcmp(str, "TradeDecline")) { e = PacketId_TradeDecline; return true; }
+  if(0 == strcmp(str, "TradeAddItem")) { e = PacketId_TradeAddItem; return true; }
+  if(0 == strcmp(str, "TradeRemoveItem")) { e = PacketId_TradeRemoveItem; return true; }
+  if(0 == strcmp(str, "TradeAddGold")) { e = PacketId_TradeAddGold; return true; }
+  if(0 == strcmp(str, "TradeReady")) { e = PacketId_TradeReady; return true; }
+  if(0 == strcmp(str, "TradeConfirm")) { e = PacketId_TradeConfirm; return true; }
+  if(0 == strcmp(str, "TradeCancel")) { e = PacketId_TradeCancel; return true; }
+  if(0 == strcmp(str, "TradeResult")) { e = PacketId_TradeResult; return true; }
+  if(0 == strcmp(str, "AuctionSearch")) { e = PacketId_AuctionSearch; return true; }
+  if(0 == strcmp(str, "AuctionList")) { e = PacketId_AuctionList; return true; }
+  if(0 == strcmp(str, "AuctionRegister")) { e = PacketId_AuctionRegister; return true; }
+  if(0 == strcmp(str, "AuctionBid")) { e = PacketId_AuctionBid; return true; }
+  if(0 == strcmp(str, "AuctionBuyNow")) { e = PacketId_AuctionBuyNow; return true; }
+  if(0 == strcmp(str, "AuctionCancel")) { e = PacketId_AuctionCancel; return true; }
+  if(0 == strcmp(str, "AuctionMyList")) { e = PacketId_AuctionMyList; return true; }
+  if(0 == strcmp(str, "AuctionResult")) { e = PacketId_AuctionResult; return true; }
+  if(0 == strcmp(str, "CraftList")) { e = PacketId_CraftList; return true; }
+  if(0 == strcmp(str, "CraftRequest")) { e = PacketId_CraftRequest; return true; }
+  if(0 == strcmp(str, "CraftResult")) { e = PacketId_CraftResult; return true; }
+  if(0 == strcmp(str, "EnchantRequest")) { e = PacketId_EnchantRequest; return true; }
+  if(0 == strcmp(str, "EnchantResult")) { e = PacketId_EnchantResult; return true; }
+  if(0 == strcmp(str, "PartyInvite")) { e = PacketId_PartyInvite; return true; }
+  if(0 == strcmp(str, "PartyInviteResp")) { e = PacketId_PartyInviteResp; return true; }
+  if(0 == strcmp(str, "PartyLeave")) { e = PacketId_PartyLeave; return true; }
+  if(0 == strcmp(str, "PartyKick")) { e = PacketId_PartyKick; return true; }
+  if(0 == strcmp(str, "PartyDisband")) { e = PacketId_PartyDisband; return true; }
+  if(0 == strcmp(str, "PartyInfo")) { e = PacketId_PartyInfo; return true; }
+  if(0 == strcmp(str, "PartyMemberSync")) { e = PacketId_PartyMemberSync; return true; }
+  if(0 == strcmp(str, "PartyLeaderChange")) { e = PacketId_PartyLeaderChange; return true; }
+  if(0 == strcmp(str, "PartyLootChange")) { e = PacketId_PartyLootChange; return true; }
+  if(0 == strcmp(str, "GuildCreate")) { e = PacketId_GuildCreate; return true; }
+  if(0 == strcmp(str, "GuildDisband")) { e = PacketId_GuildDisband; return true; }
+  if(0 == strcmp(str, "GuildInvite")) { e = PacketId_GuildInvite; return true; }
+  if(0 == strcmp(str, "GuildInviteResp")) { e = PacketId_GuildInviteResp; return true; }
+  if(0 == strcmp(str, "GuildLeave")) { e = PacketId_GuildLeave; return true; }
+  if(0 == strcmp(str, "GuildKick")) { e = PacketId_GuildKick; return true; }
+  if(0 == strcmp(str, "GuildInfo")) { e = PacketId_GuildInfo; return true; }
+  if(0 == strcmp(str, "GuildMemberList")) { e = PacketId_GuildMemberList; return true; }
+  if(0 == strcmp(str, "GuildRankChange")) { e = PacketId_GuildRankChange; return true; }
+  if(0 == strcmp(str, "GuildNotice")) { e = PacketId_GuildNotice; return true; }
+  if(0 == strcmp(str, "GuildDeposit")) { e = PacketId_GuildDeposit; return true; }
+  if(0 == strcmp(str, "GuildWithdraw")) { e = PacketId_GuildWithdraw; return true; }
+  if(0 == strcmp(str, "DungeonEnter")) { e = PacketId_DungeonEnter; return true; }
+  if(0 == strcmp(str, "DungeonEnterResp")) { e = PacketId_DungeonEnterResp; return true; }
+  if(0 == strcmp(str, "DungeonExit")) { e = PacketId_DungeonExit; return true; }
+  if(0 == strcmp(str, "DungeonClear")) { e = PacketId_DungeonClear; return true; }
+  if(0 == strcmp(str, "DungeonInfo")) { e = PacketId_DungeonInfo; return true; }
+  if(0 == strcmp(str, "BossPhaseChange")) { e = PacketId_BossPhaseChange; return true; }
+  if(0 == strcmp(str, "QuestList")) { e = PacketId_QuestList; return true; }
+  if(0 == strcmp(str, "QuestAccept")) { e = PacketId_QuestAccept; return true; }
+  if(0 == strcmp(str, "QuestAbandon")) { e = PacketId_QuestAbandon; return true; }
+  if(0 == strcmp(str, "QuestComplete")) { e = PacketId_QuestComplete; return true; }
+  if(0 == strcmp(str, "QuestProgress")) { e = PacketId_QuestProgress; return true; }
+  if(0 == strcmp(str, "FriendList")) { e = PacketId_FriendList; return true; }
+  if(0 == strcmp(str, "FriendAdd")) { e = PacketId_FriendAdd; return true; }
+  if(0 == strcmp(str, "FriendAddResp")) { e = PacketId_FriendAddResp; return true; }
+  if(0 == strcmp(str, "FriendRemove")) { e = PacketId_FriendRemove; return true; }
+  if(0 == strcmp(str, "FriendBlock")) { e = PacketId_FriendBlock; return true; }
+  if(0 == strcmp(str, "FriendUnblock")) { e = PacketId_FriendUnblock; return true; }
+  if(0 == strcmp(str, "Whisper")) { e = PacketId_Whisper; return true; }
+  if(0 == strcmp(str, "FriendOnline")) { e = PacketId_FriendOnline; return true; }
+  if(0 == strcmp(str, "ChatNormal")) { e = PacketId_ChatNormal; return true; }
+  if(0 == strcmp(str, "ChatZone")) { e = PacketId_ChatZone; return true; }
+  if(0 == strcmp(str, "ChatWorld")) { e = PacketId_ChatWorld; return true; }
+  if(0 == strcmp(str, "ChatParty")) { e = PacketId_ChatParty; return true; }
+  if(0 == strcmp(str, "ChatGuild")) { e = PacketId_ChatGuild; return true; }
+  if(0 == strcmp(str, "AchievementList")) { e = PacketId_AchievementList; return true; }
+  if(0 == strcmp(str, "AchievementUnlock")) { e = PacketId_AchievementUnlock; return true; }
+  if(0 == strcmp(str, "TitleList")) { e = PacketId_TitleList; return true; }
+  if(0 == strcmp(str, "TitleEquip")) { e = PacketId_TitleEquip; return true; }
+  if(0 == strcmp(str, "TitleUnequip")) { e = PacketId_TitleUnequip; return true; }
+  if(0 == strcmp(str, "RankingList")) { e = PacketId_RankingList; return true; }
+  if(0 == strcmp(str, "SeasonInfo")) { e = PacketId_SeasonInfo; return true; }
+  if(0 == strcmp(str, "SeasonReward")) { e = PacketId_SeasonReward; return true; }
+  if(0 == strcmp(str, "SeasonMission")) { e = PacketId_SeasonMission; return true; }
+  if(0 == strcmp(str, "HiddenQuestTrigger")) { e = PacketId_HiddenQuestTrigger; return true; }
+  if(0 == strcmp(str, "LegendaryForge")) { e = PacketId_LegendaryForge; return true; }
+  if(0 == strcmp(str, "FateFragment")) { e = PacketId_FateFragment; return true; }
+  if(0 == strcmp(str, "SecretDungeonUnlock")) { e = PacketId_SecretDungeonUnlock; return true; }
+  return false;
 }
 
 }  // namespace makga

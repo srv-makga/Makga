@@ -17,31 +17,31 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
 
 namespace makga {
 
-enum class ServerType : int32_t {
-  Billing = 0,
-  Login = 1,
-  World = 2,
-  Community = 3,
-  DBAgent = 4,
-  Game = 5,
-  Instance = 6,
-  Web = 7,
-  Log = 8,
-  MIN = Billing,
-  MAX = Log
+enum ServerType : int32_t {
+  ServerType_Billing = 0,
+  ServerType_Login = 1,
+  ServerType_World = 2,
+  ServerType_Community = 3,
+  ServerType_DBAgent = 4,
+  ServerType_Game = 5,
+  ServerType_Instance = 6,
+  ServerType_Web = 7,
+  ServerType_Log = 8,
+  ServerType_MIN = ServerType_Billing,
+  ServerType_MAX = ServerType_Log
 };
 
 inline const ServerType (&EnumValuesServerType())[9] {
   static const ServerType values[] = {
-    ServerType::Billing,
-    ServerType::Login,
-    ServerType::World,
-    ServerType::Community,
-    ServerType::DBAgent,
-    ServerType::Game,
-    ServerType::Instance,
-    ServerType::Web,
-    ServerType::Log
+    ServerType_Billing,
+    ServerType_Login,
+    ServerType_World,
+    ServerType_Community,
+    ServerType_DBAgent,
+    ServerType_Game,
+    ServerType_Instance,
+    ServerType_Web,
+    ServerType_Log
   };
   return values;
 }
@@ -63,20 +63,28 @@ inline const char * const *EnumNamesServerType() {
 }
 
 inline const char *EnumNameServerType(ServerType e) {
-  if (::flatbuffers::IsOutRange(e, ServerType::Billing, ServerType::Log)) return "";
+  if (::flatbuffers::IsOutRange(e, ServerType_Billing, ServerType_Log)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesServerType()[index];
 }
 
-enum class DatabaseType : int32_t {
-  NONE = 0,
-  MIN = NONE,
-  MAX = NONE
+inline bool EnumStringServerType(const char* const str, ServerType e) {
+  std::size_t count = static_cast<std::size_t>(ServerType_Log);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesServerType()[i] == str) { e = static_cast<ServerType>(i); return true; }
+  }
+  return false;
+}
+
+enum DatabaseType : int32_t {
+  DatabaseType_NONE = 0,
+  DatabaseType_MIN = DatabaseType_NONE,
+  DatabaseType_MAX = DatabaseType_NONE
 };
 
 inline const DatabaseType (&EnumValuesDatabaseType())[1] {
   static const DatabaseType values[] = {
-    DatabaseType::NONE
+    DatabaseType_NONE
   };
   return values;
 }
@@ -90,20 +98,28 @@ inline const char * const *EnumNamesDatabaseType() {
 }
 
 inline const char *EnumNameDatabaseType(DatabaseType e) {
-  if (::flatbuffers::IsOutRange(e, DatabaseType::NONE, DatabaseType::NONE)) return "";
+  if (::flatbuffers::IsOutRange(e, DatabaseType_NONE, DatabaseType_NONE)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesDatabaseType()[index];
 }
 
-enum class RedisType : int32_t {
-  NONE = 0,
-  MIN = NONE,
-  MAX = NONE
+inline bool EnumStringDatabaseType(const char* const str, DatabaseType e) {
+  std::size_t count = static_cast<std::size_t>(DatabaseType_NONE);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesDatabaseType()[i] == str) { e = static_cast<DatabaseType>(i); return true; }
+  }
+  return false;
+}
+
+enum RedisType : int32_t {
+  RedisType_NONE = 0,
+  RedisType_MIN = RedisType_NONE,
+  RedisType_MAX = RedisType_NONE
 };
 
 inline const RedisType (&EnumValuesRedisType())[1] {
   static const RedisType values[] = {
-    RedisType::NONE
+    RedisType_NONE
   };
   return values;
 }
@@ -117,20 +133,28 @@ inline const char * const *EnumNamesRedisType() {
 }
 
 inline const char *EnumNameRedisType(RedisType e) {
-  if (::flatbuffers::IsOutRange(e, RedisType::NONE, RedisType::NONE)) return "";
+  if (::flatbuffers::IsOutRange(e, RedisType_NONE, RedisType_NONE)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesRedisType()[index];
 }
 
-enum class AccountType : int32_t {
-  NONE = 0,
-  MIN = NONE,
-  MAX = NONE
+inline bool EnumStringRedisType(const char* const str, RedisType e) {
+  std::size_t count = static_cast<std::size_t>(RedisType_NONE);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesRedisType()[i] == str) { e = static_cast<RedisType>(i); return true; }
+  }
+  return false;
+}
+
+enum AccountType : int32_t {
+  AccountType_NONE = 0,
+  AccountType_MIN = AccountType_NONE,
+  AccountType_MAX = AccountType_NONE
 };
 
 inline const AccountType (&EnumValuesAccountType())[1] {
   static const AccountType values[] = {
-    AccountType::NONE
+    AccountType_NONE
   };
   return values;
 }
@@ -144,22 +168,30 @@ inline const char * const *EnumNamesAccountType() {
 }
 
 inline const char *EnumNameAccountType(AccountType e) {
-  if (::flatbuffers::IsOutRange(e, AccountType::NONE, AccountType::NONE)) return "";
+  if (::flatbuffers::IsOutRange(e, AccountType_NONE, AccountType_NONE)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesAccountType()[index];
 }
 
-enum class SessionType : int32_t {
-  None = 0,
-  User = 1,
-  MIN = None,
-  MAX = User
+inline bool EnumStringAccountType(const char* const str, AccountType e) {
+  std::size_t count = static_cast<std::size_t>(AccountType_NONE);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesAccountType()[i] == str) { e = static_cast<AccountType>(i); return true; }
+  }
+  return false;
+}
+
+enum SessionType : int32_t {
+  SessionType_None = 0,
+  SessionType_User = 1,
+  SessionType_MIN = SessionType_None,
+  SessionType_MAX = SessionType_User
 };
 
 inline const SessionType (&EnumValuesSessionType())[2] {
   static const SessionType values[] = {
-    SessionType::None,
-    SessionType::User
+    SessionType_None,
+    SessionType_User
   };
   return values;
 }
@@ -174,58 +206,66 @@ inline const char * const *EnumNamesSessionType() {
 }
 
 inline const char *EnumNameSessionType(SessionType e) {
-  if (::flatbuffers::IsOutRange(e, SessionType::None, SessionType::User)) return "";
+  if (::flatbuffers::IsOutRange(e, SessionType_None, SessionType_User)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesSessionType()[index];
 }
 
-enum class MessageType : int32_t {
-  GridAddActor = 0,
-  GridRemoveActor = 1,
-  GridBroadcastMove = 2,
-  TerrainRegisterActor = 3,
-  TerrainUnregisterActor = 4,
-  ActorRequestMove = 5,
-  ActorSetTarget = 6,
-  ActorSetLeader = 7,
-  ActorSetOwner = 8,
-  ActorDelete = 9,
-  ActorAttack = 10,
-  ActorAttackResponse = 11,
-  ActorMoveResponse = 12,
-  ActorSee = 13,
-  CharacterSpawn = 14,
-  CharacterDespawn = 15,
-  MonsterSpawn = 16,
-  MonsterDespawn = 17,
-  MonsterAggravate = 18,
-  CharacterReceiveLoot = 19,
-  MIN = GridAddActor,
-  MAX = CharacterReceiveLoot
+inline bool EnumStringSessionType(const char* const str, SessionType e) {
+  std::size_t count = static_cast<std::size_t>(SessionType_User);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesSessionType()[i] == str) { e = static_cast<SessionType>(i); return true; }
+  }
+  return false;
+}
+
+enum MessageType : int32_t {
+  MessageType_GridAddActor = 0,
+  MessageType_GridRemoveActor = 1,
+  MessageType_GridBroadcastMove = 2,
+  MessageType_TerrainRegisterActor = 3,
+  MessageType_TerrainUnregisterActor = 4,
+  MessageType_ActorRequestMove = 5,
+  MessageType_ActorSetTarget = 6,
+  MessageType_ActorSetLeader = 7,
+  MessageType_ActorSetOwner = 8,
+  MessageType_ActorDelete = 9,
+  MessageType_ActorAttack = 10,
+  MessageType_ActorAttackResponse = 11,
+  MessageType_ActorMoveResponse = 12,
+  MessageType_ActorSee = 13,
+  MessageType_CharacterSpawn = 14,
+  MessageType_CharacterDespawn = 15,
+  MessageType_MonsterSpawn = 16,
+  MessageType_MonsterDespawn = 17,
+  MessageType_MonsterAggravate = 18,
+  MessageType_CharacterReceiveLoot = 19,
+  MessageType_MIN = MessageType_GridAddActor,
+  MessageType_MAX = MessageType_CharacterReceiveLoot
 };
 
 inline const MessageType (&EnumValuesMessageType())[20] {
   static const MessageType values[] = {
-    MessageType::GridAddActor,
-    MessageType::GridRemoveActor,
-    MessageType::GridBroadcastMove,
-    MessageType::TerrainRegisterActor,
-    MessageType::TerrainUnregisterActor,
-    MessageType::ActorRequestMove,
-    MessageType::ActorSetTarget,
-    MessageType::ActorSetLeader,
-    MessageType::ActorSetOwner,
-    MessageType::ActorDelete,
-    MessageType::ActorAttack,
-    MessageType::ActorAttackResponse,
-    MessageType::ActorMoveResponse,
-    MessageType::ActorSee,
-    MessageType::CharacterSpawn,
-    MessageType::CharacterDespawn,
-    MessageType::MonsterSpawn,
-    MessageType::MonsterDespawn,
-    MessageType::MonsterAggravate,
-    MessageType::CharacterReceiveLoot
+    MessageType_GridAddActor,
+    MessageType_GridRemoveActor,
+    MessageType_GridBroadcastMove,
+    MessageType_TerrainRegisterActor,
+    MessageType_TerrainUnregisterActor,
+    MessageType_ActorRequestMove,
+    MessageType_ActorSetTarget,
+    MessageType_ActorSetLeader,
+    MessageType_ActorSetOwner,
+    MessageType_ActorDelete,
+    MessageType_ActorAttack,
+    MessageType_ActorAttackResponse,
+    MessageType_ActorMoveResponse,
+    MessageType_ActorSee,
+    MessageType_CharacterSpawn,
+    MessageType_CharacterDespawn,
+    MessageType_MonsterSpawn,
+    MessageType_MonsterDespawn,
+    MessageType_MonsterAggravate,
+    MessageType_CharacterReceiveLoot
   };
   return values;
 }
@@ -258,28 +298,36 @@ inline const char * const *EnumNamesMessageType() {
 }
 
 inline const char *EnumNameMessageType(MessageType e) {
-  if (::flatbuffers::IsOutRange(e, MessageType::GridAddActor, MessageType::CharacterReceiveLoot)) return "";
+  if (::flatbuffers::IsOutRange(e, MessageType_GridAddActor, MessageType_CharacterReceiveLoot)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesMessageType()[index];
 }
 
-enum class TickGroup : int32_t {
-  PrePhysics = 0,
-  Physics = 1,
-  PostPhysics = 2,
-  PostUpdate = 3,
-  Max = 4,
-  MIN = PrePhysics,
-  MAX = Max
+inline bool EnumStringMessageType(const char* const str, MessageType e) {
+  std::size_t count = static_cast<std::size_t>(MessageType_CharacterReceiveLoot);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesMessageType()[i] == str) { e = static_cast<MessageType>(i); return true; }
+  }
+  return false;
+}
+
+enum TickGroup : int32_t {
+  TickGroup_PrePhysics = 0,
+  TickGroup_Physics = 1,
+  TickGroup_PostPhysics = 2,
+  TickGroup_PostUpdate = 3,
+  TickGroup_Max = 4,
+  TickGroup_MIN = TickGroup_PrePhysics,
+  TickGroup_MAX = TickGroup_Max
 };
 
 inline const TickGroup (&EnumValuesTickGroup())[5] {
   static const TickGroup values[] = {
-    TickGroup::PrePhysics,
-    TickGroup::Physics,
-    TickGroup::PostPhysics,
-    TickGroup::PostUpdate,
-    TickGroup::Max
+    TickGroup_PrePhysics,
+    TickGroup_Physics,
+    TickGroup_PostPhysics,
+    TickGroup_PostUpdate,
+    TickGroup_Max
   };
   return values;
 }
@@ -297,32 +345,40 @@ inline const char * const *EnumNamesTickGroup() {
 }
 
 inline const char *EnumNameTickGroup(TickGroup e) {
-  if (::flatbuffers::IsOutRange(e, TickGroup::PrePhysics, TickGroup::Max)) return "";
+  if (::flatbuffers::IsOutRange(e, TickGroup_PrePhysics, TickGroup_Max)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesTickGroup()[index];
 }
 
-enum class AIType : int32_t {
-  Aggressive = 0,
-  NonAggressive = 1,
-  Coward = 2,
-  FieldBoss = 3,
-  InstanceBoss = 4,
-  Character = 5,
-  Sandbag = 6,
-  MIN = Aggressive,
-  MAX = Sandbag
+inline bool EnumStringTickGroup(const char* const str, TickGroup e) {
+  std::size_t count = static_cast<std::size_t>(TickGroup_Max);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesTickGroup()[i] == str) { e = static_cast<TickGroup>(i); return true; }
+  }
+  return false;
+}
+
+enum AIType : int32_t {
+  AIType_Aggressive = 0,
+  AIType_NonAggressive = 1,
+  AIType_Coward = 2,
+  AIType_FieldBoss = 3,
+  AIType_InstanceBoss = 4,
+  AIType_Character = 5,
+  AIType_Sandbag = 6,
+  AIType_MIN = AIType_Aggressive,
+  AIType_MAX = AIType_Sandbag
 };
 
 inline const AIType (&EnumValuesAIType())[7] {
   static const AIType values[] = {
-    AIType::Aggressive,
-    AIType::NonAggressive,
-    AIType::Coward,
-    AIType::FieldBoss,
-    AIType::InstanceBoss,
-    AIType::Character,
-    AIType::Sandbag
+    AIType_Aggressive,
+    AIType_NonAggressive,
+    AIType_Coward,
+    AIType_FieldBoss,
+    AIType_InstanceBoss,
+    AIType_Character,
+    AIType_Sandbag
   };
   return values;
 }
@@ -342,28 +398,36 @@ inline const char * const *EnumNamesAIType() {
 }
 
 inline const char *EnumNameAIType(AIType e) {
-  if (::flatbuffers::IsOutRange(e, AIType::Aggressive, AIType::Sandbag)) return "";
+  if (::flatbuffers::IsOutRange(e, AIType_Aggressive, AIType_Sandbag)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesAIType()[index];
 }
 
-enum class ActorType : int32_t {
-  None = 0,
-  Character = 1,
-  Monster = 2,
-  Gadget = 3,
-  Object = 4,
-  MIN = None,
-  MAX = Object
+inline bool EnumStringAIType(const char* const str, AIType e) {
+  std::size_t count = static_cast<std::size_t>(AIType_Sandbag);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesAIType()[i] == str) { e = static_cast<AIType>(i); return true; }
+  }
+  return false;
+}
+
+enum ActorType : int32_t {
+  ActorType_None = 0,
+  ActorType_Character = 1,
+  ActorType_Monster = 2,
+  ActorType_Gadget = 3,
+  ActorType_Object = 4,
+  ActorType_MIN = ActorType_None,
+  ActorType_MAX = ActorType_Object
 };
 
 inline const ActorType (&EnumValuesActorType())[5] {
   static const ActorType values[] = {
-    ActorType::None,
-    ActorType::Character,
-    ActorType::Monster,
-    ActorType::Gadget,
-    ActorType::Object
+    ActorType_None,
+    ActorType_Character,
+    ActorType_Monster,
+    ActorType_Gadget,
+    ActorType_Object
   };
   return values;
 }
@@ -381,20 +445,28 @@ inline const char * const *EnumNamesActorType() {
 }
 
 inline const char *EnumNameActorType(ActorType e) {
-  if (::flatbuffers::IsOutRange(e, ActorType::None, ActorType::Object)) return "";
+  if (::flatbuffers::IsOutRange(e, ActorType_None, ActorType_Object)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesActorType()[index];
 }
 
-enum class CityType : int32_t {
-  NONE = 0,
-  MIN = NONE,
-  MAX = NONE
+inline bool EnumStringActorType(const char* const str, ActorType e) {
+  std::size_t count = static_cast<std::size_t>(ActorType_Object);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesActorType()[i] == str) { e = static_cast<ActorType>(i); return true; }
+  }
+  return false;
+}
+
+enum CityType : int32_t {
+  CityType_NONE = 0,
+  CityType_MIN = CityType_NONE,
+  CityType_MAX = CityType_NONE
 };
 
 inline const CityType (&EnumValuesCityType())[1] {
   static const CityType values[] = {
-    CityType::NONE
+    CityType_NONE
   };
   return values;
 }
@@ -408,28 +480,36 @@ inline const char * const *EnumNamesCityType() {
 }
 
 inline const char *EnumNameCityType(CityType e) {
-  if (::flatbuffers::IsOutRange(e, CityType::NONE, CityType::NONE)) return "";
+  if (::flatbuffers::IsOutRange(e, CityType_NONE, CityType_NONE)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesCityType()[index];
 }
 
-enum class PkType : int32_t {
-  Safe = 0,
-  Lawful = 1,
-  Conflict = 2,
-  Hostile = 3,
-  Arena = 4,
-  MIN = Safe,
-  MAX = Arena
+inline bool EnumStringCityType(const char* const str, CityType e) {
+  std::size_t count = static_cast<std::size_t>(CityType_NONE);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesCityType()[i] == str) { e = static_cast<CityType>(i); return true; }
+  }
+  return false;
+}
+
+enum PkType : int32_t {
+  PkType_Safe = 0,
+  PkType_Lawful = 1,
+  PkType_Conflict = 2,
+  PkType_Hostile = 3,
+  PkType_Arena = 4,
+  PkType_MIN = PkType_Safe,
+  PkType_MAX = PkType_Arena
 };
 
 inline const PkType (&EnumValuesPkType())[5] {
   static const PkType values[] = {
-    PkType::Safe,
-    PkType::Lawful,
-    PkType::Conflict,
-    PkType::Hostile,
-    PkType::Arena
+    PkType_Safe,
+    PkType_Lawful,
+    PkType_Conflict,
+    PkType_Hostile,
+    PkType_Arena
   };
   return values;
 }
@@ -447,26 +527,34 @@ inline const char * const *EnumNamesPkType() {
 }
 
 inline const char *EnumNamePkType(PkType e) {
-  if (::flatbuffers::IsOutRange(e, PkType::Safe, PkType::Arena)) return "";
+  if (::flatbuffers::IsOutRange(e, PkType_Safe, PkType_Arena)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesPkType()[index];
 }
 
-enum class AreaType : int32_t {
-  City = 0,
-  Village = 1,
-  Field = 2,
-  Instance = 3,
-  MIN = City,
-  MAX = Instance
+inline bool EnumStringPkType(const char* const str, PkType e) {
+  std::size_t count = static_cast<std::size_t>(PkType_Arena);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesPkType()[i] == str) { e = static_cast<PkType>(i); return true; }
+  }
+  return false;
+}
+
+enum AreaType : int32_t {
+  AreaType_City = 0,
+  AreaType_Village = 1,
+  AreaType_Field = 2,
+  AreaType_Instance = 3,
+  AreaType_MIN = AreaType_City,
+  AreaType_MAX = AreaType_Instance
 };
 
 inline const AreaType (&EnumValuesAreaType())[4] {
   static const AreaType values[] = {
-    AreaType::City,
-    AreaType::Village,
-    AreaType::Field,
-    AreaType::Instance
+    AreaType_City,
+    AreaType_Village,
+    AreaType_Field,
+    AreaType_Instance
   };
   return values;
 }
@@ -483,32 +571,40 @@ inline const char * const *EnumNamesAreaType() {
 }
 
 inline const char *EnumNameAreaType(AreaType e) {
-  if (::flatbuffers::IsOutRange(e, AreaType::City, AreaType::Instance)) return "";
+  if (::flatbuffers::IsOutRange(e, AreaType_City, AreaType_Instance)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesAreaType()[index];
 }
 
-enum class AttributeType : int32_t {
-  None = 0,
-  Fire = 1,
-  Water = 2,
-  Wind = 3,
-  Earth = 4,
-  Holy = 5,
-  Dark = 6,
-  MIN = None,
-  MAX = Dark
+inline bool EnumStringAreaType(const char* const str, AreaType e) {
+  std::size_t count = static_cast<std::size_t>(AreaType_Instance);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesAreaType()[i] == str) { e = static_cast<AreaType>(i); return true; }
+  }
+  return false;
+}
+
+enum AttributeType : int32_t {
+  AttributeType_None = 0,
+  AttributeType_Fire = 1,
+  AttributeType_Water = 2,
+  AttributeType_Wind = 3,
+  AttributeType_Earth = 4,
+  AttributeType_Holy = 5,
+  AttributeType_Dark = 6,
+  AttributeType_MIN = AttributeType_None,
+  AttributeType_MAX = AttributeType_Dark
 };
 
 inline const AttributeType (&EnumValuesAttributeType())[7] {
   static const AttributeType values[] = {
-    AttributeType::None,
-    AttributeType::Fire,
-    AttributeType::Water,
-    AttributeType::Wind,
-    AttributeType::Earth,
-    AttributeType::Holy,
-    AttributeType::Dark
+    AttributeType_None,
+    AttributeType_Fire,
+    AttributeType_Water,
+    AttributeType_Wind,
+    AttributeType_Earth,
+    AttributeType_Holy,
+    AttributeType_Dark
   };
   return values;
 }
@@ -528,30 +624,38 @@ inline const char * const *EnumNamesAttributeType() {
 }
 
 inline const char *EnumNameAttributeType(AttributeType e) {
-  if (::flatbuffers::IsOutRange(e, AttributeType::None, AttributeType::Dark)) return "";
+  if (::flatbuffers::IsOutRange(e, AttributeType_None, AttributeType_Dark)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesAttributeType()[index];
 }
 
-enum class RaceType : int32_t {
-  Human = 0,
-  Elf = 1,
-  Dwarf = 2,
-  Orc = 3,
-  Undead = 4,
-  Dragon = 5,
-  MIN = Human,
-  MAX = Dragon
+inline bool EnumStringAttributeType(const char* const str, AttributeType e) {
+  std::size_t count = static_cast<std::size_t>(AttributeType_Dark);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesAttributeType()[i] == str) { e = static_cast<AttributeType>(i); return true; }
+  }
+  return false;
+}
+
+enum RaceType : int32_t {
+  RaceType_Human = 0,
+  RaceType_Elf = 1,
+  RaceType_Dwarf = 2,
+  RaceType_Orc = 3,
+  RaceType_Undead = 4,
+  RaceType_Dragon = 5,
+  RaceType_MIN = RaceType_Human,
+  RaceType_MAX = RaceType_Dragon
 };
 
 inline const RaceType (&EnumValuesRaceType())[6] {
   static const RaceType values[] = {
-    RaceType::Human,
-    RaceType::Elf,
-    RaceType::Dwarf,
-    RaceType::Orc,
-    RaceType::Undead,
-    RaceType::Dragon
+    RaceType_Human,
+    RaceType_Elf,
+    RaceType_Dwarf,
+    RaceType_Orc,
+    RaceType_Undead,
+    RaceType_Dragon
   };
   return values;
 }
@@ -570,28 +674,36 @@ inline const char * const *EnumNamesRaceType() {
 }
 
 inline const char *EnumNameRaceType(RaceType e) {
-  if (::flatbuffers::IsOutRange(e, RaceType::Human, RaceType::Dragon)) return "";
+  if (::flatbuffers::IsOutRange(e, RaceType_Human, RaceType_Dragon)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesRaceType()[index];
 }
 
-enum class CurrencyType : int32_t {
-  Gold = 0,
-  Ruby = 1,
-  Mileage = 2,
-  Honor = 3,
-  GuildPoint = 4,
-  MIN = Gold,
-  MAX = GuildPoint
+inline bool EnumStringRaceType(const char* const str, RaceType e) {
+  std::size_t count = static_cast<std::size_t>(RaceType_Dragon);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesRaceType()[i] == str) { e = static_cast<RaceType>(i); return true; }
+  }
+  return false;
+}
+
+enum CurrencyType : int32_t {
+  CurrencyType_Gold = 0,
+  CurrencyType_Ruby = 1,
+  CurrencyType_Mileage = 2,
+  CurrencyType_Honor = 3,
+  CurrencyType_GuildPoint = 4,
+  CurrencyType_MIN = CurrencyType_Gold,
+  CurrencyType_MAX = CurrencyType_GuildPoint
 };
 
 inline const CurrencyType (&EnumValuesCurrencyType())[5] {
   static const CurrencyType values[] = {
-    CurrencyType::Gold,
-    CurrencyType::Ruby,
-    CurrencyType::Mileage,
-    CurrencyType::Honor,
-    CurrencyType::GuildPoint
+    CurrencyType_Gold,
+    CurrencyType_Ruby,
+    CurrencyType_Mileage,
+    CurrencyType_Honor,
+    CurrencyType_GuildPoint
   };
   return values;
 }
@@ -609,32 +721,40 @@ inline const char * const *EnumNamesCurrencyType() {
 }
 
 inline const char *EnumNameCurrencyType(CurrencyType e) {
-  if (::flatbuffers::IsOutRange(e, CurrencyType::Gold, CurrencyType::GuildPoint)) return "";
+  if (::flatbuffers::IsOutRange(e, CurrencyType_Gold, CurrencyType_GuildPoint)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesCurrencyType()[index];
 }
 
-enum class GradeType : int32_t {
-  Normal = 0,
-  Magic = 1,
-  Rare = 2,
-  Unique = 3,
-  Epic = 4,
-  Legendary = 5,
-  Mythic = 6,
-  MIN = Normal,
-  MAX = Mythic
+inline bool EnumStringCurrencyType(const char* const str, CurrencyType e) {
+  std::size_t count = static_cast<std::size_t>(CurrencyType_GuildPoint);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesCurrencyType()[i] == str) { e = static_cast<CurrencyType>(i); return true; }
+  }
+  return false;
+}
+
+enum GradeType : int32_t {
+  GradeType_Normal = 0,
+  GradeType_Magic = 1,
+  GradeType_Rare = 2,
+  GradeType_Unique = 3,
+  GradeType_Epic = 4,
+  GradeType_Legendary = 5,
+  GradeType_Mythic = 6,
+  GradeType_MIN = GradeType_Normal,
+  GradeType_MAX = GradeType_Mythic
 };
 
 inline const GradeType (&EnumValuesGradeType())[7] {
   static const GradeType values[] = {
-    GradeType::Normal,
-    GradeType::Magic,
-    GradeType::Rare,
-    GradeType::Unique,
-    GradeType::Epic,
-    GradeType::Legendary,
-    GradeType::Mythic
+    GradeType_Normal,
+    GradeType_Magic,
+    GradeType_Rare,
+    GradeType_Unique,
+    GradeType_Epic,
+    GradeType_Legendary,
+    GradeType_Mythic
   };
   return values;
 }
@@ -654,110 +774,118 @@ inline const char * const *EnumNamesGradeType() {
 }
 
 inline const char *EnumNameGradeType(GradeType e) {
-  if (::flatbuffers::IsOutRange(e, GradeType::Normal, GradeType::Mythic)) return "";
+  if (::flatbuffers::IsOutRange(e, GradeType_Normal, GradeType_Mythic)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesGradeType()[index];
 }
 
-enum class StatType : int32_t {
-  Strength = 0,
-  Agility = 1,
-  Intelligence = 2,
-  Stamina = 3,
-  Dexterity = 4,
-  Wisdom = 5,
-  Luck = 6,
-  Constitution = 7,
-  Spirit = 8,
-  Charisma = 9,
-  Hp = 10,
-  Mp = 11,
-  HpRegen = 12,
-  MpRegen = 13,
-  AttackSpeed = 14,
-  CastSpeed = 15,
-  MoveSpeed = 16,
-  Accuracy = 17,
-  Penetration = 18,
-  MagicPenetration = 19,
-  SkillDamage = 20,
-  BonusDamage = 21,
-  DamageReduction = 22,
-  BossDamage = 23,
-  PhysicalAtk = 24,
-  PhysicalDef = 25,
-  MagicalAtk = 26,
-  MagicalDef = 27,
-  FireDamage = 28,
-  FireReduction = 29,
-  WaterDamage = 30,
-  WaterReduction = 31,
-  WindDamage = 32,
-  WindReduction = 33,
-  EarthDamage = 34,
-  EarthReduction = 35,
-  HolyDamage = 36,
-  HolyReduction = 37,
-  DarkDamage = 38,
-  DarkReduction = 39,
-  CriRate = 40,
-  CriResist = 41,
-  CriDamage = 42,
-  CriReduction = 43,
-  BlockRate = 44,
-  BlockResist = 45,
-  MIN = Strength,
-  MAX = BlockResist
+inline bool EnumStringGradeType(const char* const str, GradeType e) {
+  std::size_t count = static_cast<std::size_t>(GradeType_Mythic);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesGradeType()[i] == str) { e = static_cast<GradeType>(i); return true; }
+  }
+  return false;
+}
+
+enum StatType : int32_t {
+  StatType_Strength = 0,
+  StatType_Agility = 1,
+  StatType_Intelligence = 2,
+  StatType_Stamina = 3,
+  StatType_Dexterity = 4,
+  StatType_Wisdom = 5,
+  StatType_Luck = 6,
+  StatType_Constitution = 7,
+  StatType_Spirit = 8,
+  StatType_Charisma = 9,
+  StatType_Hp = 10,
+  StatType_Mp = 11,
+  StatType_HpRegen = 12,
+  StatType_MpRegen = 13,
+  StatType_AttackSpeed = 14,
+  StatType_CastSpeed = 15,
+  StatType_MoveSpeed = 16,
+  StatType_Accuracy = 17,
+  StatType_Penetration = 18,
+  StatType_MagicPenetration = 19,
+  StatType_SkillDamage = 20,
+  StatType_BonusDamage = 21,
+  StatType_DamageReduction = 22,
+  StatType_BossDamage = 23,
+  StatType_PhysicalAtk = 24,
+  StatType_PhysicalDef = 25,
+  StatType_MagicalAtk = 26,
+  StatType_MagicalDef = 27,
+  StatType_FireDamage = 28,
+  StatType_FireReduction = 29,
+  StatType_WaterDamage = 30,
+  StatType_WaterReduction = 31,
+  StatType_WindDamage = 32,
+  StatType_WindReduction = 33,
+  StatType_EarthDamage = 34,
+  StatType_EarthReduction = 35,
+  StatType_HolyDamage = 36,
+  StatType_HolyReduction = 37,
+  StatType_DarkDamage = 38,
+  StatType_DarkReduction = 39,
+  StatType_CriRate = 40,
+  StatType_CriResist = 41,
+  StatType_CriDamage = 42,
+  StatType_CriReduction = 43,
+  StatType_BlockRate = 44,
+  StatType_BlockResist = 45,
+  StatType_MIN = StatType_Strength,
+  StatType_MAX = StatType_BlockResist
 };
 
 inline const StatType (&EnumValuesStatType())[46] {
   static const StatType values[] = {
-    StatType::Strength,
-    StatType::Agility,
-    StatType::Intelligence,
-    StatType::Stamina,
-    StatType::Dexterity,
-    StatType::Wisdom,
-    StatType::Luck,
-    StatType::Constitution,
-    StatType::Spirit,
-    StatType::Charisma,
-    StatType::Hp,
-    StatType::Mp,
-    StatType::HpRegen,
-    StatType::MpRegen,
-    StatType::AttackSpeed,
-    StatType::CastSpeed,
-    StatType::MoveSpeed,
-    StatType::Accuracy,
-    StatType::Penetration,
-    StatType::MagicPenetration,
-    StatType::SkillDamage,
-    StatType::BonusDamage,
-    StatType::DamageReduction,
-    StatType::BossDamage,
-    StatType::PhysicalAtk,
-    StatType::PhysicalDef,
-    StatType::MagicalAtk,
-    StatType::MagicalDef,
-    StatType::FireDamage,
-    StatType::FireReduction,
-    StatType::WaterDamage,
-    StatType::WaterReduction,
-    StatType::WindDamage,
-    StatType::WindReduction,
-    StatType::EarthDamage,
-    StatType::EarthReduction,
-    StatType::HolyDamage,
-    StatType::HolyReduction,
-    StatType::DarkDamage,
-    StatType::DarkReduction,
-    StatType::CriRate,
-    StatType::CriResist,
-    StatType::CriDamage,
-    StatType::CriReduction,
-    StatType::BlockRate,
-    StatType::BlockResist
+    StatType_Strength,
+    StatType_Agility,
+    StatType_Intelligence,
+    StatType_Stamina,
+    StatType_Dexterity,
+    StatType_Wisdom,
+    StatType_Luck,
+    StatType_Constitution,
+    StatType_Spirit,
+    StatType_Charisma,
+    StatType_Hp,
+    StatType_Mp,
+    StatType_HpRegen,
+    StatType_MpRegen,
+    StatType_AttackSpeed,
+    StatType_CastSpeed,
+    StatType_MoveSpeed,
+    StatType_Accuracy,
+    StatType_Penetration,
+    StatType_MagicPenetration,
+    StatType_SkillDamage,
+    StatType_BonusDamage,
+    StatType_DamageReduction,
+    StatType_BossDamage,
+    StatType_PhysicalAtk,
+    StatType_PhysicalDef,
+    StatType_MagicalAtk,
+    StatType_MagicalDef,
+    StatType_FireDamage,
+    StatType_FireReduction,
+    StatType_WaterDamage,
+    StatType_WaterReduction,
+    StatType_WindDamage,
+    StatType_WindReduction,
+    StatType_EarthDamage,
+    StatType_EarthReduction,
+    StatType_HolyDamage,
+    StatType_HolyReduction,
+    StatType_DarkDamage,
+    StatType_DarkReduction,
+    StatType_CriRate,
+    StatType_CriResist,
+    StatType_CriDamage,
+    StatType_CriReduction,
+    StatType_BlockRate,
+    StatType_BlockResist
   };
   return values;
 }
@@ -816,48 +944,56 @@ inline const char * const *EnumNamesStatType() {
 }
 
 inline const char *EnumNameStatType(StatType e) {
-  if (::flatbuffers::IsOutRange(e, StatType::Strength, StatType::BlockResist)) return "";
+  if (::flatbuffers::IsOutRange(e, StatType_Strength, StatType_BlockResist)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesStatType()[index];
 }
 
-enum class AbilityType : int32_t {
-  Stun = 0,
-  Knockback = 1,
-  Slow = 2,
-  Provoke = 3,
-  Silence = 4,
-  Blessing = 5,
-  DoubleHitChance = 6,
-  IgnoreShield = 7,
-  LifeSteal = 8,
-  Shield = 9,
-  HealingUp = 10,
-  CoolTimeDown = 11,
-  Burn = 12,
-  Curse = 13,
-  Immortal = 14,
-  MIN = Stun,
-  MAX = Immortal
+inline bool EnumStringStatType(const char* const str, StatType e) {
+  std::size_t count = static_cast<std::size_t>(StatType_BlockResist);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesStatType()[i] == str) { e = static_cast<StatType>(i); return true; }
+  }
+  return false;
+}
+
+enum AbilityType : int32_t {
+  AbilityType_Stun = 0,
+  AbilityType_Knockback = 1,
+  AbilityType_Slow = 2,
+  AbilityType_Provoke = 3,
+  AbilityType_Silence = 4,
+  AbilityType_Blessing = 5,
+  AbilityType_DoubleHitChance = 6,
+  AbilityType_IgnoreShield = 7,
+  AbilityType_LifeSteal = 8,
+  AbilityType_Shield = 9,
+  AbilityType_HealingUp = 10,
+  AbilityType_CoolTimeDown = 11,
+  AbilityType_Burn = 12,
+  AbilityType_Curse = 13,
+  AbilityType_Immortal = 14,
+  AbilityType_MIN = AbilityType_Stun,
+  AbilityType_MAX = AbilityType_Immortal
 };
 
 inline const AbilityType (&EnumValuesAbilityType())[15] {
   static const AbilityType values[] = {
-    AbilityType::Stun,
-    AbilityType::Knockback,
-    AbilityType::Slow,
-    AbilityType::Provoke,
-    AbilityType::Silence,
-    AbilityType::Blessing,
-    AbilityType::DoubleHitChance,
-    AbilityType::IgnoreShield,
-    AbilityType::LifeSteal,
-    AbilityType::Shield,
-    AbilityType::HealingUp,
-    AbilityType::CoolTimeDown,
-    AbilityType::Burn,
-    AbilityType::Curse,
-    AbilityType::Immortal
+    AbilityType_Stun,
+    AbilityType_Knockback,
+    AbilityType_Slow,
+    AbilityType_Provoke,
+    AbilityType_Silence,
+    AbilityType_Blessing,
+    AbilityType_DoubleHitChance,
+    AbilityType_IgnoreShield,
+    AbilityType_LifeSteal,
+    AbilityType_Shield,
+    AbilityType_HealingUp,
+    AbilityType_CoolTimeDown,
+    AbilityType_Burn,
+    AbilityType_Curse,
+    AbilityType_Immortal
   };
   return values;
 }
@@ -885,24 +1021,32 @@ inline const char * const *EnumNamesAbilityType() {
 }
 
 inline const char *EnumNameAbilityType(AbilityType e) {
-  if (::flatbuffers::IsOutRange(e, AbilityType::Stun, AbilityType::Immortal)) return "";
+  if (::flatbuffers::IsOutRange(e, AbilityType_Stun, AbilityType_Immortal)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesAbilityType()[index];
 }
 
-enum class TargetingType : int32_t {
-  Self = 0,
-  Unit = 1,
-  Ground = 2,
-  MIN = Self,
-  MAX = Ground
+inline bool EnumStringAbilityType(const char* const str, AbilityType e) {
+  std::size_t count = static_cast<std::size_t>(AbilityType_Immortal);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesAbilityType()[i] == str) { e = static_cast<AbilityType>(i); return true; }
+  }
+  return false;
+}
+
+enum TargetingType : int32_t {
+  TargetingType_Self = 0,
+  TargetingType_Unit = 1,
+  TargetingType_Ground = 2,
+  TargetingType_MIN = TargetingType_Self,
+  TargetingType_MAX = TargetingType_Ground
 };
 
 inline const TargetingType (&EnumValuesTargetingType())[3] {
   static const TargetingType values[] = {
-    TargetingType::Self,
-    TargetingType::Unit,
-    TargetingType::Ground
+    TargetingType_Self,
+    TargetingType_Unit,
+    TargetingType_Ground
   };
   return values;
 }
@@ -918,24 +1062,32 @@ inline const char * const *EnumNamesTargetingType() {
 }
 
 inline const char *EnumNameTargetingType(TargetingType e) {
-  if (::flatbuffers::IsOutRange(e, TargetingType::Self, TargetingType::Ground)) return "";
+  if (::flatbuffers::IsOutRange(e, TargetingType_Self, TargetingType_Ground)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesTargetingType()[index];
 }
 
-enum class CostType : int32_t {
-  Gold = 0,
-  Hp = 1,
-  Mp = 2,
-  MIN = Gold,
-  MAX = Mp
+inline bool EnumStringTargetingType(const char* const str, TargetingType e) {
+  std::size_t count = static_cast<std::size_t>(TargetingType_Ground);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesTargetingType()[i] == str) { e = static_cast<TargetingType>(i); return true; }
+  }
+  return false;
+}
+
+enum CostType : int32_t {
+  CostType_Gold = 0,
+  CostType_Hp = 1,
+  CostType_Mp = 2,
+  CostType_MIN = CostType_Gold,
+  CostType_MAX = CostType_Mp
 };
 
 inline const CostType (&EnumValuesCostType())[3] {
   static const CostType values[] = {
-    CostType::Gold,
-    CostType::Hp,
-    CostType::Mp
+    CostType_Gold,
+    CostType_Hp,
+    CostType_Mp
   };
   return values;
 }
@@ -951,22 +1103,30 @@ inline const char * const *EnumNamesCostType() {
 }
 
 inline const char *EnumNameCostType(CostType e) {
-  if (::flatbuffers::IsOutRange(e, CostType::Gold, CostType::Mp)) return "";
+  if (::flatbuffers::IsOutRange(e, CostType_Gold, CostType_Mp)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesCostType()[index];
 }
 
-enum class ItemReason : int32_t {
-  AddDrop = 0,
-  SubUse = 1,
-  MIN = AddDrop,
-  MAX = SubUse
+inline bool EnumStringCostType(const char* const str, CostType e) {
+  std::size_t count = static_cast<std::size_t>(CostType_Mp);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesCostType()[i] == str) { e = static_cast<CostType>(i); return true; }
+  }
+  return false;
+}
+
+enum ItemReason : int32_t {
+  ItemReason_AddDrop = 0,
+  ItemReason_SubUse = 1,
+  ItemReason_MIN = ItemReason_AddDrop,
+  ItemReason_MAX = ItemReason_SubUse
 };
 
 inline const ItemReason (&EnumValuesItemReason())[2] {
   static const ItemReason values[] = {
-    ItemReason::AddDrop,
-    ItemReason::SubUse
+    ItemReason_AddDrop,
+    ItemReason_SubUse
   };
   return values;
 }
@@ -981,40 +1141,48 @@ inline const char * const *EnumNamesItemReason() {
 }
 
 inline const char *EnumNameItemReason(ItemReason e) {
-  if (::flatbuffers::IsOutRange(e, ItemReason::AddDrop, ItemReason::SubUse)) return "";
+  if (::flatbuffers::IsOutRange(e, ItemReason_AddDrop, ItemReason_SubUse)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesItemReason()[index];
 }
 
-enum class DamageType : int32_t {
-  Physical = 0,
-  Magical = 1,
-  True = 2,
-  Holy = 3,
-  Dark = 4,
-  Fire = 5,
-  Ice = 6,
-  Lightning = 7,
-  Earth = 8,
-  Bleed = 9,
-  Poison = 10,
-  MIN = Physical,
-  MAX = Poison
+inline bool EnumStringItemReason(const char* const str, ItemReason e) {
+  std::size_t count = static_cast<std::size_t>(ItemReason_SubUse);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesItemReason()[i] == str) { e = static_cast<ItemReason>(i); return true; }
+  }
+  return false;
+}
+
+enum DamageType : int32_t {
+  DamageType_Physical = 0,
+  DamageType_Magical = 1,
+  DamageType_True = 2,
+  DamageType_Holy = 3,
+  DamageType_Dark = 4,
+  DamageType_Fire = 5,
+  DamageType_Ice = 6,
+  DamageType_Lightning = 7,
+  DamageType_Earth = 8,
+  DamageType_Bleed = 9,
+  DamageType_Poison = 10,
+  DamageType_MIN = DamageType_Physical,
+  DamageType_MAX = DamageType_Poison
 };
 
 inline const DamageType (&EnumValuesDamageType())[11] {
   static const DamageType values[] = {
-    DamageType::Physical,
-    DamageType::Magical,
-    DamageType::True,
-    DamageType::Holy,
-    DamageType::Dark,
-    DamageType::Fire,
-    DamageType::Ice,
-    DamageType::Lightning,
-    DamageType::Earth,
-    DamageType::Bleed,
-    DamageType::Poison
+    DamageType_Physical,
+    DamageType_Magical,
+    DamageType_True,
+    DamageType_Holy,
+    DamageType_Dark,
+    DamageType_Fire,
+    DamageType_Ice,
+    DamageType_Lightning,
+    DamageType_Earth,
+    DamageType_Bleed,
+    DamageType_Poison
   };
   return values;
 }
@@ -1038,38 +1206,46 @@ inline const char * const *EnumNamesDamageType() {
 }
 
 inline const char *EnumNameDamageType(DamageType e) {
-  if (::flatbuffers::IsOutRange(e, DamageType::Physical, DamageType::Poison)) return "";
+  if (::flatbuffers::IsOutRange(e, DamageType_Physical, DamageType_Poison)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesDamageType()[index];
 }
 
-enum class MonsterType : int32_t {
-  Beast = 0,
-  Undead = 1,
-  Demon = 2,
-  Dragon = 3,
-  Elemental = 4,
-  HolyBeing = 5,
-  DarkBeing = 6,
-  Human = 7,
-  Plant = 8,
-  Construct = 9,
-  MIN = Beast,
-  MAX = Construct
+inline bool EnumStringDamageType(const char* const str, DamageType e) {
+  std::size_t count = static_cast<std::size_t>(DamageType_Poison);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesDamageType()[i] == str) { e = static_cast<DamageType>(i); return true; }
+  }
+  return false;
+}
+
+enum MonsterType : int32_t {
+  MonsterType_Beast = 0,
+  MonsterType_Undead = 1,
+  MonsterType_Demon = 2,
+  MonsterType_Dragon = 3,
+  MonsterType_Elemental = 4,
+  MonsterType_HolyBeing = 5,
+  MonsterType_DarkBeing = 6,
+  MonsterType_Human = 7,
+  MonsterType_Plant = 8,
+  MonsterType_Construct = 9,
+  MonsterType_MIN = MonsterType_Beast,
+  MonsterType_MAX = MonsterType_Construct
 };
 
 inline const MonsterType (&EnumValuesMonsterType())[10] {
   static const MonsterType values[] = {
-    MonsterType::Beast,
-    MonsterType::Undead,
-    MonsterType::Demon,
-    MonsterType::Dragon,
-    MonsterType::Elemental,
-    MonsterType::HolyBeing,
-    MonsterType::DarkBeing,
-    MonsterType::Human,
-    MonsterType::Plant,
-    MonsterType::Construct
+    MonsterType_Beast,
+    MonsterType_Undead,
+    MonsterType_Demon,
+    MonsterType_Dragon,
+    MonsterType_Elemental,
+    MonsterType_HolyBeing,
+    MonsterType_DarkBeing,
+    MonsterType_Human,
+    MonsterType_Plant,
+    MonsterType_Construct
   };
   return values;
 }
@@ -1092,58 +1268,66 @@ inline const char * const *EnumNamesMonsterType() {
 }
 
 inline const char *EnumNameMonsterType(MonsterType e) {
-  if (::flatbuffers::IsOutRange(e, MonsterType::Beast, MonsterType::Construct)) return "";
+  if (::flatbuffers::IsOutRange(e, MonsterType_Beast, MonsterType_Construct)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesMonsterType()[index];
 }
 
-enum class StatusEffectType : int32_t {
-  Bleed = 0,
-  Fracture = 1,
-  Root = 2,
-  Poison = 3,
-  Freeze = 4,
-  Electrify = 5,
-  Ignite = 6,
-  Petrify = 7,
-  Blind = 8,
-  Reveal = 9,
-  HolyMark = 10,
-  Curse = 11,
-  Fear = 12,
-  Decay = 13,
-  DarkMark = 14,
-  Stun = 15,
-  Sleep = 16,
-  Silence = 17,
-  Slow = 18,
-  Knockback = 19,
-  MIN = Bleed,
-  MAX = Knockback
+inline bool EnumStringMonsterType(const char* const str, MonsterType e) {
+  std::size_t count = static_cast<std::size_t>(MonsterType_Construct);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesMonsterType()[i] == str) { e = static_cast<MonsterType>(i); return true; }
+  }
+  return false;
+}
+
+enum StatusEffectType : int32_t {
+  StatusEffectType_Bleed = 0,
+  StatusEffectType_Fracture = 1,
+  StatusEffectType_Root = 2,
+  StatusEffectType_Poison = 3,
+  StatusEffectType_Freeze = 4,
+  StatusEffectType_Electrify = 5,
+  StatusEffectType_Ignite = 6,
+  StatusEffectType_Petrify = 7,
+  StatusEffectType_Blind = 8,
+  StatusEffectType_Reveal = 9,
+  StatusEffectType_HolyMark = 10,
+  StatusEffectType_Curse = 11,
+  StatusEffectType_Fear = 12,
+  StatusEffectType_Decay = 13,
+  StatusEffectType_DarkMark = 14,
+  StatusEffectType_Stun = 15,
+  StatusEffectType_Sleep = 16,
+  StatusEffectType_Silence = 17,
+  StatusEffectType_Slow = 18,
+  StatusEffectType_Knockback = 19,
+  StatusEffectType_MIN = StatusEffectType_Bleed,
+  StatusEffectType_MAX = StatusEffectType_Knockback
 };
 
 inline const StatusEffectType (&EnumValuesStatusEffectType())[20] {
   static const StatusEffectType values[] = {
-    StatusEffectType::Bleed,
-    StatusEffectType::Fracture,
-    StatusEffectType::Root,
-    StatusEffectType::Poison,
-    StatusEffectType::Freeze,
-    StatusEffectType::Electrify,
-    StatusEffectType::Ignite,
-    StatusEffectType::Petrify,
-    StatusEffectType::Blind,
-    StatusEffectType::Reveal,
-    StatusEffectType::HolyMark,
-    StatusEffectType::Curse,
-    StatusEffectType::Fear,
-    StatusEffectType::Decay,
-    StatusEffectType::DarkMark,
-    StatusEffectType::Stun,
-    StatusEffectType::Sleep,
-    StatusEffectType::Silence,
-    StatusEffectType::Slow,
-    StatusEffectType::Knockback
+    StatusEffectType_Bleed,
+    StatusEffectType_Fracture,
+    StatusEffectType_Root,
+    StatusEffectType_Poison,
+    StatusEffectType_Freeze,
+    StatusEffectType_Electrify,
+    StatusEffectType_Ignite,
+    StatusEffectType_Petrify,
+    StatusEffectType_Blind,
+    StatusEffectType_Reveal,
+    StatusEffectType_HolyMark,
+    StatusEffectType_Curse,
+    StatusEffectType_Fear,
+    StatusEffectType_Decay,
+    StatusEffectType_DarkMark,
+    StatusEffectType_Stun,
+    StatusEffectType_Sleep,
+    StatusEffectType_Silence,
+    StatusEffectType_Slow,
+    StatusEffectType_Knockback
   };
   return values;
 }
@@ -1176,32 +1360,40 @@ inline const char * const *EnumNamesStatusEffectType() {
 }
 
 inline const char *EnumNameStatusEffectType(StatusEffectType e) {
-  if (::flatbuffers::IsOutRange(e, StatusEffectType::Bleed, StatusEffectType::Knockback)) return "";
+  if (::flatbuffers::IsOutRange(e, StatusEffectType_Bleed, StatusEffectType_Knockback)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesStatusEffectType()[index];
 }
 
-enum class DungeonType : int32_t {
-  Normal = 0,
-  Solo = 1,
-  Elite = 2,
-  Hard = 3,
-  Challenge = 4,
-  Raid = 5,
-  Special = 6,
-  MIN = Normal,
-  MAX = Special
+inline bool EnumStringStatusEffectType(const char* const str, StatusEffectType e) {
+  std::size_t count = static_cast<std::size_t>(StatusEffectType_Knockback);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesStatusEffectType()[i] == str) { e = static_cast<StatusEffectType>(i); return true; }
+  }
+  return false;
+}
+
+enum DungeonType : int32_t {
+  DungeonType_Normal = 0,
+  DungeonType_Solo = 1,
+  DungeonType_Elite = 2,
+  DungeonType_Hard = 3,
+  DungeonType_Challenge = 4,
+  DungeonType_Raid = 5,
+  DungeonType_Special = 6,
+  DungeonType_MIN = DungeonType_Normal,
+  DungeonType_MAX = DungeonType_Special
 };
 
 inline const DungeonType (&EnumValuesDungeonType())[7] {
   static const DungeonType values[] = {
-    DungeonType::Normal,
-    DungeonType::Solo,
-    DungeonType::Elite,
-    DungeonType::Hard,
-    DungeonType::Challenge,
-    DungeonType::Raid,
-    DungeonType::Special
+    DungeonType_Normal,
+    DungeonType_Solo,
+    DungeonType_Elite,
+    DungeonType_Hard,
+    DungeonType_Challenge,
+    DungeonType_Raid,
+    DungeonType_Special
   };
   return values;
 }
@@ -1221,34 +1413,42 @@ inline const char * const *EnumNamesDungeonType() {
 }
 
 inline const char *EnumNameDungeonType(DungeonType e) {
-  if (::flatbuffers::IsOutRange(e, DungeonType::Normal, DungeonType::Special)) return "";
+  if (::flatbuffers::IsOutRange(e, DungeonType_Normal, DungeonType_Special)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesDungeonType()[index];
 }
 
-enum class QuestType : int32_t {
-  Main = 0,
-  Sub = 1,
-  Daily = 2,
-  Weekly = 3,
-  Guild = 4,
-  Bounty = 5,
-  ClassQuest = 6,
-  Repeatable = 7,
-  MIN = Main,
-  MAX = Repeatable
+inline bool EnumStringDungeonType(const char* const str, DungeonType e) {
+  std::size_t count = static_cast<std::size_t>(DungeonType_Special);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesDungeonType()[i] == str) { e = static_cast<DungeonType>(i); return true; }
+  }
+  return false;
+}
+
+enum QuestType : int32_t {
+  QuestType_Main = 0,
+  QuestType_Sub = 1,
+  QuestType_Daily = 2,
+  QuestType_Weekly = 3,
+  QuestType_Guild = 4,
+  QuestType_Bounty = 5,
+  QuestType_ClassQuest = 6,
+  QuestType_Repeatable = 7,
+  QuestType_MIN = QuestType_Main,
+  QuestType_MAX = QuestType_Repeatable
 };
 
 inline const QuestType (&EnumValuesQuestType())[8] {
   static const QuestType values[] = {
-    QuestType::Main,
-    QuestType::Sub,
-    QuestType::Daily,
-    QuestType::Weekly,
-    QuestType::Guild,
-    QuestType::Bounty,
-    QuestType::ClassQuest,
-    QuestType::Repeatable
+    QuestType_Main,
+    QuestType_Sub,
+    QuestType_Daily,
+    QuestType_Weekly,
+    QuestType_Guild,
+    QuestType_Bounty,
+    QuestType_ClassQuest,
+    QuestType_Repeatable
   };
   return values;
 }
@@ -1269,40 +1469,48 @@ inline const char * const *EnumNamesQuestType() {
 }
 
 inline const char *EnumNameQuestType(QuestType e) {
-  if (::flatbuffers::IsOutRange(e, QuestType::Main, QuestType::Repeatable)) return "";
+  if (::flatbuffers::IsOutRange(e, QuestType_Main, QuestType_Repeatable)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesQuestType()[index];
 }
 
-enum class NPCType : int32_t {
-  Merchant = 0,
-  QuestGiver = 1,
-  Guard = 2,
-  Blacksmith = 3,
-  Enchanter = 4,
-  Alchemist = 5,
-  Trainer = 6,
-  GuildMaster = 7,
-  AuctionClerk = 8,
-  Banker = 9,
-  Teleporter = 10,
-  MIN = Merchant,
-  MAX = Teleporter
+inline bool EnumStringQuestType(const char* const str, QuestType e) {
+  std::size_t count = static_cast<std::size_t>(QuestType_Repeatable);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesQuestType()[i] == str) { e = static_cast<QuestType>(i); return true; }
+  }
+  return false;
+}
+
+enum NPCType : int32_t {
+  NPCType_Merchant = 0,
+  NPCType_QuestGiver = 1,
+  NPCType_Guard = 2,
+  NPCType_Blacksmith = 3,
+  NPCType_Enchanter = 4,
+  NPCType_Alchemist = 5,
+  NPCType_Trainer = 6,
+  NPCType_GuildMaster = 7,
+  NPCType_AuctionClerk = 8,
+  NPCType_Banker = 9,
+  NPCType_Teleporter = 10,
+  NPCType_MIN = NPCType_Merchant,
+  NPCType_MAX = NPCType_Teleporter
 };
 
 inline const NPCType (&EnumValuesNPCType())[11] {
   static const NPCType values[] = {
-    NPCType::Merchant,
-    NPCType::QuestGiver,
-    NPCType::Guard,
-    NPCType::Blacksmith,
-    NPCType::Enchanter,
-    NPCType::Alchemist,
-    NPCType::Trainer,
-    NPCType::GuildMaster,
-    NPCType::AuctionClerk,
-    NPCType::Banker,
-    NPCType::Teleporter
+    NPCType_Merchant,
+    NPCType_QuestGiver,
+    NPCType_Guard,
+    NPCType_Blacksmith,
+    NPCType_Enchanter,
+    NPCType_Alchemist,
+    NPCType_Trainer,
+    NPCType_GuildMaster,
+    NPCType_AuctionClerk,
+    NPCType_Banker,
+    NPCType_Teleporter
   };
   return values;
 }
@@ -1326,34 +1534,42 @@ inline const char * const *EnumNamesNPCType() {
 }
 
 inline const char *EnumNameNPCType(NPCType e) {
-  if (::flatbuffers::IsOutRange(e, NPCType::Merchant, NPCType::Teleporter)) return "";
+  if (::flatbuffers::IsOutRange(e, NPCType_Merchant, NPCType_Teleporter)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesNPCType()[index];
 }
 
-enum class CraftType : int32_t {
-  Blacksmithing = 0,
-  Tailoring = 1,
-  Leatherwork = 2,
-  Alchemy = 3,
-  Cooking = 4,
-  Enchanting = 5,
-  Jeweling = 6,
-  Inscription = 7,
-  MIN = Blacksmithing,
-  MAX = Inscription
+inline bool EnumStringNPCType(const char* const str, NPCType e) {
+  std::size_t count = static_cast<std::size_t>(NPCType_Teleporter);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesNPCType()[i] == str) { e = static_cast<NPCType>(i); return true; }
+  }
+  return false;
+}
+
+enum CraftType : int32_t {
+  CraftType_Blacksmithing = 0,
+  CraftType_Tailoring = 1,
+  CraftType_Leatherwork = 2,
+  CraftType_Alchemy = 3,
+  CraftType_Cooking = 4,
+  CraftType_Enchanting = 5,
+  CraftType_Jeweling = 6,
+  CraftType_Inscription = 7,
+  CraftType_MIN = CraftType_Blacksmithing,
+  CraftType_MAX = CraftType_Inscription
 };
 
 inline const CraftType (&EnumValuesCraftType())[8] {
   static const CraftType values[] = {
-    CraftType::Blacksmithing,
-    CraftType::Tailoring,
-    CraftType::Leatherwork,
-    CraftType::Alchemy,
-    CraftType::Cooking,
-    CraftType::Enchanting,
-    CraftType::Jeweling,
-    CraftType::Inscription
+    CraftType_Blacksmithing,
+    CraftType_Tailoring,
+    CraftType_Leatherwork,
+    CraftType_Alchemy,
+    CraftType_Cooking,
+    CraftType_Enchanting,
+    CraftType_Jeweling,
+    CraftType_Inscription
   };
   return values;
 }
@@ -1374,22 +1590,30 @@ inline const char * const *EnumNamesCraftType() {
 }
 
 inline const char *EnumNameCraftType(CraftType e) {
-  if (::flatbuffers::IsOutRange(e, CraftType::Blacksmithing, CraftType::Inscription)) return "";
+  if (::flatbuffers::IsOutRange(e, CraftType_Blacksmithing, CraftType_Inscription)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesCraftType()[index];
 }
 
-enum class PartyRole : int32_t {
-  Leader = 0,
-  Member = 1,
-  MIN = Leader,
-  MAX = Member
+inline bool EnumStringCraftType(const char* const str, CraftType e) {
+  std::size_t count = static_cast<std::size_t>(CraftType_Inscription);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesCraftType()[i] == str) { e = static_cast<CraftType>(i); return true; }
+  }
+  return false;
+}
+
+enum PartyRole : int32_t {
+  PartyRole_Leader = 0,
+  PartyRole_Member = 1,
+  PartyRole_MIN = PartyRole_Leader,
+  PartyRole_MAX = PartyRole_Member
 };
 
 inline const PartyRole (&EnumValuesPartyRole())[2] {
   static const PartyRole values[] = {
-    PartyRole::Leader,
-    PartyRole::Member
+    PartyRole_Leader,
+    PartyRole_Member
   };
   return values;
 }
@@ -1404,24 +1628,32 @@ inline const char * const *EnumNamesPartyRole() {
 }
 
 inline const char *EnumNamePartyRole(PartyRole e) {
-  if (::flatbuffers::IsOutRange(e, PartyRole::Leader, PartyRole::Member)) return "";
+  if (::flatbuffers::IsOutRange(e, PartyRole_Leader, PartyRole_Member)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesPartyRole()[index];
 }
 
-enum class PartyState : int32_t {
-  Idle = 0,
-  InDungeon = 1,
-  InCombat = 2,
-  MIN = Idle,
-  MAX = InCombat
+inline bool EnumStringPartyRole(const char* const str, PartyRole e) {
+  std::size_t count = static_cast<std::size_t>(PartyRole_Member);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesPartyRole()[i] == str) { e = static_cast<PartyRole>(i); return true; }
+  }
+  return false;
+}
+
+enum PartyState : int32_t {
+  PartyState_Idle = 0,
+  PartyState_InDungeon = 1,
+  PartyState_InCombat = 2,
+  PartyState_MIN = PartyState_Idle,
+  PartyState_MAX = PartyState_InCombat
 };
 
 inline const PartyState (&EnumValuesPartyState())[3] {
   static const PartyState values[] = {
-    PartyState::Idle,
-    PartyState::InDungeon,
-    PartyState::InCombat
+    PartyState_Idle,
+    PartyState_InDungeon,
+    PartyState_InCombat
   };
   return values;
 }
@@ -1437,22 +1669,30 @@ inline const char * const *EnumNamesPartyState() {
 }
 
 inline const char *EnumNamePartyState(PartyState e) {
-  if (::flatbuffers::IsOutRange(e, PartyState::Idle, PartyState::InCombat)) return "";
+  if (::flatbuffers::IsOutRange(e, PartyState_Idle, PartyState_InCombat)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesPartyState()[index];
 }
 
-enum class ExpShareType : int32_t {
-  Equal = 0,
-  Contribution = 1,
-  MIN = Equal,
-  MAX = Contribution
+inline bool EnumStringPartyState(const char* const str, PartyState e) {
+  std::size_t count = static_cast<std::size_t>(PartyState_InCombat);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesPartyState()[i] == str) { e = static_cast<PartyState>(i); return true; }
+  }
+  return false;
+}
+
+enum ExpShareType : int32_t {
+  ExpShareType_Equal = 0,
+  ExpShareType_Contribution = 1,
+  ExpShareType_MIN = ExpShareType_Equal,
+  ExpShareType_MAX = ExpShareType_Contribution
 };
 
 inline const ExpShareType (&EnumValuesExpShareType())[2] {
   static const ExpShareType values[] = {
-    ExpShareType::Equal,
-    ExpShareType::Contribution
+    ExpShareType_Equal,
+    ExpShareType_Contribution
   };
   return values;
 }
@@ -1467,24 +1707,32 @@ inline const char * const *EnumNamesExpShareType() {
 }
 
 inline const char *EnumNameExpShareType(ExpShareType e) {
-  if (::flatbuffers::IsOutRange(e, ExpShareType::Equal, ExpShareType::Contribution)) return "";
+  if (::flatbuffers::IsOutRange(e, ExpShareType_Equal, ExpShareType_Contribution)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesExpShareType()[index];
 }
 
-enum class LootType : int32_t {
-  FreeForAll = 0,
-  RoundRobin = 1,
-  NeedGreed = 2,
-  MIN = FreeForAll,
-  MAX = NeedGreed
+inline bool EnumStringExpShareType(const char* const str, ExpShareType e) {
+  std::size_t count = static_cast<std::size_t>(ExpShareType_Contribution);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesExpShareType()[i] == str) { e = static_cast<ExpShareType>(i); return true; }
+  }
+  return false;
+}
+
+enum LootType : int32_t {
+  LootType_FreeForAll = 0,
+  LootType_RoundRobin = 1,
+  LootType_NeedGreed = 2,
+  LootType_MIN = LootType_FreeForAll,
+  LootType_MAX = LootType_NeedGreed
 };
 
 inline const LootType (&EnumValuesLootType())[3] {
   static const LootType values[] = {
-    LootType::FreeForAll,
-    LootType::RoundRobin,
-    LootType::NeedGreed
+    LootType_FreeForAll,
+    LootType_RoundRobin,
+    LootType_NeedGreed
   };
   return values;
 }
@@ -1500,22 +1748,30 @@ inline const char * const *EnumNamesLootType() {
 }
 
 inline const char *EnumNameLootType(LootType e) {
-  if (::flatbuffers::IsOutRange(e, LootType::FreeForAll, LootType::NeedGreed)) return "";
+  if (::flatbuffers::IsOutRange(e, LootType_FreeForAll, LootType_NeedGreed)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesLootType()[index];
 }
 
-enum class PartyGoalType : int32_t {
-  Field = 0,
-  Dungeon = 1,
-  MIN = Field,
-  MAX = Dungeon
+inline bool EnumStringLootType(const char* const str, LootType e) {
+  std::size_t count = static_cast<std::size_t>(LootType_NeedGreed);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesLootType()[i] == str) { e = static_cast<LootType>(i); return true; }
+  }
+  return false;
+}
+
+enum PartyGoalType : int32_t {
+  PartyGoalType_Field = 0,
+  PartyGoalType_Dungeon = 1,
+  PartyGoalType_MIN = PartyGoalType_Field,
+  PartyGoalType_MAX = PartyGoalType_Dungeon
 };
 
 inline const PartyGoalType (&EnumValuesPartyGoalType())[2] {
   static const PartyGoalType values[] = {
-    PartyGoalType::Field,
-    PartyGoalType::Dungeon
+    PartyGoalType_Field,
+    PartyGoalType_Dungeon
   };
   return values;
 }
@@ -1530,48 +1786,56 @@ inline const char * const *EnumNamesPartyGoalType() {
 }
 
 inline const char *EnumNamePartyGoalType(PartyGoalType e) {
-  if (::flatbuffers::IsOutRange(e, PartyGoalType::Field, PartyGoalType::Dungeon)) return "";
+  if (::flatbuffers::IsOutRange(e, PartyGoalType_Field, PartyGoalType_Dungeon)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesPartyGoalType()[index];
 }
 
-enum class EquipSlot : int32_t {
-  None = 0,
-  Helm = 1,
-  Chest = 2,
-  Legs = 3,
-  Gloves = 4,
-  Boots = 5,
-  Cloak = 6,
-  Weapon = 7,
-  OffHand = 8,
-  Ring1 = 9,
-  Ring2 = 10,
-  Necklace = 11,
-  Earring = 12,
-  Belt = 13,
-  Relic = 14,
-  MIN = None,
-  MAX = Relic
+inline bool EnumStringPartyGoalType(const char* const str, PartyGoalType e) {
+  std::size_t count = static_cast<std::size_t>(PartyGoalType_Dungeon);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesPartyGoalType()[i] == str) { e = static_cast<PartyGoalType>(i); return true; }
+  }
+  return false;
+}
+
+enum EquipSlot : int32_t {
+  EquipSlot_None = 0,
+  EquipSlot_Helm = 1,
+  EquipSlot_Chest = 2,
+  EquipSlot_Legs = 3,
+  EquipSlot_Gloves = 4,
+  EquipSlot_Boots = 5,
+  EquipSlot_Cloak = 6,
+  EquipSlot_Weapon = 7,
+  EquipSlot_OffHand = 8,
+  EquipSlot_Ring1 = 9,
+  EquipSlot_Ring2 = 10,
+  EquipSlot_Necklace = 11,
+  EquipSlot_Earring = 12,
+  EquipSlot_Belt = 13,
+  EquipSlot_Relic = 14,
+  EquipSlot_MIN = EquipSlot_None,
+  EquipSlot_MAX = EquipSlot_Relic
 };
 
 inline const EquipSlot (&EnumValuesEquipSlot())[15] {
   static const EquipSlot values[] = {
-    EquipSlot::None,
-    EquipSlot::Helm,
-    EquipSlot::Chest,
-    EquipSlot::Legs,
-    EquipSlot::Gloves,
-    EquipSlot::Boots,
-    EquipSlot::Cloak,
-    EquipSlot::Weapon,
-    EquipSlot::OffHand,
-    EquipSlot::Ring1,
-    EquipSlot::Ring2,
-    EquipSlot::Necklace,
-    EquipSlot::Earring,
-    EquipSlot::Belt,
-    EquipSlot::Relic
+    EquipSlot_None,
+    EquipSlot_Helm,
+    EquipSlot_Chest,
+    EquipSlot_Legs,
+    EquipSlot_Gloves,
+    EquipSlot_Boots,
+    EquipSlot_Cloak,
+    EquipSlot_Weapon,
+    EquipSlot_OffHand,
+    EquipSlot_Ring1,
+    EquipSlot_Ring2,
+    EquipSlot_Necklace,
+    EquipSlot_Earring,
+    EquipSlot_Belt,
+    EquipSlot_Relic
   };
   return values;
 }
@@ -1599,46 +1863,54 @@ inline const char * const *EnumNamesEquipSlot() {
 }
 
 inline const char *EnumNameEquipSlot(EquipSlot e) {
-  if (::flatbuffers::IsOutRange(e, EquipSlot::None, EquipSlot::Relic)) return "";
+  if (::flatbuffers::IsOutRange(e, EquipSlot_None, EquipSlot_Relic)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesEquipSlot()[index];
 }
 
-enum class ItemType : int32_t {
-  None = 0,
-  Weapon = 1,
-  Armor = 2,
-  Accessory = 3,
-  Consumable = 4,
-  Material = 5,
-  QuestItem = 6,
-  Skillbook = 7,
-  Blueprint = 8,
-  Relic = 9,
-  EnchantStone = 10,
-  Mount = 11,
-  Pet = 12,
-  Misc = 13,
-  MIN = None,
-  MAX = Misc
+inline bool EnumStringEquipSlot(const char* const str, EquipSlot e) {
+  std::size_t count = static_cast<std::size_t>(EquipSlot_Relic);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesEquipSlot()[i] == str) { e = static_cast<EquipSlot>(i); return true; }
+  }
+  return false;
+}
+
+enum ItemType : int32_t {
+  ItemType_None = 0,
+  ItemType_Weapon = 1,
+  ItemType_Armor = 2,
+  ItemType_Accessory = 3,
+  ItemType_Consumable = 4,
+  ItemType_Material = 5,
+  ItemType_QuestItem = 6,
+  ItemType_Skillbook = 7,
+  ItemType_Blueprint = 8,
+  ItemType_Relic = 9,
+  ItemType_EnchantStone = 10,
+  ItemType_Mount = 11,
+  ItemType_Pet = 12,
+  ItemType_Misc = 13,
+  ItemType_MIN = ItemType_None,
+  ItemType_MAX = ItemType_Misc
 };
 
 inline const ItemType (&EnumValuesItemType())[14] {
   static const ItemType values[] = {
-    ItemType::None,
-    ItemType::Weapon,
-    ItemType::Armor,
-    ItemType::Accessory,
-    ItemType::Consumable,
-    ItemType::Material,
-    ItemType::QuestItem,
-    ItemType::Skillbook,
-    ItemType::Blueprint,
-    ItemType::Relic,
-    ItemType::EnchantStone,
-    ItemType::Mount,
-    ItemType::Pet,
-    ItemType::Misc
+    ItemType_None,
+    ItemType_Weapon,
+    ItemType_Armor,
+    ItemType_Accessory,
+    ItemType_Consumable,
+    ItemType_Material,
+    ItemType_QuestItem,
+    ItemType_Skillbook,
+    ItemType_Blueprint,
+    ItemType_Relic,
+    ItemType_EnchantStone,
+    ItemType_Mount,
+    ItemType_Pet,
+    ItemType_Misc
   };
   return values;
 }
@@ -1665,52 +1937,60 @@ inline const char * const *EnumNamesItemType() {
 }
 
 inline const char *EnumNameItemType(ItemType e) {
-  if (::flatbuffers::IsOutRange(e, ItemType::None, ItemType::Misc)) return "";
+  if (::flatbuffers::IsOutRange(e, ItemType_None, ItemType_Misc)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesItemType()[index];
 }
 
-enum class WeaponType : int32_t {
-  None = 0,
-  Sword = 1,
-  TwoHandSword = 2,
-  Axe = 3,
-  TwoHandAxe = 4,
-  Mace = 5,
-  TwoHandMace = 6,
-  Spear = 7,
-  Dagger = 8,
-  Katana = 9,
-  Scythe = 10,
-  Staff = 11,
-  Wand = 12,
-  Tome = 13,
-  Bow = 14,
-  Crossbow = 15,
-  Shield = 16,
-  MIN = None,
-  MAX = Shield
+inline bool EnumStringItemType(const char* const str, ItemType e) {
+  std::size_t count = static_cast<std::size_t>(ItemType_Misc);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesItemType()[i] == str) { e = static_cast<ItemType>(i); return true; }
+  }
+  return false;
+}
+
+enum WeaponType : int32_t {
+  WeaponType_None = 0,
+  WeaponType_Sword = 1,
+  WeaponType_TwoHandSword = 2,
+  WeaponType_Axe = 3,
+  WeaponType_TwoHandAxe = 4,
+  WeaponType_Mace = 5,
+  WeaponType_TwoHandMace = 6,
+  WeaponType_Spear = 7,
+  WeaponType_Dagger = 8,
+  WeaponType_Katana = 9,
+  WeaponType_Scythe = 10,
+  WeaponType_Staff = 11,
+  WeaponType_Wand = 12,
+  WeaponType_Tome = 13,
+  WeaponType_Bow = 14,
+  WeaponType_Crossbow = 15,
+  WeaponType_Shield = 16,
+  WeaponType_MIN = WeaponType_None,
+  WeaponType_MAX = WeaponType_Shield
 };
 
 inline const WeaponType (&EnumValuesWeaponType())[17] {
   static const WeaponType values[] = {
-    WeaponType::None,
-    WeaponType::Sword,
-    WeaponType::TwoHandSword,
-    WeaponType::Axe,
-    WeaponType::TwoHandAxe,
-    WeaponType::Mace,
-    WeaponType::TwoHandMace,
-    WeaponType::Spear,
-    WeaponType::Dagger,
-    WeaponType::Katana,
-    WeaponType::Scythe,
-    WeaponType::Staff,
-    WeaponType::Wand,
-    WeaponType::Tome,
-    WeaponType::Bow,
-    WeaponType::Crossbow,
-    WeaponType::Shield
+    WeaponType_None,
+    WeaponType_Sword,
+    WeaponType_TwoHandSword,
+    WeaponType_Axe,
+    WeaponType_TwoHandAxe,
+    WeaponType_Mace,
+    WeaponType_TwoHandMace,
+    WeaponType_Spear,
+    WeaponType_Dagger,
+    WeaponType_Katana,
+    WeaponType_Scythe,
+    WeaponType_Staff,
+    WeaponType_Wand,
+    WeaponType_Tome,
+    WeaponType_Bow,
+    WeaponType_Crossbow,
+    WeaponType_Shield
   };
   return values;
 }
@@ -1740,30 +2020,38 @@ inline const char * const *EnumNamesWeaponType() {
 }
 
 inline const char *EnumNameWeaponType(WeaponType e) {
-  if (::flatbuffers::IsOutRange(e, WeaponType::None, WeaponType::Shield)) return "";
+  if (::flatbuffers::IsOutRange(e, WeaponType_None, WeaponType_Shield)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesWeaponType()[index];
 }
 
-enum class ArmorType : int32_t {
-  None = 0,
-  HeavyArmor = 1,
-  MediumArmor = 2,
-  LightArmor = 3,
-  Robe = 4,
-  Cloth = 5,
-  MIN = None,
-  MAX = Cloth
+inline bool EnumStringWeaponType(const char* const str, WeaponType e) {
+  std::size_t count = static_cast<std::size_t>(WeaponType_Shield);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesWeaponType()[i] == str) { e = static_cast<WeaponType>(i); return true; }
+  }
+  return false;
+}
+
+enum ArmorType : int32_t {
+  ArmorType_None = 0,
+  ArmorType_HeavyArmor = 1,
+  ArmorType_MediumArmor = 2,
+  ArmorType_LightArmor = 3,
+  ArmorType_Robe = 4,
+  ArmorType_Cloth = 5,
+  ArmorType_MIN = ArmorType_None,
+  ArmorType_MAX = ArmorType_Cloth
 };
 
 inline const ArmorType (&EnumValuesArmorType())[6] {
   static const ArmorType values[] = {
-    ArmorType::None,
-    ArmorType::HeavyArmor,
-    ArmorType::MediumArmor,
-    ArmorType::LightArmor,
-    ArmorType::Robe,
-    ArmorType::Cloth
+    ArmorType_None,
+    ArmorType_HeavyArmor,
+    ArmorType_MediumArmor,
+    ArmorType_LightArmor,
+    ArmorType_Robe,
+    ArmorType_Cloth
   };
   return values;
 }
@@ -1782,26 +2070,34 @@ inline const char * const *EnumNamesArmorType() {
 }
 
 inline const char *EnumNameArmorType(ArmorType e) {
-  if (::flatbuffers::IsOutRange(e, ArmorType::None, ArmorType::Cloth)) return "";
+  if (::flatbuffers::IsOutRange(e, ArmorType_None, ArmorType_Cloth)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesArmorType()[index];
 }
 
-enum class MoveType : int32_t {
-  Walk = 0,
-  Run = 1,
-  Teleport = 2,
-  Knockback = 3,
-  MIN = Walk,
-  MAX = Knockback
+inline bool EnumStringArmorType(const char* const str, ArmorType e) {
+  std::size_t count = static_cast<std::size_t>(ArmorType_Cloth);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesArmorType()[i] == str) { e = static_cast<ArmorType>(i); return true; }
+  }
+  return false;
+}
+
+enum MoveType : int32_t {
+  MoveType_Walk = 0,
+  MoveType_Run = 1,
+  MoveType_Teleport = 2,
+  MoveType_Knockback = 3,
+  MoveType_MIN = MoveType_Walk,
+  MoveType_MAX = MoveType_Knockback
 };
 
 inline const MoveType (&EnumValuesMoveType())[4] {
   static const MoveType values[] = {
-    MoveType::Walk,
-    MoveType::Run,
-    MoveType::Teleport,
-    MoveType::Knockback
+    MoveType_Walk,
+    MoveType_Run,
+    MoveType_Teleport,
+    MoveType_Knockback
   };
   return values;
 }
@@ -1818,30 +2114,38 @@ inline const char * const *EnumNamesMoveType() {
 }
 
 inline const char *EnumNameMoveType(MoveType e) {
-  if (::flatbuffers::IsOutRange(e, MoveType::Walk, MoveType::Knockback)) return "";
+  if (::flatbuffers::IsOutRange(e, MoveType_Walk, MoveType_Knockback)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesMoveType()[index];
 }
 
-enum class MapType : int32_t {
-  Town = 0,
-  Field = 1,
-  Dungeon = 2,
-  Raid = 3,
-  PvP = 4,
-  Instance = 5,
-  MIN = Town,
-  MAX = Instance
+inline bool EnumStringMoveType(const char* const str, MoveType e) {
+  std::size_t count = static_cast<std::size_t>(MoveType_Knockback);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesMoveType()[i] == str) { e = static_cast<MoveType>(i); return true; }
+  }
+  return false;
+}
+
+enum MapType : int32_t {
+  MapType_Town = 0,
+  MapType_Field = 1,
+  MapType_Dungeon = 2,
+  MapType_Raid = 3,
+  MapType_PvP = 4,
+  MapType_Instance = 5,
+  MapType_MIN = MapType_Town,
+  MapType_MAX = MapType_Instance
 };
 
 inline const MapType (&EnumValuesMapType())[6] {
   static const MapType values[] = {
-    MapType::Town,
-    MapType::Field,
-    MapType::Dungeon,
-    MapType::Raid,
-    MapType::PvP,
-    MapType::Instance
+    MapType_Town,
+    MapType_Field,
+    MapType_Dungeon,
+    MapType_Raid,
+    MapType_PvP,
+    MapType_Instance
   };
   return values;
 }
@@ -1860,32 +2164,40 @@ inline const char * const *EnumNamesMapType() {
 }
 
 inline const char *EnumNameMapType(MapType e) {
-  if (::flatbuffers::IsOutRange(e, MapType::Town, MapType::Instance)) return "";
+  if (::flatbuffers::IsOutRange(e, MapType_Town, MapType_Instance)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesMapType()[index];
 }
 
-enum class MonsterFaction : int32_t {
-  None = 0,
-  WolfPack = 1,
-  GoblinTribe = 2,
-  OrcClan = 3,
-  UndeadLegion = 4,
-  ForestSpirit = 5,
-  DragonKind = 6,
-  MIN = None,
-  MAX = DragonKind
+inline bool EnumStringMapType(const char* const str, MapType e) {
+  std::size_t count = static_cast<std::size_t>(MapType_Instance);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesMapType()[i] == str) { e = static_cast<MapType>(i); return true; }
+  }
+  return false;
+}
+
+enum MonsterFaction : int32_t {
+  MonsterFaction_None = 0,
+  MonsterFaction_WolfPack = 1,
+  MonsterFaction_GoblinTribe = 2,
+  MonsterFaction_OrcClan = 3,
+  MonsterFaction_UndeadLegion = 4,
+  MonsterFaction_ForestSpirit = 5,
+  MonsterFaction_DragonKind = 6,
+  MonsterFaction_MIN = MonsterFaction_None,
+  MonsterFaction_MAX = MonsterFaction_DragonKind
 };
 
 inline const MonsterFaction (&EnumValuesMonsterFaction())[7] {
   static const MonsterFaction values[] = {
-    MonsterFaction::None,
-    MonsterFaction::WolfPack,
-    MonsterFaction::GoblinTribe,
-    MonsterFaction::OrcClan,
-    MonsterFaction::UndeadLegion,
-    MonsterFaction::ForestSpirit,
-    MonsterFaction::DragonKind
+    MonsterFaction_None,
+    MonsterFaction_WolfPack,
+    MonsterFaction_GoblinTribe,
+    MonsterFaction_OrcClan,
+    MonsterFaction_UndeadLegion,
+    MonsterFaction_ForestSpirit,
+    MonsterFaction_DragonKind
   };
   return values;
 }
@@ -1905,114 +2217,149 @@ inline const char * const *EnumNamesMonsterFaction() {
 }
 
 inline const char *EnumNameMonsterFaction(MonsterFaction e) {
-  if (::flatbuffers::IsOutRange(e, MonsterFaction::None, MonsterFaction::DragonKind)) return "";
+  if (::flatbuffers::IsOutRange(e, MonsterFaction_None, MonsterFaction_DragonKind)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesMonsterFaction()[index];
 }
 
-enum class JobType : int32_t {
-  None = 0,
-  Warrior = 101,
-  Berserker = 102,
-  Knight = 103,
-  Paladin = 104,
-  DarkKnight = 105,
-  Priest = 201,
-  Bishop = 202,
-  SoulKeeper = 203,
-  Necromancer = 204,
-  Wizard = 301,
-  Pyromancer = 302,
-  Cryomancer = 303,
-  Stormcaller = 304,
-  Geomancer = 305,
-  Ranger = 401,
-  Hunter = 402,
-  Assassin = 403,
-  ShadowBlade = 404,
-  Druid = 501,
-  Summoner = 502,
-  Bard = 503,
-  Alchemist = 504,
-  MIN = None,
-  MAX = Alchemist
+inline bool EnumStringMonsterFaction(const char* const str, MonsterFaction e) {
+  std::size_t count = static_cast<std::size_t>(MonsterFaction_DragonKind);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesMonsterFaction()[i] == str) { e = static_cast<MonsterFaction>(i); return true; }
+  }
+  return false;
+}
+
+enum JobType : int32_t {
+  JobType_None = 0,
+  JobType_Warrior = 101,
+  JobType_Berserker = 102,
+  JobType_Knight = 103,
+  JobType_Paladin = 104,
+  JobType_DarkKnight = 105,
+  JobType_Priest = 201,
+  JobType_Bishop = 202,
+  JobType_SoulKeeper = 203,
+  JobType_Necromancer = 204,
+  JobType_Wizard = 301,
+  JobType_Pyromancer = 302,
+  JobType_Cryomancer = 303,
+  JobType_Stormcaller = 304,
+  JobType_Geomancer = 305,
+  JobType_Ranger = 401,
+  JobType_Hunter = 402,
+  JobType_Assassin = 403,
+  JobType_ShadowBlade = 404,
+  JobType_Druid = 501,
+  JobType_Summoner = 502,
+  JobType_Bard = 503,
+  JobType_Alchemist = 504,
+  JobType_MIN = JobType_None,
+  JobType_MAX = JobType_Alchemist
 };
 
 inline const JobType (&EnumValuesJobType())[23] {
   static const JobType values[] = {
-    JobType::None,
-    JobType::Warrior,
-    JobType::Berserker,
-    JobType::Knight,
-    JobType::Paladin,
-    JobType::DarkKnight,
-    JobType::Priest,
-    JobType::Bishop,
-    JobType::SoulKeeper,
-    JobType::Necromancer,
-    JobType::Wizard,
-    JobType::Pyromancer,
-    JobType::Cryomancer,
-    JobType::Stormcaller,
-    JobType::Geomancer,
-    JobType::Ranger,
-    JobType::Hunter,
-    JobType::Assassin,
-    JobType::ShadowBlade,
-    JobType::Druid,
-    JobType::Summoner,
-    JobType::Bard,
-    JobType::Alchemist
+    JobType_None,
+    JobType_Warrior,
+    JobType_Berserker,
+    JobType_Knight,
+    JobType_Paladin,
+    JobType_DarkKnight,
+    JobType_Priest,
+    JobType_Bishop,
+    JobType_SoulKeeper,
+    JobType_Necromancer,
+    JobType_Wizard,
+    JobType_Pyromancer,
+    JobType_Cryomancer,
+    JobType_Stormcaller,
+    JobType_Geomancer,
+    JobType_Ranger,
+    JobType_Hunter,
+    JobType_Assassin,
+    JobType_ShadowBlade,
+    JobType_Druid,
+    JobType_Summoner,
+    JobType_Bard,
+    JobType_Alchemist
   };
   return values;
 }
 
 inline const char *EnumNameJobType(JobType e) {
   switch (e) {
-    case JobType::None: return "None";
-    case JobType::Warrior: return "Warrior";
-    case JobType::Berserker: return "Berserker";
-    case JobType::Knight: return "Knight";
-    case JobType::Paladin: return "Paladin";
-    case JobType::DarkKnight: return "DarkKnight";
-    case JobType::Priest: return "Priest";
-    case JobType::Bishop: return "Bishop";
-    case JobType::SoulKeeper: return "SoulKeeper";
-    case JobType::Necromancer: return "Necromancer";
-    case JobType::Wizard: return "Wizard";
-    case JobType::Pyromancer: return "Pyromancer";
-    case JobType::Cryomancer: return "Cryomancer";
-    case JobType::Stormcaller: return "Stormcaller";
-    case JobType::Geomancer: return "Geomancer";
-    case JobType::Ranger: return "Ranger";
-    case JobType::Hunter: return "Hunter";
-    case JobType::Assassin: return "Assassin";
-    case JobType::ShadowBlade: return "ShadowBlade";
-    case JobType::Druid: return "Druid";
-    case JobType::Summoner: return "Summoner";
-    case JobType::Bard: return "Bard";
-    case JobType::Alchemist: return "Alchemist";
+    case JobType_None: return "None";
+    case JobType_Warrior: return "Warrior";
+    case JobType_Berserker: return "Berserker";
+    case JobType_Knight: return "Knight";
+    case JobType_Paladin: return "Paladin";
+    case JobType_DarkKnight: return "DarkKnight";
+    case JobType_Priest: return "Priest";
+    case JobType_Bishop: return "Bishop";
+    case JobType_SoulKeeper: return "SoulKeeper";
+    case JobType_Necromancer: return "Necromancer";
+    case JobType_Wizard: return "Wizard";
+    case JobType_Pyromancer: return "Pyromancer";
+    case JobType_Cryomancer: return "Cryomancer";
+    case JobType_Stormcaller: return "Stormcaller";
+    case JobType_Geomancer: return "Geomancer";
+    case JobType_Ranger: return "Ranger";
+    case JobType_Hunter: return "Hunter";
+    case JobType_Assassin: return "Assassin";
+    case JobType_ShadowBlade: return "ShadowBlade";
+    case JobType_Druid: return "Druid";
+    case JobType_Summoner: return "Summoner";
+    case JobType_Bard: return "Bard";
+    case JobType_Alchemist: return "Alchemist";
     default: return "";
   }
 }
 
-enum class SkillType : int32_t {
-  Active = 0,
-  Passive = 1,
-  Ultimate = 2,
-  Toggle = 3,
-  Reaction = 4,
-  MIN = Active,
-  MAX = Reaction
+inline bool EnumStringJobType(const char* const str, JobType e) {
+  if(0 == strcmp(str, "None")) { e = JobType_None; return true; }
+  if(0 == strcmp(str, "Warrior")) { e = JobType_Warrior; return true; }
+  if(0 == strcmp(str, "Berserker")) { e = JobType_Berserker; return true; }
+  if(0 == strcmp(str, "Knight")) { e = JobType_Knight; return true; }
+  if(0 == strcmp(str, "Paladin")) { e = JobType_Paladin; return true; }
+  if(0 == strcmp(str, "DarkKnight")) { e = JobType_DarkKnight; return true; }
+  if(0 == strcmp(str, "Priest")) { e = JobType_Priest; return true; }
+  if(0 == strcmp(str, "Bishop")) { e = JobType_Bishop; return true; }
+  if(0 == strcmp(str, "SoulKeeper")) { e = JobType_SoulKeeper; return true; }
+  if(0 == strcmp(str, "Necromancer")) { e = JobType_Necromancer; return true; }
+  if(0 == strcmp(str, "Wizard")) { e = JobType_Wizard; return true; }
+  if(0 == strcmp(str, "Pyromancer")) { e = JobType_Pyromancer; return true; }
+  if(0 == strcmp(str, "Cryomancer")) { e = JobType_Cryomancer; return true; }
+  if(0 == strcmp(str, "Stormcaller")) { e = JobType_Stormcaller; return true; }
+  if(0 == strcmp(str, "Geomancer")) { e = JobType_Geomancer; return true; }
+  if(0 == strcmp(str, "Ranger")) { e = JobType_Ranger; return true; }
+  if(0 == strcmp(str, "Hunter")) { e = JobType_Hunter; return true; }
+  if(0 == strcmp(str, "Assassin")) { e = JobType_Assassin; return true; }
+  if(0 == strcmp(str, "ShadowBlade")) { e = JobType_ShadowBlade; return true; }
+  if(0 == strcmp(str, "Druid")) { e = JobType_Druid; return true; }
+  if(0 == strcmp(str, "Summoner")) { e = JobType_Summoner; return true; }
+  if(0 == strcmp(str, "Bard")) { e = JobType_Bard; return true; }
+  if(0 == strcmp(str, "Alchemist")) { e = JobType_Alchemist; return true; }
+  return false;
+}
+
+enum SkillType : int32_t {
+  SkillType_Active = 0,
+  SkillType_Passive = 1,
+  SkillType_Ultimate = 2,
+  SkillType_Toggle = 3,
+  SkillType_Reaction = 4,
+  SkillType_MIN = SkillType_Active,
+  SkillType_MAX = SkillType_Reaction
 };
 
 inline const SkillType (&EnumValuesSkillType())[5] {
   static const SkillType values[] = {
-    SkillType::Active,
-    SkillType::Passive,
-    SkillType::Ultimate,
-    SkillType::Toggle,
-    SkillType::Reaction
+    SkillType_Active,
+    SkillType_Passive,
+    SkillType_Ultimate,
+    SkillType_Toggle,
+    SkillType_Reaction
   };
   return values;
 }
@@ -2030,36 +2377,44 @@ inline const char * const *EnumNamesSkillType() {
 }
 
 inline const char *EnumNameSkillType(SkillType e) {
-  if (::flatbuffers::IsOutRange(e, SkillType::Active, SkillType::Reaction)) return "";
+  if (::flatbuffers::IsOutRange(e, SkillType_Active, SkillType_Reaction)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesSkillType()[index];
 }
 
-enum class ZoneAttributeType : int32_t {
-  Neutral = 0,
-  Holy = 1,
-  Dark = 2,
-  Fire = 3,
-  Ice = 4,
-  Lightning = 5,
-  Earth = 6,
-  Cursed = 7,
-  Sacred = 8,
-  MIN = Neutral,
-  MAX = Sacred
+inline bool EnumStringSkillType(const char* const str, SkillType e) {
+  std::size_t count = static_cast<std::size_t>(SkillType_Reaction);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesSkillType()[i] == str) { e = static_cast<SkillType>(i); return true; }
+  }
+  return false;
+}
+
+enum ZoneAttributeType : int32_t {
+  ZoneAttributeType_Neutral = 0,
+  ZoneAttributeType_Holy = 1,
+  ZoneAttributeType_Dark = 2,
+  ZoneAttributeType_Fire = 3,
+  ZoneAttributeType_Ice = 4,
+  ZoneAttributeType_Lightning = 5,
+  ZoneAttributeType_Earth = 6,
+  ZoneAttributeType_Cursed = 7,
+  ZoneAttributeType_Sacred = 8,
+  ZoneAttributeType_MIN = ZoneAttributeType_Neutral,
+  ZoneAttributeType_MAX = ZoneAttributeType_Sacred
 };
 
 inline const ZoneAttributeType (&EnumValuesZoneAttributeType())[9] {
   static const ZoneAttributeType values[] = {
-    ZoneAttributeType::Neutral,
-    ZoneAttributeType::Holy,
-    ZoneAttributeType::Dark,
-    ZoneAttributeType::Fire,
-    ZoneAttributeType::Ice,
-    ZoneAttributeType::Lightning,
-    ZoneAttributeType::Earth,
-    ZoneAttributeType::Cursed,
-    ZoneAttributeType::Sacred
+    ZoneAttributeType_Neutral,
+    ZoneAttributeType_Holy,
+    ZoneAttributeType_Dark,
+    ZoneAttributeType_Fire,
+    ZoneAttributeType_Ice,
+    ZoneAttributeType_Lightning,
+    ZoneAttributeType_Earth,
+    ZoneAttributeType_Cursed,
+    ZoneAttributeType_Sacred
   };
   return values;
 }
@@ -2081,9 +2436,17 @@ inline const char * const *EnumNamesZoneAttributeType() {
 }
 
 inline const char *EnumNameZoneAttributeType(ZoneAttributeType e) {
-  if (::flatbuffers::IsOutRange(e, ZoneAttributeType::Neutral, ZoneAttributeType::Sacred)) return "";
+  if (::flatbuffers::IsOutRange(e, ZoneAttributeType_Neutral, ZoneAttributeType_Sacred)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesZoneAttributeType()[index];
+}
+
+inline bool EnumStringZoneAttributeType(const char* const str, ZoneAttributeType e) {
+  std::size_t count = static_cast<std::size_t>(ZoneAttributeType_Sacred);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesZoneAttributeType()[i] == str) { e = static_cast<ZoneAttributeType>(i); return true; }
+  }
+  return false;
 }
 
 }  // namespace makga

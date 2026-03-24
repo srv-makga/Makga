@@ -15,21 +15,21 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
 
 namespace makga {
 
-enum class LoginPacketId : uint16_t {
-  None = 0,
-  Login = 1,
-  SelectCharacter = 2,
-  EnterWorld = 3,
-  MIN = None,
-  MAX = EnterWorld
+enum LoginPacketId : uint16_t {
+  LoginPacketId_None = 0,
+  LoginPacketId_Login = 1,
+  LoginPacketId_SelectCharacter = 2,
+  LoginPacketId_EnterWorld = 3,
+  LoginPacketId_MIN = LoginPacketId_None,
+  LoginPacketId_MAX = LoginPacketId_EnterWorld
 };
 
 inline const LoginPacketId (&EnumValuesLoginPacketId())[4] {
   static const LoginPacketId values[] = {
-    LoginPacketId::None,
-    LoginPacketId::Login,
-    LoginPacketId::SelectCharacter,
-    LoginPacketId::EnterWorld
+    LoginPacketId_None,
+    LoginPacketId_Login,
+    LoginPacketId_SelectCharacter,
+    LoginPacketId_EnterWorld
   };
   return values;
 }
@@ -46,9 +46,17 @@ inline const char * const *EnumNamesLoginPacketId() {
 }
 
 inline const char *EnumNameLoginPacketId(LoginPacketId e) {
-  if (::flatbuffers::IsOutRange(e, LoginPacketId::None, LoginPacketId::EnterWorld)) return "";
+  if (::flatbuffers::IsOutRange(e, LoginPacketId_None, LoginPacketId_EnterWorld)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesLoginPacketId()[index];
+}
+
+inline bool EnumStringLoginPacketId(const char* const str, LoginPacketId e) {
+  std::size_t count = static_cast<std::size_t>(LoginPacketId_EnterWorld);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesLoginPacketId()[i] == str) { e = static_cast<LoginPacketId>(i); return true; }
+  }
+  return false;
 }
 
 }  // namespace makga
