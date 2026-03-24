@@ -12,6 +12,7 @@ namespace unittest
 	{
 		TestObj() { ++s_count; }
 		~TestObj() { --s_count; }
+		void Reset() { value = 0; }
 		int value = 0;
 		static std::atomic<int> s_count;
 	};
