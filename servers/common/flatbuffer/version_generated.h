@@ -15,15 +15,15 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
 
 namespace makga {
 
-enum class Version : int32_t {
-  Build = 100,
-  MIN = Build,
-  MAX = Build
+enum Version : int32_t {
+  Version_Build = 100,
+  Version_MIN = Version_Build,
+  Version_MAX = Version_Build
 };
 
 inline const Version (&EnumValuesVersion())[1] {
   static const Version values[] = {
-    Version::Build
+    Version_Build
   };
   return values;
 }
@@ -37,9 +37,17 @@ inline const char * const *EnumNamesVersion() {
 }
 
 inline const char *EnumNameVersion(Version e) {
-  if (::flatbuffers::IsOutRange(e, Version::Build, Version::Build)) return "";
-  const size_t index = static_cast<size_t>(e) - static_cast<size_t>(Version::Build);
+  if (::flatbuffers::IsOutRange(e, Version_Build, Version_Build)) return "";
+  const size_t index = static_cast<size_t>(e) - static_cast<size_t>(Version_Build);
   return EnumNamesVersion()[index];
+}
+
+inline bool EnumStringVersion(const char* const str, Version e) {
+  std::size_t count = static_cast<std::size_t>(Version_Build);
+  for (std::size_t i=0; i<=count; ++i) {
+    if (EnumNamesVersion()[i] == str) { e = static_cast<Version>(i); return true; }
+  }
+  return false;
 }
 
 }  // namespace makga

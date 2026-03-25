@@ -1,4 +1,4 @@
-#ifndef FLATBUFFERS_BFBS_NAMER
+﻿#ifndef FLATBUFFERS_BFBS_NAMER
 #define FLATBUFFERS_BFBS_NAMER
 
 #include "flatbuffers/reflection.h"

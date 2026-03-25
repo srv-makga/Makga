@@ -14,16 +14,31 @@
  * limitations under the License.
  */
 
-#ifndef FLATBUFFERS_IDL_GEN_SWIFT_H_
-#define FLATBUFFERS_IDL_GEN_SWIFT_H_
+#include <iostream>
+#include <tuple>
 
-#include "flatbuffers/code_generator.h"
+#include "flatbuffers/file_manager.h"
 
 namespace flatbuffers {
 
-// Constructs a new Cpp code generator.
-std::unique_ptr<CodeGenerator> NewSwiftCodeGenerator();
+bool FileNameSaver::SaveFile(const char* name, const char* buf, size_t len,
+                             bool binary) {
+  (void)buf;
+  (void)len;
+  (void)binary;
+
+  std::ignore = file_names_.insert(name);
+
+  // we want to simulate always successful save
+  return true;
+}
+
+void FileNameSaver::Finish() {
+  for (const auto& file_name : file_names_) {
+    // Just print the file names to standard output.
+    // No actual file is created.
+    std::cout << file_name << "\n";
+  }
+}
 
 }  // namespace flatbuffers
-
-#endif  // FLATBUFFERS_IDL_GEN_SWIFT_H_

@@ -1,4 +1,4 @@
-#include "annotated_binary_text_gen.h"
+﻿#include "annotated_binary_text_gen.h"
 
 #include <algorithm>
 #include <cstdint>

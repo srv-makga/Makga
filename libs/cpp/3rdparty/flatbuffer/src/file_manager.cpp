@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Google Inc. All rights reserved.
+ * Copyright 2023 Google Inc. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-#ifndef FLATBUFFERS_BFBS_GEN_NIM_H_
-#define FLATBUFFERS_BFBS_GEN_NIM_H_
+#include "flatbuffers/file_manager.h"
 
-#include <memory>
+#include <fstream>
+#include <set>
 #include <string>
-
-#include "flatbuffers/code_generator.h"
 
 namespace flatbuffers {
 
-// Constructs a new Nim Code generator.
-std::unique_ptr<CodeGenerator> NewNimBfbsGenerator(
-    const std::string& flatc_version);
+bool RealFileSaver::SaveFile(const char* name, const char* buf, size_t len,
+                             bool binary) {
+  std::ofstream ofs(name, binary ? std::ofstream::binary : std::ofstream::out);
+  if (!ofs.is_open()) return false;
+  ofs.write(buf, len);
+  return !ofs.bad();
+}
 
 }  // namespace flatbuffers
-
-#endif  // FLATBUFFERS_BFBS_GEN_NIM_H_

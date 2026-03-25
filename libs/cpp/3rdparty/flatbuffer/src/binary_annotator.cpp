@@ -1,4 +1,4 @@
-#include "binary_annotator.h"
+﻿#include "binary_annotator.h"
 
 #include <algorithm>
 #include <cstdint>
