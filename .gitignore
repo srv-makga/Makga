@@ -75,3 +75,4 @@ unit_test/unit_test.vcxproj.user
 /libs/cpp/vcpkg_installed/x64-windows/bin
 /libs/cpp/vcpkg_installed/x64-windows/debug
 /libs/cpp/vcpkg_installed
+/servers/auction/obj
