@@ -175,6 +175,8 @@
     <ClCompile Include="include\lock.ixx" />
     <ClCompile Include="include\lock_free_queue.ixx" />
     <ClCompile Include="include\logger.ixx" />
+    <ClCompile Include="include\action_log.ixx" />
+    <ClCompile Include="include\log_client.ixx" />
     <ClCompile Include="include\math_collision.ixx" />
     <ClCompile Include="include\math_geometry.ixx" />
     <ClCompile Include="include\math_motion.ixx" />
