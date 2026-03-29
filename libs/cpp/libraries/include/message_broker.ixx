@@ -1,4 +1,4 @@
-#pragma once
+﻿癤?pragma once
 
 export module makga.lib.message_broker;
 
@@ -53,7 +53,7 @@ public:
 		return false;
 	}
 
-	// @brief �޽��� ť�� �׿��ִ� ��� �޽��� ó��
+	// @brief 占쌨쏙옙占쏙옙 큐占쏙옙 占쌓울옙占쌍댐옙 占쏙옙占?占쌨쏙옙占쏙옙 처占쏙옙
 	void ProcessMessages()
 	{
 		std::pair<Topic, Message> item;

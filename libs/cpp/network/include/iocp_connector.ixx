@@ -1,4 +1,4 @@
-module;
+﻿module;
 
 #include <memory>
 #ifdef _WIN32

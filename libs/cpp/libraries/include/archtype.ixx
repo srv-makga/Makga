@@ -1,4 +1,4 @@
-module;
+﻿癤퓅odule;
 
 export module makga.lib.ecs.archtype;
 
@@ -48,14 +48,14 @@ public:
 	}
 
 private:
-	// Ʃ���� �� ���Ϳ� �����͸� �ִ� ����
+	// 튜占쏙옙占쏙옙 占쏙옙 占쏙옙占싶울옙 占쏙옙占쏙옙占싶몌옙 占쌍댐옙 占쏙옙占쏙옙
 	template <std::size_t... Is>
 	void AddToTuple(Components&&... comps, std::index_sequence<Is...>)
 	{
 		(std::get<Is>(chunks_).push_back(std::forward<Components>(comps)), ...);
 	}
 
-	// Ư�� �ε����� �����͵��� �Լ� ���ڷ� �����ϴ� ����
+	// 특占쏙옙 占싸듸옙占쏙옙占쏙옙 占쏙옙占쏙옙占싶듸옙占쏙옙 占쌉쇽옙 占쏙옙占쌘뤄옙 占쏙옙占쏙옙占싹댐옙 占쏙옙占쏙옙
 	template <typename Func, std::size_t... Is>
 	void ApplyAt(size_t index, Func&& func, std::index_sequence<Is...>)
 	{

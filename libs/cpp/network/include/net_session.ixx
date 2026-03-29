@@ -1,4 +1,4 @@
-module;
+﻿module;
 
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -25,7 +25,7 @@ public:
 	}
 	virtual ~NetSession() = default;
 
-	// @brief �񵿱� ��û�� ����� ȣ��
+	// @brief 네트워크 세션의 연결/끊김/수신/송신 콜백 정의
 	virtual void OnConnect() = 0;
 	virtual void OnDisconnect() = 0;
 	virtual void OnRecv(int bytes_transferred) = 0;

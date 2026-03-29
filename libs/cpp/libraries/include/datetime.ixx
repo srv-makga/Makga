@@ -1,4 +1,4 @@
-module;
+ï»¿ç™¤í“…odule;
 
 #include <ctime>
 
@@ -48,12 +48,12 @@ public:
 	DateTime& AddSec(int sec = 1);
 	DateTime& SubSec(int sec = 1);
 
-	// @brief tm_ ±¸Á¶Ã¼¸¦ ±â¹İÀ¸·Î time_t °è»ê
+	// @brief tm_ å ì™ì˜™å ì™ì˜™ì²´å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ?time_t å ì™ì˜™å ?
 	std::time_t CalculateTime();
 
 	std::string String(const char* foramt = "%Y-%m-%d %H:%M:%S") const;
 
-	// ¿¬»êÀÚ
+	// å ì™ì˜™å ì™ì˜™å ì™ì˜™
 	operator bool() const;
 	operator std::time_t() const;
 

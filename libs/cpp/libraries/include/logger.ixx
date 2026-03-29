@@ -1,4 +1,4 @@
-module;
+ï»¿ç™¤í“…odule;
 
 #include <format>
 #include <sstream>
@@ -29,7 +29,7 @@ export enum LogLevel
 	FATAL
 };
 
-// @brief ÀÎÅÍÆäÀÌ½º ´À³¦
+// @brief å ì™ì˜™å ì™ì˜™å ì™ì˜™å ì‹±ì™ì˜™ å ì™ì˜™å ì™ì˜™
 export class Logger
 {
 public:
@@ -46,7 +46,7 @@ struct MakgaLoggerSteam
 	MakgaLoggerSteam& operator<<(T& data)
 	{
 		{
-			// @todo ½Ã°£, ½º·¹µå, ÇÔ¼ö¸íµî
+			// @todo å ì‹œê³¤ì˜™, å ì™ì˜™å ì™ì˜™å ì™ì˜™, å ìŒ‰ì‡½ì˜™å ì™ì˜™å ì™ì˜™
 			std::lock_guard lock(mutex);
 			stream << data;
 		}
@@ -57,7 +57,7 @@ struct MakgaLoggerSteam
 	MakgaLoggerSteam& operator<<(T&& data)
 	{
 		{
-			// @todo ½Ã°£, ½º·¹µå, ÇÔ¼ö¸íµî
+			// @todo å ì‹œê³¤ì˜™, å ì™ì˜™å ì™ì˜™å ì™ì˜™, å ìŒ‰ì‡½ì˜™å ì™ì˜™å ì™ì˜™
 			std::lock_guard lock(mutex);
 			stream << data;
 		}
@@ -116,6 +116,6 @@ public:
 protected:
 	inline static std::unordered_map<LogLevel, MakgaLoggerSteam> level_streams_;
 
-	// @todo ÆÄÀÏ ÀÌ¸§, Å©±âµî ¼³Á¤ Ãß°¡ ÇÊ¿ä
+	// @todo å ì™ì˜™å ì™ì˜™ å ì‹±ëªŒì˜™, í¬å ì™ì˜™å ?å ì™ì˜™å ì™ì˜™ å ìŒ©ê³¤ì˜™ å ì‹­ìš¸ì˜™
 };
 } // namespace makga::lib

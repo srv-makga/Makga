@@ -1,4 +1,4 @@
-module;
+ï»¿ç™¤í“…odule;
 
 export module makga.lib.ecs.component.rigid_body;
 
@@ -21,8 +21,8 @@ public:
 	void AddForce(const makga::math::Vector3& force);
 
 protected:
-	makga::math::Vector3 velocity_; // ¼Óµµ
-	float mass_; // Áú·®
-	bool use_gravity_; // Áß·Â »ç¿ë ¿©ºÎ
+	makga::math::Vector3 velocity_; // å ìŒˆë“¸ì˜™
+	float mass_; // å ì™ì˜™å ì™ì˜™
+	bool use_gravity_; // å ìŒ©ë¤„ì˜™ å ì™ì˜™å ?å ì™ì˜™å ì™ì˜™
 };
 } // namespace makga::lib

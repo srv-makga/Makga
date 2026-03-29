@@ -1,4 +1,4 @@
-module;
+ï»¿ç™¤í“…odule;
 
 export module makga.lib.ecs.component.transform;
 
@@ -6,7 +6,7 @@ import makga.math.vector3;
 import makga.lib.ecs.component;
 
 export namespace makga::lib {
-// @detail À§Ä¡, È¸Àü, ½ºÄÉÀÏ Á¤º¸¸¦ ´ã´Â ÄÄÆ÷³ÍÆ®
+// @detail å ì™ì˜™ì¹˜, íšŒå ì™ì˜™, å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ?å ì™ì˜™å ì™ì˜™å ì™ì˜™íŠ¸
 export class TransformComponent : public Component
 {
 public:

@@ -1,4 +1,4 @@
-module;
+ï»¿ç™¤í“…odule;
 
 export module makga.lib.pattern.observer;
 
@@ -56,7 +56,7 @@ public:
 			return;
 		}
 
-		// È£Ãâ ¼ø¼­°¡ º¸ÀåµÇÁö ¾ÊÀ½
+		// í˜¸å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ?å ì™ì˜™å ì™ì˜™
 		std::swap(*iter, objects_.back());
 		objects_.pop_back();
 	}

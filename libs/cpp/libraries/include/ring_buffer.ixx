@@ -1,4 +1,4 @@
-module;
+ï»¿ç™¤í“…odule;
 
 export module makga.lib.ring_buffer;
 
@@ -63,7 +63,7 @@ public:
 		}
 
 		const std::size_t remain_size = buffer_size_ - write_offset_;
-		// ¹öÆÛ ³¡±îÁö ³²Àº °ø°£ÀÌ ÃæºĞÇÔ
+		// å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ?
 		if (remain_size > count)
 		{
 			::memcpy(WritePosition(), data, (sizeof(T) * count));
@@ -112,14 +112,14 @@ public:
 		return count;
 	}
 
-	// @brief »ç¿ë °¡´ÉÇÑ »çÀÌÁî
+	// @brief å ì™ì˜™å ?å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™
 	std::size_t AvailableWriteSize() const
 	{
 		ReadLock lock(mutex_);
 		return BufferSize() - UsingSize();
 	}
 
-	// @brief »ç¿ëÁßÀÎ »çÀÌÁî
+	// @brief å ì™ì˜™å ì™ì˜™å ì™ì˜™å ?å ì™ì˜™å ì™ì˜™å ì™ì˜™
 	std::size_t UsingSize() const
 	{
 		ReadLock lock(mutex_);
@@ -137,7 +137,7 @@ public:
 		return (buffer_size_ + write_offset_) - read_offset_;
 	}
 	
-	// @brief ¹öÆÛ ÇÒ´ç
+	// @brief å ì™ì˜™å ì™ì˜™ å ìŒ€ëŒì˜™
 	void AllocateBuffer(std::size_t size)
 	{
 		if (0 == size)

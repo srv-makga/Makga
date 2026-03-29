@@ -1,4 +1,4 @@
-module;
+ï»¿ç™¤í“…odule;
 
 export module makga.math.vector3;
 
@@ -10,19 +10,19 @@ public:
 	Vector3(float x, float y, float z);
 	virtual ~Vector3();
 
-	// @brief Á¤±ÔÈ­
+	// @brief å ì™ì˜™å ì™ì˜™í™”
 	void Normalize();
-	// @brief º¤ÅÍÀÇ ±æÀÌ
+	// @brief å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™
 	float Length() const;
-	// @brief º¤ÅÍ °£ÀÇ Á¦°ö °Å¸®
+	// @brief å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì‹ ëªŒì˜™
 	float SquareDistance(const Vector3& other) const;
-	// @brief º¤ÅÍ °£ÀÇ °Å¸®
+	// @brief å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì‹ ëªŒì˜™
 	float Distance(const Vector3& other) const;
-	// @brief º¤ÅÍ ³»Àû
+	// @brief å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™
 	float Dot(const Vector3& other) const;
-	// @brief º¤ÅÍ ¿ÜÀû
+	// @brief å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™
 	Vector3 Cross(const Vector3& other) const;
-	// @brief º¤ÅÍ Á¤±ÔÈ­
+	// @brief å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™í™”
 	Vector3 ClosestPointOnLineSegment(const Vector3& a, const Vector3& b) const;
 	/*ClosestDistanceSquaredBetweenLineSegments*/
 	Vector3 ClosestDistanceSquaredBetweenLineSegments(const Vector3& end, const Vector3& other_start, const Vector3& other_end, float& s, float& t) const;

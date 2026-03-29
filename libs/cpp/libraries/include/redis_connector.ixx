@@ -1,4 +1,4 @@
-module;
+ï»¿ç™¤í“…odule;
 
 #include <memory>
 #include <optional>
@@ -36,8 +36,8 @@ export class RedisConnector
 	using SharedRedisReply = std::shared_ptr<redisReply>;
 
 public:
-	// @param host: Redis ¼­¹ö ÁÖ¼Ò (aka 127.0.0.1)
-	// @param port: Redis Æ÷Æ® (aka 6379)
+	// @param host: Redis å ì™ì˜™å ì™ì˜™ å ìŒì‡½ì˜™ (aka 127.0.0.1)
+	// @param port: Redis å ì™ì˜™íŠ¸ (aka 6379)
 	RedisConnector(std::string_view host, int port);
 
 	virtual ~RedisConnector() noexcept;
@@ -48,11 +48,11 @@ public:
 
 	// Common
 	std::optional<std::string> Get(std::string_view key);
-	std::optional<std::string> GetDel(std::string_view key); // µ¥ÀÌÅÍ Á¶È¸ ÈÄ »èÁ¦, Redis 6.2+
+	std::optional<std::string> GetDel(std::string_view key); // å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™íšŒ å ì™ì˜™ å ì™ì˜™å ì™ì˜™, Redis 6.2+
 	bool Set(std::string_view key, std::string_view value);
 	bool Del(std::string_view key);
 
-	bool SetEx(std::string_view key, std::string_view value, std::chrono::seconds ttl = std::chrono::seconds::zero()); // ¸¸·á ½Ã°£°ú ÇÔ²² ¼³Á¤
+	bool SetEx(std::string_view key, std::string_view value, std::chrono::seconds ttl = std::chrono::seconds::zero()); // å ì™ì˜™å ì™ì˜™ å ì‹œê³¤ì˜™å ì™ì˜™ å ìŒ‰ë€ì˜™ å ì™ì˜™å ì™ì˜™
 
 	bool Exists(std::string_view key);
 	void Unlink(std::string_view key);
@@ -105,16 +105,16 @@ public:
 	bool Ping();
 
 protected:
-	// @brief Redis ¸í·É¾î Àü¼Û
-	// @param command: Redis ¸í·É¾î
-	// @return replyÀÇ nullptr ¿©ºÎ
-	// @note ÀÀ´ä °ªÀÌ ÇÊ¿äÇÏÁö ¾ÊÀ» ¶§ »ç¿ë
+	// @brief Redis å ì™ì˜™å ì‹¬ì–µì˜™ å ì™ì˜™å ì™ì˜™
+	// @param command: Redis å ì™ì˜™å ì‹¬ì–µì˜™
+	// @return replyå ì™ì˜™ nullptr å ì™ì˜™å ì™ì˜™
+	// @note å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì‹­ìš¸ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì™ì˜™ å ì™ì˜™å ?
 	bool SendCommandNoReply(std::string&& command);
 
-	// @brief Redis ¸í·É¾î Àü¼Û
-	// @param command: Redis ¸í·É¾î
-	// @return redis ¶óÀÌºê·¯¸®¿¡¼­ ¹İÈ¯ÇÏ´Â redisReply
-	// @note ÀÀ´ä °ªÀÌ ÇÊ¿äÇÒ ¶§ »ç¿ë, ¸®ÅÏ °ªÀº ¹İµå½Ã release Ã³¸® ÇØ¾ßÇÔ
+	// @brief Redis å ì™ì˜™å ì‹¬ì–µì˜™ å ì™ì˜™å ì™ì˜™
+	// @param command: Redis å ì™ì˜™å ì‹¬ì–µì˜™
+	// @return redis å ì™ì˜™å ì‹±ë¸ŒëŸ¬å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™í™˜å ì‹¹ëŒì˜™ redisReply
+	// @note å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì‹­ìš¸ì˜™å ì™ì˜™ å ì™ì˜™ å ì™ì˜™å ? å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ìŒ¥ë“¸ì˜™å ?release ì²˜å ì™ì˜™ å ìŒ”ì–µì˜™å ì™ì˜™
 	redisReply* SendCommand(std::string&& command);
 
 private:

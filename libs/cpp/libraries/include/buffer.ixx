@@ -1,4 +1,4 @@
-module;
+ï»¿ç™¤í“…odule;
 
 export module makga.lib.buffer;
 
@@ -93,15 +93,15 @@ public:
 		return count;
 	}
 
-	// @brief »ç¿ë °¡´ÉÇÑ »çÀÌÁî
+	// @brief å ì™ì˜™å ?å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™
 	std::size_t AvailableWriteSize() const
 	{
 		ReadLock lock(mutex_);
-		// read offsetÀº »ó°ü¾øÀÌ write offsetÀ¸·Î¸¸ °è»ê
+		// read offsetå ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ?write offsetå ì™ì˜™å ì‹¸ëªŒì˜™ å ì™ì˜™å ?
 		return buffer_size_ - write_offset_;
 	}
 
-	// @brief »ç¿ëÁßÀÎ »çÀÌÁî
+	// @brief å ì™ì˜™å ì™ì˜™å ì™ì˜™å ?å ì™ì˜™å ì™ì˜™å ì™ì˜™
 	std::size_t UsingSize() const
 	{
 		ReadLock lock(mutex_);
@@ -114,7 +114,7 @@ public:
 		return write_offset_ - read_offset_;
 	}
 	
-	// @brief ¹öÆÛ ÇÒ´ç
+	// @brief å ì™ì˜™å ì™ì˜™ å ìŒ€ëŒì˜™
 	void AllocateBuffer(std::size_t size)
 	{
 		if (0 == size)
@@ -136,7 +136,7 @@ public:
 		return nullptr != buffer_;
 	}
 
-	// @brief ¾²°í ÀĞÀº ¸Ş¸ğ¸® À§Ä¡ °»½Å
+	// @brief å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ìŒ¨ëªŒì˜™ å ì™ì˜™ì¹˜ å ì™ì˜™å ì™ì˜™
 	void PullBuffer()
 	{
 		WriteLock lock(mutex_);

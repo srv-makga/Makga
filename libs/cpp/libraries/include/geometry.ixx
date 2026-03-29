@@ -1,4 +1,4 @@
-module;
+ï»¿ç™¤í“…odule;
 
 export module makga.lib.ecs.component.geometry;
 
@@ -24,14 +24,14 @@ export struct Sphere
 
 export struct Box
 {
-	makga::math::Vector3 min; // ÃÖ¼Ò ÁÂÇ¥ (¿ŞÂÊ ¾Æ·¡ ¾Õ)
-	makga::math::Vector3 max; // ÃÖ´ë ÁÂÇ¥ (¿À¸¥ÂÊ À§ µÚ)
+	makga::math::Vector3 min; // å ìŒì‡½ì˜™ å ì™ì˜™í‘œ (å ì™ì˜™å ì™ì˜™ å ì‹£ë¤„ì˜™ å ì™ì˜™)
+	makga::math::Vector3 max; // å ìŒëŒì˜™ å ì™ì˜™í‘œ (å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™ å ì™ì˜™)
 };
 
 export struct Capsule
 {
-	makga::math::Vector3 start; // Ä¸½¶ÀÇ ÇÑ ³¡Á¡
-	makga::math::Vector3 end;   // Ä¸½¶ÀÇ ´Ù¸¥ ³¡Á¡
-	float radius;               // ¹İÁö¸§
+	makga::math::Vector3 start; // ìº¡å ì™ì˜™å ì™ì˜™ å ì™ì˜™ å ì™ì˜™å ì™ì˜™
+	makga::math::Vector3 end;   // ìº¡å ì™ì˜™å ì™ì˜™ å ìŒ•ëªŒì˜™ å ì™ì˜™å ì™ì˜™
+	float radius;               // å ì™ì˜™å ì™ì˜™å ì™ì˜™
 };
 } // namespace makga::lib

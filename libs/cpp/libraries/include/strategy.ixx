@@ -1,4 +1,4 @@
-module;
+﻿癤퓅odule;
 
 export module makga.lib.pattern.strategy;
 
@@ -7,7 +7,7 @@ import <shared_mutex>;
 
 export namespace makga::lib {
 export template<typename T>
-// @detail Strategy�� ��ӹ޾� ExecuteImpl() �Լ��� �����ؾ� �Ѵ�
+// @detail Strategy占쏙옙 占쏙옙達騁占?ExecuteImpl() 占쌉쇽옙占쏙옙 占쏙옙占쏙옙占쌔억옙 占싼댐옙
 class Strategy
 {
 public:
