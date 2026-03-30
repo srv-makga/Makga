@@ -1,4 +1,4 @@
-﻿module;
+module;
 
 export module makga.lib.algorithm.ahocorasick;
 

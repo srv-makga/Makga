@@ -1,4 +1,4 @@
-﻿module;
+module;
 
 #include <atomic>
 #include <condition_variable>

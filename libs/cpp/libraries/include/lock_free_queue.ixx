@@ -1,4 +1,4 @@
-﻿癤퓅odule;
+module;
 
 export module makga.lib.lock_free_queue;
 

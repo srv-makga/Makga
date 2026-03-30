@@ -1,4 +1,4 @@
-﻿癤퓅odule;
+module;
 
 #include <memory>
 #include <optional>

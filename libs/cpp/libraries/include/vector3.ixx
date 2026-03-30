@@ -1,4 +1,4 @@
-﻿癤퓅odule;
+module;
 
 export module makga.math.vector3;
 

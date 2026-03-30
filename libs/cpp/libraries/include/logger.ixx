@@ -1,4 +1,4 @@
-﻿癤퓅odule;
+module;
 
 #include <format>
 #include <sstream>

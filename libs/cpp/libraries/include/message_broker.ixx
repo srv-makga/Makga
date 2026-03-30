@@ -1,4 +1,4 @@
-﻿癤?pragma once
+#pragma once
 
 export module makga.lib.message_broker;
 
