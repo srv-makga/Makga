@@ -1,4 +1,4 @@
-﻿#ifndef FLATBUFFERS_BASE_H_
+#ifndef FLATBUFFERS_BASE_H_
 #define FLATBUFFERS_BASE_H_
 
 // clang-format off
