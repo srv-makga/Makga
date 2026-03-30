@@ -1,4 +1,4 @@
-*.pdb
+﻿*.pdb
 *.lib
 *.idb
 *.log
@@ -78,3 +78,21 @@ unit_test/unit_test.vcxproj.user
 /servers/auction/obj
 /servers/crossserver/obj
 /servers/event/obj
+/servers/analytics/obj
+/servers/chat/obj
+/servers/gateway/obj
+/servers/billing/obj
+/servers/guildwar/obj
+/servers/gateway/bin/Debug
+/servers/gm/obj
+/servers/housing/obj
+/servers/mail/obj
+/servers/notification/obj
+/servers/patchserver/obj
+/servers/raidlobby/obj
+/servers/recommendation/obj
+/servers/replay/obj
+/servers/report/obj
+/servers/scheduler/obj
+/tests/integration/bin
+/tools/loadtest/LoadTest/bin
