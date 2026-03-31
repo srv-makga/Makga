@@ -1,4 +1,4 @@
-//
+﻿//
 // detail/impl/strand_executor_service.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

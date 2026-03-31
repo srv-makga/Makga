@@ -1,4 +1,4 @@
-//
+﻿//
 // detail/impl/select_reactor.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

@@ -1,4 +1,4 @@
-//
+﻿//
 // detail/impl/winrt_timer_scheduler.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

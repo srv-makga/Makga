@@ -1,4 +1,4 @@
-//
+﻿//
 // impl/multiple_exceptions.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

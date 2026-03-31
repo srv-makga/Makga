@@ -1,4 +1,4 @@
-//
+﻿//
 // detail/posix_serial_port_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

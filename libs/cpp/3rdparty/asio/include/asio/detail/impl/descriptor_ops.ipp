@@ -1,4 +1,4 @@
-//
+﻿//
 // detail/impl/descriptor_ops.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

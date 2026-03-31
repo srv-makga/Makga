@@ -1,4 +1,4 @@
-//
+﻿//
 // detail/impl/thread_context.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

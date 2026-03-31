@@ -1,4 +1,4 @@
-//
+﻿//
 // experimental/detail/has_signature.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

@@ -1,4 +1,4 @@
-//
+﻿//
 // detail/impl/posix_serial_port_service.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

@@ -1,4 +1,4 @@
-//
+﻿//
 // detail/base_from_cancellation_state.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

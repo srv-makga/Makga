@@ -1,4 +1,4 @@
-//
+﻿//
 // detail/impl/buffer_sequence_adapter.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

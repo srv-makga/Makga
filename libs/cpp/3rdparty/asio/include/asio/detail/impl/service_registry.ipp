@@ -1,4 +1,4 @@
-//
+﻿//
 // detail/impl/service_registry.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

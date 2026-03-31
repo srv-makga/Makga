@@ -1,4 +1,4 @@
-//
+﻿//
 // local/detail/impl/endpoint.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

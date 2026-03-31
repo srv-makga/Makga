@@ -1,4 +1,4 @@
-//
+﻿//
 // generic/detail/impl/endpoint.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

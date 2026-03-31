@@ -1,4 +1,4 @@
-//
+﻿//
 // experimental/impl/channel_error.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

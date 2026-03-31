@@ -1,4 +1,4 @@
-//
+﻿//
 // impl/cancellation_signal.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

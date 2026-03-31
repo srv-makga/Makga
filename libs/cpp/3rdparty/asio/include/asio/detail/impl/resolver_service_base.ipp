@@ -1,4 +1,4 @@
-//
+﻿//
 // detail/impl/resolver_service_base.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //

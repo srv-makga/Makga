@@ -1,4 +1,4 @@
-//
+﻿//
 // detail/impl/handler_tracking.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
