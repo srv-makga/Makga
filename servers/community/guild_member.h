@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "community_member.h"
 #include "party.h"	// InstanceDungeonInfo 재사용

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "guild_member.h"
 #include "../common/inventory.h"

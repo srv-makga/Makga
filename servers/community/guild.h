@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "community.h"
 #include "guild_member.h"

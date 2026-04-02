@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "define.h"
 #include "message_actor.h"
