@@ -1,8 +1,8 @@
 module;
 
-export module makga.lib.conversion_string;
+#include <string>
 
-import <string>;
+export module makga.lib.conversion_string;
 
 namespace makga::lib {
 
