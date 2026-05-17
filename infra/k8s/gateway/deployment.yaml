@@ -1,0 +1,364 @@
+# Makga API Gateway — Kubernetes 고가용성 배포 매니페스트
+#
+# 구성:
+#   - Deployment: 3개 레플리카 (minReadySeconds, rollingUpdate)
+#   - HorizontalPodAutoscaler: CPU/메모리 기반 자동 확장 (3~20개)
+#   - PodDisruptionBudget: 최소 2개 파드 항상 유지
+#   - Service: ClusterIP (Ingress에서 접근)
+#   - ConfigMap: gateway.yaml 설정
+#   - ServiceAccount: 최소 권한 원칙
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: makga-infra
+  labels:
+    app.kubernetes.io/part-of: makga
+
+---
+# ─── ServiceAccount ──────────────────────────────────────────────────────────
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: makga-gateway
+  namespace: makga-infra
+  labels:
+    app: makga-gateway
+
+---
+# ─── ConfigMap (gateway.yaml) ────────────────────────────────────────────────
+# 실제 배포 시 gateway.yaml 내용을 여기에 인라인하거나
+# Helm values로 주입한다.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: makga-gateway-config
+  namespace: makga-infra
+  labels:
+    app: makga-gateway
+data:
+  gateway.yaml: |
+    # 실제 값은 infra/gateway/config/gateway.yaml 참조
+    # Kubernetes 배포 시 이 ConfigMap을 수정하여 사용
+    server:
+      port: 8080
+      max_concurrency: 50000
+      read_timeout_sec: 30
+      write_timeout_sec: 60
+      idle_timeout_sec: 120
+      shutdown_timeout_sec: 30
+
+---
+# ─── Secret (JWT 키, Redis 비밀번호) ─────────────────────────────────────────
+# 실제 배포 시 kubectl create secret 또는 Vault로 주입
+apiVersion: v1
+kind: Secret
+metadata:
+  name: makga-gateway-secrets
+  namespace: makga-infra
+  labels:
+    app: makga-gateway
+type: Opaque
+stringData:
+  JWT_SECRET_KEY: "REPLACE_WITH_ACTUAL_SECRET"
+  REDIS_PASSWORD: "REPLACE_WITH_ACTUAL_PASSWORD"
+
+---
+# ─── Deployment ──────────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: makga-gateway
+  namespace: makga-infra
+  labels:
+    app: makga-gateway
+    version: "1.0"
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+spec:
+  replicas: 3
+  # 최소 준비 시간: 파드가 Ready 상태가 된 후 이 시간이 지나야 다음 파드 롤링 시작
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      app: makga-gateway
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # 롤링 업데이트 중 최대 추가 파드 수 (서지 용량)
+      maxSurge: 1
+      # 롤링 업데이트 중 최대 비가용 파드 수
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: makga-gateway
+        version: "1.0"
+      annotations:
+        # Prometheus 메트릭 수집 설정
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+        # ConfigMap 변경 시 자동 재시작 트리거
+        checksum/config: "{{ include (print $.Template.BasePath \"/configmap.yaml\") . | sha256sum }}"
+    spec:
+      serviceAccountName: makga-gateway
+      # 파드를 여러 노드에 분산 배치 (고가용성)
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: makga-gateway
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: makga-gateway
+      # 안티-어피니티: 같은 노드에 2개 이상 배치 방지
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - makga-gateway
+                topologyKey: kubernetes.io/hostname
+      # Graceful Shutdown 시간 (SIGTERM 후 강제 종료까지 대기)
+      terminationGracePeriodSeconds: 40
+      containers:
+        - name: gateway
+          image: makga/gateway:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
+          # 환경변수: Secret에서 주입
+          env:
+            - name: JWT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: makga-gateway-secrets
+                  key: JWT_SECRET_KEY
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: makga-gateway-secrets
+                  key: REDIS_PASSWORD
+            - name: GATEWAY_INSTANCE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            # Go 런타임 설정
+            - name: GOMAXPROCS
+              value: "0"
+            - name: GOMEMLIMIT
+              value: "512MiB"
+          # 설정 파일 마운트
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+          # ─── 리소스 요청/한도 ─────────────────────────────────────────────
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "128Mi"
+            limits:
+              cpu: "2000m"
+              memory: "512Mi"
+          # ─── 헬스체크 프로브 ──────────────────────────────────────────────
+          # Startup: 초기 기동 시간 허용 (최대 30초)
+          startupProbe:
+            httpGet:
+              path: /live
+              port: 8080
+            failureThreshold: 6
+            periodSeconds: 5
+          # Liveness: 프로세스 생존 여부 (실패 시 파드 재시작)
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          # Readiness: 트래픽 수신 준비 여부 (실패 시 서비스에서 제외)
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 2
+            successThreshold: 1
+          # 보안 컨텍스트 (최소 권한)
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65532
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+      volumes:
+        - name: config
+          configMap:
+            name: makga-gateway-config
+      # 이미지 풀 시크릿 (프라이빗 레지스트리)
+      # imagePullSecrets:
+      #   - name: makga-registry-secret
+
+---
+# ─── Service ─────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: Service
+metadata:
+  name: makga-gateway
+  namespace: makga-infra
+  labels:
+    app: makga-gateway
+  annotations:
+    # AWS NLB 사용 시 (선택적)
+    # service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    # service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+spec:
+  type: ClusterIP
+  selector:
+    app: makga-gateway
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+      protocol: TCP
+    - name: metrics
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
+  # 세션 어피니티: 없음 (게이트웨이는 stateless)
+  sessionAffinity: None
+
+---
+# ─── HorizontalPodAutoscaler ─────────────────────────────────────────────────
+# CPU 70% 또는 메모리 80% 초과 시 자동 확장 (3~20개)
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: makga-gateway-hpa
+  namespace: makga-infra
+  labels:
+    app: makga-gateway
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: makga-gateway
+  minReplicas: 3
+  maxReplicas: 20
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+  behavior:
+    # 스케일 업: 빠르게 (30초마다 최대 4개 추가)
+    scaleUp:
+      stabilizationWindowSeconds: 30
+      policies:
+        - type: Pods
+          value: 4
+          periodSeconds: 30
+        - type: Percent
+          value: 100
+          periodSeconds: 30
+      selectPolicy: Max
+    # 스케일 다운: 천천히 (5분 안정화 후 1개씩 제거)
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Pods
+          value: 1
+          periodSeconds: 60
+
+---
+# ─── PodDisruptionBudget ─────────────────────────────────────────────────────
+# 노드 드레인/업그레이드 중에도 최소 2개 파드 항상 유지
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: makga-gateway-pdb
+  namespace: makga-infra
+  labels:
+    app: makga-gateway
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: makga-gateway
+
+---
+# ─── Ingress (Nginx Ingress Controller) ──────────────────────────────────────
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: makga-gateway-ingress
+  namespace: makga-infra
+  labels:
+    app: makga-gateway
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    # 업스트림 Keep-Alive
+    nginx.ingress.kubernetes.io/upstream-keepalive-connections: "64"
+    nginx.ingress.kubernetes.io/upstream-keepalive-timeout: "75"
+    # 프록시 타임아웃
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "5"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    # WebSocket 지원
+    nginx.ingress.kubernetes.io/proxy-http-version: "1.1"
+    # 요청 크기 제한
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    # TLS 설정 (cert-manager 사용 시)
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+    - hosts:
+        - api.makga.com
+      secretName: makga-gateway-tls
+  rules:
+    - host: api.makga.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: makga-gateway
+                port:
+                  number: 80

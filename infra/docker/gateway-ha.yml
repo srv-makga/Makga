@@ -1,0 +1,218 @@
+# Makga API Gateway — 고가용성(HA) Docker Compose 설정
+#
+# 구성:
+#   - gateway 인스턴스 3개 (gateway-1, gateway-2, gateway-3)
+#   - Nginx L4/L7 로드밸런서 (Active-Active)
+#   - Redis Sentinel (master 1 + sentinel 3) — 레이트리밋 HA
+#   - Keepalived (VIP 페일오버) — 선택적
+#
+# 사용법:
+#   docker compose -f gateway-ha.yml up -d
+#   docker compose -f gateway-ha.yml scale gateway=5  # 수평 확장
+
+version: "3.9"
+
+# ─── 공통 설정 ────────────────────────────────────────────────────────────────
+x-gateway-common: &gateway-common
+  image: makga/gateway:latest
+  build:
+    context: ../../infra/gateway
+    dockerfile: Dockerfile
+  restart: unless-stopped
+  environment:
+    - TZ=Asia/Seoul
+    - GOMAXPROCS=0          # 0 = 가용 CPU 코어 수 자동 설정
+    - GOGC=100              # GC 튜닝 (기본값)
+    - GOMEMLIMIT=512MiB     # 메모리 한도 (OOM 방지)
+  volumes:
+    - ./configs/gateway.yaml:/config/gateway.yaml:ro
+  depends_on:
+    redis-master:
+      condition: service_healthy
+  networks:
+    - gateway-net
+    - backend-net
+  healthcheck:
+    test: ["CMD", "wget", "-qO-", "http://localhost:8080/live"]
+    interval: 10s
+    timeout: 3s
+    retries: 3
+    start_period: 10s
+  # 리소스 제한: 게이트웨이 인스턴스당
+  deploy:
+    resources:
+      limits:
+        cpus: "2.0"
+        memory: 512M
+      reservations:
+        cpus: "0.5"
+        memory: 128M
+
+services:
+  # ─── Gateway 인스턴스 (3개) ─────────────────────────────────────────────────
+  gateway-1:
+    <<: *gateway-common
+    container_name: makga-gateway-1
+    ports:
+      - "18081:8080"   # 디버그용 직접 포트 (운영에서는 제거)
+    environment:
+      - GATEWAY_INSTANCE_ID=gateway-1
+      - GOMAXPROCS=0
+      - GOMEMLIMIT=512MiB
+
+  gateway-2:
+    <<: *gateway-common
+    container_name: makga-gateway-2
+    ports:
+      - "18082:8080"
+    environment:
+      - GATEWAY_INSTANCE_ID=gateway-2
+      - GOMAXPROCS=0
+      - GOMEMLIMIT=512MiB
+
+  gateway-3:
+    <<: *gateway-common
+    container_name: makga-gateway-3
+    ports:
+      - "18083:8080"
+    environment:
+      - GATEWAY_INSTANCE_ID=gateway-3
+      - GOMAXPROCS=0
+      - GOMEMLIMIT=512MiB
+
+  # ─── Nginx 로드밸런서 ────────────────────────────────────────────────────────
+  # Active-Active: 3개 게이트웨이 인스턴스에 Round-Robin 분산
+  # least_conn: 연결 수 기반 분산 (게임 서버 특성상 적합)
+  nginx-lb:
+    image: nginx:1.25-alpine
+    container_name: makga-gateway-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./configs/nginx-gateway.conf:/etc/nginx/nginx.conf:ro
+      - ./configs/ssl:/etc/nginx/ssl:ro
+      - nginx-logs:/var/log/nginx
+    depends_on:
+      - gateway-1
+      - gateway-2
+      - gateway-3
+    networks:
+      - gateway-net
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 256M
+
+  # ─── Redis Master (레이트리밋 저장소) ────────────────────────────────────────
+  redis-master:
+    image: redis:7.2-alpine
+    container_name: makga-gateway-redis-master
+    restart: unless-stopped
+    command: >
+      redis-server
+      --requirepass ${REDIS_PASSWORD:-makga-redis-secret}
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+      --save ""
+      --appendonly no
+      --tcp-keepalive 60
+      --timeout 300
+    volumes:
+      - redis-master-data:/data
+    networks:
+      - gateway-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-makga-redis-secret}", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+
+  # ─── Redis Sentinel 1 ────────────────────────────────────────────────────────
+  redis-sentinel-1:
+    image: redis:7.2-alpine
+    container_name: makga-gateway-sentinel-1
+    restart: unless-stopped
+    command: redis-sentinel /etc/redis/sentinel.conf
+    volumes:
+      - ./configs/redis-sentinel.conf:/etc/redis/sentinel.conf:ro
+    depends_on:
+      - redis-master
+    networks:
+      - gateway-net
+
+  redis-sentinel-2:
+    image: redis:7.2-alpine
+    container_name: makga-gateway-sentinel-2
+    restart: unless-stopped
+    command: redis-sentinel /etc/redis/sentinel.conf
+    volumes:
+      - ./configs/redis-sentinel.conf:/etc/redis/sentinel.conf:ro
+    depends_on:
+      - redis-master
+    networks:
+      - gateway-net
+
+  redis-sentinel-3:
+    image: redis:7.2-alpine
+    container_name: makga-gateway-sentinel-3
+    restart: unless-stopped
+    command: redis-sentinel /etc/redis/sentinel.conf
+    volumes:
+      - ./configs/redis-sentinel.conf:/etc/redis/sentinel.conf:ro
+    depends_on:
+      - redis-master
+    networks:
+      - gateway-net
+
+  # ─── Prometheus 메트릭 수집 ──────────────────────────────────────────────────
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: makga-gateway-prometheus
+    restart: unless-stopped
+    ports:
+      - "19090:9090"
+    volumes:
+      - ./configs/prometheus-gateway.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=7d"
+    networks:
+      - gateway-net
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+# ─── 볼륨 ────────────────────────────────────────────────────────────────────
+volumes:
+  redis-master-data:
+    driver: local
+  nginx-logs:
+    driver: local
+  prometheus-data:
+    driver: local
+
+# ─── 네트워크 ────────────────────────────────────────────────────────────────
+networks:
+  gateway-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+  backend-net:
+    external: true
+    name: makga-backend

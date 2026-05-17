@@ -1,0 +1,373 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Makga API Gateway — 설정 파일
+# 위치: infra/gateway/config/gateway.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+
+server:
+  # 리스닝 포트 (Nginx 뒤에서는 8080, 직접 노출 시 5000)
+  port: 8080
+  # 읽기/쓰기/유휴 타임아웃
+  read_timeout_sec: 30
+  write_timeout_sec: 30
+  idle_timeout_sec: 120
+  # 최대 동시 연결 수 (고루틴 워커풀 크기)
+  max_concurrency: 50000
+  # Graceful shutdown 대기 시간
+  shutdown_timeout_sec: 15
+  # 요청 본문 최대 크기 (바이트)
+  max_body_bytes: 10485760   # 10 MB
+
+jwt:
+  issuer: "makga-login"
+  audience: "makga-game"
+  # 실제 운영 시 Vault 또는 환경변수 GATEWAY_JWT_SECRET 으로 주입
+  secret_key: "${GATEWAY_JWT_SECRET}"
+  # 토큰 만료 허용 오차 (초)
+  clock_skew_sec: 30
+
+# ─── 레이트 리밋 ─────────────────────────────────────────────────────────────
+rate_limit:
+  # Redis 기반 슬라이딩 윈도우 레이트 리밋
+  enabled: true
+  redis_key_prefix: "rl:gw:"
+  # IP 단위 기본 제한
+  per_ip:
+    requests: 300
+    window_sec: 60
+  # 인증된 사용자 단위 제한 (JWT sub 기준)
+  per_user:
+    requests: 1000
+    window_sec: 60
+  # 특정 경로 오버라이드
+  path_overrides:
+    - path: "/v1/auth/login"
+      requests: 20
+      window_sec: 60
+    - path: "/v1/auth/register"
+      requests: 10
+      window_sec: 60
+    - path: "/v1/billing/iap/verify"
+      requests: 50
+      window_sec: 60
+
+# ─── 서킷브레이커 ────────────────────────────────────────────────────────────
+circuit_breaker:
+  # 연속 실패 횟수 임계값 (이 횟수 초과 시 Open 상태)
+  max_consecutive_failures: 5
+  # Open → Half-Open 전환 대기 시간 (초)
+  open_timeout_sec: 30
+  # Half-Open 상태에서 허용할 테스트 요청 수
+  half_open_max_requests: 3
+  # 성공률 임계값 (Half-Open → Closed 전환 조건)
+  success_rate_threshold: 0.6
+
+# ─── 업스트림 헬스체크 ───────────────────────────────────────────────────────
+health_check:
+  enabled: true
+  # 헬스체크 주기 (초)
+  interval_sec: 10
+  # 응답 타임아웃 (초)
+  timeout_sec: 3
+  # 연속 실패 횟수 → 비정상 마킹
+  unhealthy_threshold: 3
+  # 연속 성공 횟수 → 정상 복구 마킹
+  healthy_threshold: 2
+  # 헬스체크 경로
+  path: "/health"
+
+# ─── Redis ───────────────────────────────────────────────────────────────────
+redis:
+  # 클러스터 모드 사용 여부
+  cluster_mode: false
+  # 단일 노드 주소 (cluster_mode: false 시 사용)
+  addr: "${REDIS_ADDR:localhost:6379}"
+  # 클러스터 노드 주소 목록 (cluster_mode: true 시 사용)
+  cluster_addrs:
+    - "redis-node-1:6379"
+    - "redis-node-2:6379"
+    - "redis-node-3:6379"
+  password: "${REDIS_PASSWORD:}"
+  db: 0
+  pool_size: 100
+  min_idle_conns: 20
+  dial_timeout_sec: 5
+  read_timeout_sec: 3
+  write_timeout_sec: 3
+
+# ─── 라우팅 규칙 ─────────────────────────────────────────────────────────────
+# path_prefix: 경로 접두사 매칭
+# cluster: 업스트림 클러스터 이름
+# auth_required: true → JWT 검증 필요
+# strip_prefix: 업스트림 전달 시 경로 접두사 제거 여부
+# websocket: true → WebSocket 업그레이드 처리
+routes:
+  # 인증 서버 (인증 불필요)
+  - path_prefix: "/v1/auth"
+    cluster: "login"
+    auth_required: false
+
+  # 월드/채널 서버
+  - path_prefix: "/v1/world"
+    cluster: "world"
+    auth_required: true
+
+  - path_prefix: "/v1/channel"
+    cluster: "world"
+    auth_required: true
+
+  # 랭킹 서버 (공개 조회 허용)
+  - path_prefix: "/v1/ranking"
+    cluster: "ranking"
+    auth_required: false
+
+  # 경매장
+  - path_prefix: "/v1/auction"
+    cluster: "auction"
+    auth_required: true
+
+  # 채팅 (WebSocket)
+  - path_prefix: "/ws"
+    cluster: "chat"
+    auth_required: true
+    websocket: true
+
+  # 우편함
+  - path_prefix: "/v1/mail"
+    cluster: "mail"
+    auth_required: true
+
+  # 이벤트/스케줄러
+  - path_prefix: "/v1/events"
+    cluster: "scheduler"
+    auth_required: false
+
+  # 결제/빌링
+  - path_prefix: "/v1/billing"
+    cluster: "billing"
+    auth_required: true
+
+  # 소셜 (친구/길드)
+  - path_prefix: "/v1/social"
+    cluster: "social"
+    auth_required: true
+
+  # 시즌 패스
+  - path_prefix: "/v1/season"
+    cluster: "season"
+    auth_required: true
+
+  # 알림
+  - path_prefix: "/v1/notification"
+    cluster: "notification"
+    auth_required: true
+
+  # 신고
+  - path_prefix: "/v1/report"
+    cluster: "report"
+    auth_required: true
+
+  # 하우징
+  - path_prefix: "/v1/housing"
+    cluster: "housing"
+    auth_required: true
+
+  # 추천 시스템
+  - path_prefix: "/v1/recommendation"
+    cluster: "recommendation"
+    auth_required: true
+
+  # 크로스서버
+  - path_prefix: "/v1/cross"
+    cluster: "crossserver"
+    auth_required: true
+
+  # 분석 (내부 전용)
+  - path_prefix: "/v1/analytics"
+    cluster: "analytics"
+    auth_required: true
+
+  # 신 시스템 (GM 전용)
+  - path_prefix: "/v1/divine"
+    cluster: "divine"
+    auth_required: true
+    required_role: "gm"
+
+  # GM 툴 (GM 전용)
+  - path_prefix: "/v1/gm"
+    cluster: "gm"
+    auth_required: true
+    required_role: "gm"
+
+  # 패치/버전 (공개)
+  - path_prefix: "/v1/patch"
+    cluster: "patchserver"
+    auth_required: false
+
+  # 레이드 로비
+  - path_prefix: "/v1/raid"
+    cluster: "raidlobby"
+    auth_required: true
+
+  # 길드전
+  - path_prefix: "/v1/guildwar"
+    cluster: "guildwar"
+    auth_required: true
+
+  # 안티치트 (내부 전용)
+  - path_prefix: "/v1/anticheat"
+    cluster: "anticheat"
+    auth_required: true
+
+  # 리플레이
+  - path_prefix: "/v1/replay"
+    cluster: "replay"
+    auth_required: true
+
+# ─── 업스트림 클러스터 ───────────────────────────────────────────────────────
+# 각 클러스터는 1개 이상의 업스트림 주소를 가짐 (HA를 위해 2개 이상 권장)
+# load_balance: round_robin | least_conn | random
+# health_check_path: 개별 오버라이드 (없으면 global health_check.path 사용)
+clusters:
+  login:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-login-1:8080"
+      - addr: "http://makga-login-2:8080"
+
+  world:
+    load_balance: least_conn
+    destinations:
+      - addr: "http://makga-world-1:8080"
+      - addr: "http://makga-world-2:8080"
+
+  ranking:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-ranking:8080"
+
+  auction:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-auction:8080"
+
+  chat:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-chat-1:8080"
+      - addr: "http://makga-chat-2:8080"
+
+  mail:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-mail:8080"
+
+  scheduler:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-scheduler:8080"
+
+  billing:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-billing-1:8080"
+      - addr: "http://makga-billing-2:8080"
+
+  social:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-social:8080"
+
+  season:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-season:8080"
+
+  notification:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-notification:8080"
+
+  report:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-report:8080"
+
+  housing:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-housing:8080"
+
+  recommendation:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-recommendation:8080"
+
+  crossserver:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-crossserver:8080"
+
+  analytics:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-analytics:8080"
+
+  divine:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-divine:8080"
+
+  gm:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-gm:8080"
+
+  patchserver:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-patchserver:8080"
+
+  raidlobby:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-raidlobby:8080"
+
+  guildwar:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-guildwar:8080"
+
+  anticheat:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-anticheat:8080"
+
+  replay:
+    load_balance: round_robin
+    destinations:
+      - addr: "http://makga-replay:8080"
+
+# ─── 로깅 ────────────────────────────────────────────────────────────────────
+logging:
+  level: "info"          # debug | info | warn | error
+  format: "json"         # json | text
+  # 느린 요청 경고 임계값 (ms)
+  slow_request_threshold_ms: 500
+
+# ─── CORS ────────────────────────────────────────────────────────────────────
+cors:
+  enabled: true
+  allowed_origins:
+    - "https://makga.game"
+    - "https://admin.makga.game"
+  allowed_methods:
+    - "GET"
+    - "POST"
+    - "PUT"
+    - "DELETE"
+    - "OPTIONS"
+  allowed_headers:
+    - "Authorization"
+    - "Content-Type"
+    - "X-Request-ID"
+  max_age_sec: 3600
