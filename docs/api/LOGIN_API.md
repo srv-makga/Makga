@@ -1,4 +1,4 @@
-# Login Server API Documentation
+﻿# Login Server API Documentation
 
 **Base URL:** `http://localhost:5000/v1/auth`  
 **Port:** 5000
@@ -362,6 +362,95 @@ curl -X POST http://localhost:5000/v1/auth/token/refresh \
 curl -X POST http://localhost:5000/v1/auth/token/revoke \
   -H "Content-Type: application/json" \
   -d '{"refreshToken":"abc123def456..."}'
+```
+
+---
+
+## 6. 2FA (TOTP) 관리
+
+모든 2FA 엔드포인트는 `/v1/auth/2fa` 경로 하위에 위치한다.
+
+### 6.1 POST `/v1/auth/2fa/setup` — TOTP 시크릿 생성
+
+기존 미활성 시크릿이 있으면 덮어쓴다.
+
+**Request Body**
+```json
+{ "account_uid": 1001, "email": "user@example.com" }
+```
+
+**Response 200 OK**
+```json
+{
+  "secret_base32": "JBSWY3DPEHPK3PXP",
+  "otp_auth_uri": "otpauth://totp/Makga:user@example.com?secret=JBSWY3DPEHPK3PXP&issuer=Makga"
+}
+```
+
+---
+
+### 6.2 POST `/v1/auth/2fa/activate` — 2FA 활성화
+
+첫 번째 TOTP 코드를 검증하고 2FA를 활성화한다.
+
+**Request Body**
+```json
+{ "account_uid": 1001, "code": "123456" }
+```
+
+**Error Codes:** `invalid_code` / `already_enabled` / `2fa_not_setup`
+
+---
+
+### 6.3 POST `/v1/auth/2fa/validate` — TOTP 코드 검증
+
+로그인 후 TOTP 코드를 검증한다. `trust_device=true`이면 30일짜리 신뢰 디바이스 토큰을 발급한다.
+
+**Request Body**
+```json
+{ "account_uid": 1001, "code": "123456", "trust_device": true }
+```
+
+**Response 200 OK**
+```json
+{ "device_token": "trusted_device_token_string" }
+```
+
+---
+
+### 6.4 POST `/v1/auth/2fa/disable` — 2FA 비활성화
+
+TOTP 코드를 재확인 후 2FA를 비활성화한다. 신뢰 디바이스도 모두 삭제된다.
+
+**Request Body**
+```json
+{ "account_uid": 1001, "code": "123456" }
+```
+
+---
+
+### 6.5 GET `/v1/auth/2fa/devices` — 신뢰 디바이스 목록
+
+**Query Parameters:** `accountUid` (long)
+
+---
+
+### 6.6 DELETE `/v1/auth/2fa/devices/{token}` — 신뢰 디바이스 삭제
+
+**Query Parameters:** `accountUid` (long)
+
+---
+
+## 7. 테스트 로그인 (개발 환경 전용)
+
+`appsettings.json`의 `Auth:EnableTestLogin`이 `true`일 때만 등록된다.  
+**운영 환경에서는 반드시 `false`로 설정해야 한다.**
+
+### POST `/v1/auth/test/login`
+
+**Request Body**
+```json
+{ "account_uid": 1001 }
 ```
 
 ---

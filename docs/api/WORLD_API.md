@@ -1,4 +1,4 @@
-# World Server API Documentation
+﻿# World Server API Documentation
 
 **Base URL:** `http://localhost:5002/v1/internal`  
 **Port:** 5002  

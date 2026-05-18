@@ -1,4 +1,4 @@
-# Ranking Server API Documentation
+﻿# Ranking Server API Documentation
 
 **Base URL:** `http://localhost:5001/v1/ranking`  
 **Port:** 5001
