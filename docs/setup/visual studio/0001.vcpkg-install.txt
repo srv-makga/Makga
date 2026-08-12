@@ -1,0 +1,45 @@
+﻿1. git 명령어를 사용하기 위해 git 설치
+- github desktop이 설치되어 있다면 시스템 환경 변수에 C:\Users\계정명\AppData\Local\GitHubDesktop\app-X.X.X\resources\app\git\cmd 추가
+
+
+
+2. cmd 에 아래 명령어들 입력
+>> cd vcpkg 설치 디렉토리
+>> git clone https://github.com/microsoft/vcpkg.git
+>> cd vcpkg
+>> .\bootstrap-vcpkg.bat
+>> .\vcpkg.exe integrate install
+
+
+
+3. visual studio에서 연결
+Tools - Command Line - Developer PowerShell
+
+>> $env:VCPKG_ROOT = "vcpkg 설치 디렉토리"
+>> $env:PATH = "$env:VCPKG_ROOT;$env:PATH"
+
+>> vcpkg new --application
+
+
+
+4. 프로젝트 설정
+구성 속성 - vcpkg - Use Vcpkg Manifest => yes
+
+
+
+5. 패키지 설치
+>> vcpkg search 이름
+
+>> vcpkg add port 추가할 패키지
+>> vcpkg add mysql-connector-cpp
+
+>> vcpkg install
+
+>> vcpkg integrate install
+
+
+
+
+참고:
+https://learn.microsoft.com/ko-kr/vcpkg/get_started/get-started-msbuild?pivots=shell-powershell
+https://jungwoong.tistory.com/77
