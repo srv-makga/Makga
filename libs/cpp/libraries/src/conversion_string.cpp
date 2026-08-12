@@ -131,14 +131,12 @@ ConversionString::operator std::wstring() const
 	return wstring_;
 }
 
-// ─── Getters ──────────────────────────────────────────────────────────────────
-
-const std::string& ConversionString::GetString() const
+std::string& ConversionString::GetString()
 {
 	return string_;
 }
 
-const std::wstring& ConversionString::GetWString() const
+std::wstring& ConversionString::GetWString()
 {
 	return wstring_;
 }
