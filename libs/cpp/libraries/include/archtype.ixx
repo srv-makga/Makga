@@ -1,9 +1,12 @@
 module;
 
-export module makga.lib.ecs.archtype;
+#include <vector>
+#include <tuple>
+#include <utility>
+#include <type_traits>
+#include <cstddef>
 
-import <vector>;
-import <tuple>;
+export module makga.lib.ecs.archtype;
 
 export namespace makga::lib {
 export template<typename... Components>
