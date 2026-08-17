@@ -1,8 +1,9 @@
-﻿#pragma once
+#pragma once
 
 class Actor;
 class Stat
 {
+public:
 	using Key = uint64_t;
 	using Record = std::pair<makga::StatType, EffectValue>;
 

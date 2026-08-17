@@ -29,22 +29,23 @@ public:
 	virtual bool Initialize();
 	virtual void Finalize();
 
+	virtual void OnReceive(const Message& msg);
+
 	virtual makga::Result DoMove(Coord x, Coord y, Coord z, makga::MoveType movetype = makga::MoveType_Walk);
 
 	bool SetMovePosition(float x, float y, float z);
 	bool SetMovePosition(const makga::math::Vector3& _vector);
 
-	// BT °ü·Ã //////////////////////////////////////////////////////////////
-	// @brief ÁÖº¯¿¡¼­ Å¸°Ù Ã£±â
+	// GetMailbox() ì œê±°ë¨ â€” ë©”ì‹œì§€ ì „ë‹¬ì€ PushMessage() / ActorSystem::Instance().Tell() ê²½ìœ 
+
+	// BT ???? //////////////////////////////////////////////////////////////
+	// @brief ??????? ??? ???
 	bool IsUpdateAI() const;
 	void ActiveAI();
 	void DeactiveAI();
 
 
 	std::shared_ptr<Actor> FindTarget();
-
-	// @brief Å¸°Ù º¯°æ
-	bool ChangeTarget(std::shared_ptr<Actor> target);
 
 	bool HasTarget() const;
 	bool HasLeader() const;
@@ -54,6 +55,10 @@ public:
 	bool IsMoveable() const;
 	bool IsInSafetyArea() const;
 	bool IsInAttackRange(std::shared_ptr<Actor> target) const;
+	bool ChangeTarget(std::shared_ptr<Actor> target);
+
+	// @brief ì´ Actorê°€ otherë¥¼ ì ìœ¼ë¡œ ê°„ì£¼í•˜ëŠ”ì§€ ì—¬ë¶€ (ì„œë¸Œí´ë˜ìŠ¤ ì˜¤ë²„ë¼ì´ë“œ)
+	virtual bool IsHostileTo(const Actor& other) const;
 	/// /////////////////////////////////////////////////////////////////////
 
 	virtual makga::AIType GetAIType() const;
@@ -63,36 +68,58 @@ public: // MessageActor overrides
 	virtual bool IsValid() const { return false; }
 	virtual void OnUpdate(float delta_time) override;
 
-	virtual void PushMessage(std::unique_ptr<Message> message) = 0;
-	virtual void ProcessMessages(std::unique_ptr<Message> message) = 0;
+	void PushMessage(std::unique_ptr<Message> message) override;
+	virtual void ProcessMessages(std::unique_ptr<Message> message) override;
 
 public:
 	ActorId GetId() const;
 
 	const ActorBoard& GetBoard() const;
 
-	// @brief ÇöÀç Å¸°Ù ¹İÈ¯
+	// @brief ???? ??? ???
 	std::shared_ptr<Actor> GetTarget() const;
-	// @brief ¸®´õ ¹İÈ¯
+	// @brief ???? ???
 	std::shared_ptr<Actor> GetLeader() const;
-	// @brief ¼ÒÀ¯ÀÚ ¹İÈ¯
+	// @brief ?????? ???
 	std::shared_ptr<Actor> GetOwner() const;
 
 	Hp GetCurHp() const;
 	Hp GetMaxHp() const;
 	Mp GetCurMp() const;
 	Mp GetMaxMp() const;
+	Hp GetShieldHp() const;
 
-	// À§Ä¡ °ü·Ã ¸Ş¼­µå Ãß°¡
+	// @brief í¡ìˆ˜ ë°©ì–´ë§‰ ìˆ˜ì¹˜ ì„¤ì • (SkillEffectExecutorì—ì„œ ì§ì ‘ í˜¸ì¶œ)
+	void SetShieldHp(Hp hp);
+
+	// ì „íˆ¬ ìŠ¤íƒ¯ (ì„œë¸Œí´ë˜ìŠ¤ì—ì„œ Initialize ì‹œ ì„¤ì •)
+	virtual Attack  GetAtk() const { return 0; }
+	virtual Defense GetDef() const { return 0; }
+
+	// ì£½ìŒ ì²˜ë¦¬ (ì„œë¸Œí´ë˜ìŠ¤ì—ì„œ ì˜¤ë²„ë¼ì´ë“œ)
+	virtual void OnDeath();
+
+	// ??? ???? ????? ???
 	makga::math::Vector3 GetPosition() const;
 	void SetPosition(const makga::math::Vector3& pos);
 
-	// Terrain Á¢±Ù (TerrainGrid ´ë½Å Terrain ÂüÁ¶)
+	// Terrain ì°¸ì¡° (TerrainGrid ì ‘ê·¼ ë° Terrain ê²½ê³„ ì´ë™)
 	std::shared_ptr<Terrain> GetTerrain() const { return terrain_; }
 	void SetTerrain(std::shared_ptr<Terrain> terrain) { terrain_ = terrain; }
 
+	// ì „íˆ¬/ì´ë™ íŒŒë¼ë¯¸í„°
+	Distance GetAttackRange() const { return attack_range_; }
+	Speed    GetMoveSpeed()   const { return move_speed_; }
+	float    GetAttackInterval() const { return attack_interval_; }
+
+	makga::math::Vector3 GetSpawnPosition() const { return spawn_position_; }
+	void SetSpawnPosition(const makga::math::Vector3& pos) { spawn_position_ = pos; }
+
 protected:
-	// @brief privateÀÇ ³»¿ëÀ» publicÀ¸·Î º¹»ç
+	void SetAttackRange(Distance range) { attack_range_ = range; }
+	void SetMoveSpeed(Speed speed)      { move_speed_   = speed; }
+	void SetAttackInterval(float sec)   { attack_interval_ = sec; }
+	// @brief private?? ?????? public???? ????
 	void CopyPrivateToPublic();
 
 	void SetCurHp(Hp hp);
@@ -100,7 +127,7 @@ protected:
 	void SetCurMp(Mp mp);
 	void SetMaxMp(Mp mp);
 
-	// ´Ù¸¥ Actor ÀÌµ¿ ¾Ë¸² Ã³¸®
+	// ??? Actor ??? ??? ???
 	virtual void OnOtherActorMove(ActorId actor_id, 
 	                               const makga::math::Vector3& old_pos,
 	                               const makga::math::Vector3& new_pos) {}
@@ -109,10 +136,15 @@ protected:
 	inline static std::atomic<ActorId> next_id_ = 0;
 
 	Tick last_move_tick;
-	makga::math::Vector3 dest_position_;	// ÀÌµ¿ ¸ñÀûÁö
-	std::vector<dtPolyRef> route_path_;		// ÀÌµ¿ °æ·Î
+	makga::math::Vector3 dest_position_;    // ëª©ì ì§€ ì¢Œí‘œ
+	makga::math::Vector3 spawn_position_;   // ìŠ¤í° ìœ„ì¹˜ (ê·€í™˜ íŒë‹¨ìš©)
+	std::vector<dtPolyRef> route_path_;     // ê²½ë¡œ ë…¸ë“œ
 
-	// Å¸ÀÎ¿¡°Ô °øÀ¯µÇ¾î¾ßÇÒ Á¤º¸
+	Distance attack_range_    = 1.5f;  // ê³µê²© ì‚¬ê±°ë¦¬
+	Speed    move_speed_      = 3.0f;  // ì´ë™ ì†ë„
+	float    attack_interval_ = 2.0f;  // ê³µê²© ê°„ê²© (ì´ˆ)
+
+	// â”€â”€ìŠ¤ë ˆë“œ ì „ìš©: private/public ì´ì¤‘ ë²„í¼
 	std::unique_ptr<ActorBoard> private_board_;
 	std::unique_ptr<ActorBoard> public_board_;
 
