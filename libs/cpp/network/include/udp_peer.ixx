@@ -40,7 +40,8 @@ private:
     std::shared_ptr<IocpCore> iocp_core_;
     std::shared_ptr<UdpSocket> socket_;
     OnMessageCb on_message_;
-    bool running_ = false;
+    mutable std::mutex callback_mutex_;
+    std::atomic_bool running_{false};
 
     // message processing queue and worker thread to avoid blocking IOCP thread
     std::thread worker_thread_;
@@ -48,7 +49,10 @@ private:
     std::condition_variable queue_cv_;
     struct Msg { IPEndPoint from; std::vector<char> data; };
     std::deque<Msg> msg_queue_;
-    std::atomic<bool> worker_running_{false};
+    static constexpr std::size_t MaxPendingMessages = 4096;
+    static constexpr std::size_t MaxPendingMessageBytes = 16 * 1024 * 1024;
+    std::size_t pending_message_bytes_{0};
+    std::atomic_bool worker_running_{false};
 };
 
 } // namespace makga::network

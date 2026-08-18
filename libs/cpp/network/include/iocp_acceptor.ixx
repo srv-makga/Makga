@@ -1,6 +1,5 @@
 module;
 
-#include <memory>
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
@@ -11,8 +10,14 @@ module;
 
 export module makga.network.iocp.acceptor;
 
-import <vector>;
+import <atomic>;
+import <condition_variable>;
+import <cstddef>;
+import <cstdint>;
+import <memory>;
 import <queue>;
+import <vector>;
+
 import makga.network.acceptor;
 import makga.network.iocp.service;
 import makga.network.iocp.event;
@@ -60,5 +65,7 @@ private:
 	mutable makga::lib::Mutex mutex_;
 	std::vector<IocpAcceptEvent*> accept_events_;
 	std::queue<IocpAcceptEvent*> free_accept_events_;
+	std::atomic<std::uint32_t> pending_accepts_{0};
+	std::condition_variable accept_drain_cv_;
 };
 } // namespace makga::network

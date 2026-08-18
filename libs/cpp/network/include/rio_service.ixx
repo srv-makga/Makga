@@ -1,9 +1,5 @@
 module;
 
-#include <memory>
-#include <vector>
-#include <thread>
-#include <atomic>
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
@@ -13,6 +9,12 @@ module;
 #endif
 
 export module makga.network.rio.service;
+
+import <atomic>;
+import <memory>;
+import <mutex>;
+import <thread>;
+import <vector>;
 
 export import makga.network.service;
 export import makga.network.rio.core;
@@ -69,6 +71,7 @@ protected:
 	RIO_EXTENSION_FUNCTION_TABLE rio_func_table_;
 
 	std::atomic<bool> worker_running_;
+	mutable std::mutex worker_mutex_;
 	std::vector<std::thread> worker_threads_;
 };
 } // namespace makga::network

@@ -3,6 +3,8 @@ module;
 #include <iostream>
 #include <atomic>
 #include <thread>
+#include <vector>
+#include <mutex>
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
@@ -34,8 +36,12 @@ private:
     unsigned short tcp_port_;
     std::atomic<bool> running_;
     std::thread accept_thread_;
+    SOCKET listen_socket_ = INVALID_SOCKET;
+    std::mutex clients_mutex_;
+    std::vector<SOCKET> client_sockets_;
+    std::vector<std::thread> client_threads_;
 
-    bool wsa_started_ = false;
+    std::atomic_bool wsa_started_{false};
 
     UdpGroup group_manager_;
 };

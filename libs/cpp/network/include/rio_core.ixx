@@ -14,10 +14,17 @@ namespace makga::network {
 // Use the RIO extension table provided by the Windows headers
 using RioExtensionFunctionTable = RIO_EXTENSION_FUNCTION_TABLE;
 
+export struct RioCoreConfig
+{
+	static constexpr DWORD MinCompletionQueueDepth = 1024;
+	static constexpr DWORD MaxCompletionQueueDepth = 65535;
+	DWORD completion_queue_depth = MaxCompletionQueueDepth;
+};
+
 export class RioCore
 {
 public:
-	RioCore();
+	explicit RioCore(RioCoreConfig config = {});
 	virtual ~RioCore();
 
 	bool Initialize();
@@ -56,5 +63,6 @@ private:
 	SOCKET dummy_socket_; // Used for loading extensions
 	HANDLE iocp_handle_;
 	bool wsa_initialized_;
+	RioCoreConfig config_;
 };
 } // namespace makga::network

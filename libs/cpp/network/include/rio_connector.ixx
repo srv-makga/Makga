@@ -1,7 +1,5 @@
 module;
 
-#include <atomic>
-#include <memory>
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
@@ -11,6 +9,9 @@ module;
 #endif
 
 export module makga.network.rio.connector;
+
+import <atomic>;
+import <memory>;
 
 import makga.network.connector;
 import makga.network.rio.service;

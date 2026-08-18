@@ -58,7 +58,7 @@ public:
 	}
 #endif
 
-	static void CloseSocket(SOCKET socket)
+	static void CloseSocket(SOCKET& socket)
 	{
 		if (INVALID_SOCKET == socket)
 		{
@@ -84,7 +84,8 @@ public:
 
 	static bool BindAddrAny(SOCKET socket, unsigned short port)
 	{
-		SOCKADDR_IN address;
+		if (INVALID_SOCKET == socket) return false;
+		SOCKADDR_IN address{};
 		address.sin_family = AF_INET;
 		address.sin_addr.s_addr = ::htonl(INADDR_ANY);
 		address.sin_port = ::htons(port);
@@ -141,12 +142,12 @@ public:
 
 	static bool SetSendBufSize(SOCKET _socket, int _size)
 	{
-		return SetSockOpt<char>(_socket, SOL_SOCKET, SO_SNDBUF, _size);
+		return _size > 0 && SetSockOpt<int>(_socket, SOL_SOCKET, SO_SNDBUF, _size);
 	}
 
 	static bool SetRecvBufSize(SOCKET _socket, int _size)
 	{
-		return SetSockOpt<char>(_socket, SOL_SOCKET, SO_RCVBUF, _size);
+		return _size > 0 && SetSockOpt<int>(_socket, SOL_SOCKET, SO_RCVBUF, _size);
 	}
 
 	static bool SetReuseAddr(SOCKET socket, bool optval)

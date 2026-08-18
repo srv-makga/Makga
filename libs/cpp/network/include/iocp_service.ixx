@@ -46,6 +46,8 @@ public:
 
 	virtual std::shared_ptr<NetSession> AllocSession() = 0;
 	virtual void DeallocSession(std::shared_ptr<NetSession> session) = 0;
+    // Server implementations may enqueue a session into a dedicated IOCP send-batch scheduler.
+    virtual void ScheduleSendBatch(NetSession::Id) {}
 
 protected:
 	std::shared_ptr<IocpCore> core_;
