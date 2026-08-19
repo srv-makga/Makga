@@ -1,4 +1,4 @@
-using System.Buffers;
+﻿using System.Buffers;
 using System.IO.Pipelines;
 using System.Net;
 using System.Net.Sockets;
@@ -62,9 +62,19 @@ public abstract class TcpSession : NetSession
 	/// <summary>Initiate graceful disconnect. Idempotent.</summary>
 	public override void Disconnect()
 	{
-		if (1 == Interlocked.Exchange(ref _disconnected, 1)) { return; }
+		if (1 == Interlocked.Exchange(ref _disconnected, 1))
+		{
+			return;
+		}
 
-		try { _socket?.Shutdown(SocketShutdown.Both); } catch { }
+		try
+		{
+			_socket?.Shutdown(SocketShutdown.Both);
+		}
+		catch
+		{
+		}
+
 		_socket?.Close();
 		_cts?.Cancel();
 		_recvPipe.Writer.Complete();
@@ -86,15 +96,25 @@ public abstract class TcpSession : NetSession
 			{
 				var buffer = writer.GetMemory(4096);
 				var received = await _transport!.ReceiveAsync(_socket!, buffer, ct);
-				if (0 == received) { break; }  // graceful close by remote
+				if (0 == received)
+				{
+					break;  // graceful close by remote
+				}
 
 				writer.Advance(received);
 				var flush = await writer.FlushAsync(ct);
-				if (flush.IsCompleted) { break; }
+				if (flush.IsCompleted)
+				{
+					break;
+				}
 			}
 		}
-		catch (OperationCanceledException) { }
-		catch (SocketException) { }
+		catch (OperationCanceledException)
+		{
+		}
+		catch (SocketException)
+		{
+		}
 		finally
 		{
 			await writer.CompleteAsync();
@@ -117,10 +137,15 @@ public abstract class TcpSession : NetSession
 					reader.AdvanceTo(buffer.GetPosition(consumed));
 				}
 
-				if (result.IsCompleted) { break; }
+				if (result.IsCompleted)
+				{
+					break;
+				}
 			}
 		}
-		catch (OperationCanceledException) { }
+		catch (OperationCanceledException)
+		{
+		}
 		finally
 		{
 			reader.Complete();
@@ -136,11 +161,19 @@ public abstract class TcpSession : NetSession
 		{
 			await foreach (var data in _sendQueue.Reader.ReadAllAsync(ct))
 			{
-				if (null == _socket) { break; }
+				if (null == _socket)
+				{
+					break;
+				}
 				await _transport!.SendAsync(_socket, data, ct);
 			}
 		}
-		catch (OperationCanceledException) { }
-		catch (SocketException) { Disconnect(); }
-	}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (SocketException)
+		{
+			Disconnect();
+		}
+}
 }

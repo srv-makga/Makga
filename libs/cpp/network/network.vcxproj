@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -192,4 +192,21 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+
+  <ItemGroup>
+    <ClCompile Include="include\rudp_session.ixx" />
+    <ClCompile Include="src\rudp_session.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="include\realtime_transport.ixx" />
+    <ClCompile Include="src\realtime_transport.cpp" />
+    <ClCompile Include="include\iouring_core.ixx" />
+    <ClCompile Include="src\iouring_core.cpp" />
+    <ClCompile Include="include\iouring_service.ixx" />
+    <ClCompile Include="src\iouring_service.cpp" />
+    <ClCompile Include="include\iouring_session.ixx" />
+    <ClCompile Include="src\iouring_session.cpp" />
+    <ClCompile Include="include\iouring_acceptor.ixx" />
+    <ClCompile Include="src\iouring_acceptor.cpp" />
+  </ItemGroup>
 </Project>

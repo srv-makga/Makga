@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using Makga.Network.Core;
 using Makga.Network.Transport;
 
@@ -39,10 +39,14 @@ public abstract class TcpService : IDisposable
 	public abstract TcpSession AllocSession();
 
 	/// <summary>Called after a session connects and OnConnected has run.</summary>
-	public virtual void OnSessionConnected(TcpSession session) { }
+	public virtual void OnSessionConnected(TcpSession session)
+	{
+	}
 
 	/// <summary>Called after a session disconnects and OnDisconnected has run.</summary>
-	public virtual void OnSessionDisconnected(TcpSession session) { }
+	public virtual void OnSessionDisconnected(TcpSession session)
+	{
+	}
 
 	// ─── Session registry ───────────────────────────────────────────────────
 
