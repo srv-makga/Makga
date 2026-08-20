@@ -1,17 +1,19 @@
+module;
+
 #include "WinSock2.h"
 #include "Windows.h"
-#include <memory>
 #include <format>
 
 module makga.network.iocp.connector;
 
+import <memory>;
 import <vector>;
 import <queue>;
 import makga.network.iocp.service;
 import makga.network.iocp.object;
-import makga.network.iocp.session;
 import makga.network.iocp.event;
-import makga.network.socket;
+import makga.network.session;
+import makga.network.socket.util;
 import makga.lib.lock;
 import makga.lib.logger;
 
@@ -32,15 +34,29 @@ IocpConnector::~IocpConnector()
 
 bool IocpConnector::Initialize()
 {
-	is_connected_ = false;
-	connect_event_.Initialize();
+    if (service_ == nullptr || service_->GetIocpCore() == nullptr)
+    {
+        lib::MakgaLogger::Error("IocpConnector::Initialize - Service or IOCP core is nullptr.");
+        return false;
+    }
 
-	return true;
+    is_connected_ = false;
+    connect_event_.Initialize();
+    return true;
 }
 
 void IocpConnector::Finalize()
 {
-	SocketFunc::CloseSocket(socket_);
+	if (session_)
+	{
+		session_->BeginClose();
+		SocketFunc::CloseSocket(socket_);
+		session_->WaitForIoDrain();
+	}
+	else
+	{
+		SocketFunc::CloseSocket(socket_);
+	}
 
 	is_connected_ = false;
 	session_ = nullptr;
@@ -88,14 +104,23 @@ bool IocpConnector::Start()
 		return false;
 	}
 
-	RegisterConnect(&connect_event_);
+    if (!RegisterConnect(&connect_event_))
+    {
+        SocketFunc::CloseSocket(socket_);
+        return false;
+    }
 
 	return true;
 }
 
 void IocpConnector::Stop()
 {
+	if (session_)
+		session_->BeginClose();
 	SocketFunc::CloseSocket(socket_);
+	if (session_)
+		session_->WaitForIoDrain();
+	is_connected_ = false;
 }
 
 bool IocpConnector::RegisterConnect(IocpConnectEvent* event)
@@ -105,9 +130,15 @@ bool IocpConnector::RegisterConnect(IocpConnectEvent* event)
 		return false;
 	}
 
-	std::shared_ptr<IocpSession> session = service_->AllocSession();
+	std::shared_ptr<NetSession> session = service_->AllocSession();
+	if (!session || !session->ResetIoState() || !session->TryBeginIo())
+	{
+		if (session) service_->DeallocSession(session);
+		return false;
+	}
 
-	event->owner_ = session;
+	event->owner_ = shared_from_this();
+	event->session_ = session;
 
 	const auto& addr = service_->GetEndPoint().Addr();
 
@@ -118,11 +149,15 @@ bool IocpConnector::RegisterConnect(IocpConnectEvent* event)
 		{
 			lib::MakgaLogger::Error(std::format("IocpConnector::RegisterConnect - ConnectEx failed. ErrorCode: {0}", ::WSAGetLastError()));
 
-			event->owner_ = nullptr;
-			service_->DeallocSession(session);
+            event->owner_ = nullptr;
+            event->session_ = nullptr;
+            session->CompleteIo();
+            session->BeginClose();
+            service_->DeallocSession(session);
 
-			// @todo È¤½Ã³ª ¹«ÇÑ·çÇÁ °¡´É¼ºÀÌ ÀÖ³ª?
-			RegisterConnect(event);
+            // ì¦‰ì‹œ ì‹¤íŒ¨ë¥¼ ìž¬ê·€ì ìœ¼ë¡œ ìž¬ë“±ë¡í•˜ë©´ ì§€ì†ì  ì˜¤ë¥˜ì—ì„œ stack overflowê°€ ë°œìƒí•œë‹¤.
+            // ìž¬ì ‘ì†ì€ í˜¸ì¶œìž ë˜ëŠ” ìƒìœ„ reconnect schedulerê°€ ê²°ì •í•œë‹¤.
+            return false;
 		}
 	}
 
@@ -131,19 +166,24 @@ bool IocpConnector::RegisterConnect(IocpConnectEvent* event)
 
 void IocpConnector::ProcessConnect(IocpConnectEvent* event)
 {
+	if (event == nullptr || !event->session_)
+		return;
+	std::shared_ptr<NetSession> session = event->session_;
+	if (session->IsClosing())
+		return;
 	SOCKADDR_IN session_addr{};
 	int addrlen = sizeof(session_addr);
-	::getpeername(session_->GetSocket(), (SOCKADDR*)&session_addr, &addrlen);
+	::getpeername(session->GetSocket(), (SOCKADDR*)&session_addr, &addrlen);
 
 	is_connected_ = true;
 
-	session_->SetEndPoint(session_addr);
-	session_->OnConnect();
+	session->SetEndPoint(session_addr);
+	session->OnConnect();
 }
 
 HANDLE IocpConnector::GetHandle() const
 {
-	return reinterpret_cast<HANDLE>(session_->GetSocket());
+    return socket_ == INVALID_SOCKET ? nullptr : reinterpret_cast<HANDLE>(socket_);
 }
 
 void IocpConnector::Dispatch(IocpEvent* event, int bytes_transferred)
@@ -157,18 +197,20 @@ void IocpConnector::Dispatch(IocpEvent* event, int bytes_transferred)
 			break;
 		}
 
-		connect_event = static_cast<IocpConnectEvent*>(event);
-		ProcessConnect(connect_event);
+			connect_event = static_cast<IocpConnectEvent*>(event);
+			if (connect_event->session_)
+				connect_event->session_->CompleteIo();
+			ProcessConnect(connect_event);
 	} while (false);
 
 	do
 	{
-		if (false == RegisterConnect(connect_event))
+		if (socket_ == INVALID_SOCKET || service_ == nullptr ||
+			false == RegisterConnect(connect_event))
 		{
 			break;
 		}
 
-		// event »ç¿ëÇßÀ¸¸é Á¾·á
 		return;
 	} while (false);
 }

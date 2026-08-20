@@ -64,14 +64,17 @@ protected:
 	std::shared_ptr<RioCore> core_;
 	std::shared_ptr<NetHandler> net_handler_;
 	std::shared_ptr<JobHandler> job_handler_;
-	bool is_running_;
+	std::atomic_bool is_running_{false};
 
 	RIO_CQ rio_cq_;
 	RIO_RQ rio_rq_;
 	RIO_EXTENSION_FUNCTION_TABLE rio_func_table_;
 
-	std::atomic<bool> worker_running_;
+	std::atomic_bool worker_running_{false};
 	mutable std::mutex worker_mutex_;
+	// RIONotify permits one outstanding CQ notification. Serialize re-arming after
+	// every dequeue so multiple IOCP workers cannot leave the CQ unarmed.
+	mutable std::mutex notification_mutex_;
 	std::vector<std::thread> worker_threads_;
 };
 } // namespace makga::network

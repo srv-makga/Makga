@@ -10,6 +10,13 @@ module;
 #include <ws2tcpip.h>
 #include <MSWSock.h>
 #include <windows.h>
+#else
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+using SOCKET = int;
+using SOCKADDR_IN = sockaddr_in;
+using SOCKADDR_IN6 = sockaddr_in6;
 #endif
 
 export module makga.network.endpoint;

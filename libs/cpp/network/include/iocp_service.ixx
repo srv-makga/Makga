@@ -7,6 +7,7 @@ module;
 #include <MSWSock.h>
 #include <windows.h>
 #endif
+#include <atomic>
 #include <memory>
 
 export module makga.network.iocp.service;
@@ -53,6 +54,6 @@ protected:
 	std::shared_ptr<IocpCore> core_;
 	std::shared_ptr<NetHandler> net_handler_;
 	std::shared_ptr<JobHandler> job_handler_;
-	bool is_running_;
+	std::atomic_bool is_running_{false};
 };
 } // namespace makga::network

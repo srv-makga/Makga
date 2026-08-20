@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="tcp">
@@ -139,5 +139,24 @@
     <ClCompile Include="src\udp_socket.cpp">
       <Filter>udp</Filter>
     </ClCompile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClCompile Include="include\rudp_session.ixx"><Filter>udp</Filter></ClCompile>
+    <ClCompile Include="src\rudp_session.cpp"><Filter>udp</Filter></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="include\realtime_transport.ixx"><Filter>udp</Filter></ClCompile>
+    <ClCompile Include="src\realtime_transport.cpp"><Filter>udp</Filter></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="include\iouring_core.ixx"><Filter>tcp</Filter></ClCompile>
+    <ClCompile Include="src\iouring_core.cpp"><Filter>tcp</Filter></ClCompile>
+    <ClCompile Include="include\iouring_service.ixx"><Filter>tcp</Filter></ClCompile>
+    <ClCompile Include="src\iouring_service.cpp"><Filter>tcp</Filter></ClCompile>
+    <ClCompile Include="include\iouring_session.ixx"><Filter>tcp</Filter></ClCompile>
+    <ClCompile Include="src\iouring_session.cpp"><Filter>tcp</Filter></ClCompile>
+    <ClCompile Include="include\iouring_acceptor.ixx"><Filter>tcp</Filter></ClCompile>
+    <ClCompile Include="src\iouring_acceptor.cpp"><Filter>tcp</Filter></ClCompile>
   </ItemGroup>
 </Project>

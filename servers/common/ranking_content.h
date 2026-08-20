@@ -1,5 +1,7 @@
 #pragma once
 
+#include <atomic>
+#include <cstdint>
 #include <memory>
 #include <limits>
 #include "../../3rdparty/hiredis/hiredis.h"
@@ -12,6 +14,10 @@ import makga.lib.database.redis.connector;
 class RankingContent
 {
 public:
+	enum class StorageStatus : std::uint8_t
+	{
+		NotConfigured,
+	};
 	// @param key: Key name to use in redis
 	// @param top_count: The number of top rankings to fetch from redis
 	RankingContent(const std::string& key, int32_t top_count);
@@ -32,17 +38,22 @@ public:
 	void BackupTop(std::time_t ttl = 0);
 
 	const std::string& GetRedisKey() const;
+	StorageStatus GetStorageStatus() const noexcept;
+	bool IsStorageConfigured() const noexcept;
+	std::uint64_t GetRejectedStorageOperationCount() const noexcept;
 	std::time_t GetNextUpdateTime() const;
 	void SetNextUpdateTime(std::time_t time);
 
 protected:
 	void SendCommand(std::string&& _data);
 	void SendTopRanking(std::string&& _data);
+	void RecordStorageUnavailable() noexcept;
 
 protected:
 	const std::string redis_key_;
 	int32_t top_count_ = 0;
 	std::time_t next_update_time_ = 0;
+	std::atomic<std::uint64_t> rejected_storage_operations_{0};
 };
 
 // @brief Mock class to prevent nullptr
@@ -54,10 +65,10 @@ public:
 	}
 	virtual ~RankingContentMock() = default;
 
-	void LoadData() override { "Not implemented loadData in RankingContentMock"; }
-	void ProcRanking(std::shared_ptr<redisReply> reply) override { "Not implemented procRanking in RankingContentMock"; }
-	std::time_t CalcNextUpdateTime() const override { "Not implemented calcNextUpdateTime in RankingContentMock"; return std::numeric_limits<std::time_t>::max(); }
-
-	void AddScore(uint64_t member, int64_t score) { "Not implemented addScore in RankingContentMock"; }
-	void CalcRanking() { "Not implemented calcRanking in RankingContentMock"; }
+	void LoadData() override {}
+	void ProcRanking(std::shared_ptr<redisReply> reply) override { (void)reply; }
+	std::time_t CalcNextUpdateTime() const override { return std::numeric_limits<std::time_t>::max(); }
+	
+	void AddScore(uint64_t member, int64_t score) { RankingContent::AddScore(member, score); }
+	void CalcRanking() { RankingContent::CalcRanking(); }
 };

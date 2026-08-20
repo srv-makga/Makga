@@ -1,17 +1,35 @@
+module;
+
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <algorithm>
+#include <new>
 #include <WinSock2.h>
+#include <MSWSock.h>
 #include <windows.h>
-#include <memory>
-#include <mutex>
+#endif
 
 module makga.network.iocp.acceptor;
 
-import <vector>;
+import <atomic>;
+import <condition_variable>;
+import <cstddef>;
+import <memory>;
 import <queue>;
+import <thread>;
+import <vector>;
+
+
+
+import makga.network.socket.util;
+import makga.network.session;
+import makga.network.acceptor;
+
 import makga.network.iocp.service;
-import makga.network.iocp.object;
-import makga.network.iocp.session;
 import makga.network.iocp.event;
-import makga.network.socket;
+import makga.network.iocp.object;
+
 import makga.lib.lock;
 import makga.lib.logger;
 
@@ -31,135 +49,170 @@ IocpAcceptor::~IocpAcceptor()
 
 bool IocpAcceptor::Initialize()
 {
-	return true;
+    if (service_ == nullptr || service_->GetIocpCore() == nullptr)
+    {
+        lib::MakgaLogger::Error("IocpAcceptor::Initialize - Service or IOCP core is nullptr.");
+        return false;
+    }
+
+    // Ïù¥Ï†Ñ Start/Stop cycleÏùò ÏûîÏó¨ socketÏù¥ ÏûàÏúºÎ©¥ ÏôÑÎ£åÎêú AcceptExÎ•º Î®ºÏ†Ä drainÌïúÎã§.
+    if (socket_ != INVALID_SOCKET)
+        Stop();
+
+    return true;
 }
 
 void IocpAcceptor::Finalize()
 {
-	SocketFunc::CloseSocket(socket_);
+    SocketFunc::CloseSocket(socket_);
+    std::unique_lock drain_lock(mutex_);
+    accept_drain_cv_.wait(drain_lock, [this]
+    {
+        return pending_accepts_.load(std::memory_order_acquire) == 0;
+    });
 
-	lib::LockGuard lock(mutex_);
-
+    // pending AcceptExÍ∞Ä Î™®Îëê ÏôÑÎ£åÎêú Îí§ÏóêÎßå eventÎ•º Ìï¥Ï†úÌïúÎã§.
 	for (IocpAcceptEvent* accept_event : accept_events_)
 	{
 		delete accept_event;
 	}
 
-	accept_events_.clear();
+    accept_events_.clear();
 
-	while (false == free_accept_events_.empty())
-	{
-		IocpAcceptEvent* accept_event = free_accept_events_.front();
-		delete accept_event;
-		free_accept_events_.pop();
-	}
+    while (!free_accept_events_.empty())
+    {
+        delete free_accept_events_.front();
+        free_accept_events_.pop();
+    }
 }
 
 bool IocpAcceptor::Start()
 {
-	if (nullptr == service_)
-	{
-		lib::MakgaLogger::Error("IocpAcceptor::Start - Service is nullptr.");
-		return false;
-	}
+    if (nullptr == service_ || nullptr == service_->GetIocpCore())
+    {
+        lib::MakgaLogger::Error("IocpAcceptor::Start - Service or IOCP core is nullptr.");
+        return false;
+    }
 
-	SocketFunc::CloseSocket(socket_);
+    SocketFunc::CloseSocket(socket_);
+    socket_ = SocketFunc::Socket();
+    if (socket_ == INVALID_SOCKET)
+    {
+        lib::MakgaLogger::Error("IocpAcceptor::Start - Create socket failed.");
+        return false;
+    }
 
-	socket_ = SocketFunc::Socket();
-	if (INVALID_SOCKET == socket_)
-	{
-		lib::MakgaLogger::Error("IocpAcceptor::Start - Create socket failed.");
-		return false;
-	}
+    if (!service_->GetIocpCore()->Registered(reinterpret_cast<HANDLE>(socket_), 0) ||
+        !SocketFunc::SetReuseAddr(socket_, true) ||
+        !SocketFunc::Bind(socket_, service_->GetEndPoint()) ||
+        !SocketFunc::Listen(socket_))
+    {
+        lib::MakgaLogger::Error("IocpAcceptor::Start - Socket setup failed.");
+        SocketFunc::CloseSocket(socket_);
+        return false;
+    }
 
-	if (false == service_->GetIocpCore()->Registered(reinterpret_cast<HANDLE>(socket_), 0))
-	{
-		lib::MakgaLogger::Error("IocpAcceptor::Start - Registered failed.");
-		return false;
-	}
+    lib::LockGuard lock(mutex_);
+    if (!accept_events_.empty())
+    {
+        lib::MakgaLogger::Error("IocpAcceptor::Start - Acceptor is already started.");
+        SocketFunc::CloseSocket(socket_);
+        return false;
+    }
 
-	if (false == SocketFunc::SetReuseAddr(socket_, true))
-	{
-		lib::MakgaLogger::Error("IocpAcceptor::Start - Set reuse addr.");
-		return false;
-	}
+    const auto logical_processors = std::max(1u, std::thread::hardware_concurrency());
+    const auto accept_prepost_count = std::min<std::size_t>(
+        service_->GetMaxConnectCount(), std::max<std::size_t>(64, static_cast<std::size_t>(logical_processors) * 8));
+    std::size_t posted_accepts = 0;
+    for (std::size_t i = 0; i < accept_prepost_count; ++i)
+    {
+        IocpAcceptEvent* accept_event = new (std::nothrow) IocpAcceptEvent();
+        if (accept_event == nullptr)
+            break;
 
-	SocketFunc::SetLinger(socket_, 0, 0);
-	if (false == SocketFunc::Bind(socket_, service_->GetEndPoint()))
-	{
-		lib::MakgaLogger::Error("IocpAcceptor::Start - Socket bind failed.");
-		return false;
-	}
+        accept_event->owner_ = shared_from_this();
+        accept_events_.push_back(accept_event);
+        if (!RegisterAccept(accept_event))
+        {
+            accept_events_.pop_back();
+            accept_event->owner_ = nullptr;
+            delete accept_event;
+            break;
+        }
+        ++posted_accepts;
+    }
 
-	if (false == SocketFunc::Listen(socket_))
-	{
-		lib::MakgaLogger::Error("IocpAcceptor::Start - Socket listen failed.");
-		return false;
-	}
+    if (posted_accepts == 0)
+    {
+        lib::MakgaLogger::Error("IocpAcceptor::Start - No AcceptEx request was posted.");
+        SocketFunc::CloseSocket(socket_);
+        return false;
+    }
 
-	lib::LockGuard lock(mutex_);
-
-	accept_events_.clear();
-
-	std::size_t max_session_count = service_->GetMaxConnectCount();
-	for (std::size_t i = 0; i < max_session_count; ++i)
-	{
-		IocpAcceptEvent* accept_event = new IocpAcceptEvent();
-		if (nullptr == accept_event)
-		{
-			lib::MakgaLogger::Error("IocpAcceptor::Start - Accept event create failed.");
-			return false;
-		}
-
-		accept_events_.push_back(accept_event);
-
-		accept_event->owner_ = shared_from_this();
-		RegisterAccept(accept_event);
-	}
-
-	return true;
+    return true;
 }
-
 void IocpAcceptor::Stop()
 {
 	SocketFunc::CloseSocket(socket_);
+	std::unique_lock lock(mutex_);
+	accept_drain_cv_.wait(lock, [this]
+	{
+		return pending_accepts_.load(std::memory_order_acquire) == 0;
+	});
 }
 
 bool IocpAcceptor::RegisterAccept(IocpAcceptEvent* event)
 {
-	if (nullptr == event)
+	if (event == nullptr || service_ == nullptr || socket_ == INVALID_SOCKET)
+		return false;
+
+	std::shared_ptr<NetSession> session = service_->AllocSession();
+	if (!session || !session->ResetIoState() || !session->TryBeginIo())
 	{
+		if (session) service_->DeallocSession(session);
 		return false;
 	}
 
-	std::shared_ptr<IocpSession> session = service_->AllocSession();
-
 	event->session_ = session;
+	pending_accepts_.fetch_add(1, std::memory_order_acq_rel);
 
 	DWORD bytes_received = 0;
-	if (FALSE == SocketFunc::AcceptEx(socket_, session->GetSocket(), session->recv_buffer_->WritePosition(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &bytes_received, static_cast<LPOVERLAPPED>(event)))
+	if (SocketFunc::AcceptEx(socket_, session->GetSocket(), session->GetWritePosition(), 0,
+		sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &bytes_received,
+		static_cast<LPOVERLAPPED>(event)))
 	{
-		if (WSA_IO_PENDING != ::WSAGetLastError())
-		{
-			// LOG_WARN << "AcceptEx failed. ErrorCode: " << ::WSAGetLastError();
-
-			event->session_ = nullptr;
-			service_->DeallocSession(session);
-
-			// @todo »§Ω√≥™ π´«—∑Á«¡ ∞°¥…º∫¿Ã ¿÷≥™?
-			RegisterAccept(event);
-		}
+		return true;
 	}
 
-	return true;
+	if (WSA_IO_PENDING == ::WSAGetLastError())
+		return true;
+
+	const auto previous = pending_accepts_.fetch_sub(1, std::memory_order_acq_rel);
+	if (previous == 1)
+		accept_drain_cv_.notify_all();
+	event->session_ = nullptr;
+	session->CompleteIo();
+	session->BeginClose();
+	service_->DeallocSession(session);
+	return false;
 }
 
 void IocpAcceptor::ProcessAccept(IocpAcceptEvent* event)
 {
-	std::shared_ptr<IocpSession> session = event->session_;
-
-	if (false == SetUpdateAcceptSocket(session->GetSocket(), socket_))
+	if (event == nullptr)
+		return;
+	std::shared_ptr<NetSession> session = event->session_;
+	if (session)
+		session->CompleteIo();
+	if (!session || session->IsClosing() ||
+		false == SetUpdateAcceptSocket(session->GetSocket(), socket_))
 	{
+		if (session)
+		{
+			session->BeginClose();
+			service_->DeallocSession(session);
+		}
+		event->session_ = nullptr;
 		return;
 	}
 
@@ -193,36 +246,23 @@ HANDLE IocpAcceptor::GetHandle() const
 
 void IocpAcceptor::Dispatch(IocpEvent* iocp_event, int bytes_transferred)
 {
-	IocpAcceptEvent* accept_event = nullptr;
-
-	do
-	{
-		if (IocpType::ACCEPT != iocp_event->type_)
-		{
-			break;
-		}
-
-		accept_event = static_cast<IocpAcceptEvent*>(iocp_event);
-		ProcessAccept(accept_event);
-	} while (false);
-
-	do
-	{
-		if (false == CanAcceptSession())
-		{
-			break;
-		}
-
-		if (false == RegisterAccept(accept_event))
-		{
-			break;
-		}
-
-		// event ªÁøÎ«ﬂ¿∏∏È ¡æ∑·
+	if (iocp_event == nullptr || IocpType::ACCEPT != iocp_event->type_)
 		return;
-	} while (false);
 
-	PushFreeAcceptEvent(accept_event);
+	IocpAcceptEvent* accept_event = static_cast<IocpAcceptEvent*>(iocp_event);
+	ProcessAccept(accept_event);
+
+	// completion Ï≤òÎ¶¨ÏôÄ event Ïû¨Îì±Î°ù/Î∞òÎÇ©ÍπåÏßÄÎ•º ÌïòÎÇòÏùò outstanding ÏûëÏóÖÏúºÎ°ú Î≥∏Îã§.
+	bool rearmed = false;
+	if (CanAcceptSession() && RegisterAccept(accept_event))
+		rearmed = true;
+
+	const auto previous = pending_accepts_.fetch_sub(1, std::memory_order_acq_rel);
+	if (previous == 1)
+		accept_drain_cv_.notify_all();
+
+	if (!rearmed)
+		PushFreeAcceptEvent(accept_event);
 }
 
 void IocpAcceptor::PushFreeAcceptEvent(IocpAcceptEvent* event)
