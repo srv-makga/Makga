@@ -1,4 +1,4 @@
-namespace Makga.Network.Core;
+﻿namespace Makga.Network.Core;
 
 /// <summary>
 /// Auto-incrementing session identifier. Thread-safe.

@@ -1,4 +1,4 @@
-#if OS_LINUX
+﻿#if OS_LINUX
 using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;

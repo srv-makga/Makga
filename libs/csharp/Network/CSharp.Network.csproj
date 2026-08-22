@@ -5,7 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Makga.Libraries\CSharp.Libraries.csproj" />
+    <ProjectReference Include="..\Libraries\CSharp.Libraries.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
