@@ -115,6 +115,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>..\..\libs\cpp\libraries\include;..\..\libs\cpp\network\include;..\..\libs\cpp\3rdparty\flatbuffer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
@@ -140,6 +141,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>..\..\libs\cpp\libraries\include;..\..\libs\cpp\network\include;..\..\libs\cpp\3rdparty\flatbuffer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
@@ -155,18 +157,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="basic_item.h" />
     <ClInclude Include="bt_node.h" />
     <ClInclude Include="data_struct.h" />
     <ClInclude Include="data_table.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="dispatcher.h" />
     <ClInclude Include="flatbuffer\enum_generated.h" />
+    <ClInclude Include="flatbuffer\flatbuffer_util.h" />
     <ClInclude Include="flatbuffer\result_generated.h" />
     <ClInclude Include="flatbuffer\version_generated.h" />
     <ClInclude Include="inventory.h" />
     <ClInclude Include="iocp_client.h" />
     <ClInclude Include="iocp_server.h" />
     <ClInclude Include="iocp_session.h" />
+    <ClInclude Include="item_factory.h" />
     <ClInclude Include="item_object.h" />
     <ClInclude Include="message_actor.h" />
     <ClInclude Include="net_packet.h" />
@@ -180,11 +185,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
+    <ClCompile Include="basic_item.cpp" />
     <ClCompile Include="data_table.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="iocp_client.cpp" />
     <ClCompile Include="iocp_server.cpp" />
     <ClCompile Include="iocp_session.cpp" />
+    <ClCompile Include="item_factory.cpp" />
     <ClCompile Include="message_actor.cpp" />
     <ClCompile Include="net_packet.cpp" />
     <ClCompile Include="probability.cpp" />

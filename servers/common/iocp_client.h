@@ -31,6 +31,8 @@ public: // IocpService
 
 	std::shared_ptr<makga::network::NetSession> AllocSession() override;
 	void DeallocSession(std::shared_ptr<makga::network::NetSession> session) override;
+    // Clients have no session sweep thread; flush their batch through the caller-safe fallback.
+    void ScheduleSendBatch(makga::network::NetSession::Id session_id) override;
 
 protected:
 	virtual void CreateSession(std::size_t max_connect_count = 1) = 0;
