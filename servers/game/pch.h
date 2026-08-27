@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <atomic>
 #include <cstdlib>
@@ -17,7 +17,7 @@
 #define NOMINMAX
 #define _WIN32_WINNT 0x0A00
 
-// ��ŷ Ws2_32.lib (�� �ʿ��ϸ� Mswsock.lib
+// 占쏙옙킹 Ws2_32.lib (占쏙옙 占십울옙占싹몌옙 Mswsock.lib
 
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -40,4 +40,8 @@
 #include "game_pools.h"
 
 import makga.lib.logger;
-using Logger = makga::lib::MakgaLogger;
+import makga.lib.action_log;
+import makga.lib.log_client;
+using Logger    = makga::lib::MakgaLogger;
+using ActorLog  = makga::lib::ActionLog;
+using ActorType = makga::lib::ActorType;

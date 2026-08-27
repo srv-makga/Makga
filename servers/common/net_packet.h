@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 import makga.lib.buffer;
 
 class NetPacket : public makga::lib::Buffer<char>

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "data_struct.h"
 
@@ -105,6 +105,8 @@ public:
 	using SkillConditionTableTable = Table<TableIdx, SkillConditionTable>;
 	using StatGrowthTableTable = Table<TableIdx, StatGrowthTable>;
 	using TitleTableTable = Table<TableIdx, TitleTable>;
+	using FactionTableTable = Table<TableIdx, FactionTable>;
+	using ContinentTableTable = Table<TableIdx, ContinentTable>;
 
 	// ─── 1:N tables (keyed by foreign/parent ID → vector) ─────────────────
 	using CraftMaterialMap = std::unordered_map<TableIdx, std::vector<CraftMaterialTable>>;
@@ -120,6 +122,9 @@ public:
 
 	// ─── Item upgrade: keyed by grade → (level → data) ────────────────────
 	using ItemUpgradeMap = std::unordered_map<std::string, std::map<int32_t, ItemUpgradeTable>>;
+
+	// ─── ClassAdvancement: keyed by base_class_id → advancement entries ───
+	using ClassAdvancementMap = std::unordered_map<TableIdx, std::vector<ClassAdvancementTable>>;
 
 	DataTable() = default;
 	virtual ~DataTable() = default;
@@ -159,8 +164,9 @@ public:
 	bool LoadSkillConditionTable(const std::string& file_path);
 	bool LoadStatGrowthTable(const std::string& file_path);
 	bool LoadTitleTable(const std::string& file_path);
+	bool LoadFactionTable(const std::string& file_path);
+	bool LoadContinentTable(const std::string& file_path);
 
-	// ─── 1:N table loaders ────────────────────────────────────────────────
 	bool LoadCraftMaterialTable(const std::string& file_path);
 	bool LoadGachaItemTable(const std::string& file_path);
 	bool LoadItemEffectTable(const std::string& file_path);
@@ -173,6 +179,7 @@ public:
 	bool LoadShopItemTable(const std::string& file_path);
 	bool LoadSkillEffectTable(const std::string& file_path);
 	bool LoadSkillLevelTable(const std::string& file_path);
+	bool LoadClassAdvancementTable(const std::string& file_path);
 
 	// ─── TryGet accessors ─────────────────────────────────────────────────
 	std::optional<const SpawnGroupTable*> TryGetSpawnGroupTable(TableIdx idx) const
@@ -206,8 +213,9 @@ public:
 	std::optional<const SkillConditionTable*> TryGetSkillConditionTable(TableIdx skill_id) const { return skill_condition_table_.TryGet(skill_id); }
 	std::optional<const StatGrowthTable*> TryGetStatGrowthTable(TableIdx class_id) const { return stat_growth_table_.TryGet(class_id); }
 	std::optional<const TitleTable*> TryGetTitleTable(TableIdx idx) const { return title_table_.TryGet(idx); }
+	std::optional<const FactionTable*> TryGetFactionTable(TableIdx idx) const { return faction_table_.TryGet(idx); }
+	std::optional<const ContinentTable*> TryGetContinentTable(TableIdx idx) const { return continent_table_.TryGet(idx); }
 
-	// ─── 1:N TryGet accessors ─────────────────────────────────────────────
 	const std::vector<CraftMaterialTable>* TryGetCraftMaterials(TableIdx recipe_id) const
 	{
 		auto it = craft_material_map_.find(recipe_id);
@@ -261,6 +269,20 @@ public:
 		return it != shop_item_map_.end() ? &it->second : nullptr;
 	}
 
+	// @brief npc_id로 ShopTable 조회 (샵 수가 적어 선형 탐색)
+	std::optional<const ShopTable*> TryGetShopByNpcId(TableIdx npc_id) const
+	{
+		for (const auto& [shop_idx, shop] : shop_table_)
+		{
+			if (shop.npc_id == npc_id)
+				return &shop;
+		}
+		return std::nullopt;
+	}
+
+	// @brief ShopTable 전체 참조 (ShopSystem 초기화 시 역인덱스 구축용)
+	const ShopTableTable& GetShopTableRef() const { return shop_table_; }
+
 	const std::vector<SkillEffectTable>* TryGetSkillEffects(TableIdx skill_id) const
 	{
 		auto it = skill_effect_map_.find(skill_id);
@@ -276,49 +298,57 @@ public:
 		return &level_it->second;
 	}
 
+	// @brief base_class_id로 전직 목록 조회 (base_class_id == 0 은 특수 전직)
+	const std::vector<ClassAdvancementTable>* TryGetClassAdvancements(TableIdx base_class_id) const
+	{
+		auto it = class_advancement_map_.find(base_class_id);
+		return it != class_advancement_map_.end() ? &it->second : nullptr;
+	}
+
 protected:
 	std::vector<char> file_buffer_;
 
-	// ─── Simple table storage ──────────────────────────────────────────────
-	MapTableTable           map_table_;
-	MonsterTableTable       monster_table_;
-	SkillTableTable         skill_table_;
-	SpawnGroupTableTable    spawn_group_table_;
-	SpawnTableTable         spawn_table_;
-	AchievementTableTable   achievement_table_;
-	BuffTableTable          buff_table_;
+	MapTableTable map_table_;
+	MonsterTableTable monster_table_;
+	SkillTableTable skill_table_;
+	SpawnGroupTableTable spawn_group_table_;
+	SpawnTableTable spawn_table_;
+	AchievementTableTable achievement_table_;
+	BuffTableTable buff_table_;
 	CharacterClassTableTable character_class_table_;
-	CraftRecipeTableTable   craft_recipe_table_;
-	CurrencyTableTable      currency_table_;
-	DungeonTableTable       dungeon_table_;
-	EffectTableTable        effect_table_;
-	GachaTableTable         gacha_table_;
-	ItemTableTable          item_table_;
-	ItemConsumeTableTable   item_consume_table_;
-	ItemEquipTableTable     item_equip_table_;
-	ItemSetTableTable       item_set_table_;
-	LevelExpTableTable      level_exp_table_;
-	MapObjectTableTable     map_object_table_;
-	MonsterStatTableTable   monster_stat_table_;
-	NpcTableTable           npc_table_;
-	QuestTableTable         quest_table_;
+	CraftRecipeTableTable craft_recipe_table_;
+	CurrencyTableTable currency_table_;
+	DungeonTableTable dungeon_table_;
+	EffectTableTable effect_table_;
+	GachaTableTable gacha_table_;
+	ItemTableTable item_table_;
+	ItemConsumeTableTable item_consume_table_;
+	ItemEquipTableTable item_equip_table_;
+	ItemSetTableTable item_set_table_;
+	LevelExpTableTable level_exp_table_;
+	MapObjectTableTable map_object_table_;
+	MonsterStatTableTable monster_stat_table_;
+	NpcTableTable npc_table_;
+	QuestTableTable quest_table_;
 	RankingRewardTableTable ranking_reward_table_;
-	SeasonTableTable        season_table_;
-	ShopTableTable          shop_table_;
+	SeasonTableTable season_table_;
+	ShopTableTable shop_table_;
 	SkillConditionTableTable skill_condition_table_;
-	StatGrowthTableTable    stat_growth_table_;
-	TitleTableTable         title_table_;
+	StatGrowthTableTable stat_growth_table_;
+	TitleTableTable title_table_;
+	FactionTableTable faction_table_;
+	ContinentTableTable continent_table_;
 
-	// ─── 1:N table storage ────────────────────────────────────────────────
-	CraftMaterialMap    craft_material_map_;
-	GachaItemMap        gacha_item_map_;
-	ItemEffectMap       item_effect_map_;
-	ItemSetEffectMap    item_set_effect_map_;
-	MonsterDropMap      monster_drop_map_;
-	MonsterSkillMap     monster_skill_map_;
-	QuestConditionMap   quest_condition_map_;
-	QuestRewardMap      quest_reward_map_;
-	ShopItemMap         shop_item_map_;
-	SkillEffectMap      skill_effect_map_;
-	ItemUpgradeMap      item_upgrade_map_;
+	CraftMaterialMap craft_material_map_;
+	GachaItemMap gacha_item_map_;
+	ItemEffectMap item_effect_map_;
+	ItemSetEffectMap item_set_effect_map_;
+	MonsterDropMap monster_drop_map_;
+	MonsterSkillMap monster_skill_map_;
+	QuestConditionMap quest_condition_map_;
+	QuestRewardMap quest_reward_map_;
+	ShopItemMap shop_item_map_;
+	SkillEffectMap skill_effect_map_;
+	ItemUpgradeMap item_upgrade_map_;
+	ClassAdvancementMap class_advancement_map_;
 };
